@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.0-RC3"
+    "version": "v3.0-RC4"
   },
   "basePath": "/open-banking/v3.0/aisp",
   "schemes": [
@@ -2439,10 +2439,7 @@
       "type": "object",
       "properties": {
         "AccountId": {
-          "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/AccountId"
         },
         "Currency": {
           "description": "Identification of the currency in which the account is held. \nUsage: Currency should only be used in case one and the same account number covers several currencies\nand the initiating party needs to identify which currency needs to be used for settlement on the account.",
@@ -2450,26 +2447,10 @@
           "pattern": "^[A-Z]{3,3}$"
         },
         "AccountType": {
-          "description": "Specifies the type of account (personal or business).",
-          "type": "string",
-          "enum": [
-            "Business",
-            "Personal"
-          ]
+          "$ref": "#/definitions/OBExternalAccountType1Code"
         },
         "AccountSubType": {
-          "description": "Specifies the sub type of account (product family group).",
-          "type": "string",
-          "enum": [
-            "ChargeCard",
-            "CreditCard",
-            "CurrentAccount",
-            "EMoney",
-            "Loan",
-            "Mortgage",
-            "PrePaidCard",
-            "Savings"
-          ]
+          "$ref": "#/definitions/OBExternalAccountSubType1Code"
         },
         "Description": {
           "description": "Specifies the description of the account type.",
@@ -2485,65 +2466,12 @@
         },
         "Account": {
           "items": {
-            "description": "Provides the details to identify the beneficiary account.",
-            "type": "object",
-            "properties": {
-              "SchemeName": {
-                "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 40
-              },
-              "Identification": {
-                "description": "Beneficiary account identification.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 256
-              },
-              "Name": {
-                "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 70
-              },
-              "SecondaryIdentification": {
-                "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 34
-              }
-            },
-            "required": [
-              "SchemeName",
-              "Identification"
-            ],
-            "additionalProperties": false
+            "$ref": "#/definitions/OBCashAccount3"
           },
-          "type": "array",
-          "description": "Provides the details to identify an account."
+          "type": "array"
         },
         "Servicer": {
-          "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
-          "type": "object",
-          "properties": {
-            "SchemeName": {
-              "description": "Name of the identification scheme, in a coded form as published in an external list.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 40
-            },
-            "Identification": {
-              "description": "Unique and unambiguous identification of the servicing institution.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 35
-            }
-          },
-          "required": [
-            "SchemeName",
-            "Identification"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
         }
       },
       "required": [
@@ -2594,14 +2522,53 @@
       "additionalProperties": false
     },
     "OBAccount2Detail": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/OBAccount2"
+      "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "Currency": {
+          "description": "Identification of the currency in which the account is held. \nUsage: Currency should only be used in case one and the same account number covers several currencies\nand the initiating party needs to identify which currency needs to be used for settlement on the account.",
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$"
+        },
+        "AccountType": {
+          "$ref": "#/definitions/OBExternalAccountType1Code"
+        },
+        "AccountSubType": {
+          "$ref": "#/definitions/OBExternalAccountSubType1Code"
+        },
+        "Description": {
+          "description": "Specifies the description of the account type.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "Nickname": {
+          "description": "The nickname of the account, assigned by the account owner in order to provide an additional means of identification of the account.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
+        },
+        "Account": {
+          "items": {
+            "$ref": "#/definitions/OBCashAccount3"
+          },
+          "type": "array"
+        },
+        "Servicer": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
         }
-      ],
+      },
       "required": [
+        "AccountId",
+        "Currency",
+        "AccountType",
+        "AccountSubType",
         "Account"
-      ]
+      ],
+      "additionalProperties": false
     },
     "OBActiveCurrencyAndAmount_SimpleType": {
       "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
@@ -2621,7 +2588,9 @@
           "$ref": "#/definitions/OBActiveCurrencyAndAmount_SimpleType"
         },
         "Currency": {
-          "$ref": "#/definitions/ActiveOrHistoricCurrencyCode"
+          "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+          "type": "string",
+          "pattern": "^[A-Z]{3,3}$"
         }
       },
       "required": [
@@ -4935,10 +4904,7 @@
       "type": "object",
       "properties": {
         "AccountId": {
-          "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/AccountId"
         },
         "BeneficiaryId": {
           "description": "A unique and immutable identifier used to identify the beneficiary resource. This identifier has no meaning to the account owner.",
@@ -4953,143 +4919,10 @@
           "maxLength": 35
         },
         "CreditorAgent": {
-          "description": "Financial institution servicing an account for the debtor.",
-          "type": "object",
-          "properties": {
-            "SchemeName": {
-              "description": "Name of the identification scheme, in a coded form as published in an external list.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 40
-            },
-            "Identification": {
-              "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 35
-            },
-            "Name": {
-              "description": "Name by which an agent is known and which is usually used to identify that agent.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 140
-            },
-            "PostalAddress": {
-              "description": "Information that locates and identifies a specific address, as defined by postal services.",
-              "type": "object",
-              "properties": {
-                "AddressType": {
-                  "description": "Identifies the nature of the postal address.",
-                  "type": "string",
-                  "enum": [
-                    "Business",
-                    "Correspondence",
-                    "DeliveryTo",
-                    "MailTo",
-                    "POBox",
-                    "Postal",
-                    "Residential",
-                    "Statement"
-                  ]
-                },
-                "Department": {
-                  "description": "Identification of a division of a large organisation or building.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 70
-                },
-                "SubDepartment": {
-                  "description": "Identification of a sub-division of a large organisation or building.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 70
-                },
-                "StreetName": {
-                  "description": "Name of a street or thoroughfare.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 70
-                },
-                "BuildingNumber": {
-                  "description": "Number that identifies the position of a building on a street.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 16
-                },
-                "PostCode": {
-                  "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 16
-                },
-                "TownName": {
-                  "description": "Name of a built-up area, with defined boundaries, and a local government.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 35
-                },
-                "CountrySubDivision": {
-                  "description": "Identifies a subdivision of a country such as state, region, county.",
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 35
-                },
-                "Country": {
-                  "description": "Nation with its own government.",
-                  "type": "string",
-                  "pattern": "^[A-Z]{2,2}$"
-                },
-                "AddressLine": {
-                  "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 70
-                  },
-                  "minItems": 0,
-                  "maxItems": 7
-                }
-              },
-              "additionalProperties": false
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
         },
         "CreditorAccount": {
-          "description": "Provides the details to identify the beneficiary account.",
-          "type": "object",
-          "properties": {
-            "SchemeName": {
-              "description": "Name of the identification scheme, in a coded form as published in an external list.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 40
-            },
-            "Identification": {
-              "description": "Beneficiary account identification.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 256
-            },
-            "Name": {
-              "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 70
-            },
-            "SecondaryIdentification": {
-              "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 34
-            }
-          },
-          "required": [
-            "SchemeName",
-            "Identification"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/OBCashAccount3"
         }
       },
       "additionalProperties": false
@@ -5116,11 +4949,31 @@
       "additionalProperties": false
     },
     "OBBeneficiary2Detail": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/OBBeneficiary2"
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "BeneficiaryId": {
+          "description": "A unique and immutable identifier used to identify the beneficiary resource. This identifier has no meaning to the account owner.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "Reference": {
+          "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "CreditorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+        },
+        "CreditorAccount": {
+          "$ref": "#/definitions/OBCashAccount3"
         }
-      ],
+      },
+      "additionalProperties": false,
       "required": [
         "CreditorAccount"
       ]
@@ -5250,7 +5103,12 @@
           "$ref": "#/definitions/AccountId"
         },
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode"
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the balance is a credit or a debit balance. \nUsage: A zero balance is considered to be a credit balance."
         },
         "Type": {
           "$ref": "#/definitions/OBBalanceType1Code"
@@ -5267,8 +5125,7 @@
           "items": {
             "$ref": "#/definitions/OBCreditLine1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details on the credit line."
+          "type": "array"
         }
       },
       "required": [
@@ -5630,7 +5487,7 @@
           "maxLength": 500
         },
         "URL": {
-          "description": "URL (Uniform Resource Locator) where the document can be found",
+          "description": "URL (Uniform Resource Locator) where documentation on the offer can be found",
           "type": "string",
           "minLength": 1,
           "maxLength": 256
@@ -7851,8 +7708,7 @@
           "items": {
             "$ref": "#/definitions/OBPostalAddress8"
           },
-          "type": "array",
-          "description": "Postal address of a party."
+          "type": "array"
         }
       },
       "required": [
@@ -7915,13 +7771,12 @@
           "pattern": "^[A-Z]{2,2}$"
         },
         "AddressLine": {
-          "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
-          "type": "array",
           "items": {
             "type": "string",
             "minLength": 1,
             "maxLength": 70
           },
+          "type": "array",
           "minItems": 0,
           "maxItems": 7
         }
@@ -7936,13 +7791,12 @@
           "$ref": "#/definitions/OBAddressTypeCode"
         },
         "AddressLine": {
-          "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
-          "type": "array",
           "items": {
             "type": "string",
             "minLength": 1,
             "maxLength": 70
           },
+          "type": "array",
           "minItems": 0,
           "maxItems": 5
         },
@@ -8045,8 +7899,7 @@
               "items": {
                 "$ref": "#/definitions/OBAccount2"
               },
-              "type": "array",
-              "description": "Unambiguous identification of the account to which credit and debit entries are made."
+              "type": "array"
             }
           },
           "additionalProperties": false
@@ -8076,7 +7929,6 @@
                 "$ref": "#/definitions/OBCashBalance1"
               },
               "type": "array",
-              "description": "Set of elements used to define the balance details.",
               "minItems": 1
             }
           },
@@ -8174,7 +8026,6 @@
                 "$ref": "#/definitions/OBExternalPermissions1Code"
               },
               "type": "array",
-              "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
               "minItems": 1
             },
             "ExpirationDateTime": {
@@ -8228,7 +8079,6 @@
             "$ref": "#/definitions/OBExternalPermissions1Code"
           },
           "type": "array",
-          "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
           "minItems": 1
         },
         "ExpirationDateTime": {
@@ -8262,8 +8112,7 @@
               "items": {
                 "$ref": "#/definitions/OBDirectDebit1"
               },
-              "type": "array",
-              "description": "Account to or from which a cash entry is made."
+              "type": "array"
             }
           },
           "additionalProperties": false
@@ -8434,8 +8283,7 @@
               "items": {
                 "$ref": "#/definitions/OBStatement1"
               },
-              "type": "array",
-              "description": "Provides further details on a statement resource."
+              "type": "array"
             }
           },
           "additionalProperties": false
@@ -8464,8 +8312,7 @@
               "items": {
                 "$ref": "#/definitions/OBTransaction3"
               },
-              "type": "array",
-              "description": "Provides further details on an entry in the report."
+              "type": "array"
             }
           },
           "additionalProperties": false
@@ -8488,10 +8335,7 @@
       "type": "object",
       "properties": {
         "AccountId": {
-          "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/AccountId"
         },
         "ScheduledPaymentId": {
           "description": "A unique and immutable identifier used to identify the scheduled payment resource. This identifier has no meaning to the account owner.",
@@ -8505,12 +8349,7 @@
           "format": "date-time"
         },
         "ScheduledType": {
-          "description": "Specifies the scheduled payment date type requested",
-          "type": "string",
-          "enum": [
-            "Arrival",
-            "Execution"
-          ]
+          "$ref": "#/definitions/OBExternalScheduleType1Code"
         },
         "Reference": {
           "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
@@ -8519,83 +8358,13 @@
           "maxLength": 35
         },
         "InstructedAmount": {
-          "description": "Amount of money of the cash balance after a transaction entry is applied to the account..",
-          "type": "object",
-          "properties": {
-            "Amount": {
-              "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
-              "type": "string",
-              "pattern": "^\\d{1,13}\\.\\d{1,5}$"
-            },
-            "Currency": {
-              "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
-              "type": "string",
-              "pattern": "^[A-Z]{3,3}$"
-            }
-          },
-          "required": [
-            "Amount",
-            "Currency"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
         },
         "CreditorAgent": {
-          "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
-          "type": "object",
-          "properties": {
-            "SchemeName": {
-              "description": "Name of the identification scheme, in a coded form as published in an external list.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 40
-            },
-            "Identification": {
-              "description": "Unique and unambiguous identification of the servicing institution.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 35
-            }
-          },
-          "required": [
-            "SchemeName",
-            "Identification"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
         },
         "CreditorAccount": {
-          "description": "Provides the details to identify the beneficiary account.",
-          "type": "object",
-          "properties": {
-            "SchemeName": {
-              "description": "Name of the identification scheme, in a coded form as published in an external list.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 40
-            },
-            "Identification": {
-              "description": "Beneficiary account identification.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 256
-            },
-            "Name": {
-              "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 70
-            },
-            "SecondaryIdentification": {
-              "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 34
-            }
-          },
-          "required": [
-            "SchemeName",
-            "Identification"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/OBCashAccount3"
         }
       },
       "required": [
@@ -8645,14 +8414,49 @@
       "additionalProperties": false
     },
     "OBScheduledPayment1Detail": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/OBScheduledPayment1"
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "ScheduledPaymentId": {
+          "description": "A unique and immutable identifier used to identify the scheduled payment resource. This identifier has no meaning to the account owner.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "ScheduledPaymentDateTime": {
+          "description": "The date on which the scheduled payment will be made.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ScheduledType": {
+          "$ref": "#/definitions/OBExternalScheduleType1Code"
+        },
+        "Reference": {
+          "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "InstructedAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "CreditorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+        },
+        "CreditorAccount": {
+          "$ref": "#/definitions/OBCashAccount3"
         }
-      ],
+      },
       "required": [
+        "AccountId",
+        "ScheduledPaymentDateTime",
+        "ScheduledType",
+        "InstructedAmount",
         "CreditorAccount"
-      ]
+      ],
+      "additionalProperties": false
     },
     "OBStandingOrder3": {
       "type": "object",
@@ -8719,6 +8523,131 @@
       ],
       "additionalProperties": false
     },
+    "OBStandingOrder3Basic": {
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "StandingOrderId": {
+          "description": "A unique and immutable identifier used to identify the standing order resource. This identifier has no meaning to the account owner.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "Frequency": {
+          "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+        },
+        "Reference": {
+          "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "FirstPaymentDateTime": {
+          "description": "The date on which the first payment for a Standing Order schedule will be made.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "NextPaymentDateTime": {
+          "description": "The date on which the next payment for a Standing Order schedule will be made.  This field is mandatory for Active Standing Orders.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "FinalPaymentDateTime": {
+          "description": "The date on which the final payment for a Standing Order schedule will be made.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "StandingOrderStatusCode": {
+          "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
+        },
+        "FirstPaymentAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "NextPaymentAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "FinalPaymentAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        }
+      },
+      "required": [
+        "AccountId",
+        "Frequency"
+      ],
+      "additionalProperties": false
+    },
+    "OBStandingOrder3Detail": {
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "StandingOrderId": {
+          "description": "A unique and immutable identifier used to identify the standing order resource. This identifier has no meaning to the account owner.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "Frequency": {
+          "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+        },
+        "Reference": {
+          "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "FirstPaymentDateTime": {
+          "description": "The date on which the first payment for a Standing Order schedule will be made.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "NextPaymentDateTime": {
+          "description": "The date on which the next payment for a Standing Order schedule will be made.  This field is mandatory for Active Standing Orders.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "FinalPaymentDateTime": {
+          "description": "The date on which the final payment for a Standing Order schedule will be made.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "StandingOrderStatusCode": {
+          "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
+        },
+        "FirstPaymentAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "NextPaymentAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "FinalPaymentAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "CreditorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+        },
+        "CreditorAccount": {
+          "$ref": "#/definitions/OBCashAccount3"
+        }
+      },
+      "required": [
+        "AccountId",
+        "Frequency",
+        "CreditorAccount"
+      ],
+      "additionalProperties": false
+    },
     "OBStatement1": {
       "description": "Provides further details on a statement resource.",
       "type": "object",
@@ -8758,62 +8687,53 @@
         },
         "StatementDescription": {
           "items": {
-            "description": "Other descriptions that may be available for the statement resource.",
             "type": "string",
             "minLength": 1,
             "maxLength": 500
           },
-          "type": "array",
-          "description": "Other descriptions that may be available for the statement resource."
+          "type": "array"
         },
         "StatementBenefit": {
           "items": {
             "$ref": "#/definitions/OBStatementBenefit1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource."
+          "type": "array"
         },
         "StatementFee": {
           "items": {
             "$ref": "#/definitions/OBStatementFee1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a fee for the statement resource."
+          "type": "array"
         },
         "StatementInterest": {
           "items": {
             "$ref": "#/definitions/OBStatementInterest1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
+          "type": "array"
         },
         "StatementDateTime": {
           "items": {
             "$ref": "#/definitions/OBStatementDateTime1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic date time for the statement resource."
+          "type": "array"
         },
         "StatementRate": {
           "items": {
             "$ref": "#/definitions/OBStatementRate1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic rate related to the statement resource."
+          "type": "array"
         },
         "StatementValue": {
           "items": {
             "$ref": "#/definitions/OBStatementValue1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic number value related to the statement resource."
+          "type": "array"
         },
         "StatementAmount": {
           "items": {
             "$ref": "#/definitions/OBStatementAmount1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic amount for the statement resource."
+          "type": "array"
         }
       },
       "required": [
@@ -8864,55 +8784,47 @@
         },
         "StatementDescription": {
           "items": {
-            "description": "Other descriptions that may be available for the statement resource.",
             "type": "string",
             "minLength": 1,
             "maxLength": 500
           },
-          "type": "array",
-          "description": "Other descriptions that may be available for the statement resource."
+          "type": "array"
         },
         "StatementBenefit": {
           "items": {
             "$ref": "#/definitions/OBStatementBenefit1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource."
+          "type": "array"
         },
         "StatementFee": {
           "items": {
             "$ref": "#/definitions/OBStatementFee1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a fee for the statement resource."
+          "type": "array"
         },
         "StatementInterest": {
           "items": {
             "$ref": "#/definitions/OBStatementInterest1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
+          "type": "array"
         },
         "StatementDateTime": {
           "items": {
             "$ref": "#/definitions/OBStatementDateTime1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic date time for the statement resource."
+          "type": "array"
         },
         "StatementRate": {
           "items": {
             "$ref": "#/definitions/OBStatementRate1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic rate related to the statement resource."
+          "type": "array"
         },
         "StatementValue": {
           "items": {
             "$ref": "#/definitions/OBStatementValue1"
           },
-          "type": "array",
-          "description": "Set of elements used to provide details of a generic number value related to the statement resource."
+          "type": "array"
         }
       },
       "required": [
@@ -8925,18 +8837,113 @@
       "additionalProperties": false
     },
     "OBStatement1Detail": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/OBStatement1"
+      "description": "Provides further details on a statement resource.",
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "StatementId": {
+          "description": "Unique identifier for the statement resource within an servicing institution. This identifier is both unique and immutable.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "StatementReference": {
+          "description": "Unique reference for the statement. This reference may be optionally populated if available.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "Type": {
+          "$ref": "#/definitions/OBExternalStatementType1Code"
+        },
+        "StartDateTime": {
+          "description": "Date and time at which the statement period starts.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "EndDateTime": {
+          "description": "Date and time at which the statement period ends.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "CreationDateTime": {
+          "description": "Date and time at which the resource was created.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "StatementDescription": {
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "type": "array"
+        },
+        "StatementBenefit": {
+          "items": {
+            "$ref": "#/definitions/OBStatementBenefit1"
+          },
+          "type": "array"
+        },
+        "StatementFee": {
+          "items": {
+            "$ref": "#/definitions/OBStatementFee1"
+          },
+          "type": "array"
+        },
+        "StatementInterest": {
+          "items": {
+            "$ref": "#/definitions/OBStatementInterest1"
+          },
+          "type": "array"
+        },
+        "StatementDateTime": {
+          "items": {
+            "$ref": "#/definitions/OBStatementDateTime1"
+          },
+          "type": "array"
+        },
+        "StatementRate": {
+          "items": {
+            "$ref": "#/definitions/OBStatementRate1"
+          },
+          "type": "array"
+        },
+        "StatementValue": {
+          "items": {
+            "$ref": "#/definitions/OBStatementValue1"
+          },
+          "type": "array"
+        },
+        "StatementAmount": {
+          "items": {
+            "$ref": "#/definitions/OBStatementAmount1"
+          },
+          "type": "array"
         }
-      ]
+      },
+      "required": [
+        "AccountId",
+        "Type",
+        "StartDateTime",
+        "EndDateTime",
+        "CreationDateTime"
+      ],
+      "additionalProperties": false
     },
     "OBStatementAmount1": {
       "description": "Set of elements used to provide details of a generic amount for the statement resource.",
       "type": "object",
       "properties": {
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode"
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount."
         },
         "Type": {
           "description": "Amount type, in a coded form.",
@@ -9002,7 +9009,12 @@
       "type": "object",
       "properties": {
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode"
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount."
         },
         "Type": {
           "description": "Fee type, in a coded form.",
@@ -9026,7 +9038,12 @@
       "type": "object",
       "properties": {
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode"
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount."
         },
         "Type": {
           "description": "Interest amount type, in a coded form.",
@@ -9112,16 +9129,19 @@
         },
         "StatementReference": {
           "items": {
-            "description": "Unique reference for the statement. This reference may be optionally populated if available.",
             "type": "string",
             "minLength": 1,
             "maxLength": 35
           },
-          "type": "array",
-          "description": "Unique reference for the statement. This reference may be optionally populated if available."
+          "type": "array"
         },
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode"
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the transaction is a credit or a debit entry."
         },
         "Status": {
           "$ref": "#/definitions/OBEntryStatus1Code"
@@ -9136,19 +9156,11 @@
           "type": "string",
           "format": "date-time"
         },
-        "TransactionInformation": {
-          "$ref": "#/definitions/TransactionInformation"
-        },
         "AddressLine": {
           "description": "Information that locates and identifies a specific address for a transaction entry, that is presented in free format text.",
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 70
-          },
-          "minItems": 0,
-          "maxItems": 7
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -9184,17 +9196,8 @@
           ],
           "additionalProperties": false
         },
-        "Balance": {
-          "$ref": "#/definitions/OBTransactionCashBalance"
-        },
-        "MerchantDetails": {
-          "$ref": "#/definitions/OBMerchantDetails1"
-        },
         "CreditorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
-        },
-        "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
         },
         "DebtorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
@@ -9204,6 +9207,250 @@
         },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
+        },
+        "TransactionInformation": {
+          "$ref": "#/definitions/TransactionInformation"
+        },
+        "Balance": {
+          "$ref": "#/definitions/OBTransactionCashBalance"
+        },
+        "MerchantDetails": {
+          "$ref": "#/definitions/OBMerchantDetails1"
+        },
+        "CreditorAccount": {
+          "$ref": "#/definitions/OBCashAccount4"
+        }
+      },
+      "required": [
+        "AccountId",
+        "CreditDebitIndicator",
+        "Status",
+        "BookingDateTime",
+        "Amount"
+      ],
+      "additionalProperties": false
+    },
+    "OBTransaction3Basic": {
+      "description": "Provides further details on an entry in the report.",
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "TransactionId": {
+          "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "TransactionReference": {
+          "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "StatementReference": {
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "type": "array"
+        },
+        "CreditDebitIndicator": {
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the transaction is a credit or a debit entry."
+        },
+        "Status": {
+          "$ref": "#/definitions/OBEntryStatus1Code"
+        },
+        "BookingDateTime": {
+          "description": "Date and time when a transaction entry is posted to an account on the account servicer's books.\nUsage: Booking date is the expected booking date, unless the status is booked, in which case it is the actual booking date.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ValueDateTime": {
+          "description": "Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.\nUsage: If transaction entry status is pending and value date is present, then the value date refers to an expected/requested value date.\nFor transaction entries subject to availability/float and for which availability information is provided, the value date must not be used. In this case the availability component identifies the number of availability days.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "AddressLine": {
+          "description": "Information that locates and identifies a specific address for a transaction entry, that is presented in free format text.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
+        },
+        "Amount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "ChargeAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "CurrencyExchange": {
+          "$ref": "#/definitions/OBCurrencyExchange5"
+        },
+        "BankTransactionCode": {
+          "$ref": "#/definitions/OBBankTransactionCodeStructure1"
+        },
+        "ProprietaryBankTransactionCode": {
+          "description": "Set of elements to fully identify a proprietary bank transaction code.",
+          "type": "object",
+          "properties": {
+            "Code": {
+              "description": "Proprietary bank transaction code to identify the underlying transaction.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            },
+            "Issuer": {
+              "description": "Identification of the issuer of the proprietary bank transaction code.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
+          },
+          "required": [
+            "Code"
+          ],
+          "additionalProperties": false
+        },
+        "CreditorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+        },
+        "DebtorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+        },
+        "DebtorAccount": {
+          "$ref": "#/definitions/OBCashAccount4"
+        },
+        "CardInstrument": {
+          "$ref": "#/definitions/OBTransactionCardInstrument1"
+        }
+      },
+      "required": [
+        "AccountId",
+        "CreditDebitIndicator",
+        "Status",
+        "BookingDateTime",
+        "Amount"
+      ],
+      "additionalProperties": false
+    },
+    "OBTransaction3Detail": {
+      "description": "Provides further details on an entry in the report.",
+      "type": "object",
+      "properties": {
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "TransactionId": {
+          "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "TransactionReference": {
+          "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "StatementReference": {
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "type": "array"
+        },
+        "CreditDebitIndicator": {
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the transaction is a credit or a debit entry."
+        },
+        "Status": {
+          "$ref": "#/definitions/OBEntryStatus1Code"
+        },
+        "BookingDateTime": {
+          "description": "Date and time when a transaction entry is posted to an account on the account servicer's books.\nUsage: Booking date is the expected booking date, unless the status is booked, in which case it is the actual booking date.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "ValueDateTime": {
+          "description": "Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.\nUsage: If transaction entry status is pending and value date is present, then the value date refers to an expected/requested value date.\nFor transaction entries subject to availability/float and for which availability information is provided, the value date must not be used. In this case the availability component identifies the number of availability days.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "AddressLine": {
+          "description": "Information that locates and identifies a specific address for a transaction entry, that is presented in free format text.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
+        },
+        "Amount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "ChargeAmount": {
+          "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "CurrencyExchange": {
+          "$ref": "#/definitions/OBCurrencyExchange5"
+        },
+        "BankTransactionCode": {
+          "$ref": "#/definitions/OBBankTransactionCodeStructure1"
+        },
+        "ProprietaryBankTransactionCode": {
+          "description": "Set of elements to fully identify a proprietary bank transaction code.",
+          "type": "object",
+          "properties": {
+            "Code": {
+              "description": "Proprietary bank transaction code to identify the underlying transaction.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            },
+            "Issuer": {
+              "description": "Identification of the issuer of the proprietary bank transaction code.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
+          },
+          "required": [
+            "Code"
+          ],
+          "additionalProperties": false
+        },
+        "CreditorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+        },
+        "DebtorAgent": {
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+        },
+        "DebtorAccount": {
+          "$ref": "#/definitions/OBCashAccount4"
+        },
+        "CardInstrument": {
+          "$ref": "#/definitions/OBTransactionCardInstrument1"
+        },
+        "TransactionInformation": {
+          "$ref": "#/definitions/TransactionInformation"
+        },
+        "Balance": {
+          "$ref": "#/definitions/OBTransactionCashBalance"
+        },
+        "MerchantDetails": {
+          "$ref": "#/definitions/OBMerchantDetails1"
+        },
+        "CreditorAccount": {
+          "$ref": "#/definitions/OBCashAccount4"
         }
       },
       "required": [
@@ -9248,7 +9495,12 @@
       "type": "object",
       "properties": {
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode"
+          "type": "string",
+          "enum": [
+            "Credit",
+            "Debit"
+          ],
+          "description": "Indicates whether the balance is a credit or a debit balance. \nUsage: A zero balance is considered to be a credit balance."
         },
         "Type": {
           "$ref": "#/definitions/OBBalanceType1Code"
@@ -9263,6 +9515,12 @@
         "Amount"
       ],
       "additionalProperties": false
+    },
+    "TransactionInformation": {
+      "description": "Further details of the transaction. \nThis is the transaction narrative, which is unstructured text.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
     },
     "OBOtherProductType1": {
       "description": "This field provides extension to the ProductType enumeration.\nIf ProductType - \"Other\" is chosen, this field must be populated with name, and description for ASPSP specific product type.",
@@ -9286,12 +9544,6 @@
         "Description"
       ],
       "additionalProperties": false
-    },
-    "TransactionInformation": {
-      "description": "Further details of the transaction. \nThis is the transaction narrative, which is unstructured text.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 500
     },
     "OBError1": {
       "type": "object",

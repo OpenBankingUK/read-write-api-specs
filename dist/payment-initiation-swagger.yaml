@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.0-RC3
+  version: v3.0-RC4
 basePath: /open-banking/v3.0/pisp
 schemes:
   - https
@@ -1787,14 +1787,24 @@ definitions:
     pattern: '^[A-Z]{3,3}$'
   OBActiveOrHistoricCurrencyAndAmount:
     description: >-
-      Amount of money of the cash balance after a transaction entry is applied
-      to the account..
+      Amount of money to be moved between the debtor and creditor, before
+      deduction of charges, expressed in the currency as ordered by the
+      initiating party.
+
+      Usage: This amount has to be transported unchanged through the transaction
+      chain.
     type: object
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
       Currency:
-        $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
+        description: >-
+          A code allocated to a currency by a Maintenance Agency under an
+          international identification scheme, as described in the latest
+          edition of the international standard ISO 4217 "Codes for the
+          representation of currencies and funds".
+        type: string
+        pattern: '^[A-Z]{3,3}$'
     required:
       - Amount
       - Currency
@@ -2942,14 +2952,11 @@ definitions:
         type: string
         pattern: '^[A-Z]{2,2}$'
       AddressLine:
-        description: >-
-          Information that locates and identifies a specific address, as defined
-          by postal services, presented in free format text.
-        type: array
         items:
           type: string
           minLength: 1
           maxLength: 70
+        type: array
         minItems: 0
         maxItems: 7
     additionalProperties: false
@@ -3027,14 +3034,11 @@ definitions:
         type: object
         properties:
           AddressLine:
-            description: >-
-              Information that locates and identifies a specific address, as
-              defined by postal services, that is presented in free format text.
-            type: array
             items:
               type: string
               minLength: 1
               maxLength: 70
+            type: array
             minItems: 0
             maxItems: 2
           StreetName:
@@ -3062,12 +3066,13 @@ definitions:
             minLength: 1
             maxLength: 35
           CountrySubDivision:
-            description: >-
-              Identifies a subdivision of a country, for instance state, region,
-              county.
-            type: string
-            minLength: 1
-            maxLength: 35
+            items:
+              type: string
+              minLength: 1
+              maxLength: 35
+            type: array
+            minItems: 0
+            maxItems: 2
           Country:
             description: 'Nation with its own government, occupying a particular territory.'
             type: string
@@ -3192,9 +3197,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBDomestic1'
       Authorisation:
@@ -3281,9 +3283,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBDomestic1'
       MultiAuthorisation:
@@ -3408,9 +3407,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBDomesticScheduled1'
       Authorisation:
@@ -3498,9 +3494,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBDomesticScheduled1'
       MultiAuthorisation:
@@ -3599,9 +3592,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBDomesticStandingOrder1'
       Authorisation:
@@ -3623,7 +3613,7 @@ definitions:
           identify the domestic standing order resource.
         type: string
         minLength: 1
-        maxLength: 128
+        maxLength: 40
       ConsentId:
         description: >-
           OB: Unique identification as assigned by the ASPSP to uniquely
@@ -3663,9 +3653,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBDomesticStandingOrder1'
       MultiAuthorisation:
@@ -3759,9 +3746,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBFile1'
       Authorisation:
@@ -3822,9 +3806,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBFile1'
       MultiAuthorisation:
@@ -3944,9 +3925,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       ExchangeRateInformation:
         $ref: '#/definitions/OBExchangeRate2'
       Initiation:
@@ -4035,9 +4013,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       ExchangeRateInformation:
         $ref: '#/definitions/OBExchangeRate2'
       Initiation:
@@ -4164,9 +4139,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       ExchangeRateInformation:
         $ref: '#/definitions/OBExchangeRate2'
       Initiation:
@@ -4256,9 +4228,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       ExchangeRateInformation:
         $ref: '#/definitions/OBExchangeRate2'
       Initiation:
@@ -4359,9 +4328,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBInternationalStandingOrder1'
       Authorisation:
@@ -4383,7 +4349,7 @@ definitions:
           identify the international standing order resource.
         type: string
         minLength: 1
-        maxLength: 128
+        maxLength: 40
       ConsentId:
         description: >-
           OB: Unique identification as assigned by the ASPSP to uniquely
@@ -4423,9 +4389,6 @@ definitions:
         items:
           $ref: '#/definitions/OBCharge1'
         type: array
-        description: >-
-          Set of elements used to provide details of a charge for the payment
-          initiation.
       Initiation:
         $ref: '#/definitions/OBInternationalStandingOrder1'
       MultiAuthorisation:
@@ -4467,17 +4430,29 @@ definitions:
         $ref: '#/definitions/OBWriteDataDomesticConsentResponse1'
       Risk:
         $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
       - Risk
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteDomesticResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataDomesticResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteDomesticScheduled1:
     type: object
@@ -4508,17 +4483,29 @@ definitions:
         $ref: '#/definitions/OBWriteDataDomesticScheduledConsentResponse1'
       Risk:
         $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
       - Risk
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteDomesticScheduledResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataDomesticScheduledResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteDomesticStandingOrder1:
     type: object
@@ -4549,17 +4536,29 @@ definitions:
         $ref: '#/definitions/OBWriteDataDomesticStandingOrderConsentResponse1'
       Risk:
         $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
       - Risk
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteDomesticStandingOrderResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataDomesticStandingOrderResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteFile1:
     type: object
@@ -4582,16 +4581,28 @@ definitions:
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataFileConsentResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteFileResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataFileResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteInternational1:
     type: object
@@ -4622,17 +4633,29 @@ definitions:
         $ref: '#/definitions/OBWriteDataInternationalConsentResponse1'
       Risk:
         $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
       - Risk
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteInternationalResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataInternationalResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteInternationalScheduled1:
     type: object
@@ -4663,17 +4686,29 @@ definitions:
         $ref: '#/definitions/OBWriteDataInternationalScheduledConsentResponse1'
       Risk:
         $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
       - Risk
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteInternationalScheduledResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataInternationalScheduledResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteInternationalStandingOrder1:
     type: object
@@ -4704,17 +4739,29 @@ definitions:
         $ref: '#/definitions/OBWriteDataInternationalStandingOrderConsentResponse1'
       Risk:
         $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
       - Risk
+      - Links
+      - Meta
     additionalProperties: false
   OBWriteInternationalStandingOrderResponse1:
     type: object
     properties:
       Data:
         $ref: '#/definitions/OBWriteDataInternationalStandingOrderResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBError1:
     type: object
@@ -4788,3 +4835,49 @@ definitions:
   File:
     type: string
     format: binary
+  ISODateTime:
+    description: >-
+      All dates in the JSON payloads are represented in ISO 8601 date-time
+      format. 
+
+      All date-time fields in responses must include the timezone. An example is
+      below:
+
+      2017-04-05T10:43:07+00:00
+    type: string
+    format: date-time
+  Links:
+    type: object
+    description: Links relevant to the payload
+    properties:
+      Self:
+        type: string
+        format: uri
+      First:
+        type: string
+        format: uri
+      Prev:
+        type: string
+        format: uri
+      Next:
+        type: string
+        format: uri
+      Last:
+        type: string
+        format: uri
+    additionalProperties: false
+    required:
+      - Self
+  Meta:
+    title: MetaData
+    type: object
+    description: Meta Data relevant to the payload
+    properties:
+      TotalPages:
+        type: integer
+        format: int32
+      FirstAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+      LastAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+    additionalProperties: false

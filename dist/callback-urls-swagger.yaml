@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.0-RC3
+  version: v3.0-RC4
 basePath: /open-banking/v3.0
 schemes:
   - https
@@ -191,8 +191,7 @@ parameters:
     name: x-jws-signature
     type: string
     required: true
-    description: >-
-      Header containing a detached JWS signature of the body of the payload.
+    description: Header containing a detached JWS signature of the body of the payload.
 responses:
   200CallbackUrlsRead:
     description: An array of callback URLs
@@ -286,8 +285,14 @@ definitions:
     properties:
       Data:
         $ref: '#/definitions/OBCallbackUrlResponseData1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBCallbackUrlResponseData1:
     type: object
@@ -320,8 +325,14 @@ definitions:
     properties:
       Data:
         $ref: '#/definitions/OBCallbackUrlsResponseData1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
     required:
       - Data
+      - Links
+      - Meta
     additionalProperties: false
   OBCallbackUrlsResponseData1:
     type: object
@@ -399,4 +410,50 @@ definitions:
       - Code
       - Message
       - Errors
+    additionalProperties: false
+  ISODateTime:
+    description: >-
+      All dates in the JSON payloads are represented in ISO 8601 date-time
+      format. 
+
+      All date-time fields in responses must include the timezone. An example is
+      below:
+
+      2017-04-05T10:43:07+00:00
+    type: string
+    format: date-time
+  Links:
+    type: object
+    description: Links relevant to the payload
+    properties:
+      Self:
+        type: string
+        format: uri
+      First:
+        type: string
+        format: uri
+      Prev:
+        type: string
+        format: uri
+      Next:
+        type: string
+        format: uri
+      Last:
+        type: string
+        format: uri
+    additionalProperties: false
+    required:
+      - Self
+  Meta:
+    title: MetaData
+    type: object
+    description: Meta Data relevant to the payload
+    properties:
+      TotalPages:
+        type: integer
+        format: int32
+      FirstAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+      LastAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
     additionalProperties: false
