@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.0-RC4"
+    "version": "v3.0.0"
   },
   "basePath": "/open-banking/v3.0/aisp",
   "schemes": [
@@ -76,6 +76,9 @@
           },
           "406": {
             "$ref": "#/responses/406ErrorResponse"
+          },
+          "415": {
+            "$ref": "#/responses/415ErrorResponse"
           },
           "429": {
             "$ref": "#/responses/429ErrorResponse"
@@ -335,9 +338,6 @@
           "403": {
             "$ref": "#/responses/403ErrorResponse"
           },
-          "404": {
-            "$ref": "#/responses/404ErrorResponse"
-          },
           "405": {
             "$ref": "#/responses/405ErrorResponse"
           },
@@ -402,9 +402,6 @@
           },
           "403": {
             "$ref": "#/responses/403ErrorResponse"
-          },
-          "404": {
-            "$ref": "#/responses/404ErrorResponse"
           },
           "405": {
             "$ref": "#/responses/405ErrorResponse"
@@ -2036,42 +2033,6 @@
     }
   },
   "responses": {
-    "400ErrorResponse": {
-      "description": "Bad request",
-      "schema": {
-        "$ref": "#/definitions/OBErrorResponse1"
-      }
-    },
-    "401ErrorResponse": {
-      "description": "Unauthorized"
-    },
-    "403ErrorResponse": {
-      "description": "Forbidden"
-    },
-    "404ErrorResponse": {
-      "description": "Not found"
-    },
-    "405ErrorResponse": {
-      "description": "Method Not Allowed"
-    },
-    "406ErrorResponse": {
-      "description": "Not Acceptable"
-    },
-    "429ErrorResponse": {
-      "description": "Too Many Requests",
-      "headers": {
-        "Retry-After": {
-          "description": "Number in seconds to wait",
-          "type": "integer"
-        }
-      }
-    },
-    "500ErrorResponse": {
-      "description": "Internal Server Error",
-      "schema": {
-        "$ref": "#/definitions/OBErrorResponse1"
-      }
-    },
     "200AccountsAccountIdProductRead": {
       "description": "Products Read",
       "headers": {
@@ -2404,6 +2365,45 @@
       "schema": {
         "$ref": "#/definitions/OBReadOffer1"
       }
+    },
+    "400ErrorResponse": {
+      "description": "Bad request",
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
+    },
+    "401ErrorResponse": {
+      "description": "Unauthorized"
+    },
+    "403ErrorResponse": {
+      "description": "Forbidden"
+    },
+    "404ErrorResponse": {
+      "description": "Not found"
+    },
+    "405ErrorResponse": {
+      "description": "Method Not Allowed"
+    },
+    "406ErrorResponse": {
+      "description": "Not Acceptable"
+    },
+    "415ErrorResponse": {
+      "description": "Unsupported Media Type"
+    },
+    "429ErrorResponse": {
+      "description": "Too Many Requests",
+      "headers": {
+        "Retry-After": {
+          "description": "Number in seconds to wait",
+          "type": "integer"
+        }
+      }
+    },
+    "500ErrorResponse": {
+      "description": "Internal Server Error",
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
     }
   },
   "securityDefinitions": {
@@ -2468,7 +2468,8 @@
           "items": {
             "$ref": "#/definitions/OBCashAccount3"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Provides the details to identify an account."
         },
         "Servicer": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
@@ -2555,7 +2556,8 @@
           "items": {
             "$ref": "#/definitions/OBCashAccount3"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Provides the details to identify an account."
         },
         "Servicer": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
@@ -5125,7 +5127,8 @@
           "items": {
             "$ref": "#/definitions/OBCreditLine1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details on the credit line."
         }
       },
       "required": [
@@ -7708,7 +7711,8 @@
           "items": {
             "$ref": "#/definitions/OBPostalAddress8"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Postal address of a party."
         }
       },
       "required": [
@@ -7777,6 +7781,7 @@
             "maxLength": 70
           },
           "type": "array",
+          "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
           "minItems": 0,
           "maxItems": 7
         }
@@ -7797,6 +7802,7 @@
             "maxLength": 70
           },
           "type": "array",
+          "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
           "minItems": 0,
           "maxItems": 5
         },
@@ -7899,7 +7905,8 @@
               "items": {
                 "$ref": "#/definitions/OBAccount2"
               },
-              "type": "array"
+              "type": "array",
+              "description": "Unambiguous identification of the account to which credit and debit entries are made."
             }
           },
           "additionalProperties": false
@@ -7929,6 +7936,7 @@
                 "$ref": "#/definitions/OBCashBalance1"
               },
               "type": "array",
+              "description": "Set of elements used to define the balance details.",
               "minItems": 1
             }
           },
@@ -8026,6 +8034,7 @@
                 "$ref": "#/definitions/OBExternalPermissions1Code"
               },
               "type": "array",
+              "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
               "minItems": 1
             },
             "ExpirationDateTime": {
@@ -8079,6 +8088,7 @@
             "$ref": "#/definitions/OBExternalPermissions1Code"
           },
           "type": "array",
+          "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
           "minItems": 1
         },
         "ExpirationDateTime": {
@@ -8112,7 +8122,8 @@
               "items": {
                 "$ref": "#/definitions/OBDirectDebit1"
               },
-              "type": "array"
+              "type": "array",
+              "description": "Account to or from which a cash entry is made."
             }
           },
           "additionalProperties": false
@@ -8283,7 +8294,8 @@
               "items": {
                 "$ref": "#/definitions/OBStatement1"
               },
-              "type": "array"
+              "type": "array",
+              "description": "Provides further details on a statement resource."
             }
           },
           "additionalProperties": false
@@ -8312,7 +8324,8 @@
               "items": {
                 "$ref": "#/definitions/OBTransaction3"
               },
-              "type": "array"
+              "type": "array",
+              "description": "Provides further details on an entry in the report."
             }
           },
           "additionalProperties": false
@@ -8691,49 +8704,57 @@
             "minLength": 1,
             "maxLength": 500
           },
-          "type": "array"
+          "type": "array",
+          "description": "Other descriptions that may be available for the statement resource."
         },
         "StatementBenefit": {
           "items": {
             "$ref": "#/definitions/OBStatementBenefit1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource."
         },
         "StatementFee": {
           "items": {
             "$ref": "#/definitions/OBStatementFee1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a fee for the statement resource."
         },
         "StatementInterest": {
           "items": {
             "$ref": "#/definitions/OBStatementInterest1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
         },
         "StatementDateTime": {
           "items": {
             "$ref": "#/definitions/OBStatementDateTime1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic date time for the statement resource."
         },
         "StatementRate": {
           "items": {
             "$ref": "#/definitions/OBStatementRate1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic rate related to the statement resource."
         },
         "StatementValue": {
           "items": {
             "$ref": "#/definitions/OBStatementValue1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic number value related to the statement resource."
         },
         "StatementAmount": {
           "items": {
             "$ref": "#/definitions/OBStatementAmount1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic amount for the statement resource."
         }
       },
       "required": [
@@ -8788,43 +8809,50 @@
             "minLength": 1,
             "maxLength": 500
           },
-          "type": "array"
+          "type": "array",
+          "description": "Other descriptions that may be available for the statement resource."
         },
         "StatementBenefit": {
           "items": {
             "$ref": "#/definitions/OBStatementBenefit1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource."
         },
         "StatementFee": {
           "items": {
             "$ref": "#/definitions/OBStatementFee1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a fee for the statement resource."
         },
         "StatementInterest": {
           "items": {
             "$ref": "#/definitions/OBStatementInterest1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
         },
         "StatementDateTime": {
           "items": {
             "$ref": "#/definitions/OBStatementDateTime1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic date time for the statement resource."
         },
         "StatementRate": {
           "items": {
             "$ref": "#/definitions/OBStatementRate1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic rate related to the statement resource."
         },
         "StatementValue": {
           "items": {
             "$ref": "#/definitions/OBStatementValue1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic number value related to the statement resource."
         }
       },
       "required": [
@@ -8879,49 +8907,57 @@
             "minLength": 1,
             "maxLength": 500
           },
-          "type": "array"
+          "type": "array",
+          "description": "Other descriptions that may be available for the statement resource."
         },
         "StatementBenefit": {
           "items": {
             "$ref": "#/definitions/OBStatementBenefit1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource."
         },
         "StatementFee": {
           "items": {
             "$ref": "#/definitions/OBStatementFee1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a fee for the statement resource."
         },
         "StatementInterest": {
           "items": {
             "$ref": "#/definitions/OBStatementInterest1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
         },
         "StatementDateTime": {
           "items": {
             "$ref": "#/definitions/OBStatementDateTime1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic date time for the statement resource."
         },
         "StatementRate": {
           "items": {
             "$ref": "#/definitions/OBStatementRate1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic rate related to the statement resource."
         },
         "StatementValue": {
           "items": {
             "$ref": "#/definitions/OBStatementValue1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic number value related to the statement resource."
         },
         "StatementAmount": {
           "items": {
             "$ref": "#/definitions/OBStatementAmount1"
           },
-          "type": "array"
+          "type": "array",
+          "description": "Set of elements used to provide details of a generic amount for the statement resource."
         }
       },
       "required": [
@@ -9133,7 +9169,8 @@
             "minLength": 1,
             "maxLength": 35
           },
-          "type": "array"
+          "type": "array",
+          "description": "Unique reference for the statement. This reference may be optionally populated if available."
         },
         "CreditDebitIndicator": {
           "type": "string",
@@ -9255,7 +9292,8 @@
             "minLength": 1,
             "maxLength": 35
           },
-          "type": "array"
+          "type": "array",
+          "description": "Unique reference for the statement. This reference may be optionally populated if available."
         },
         "CreditDebitIndicator": {
           "type": "string",
@@ -9365,7 +9403,8 @@
             "minLength": 1,
             "maxLength": 35
           },
-          "type": "array"
+          "type": "array",
+          "description": "Unique reference for the statement. This reference may be optionally populated if available."
         },
         "CreditDebitIndicator": {
           "type": "string",
