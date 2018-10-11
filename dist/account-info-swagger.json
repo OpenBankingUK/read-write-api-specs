@@ -12,9 +12,9 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.0.0"
+    "version": "v3.1-draft2"
   },
-  "basePath": "/open-banking/v3.0/aisp",
+  "basePath": "/open-banking/v3.1/aisp",
   "schemes": [
     "https"
   ],
@@ -2147,7 +2147,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction3"
+        "$ref": "#/definitions/OBReadTransaction4"
       }
     },
     "200TransactionsRead": {
@@ -2159,7 +2159,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction3"
+        "$ref": "#/definitions/OBReadTransaction4"
       }
     },
     "200AccountsAccountIdDirectDebitsRead": {
@@ -2231,7 +2231,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction3"
+        "$ref": "#/definitions/OBReadTransaction4"
       }
     },
     "200StatementsRead": {
@@ -2279,7 +2279,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadStandingOrder3"
+        "$ref": "#/definitions/OBReadStandingOrder4"
       }
     },
     "200StandingOrdersRead": {
@@ -2291,7 +2291,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadStandingOrder3"
+        "$ref": "#/definitions/OBReadStandingOrder4"
       }
     },
     "200AccountsAccountIdBalancesRead": {
@@ -2576,11 +2576,6 @@
       "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
       "type": "string",
       "pattern": "^\\d{1,13}\\.\\d{1,5}$"
-    },
-    "ActiveOrHistoricCurrencyCode": {
-      "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
-      "type": "string",
-      "pattern": "^[A-Z]{3,3}$"
     },
     "OBActiveOrHistoricCurrencyAndAmount": {
       "description": "Amount of money of the cash balance after a transaction entry is applied to the account..",
@@ -8255,7 +8250,7 @@
       ],
       "additionalProperties": false
     },
-    "OBReadStandingOrder3": {
+    "OBReadStandingOrder4": {
       "type": "object",
       "properties": {
         "Data": {
@@ -8263,7 +8258,7 @@
           "properties": {
             "StandingOrder": {
               "items": {
-                "$ref": "#/definitions/OBStandingOrder3"
+                "$ref": "#/definitions/OBStandingOrder4"
               },
               "type": "array"
             }
@@ -8314,7 +8309,7 @@
       ],
       "additionalProperties": false
     },
-    "OBReadTransaction3": {
+    "OBReadTransaction4": {
       "type": "object",
       "properties": {
         "Data": {
@@ -8322,7 +8317,7 @@
           "properties": {
             "Transaction": {
               "items": {
-                "$ref": "#/definitions/OBTransaction3"
+                "$ref": "#/definitions/OBTransaction4"
               },
               "type": "array",
               "description": "Provides further details on an entry in the report."
@@ -8471,7 +8466,7 @@
       ],
       "additionalProperties": false
     },
-    "OBStandingOrder3": {
+    "OBStandingOrder4": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -8522,6 +8517,9 @@
         },
         "FinalPaymentAmount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         },
         "CreditorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
@@ -8536,7 +8534,7 @@
       ],
       "additionalProperties": false
     },
-    "OBStandingOrder3Basic": {
+    "OBStandingOrder4Basic": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -8587,6 +8585,9 @@
         },
         "FinalPaymentAmount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         }
       },
       "required": [
@@ -8595,7 +8596,7 @@
       ],
       "additionalProperties": false
     },
-    "OBStandingOrder3Detail": {
+    "OBStandingOrder4Detail": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -8646,6 +8647,9 @@
         },
         "FinalPaymentAmount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         },
         "CreditorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
@@ -9144,7 +9148,7 @@
       ],
       "additionalProperties": false
     },
-    "OBTransaction3": {
+    "OBTransaction4": {
       "description": "Provides further details on an entry in the report.",
       "type": "object",
       "properties": {
@@ -9239,11 +9243,11 @@
         "DebtorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
         },
-        "DebtorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
-        },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         },
         "TransactionInformation": {
           "$ref": "#/definitions/TransactionInformation"
@@ -9256,6 +9260,9 @@
         },
         "CreditorAccount": {
           "$ref": "#/definitions/OBCashAccount4"
+        },
+        "DebtorAccount": {
+          "$ref": "#/definitions/OBCashAccount4"
         }
       },
       "required": [
@@ -9267,7 +9274,7 @@
       ],
       "additionalProperties": false
     },
-    "OBTransaction3Basic": {
+    "OBTransaction4Basic": {
       "description": "Provides further details on an entry in the report.",
       "type": "object",
       "properties": {
@@ -9362,11 +9369,11 @@
         "DebtorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
         },
-        "DebtorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
-        },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         }
       },
       "required": [
@@ -9378,7 +9385,7 @@
       ],
       "additionalProperties": false
     },
-    "OBTransaction3Detail": {
+    "OBTransaction4Detail": {
       "description": "Provides further details on an entry in the report.",
       "type": "object",
       "properties": {
@@ -9473,11 +9480,11 @@
         "DebtorAgent": {
           "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
         },
-        "DebtorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
-        },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         },
         "TransactionInformation": {
           "$ref": "#/definitions/TransactionInformation"
@@ -9489,6 +9496,9 @@
           "$ref": "#/definitions/OBMerchantDetails1"
         },
         "CreditorAccount": {
+          "$ref": "#/definitions/OBCashAccount4"
+        },
+        "DebtorAccount": {
           "$ref": "#/definitions/OBCashAccount4"
         }
       },
@@ -9583,6 +9593,11 @@
         "Description"
       ],
       "additionalProperties": false
+    },
+    "OBSupplementaryData1": {
+      "description": "Additional information that can not be captured in the structured fields and/or any other specific block.",
+      "type": "object",
+      "properties": {}
     },
     "OBError1": {
       "type": "object",
