@@ -1,0 +1,5071 @@
+swagger: '2.0'
+info:
+  title: Payment Initiation API
+  description: Swagger for Payment Initiation API Specification
+  termsOfService: 'https://www.openbanking.org.uk/terms'
+  contact:
+    name: Service Desk
+    email: ServiceDesk@openbanking.org.uk
+  license:
+    name: open-licence
+    url: 'https://www.openbanking.org.uk/open-licence'
+  version: v3.0.0
+basePath: /open-banking/v3.0/pisp
+schemes:
+  - https
+consumes:
+  - application/json; charset=utf-8
+produces:
+  - application/json; charset=utf-8
+paths:
+  /domestic-payment-consents:
+    post:
+      tags:
+        - Domestic Payments
+      summary: Create Domestic Payment Consents
+      operationId: CreateDomesticPaymentConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteDomesticConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201DomesticPaymentConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/domestic-payment-consents/{ConsentId}':
+    get:
+      tags:
+        - Domestic Payments
+      summary: Get Domestic Payment Consents
+      operationId: GetDomesticPaymentConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200DomesticPaymentConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /domestic-payments:
+    post:
+      tags:
+        - Domestic Payments
+      summary: Create Domestic Payments
+      operationId: CreateDomesticPayments
+      parameters:
+        - $ref: '#/parameters/OBWriteDomestic1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201DomesticPaymentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/domestic-payments/{DomesticPaymentId}':
+    get:
+      tags:
+        - Domestic Payments
+      summary: Get Domestic Payments
+      operationId: GetDomesticPaymentsDomesticPaymentId
+      parameters:
+        - $ref: '#/parameters/DomesticPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200DomesticPaymentsDomesticPaymentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /domestic-scheduled-payment-consents:
+    post:
+      tags:
+        - Domestic Scheduled Payments
+      summary: Create Domestic Scheduled Payment Consents
+      operationId: CreateDomesticScheduledPaymentConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteDomesticScheduledConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201DomesticScheduledPaymentConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/domestic-scheduled-payment-consents/{ConsentId}':
+    get:
+      tags:
+        - Domestic Scheduled Payments
+      summary: Get Domestic Scheduled Payment Consents
+      operationId: GetDomesticScheduledPaymentConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200DomesticScheduledPaymentConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /domestic-scheduled-payments:
+    post:
+      tags:
+        - Domestic Scheduled Payments
+      summary: Create Domestic Scheduled Payments
+      operationId: CreateDomesticScheduledPayments
+      parameters:
+        - $ref: '#/parameters/OBWriteDomesticScheduled1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201DomesticScheduledPaymentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/domestic-scheduled-payments/{DomesticScheduledPaymentId}':
+    get:
+      tags:
+        - Domestic Scheduled Payments
+      summary: Get Domestic Scheduled Payments
+      operationId: GetDomesticScheduledPaymentsDomesticScheduledPaymentId
+      parameters:
+        - $ref: '#/parameters/DomesticScheduledPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: >-
+            #/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /domestic-standing-order-consents:
+    post:
+      tags:
+        - Domestic Standing Orders
+      summary: Create Domestic Standing Order Consents
+      operationId: CreateDomesticStandingOrderConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteDomesticStandingOrderConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201DomesticStandingOrderConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/domestic-standing-order-consents/{ConsentId}':
+    get:
+      tags:
+        - Domestic Standing Orders
+      summary: Get Domestic Standing Order Consents
+      operationId: GetDomesticStandingOrderConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200DomesticStandingOrderConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /domestic-standing-orders:
+    post:
+      tags:
+        - Domestic Standing Orders
+      summary: Create Domestic Standing Orders
+      operationId: CreateDomesticStandingOrders
+      parameters:
+        - $ref: '#/parameters/OBWriteDomesticStandingOrder1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201DomesticStandingOrdersCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/domestic-standing-orders/{DomesticStandingOrderId}':
+    get:
+      tags:
+        - Domestic Standing Orders
+      summary: Get Domestic Standing Orders
+      operationId: GetDomesticStandingOrdersDomesticStandingOrderId
+      parameters:
+        - $ref: '#/parameters/DomesticStandingOrderId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200DomesticStandingOrdersDomesticStandingOrderIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /file-payment-consents:
+    post:
+      tags:
+        - File Payments
+      summary: Create File Payment Consents
+      operationId: CreateFilePaymentConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteFileConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201FilePaymentConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/file-payment-consents/{ConsentId}':
+    get:
+      tags:
+        - File Payments
+      summary: Get File Payment Consents
+      operationId: GetFilePaymentConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200FilePaymentConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/file-payment-consents/{ConsentId}/file':
+    post:
+      tags:
+        - File Payments
+      summary: Create File Payment Consents
+      operationId: CreateFilePaymentConsentsConsentIdFile
+      parameters:
+        - $ref: '#/parameters/FileParam'
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      consumes:
+        - '*/*'
+      responses:
+        '200':
+          $ref: '#/responses/200FilePaymentConsentsConsentIdFileCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+    get:
+      tags:
+        - File Payments
+      summary: Get File Payment Consents
+      operationId: GetFilePaymentConsentsConsentIdFile
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          $ref: '#/responses/200FilePaymentConsentsConsentIdFileRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /file-payments:
+    post:
+      tags:
+        - File Payments
+      summary: Create File Payments
+      operationId: CreateFilePayments
+      parameters:
+        - $ref: '#/parameters/OBWriteFile1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201FilePaymentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/file-payments/{FilePaymentId}':
+    get:
+      tags:
+        - File Payments
+      summary: Get File Payments
+      operationId: GetFilePaymentsFilePaymentId
+      parameters:
+        - $ref: '#/parameters/FilePaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200FilePaymentsFilePaymentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/file-payments/{FilePaymentId}/report-file':
+    get:
+      tags:
+        - File Payments
+      summary: Get File Payments
+      operationId: GetFilePaymentsFilePaymentIdReportFile
+      parameters:
+        - $ref: '#/parameters/FilePaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          $ref: '#/responses/200FilePaymentsFilePaymentIdReportFileRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /international-payment-consents:
+    post:
+      tags:
+        - International Payments
+      summary: Create International Payment Consents
+      operationId: CreateInternationalPaymentConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteInternationalConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201InternationalPaymentConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/international-payment-consents/{ConsentId}':
+    get:
+      tags:
+        - International Payments
+      summary: Get International Payment Consents
+      operationId: GetInternationalPaymentConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200InternationalPaymentConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /international-payments:
+    post:
+      tags:
+        - International Payments
+      summary: Create International Payments
+      operationId: CreateInternationalPayments
+      parameters:
+        - $ref: '#/parameters/OBWriteInternational1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201InternationalPaymentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/international-payments/{InternationalPaymentId}':
+    get:
+      tags:
+        - International Payments
+      summary: Get International Payments
+      operationId: GetInternationalPaymentsInternationalPaymentId
+      parameters:
+        - $ref: '#/parameters/InternationalPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200InternationalPaymentsInternationalPaymentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /international-scheduled-payment-consents:
+    post:
+      tags:
+        - International Scheduled Payments
+      summary: Create International Scheduled Payment Consents
+      operationId: CreateInternationalScheduledPaymentConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteInternationalScheduledConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201InternationalScheduledPaymentConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/international-scheduled-payment-consents/{ConsentId}':
+    get:
+      tags:
+        - International Scheduled Payments
+      summary: Get International Scheduled Payment Consents
+      operationId: GetInternationalScheduledPaymentConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200InternationalScheduledPaymentConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /international-scheduled-payments:
+    post:
+      tags:
+        - International Scheduled Payments
+      summary: Create International Scheduled Payments
+      operationId: CreateInternationalScheduledPayments
+      parameters:
+        - $ref: '#/parameters/OBWriteInternationalScheduled1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201InternationalScheduledPaymentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/international-scheduled-payments/{InternationalScheduledPaymentId}':
+    get:
+      tags:
+        - International Scheduled Payments
+      summary: Get International Scheduled Payments
+      operationId: GetInternationalScheduledPaymentsInternationalScheduledPaymentId
+      parameters:
+        - $ref: '#/parameters/InternationalScheduledPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: >-
+            #/responses/200InternationalScheduledPaymentsInternationalScheduledPaymentIdRead
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /international-standing-order-consents:
+    post:
+      tags:
+        - International Standing Orders
+      summary: Create International Standing Order Consents
+      operationId: CreateInternationalStandingOrderConsents
+      parameters:
+        - $ref: '#/parameters/OBWriteInternationalStandingOrderConsent1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201InternationalStandingOrderConsentsCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/international-standing-order-consents/{ConsentId}':
+    get:
+      tags:
+        - International Standing Orders
+      summary: Get International Standing Order Consents
+      operationId: GetInternationalStandingOrderConsentsConsentId
+      parameters:
+        - $ref: '#/parameters/ConsentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: '#/responses/200InternationalStandingOrderConsentsConsentIdRead'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  /international-standing-orders:
+    post:
+      tags:
+        - International Standing Orders
+      summary: Create International Standing Orders
+      operationId: CreateInternationalStandingOrders
+      parameters:
+        - $ref: '#/parameters/OBWriteInternationalStandingOrder1Param'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-idempotency-key'
+        - $ref: '#/parameters/x-jws-signature-Param'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '201':
+          $ref: '#/responses/201InternationalStandingOrdersCreated'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '415':
+          $ref: '#/responses/415ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - PSUOAuth2Security:
+            - payments
+  '/international-standing-orders/{InternationalStandingOrderPaymentId}':
+    get:
+      tags:
+        - International Standing Orders
+      summary: Get International Standing Orders
+      operationId: GetInternationalStandingOrdersInternationalStandingOrderPaymentId
+      parameters:
+        - $ref: '#/parameters/InternationalStandingOrderPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id-Param'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time-Param'
+        - $ref: '#/parameters/x-fapi-customer-ip-address-Param'
+        - $ref: '#/parameters/x-fapi-interaction-id-Param'
+        - $ref: '#/parameters/AuthorizationParam'
+        - $ref: '#/parameters/x-customer-user-agent-Param'
+      responses:
+        '200':
+          $ref: >-
+            #/responses/200InternationalStandingOrdersInternationalStandingOrderPaymentIdRead
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '401':
+          $ref: '#/responses/401ErrorResponse'
+        '403':
+          $ref: '#/responses/403ErrorResponse'
+        '404':
+          $ref: '#/responses/404ErrorResponse'
+        '405':
+          $ref: '#/responses/405ErrorResponse'
+        '406':
+          $ref: '#/responses/406ErrorResponse'
+        '429':
+          $ref: '#/responses/429ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      security:
+        - TPPOAuth2Security:
+            - payments
+parameters:
+  x-idempotency-key:
+    name: x-idempotency-key
+    in: header
+    description: >-
+      Every request will be processed only once per x-idempotency-key.  The
+      Idempotency Key will be valid for 24 hours.
+    required: true
+    type: string
+    pattern: ^(?!\s)(.*)(\S)$
+    maxLength: 40
+  x-fapi-financial-id-Param:
+    in: header
+    name: x-fapi-financial-id
+    type: string
+    required: true
+    description: >-
+      The unique id of the ASPSP to which the request is issued. The unique id
+      will be issued by OB.
+  x-fapi-customer-ip-address-Param:
+    in: header
+    name: x-fapi-customer-ip-address
+    type: string
+    required: false
+    description: The PSU's IP address if the PSU is currently logged in with the TPP.
+  x-fapi-interaction-id-Param:
+    in: header
+    name: x-fapi-interaction-id
+    type: string
+    required: false
+    description: An RFC4122 UID used as a correlation id.
+  x-fapi-customer-last-logged-time-Param:
+    in: header
+    name: x-fapi-customer-last-logged-time
+    type: string
+    required: false
+    description: >-
+      The time when the PSU last logged in with the TPP. 
+
+      All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
+      example is below: 
+
+      Sun, 10 Sep 2017 19:43:31 UTC
+    pattern: >-
+      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
+      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2}
+      (GMT|UTC)$
+  AuthorizationParam:
+    in: header
+    name: Authorization
+    type: string
+    required: true
+    description: 'An Authorisation Token as per https://tools.ietf.org/html/rfc6750'
+  x-jws-signature-Param:
+    in: header
+    name: x-jws-signature
+    type: string
+    required: true
+    description: A detached JWS signature of the body of the payload.
+  OBWriteDomesticStandingOrderConsent1Param:
+    name: OBWriteDomesticStandingOrderConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderConsent1'
+  ConsentId:
+    name: ConsentId
+    in: path
+    description: ConsentId
+    required: true
+    type: string
+  OBWriteDomesticStandingOrder1Param:
+    name: OBWriteDomesticStandingOrder1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrder1'
+  DomesticStandingOrderId:
+    name: DomesticStandingOrderId
+    in: path
+    description: DomesticStandingOrderId
+    required: true
+    type: string
+  OBWriteDomesticConsent1Param:
+    name: OBWriteDomesticConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomesticConsent1'
+  OBWriteDomestic1Param:
+    name: OBWriteDomestic1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomestic1'
+  DomesticPaymentId:
+    name: DomesticPaymentId
+    in: path
+    description: DomesticPaymentId
+    required: true
+    type: string
+  OBWriteDomesticScheduledConsent1Param:
+    name: OBWriteDomesticScheduledConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledConsent1'
+  OBWriteDomesticScheduled1Param:
+    name: OBWriteDomesticScheduled1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduled1'
+  DomesticScheduledPaymentId:
+    name: DomesticScheduledPaymentId
+    in: path
+    description: DomesticScheduledPaymentId
+    required: true
+    type: string
+  OBWriteInternationalStandingOrderConsent1Param:
+    name: OBWriteInternationalStandingOrderConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrderConsent1'
+  OBWriteInternationalStandingOrder1Param:
+    name: OBWriteInternationalStandingOrder1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrder1'
+  InternationalStandingOrderPaymentId:
+    name: InternationalStandingOrderPaymentId
+    in: path
+    description: InternationalStandingOrderPaymentId
+    required: true
+    type: string
+  OBWriteFileConsent1Param:
+    name: OBWriteFileConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteFileConsent1'
+  FileParam:
+    name: FileParam
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/File'
+  OBWriteFile1Param:
+    name: OBWriteFile1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteFile1'
+  FilePaymentId:
+    name: FilePaymentId
+    in: path
+    description: FilePaymentId
+    required: true
+    type: string
+  OBWriteInternationalConsent1Param:
+    name: OBWriteInternationalConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalConsent1'
+  OBWriteInternational1Param:
+    name: OBWriteInternational1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternational1'
+  InternationalPaymentId:
+    name: InternationalPaymentId
+    in: path
+    description: InternationalPaymentId
+    required: true
+    type: string
+  OBWriteInternationalScheduledConsent1Param:
+    name: OBWriteInternationalScheduledConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduledConsent1'
+  OBWriteInternationalScheduled1Param:
+    name: OBWriteInternationalScheduled1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduled1'
+  InternationalScheduledPaymentId:
+    name: InternationalScheduledPaymentId
+    in: path
+    description: InternationalScheduledPaymentId
+    required: true
+    type: string
+  x-customer-user-agent-Param:
+    in: header
+    name: x-customer-user-agent
+    type: string
+    description: Indicates the user-agent that the PSU is using.
+    required: false
+responses:
+  201DomesticStandingOrderConsentsCreated:
+    description: Domestic Standing Order Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderConsentResponse1'
+  200DomesticStandingOrderConsentsConsentIdRead:
+    description: Domestic Standing Order Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderConsentResponse1'
+  201DomesticStandingOrdersCreated:
+    description: Domestic Standing Orders Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderResponse1'
+  200DomesticStandingOrdersDomesticStandingOrderIdRead:
+    description: Domestic Standing Orders Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderResponse1'
+  201DomesticPaymentConsentsCreated:
+    description: Domestic Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticConsentResponse1'
+  200DomesticPaymentConsentsConsentIdRead:
+    description: Domestic Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticConsentResponse1'
+  201DomesticPaymentsCreated:
+    description: Domestic Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticResponse1'
+  200DomesticPaymentsDomesticPaymentIdRead:
+    description: Domestic Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticResponse1'
+  201DomesticScheduledPaymentConsentsCreated:
+    description: Domestic Scheduled Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledConsentResponse1'
+  200DomesticScheduledPaymentConsentsConsentIdRead:
+    description: Domestic Scheduled Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledConsentResponse1'
+  201DomesticScheduledPaymentsCreated:
+    description: Domestic Scheduled Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledResponse1'
+  200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead:
+    description: Domestic Scheduled Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledResponse1'
+  201InternationalStandingOrderConsentsCreated:
+    description: International Standing Order Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrderConsentResponse1'
+  200InternationalStandingOrderConsentsConsentIdRead:
+    description: International Standing Order Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrderConsentResponse1'
+  201InternationalStandingOrdersCreated:
+    description: International Standing Orders Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrderResponse1'
+  200InternationalStandingOrdersInternationalStandingOrderPaymentIdRead:
+    description: International Standing Orders Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrderResponse1'
+  201FilePaymentConsentsCreated:
+    description: File Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileConsentResponse1'
+  200FilePaymentConsentsConsentIdFileCreated:
+    description: File Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  200FilePaymentConsentsConsentIdRead:
+    description: File Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileConsentResponse1'
+  200FilePaymentConsentsConsentIdFileRead:
+    description: File Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      type: file
+  201FilePaymentsCreated:
+    description: File Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileResponse1'
+  200FilePaymentsFilePaymentIdRead:
+    description: File Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileResponse1'
+  200FilePaymentsFilePaymentIdReportFileRead:
+    description: File Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      type: file
+  201InternationalPaymentConsentsCreated:
+    description: International Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalConsentResponse1'
+  200InternationalPaymentConsentsConsentIdRead:
+    description: International Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalConsentResponse1'
+  201InternationalPaymentsCreated:
+    description: International Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalResponse1'
+  200InternationalPaymentsInternationalPaymentIdRead:
+    description: International Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalResponse1'
+  201InternationalScheduledPaymentConsentsCreated:
+    description: International Scheduled Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduledConsentResponse1'
+  200InternationalScheduledPaymentConsentsConsentIdRead:
+    description: International Scheduled Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduledConsentResponse1'
+  201InternationalScheduledPaymentsCreated:
+    description: International Scheduled Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduledResponse1'
+  200InternationalScheduledPaymentsInternationalScheduledPaymentIdRead:
+    description: International Scheduled Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduledResponse1'
+  400ErrorResponse:
+    description: Bad request
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
+  401ErrorResponse:
+    description: Unauthorized
+  403ErrorResponse:
+    description: Forbidden
+  404ErrorResponse:
+    description: Not found
+  405ErrorResponse:
+    description: Method Not Allowed
+  406ErrorResponse:
+    description: Not Acceptable
+  415ErrorResponse:
+    description: Unsupported Media Type
+  429ErrorResponse:
+    description: Too Many Requests
+    headers:
+      Retry-After:
+        description: Number in seconds to wait
+        type: integer
+  500ErrorResponse:
+    description: Internal Server Error
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
+securityDefinitions:
+  PSUOAuth2Security:
+    type: oauth2
+    flow: accessCode
+    tokenUrl: 'https://authserver.example/token'
+    authorizationUrl: 'https://authserver.example/authorization'
+    scopes:
+      payments: Generic payment scope
+    description: >-
+      OAuth flow, it is required when the PSU needs to perform SCA with the
+      ASPSP when a TPP wants to access an ASPSP resource owned by the PSU
+  TPPOAuth2Security:
+    type: oauth2
+    flow: application
+    tokenUrl: 'https://authserver.example/token'
+    scopes:
+      payments: Generic payment scope
+    description: TPP client credential authorisation flow with the ASPSP
+definitions:
+  OBActiveCurrencyAndAmount_SimpleType:
+    description: >-
+      A number of monetary units specified in an active currency where the unit
+      of currency is explicit and compliant with ISO 4217.
+    type: string
+    pattern: '^\d{1,13}\.\d{1,5}$'
+  ActiveOrHistoricCurrencyCode:
+    description: >-
+      A code allocated to a currency by a Maintenance Agency under an
+      international identification scheme, as described in the latest edition of
+      the international standard ISO 4217 "Codes for the representation of
+      currencies and funds".
+    type: string
+    pattern: '^[A-Z]{3,3}$'
+  OBActiveOrHistoricCurrencyAndAmount:
+    type: object
+    properties:
+      Amount:
+        $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+      Currency:
+        type: string
+        pattern: '^[A-Z]{3,3}$'
+    required:
+      - Amount
+      - Currency
+    additionalProperties: false
+  OBAddressTypeCode:
+    description: Identifies the nature of the postal address.
+    type: string
+    enum:
+      - Business
+      - Correspondence
+      - DeliveryTo
+      - MailTo
+      - POBox
+      - Postal
+      - Residential
+      - Statement
+  OBAuthorisation1:
+    description: The authorisation type request from the TPP.
+    type: object
+    properties:
+      AuthorisationType:
+        $ref: '#/definitions/OBExternalAuthorisation1Code'
+      CompletionDateTime:
+        description: >-
+          Date and time at which the requested authorisation flow must be
+          completed.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+    required:
+      - AuthorisationType
+    additionalProperties: false
+  OBBranchAndFinancialInstitutionIdentification3:
+    description: >-
+      Party that manages the account on behalf of the account owner, that is
+      manages the registration and booking of entries on the account, calculates
+      balances on the account and provides information about the account.
+
+      This is the servicer of the beneficiary account.
+    type: object
+    properties:
+      SchemeName:
+        description: >-
+          Name of the identification scheme, in a coded form as published in an
+          external list.
+        type: string
+        minLength: 1
+        maxLength: 40
+      Identification:
+        description: Unique and unambiguous identification of the servicing institution.
+        type: string
+        minLength: 1
+        maxLength: 35
+      Name:
+        description: >-
+          Name by which an agent is known and which is usually used to identify
+          that agent.
+        type: string
+        minLength: 1
+        maxLength: 140
+      PostalAddress:
+        $ref: '#/definitions/OBPostalAddress6'
+    additionalProperties: false
+  OBCashAccountCreditor2:
+    description: Provides the details to identify the beneficiary account.
+    type: object
+    properties:
+      SchemeName:
+        description: >-
+          Name of the identification scheme, in a coded form as published in an
+          external list.
+        type: string
+        minLength: 1
+        maxLength: 40
+      Identification:
+        description: >-
+          Identification assigned by an institution to identify an account. This
+          identification is known by the account owner.
+        type: string
+        minLength: 1
+        maxLength: 256
+      Name:
+        description: >-
+          Name of the account, as assigned by the account servicing institution.
+
+          Usage: The account name is the name or names of the account owner(s)
+          represented at an account level. The account name is not the product
+          name or the nickname of the account.
+
+          OB: ASPSPs may carry out name validation for Confirmation of Payee,
+          but it is not mandatory.
+        type: string
+        minLength: 1
+        maxLength: 70
+      SecondaryIdentification:
+        description: >-
+          This is secondary identification of the account, as assigned by the
+          account servicing institution. 
+
+          This can be used by building societies to additionally identify
+          accounts with a roll number (in addition to a sort code and account
+          number combination).
+        type: string
+        minLength: 1
+        maxLength: 34
+    required:
+      - SchemeName
+      - Identification
+      - Name
+    additionalProperties: false
+  OBCashAccountDebtor3:
+    description: Provides the details to identify the debtor account.
+    type: object
+    properties:
+      SchemeName:
+        description: >-
+          Name of the identification scheme, in a coded form as published in an
+          external list.
+        type: string
+        minLength: 1
+        maxLength: 40
+      Identification:
+        description: >-
+          Identification assigned by an institution to identify an account. This
+          identification is known by the account owner.
+        type: string
+        minLength: 1
+        maxLength: 256
+      Name:
+        description: >-
+          Name of the account, as assigned by the account servicing institution.
+
+          Usage: The account name is the name or names of the account owner(s)
+          represented at an account level. The account name is not the product
+          name or the nickname of the account.
+        type: string
+        minLength: 1
+        maxLength: 70
+      SecondaryIdentification:
+        description: >-
+          This is secondary identification of the account, as assigned by the
+          account servicing institution. 
+
+          This can be used by building societies to additionally identify
+          accounts with a roll number (in addition to a sort code and account
+          number combination).
+        type: string
+        minLength: 1
+        maxLength: 34
+    required:
+      - SchemeName
+      - Identification
+    additionalProperties: false
+  OBCharge1:
+    description: >-
+      Set of elements used to provide details of a charge for the payment
+      initiation.
+    type: object
+    properties:
+      ChargeBearer:
+        $ref: '#/definitions/OBChargeBearerType1Code'
+      Type:
+        description: 'Charge type, in a coded form.'
+        type: string
+        minLength: 1
+        maxLength: 40
+      Amount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: Amount of money associated with the charge type.
+    required:
+      - ChargeBearer
+      - Type
+      - Amount
+    additionalProperties: false
+  OBChargeBearerType1Code:
+    description: >-
+      Specifies which party/parties will bear the charges associated with the
+      processing of the payment transaction.
+    type: string
+    enum:
+      - BorneByCreditor
+      - BorneByDebtor
+      - FollowingServiceLevel
+      - Shared
+  OBDomestic1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds from the debtor account to a creditor
+      for a single domestic payment.
+    type: object
+    properties:
+      InstructionIdentification:
+        description: >-
+          Unique identification as assigned by an instructing party for an
+          instructed party to unambiguously identify the instruction.
+
+          Usage: the  instruction identification is a point to point reference
+          that can be used between the instructing party and the instructed
+          party to refer to the individual instruction. It can be included in
+          several messages related to the instruction.
+        type: string
+        minLength: 1
+        maxLength: 35
+      EndToEndIdentification:
+        description: >-
+          Unique identification assigned by the initiating party to
+          unambiguously identify the transaction. This identification is passed
+          on, unchanged, throughout the entire end-to-end chain.
+
+          Usage: The end-to-end identification can be used for reconciliation or
+          to link tasks relating to the transaction. It can be included in
+          several messages related to the transaction.
+
+          OB: The Faster Payments Scheme can only access 31 characters for the
+          EndToEndIdentification field.
+        type: string
+        minLength: 1
+        maxLength: 35
+      LocalInstrument:
+        description: >-
+          User community specific instrument.
+
+          Usage: This element is used to specify a local instrument, local
+          clearing option and/or further qualify the service or service level.
+        type: string
+        minLength: 1
+        maxLength: 35
+      InstructedAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: >-
+          Amount of money to be moved between the debtor and creditor, before
+          deduction of charges, expressed in the currency as ordered by the
+          initiating party.
+
+          Usage: This amount has to be transported unchanged through the
+          transaction chain.
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccountCreditor2'
+      CreditorPostalAddress:
+        $ref: '#/definitions/OBPostalAddress6'
+      RemittanceInformation:
+        $ref: '#/definitions/OBRemittanceInformation1'
+    required:
+      - InstructionIdentification
+      - EndToEndIdentification
+      - InstructedAmount
+      - CreditorAccount
+    additionalProperties: false
+  OBDomesticScheduled1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds from the debtor account to a creditor
+      for a single scheduled domestic payment.
+    type: object
+    properties:
+      InstructionIdentification:
+        description: >-
+          Unique identification as assigned by an instructing party for an
+          instructed party to unambiguously identify the instruction.
+
+          Usage: the  instruction identification is a point to point reference
+          that can be used between the instructing party and the instructed
+          party to refer to the individual instruction. It can be included in
+          several messages related to the instruction.
+        type: string
+        minLength: 1
+        maxLength: 35
+      EndToEndIdentification:
+        description: >-
+          Unique identification assigned by the initiating party to
+          unambiguously identify the transaction. This identification is passed
+          on, unchanged, throughout the entire end-to-end chain.
+
+          Usage: The end-to-end identification can be used for reconciliation or
+          to link tasks relating to the transaction. It can be included in
+          several messages related to the transaction.
+
+          OB: The Faster Payments Scheme can only access 31 characters for the
+          EndToEndIdentification field.
+        type: string
+        minLength: 1
+        maxLength: 35
+      LocalInstrument:
+        description: >-
+          User community specific instrument.
+
+          Usage: This element is used to specify a local instrument, local
+          clearing option and/or further qualify the service or service level.
+        type: string
+        minLength: 1
+        maxLength: 35
+      RequestedExecutionDateTime:
+        description: >-
+          Date at which the initiating party requests the clearing agent to
+          process the payment. 
+
+          Usage: This is the date on which the debtor's account is to be
+          debited.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      InstructedAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: >-
+          Amount of money to be moved between the debtor and creditor, before
+          deduction of charges, expressed in the currency as ordered by the
+          initiating party.
+
+          Usage: This amount has to be transported unchanged through the
+          transaction chain.
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccountCreditor2'
+      CreditorPostalAddress:
+        $ref: '#/definitions/OBPostalAddress6'
+      RemittanceInformation:
+        $ref: '#/definitions/OBRemittanceInformation1'
+    required:
+      - InstructionIdentification
+      - RequestedExecutionDateTime
+      - InstructedAmount
+      - CreditorAccount
+    additionalProperties: false
+  OBDomesticStandingOrder1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds from the debtor account to a creditor
+      for a domestic standing order.
+    type: object
+    properties:
+      Frequency:
+        description: >-
+          Individual Definitions:
+
+          EvryDay - Every day
+
+          EvryWorkgDay - Every working day
+
+          IntrvlWkDay - An interval specified in weeks (01 to 09), and the day
+          within the week (01 to 07)
+
+          WkInMnthDay - A monthly interval, specifying the week of the month (01
+          to 05) and day within the week (01 to 07)
+
+          IntrvlMnthDay - An interval specified in months (between 01 to 06, 12,
+          24), specifying the day within the month (-5 to -1, 1 to 31)
+
+          QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
+
+          ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th
+          December. 
+
+          SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th
+          November.
+
+          RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th
+          December. 
+
+          Individual Patterns:
+
+          EvryDay (ScheduleCode)
+
+          EvryWorkgDay (ScheduleCode)
+
+          IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks
+          + DayInWeek)
+
+          WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth +
+          DayInWeek)
+
+          IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode +
+          IntervalInMonths + DayInMonth)
+
+          QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode +
+          QuarterDay
+
+          The regular expression for this element combines five smaller versions
+          for each permitted pattern. To aid legibility - the components are
+          presented individually here:
+
+          EvryDay
+
+          EvryWorkgDay
+
+          IntrvlWkDay:0[1-9]:0[1-7]
+
+          WkInMnthDay:0[1-5]:0[1-7]
+
+          IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
+
+          QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
+
+          Full Regular Expression:
+
+          ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+        type: string
+        minLength: 1
+        maxLength: 35
+        pattern: >-
+          ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+      Reference:
+        description: >-
+          Unique reference, as assigned by the creditor, to unambiguously refer
+          to the payment transaction.
+
+          Usage: If available, the initiating party should provide this
+          reference in the structured remittance information, to enable
+          reconciliation by the creditor upon receipt of the amount of money.
+
+          If the business context requires the use of a creditor reference or a
+          payment remit identification, and only one identifier can be passed
+          through the end-to-end chain, the creditor's reference or payment
+          remittance identification should be quoted in the end-to-end
+          transaction identification.
+        type: string
+        minLength: 1
+        maxLength: 35
+      NumberOfPayments:
+        description: >-
+          Number of the payments that will be made in completing this frequency
+          sequence including any executed since the sequence start date. 
+        type: string
+        minLength: 1
+        maxLength: 35
+      FirstPaymentDateTime:
+        description: >-
+          The date on which the first payment for a Standing Order schedule will
+          be made.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      RecurringPaymentDateTime:
+        description: >-
+          The date on which the first recurring payment for a Standing Order
+          schedule will be made. 
+
+          Usage: This must be populated only if the first recurring date is
+          different to the first payment date.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      FinalPaymentDateTime:
+        description: >-
+          The date on which the final payment for a Standing Order schedule will
+          be made.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      FirstPaymentAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: The amount of the first Standing Order
+      RecurringPaymentAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: The amount of the recurring Standing Order
+      FinalPaymentAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: The amount of the final Standing Order
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccountCreditor2'
+    required:
+      - Frequency
+      - FirstPaymentDateTime
+      - FirstPaymentAmount
+      - CreditorAccount
+    additionalProperties: false
+  OBExchangeRate1:
+    description: Provides details on the currency exchange rate and contract.
+    type: object
+    properties:
+      UnitCurrency:
+        description: >-
+          Currency in which the rate of exchange is expressed in a currency
+          exchange. In the example 1GBP = xxxCUR, the unit currency is GBP.
+        type: string
+        pattern: '^[A-Z]{3,3}$'
+      ExchangeRate:
+        description: >-
+          The factor used for conversion of an amount from one currency to
+          another. This reflects the price at which one currency was bought with
+          another currency.
+        type: number
+      RateType:
+        $ref: '#/definitions/OBExchangeRateType2Code'
+      ContractIdentification:
+        description: >-
+          Unique and unambiguous reference to the foreign exchange contract
+          agreed between the initiating party/creditor and the debtor agent.
+        type: string
+        minLength: 1
+        maxLength: 256
+    required:
+      - UnitCurrency
+      - RateType
+    additionalProperties: false
+  OBExchangeRate2:
+    description: >-
+      Further detailed information on the exchange rate that has been used in
+      the payment transaction.
+    type: object
+    properties:
+      UnitCurrency:
+        description: >-
+          Currency in which the rate of exchange is expressed in a currency
+          exchange. In the example 1GBP = xxxCUR, the unit currency is GBP.
+        type: string
+        pattern: '^[A-Z]{3,3}$'
+      ExchangeRate:
+        description: >-
+          The factor used for conversion of an amount from one currency to
+          another. This reflects the price at which one currency was bought with
+          another currency.
+        type: number
+      RateType:
+        $ref: '#/definitions/OBExchangeRateType2Code'
+      ContractIdentification:
+        description: >-
+          Unique and unambiguous reference to the foreign exchange contract
+          agreed between the initiating party/creditor and the debtor agent.
+        type: string
+        minLength: 1
+        maxLength: 256
+      ExpirationDateTime:
+        description: >-
+          Specified date and time the exchange rate agreement will expire.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+    required:
+      - UnitCurrency
+      - ExchangeRate
+      - RateType
+    additionalProperties: false
+  OBExchangeRateType2Code:
+    description: Specifies the type used to complete the currency exchange.
+    type: string
+    enum:
+      - Actual
+      - Agreed
+      - Indicative
+  OBExternalAuthorisation1Code:
+    description: Type of authorisation flow requested.
+    type: string
+    enum:
+      - Any
+      - Single
+  OBExternalConsentStatus1Code:
+    description: Specifies the status of resource in code form.
+    type: string
+    enum:
+      - Authorised
+      - AwaitingAuthorisation
+      - Consumed
+      - Rejected
+  OBExternalConsentStatus2Code:
+    description: Specifies the status of consent resource in code form.
+    type: string
+    enum:
+      - Authorised
+      - AwaitingAuthorisation
+      - AwaitingUpload
+      - Consumed
+      - Rejected
+  OBExternalPaymentContext1Code:
+    description: Specifies the payment context
+    type: string
+    enum:
+      - BillPayment
+      - EcommerceGoods
+      - EcommerceServices
+      - Other
+      - PartyToParty
+  OBExternalPermissions2Code:
+    description: 'Specifies the Open Banking service request types. '
+    type: string
+    enum:
+      - Create
+  OBExternalStatus1Code:
+    description: Specifies the status of resource in code form.
+    type: string
+    enum:
+      - InitiationCompleted
+      - InitiationFailed
+      - InitiationPending
+  OBExternalStatus2Code:
+    description: Specifies the status of the authorisation flow in code form.
+    type: string
+    enum:
+      - Authorised
+      - AwaitingFurtherAuthorisation
+      - Rejected
+  OBFile1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds using a payment file.
+    type: object
+    properties:
+      FileType:
+        description: Specifies the payment file type.
+        type: string
+        minLength: 1
+        maxLength: 40
+      FileHash:
+        description: A base64 encoding of a SHA256 hash of the file to be uploaded.
+        type: string
+        minLength: 1
+        maxLength: 44
+      FileReference:
+        description: Reference for the file.
+        type: string
+        minLength: 1
+        maxLength: 40
+      NumberOfTransactions:
+        description: >-
+          Number of individual transactions contained in the payment information
+          group.
+        type: string
+        minLength: 1
+        maxLength: 15
+        pattern: '[0-9]{1,15}'
+      ControlSum:
+        description: >-
+          Total of all individual amounts included in the group, irrespective of
+          currencies.
+        type: number
+      RequestedExecutionDateTime:
+        description: >-
+          Date at which the initiating party requests the clearing agent to
+          process the payment. 
+
+          Usage: This is the date on which the debtor's account is to be
+          debited.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      LocalInstrument:
+        description: >-
+          User community specific instrument.
+
+          Usage: This element is used to specify a local instrument, local
+          clearing option and/or further qualify the service or service level.
+        type: string
+        minLength: 1
+        maxLength: 35
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      RemittanceInformation:
+        $ref: '#/definitions/OBRemittanceInformation1'
+    required:
+      - FileType
+      - FileHash
+    additionalProperties: false
+  OBInternational1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds from the debtor account to a creditor
+      for a single international payment.
+    type: object
+    properties:
+      InstructionIdentification:
+        description: >-
+          Unique identification as assigned by an instructing party for an
+          instructed party to unambiguously identify the instruction.
+
+          Usage: the  instruction identification is a point to point reference
+          that can be used between the instructing party and the instructed
+          party to refer to the individual instruction. It can be included in
+          several messages related to the instruction.
+        type: string
+        minLength: 1
+        maxLength: 35
+      EndToEndIdentification:
+        description: >-
+          Unique identification assigned by the initiating party to
+          unambiguously identify the transaction. This identification is passed
+          on, unchanged, throughout the entire end-to-end chain.
+
+          Usage: The end-to-end identification can be used for reconciliation or
+          to link tasks relating to the transaction. It can be included in
+          several messages related to the transaction.
+
+          OB: The Faster Payments Scheme can only access 31 characters for the
+          EndToEndIdentification field.
+        type: string
+        minLength: 1
+        maxLength: 35
+      LocalInstrument:
+        description: >-
+          User community specific instrument.
+
+          Usage: This element is used to specify a local instrument, local
+          clearing option and/or further qualify the service or service level.
+        type: string
+        minLength: 1
+        maxLength: 35
+      InstructionPriority:
+        $ref: '#/definitions/OBPriority2Code'
+      Purpose:
+        description: >-
+          Specifies the external purpose code in the format of character string
+          with a maximum length of 35 characters.
+
+          The list of valid codes is an external code list published separately.
+
+          External code sets can be downloaded from www.iso20022.org.
+        type: string
+      ChargeBearer:
+        $ref: '#/definitions/OBChargeBearerType1Code'
+      CurrencyOfTransfer:
+        description: >-
+          Specifies the currency of the to be transferred amount, which is
+          different from the currency of the debtor's account.
+        type: string
+        pattern: '^[A-Z]{3,3}$'
+      InstructedAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: >-
+          Amount of money to be moved between the debtor and creditor, before
+          deduction of charges, expressed in the currency as ordered by the
+          initiating party.
+
+          Usage: This amount has to be transported unchanged through the
+          transaction chain.
+      ExchangeRateInformation:
+        $ref: '#/definitions/OBExchangeRate1'
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      Creditor:
+        $ref: '#/definitions/OBPartyIdentification43'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification3'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccountCreditor2'
+      RemittanceInformation:
+        $ref: '#/definitions/OBRemittanceInformation1'
+    required:
+      - InstructionIdentification
+      - EndToEndIdentification
+      - CurrencyOfTransfer
+      - InstructedAmount
+      - CreditorAccount
+    additionalProperties: false
+  OBInternationalScheduled1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds from the debtor account to a creditor
+      for a single scheduled international payment.
+    type: object
+    properties:
+      InstructionIdentification:
+        description: >-
+          Unique identification as assigned by an instructing party for an
+          instructed party to unambiguously identify the instruction.
+
+          Usage: the  instruction identification is a point to point reference
+          that can be used between the instructing party and the instructed
+          party to refer to the individual instruction. It can be included in
+          several messages related to the instruction.
+        type: string
+        minLength: 1
+        maxLength: 35
+      EndToEndIdentification:
+        description: >-
+          Unique identification assigned by the initiating party to
+          unambiguously identify the transaction. This identification is passed
+          on, unchanged, throughout the entire end-to-end chain.
+
+          Usage: The end-to-end identification can be used for reconciliation or
+          to link tasks relating to the transaction. It can be included in
+          several messages related to the transaction.
+
+          OB: The Faster Payments Scheme can only access 31 characters for the
+          EndToEndIdentification field.
+        type: string
+        minLength: 1
+        maxLength: 35
+      LocalInstrument:
+        description: >-
+          User community specific instrument.
+
+          Usage: This element is used to specify a local instrument, local
+          clearing option and/or further qualify the service or service level.
+        type: string
+        minLength: 1
+        maxLength: 35
+      InstructionPriority:
+        $ref: '#/definitions/OBPriority2Code'
+      Purpose:
+        description: >-
+          Specifies the external purpose code in the format of character string
+          with a maximum length of 35 characters.
+
+          The list of valid codes is an external code list published separately.
+
+          External code sets can be downloaded from www.iso20022.org.
+        type: string
+      ChargeBearer:
+        $ref: '#/definitions/OBChargeBearerType1Code'
+      RequestedExecutionDateTime:
+        description: >-
+          Date at which the initiating party requests the clearing agent to
+          process the payment. 
+
+          Usage: This is the date on which the debtor's account is to be
+          debited.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      CurrencyOfTransfer:
+        description: >-
+          Specifies the currency of the to be transferred amount, which is
+          different from the currency of the debtor's account.
+        type: string
+        pattern: '^[A-Z]{3,3}$'
+      InstructedAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: >-
+          Amount of money to be moved between the debtor and creditor, before
+          deduction of charges, expressed in the currency as ordered by the
+          initiating party.
+
+          Usage: This amount has to be transported unchanged through the
+          transaction chain.
+      ExchangeRateInformation:
+        $ref: '#/definitions/OBExchangeRate1'
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      Creditor:
+        $ref: '#/definitions/OBPartyIdentification43'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification3'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccountCreditor2'
+      RemittanceInformation:
+        $ref: '#/definitions/OBRemittanceInformation1'
+    required:
+      - InstructionIdentification
+      - RequestedExecutionDateTime
+      - CurrencyOfTransfer
+      - InstructedAmount
+      - CreditorAccount
+    additionalProperties: false
+  OBInternationalStandingOrder1:
+    description: >-
+      The Initiation payload is sent by the initiating party to the ASPSP. It is
+      used to request movement of funds from the debtor account to a creditor
+      for an international standing order.
+    type: object
+    properties:
+      Frequency:
+        description: >-
+          Individual Definitions:
+
+          EvryDay - Every day
+
+          EvryWorkgDay - Every working day
+
+          IntrvlWkDay - An interval specified in weeks (01 to 09), and the day
+          within the week (01 to 07)
+
+          WkInMnthDay - A monthly interval, specifying the week of the month (01
+          to 05) and day within the week (01 to 07)
+
+          IntrvlMnthDay - An interval specified in months (between 01 to 06, 12,
+          24), specifying the day within the month (-5 to -1, 1 to 31)
+
+          QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
+
+          ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th
+          December. 
+
+          SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th
+          November.
+
+          RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th
+          December. 
+
+          Individual Patterns:
+
+          EvryDay (ScheduleCode)
+
+          EvryWorkgDay (ScheduleCode)
+
+          IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks
+          + DayInWeek)
+
+          WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth +
+          DayInWeek)
+
+          IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode +
+          IntervalInMonths + DayInMonth)
+
+          QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode +
+          QuarterDay
+
+          The regular expression for this element combines five smaller versions
+          for each permitted pattern. To aid legibility - the components are
+          presented individually here:
+
+          EvryDay
+
+          EvryWorkgDay
+
+          IntrvlWkDay:0[1-9]:0[1-7]
+
+          WkInMnthDay:0[1-5]:0[1-7]
+
+          IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
+
+          QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
+
+          Full Regular Expression:
+
+          ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+        type: string
+        minLength: 1
+        maxLength: 35
+        pattern: >-
+          ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+      Reference:
+        description: >-
+          Unique reference, as assigned by the creditor, to unambiguously refer
+          to the payment transaction.
+
+          Usage: If available, the initiating party should provide this
+          reference in the structured remittance information, to enable
+          reconciliation by the creditor upon receipt of the amount of money.
+
+          If the business context requires the use of a creditor reference or a
+          payment remit identification, and only one identifier can be passed
+          through the end-to-end chain, the creditor's reference or payment
+          remittance identification should be quoted in the end-to-end
+          transaction identification.
+        type: string
+        minLength: 1
+        maxLength: 35
+      NumberOfPayments:
+        description: >-
+          Number of the payments that will be made in completing this frequency
+          sequence including any executed since the sequence start date. 
+        type: string
+        minLength: 1
+        maxLength: 35
+      FirstPaymentDateTime:
+        description: >-
+          The date on which the first payment for a Standing Order schedule will
+          be made.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      FinalPaymentDateTime:
+        description: >-
+          The date on which the final payment for a Standing Order schedule will
+          be made.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Purpose:
+        description: >-
+          Specifies the external purpose code in the format of character string
+          with a maximum length of 35 characters.
+
+          The list of valid codes is an external code list published separately.
+
+          External code sets can be downloaded from www.iso20022.org.
+        type: string
+      ChargeBearer:
+        $ref: '#/definitions/OBChargeBearerType1Code'
+      CurrencyOfTransfer:
+        description: >-
+          Specifies the currency of the to be transferred amount, which is
+          different from the currency of the debtor's account.
+        type: string
+        pattern: '^[A-Z]{3,3}$'
+      InstructedAmount:
+        type: object
+        properties:
+          Amount:
+            $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+          Currency:
+            type: string
+            pattern: '^[A-Z]{3,3}$'
+        required:
+          - Amount
+          - Currency
+        additionalProperties: false
+        description: >-
+          Amount of money to be moved between the debtor and creditor, before
+          deduction of charges, expressed in the currency as ordered by the
+          initiating party.
+
+          Usage: This amount has to be transported unchanged through the
+          transaction chain.
+      DebtorAccount:
+        $ref: '#/definitions/OBCashAccountDebtor3'
+      Creditor:
+        $ref: '#/definitions/OBPartyIdentification43'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification3'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccountCreditor2'
+    required:
+      - Frequency
+      - FirstPaymentDateTime
+      - CurrencyOfTransfer
+      - InstructedAmount
+      - CreditorAccount
+    additionalProperties: false
+  OBMultiAuthorisation1:
+    description: The multiple authorisation flow response from the ASPSP.
+    type: object
+    properties:
+      Status:
+        $ref: '#/definitions/OBExternalStatus2Code'
+      NumberRequired:
+        description: >-
+          Number of authorisations required for payment order (total required at
+          the start of the multi authorisation journey).
+        type: integer
+        format: int32
+      NumberReceived:
+        description: >-
+          Number of authorisations required for payment order (total required at
+          the start of the multi authorisation journey).
+        type: integer
+        format: int32
+      LastUpdateDateTime:
+        description: >-
+          Last date and time at the authorisation flow was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpirationDateTime:
+        description: >-
+          Date and time at which the requested authorisation flow must be
+          completed.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+    required:
+      - Status
+    additionalProperties: false
+  OBPartyIdentification43:
+    description: Party to which an amount of money is due.
+    type: object
+    properties:
+      Name:
+        description: >-
+          Name by which a party is known and which is usually used to identify
+          that party.
+        type: string
+        minLength: 1
+        maxLength: 140
+      PostalAddress:
+        $ref: '#/definitions/OBPostalAddress6'
+    additionalProperties: false
+  OBPostalAddress6:
+    description: >-
+      Information that locates and identifies a specific address, as defined by
+      postal services.
+    type: object
+    properties:
+      AddressType:
+        $ref: '#/definitions/OBAddressTypeCode'
+      Department:
+        description: Identification of a division of a large organisation or building.
+        type: string
+        minLength: 1
+        maxLength: 70
+      SubDepartment:
+        description: Identification of a sub-division of a large organisation or building.
+        type: string
+        minLength: 1
+        maxLength: 70
+      StreetName:
+        description: Name of a street or thoroughfare.
+        type: string
+        minLength: 1
+        maxLength: 70
+      BuildingNumber:
+        description: Number that identifies the position of a building on a street.
+        type: string
+        minLength: 1
+        maxLength: 16
+      PostCode:
+        description: >-
+          Identifier consisting of a group of letters and/or numbers that is
+          added to a postal address to assist the sorting of mail.
+        type: string
+        minLength: 1
+        maxLength: 16
+      TownName:
+        description: >-
+          Name of a built-up area, with defined boundaries, and a local
+          government.
+        type: string
+        minLength: 1
+        maxLength: 35
+      CountrySubDivision:
+        description: 'Identifies a subdivision of a country such as state, region, county.'
+        type: string
+        minLength: 1
+        maxLength: 35
+      Country:
+        description: Nation with its own government.
+        type: string
+        pattern: '^[A-Z]{2,2}$'
+      AddressLine:
+        items:
+          type: string
+          minLength: 1
+          maxLength: 70
+        type: array
+        description: >-
+          Information that locates and identifies a specific address, as defined
+          by postal services, presented in free format text.
+        minItems: 0
+        maxItems: 7
+    additionalProperties: false
+  OBPriority2Code:
+    description: >-
+      Indicator of the urgency or order of importance that the instructing party
+      would like the instructed party to apply to the processing of the
+      instruction.
+    type: string
+    enum:
+      - Normal
+      - Urgent
+  OBRemittanceInformation1:
+    description: >-
+      Information supplied to enable the matching of an entry with the items
+      that the transfer is intended to settle, such as commercial invoices in an
+      accounts' receivable system.
+    type: object
+    properties:
+      Unstructured:
+        description: >-
+          Information supplied to enable the matching/reconciliation of an entry
+          with the items that the payment is intended to settle, such as
+          commercial invoices in an accounts' receivable system, in an
+          unstructured form.
+        type: string
+        minLength: 1
+        maxLength: 140
+      Reference:
+        description: >-
+          Unique reference, as assigned by the creditor, to unambiguously refer
+          to the payment transaction.
+
+          Usage: If available, the initiating party should provide this
+          reference in the structured remittance information, to enable
+          reconciliation by the creditor upon receipt of the amount of money.
+
+          If the business context requires the use of a creditor reference or a
+          payment remit identification, and only one identifier can be passed
+          through the end-to-end chain, the creditor's reference or payment
+          remittance identification should be quoted in the end-to-end
+          transaction identification.
+
+          OB: The Faster Payments Scheme can only accept 18 characters for the
+          ReferenceInformation field - which is where this ISO field will be
+          mapped.
+        type: string
+        minLength: 1
+        maxLength: 35
+    additionalProperties: false
+  OBRisk1:
+    description: >-
+      The Risk section is sent by the initiating party to the ASPSP. It is used
+      to specify additional details for risk scoring for Payments.
+    type: object
+    properties:
+      PaymentContextCode:
+        $ref: '#/definitions/OBExternalPaymentContext1Code'
+      MerchantCategoryCode:
+        description: >-
+          Category code conform to ISO 18245, related to the type of services or
+          goods the merchant provides for the transaction.
+        type: string
+        minLength: 3
+        maxLength: 4
+      MerchantCustomerIdentification:
+        description: The unique customer identifier of the PSU with the merchant.
+        type: string
+        minLength: 1
+        maxLength: 70
+      DeliveryAddress:
+        description: >-
+          Information that locates and identifies a specific address, as defined
+          by postal services or in free format text.
+        type: object
+        properties:
+          AddressLine:
+            items:
+              type: string
+              minLength: 1
+              maxLength: 70
+            type: array
+            description: >-
+              Information that locates and identifies a specific address, as
+              defined by postal services, that is presented in free format text.
+            minItems: 0
+            maxItems: 2
+          StreetName:
+            description: Name of a street or thoroughfare.
+            type: string
+            minLength: 1
+            maxLength: 70
+          BuildingNumber:
+            description: Number that identifies the position of a building on a street.
+            type: string
+            minLength: 1
+            maxLength: 16
+          PostCode:
+            description: >-
+              Identifier consisting of a group of letters and/or numbers that is
+              added to a postal address to assist the sorting of mail.
+            type: string
+            minLength: 1
+            maxLength: 16
+          TownName:
+            description: >-
+              Name of a built-up area, with defined boundaries, and a local
+              government.
+            type: string
+            minLength: 1
+            maxLength: 35
+          CountrySubDivision:
+            description: >-
+              Identifies a subdivision of a country, for instance state, region,
+              county.
+            type: string
+            minLength: 1
+            maxLength: 35
+          Country:
+            description: 'Nation with its own government, occupying a particular territory.'
+            type: string
+            pattern: '^[A-Z]{2,2}$'
+        required:
+          - TownName
+          - Country
+        additionalProperties: false
+    additionalProperties: false
+  OBTransactionIndividualStatus1Code:
+    description: Specifies the status of the payment information group.
+    type: string
+    enum:
+      - AcceptedSettlementCompleted
+      - AcceptedSettlementInProcess
+      - Pending
+      - Rejected
+  OBWriteDataDomestic1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBDomestic1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticConsent1:
+    type: object
+    properties:
+      Initiation:
+        $ref: '#/definitions/OBDomestic1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBDomestic1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticResponse1:
+    type: object
+    properties:
+      DomesticPaymentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the domestic payment resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the message was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBTransactionIndividualStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBDomestic1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - DomesticPaymentId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticScheduled1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBDomesticScheduled1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticScheduledConsent1:
+    type: object
+    properties:
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      Initiation:
+        $ref: '#/definitions/OBDomesticScheduled1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticScheduledConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the consent resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBDomesticScheduled1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticScheduledResponse1:
+    type: object
+    properties:
+      DomesticScheduledPaymentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the domestic schedule payment resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the message was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBDomesticScheduled1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - DomesticScheduledPaymentId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticStandingOrder1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBDomesticStandingOrder1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticStandingOrderConsent1:
+    type: object
+    properties:
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      Initiation:
+        $ref: '#/definitions/OBDomesticStandingOrder1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticStandingOrderConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBDomesticStandingOrder1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataDomesticStandingOrderResponse1:
+    type: object
+    properties:
+      DomesticStandingOrderId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the domestic standing order resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBDomesticStandingOrder1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - DomesticStandingOrderId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataFile1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBFile1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataFileConsent1:
+    type: object
+    properties:
+      Initiation:
+        $ref: '#/definitions/OBFile1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Initiation
+    additionalProperties: false
+  OBWriteDataFileConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus2Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the consent resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBFile1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataFileResponse1:
+    type: object
+    properties:
+      FilePaymentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the file payment resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the message was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBFile1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - FilePaymentId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternational1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBInternational1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalConsent1:
+    type: object
+    properties:
+      Initiation:
+        $ref: '#/definitions/OBInternational1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      ExchangeRateInformation:
+        $ref: '#/definitions/OBExchangeRate2'
+      Initiation:
+        $ref: '#/definitions/OBInternational1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalResponse1:
+    type: object
+    properties:
+      InternationalPaymentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the international payment resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the message was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBTransactionIndividualStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      ExchangeRateInformation:
+        $ref: '#/definitions/OBExchangeRate2'
+      Initiation:
+        $ref: '#/definitions/OBInternational1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - InternationalPaymentId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalScheduled1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBInternationalScheduled1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalScheduledConsent1:
+    type: object
+    properties:
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      Initiation:
+        $ref: '#/definitions/OBInternationalScheduled1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalScheduledConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      ExchangeRateInformation:
+        $ref: '#/definitions/OBExchangeRate2'
+      Initiation:
+        $ref: '#/definitions/OBInternationalScheduled1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalScheduledResponse1:
+    type: object
+    properties:
+      InternationalScheduledPaymentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the international scheduled payment resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the message was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedExecutionDateTime:
+        description: >-
+          Expected execution date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      ExpectedSettlementDateTime:
+        description: >-
+          Expected settlement date and time for the payment resource.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      ExchangeRateInformation:
+        $ref: '#/definitions/OBExchangeRate2'
+      Initiation:
+        $ref: '#/definitions/OBInternationalScheduled1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - InternationalScheduledPaymentId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalStandingOrder1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      Initiation:
+        $ref: '#/definitions/OBInternationalStandingOrder1'
+    required:
+      - ConsentId
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalStandingOrderConsent1:
+    type: object
+    properties:
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      Initiation:
+        $ref: '#/definitions/OBInternationalStandingOrder1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalStandingOrderConsentResponse1:
+    type: object
+    properties:
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalConsentStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Permission:
+        $ref: '#/definitions/OBExternalPermissions2Code'
+      CutOffDateTime:
+        description: >-
+          Specified cut-off date and time for the payment consent.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBInternationalStandingOrder1'
+      Authorisation:
+        $ref: '#/definitions/OBAuthorisation1'
+    required:
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Permission
+      - Initiation
+    additionalProperties: false
+  OBWriteDataInternationalStandingOrderResponse1:
+    type: object
+    properties:
+      InternationalStandingOrderId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the international standing order resource.
+        type: string
+        minLength: 1
+        maxLength: 40
+      ConsentId:
+        description: >-
+          OB: Unique identification as assigned by the ASPSP to uniquely
+          identify the consent resource.
+        type: string
+        minLength: 1
+        maxLength: 128
+      CreationDateTime:
+        description: >-
+          Date and time at which the resource was created.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Status:
+        $ref: '#/definitions/OBExternalStatus1Code'
+      StatusUpdateDateTime:
+        description: >-
+          Date and time at which the resource status was updated.
+
+          All dates in the JSON payloads are represented in ISO 8601 date-time
+          format. 
+
+          All date-time fields in responses must include the timezone. An
+          example is below:
+
+          2017-04-05T10:43:07+00:00
+        type: string
+        format: date-time
+      Charges:
+        items:
+          $ref: '#/definitions/OBCharge1'
+        type: array
+        description: >-
+          Set of elements used to provide details of a charge for the payment
+          initiation.
+      Initiation:
+        $ref: '#/definitions/OBInternationalStandingOrder1'
+      MultiAuthorisation:
+        $ref: '#/definitions/OBMultiAuthorisation1'
+    required:
+      - InternationalStandingOrderId
+      - ConsentId
+      - CreationDateTime
+      - Status
+      - StatusUpdateDateTime
+      - Initiation
+    additionalProperties: false
+  OBWriteDomestic1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomestic1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteDomesticConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticConsent1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteDomesticConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticConsentResponse1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Risk
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteDomesticResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteDomesticScheduled1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticScheduled1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteDomesticScheduledConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticScheduledConsent1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteDomesticScheduledConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticScheduledConsentResponse1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Risk
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteDomesticScheduledResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticScheduledResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteDomesticStandingOrder1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticStandingOrder1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteDomesticStandingOrderConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticStandingOrderConsent1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteDomesticStandingOrderConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticStandingOrderConsentResponse1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Risk
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteDomesticStandingOrderResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataDomesticStandingOrderResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteFile1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataFile1'
+    required:
+      - Data
+    additionalProperties: false
+  OBWriteFileConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataFileConsent1'
+    required:
+      - Data
+    additionalProperties: false
+  OBWriteFileConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataFileConsentResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteFileResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataFileResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteInternational1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternational1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteInternationalConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalConsent1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteInternationalConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalConsentResponse1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Risk
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteInternationalResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteInternationalScheduled1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalScheduled1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteInternationalScheduledConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalScheduledConsent1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteInternationalScheduledConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalScheduledConsentResponse1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Risk
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteInternationalScheduledResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalScheduledResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteInternationalStandingOrder1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalStandingOrder1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteInternationalStandingOrderConsent1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalStandingOrderConsent1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+    required:
+      - Data
+      - Risk
+    additionalProperties: false
+  OBWriteInternationalStandingOrderConsentResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalStandingOrderConsentResponse1'
+      Risk:
+        $ref: '#/definitions/OBRisk1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Risk
+      - Links
+      - Meta
+    additionalProperties: false
+  OBWriteInternationalStandingOrderResponse1:
+    type: object
+    properties:
+      Data:
+        $ref: '#/definitions/OBWriteDataInternationalStandingOrderResponse1'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+    required:
+      - Data
+      - Links
+      - Meta
+    additionalProperties: false
+  OBError1:
+    type: object
+    properties:
+      ErrorCode:
+        description: 'Low level textual error code, e.g., UK.OBIE.Field.Missing'
+        type: string
+        minLength: 1
+        maxLength: 128
+      Message:
+        description: >-
+          A description of the error that occurred. e.g., 'A mandatory field
+          isn't supplied' or 'RequestedExecutionDateTime must be in future'
+
+          OBIE doesn't standardise this field
+        type: string
+        minLength: 1
+        maxLength: 500
+      Path:
+        description: >-
+          Recommended but optional reference to the JSON Path of the field with
+          error, e.g., Data.Initiation.InstructedAmount.Currency
+        type: string
+        minLength: 1
+        maxLength: 500
+      Url:
+        description: >-
+          URL to help remediate the problem, or provide more information, or to
+          API Reference, or help etc
+        type: string
+    required:
+      - ErrorCode
+      - Message
+    additionalProperties: false
+    minProperties: 1
+  OBErrorResponse1:
+    description: >-
+      An array of detail error codes, and messages, and URLs to documentation to
+      help remediation.
+    type: object
+    properties:
+      Code:
+        description: 'High level textual error code, to help categorize the errors.'
+        type: string
+        minLength: 1
+        maxLength: 40
+      Id:
+        description: >-
+          A unique reference for the error instance, for audit purposes, in case
+          of unknown/unclassified errors.
+        type: string
+        minLength: 1
+        maxLength: 40
+      Message:
+        description: >-
+          Brief Error message, e.g., 'There is something wrong with the request
+          parameters provided'
+        type: string
+        minLength: 1
+        maxLength: 500
+      Errors:
+        items:
+          $ref: '#/definitions/OBError1'
+        type: array
+        minItems: 1
+    required:
+      - Code
+      - Message
+      - Errors
+    additionalProperties: false
+  File:
+    type: string
+    format: binary
+  ISODateTime:
+    description: >-
+      All dates in the JSON payloads are represented in ISO 8601 date-time
+      format. 
+
+      All date-time fields in responses must include the timezone. An example is
+      below:
+
+      2017-04-05T10:43:07+00:00
+    type: string
+    format: date-time
+  Links:
+    type: object
+    description: Links relevant to the payload
+    properties:
+      Self:
+        type: string
+        format: uri
+      First:
+        type: string
+        format: uri
+      Prev:
+        type: string
+        format: uri
+      Next:
+        type: string
+        format: uri
+      Last:
+        type: string
+        format: uri
+    additionalProperties: false
+    required:
+      - Self
+  Meta:
+    title: MetaData
+    type: object
+    description: Meta Data relevant to the payload
+    properties:
+      TotalPages:
+        type: integer
+        format: int32
+      FirstAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+      LastAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+    additionalProperties: false
