@@ -14,7 +14,7 @@
     },
     "version": "v3.1-draft2"
   },
-  "basePath": "/open-banking/v3.1/pisp",
+  "basePath": "/open-banking/v3.0/pisp",
   "schemes": [
     "https"
   ],
@@ -158,6 +158,71 @@
         "security": [
           {
             "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-payment-consents/{ConsentId}/funds-confirmation": {
+      "get": {
+        "tags": [
+          "Domestic Payments"
+        ],
+        "summary": "Get Domestic Payment Consents Funds Confirmation",
+        "operationId": "GetDomesticPaymentConsentsConsentIdFundsConfirmation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-last-logged-time-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent-Param"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200DomesticPaymentConsentsConsentIdFundsConfirmationRead"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "PSUOAuth2Security": [
               "payments"
             ]
           }
@@ -1535,6 +1600,74 @@
         "security": [
           {
             "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/international-payment-consents/{ConsentId}/funds-confirmation": {
+      "get": {
+        "tags": [
+          "International Payments"
+        ],
+        "summary": "Get International Payment Consents Funds Confirmation",
+        "operationId": "GetInternationalPaymentConsentsConsentIdFundsConfirmation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-last-logged-time-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent-Param"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200InternationalPaymentConsentsConsentIdFundsConfirmationRead"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/404ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "PSUOAuth2Security": [
               "payments"
             ]
           }
@@ -3007,6 +3140,38 @@
       },
       "schema": {
         "$ref": "#/definitions/OBWriteInternationalScheduledResponse2"
+      }
+    },
+    "200DomesticPaymentConsentsConsentIdFundsConfirmationRead": {
+      "description": "Domestic Payment Consents Funds Confirmation Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBWriteFundsConfirmationResponse1"
+      }
+    },
+    "200InternationalPaymentConsentsConsentIdFundsConfirmationRead": {
+      "description": "International Payment Consents Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBWriteFundsConfirmationResponse1"
       }
     },
     "400ErrorResponse": {
@@ -6059,6 +6224,64 @@
         "Name"
       ],
       "additionalProperties": false
+    },
+    "OBWriteFundsConfirmationResponse1": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/OBWriteDataFundsConfirmationResponse1"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      },
+      "required": [
+        "Data",
+        "Links",
+        "Meta"
+      ],
+      "additionalProperties": false
+    },
+    "OBWriteDataFundsConfirmationResponse1": {
+      "type": "object",
+      "properties": {
+        "ConsentId": {
+          "description": "Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "ConsentType": {
+          "$ref": "#/definitions/OBFundsConfirmationConsentType1Code"
+        },
+        "FundsAvailableDateTime": {
+          "description": "Date and time at which the funds availability check was generated.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+          "type": "string",
+          "format": "date-time"
+        },
+        "FundsAvailable": {
+          "description": "Flag to indicate the availability of funds given the Amount in the consent request.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "ConsentId",
+        "ConsentType",
+        "FundsAvailableDateTime",
+        "FundsAvailable"
+      ],
+      "additionalProperties": false
+    },
+    "OBFundsConfirmationConsentType1Code": {
+      "description": "Consent Type used, in conjunction with Consent Id, to identify the consent resource.",
+      "type": "string",
+      "enum": [
+        "DomesticPaymentConsent",
+        "InternationalPaymentConsent"
+      ]
     },
     "OBError1": {
       "type": "object",
