@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1-draft2"
+    "version": "v3.1-draft3"
   },
   "basePath": "/open-banking/v3.1/aisp",
   "schemes": [
@@ -2066,7 +2066,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadScheduledPayment1"
+        "$ref": "#/definitions/OBReadScheduledPayment2"
       }
     },
     "200ScheduledPaymentsRead": {
@@ -2078,7 +2078,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadScheduledPayment1"
+        "$ref": "#/definitions/OBReadScheduledPayment2"
       }
     },
     "201AccountAccessConsentsCreated": {
@@ -2123,7 +2123,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadAccount2"
+        "$ref": "#/definitions/OBReadAccount3"
       }
     },
     "200AccountsAccountIdRead": {
@@ -2135,7 +2135,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadAccount2"
+        "$ref": "#/definitions/OBReadAccount3"
       }
     },
     "200AccountsAccountIdTransactionsRead": {
@@ -2434,7 +2434,7 @@
       "minLength": 1,
       "maxLength": 40
     },
-    "OBAccount2": {
+    "OBAccount3": {
       "description": "Unambiguous identification of the account to which credit and debit entries are made.",
       "type": "object",
       "properties": {
@@ -2466,13 +2466,13 @@
         },
         "Account": {
           "items": {
-            "$ref": "#/definitions/OBCashAccount3"
+            "$ref": "#/definitions/OBCashAccount5"
           },
           "type": "array",
           "description": "Provides the details to identify an account."
         },
         "Servicer": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5"
         }
       },
       "required": [
@@ -2483,7 +2483,7 @@
       ],
       "additionalProperties": false
     },
-    "OBAccount2Basic": {
+    "OBAccount3Basic": {
       "description": "Unambiguous identification of the account to which credit and debit entries are made.",
       "type": "object",
       "properties": {
@@ -2522,7 +2522,7 @@
       ],
       "additionalProperties": false
     },
-    "OBAccount2Detail": {
+    "OBAccount3Detail": {
       "description": "Unambiguous identification of the account to which credit and debit entries are made.",
       "type": "object",
       "properties": {
@@ -2554,13 +2554,13 @@
         },
         "Account": {
           "items": {
-            "$ref": "#/definitions/OBCashAccount3"
+            "$ref": "#/definitions/OBCashAccount5"
           },
           "type": "array",
           "description": "Provides the details to identify an account."
         },
         "Servicer": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5"
         }
       },
       "required": [
@@ -4976,7 +4976,7 @@
       ]
     },
     "OBBranchAndFinancialInstitutionIdentification3": {
-      "description": "Financial institution servicing an account for the debtor.",
+      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
       "type": "object",
       "properties": {
         "SchemeName": {
@@ -4986,7 +4986,7 @@
           "maxLength": 40
         },
         "Identification": {
-          "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+          "description": "Unique and unambiguous identification of the servicing institution.",
           "type": "string",
           "minLength": 1,
           "maxLength": 35
@@ -5003,66 +5003,8 @@
       },
       "additionalProperties": false
     },
-    "OBBranchAndFinancialInstitutionIdentification4": {
-      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
-      "type": "object",
-      "properties": {
-        "SchemeName": {
-          "description": "Name of the identification scheme, in a coded form as published in an external list.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
-        },
-        "Identification": {
-          "description": "Unique and unambiguous identification of the servicing institution.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 35
-        }
-      },
-      "required": [
-        "SchemeName",
-        "Identification"
-      ],
-      "additionalProperties": false
-    },
     "OBCashAccount3": {
       "description": "Provides the details to identify the beneficiary account.",
-      "type": "object",
-      "properties": {
-        "SchemeName": {
-          "description": "Name of the identification scheme, in a coded form as published in an external list.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
-        },
-        "Identification": {
-          "description": "Beneficiary account identification.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 256
-        },
-        "Name": {
-          "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 70
-        },
-        "SecondaryIdentification": {
-          "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 34
-        }
-      },
-      "required": [
-        "SchemeName",
-        "Identification"
-      ],
-      "additionalProperties": false
-    },
-    "OBCashAccount4": {
-      "description": "Unambiguous identification of the account of the debtor, in the case of a crebit transaction.",
       "type": "object",
       "properties": {
         "SchemeName": {
@@ -5090,6 +5032,10 @@
           "maxLength": 34
         }
       },
+      "required": [
+        "SchemeName",
+        "Identification"
+      ],
       "additionalProperties": false
     },
     "OBCashBalance1": {
@@ -5408,12 +5354,14 @@
     "OBExternalStatementType1Code": {
       "description": "Statement type, in a coded form.",
       "type": "string",
-      "enum": [
-        "AccountClosure",
-        "AccountOpening",
-        "Annual",
-        "Interim",
-        "RegularPeriodic"
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.AccountClosure",
+        "UK.OBIE.AccountOpening",
+        "UK.OBIE.Annual",
+        "UK.OBIE.Interim",
+        "UK.OBIE.RegularPeriodic"
       ]
     },
     "OBMerchantDetails1": {
@@ -7890,7 +7838,7 @@
       ],
       "additionalProperties": false
     },
-    "OBReadAccount2": {
+    "OBReadAccount3": {
       "type": "object",
       "properties": {
         "Data": {
@@ -7898,7 +7846,7 @@
           "properties": {
             "Account": {
               "items": {
-                "$ref": "#/definitions/OBAccount2"
+                "$ref": "#/definitions/OBAccount3"
               },
               "type": "array",
               "description": "Unambiguous identification of the account to which credit and debit entries are made."
@@ -8221,7 +8169,7 @@
       ],
       "additionalProperties": false
     },
-    "OBReadScheduledPayment1": {
+    "OBReadScheduledPayment2": {
       "type": "object",
       "properties": {
         "Data": {
@@ -8229,7 +8177,7 @@
           "properties": {
             "ScheduledPayment": {
               "items": {
-                "$ref": "#/definitions/OBScheduledPayment1"
+                "$ref": "#/definitions/OBScheduledPayment2"
               },
               "type": "array"
             }
@@ -8339,7 +8287,7 @@
       ],
       "additionalProperties": false
     },
-    "OBScheduledPayment1": {
+    "OBScheduledPayment2": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -8369,10 +8317,10 @@
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5"
         },
         "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount3"
+          "$ref": "#/definitions/OBCashAccount5"
         }
       },
       "required": [
@@ -8383,7 +8331,7 @@
       ],
       "additionalProperties": false
     },
-    "OBScheduledPayment1Basic": {
+    "OBScheduledPayment2Basic": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -8421,7 +8369,7 @@
       ],
       "additionalProperties": false
     },
-    "OBScheduledPayment1Detail": {
+    "OBScheduledPayment2Detail": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -8451,10 +8399,10 @@
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5"
         },
         "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount3"
+          "$ref": "#/definitions/OBCashAccount5"
         }
       },
       "required": [
@@ -8522,10 +8470,10 @@
           "$ref": "#/definitions/OBSupplementaryData1"
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5"
         },
         "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount3"
+          "$ref": "#/definitions/OBCashAccount5"
         }
       },
       "required": [
@@ -8652,10 +8600,10 @@
           "$ref": "#/definitions/OBSupplementaryData1"
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification4"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5"
         },
         "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount3"
+          "$ref": "#/definitions/OBCashAccount5"
         }
       },
       "required": [
@@ -8986,10 +8934,7 @@
           "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount."
         },
         "Type": {
-          "description": "Amount type, in a coded form.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/OBExternalStatementAmountType1Code"
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -9007,10 +8952,7 @@
       "type": "object",
       "properties": {
         "Type": {
-          "description": "Benefit type, in a coded form.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/OBExternalStatementBenefitType1Code"
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -9032,10 +8974,7 @@
           "format": "date-time"
         },
         "Type": {
-          "description": "Date time type, in a coded form.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/OBExternalStatementDateTimeType1Code"
         }
       },
       "required": [
@@ -9057,10 +8996,7 @@
           "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount."
         },
         "Type": {
-          "description": "Fee type, in a coded form.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/OBExternalStatementFeeType1Code"
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -9086,10 +9022,7 @@
           "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount."
         },
         "Type": {
-          "description": "Interest amount type, in a coded form.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 40
+          "$ref": "#/definitions/OBExternalStatementInterestType1Code"
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -9107,11 +9040,7 @@
       "type": "object",
       "properties": {
         "Rate": {
-          "description": "Rate associated with the statement rate type.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 10,
-          "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
+          "$ref": "#/definitions/OBExternalStatementRateType1Code"
         },
         "Type": {
           "description": "Statement rate type, in a coded form.",
@@ -9131,9 +9060,7 @@
       "type": "object",
       "properties": {
         "Value": {
-          "description": "Value associated with the statement value type.",
-          "type": "integer",
-          "format": "int32"
+          "$ref": "#/definitions/OBExternalStatementValueType1Code"
         },
         "Type": {
           "description": "Statement value type, in a coded form.",
@@ -9238,10 +9165,10 @@
           "additionalProperties": false
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
         },
         "DebtorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
         },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
@@ -9259,10 +9186,10 @@
           "$ref": "#/definitions/OBMerchantDetails1"
         },
         "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
+          "$ref": "#/definitions/OBCashAccount6"
         },
         "DebtorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
+          "$ref": "#/definitions/OBCashAccount6"
         }
       },
       "required": [
@@ -9364,10 +9291,10 @@
           "additionalProperties": false
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
         },
         "DebtorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
         },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
@@ -9475,10 +9402,10 @@
           "additionalProperties": false
         },
         "CreditorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
         },
         "DebtorAgent": {
-          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification3"
+          "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
         },
         "CardInstrument": {
           "$ref": "#/definitions/OBTransactionCardInstrument1"
@@ -9496,10 +9423,10 @@
           "$ref": "#/definitions/OBMerchantDetails1"
         },
         "CreditorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
+          "$ref": "#/definitions/OBCashAccount6"
         },
         "DebtorAccount": {
-          "$ref": "#/definitions/OBCashAccount4"
+          "$ref": "#/definitions/OBCashAccount6"
         }
       },
       "required": [
@@ -9597,7 +9524,266 @@
     "OBSupplementaryData1": {
       "description": "Additional information that can not be captured in the structured fields and/or any other specific block.",
       "type": "object",
-      "properties": {}
+      "properties": {},
+      "additionalProperties": false
+    },
+    "OBBranchAndFinancialInstitutionIdentification5": {
+      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+      "type": "object",
+      "properties": {
+        "SchemeName": {
+          "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+        },
+        "Identification": {
+          "description": "Unique and unambiguous identification of the servicing institution.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        }
+      },
+      "required": [
+        "SchemeName",
+        "Identification"
+      ],
+      "additionalProperties": false
+    },
+    "OBExternalFinancialInstitutionIdentification4Code": {
+      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.BICFI"
+      ]
+    },
+    "OBCashAccount5": {
+      "description": "Provides the details to identify the beneficiary account.",
+      "type": "object",
+      "properties": {
+        "SchemeName": {
+          "$ref": "#/definitions/OBExternalAccountIdentification4Code"
+        },
+        "Identification": {
+          "description": "Beneficiary account identification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "Name": {
+          "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
+        },
+        "SecondaryIdentification": {
+          "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 34
+        }
+      },
+      "required": [
+        "SchemeName",
+        "Identification"
+      ],
+      "additionalProperties": false
+    },
+    "OBCashAccount6": {
+      "description": "Unambiguous identification of the account of the debtor, in the case of a crebit transaction.",
+      "type": "object",
+      "properties": {
+        "SchemeName": {
+          "$ref": "#/definitions/OBExternalAccountIdentification4Code"
+        },
+        "Identification": {
+          "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "Name": {
+          "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
+        },
+        "SecondaryIdentification": {
+          "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 34
+        }
+      },
+      "additionalProperties": false
+    },
+    "OBExternalAccountIdentification4Code": {
+      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.BBAN",
+        "UK.OBIE.IBAN",
+        "UK.OBIE.PAN",
+        "UK.OBIE.Paym",
+        "UK.OBIE.SortCodeAccountNumber"
+      ]
+    },
+    "OBExternalStatementBenefitType1Code": {
+      "description": "Benefit type, in a coded form.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.Cashback",
+        "UK.OBIE.Insurance",
+        "UK.OBIE.TravelDiscount",
+        "UK.OBIE.TravelInsurance"
+      ]
+    },
+    "OBExternalStatementFeeType1Code": {
+      "description": "Fee type, in a coded form.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.Annual",
+        "UK.OBIE.BalanceTransfer",
+        "UK.OBIE.CashAdvance",
+        "UK.OBIE.CashTransaction",
+        "UK.OBIE.ForeignCashTransaction",
+        "UK.OBIE.ForeignTransaction",
+        "UK.OBIE.Gambling",
+        "UK.OBIE.LatePayment",
+        "UK.OBIE.MoneyTransfer",
+        "UK.OBIE.Monthly",
+        "UK.OBIE.Overlimit",
+        "UK.OBIE.PostalOrder",
+        "UK.OBIE.PrizeEntry",
+        "UK.OBIE.StatementCopy",
+        "UK.OBIE.Total"
+      ]
+    },
+    "OBExternalStatementInterestType1Code": {
+      "description": "Interest amount type, in a coded form.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.BalanceTransfer",
+        "UK.OBIE.Cash",
+        "UK.OBIE.EstimatedNext",
+        "UK.OBIE.Purchase",
+        "UK.OBIE.Total"
+      ]
+    },
+    "OBExternalStatementDateTimeType1Code": {
+      "description": "Date time type, in a coded form.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.BalanceTransferPromoEnd",
+        "UK.OBIE.DirectDebitDue",
+        "UK.OBIE.LastPayment",
+        "UK.OBIE.LastStatement",
+        "UK.OBIE.NextStatement",
+        "UK.OBIE.PaymentDue",
+        "UK.OBIE.PurchasePromoEnd",
+        "UK.OBIE.StatementAvailable"
+      ]
+    },
+    "OBExternalStatementRateType1Code": {
+      "description": "Rate associated with the statement rate type.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.AnnualBalanceTransfer",
+        "UK.OBIE.AnnualBalanceTransferAfterPromo",
+        "UK.OBIE.AnnualBalanceTransferPromo",
+        "UK.OBIE.AnnualCash",
+        "UK.OBIE.AnnualPurchase",
+        "UK.OBIE.AnnualPurchaseAfterPromo",
+        "UK.OBIE.AnnualPurchasePromo",
+        "UK.OBIE.MonthlyBalanceTransfer",
+        "UK.OBIE.MonthlyCash",
+        "UK.OBIE.MonthlyPurchase"
+      ],
+      "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
+    },
+    "OBExternalStatementValueType1Code": {
+      "description": "Value associated with the statement value type.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.AirMilesPoints",
+        "UK.OBIE.AirMilesPointsBalance",
+        "UK.OBIE.Credits",
+        "UK.OBIE.Debits",
+        "UK.OBIE.HotelPoints",
+        "UK.OBIE.HotelPointsBalance",
+        "UK.OBIE.RetailShoppingPoints",
+        "UK.OBIE.RetailShoppingPointsBalance"
+      ]
+    },
+    "OBExternalStatementAmountType1Code": {
+      "description": "Amount type, in a coded form.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "example": [
+        "UK.OBIE.ArrearsClosingBalance",
+        "UK.OBIE.AvailableBalance",
+        "UK.OBIE.AverageBalanceWhenInCredit",
+        "UK.OBIE.AverageBalanceWhenInDebit",
+        "UK.OBIE.AverageDailyBalance",
+        "UK.OBIE.BalanceTransferClosingBalance",
+        "UK.OBIE.CashClosingBalance",
+        "UK.OBIE.ClosingBalance",
+        "UK.OBIE.CreditLimit",
+        "UK.OBIE.CurrentPayment",
+        "UK.OBIE.DirectDebitPaymentDue",
+        "UK.OBIE.FSCSInsurance",
+        "UK.OBIE.MinimumPaymentDue",
+        "UK.OBIE.PendingTransactionsBalance",
+        "UK.OBIE.PreviousClosingBalance",
+        "UK.OBIE.PreviousPayment",
+        "UK.OBIE.PurchaseClosingBalance",
+        "UK.OBIE.StartingBalance",
+        "UK.OBIE.TotalAdjustments",
+        "UK.OBIE.TotalCashAdvances",
+        "UK.OBIE.TotalCharges",
+        "UK.OBIE.TotalCredits",
+        "UK.OBIE.TotalDebits",
+        "UK.OBIE.TotalPurchases"
+      ]
+    },
+    "OBBranchAndFinancialInstitutionIdentification6": {
+      "description": "Financial institution servicing an account for the debtor.",
+      "type": "object",
+      "properties": {
+        "SchemeName": {
+          "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+        },
+        "Identification": {
+          "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "Name": {
+          "description": "Name by which an agent is known and which is usually used to identify that agent.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140
+        },
+        "PostalAddress": {
+          "$ref": "#/definitions/OBPostalAddress6"
+        }
+      },
+      "additionalProperties": false
     },
     "OBError1": {
       "type": "object",

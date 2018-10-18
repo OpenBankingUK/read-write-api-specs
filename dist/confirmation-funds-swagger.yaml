@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1-draft2
+  version: v3.1-draft3
 basePath: /open-banking/v3.1/cbpii
 schemes:
   - https
@@ -336,19 +336,14 @@ definitions:
       - Amount
       - Currency
     additionalProperties: false
-  OBCashAccountDebtor3:
+  OBCashAccountDebtor4:
     description: >-
       Unambiguous identification of the account of the debtor to which a
       confirmation of funds consent will be applied.
     type: object
     properties:
       SchemeName:
-        description: >-
-          Name of the identification scheme, in a coded form as published in an
-          external list.
-        type: string
-        minLength: 1
-        maxLength: 40
+        $ref: '#/definitions/OBExternalAccountIdentification4Code'
       Identification:
         description: >-
           Identification assigned by an institution to identify an account. This
@@ -381,6 +376,19 @@ definitions:
       - SchemeName
       - Identification
     additionalProperties: false
+  OBExternalAccountIdentification4Code:
+    description: >-
+      Name of the identification scheme, in a coded form as published in an
+      external list.
+    type: string
+    example:
+      - UK.OBIE.BBAN
+      - UK.OBIE.IBAN
+      - UK.OBIE.PAN
+      - UK.OBIE.Paym
+      - UK.OBIE.SortCodeAccountNumber
+    minLength: 1
+    maxLength: 40
   OBExternalRequestStatus1Code:
     description: Specifies the status of consent resource in code form.
     type: string
@@ -389,6 +397,8 @@ definitions:
       - AwaitingAuthorisation
       - Rejected
       - Revoked
+    minLength: 1
+    maxLength: 35
   OBFundsConfirmation1:
     type: object
     properties:
@@ -423,7 +433,7 @@ definitions:
         type: string
         format: date-time
       DebtorAccount:
-        $ref: '#/definitions/OBCashAccountDebtor3'
+        $ref: '#/definitions/OBCashAccountDebtor4'
     required:
       - DebtorAccount
     additionalProperties: false
@@ -482,7 +492,7 @@ definitions:
         type: string
         format: date-time
       DebtorAccount:
-        $ref: '#/definitions/OBCashAccountDebtor3'
+        $ref: '#/definitions/OBCashAccountDebtor4'
     required:
       - ConsentId
       - CreationDateTime
