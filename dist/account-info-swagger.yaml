@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1-draft3
+  version: v3.1-draft4
 basePath: /open-banking/v3.1/aisp
 schemes:
   - https
@@ -1347,7 +1347,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadBeneficiary2'
+      $ref: '#/definitions/OBReadBeneficiary3'
   200BeneficiariesRead:
     description: Beneficiaries Read
     headers:
@@ -1355,7 +1355,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadBeneficiary2'
+      $ref: '#/definitions/OBReadBeneficiary3'
   200AccountsAccountIdOffersRead:
     description: Offers Read
     headers:
@@ -3917,7 +3917,7 @@ definitions:
       - Code
       - SubCode
     additionalProperties: false
-  OBBeneficiary2:
+  OBBeneficiary3:
     type: object
     properties:
       AccountId:
@@ -3947,11 +3947,11 @@ definitions:
         minLength: 1
         maxLength: 35
       CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification3'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount3'
+        $ref: '#/definitions/OBCashAccount5'
     additionalProperties: false
-  OBBeneficiary2Basic:
+  OBBeneficiary3Basic:
     type: object
     properties:
       AccountId:
@@ -3981,7 +3981,7 @@ definitions:
         minLength: 1
         maxLength: 35
     additionalProperties: false
-  OBBeneficiary2Detail:
+  OBBeneficiary3Detail:
     type: object
     properties:
       AccountId:
@@ -4011,86 +4011,12 @@ definitions:
         minLength: 1
         maxLength: 35
       CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification3'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount3'
+        $ref: '#/definitions/OBCashAccount5'
     additionalProperties: false
     required:
       - CreditorAccount
-  OBBranchAndFinancialInstitutionIdentification3:
-    description: >-
-      Party that manages the account on behalf of the account owner, that is
-      manages the registration and booking of entries on the account, calculates
-      balances on the account and provides information about the account.
-
-      This is the servicer of the beneficiary account.
-    type: object
-    properties:
-      SchemeName:
-        description: >-
-          Name of the identification scheme, in a coded form as published in an
-          external list.
-        type: string
-        minLength: 1
-        maxLength: 40
-      Identification:
-        description: Unique and unambiguous identification of the servicing institution.
-        type: string
-        minLength: 1
-        maxLength: 35
-      Name:
-        description: >-
-          Name by which an agent is known and which is usually used to identify
-          that agent.
-        type: string
-        minLength: 1
-        maxLength: 140
-      PostalAddress:
-        $ref: '#/definitions/OBPostalAddress6'
-    additionalProperties: false
-  OBCashAccount3:
-    description: Provides the details to identify the beneficiary account.
-    type: object
-    properties:
-      SchemeName:
-        description: >-
-          Name of the identification scheme, in a coded form as published in an
-          external list.
-        type: string
-        minLength: 1
-        maxLength: 40
-      Identification:
-        description: >-
-          Identification assigned by an institution to identify an account. This
-          identification is known by the account owner.
-        type: string
-        minLength: 1
-        maxLength: 256
-      Name:
-        description: >-
-          Name of the account, as assigned by the account servicing institution.
-
-          Usage: The account name is the name or names of the account owner(s)
-          represented at an account level. The account name is not the product
-          name or the nickname of the account.
-        type: string
-        minLength: 1
-        maxLength: 70
-      SecondaryIdentification:
-        description: >-
-          This is secondary identification of the account, as assigned by the
-          account servicing institution. 
-
-          This can be used by building societies to additionally identify
-          accounts with a roll number (in addition to a sort code and account
-          number combination).
-        type: string
-        minLength: 1
-        maxLength: 34
-    required:
-      - SchemeName
-      - Identification
-    additionalProperties: false
   OBCashBalance1:
     description: Set of elements used to define the balance details.
     type: object
@@ -6916,7 +6842,7 @@ definitions:
       - Links
       - Meta
     additionalProperties: false
-  OBReadBeneficiary2:
+  OBReadBeneficiary3:
     type: object
     properties:
       Data:
@@ -6924,7 +6850,7 @@ definitions:
         properties:
           Beneficiary:
             items:
-              $ref: '#/definitions/OBBeneficiary2'
+              $ref: '#/definitions/OBBeneficiary3'
             type: array
         additionalProperties: false
       Links:
@@ -7567,7 +7493,7 @@ definitions:
       NextPaymentDateTime:
         description: >-
           The date on which the next payment for a Standing Order schedule will
-          be made.  This field is mandatory for Active Standing Orders.
+          be made.
 
           All dates in the JSON payloads are represented in ISO 8601 date-time
           format. 
@@ -7726,7 +7652,7 @@ definitions:
       NextPaymentDateTime:
         description: >-
           The date on which the next payment for a Standing Order schedule will
-          be made.  This field is mandatory for Active Standing Orders.
+          be made.
 
           All dates in the JSON payloads are represented in ISO 8601 date-time
           format. 
@@ -7881,7 +7807,7 @@ definitions:
       NextPaymentDateTime:
         description: >-
           The date on which the next payment for a Standing Order schedule will
-          be made.  This field is mandatory for Active Standing Orders.
+          be made.
 
           All dates in the JSON payloads are represented in ISO 8601 date-time
           format. 
@@ -8405,12 +8331,13 @@ definitions:
     type: object
     properties:
       Rate:
-        $ref: '#/definitions/OBExternalStatementRateType1Code'
-      Type:
-        description: 'Statement rate type, in a coded form.'
+        description: Rate associated with the statement rate type.
         type: string
         minLength: 1
-        maxLength: 40
+        maxLength: 10
+        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
+      Type:
+        $ref: '#/definitions/OBExternalStatementRateType1Code'
     required:
       - Rate
       - Type
@@ -8422,12 +8349,11 @@ definitions:
     type: object
     properties:
       Value:
-        $ref: '#/definitions/OBExternalStatementValueType1Code'
+        description: Value associated with the statement value type.
+        type: integer
+        format: int32
       Type:
-        description: 'Statement value type, in a coded form.'
-        type: string
-        minLength: 1
-        maxLength: 40
+        $ref: '#/definitions/OBExternalStatementValueType1Code'
     required:
       - Value
       - Type
@@ -8547,10 +8473,6 @@ definitions:
         required:
           - Code
         additionalProperties: false
-      CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
-      DebtorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CardInstrument:
         $ref: '#/definitions/OBTransactionCardInstrument1'
       SupplementaryData:
@@ -8561,8 +8483,12 @@ definitions:
         $ref: '#/definitions/OBTransactionCashBalance'
       MerchantDetails:
         $ref: '#/definitions/OBMerchantDetails1'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CreditorAccount:
         $ref: '#/definitions/OBCashAccount6'
+      DebtorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       DebtorAccount:
         $ref: '#/definitions/OBCashAccount6'
     required:
@@ -8687,10 +8613,6 @@ definitions:
         required:
           - Code
         additionalProperties: false
-      CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
-      DebtorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CardInstrument:
         $ref: '#/definitions/OBTransactionCardInstrument1'
       SupplementaryData:
@@ -8817,10 +8739,6 @@ definitions:
         required:
           - Code
         additionalProperties: false
-      CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
-      DebtorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CardInstrument:
         $ref: '#/definitions/OBTransactionCardInstrument1'
       SupplementaryData:
@@ -8831,8 +8749,12 @@ definitions:
         $ref: '#/definitions/OBTransactionCashBalance'
       MerchantDetails:
         $ref: '#/definitions/OBMerchantDetails1'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       CreditorAccount:
         $ref: '#/definitions/OBCashAccount6'
+      DebtorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6'
       DebtorAccount:
         $ref: '#/definitions/OBCashAccount6'
     required:
@@ -9098,7 +9020,7 @@ definitions:
     minLength: 1
     maxLength: 40
   OBExternalStatementRateType1Code:
-    description: Rate associated with the statement rate type.
+    description: 'Statement rate type, in a coded form.'
     type: string
     example:
       - UK.OBIE.AnnualBalanceTransfer
@@ -9113,9 +9035,8 @@ definitions:
       - UK.OBIE.MonthlyPurchase
     minLength: 1
     maxLength: 40
-    pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
   OBExternalStatementValueType1Code:
-    description: Value associated with the statement value type.
+    description: 'Statement value type, in a coded form.'
     type: string
     example:
       - UK.OBIE.AirMilesPoints
