@@ -12,24 +12,31 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1-draft3"
+    "version": "v4.0-draft1"
   },
   "paths": {
     "/callback-urls": {
       "post": {
-        "summary": "Create a callback URL",
         "tags": [
-          "Callback URLs"
+          "Callback Urls"
         ],
+        "summary": "Create Callback Url",
+        "operationId": "CreateCallbackUrls",
         "parameters": [
           {
-            "$ref": "#/components/parameters/x-fapi-financial-id-Param"
+            "$ref": "#/components/parameters/x-fapi-financial-id"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
           },
           {
-            "$ref": "#/components/parameters/AuthorizationParam"
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
           },
           {
             "$ref": "#/components/parameters/x-jws-signature-Param"
@@ -40,57 +47,56 @@
             "$ref": "#/components/responses/201CallbackUrlsCreated"
           },
           "400": {
-            "$ref": "#/components/responses/400ErrorResponse"
+            "$ref": "#/components/responses/400Error"
           },
           "401": {
-            "$ref": "#/components/responses/401ErrorResponse"
+            "$ref": "#/components/responses/401Error"
           },
           "403": {
-            "$ref": "#/components/responses/403ErrorResponse"
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
           },
           "405": {
-            "$ref": "#/components/responses/405ErrorResponse"
+            "$ref": "#/components/responses/405Error"
           },
           "406": {
-            "$ref": "#/components/responses/406ErrorResponse"
-          },
-          "415": {
-            "$ref": "#/components/responses/415ErrorResponse"
+            "$ref": "#/components/responses/406Error"
           },
           "429": {
-            "$ref": "#/components/responses/429ErrorResponse"
+            "$ref": "#/components/responses/429Error"
           },
           "500": {
-            "$ref": "#/components/responses/500ErrorResponse"
+            "$ref": "#/components/responses/500Error"
           }
         },
-        "security": [
-          {
-            "TPPOAuth2Security": [
-              "accounts",
-              "fundsconfirmation",
-              "payments"
-            ]
-          }
-        ],
+        "security": [],
         "requestBody": {
           "$ref": "#/components/requestBodies/OBCallbackUrl1Param"
         }
       },
       "get": {
-        "summary": "Read all callback URLs",
         "tags": [
-          "Callback URLs"
+          "Callback Urls"
         ],
+        "summary": "Get Callback Url",
+        "operationId": "GetCallbackUrls",
         "parameters": [
           {
-            "$ref": "#/components/parameters/x-fapi-financial-id-Param"
+            "$ref": "#/components/parameters/x-fapi-financial-id"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
           },
           {
-            "$ref": "#/components/parameters/AuthorizationParam"
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
           }
         ],
         "responses": {
@@ -98,180 +104,158 @@
             "$ref": "#/components/responses/200CallbackUrlsRead"
           },
           "400": {
-            "$ref": "#/components/responses/400ErrorResponse"
+            "$ref": "#/components/responses/400Error"
           },
           "401": {
-            "$ref": "#/components/responses/401ErrorResponse"
+            "$ref": "#/components/responses/401Error"
           },
           "403": {
-            "$ref": "#/components/responses/403ErrorResponse"
+            "$ref": "#/components/responses/403Error"
           },
           "404": {
-            "$ref": "#/components/responses/404ErrorResponse"
+            "$ref": "#/components/responses/404Error"
           },
           "405": {
-            "$ref": "#/components/responses/405ErrorResponse"
+            "$ref": "#/components/responses/405Error"
           },
           "406": {
-            "$ref": "#/components/responses/406ErrorResponse"
+            "$ref": "#/components/responses/406Error"
           },
           "429": {
-            "$ref": "#/components/responses/429ErrorResponse"
+            "$ref": "#/components/responses/429Error"
           },
           "500": {
-            "$ref": "#/components/responses/500ErrorResponse"
+            "$ref": "#/components/responses/500Error"
           }
         },
-        "security": [
-          {
-            "TPPOAuth2Security": [
-              "accounts",
-              "fundsconfirmation",
-              "payments"
-            ]
-          }
-        ]
+        "security": []
       }
     },
     "/callback-urls/{CallbackUrlId}": {
       "put": {
-        "summary": "Amend a callback URI",
         "tags": [
-          "Callback URLs"
+          "Callback Urls"
         ],
+        "summary": "Change Callback Url",
+        "operationId": "ChangeCallbackUrlsCallbackUrlId",
         "parameters": [
           {
             "$ref": "#/components/parameters/CallbackUrlId"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-financial-id-Param"
+            "$ref": "#/components/parameters/x-fapi-financial-id"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
           },
           {
-            "$ref": "#/components/parameters/AuthorizationParam"
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
           },
           {
             "$ref": "#/components/parameters/x-jws-signature-Param"
           }
         ],
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/200CallbackUrlsChanged"
+          "204": {
+            "$ref": "#/components/responses/204CallbackUrlsCallbackUrlIdChanged"
           },
           "400": {
-            "$ref": "#/components/responses/400ErrorResponse"
+            "$ref": "#/components/responses/400Error"
           },
           "401": {
-            "$ref": "#/components/responses/401ErrorResponse"
+            "$ref": "#/components/responses/401Error"
           },
           "403": {
-            "$ref": "#/components/responses/403ErrorResponse"
+            "$ref": "#/components/responses/403Error"
           },
           "404": {
-            "$ref": "#/components/responses/404ErrorResponse"
+            "$ref": "#/components/responses/404Error"
           },
           "405": {
-            "$ref": "#/components/responses/405ErrorResponse"
+            "$ref": "#/components/responses/405Error"
           },
           "406": {
-            "$ref": "#/components/responses/406ErrorResponse"
-          },
-          "415": {
-            "$ref": "#/components/responses/415ErrorResponse"
+            "$ref": "#/components/responses/406Error"
           },
           "429": {
-            "$ref": "#/components/responses/429ErrorResponse"
+            "$ref": "#/components/responses/429Error"
           },
           "500": {
-            "$ref": "#/components/responses/500ErrorResponse"
+            "$ref": "#/components/responses/500Error"
           }
         },
-        "security": [
-          {
-            "TPPOAuth2Security": [
-              "accounts",
-              "fundsconfirmation",
-              "payments"
-            ]
-          }
-        ],
+        "security": [],
         "requestBody": {
-          "$ref": "#/components/requestBodies/OBCallbackUrl1Param"
+          "$ref": "#/components/requestBodies/OBCallbackUrlResponse1Param"
         }
       },
       "delete": {
-        "summary": "Delete a callback URI",
         "tags": [
-          "Callback URLs"
+          "Callback Urls"
         ],
+        "summary": "Delete Callback Url",
+        "operationId": "DeleteCallbackUrlsCallbackUrlId",
         "parameters": [
           {
             "$ref": "#/components/parameters/CallbackUrlId"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-financial-id-Param"
+            "$ref": "#/components/parameters/x-fapi-financial-id"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
           },
           {
-            "$ref": "#/components/parameters/AuthorizationParam"
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
           }
         ],
         "responses": {
           "204": {
-            "$ref": "#/components/responses/204CallbackUrlsDeleted"
+            "$ref": "#/components/responses/204CallbackUrlsCallbackUrlIdDeleted"
           },
           "400": {
-            "$ref": "#/components/responses/400ErrorResponse"
+            "$ref": "#/components/responses/400Error"
           },
           "401": {
-            "$ref": "#/components/responses/401ErrorResponse"
+            "$ref": "#/components/responses/401Error"
           },
           "403": {
-            "$ref": "#/components/responses/403ErrorResponse"
+            "$ref": "#/components/responses/403Error"
           },
           "404": {
-            "$ref": "#/components/responses/404ErrorResponse"
+            "$ref": "#/components/responses/404Error"
           },
           "405": {
-            "$ref": "#/components/responses/405ErrorResponse"
+            "$ref": "#/components/responses/405Error"
           },
           "406": {
-            "$ref": "#/components/responses/406ErrorResponse"
+            "$ref": "#/components/responses/406Error"
           },
           "429": {
-            "$ref": "#/components/responses/429ErrorResponse"
+            "$ref": "#/components/responses/429Error"
           },
           "500": {
-            "$ref": "#/components/responses/500ErrorResponse"
+            "$ref": "#/components/responses/500Error"
           }
         },
-        "security": [
-          {
-            "TPPOAuth2Security": [
-              "accounts",
-              "fundsconfirmation",
-              "payments"
-            ]
-          }
-        ]
+        "security": []
       }
     }
   },
   "components": {
     "parameters": {
-      "CallbackUrlId": {
-        "name": "CallbackUrlId",
-        "in": "path",
-        "description": "CallbackUrlId",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
       "x-fapi-financial-id-Param": {
         "in": "header",
         "name": "x-fapi-financial-id",
@@ -307,11 +291,114 @@
         "schema": {
           "type": "string"
         }
+      },
+      "x-fapi-customer-ip-address-Param": {
+        "in": "header",
+        "name": "x-fapi-customer-ip-address",
+        "required": false,
+        "description": "The PSUs IP address if the PSU is currently logged in with the TPP.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-fapi-customer-last-logged-time-Param": {
+        "in": "header",
+        "name": "x-fapi-customer-last-logged-time",
+        "required": false,
+        "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+        "schema": {
+          "type": "string",
+          "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+        }
+      },
+      "CallbackUrlId": {
+        "name": "CallbackUrlId",
+        "in": "path",
+        "description": "CallbackUrlId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Authorization": {
+        "in": "header",
+        "name": "Authorization",
+        "required": true,
+        "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-customer-user-agent": {
+        "in": "header",
+        "name": "x-customer-user-agent",
+        "description": "Indicates the user-agent that the PSU is using.",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-fapi-customer-ip-address": {
+        "in": "header",
+        "name": "x-fapi-customer-ip-address",
+        "required": false,
+        "description": "The PSU's IP address if the PSU is currently logged in with the TPP.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-fapi-customer-last-logged-time": {
+        "in": "header",
+        "name": "x-fapi-customer-last-logged-time",
+        "required": false,
+        "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+        "schema": {
+          "type": "string",
+          "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+        }
+      },
+      "x-fapi-financial-id": {
+        "in": "header",
+        "name": "x-fapi-financial-id",
+        "required": true,
+        "description": "The unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-fapi-interaction-id": {
+        "in": "header",
+        "name": "x-fapi-interaction-id",
+        "required": false,
+        "description": "An RFC4122 UID used as a correlation id.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-idempotency-key": {
+        "name": "x-idempotency-key",
+        "in": "header",
+        "description": "Every request will be processed only once per x-idempotency-key.  The\nIdempotency Key will be valid for 24 hours.\n",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^(?!\\s)(.*)(\\S)$",
+          "maxLength": 40
+        }
+      },
+      "x-jws-signature": {
+        "in": "header",
+        "name": "x-jws-signature",
+        "required": true,
+        "description": "A detached JWS signature of the body of the payload.",
+        "schema": {
+          "type": "string"
+        }
       }
     },
     "requestBodies": {
       "OBCallbackUrl1Param": {
-        "description": "Create an Callback URI",
+        "description": "Default",
         "content": {
           "application/json": {
             "schema": {
@@ -320,14 +407,55 @@
           }
         },
         "required": true
+      },
+      "OBCallbackUrlResponse1Param": {
+        "description": "Default",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBCallbackUrlResponse1"
+            }
+          }
+        },
+        "required": true
       }
     },
     "responses": {
-      "200CallbackUrlsRead": {
-        "description": "An array of callback URLs",
+      "201CallbackUrlsCreated": {
+        "description": "Callback Url Created",
         "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
           "x-jws-signature": {
-            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "description": "Header containing a detached JWS signature of the body of the payload.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBCallbackUrlResponse1"
+            }
+          }
+        }
+      },
+      "200CallbackUrlsRead": {
+        "description": "Callback Url Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.\n",
             "schema": {
               "type": "string"
             }
@@ -341,46 +469,29 @@
           }
         }
       },
-      "201CallbackUrlsCreated": {
-        "description": "Callback URL created",
+      "204CallbackUrlsCallbackUrlIdChanged": {
+        "description": "Callback Url Changed",
         "headers": {
-          "x-jws-signature": {
-            "description": "Header containing a detached JWS signature of the body of the payload.",
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
             }
           }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBCallbackUrlResponse1"
-            }
-          }
         }
       },
-      "200CallbackUrlsChanged": {
-        "description": "Callback URL changed",
+      "204CallbackUrlsCallbackUrlIdDeleted": {
+        "description": "Callback Url Deleted",
         "headers": {
-          "x-jws-signature": {
-            "description": "Header containing a detached JWS signature of the body of the payload.",
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
             }
           }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBCallbackUrlResponse1"
-            }
-          }
         }
       },
-      "204CallbackUrlsDeleted": {
-        "description": "Callback URL changed"
-      },
-      "400ErrorResponse": {
+      "400Error": {
         "description": "Bad request",
         "content": {
           "application/json": {
@@ -390,25 +501,32 @@
           }
         }
       },
-      "401ErrorResponse": {
+      "401Error": {
         "description": "Unauthorized"
       },
-      "403ErrorResponse": {
-        "description": "Forbidden"
+      "403Error": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
       },
-      "404ErrorResponse": {
+      "404Error": {
         "description": "Not found"
       },
-      "405ErrorResponse": {
+      "405Error": {
         "description": "Method Not Allowed"
       },
-      "406ErrorResponse": {
+      "406Error": {
         "description": "Not Acceptable"
       },
-      "415ErrorResponse": {
+      "415Error": {
         "description": "Unsupported Media Type"
       },
-      "429ErrorResponse": {
+      "429Error": {
         "description": "Too Many Requests",
         "headers": {
           "Retry-After": {
@@ -419,7 +537,7 @@
           }
         }
       },
-      "500ErrorResponse": {
+      "500Error": {
         "description": "Internal Server Error",
         "content": {
           "application/json": {
@@ -431,43 +549,109 @@
       }
     },
     "schemas": {
-      "OBCallbackUrl1": {
+      "ISODateTime": {
+        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
+      },
+      "Links": {
         "type": "object",
+        "description": "Links relevant to the payload",
         "properties": {
-          "Data": {
-            "$ref": "#/components/schemas/OBCallbackUrlData1"
+          "Self": {
+            "type": "string",
+            "format": "uri"
+          },
+          "First": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Prev": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Last": {
+            "type": "string",
+            "format": "uri"
           }
         },
+        "additionalProperties": false,
+        "required": [
+          "Self"
+        ]
+      },
+      "Meta": {
+        "title": "MetaData",
+        "type": "object",
+        "description": "Meta Data relevant to the payload",
+        "properties": {
+          "TotalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "FirstAvailableDateTime": {
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "LastAvailableDateTime": {
+            "$ref": "#/components/schemas/ISODateTime"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OBCallbackUrl1": {
+        "type": "object",
         "required": [
           "Data"
         ],
-        "additionalProperties": false
-      },
-      "OBCallbackUrlData1": {
-        "type": "object",
         "properties": {
-          "Url": {
-            "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-            "type": "string"
-          },
-          "Version": {
-            "description": "Version for the event notification.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10
+          "Data": {
+            "type": "object",
+            "required": [
+              "Url",
+              "Version"
+            ],
+            "properties": {
+              "Url": {
+                "$ref": "#/components/schemas/Url"
+              },
+              "Version": {
+                "$ref": "#/components/schemas/Version"
+              }
+            }
           }
-        },
-        "required": [
-          "Url",
-          "Version"
-        ],
-        "additionalProperties": false
+        }
       },
       "OBCallbackUrlResponse1": {
         "type": "object",
+        "required": [
+          "Data"
+        ],
         "properties": {
           "Data": {
-            "$ref": "#/components/schemas/OBCallbackUrlResponseData1"
+            "type": "object",
+            "required": [
+              "CallbackUrlId",
+              "Url",
+              "Version"
+            ],
+            "properties": {
+              "CallbackUrlId": {
+                "type": "string",
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback URL resource.",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              "Url": {
+                "$ref": "#/components/schemas/Url"
+              },
+              "Version": {
+                "$ref": "#/components/schemas/Version"
+              }
+            }
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -475,46 +659,43 @@
           "Meta": {
             "$ref": "#/components/schemas/Meta"
           }
-        },
-        "required": [
-          "Data",
-          "Links",
-          "Meta"
-        ],
-        "additionalProperties": false
-      },
-      "OBCallbackUrlResponseData1": {
-        "type": "object",
-        "properties": {
-          "CallbackUrlId": {
-            "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 40
-          },
-          "Url": {
-            "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-            "type": "string"
-          },
-          "Version": {
-            "description": "Version for the event notification.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10
-          }
-        },
-        "required": [
-          "CallbackUrlId",
-          "Url",
-          "Version"
-        ],
-        "additionalProperties": false
+        }
       },
       "OBCallbackUrlsResponse1": {
         "type": "object",
+        "required": [
+          "Data"
+        ],
         "properties": {
           "Data": {
-            "$ref": "#/components/schemas/OBCallbackUrlsResponseData1"
+            "type": "object",
+            "properties": {
+              "CallbackUrl": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "CallbackUrlId",
+                    "Url",
+                    "Version"
+                  ],
+                  "properties": {
+                    "CallbackUrlId": {
+                      "type": "string",
+                      "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
+                      "minLength": 1,
+                      "maxLength": 40
+                    },
+                    "Url": {
+                      "$ref": "#/components/schemas/Url"
+                    },
+                    "Version": {
+                      "$ref": "#/components/schemas/Version"
+                    }
+                  }
+                }
+              }
+            }
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -522,25 +703,7 @@
           "Meta": {
             "$ref": "#/components/schemas/Meta"
           }
-        },
-        "required": [
-          "Data",
-          "Links",
-          "Meta"
-        ],
-        "additionalProperties": false
-      },
-      "OBCallbackUrlsResponseData1": {
-        "type": "object",
-        "properties": {
-          "CallbackUrl": {
-            "items": {
-              "$ref": "#/components/schemas/OBCallbackUrlResponseData1"
-            },
-            "type": "array"
-          }
-        },
-        "additionalProperties": false
+        }
       },
       "OBError1": {
         "type": "object",
@@ -612,58 +775,16 @@
         ],
         "additionalProperties": false
       },
-      "ISODateTime": {
-        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+      "Url": {
         "type": "string",
-        "format": "date-time"
+        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
+        "format": "uri"
       },
-      "Links": {
-        "type": "object",
-        "description": "Links relevant to the payload",
-        "properties": {
-          "Self": {
-            "type": "string",
-            "format": "uri"
-          },
-          "First": {
-            "type": "string",
-            "format": "uri"
-          },
-          "Prev": {
-            "type": "string",
-            "format": "uri"
-          },
-          "Next": {
-            "type": "string",
-            "format": "uri"
-          },
-          "Last": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "Self"
-        ]
-      },
-      "Meta": {
-        "title": "MetaData",
-        "type": "object",
-        "description": "Meta Data relevant to the payload",
-        "properties": {
-          "TotalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "FirstAvailableDateTime": {
-            "$ref": "#/components/schemas/ISODateTime"
-          },
-          "LastAvailableDateTime": {
-            "$ref": "#/components/schemas/ISODateTime"
-          }
-        },
-        "additionalProperties": false
+      "Version": {
+        "type": "string",
+        "description": "Version for the event notification.",
+        "minLength": 1,
+        "maxLength": 10
       }
     },
     "securitySchemes": {
