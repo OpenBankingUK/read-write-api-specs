@@ -51,7 +51,11 @@ paths:
           $ref: '#/responses/429Error'
         '500':
           $ref: '#/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
     get:
       tags:
         - Callback Urls
@@ -82,7 +86,11 @@ paths:
           $ref: '#/responses/429Error'
         '500':
           $ref: '#/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
   '/callback-urls/{CallbackUrlId}':
     put:
       tags:
@@ -99,8 +107,8 @@ paths:
         - $ref: '#/parameters/Authorization'
         - $ref: '#/parameters/x-jws-signature-Param'
       responses:
-        '204':
-          $ref: '#/responses/204CallbackUrlsCallbackUrlIdChanged'
+        '200':
+          $ref: '#/responses/200CallbackUrlsCallbackUrlIdChanged'
         '400':
           $ref: '#/responses/400Error'
         '401':
@@ -117,7 +125,11 @@ paths:
           $ref: '#/responses/429Error'
         '500':
           $ref: '#/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
     delete:
       tags:
         - Callback Urls
@@ -149,7 +161,11 @@ paths:
           $ref: '#/responses/429Error'
         '500':
           $ref: '#/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
 parameters:
   x-fapi-financial-id-Param:
     in: header
@@ -308,12 +324,18 @@ responses:
           Header containing a detached JWS signature of the body of the payload.
     schema:
       $ref: '#/definitions/OBCallbackUrlsResponse1'
-  204CallbackUrlsCallbackUrlIdChanged:
+  200CallbackUrlsCallbackUrlIdChanged:
     description: Callback Url Changed
     headers:
       x-fapi-interaction-id:
         type: string
         description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBCallbackUrlResponse1'
   204CallbackUrlsCallbackUrlIdDeleted:
     description: Callback Url Deleted
     headers:
@@ -355,7 +377,7 @@ securityDefinitions:
     tokenUrl: 'https://authserver.example/token'
     scopes:
       accounts: Ability to read Accounts information
-      fundsconfirmation: Ability to confirm funds
+      fundsconfirmations: Ability to confirm funds
       payments: Generic payment scope
     description: TPP client credential authorisation flow with the ASPSP
 definitions:

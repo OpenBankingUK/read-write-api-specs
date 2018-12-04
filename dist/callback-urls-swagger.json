@@ -84,7 +84,15 @@
             "$ref": "#/responses/500Error"
           }
         },
-        "security": []
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -138,7 +146,15 @@
             "$ref": "#/responses/500Error"
           }
         },
-        "security": []
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ]
       }
     },
     "/callback-urls/{CallbackUrlId}": {
@@ -175,8 +191,8 @@
           }
         ],
         "responses": {
-          "204": {
-            "$ref": "#/responses/204CallbackUrlsCallbackUrlIdChanged"
+          "200": {
+            "$ref": "#/responses/200CallbackUrlsCallbackUrlIdChanged"
           },
           "400": {
             "$ref": "#/responses/400Error"
@@ -203,7 +219,15 @@
             "$ref": "#/responses/500Error"
           }
         },
-        "security": []
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -260,7 +284,15 @@
             "$ref": "#/responses/500Error"
           }
         },
-        "security": []
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ]
       }
     }
   },
@@ -426,13 +458,20 @@
         "$ref": "#/definitions/OBCallbackUrlsResponse1"
       }
     },
-    "204CallbackUrlsCallbackUrlIdChanged": {
+    "200CallbackUrlsCallbackUrlIdChanged": {
       "description": "Callback Url Changed",
       "headers": {
         "x-fapi-interaction-id": {
           "type": "string",
           "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
         }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBCallbackUrlResponse1"
       }
     },
     "204CallbackUrlsCallbackUrlIdDeleted": {
@@ -494,7 +533,7 @@
       "tokenUrl": "https://authserver.example/token",
       "scopes": {
         "accounts": "Ability to read Accounts information",
-        "fundsconfirmation": "Ability to confirm funds",
+        "fundsconfirmations": "Ability to confirm funds",
         "payments": "Generic payment scope"
       },
       "description": "TPP client credential authorisation flow with the ASPSP"

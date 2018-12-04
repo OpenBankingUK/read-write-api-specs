@@ -43,7 +43,11 @@ paths:
           $ref: '#/components/responses/429Error'
         '500':
           $ref: '#/components/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
       requestBody:
         $ref: '#/components/requestBodies/OBCallbackUrl1Param'
     get:
@@ -76,7 +80,11 @@ paths:
           $ref: '#/components/responses/429Error'
         '500':
           $ref: '#/components/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
   '/callback-urls/{CallbackUrlId}':
     put:
       tags:
@@ -92,8 +100,8 @@ paths:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-jws-signature-Param'
       responses:
-        '204':
-          $ref: '#/components/responses/204CallbackUrlsCallbackUrlIdChanged'
+        '200':
+          $ref: '#/components/responses/200CallbackUrlsCallbackUrlIdChanged'
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -110,7 +118,11 @@ paths:
           $ref: '#/components/responses/429Error'
         '500':
           $ref: '#/components/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
       requestBody:
         $ref: '#/components/requestBodies/OBCallbackUrlResponse1Param'
     delete:
@@ -144,7 +156,11 @@ paths:
           $ref: '#/components/responses/429Error'
         '500':
           $ref: '#/components/responses/500Error'
-      security: []
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
 components:
   parameters:
     x-fapi-financial-id-Param:
@@ -330,13 +346,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBCallbackUrlsResponse1'
-    204CallbackUrlsCallbackUrlIdChanged:
+    200CallbackUrlsCallbackUrlIdChanged:
       description: Callback Url Changed
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlResponse1'
     204CallbackUrlsCallbackUrlIdDeleted:
       description: Callback Url Deleted
       headers:
@@ -590,5 +616,5 @@ components:
           tokenUrl: 'https://authserver.example/token'
           scopes:
             accounts: Ability to read Accounts information
-            fundsconfirmation: Ability to confirm funds
+            fundsconfirmations: Ability to confirm funds
             payments: Generic payment scope
