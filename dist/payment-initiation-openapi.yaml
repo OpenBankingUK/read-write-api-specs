@@ -1323,9 +1323,7 @@ components:
       in: header
       name: x-jws-signature
       required: false
-      description: >-
-        DO NOT USE. Header containing a detached JWS signature of the body of
-        the payload.
+      description: Header containing a detached JWS signature of the body of the payload.
       schema:
         type: string
     ConsentId:
@@ -2153,26 +2151,73 @@ components:
             $ref: '#/components/schemas/OBWriteDomesticResponse2'
     400Error:
       description: Bad request
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
     401Error:
       description: Unauthorized
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     403Error:
       description: Forbidden
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
     404Error:
       description: Not found
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     405Error:
       description: Method Not Allowed
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     406Error:
       description: Not Acceptable
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     415Error:
       description: Unsupported Media Type
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     429Error:
       description: Too Many Requests
       headers:
@@ -2180,8 +2225,23 @@ components:
           description: Number in seconds to wait
           schema:
             type: integer
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     500Error:
       description: Internal Server Error
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
       content:
         application/json:
           schema:
@@ -4552,7 +4612,7 @@ components:
           authorizationUrl: 'https://authserver.example/authorization'
           tokenUrl: 'https://authserver.example/token'
           scopes:
-            accounts: Ability to read Accounts information
+            payments: Generic payment scope
     TPPOAuth2Security:
       type: oauth2
       description: TPP client credential authorisation flow with the ASPSP
@@ -4560,4 +4620,4 @@ components:
         clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
-            accounts: Ability to read Accounts information
+            payments: Generic payment scope

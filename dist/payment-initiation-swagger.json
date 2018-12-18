@@ -2375,7 +2375,7 @@
       "name": "x-jws-signature",
       "type": "string",
       "required": false,
-      "description": "DO NOT USE. Header containing a detached JWS signature of the body of the payload."
+      "description": "Header containing a detached JWS signature of the body of the payload."
     },
     "OBWriteInternationalStandingOrderConsent2Param": {
       "name": "OBWriteInternationalStandingOrderConsent2Param",
@@ -3195,30 +3195,80 @@
     },
     "400Error": {
       "description": "Bad request",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
+        }
+      },
       "schema": {
         "$ref": "#/definitions/OBErrorResponse1"
       }
     },
     "401Error": {
-      "description": "Unauthorized"
+      "description": "Unauthorized",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
     },
     "403Error": {
       "description": "Forbidden",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
+        }
+      },
       "schema": {
         "$ref": "#/definitions/OBErrorResponse1"
       }
     },
     "404Error": {
-      "description": "Not found"
+      "description": "Not found",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
     },
     "405Error": {
-      "description": "Method Not Allowed"
+      "description": "Method Not Allowed",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
     },
     "406Error": {
-      "description": "Not Acceptable"
+      "description": "Not Acceptable",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
     },
     "415Error": {
-      "description": "Unsupported Media Type"
+      "description": "Unsupported Media Type",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
     },
     "429Error": {
       "description": "Too Many Requests",
@@ -3226,11 +3276,25 @@
         "Retry-After": {
           "description": "Number in seconds to wait",
           "type": "integer"
+        },
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
         }
       }
     },
     "500Error": {
       "description": "Internal Server Error",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
+        }
+      },
       "schema": {
         "$ref": "#/definitions/OBErrorResponse1"
       }
@@ -3243,7 +3307,7 @@
       "tokenUrl": "https://authserver.example/token",
       "authorizationUrl": "https://authserver.example/authorization",
       "scopes": {
-        "accounts": "Ability to read Accounts information"
+        "payments": "Generic payment scope"
       },
       "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU"
     },
@@ -3252,7 +3316,7 @@
       "flow": "application",
       "tokenUrl": "https://authserver.example/token",
       "scopes": {
-        "accounts": "Ability to read Accounts information"
+        "payments": "Generic payment scope"
       },
       "description": "TPP client credential authorisation flow with the ASPSP"
     }
