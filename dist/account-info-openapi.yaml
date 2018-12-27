@@ -395,41 +395,6 @@ paths:
       security:
         - PSUOAuth2Security:
             - accounts
-  '/accounts/{AccountId}/scheduled-payments':
-    get:
-      tags:
-        - Scheduled Payments
-      summary: Get Scheduled Payments
-      operationId: GetAccountsAccountIdScheduledPayments
-      parameters:
-        - $ref: '#/components/parameters/AccountId'
-        - $ref: '#/components/parameters/x-fapi-financial-id'
-        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
-        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
-        - $ref: '#/components/parameters/x-fapi-interaction-id'
-        - $ref: '#/components/parameters/Authorization'
-      responses:
-        '200':
-          $ref: '#/components/responses/200AccountsAccountIdScheduledPaymentsRead'
-        '400':
-          $ref: '#/components/responses/400Error'
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '405':
-          $ref: '#/components/responses/405Error'
-        '406':
-          $ref: '#/components/responses/406Error'
-        '429':
-          $ref: '#/components/responses/429Error'
-        '500':
-          $ref: '#/components/responses/500Error'
-      security:
-        - PSUOAuth2Security:
-            - accounts
   '/accounts/{AccountId}/standing-orders':
     get:
       tags:
@@ -853,40 +818,6 @@ paths:
       security:
         - PSUOAuth2Security:
             - accounts
-  /scheduled-payments:
-    get:
-      tags:
-        - Scheduled Payments
-      summary: Get Scheduled Payments
-      operationId: GetScheduledPayments
-      parameters:
-        - $ref: '#/components/parameters/x-fapi-financial-id'
-        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
-        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
-        - $ref: '#/components/parameters/x-fapi-interaction-id'
-        - $ref: '#/components/parameters/Authorization'
-      responses:
-        '200':
-          $ref: '#/components/responses/200ScheduledPaymentsRead'
-        '400':
-          $ref: '#/components/responses/400Error'
-        '401':
-          $ref: '#/components/responses/401Error'
-        '403':
-          $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
-        '405':
-          $ref: '#/components/responses/405Error'
-        '406':
-          $ref: '#/components/responses/406Error'
-        '429':
-          $ref: '#/components/responses/429Error'
-        '500':
-          $ref: '#/components/responses/500Error'
-      security:
-        - PSUOAuth2Security:
-            - accounts
   /standing-orders:
     get:
       tags:
@@ -1226,28 +1157,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadDirectDebit1'
-    200AccountsAccountIdScheduledPaymentsRead:
-      description: Scheduled Payments Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadScheduledPayment2'
-    200ScheduledPaymentsRead:
-      description: Scheduled Payments Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadScheduledPayment2'
     200AccountsAccountIdBeneficiariesRead:
       description: Beneficiaries Read
       headers:
