@@ -1,0 +1,143 @@
+openapi: 3.0.1
+info:
+  title: Aggregated Polling API Specification
+  description: >-
+    OpenAPI representing the Open Banking Aggregated Polling API for Security
+    Event Tokens
+  termsOfService: 'https://www.openbanking.org.uk/terms'
+  contact:
+    name: Service Desk
+    email: ServiceDesk@openbanking.org.uk
+  license:
+    name: open-licence
+    url: 'https://www.openbanking.org.uk/open-licence'
+  version: v4.0-draft3
+paths:
+  /:
+    post:
+      summary: Poll for Security Event Tokens
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/x-fapi-financial-id'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+      responses:
+        '200':
+          $ref: '#/components/responses/PollResponse'
+      security:
+        - TPPOAuth2Security:
+            - eventpolling
+      requestBody:
+        $ref: '#/components/requestBodies/PollRequest'
+components:
+  parameters:
+    x-fapi-financial-id:
+      in: header
+      name: x-fapi-financial-id
+      required: true
+      description: >-
+        The unique id of the ASPSP to which the request is issued. The unique id
+        will be issued by OB.
+      schema:
+        type: string
+    x-fapi-interaction-id:
+      in: header
+      name: x-fapi-interaction-id
+      required: false
+      description: An RFC4122 UID used as a correlation id.
+      schema:
+        type: string
+  requestBodies:
+    PollRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBSetPollRequest1'
+      required: true
+  responses:
+    PollResponse:
+      description: Polling completed successfully
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBSetPollResponse1'
+  schemas:
+    OBSetError1:
+      type: object
+      required:
+        - err
+        - description
+      properties:
+        err:
+          type: string
+          minLength: 1
+          maxLength: 40
+        description:
+          type: string
+          minLength: 1
+          maxLength: 256
+    OBSetPollRequest1:
+      type: object
+      properties:
+        maxEvents:
+          type: integer
+          description: The maximum number of unacknowledged SETs that should be returned
+        returnImmediately:
+          type: boolean
+          description: >-
+            The SET Transmitter should return an immediate response even if no
+            results are available (short polling)
+          default: false
+        ack:
+          type: array
+          description: >-
+            An array of Strings that each correspond to the "jti" of a
+            successfully received SET
+          items:
+            type: string
+            format: JWT
+        setErrs:
+          type: object
+          description: >-
+            A JSON Object that contains one or more nested JSON attributes that
+            correspond to the "jti" of each invalid SET received.  The value of
+            each is a JSON object whose contents is an "err" attribute and
+            "description" attribute whose value correspond to the errors
+          additionalProperties:
+            $ref: '#/components/schemas/OBSetError1'
+      example:
+        returnImmediately: true
+        maxEvents: 1
+        ack:
+          - 2644f8cbc8294325ad103ddfc4a5b15d
+        setErrs:
+          1fd954d5fb964afb97deee232bb88d1f:
+            err: jwtIss
+            description: Issuer is invalid or could not be verified
+    OBSetPollResponse1:
+      type: object
+      required:
+        - sets
+        - moreAvailable
+      properties:
+        sets:
+          type: object
+          additionalProperties:
+            type: string
+            format: JWT
+        moreAvailable:
+          type: boolean
+          description: Indicates if more unacknowledged SETs are available to be returned
+      example:
+        sets:
+          25fd4432da4e4e609033a733aea68a54: eyJhbG...8o8PLY
+        moreAvailable: true
+  securitySchemes:
+    TPPOAuth2Security:
+      type: oauth2
+      description: TPP client credential authorisation flow with the ASPSP
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://authserver.example/token'
+          scopes:
+            eventpolling: 'Ability to poll for, acknowledge and receive Security Event Tokens'
