@@ -156,66 +156,6 @@ paths:
         - PSUOAuth2Security:
             - fundsconfirmations
 parameters:
-  x-idempotency-key:
-    name: x-idempotency-key
-    in: header
-    description: |
-      Every request will be processed only once per x-idempotency-key.  The
-      Idempotency Key will be valid for 24 hours.
-    required: true
-    type: string
-    pattern: ^(?!\s)(.*)(\S)$
-    maxLength: 40
-  x-fapi-financial-id-Param:
-    in: header
-    name: x-fapi-financial-id
-    type: string
-    required: true
-    description: >-
-      The unique id of the ASPSP to which the request is issued. The unique id
-      will be issued by OB.
-  x-fapi-customer-ip-address-Param:
-    in: header
-    name: x-fapi-customer-ip-address
-    type: string
-    required: false
-    description: The PSU's IP address if the PSU is currently logged in with the TPP.
-  x-fapi-interaction-id-Param:
-    in: header
-    name: x-fapi-interaction-id
-    type: string
-    required: false
-    description: An RFC4122 UID used as a correlation id.
-  x-fapi-customer-last-logged-time-Param:
-    in: header
-    name: x-fapi-customer-last-logged-time
-    type: string
-    required: false
-    description: >-
-      The time when the PSU last logged in with the TPP. 
-
-      All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
-      example is below: 
-
-      Sun, 10 Sep 2017 19:43:31 UTC
-    pattern: >-
-      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2}
-      (GMT|UTC)$
-  AuthorizationParam:
-    in: header
-    name: Authorization
-    type: string
-    required: true
-    description: 'An Authorisation Token as per https://tools.ietf.org/html/rfc6750'
-  x-jws-signature-Param:
-    in: header
-    name: x-jws-signature
-    type: string
-    required: false
-    description: >-
-      DO NOT USE. Header containing a detached JWS signature of the body of the
-      payload.
   OBFundsConfirmation1Param:
     name: OBFundsConfirmation1Param
     in: body
@@ -284,6 +224,16 @@ parameters:
     type: string
     required: false
     description: An RFC4122 UID used as a correlation id.
+  x-idempotency-key:
+    name: x-idempotency-key
+    in: header
+    description: |
+      Every request will be processed only once per x-idempotency-key.  The
+      Idempotency Key will be valid for 24 hours.
+    required: true
+    type: string
+    pattern: ^(?!\s)(.*)(\S)$
+    maxLength: 40
   x-jws-signature:
     in: header
     name: x-jws-signature
@@ -291,30 +241,6 @@ parameters:
     required: true
     description: A detached JWS signature of the body of the payload.
 responses:
-  400ErrorResponse:
-    description: Bad request
-    schema:
-      $ref: '#/definitions/OBErrorResponse'
-  401ErrorResponse:
-    description: Unauthorized
-  403ErrorResponse:
-    description: Forbidden
-  404ErrorResponse:
-    description: Not found
-  405ErrorResponse:
-    description: Method Not Allowed
-  406ErrorResponse:
-    description: Not Acceptable
-  429ErrorResponse:
-    description: Too Many Requests
-    headers:
-      Retry-After:
-        description: Number in seconds to wait
-        type: integer
-  500ErrorResponse:
-    description: Internal Server Error
-    schema:
-      $ref: '#/definitions/OBErrorResponse'
   201FundsConfirmationsCreated:
     description: Funds Confirmation Created
     headers:
@@ -453,7 +379,6 @@ definitions:
       2017-04-05T10:43:07+00:00
     type: string
     format: date-time
-  Error: {}
   ISODateTime:
     description: >-
       All dates in the JSON payloads are represented in ISO 8601 date-time
@@ -613,7 +538,6 @@ definitions:
       - Message
     additionalProperties: false
     minProperties: 1
-  OBErrorResponse: {}
   OBErrorResponse1:
     description: >-
       An array of detail error codes, and messages, and URLs to documentation to
@@ -802,7 +726,6 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-  OBRisk2: {}
   Reference:
     type: string
     description: >-
