@@ -15,13 +15,206 @@
     "version": "v4.0-draft3"
   },
   "paths": {
-    "/beneficiary-request-consents": {
+    "/beneficiaries": {
       "post": {
         "tags": [
-          "Beneficiary Requests"
+          "Beneficiaries"
         ],
-        "summary": "Create Beneficiary Request Consents",
-        "operationId": "CreateBeneficiaryRequestConsents",
+        "summary": "Create Beneficiaries",
+        "operationId": "CreateBeneficiaries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/201BeneficiariesCreated"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "PSUOAuth2Security": [
+              "payments"
+            ]
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/OBWriteBeneficiaryRequest1Param"
+        }
+      },
+      "get": {
+        "tags": [
+          "Beneficiaries"
+        ],
+        "summary": "Get Beneficiaries",
+        "operationId": "GetBeneficiaries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200BeneficiariesRead"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/beneficiaries/{BeneficiaryId}": {
+      "get": {
+        "tags": [
+          "Beneficiaries"
+        ],
+        "summary": "Get Beneficiaries",
+        "operationId": "GetBeneficiariesBeneficiaryId",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BeneficiaryId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200BeneficiariesBeneficiaryIdRead"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/beneficiary-consents": {
+      "post": {
+        "tags": [
+          "Beneficiarys"
+        ],
+        "summary": "Create Beneficiary Consents",
+        "operationId": "CreateBeneficiaryConsents",
         "parameters": [
           {
             "$ref": "#/components/parameters/x-fapi-financial-id"
@@ -47,7 +240,7 @@
         ],
         "responses": {
           "201": {
-            "$ref": "#/components/responses/201BeneficiaryRequestConsentsCreated"
+            "$ref": "#/components/responses/201BeneficiaryConsentsCreated"
           },
           "400": {
             "$ref": "#/components/responses/400Error"
@@ -86,13 +279,13 @@
         }
       }
     },
-    "/beneficiary-request-consents/{ConsentId}": {
+    "/beneficiary-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "Beneficiary Requests"
+          "Beneficiarys"
         ],
-        "summary": "Get Beneficiary Request Consents",
-        "operationId": "GetBeneficiaryRequestConsentsConsentId",
+        "summary": "Get Beneficiary Consents",
+        "operationId": "GetBeneficiaryConsentsConsentId",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -115,140 +308,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/200BeneficiaryRequestConsentsConsentIdRead"
-          },
-          "400": {
-            "$ref": "#/components/responses/400Error"
-          },
-          "401": {
-            "$ref": "#/components/responses/401Error"
-          },
-          "403": {
-            "$ref": "#/components/responses/403Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/404Error"
-          },
-          "405": {
-            "$ref": "#/components/responses/405Error"
-          },
-          "406": {
-            "$ref": "#/components/responses/406Error"
-          },
-          "429": {
-            "$ref": "#/components/responses/429Error"
-          },
-          "500": {
-            "$ref": "#/components/responses/500Error"
-          }
-        },
-        "security": [
-          {
-            "TPPOAuth2Security": [
-              "payments"
-            ]
-          }
-        ]
-      }
-    },
-    "/beneficiary-requests": {
-      "post": {
-        "tags": [
-          "Beneficiary Requests"
-        ],
-        "summary": "Create Beneficiary Requests",
-        "operationId": "CreateBeneficiaryRequests",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/x-fapi-financial-id"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-interaction-id"
-          },
-          {
-            "$ref": "#/components/parameters/Authorization"
-          },
-          {
-            "$ref": "#/components/parameters/x-idempotency-key"
-          }
-        ],
-        "responses": {
-          "201": {
-            "$ref": "#/components/responses/201BeneficiaryRequestsCreated"
-          },
-          "400": {
-            "$ref": "#/components/responses/400Error"
-          },
-          "401": {
-            "$ref": "#/components/responses/401Error"
-          },
-          "403": {
-            "$ref": "#/components/responses/403Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/404Error"
-          },
-          "405": {
-            "$ref": "#/components/responses/405Error"
-          },
-          "406": {
-            "$ref": "#/components/responses/406Error"
-          },
-          "429": {
-            "$ref": "#/components/responses/429Error"
-          },
-          "500": {
-            "$ref": "#/components/responses/500Error"
-          }
-        },
-        "security": [
-          {
-            "PSUOAuth2Security": [
-              "payments"
-            ]
-          }
-        ],
-        "requestBody": {
-          "$ref": "#/components/requestBodies/OBWriteBeneficiaryRequest1Param"
-        }
-      }
-    },
-    "/beneficiary-requests/{BeneficiaryRequestId}": {
-      "get": {
-        "tags": [
-          "Beneficiary Requests"
-        ],
-        "summary": "Get Beneficiary Requests",
-        "operationId": "GetBeneficiaryRequestsBeneficiaryRequestId",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/BeneficiaryRequestId"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-financial-id"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
-          },
-          {
-            "$ref": "#/components/parameters/x-fapi-interaction-id"
-          },
-          {
-            "$ref": "#/components/parameters/Authorization"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/200BeneficiaryRequestsBeneficiaryRequestIdRead"
+            "$ref": "#/components/responses/200BeneficiaryConsentsConsentIdRead"
           },
           "400": {
             "$ref": "#/components/responses/400Error"
@@ -2642,10 +2702,10 @@
           "type": "string"
         }
       },
-      "BeneficiaryRequestId": {
-        "name": "BeneficiaryRequestId",
+      "BeneficiaryId": {
+        "name": "BeneficiaryId",
         "in": "path",
-        "description": "BeneficiaryRequestId",
+        "description": "BeneficiaryId",
         "required": true,
         "schema": {
           "type": "string"
@@ -3522,8 +3582,8 @@
           }
         }
       },
-      "201BeneficiaryRequestConsentsCreated": {
-        "description": "Beneficiary Request Consents Created",
+      "201BeneficiaryConsentsCreated": {
+        "description": "Beneficiary Consents Created",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3546,8 +3606,8 @@
           }
         }
       },
-      "200BeneficiaryRequestConsentsConsentIdRead": {
-        "description": "Beneficiary Request Consents Read",
+      "200BeneficiaryConsentsConsentIdRead": {
+        "description": "Beneficiary Consents Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3570,8 +3630,8 @@
           }
         }
       },
-      "201BeneficiaryRequestsCreated": {
-        "description": "Beneficiary Requests Created",
+      "201BeneficiariesCreated": {
+        "description": "Beneficiaries Created",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3594,8 +3654,8 @@
           }
         }
       },
-      "200BeneficiaryRequestsBeneficiaryRequestIdRead": {
-        "description": "Beneficiary Requests Read",
+      "200BeneficiariesBeneficiaryIdRead": {
+        "description": "Beneficiaries Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3614,6 +3674,30 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/OBWriteBeneficiaryResponse1"
+            }
+          }
+        }
+      },
+      "200BeneficiariesRead": {
+        "description": "Beneficiaries Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBWriteBeneficiaryBulkResponse1"
             }
           }
         }
@@ -5304,6 +5388,10 @@
           "Pending",
           "Rejected"
         ]
+      },
+      "OBWriteBeneficiaryBulkResponse1": {
+        "type": "object",
+        "properties": {}
       },
       "OBWriteBeneficiaryConsent1": {
         "type": "object",
