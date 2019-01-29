@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v4.0-draft3"
+    "version": "v4.0-draft4"
   },
   "paths": {
     "/funds-confirmation-consents": {
@@ -362,17 +362,6 @@
       }
     },
     "requestBodies": {
-      "OBFundsConfirmation1Param": {
-        "description": "Default",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBFundsConfirmation1"
-            }
-          }
-        },
-        "required": true
-      },
       "OBFundsConfirmationConsent1Param": {
         "description": "Default",
         "content": {
@@ -383,27 +372,20 @@
           }
         },
         "required": true
-      }
-    },
-    "responses": {
-      "201FundsConfirmationsCreated": {
-        "description": "Funds Confirmation Created",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
+      },
+      "OBFundsConfirmation1Param": {
+        "description": "Default",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBFundsConfirmationResponse1"
+              "$ref": "#/components/schemas/OBFundsConfirmation1"
             }
           }
-        }
-      },
+        },
+        "required": true
+      }
+    },
+    "responses": {
       "201FundsConfirmationConsentsCreated": {
         "description": "Funds Confirmation Consent Created",
         "headers": {
@@ -447,6 +429,24 @@
             "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
+            }
+          }
+        }
+      },
+      "201FundsConfirmationsCreated": {
+        "description": "Funds Confirmation Created",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBFundsConfirmationResponse1"
             }
           }
         }
@@ -983,12 +983,11 @@
       }
     },
     "securitySchemes": {
-      "PSUOAuth2Security": {
+      "TPPOAuth2Security": {
         "type": "oauth2",
-        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
+        "description": "TPP client credential authorisation flow with the ASPSP",
         "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://authserver.example/authorization",
+          "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
               "fundsconfirmations": "Funds confirmation entitlement"
@@ -996,11 +995,12 @@
           }
         }
       },
-      "TPPOAuth2Security": {
+      "PSUOAuth2Security": {
         "type": "oauth2",
-        "description": "TPP client credential authorisation flow with the ASPSP",
+        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
         "flows": {
-          "clientCredentials": {
+          "authorizationCode": {
+            "authorizationUrl": "https://authserver.example/authorization",
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
               "fundsconfirmations": "Funds confirmation entitlement"

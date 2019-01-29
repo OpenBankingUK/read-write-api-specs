@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v4.0-draft3
+  version: v4.0-draft4
 paths:
   /funds-confirmation-consents:
     post:
@@ -234,13 +234,6 @@ components:
       schema:
         type: string
   requestBodies:
-    OBFundsConfirmation1Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBFundsConfirmation1'
-      required: true
     OBFundsConfirmationConsent1Param:
       description: Default
       content:
@@ -248,18 +241,14 @@ components:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsent1'
       required: true
-  responses:
-    201FundsConfirmationsCreated:
-      description: Funds Confirmation Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
+    OBFundsConfirmation1Param:
+      description: Default
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBFundsConfirmationResponse1'
+            $ref: '#/components/schemas/OBFundsConfirmation1'
+      required: true
+  responses:
     201FundsConfirmationConsentsCreated:
       description: Funds Confirmation Consent Created
       headers:
@@ -289,6 +278,17 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+    201FundsConfirmationsCreated:
+      description: Funds Confirmation Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBFundsConfirmationResponse1'
     400Error:
       description: Bad request
       headers:
@@ -761,6 +761,14 @@ components:
       minLength: 1
       maxLength: 34
   securitySchemes:
+    TPPOAuth2Security:
+      type: oauth2
+      description: TPP client credential authorisation flow with the ASPSP
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://authserver.example/token'
+          scopes:
+            fundsconfirmations: Funds confirmation entitlement
     PSUOAuth2Security:
       type: oauth2
       description: >-
@@ -769,14 +777,6 @@ components:
       flows:
         authorizationCode:
           authorizationUrl: 'https://authserver.example/authorization'
-          tokenUrl: 'https://authserver.example/token'
-          scopes:
-            fundsconfirmations: Funds confirmation entitlement
-    TPPOAuth2Security:
-      type: oauth2
-      description: TPP client credential authorisation flow with the ASPSP
-      flows:
-        clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
             fundsconfirmations: Funds confirmation entitlement
