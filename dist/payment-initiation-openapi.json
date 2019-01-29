@@ -4064,6 +4064,12 @@
       }
     },
     "schemas": {
+      "AccountId": {
+        "type": "string",
+        "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
+        "minLength": 1,
+        "maxLength": 40
+      },
       "ActiveOrHistoricCurrencyCode_0": {
         "type": "string",
         "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
@@ -4146,6 +4152,11 @@
         "format": "date-time"
       },
       "CreationDateTime_1": {
+        "description": "Date and time at which the resource status was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
+      },
+      "CreationDateTime_2": {
         "description": "Date and time at which the message was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
         "format": "date-time"
@@ -4165,6 +4176,12 @@
         "minLength": 1,
         "maxLength": 70
       },
+      "DomesticPaymentId": {
+        "type": "string",
+        "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.",
+        "minLength": 1,
+        "maxLength": 40
+      },
       "EndToEndIdentification": {
         "type": "string",
         "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field.",
@@ -4182,11 +4199,16 @@
         "format": "date-time"
       },
       "ExpirationDateTime_0": {
-        "description": "Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "description": "Specified date and time the permissions will expire.\nIf this is not populated, the permissions will be open ended.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
         "format": "date-time"
       },
       "ExpirationDateTime_1": {
+        "description": "Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
+      },
+      "ExpirationDateTime_2": {
         "description": "Specified date and time the exchange rate agreement will expire.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
         "format": "date-time"
@@ -4235,13 +4257,13 @@
       },
       "Identification_1": {
         "type": "string",
-        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+        "description": "Unique and unambiguous identification of the servicing institution.",
         "minLength": 1,
         "maxLength": 35
       },
       "Identification_2": {
         "type": "string",
-        "description": "Unique and unambiguous identification of the servicing institution.",
+        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
         "minLength": 1,
         "maxLength": 35
       },
@@ -4329,21 +4351,21 @@
       },
       "Name_1": {
         "type": "string",
-        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+        "description": "Name by which a party is known and which is usually used to identify that party.",
         "minLength": 1,
-        "maxLength": 70
+        "maxLength": 140
       },
       "Name_2": {
         "type": "string",
-        "description": "Name by which a party is known and which is usually used to identify that party.",
+        "description": "Name by which an agent is known and which is usually used to identify that agent.",
         "minLength": 1,
         "maxLength": 140
       },
       "Name_3": {
         "type": "string",
-        "description": "Name by which an agent is known and which is usually used to identify that agent.",
+        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
         "minLength": 1,
-        "maxLength": 140
+        "maxLength": 70
       },
       "NumberOfPayments": {
         "type": "string",
@@ -4473,9 +4495,30 @@
           }
         }
       },
+      "OBBeneficiary4": {
+        "type": "object",
+        "description": "The Initiation payload is sent by the initiating party to the ASPSP.",
+        "required": [
+          "CreditorAccount"
+        ],
+        "properties": {
+          "RemittanceInformation": {
+            "$ref": "#/components/schemas/OBRemittanceInformation1_0"
+          },
+          "Creditor": {
+            "$ref": "#/components/schemas/OBPartyIdentification43_0"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5"
+          }
+        }
+      },
       "OBBranchAndFinancialInstitutionIdentification6_0": {
         "type": "object",
-        "description": "Financial institution servicing an account for the creditor.",
+        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
         "properties": {
           "SchemeName": {
             "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
@@ -4484,7 +4527,7 @@
             "$ref": "#/components/schemas/Identification_1"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_3"
+            "$ref": "#/components/schemas/Name_2"
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
@@ -4493,7 +4536,7 @@
       },
       "OBBranchAndFinancialInstitutionIdentification6_1": {
         "type": "object",
-        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+        "description": "Financial institution servicing an account for the creditor.",
         "properties": {
           "SchemeName": {
             "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
@@ -4502,10 +4545,32 @@
             "$ref": "#/components/schemas/Identification_2"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_3"
+            "$ref": "#/components/schemas/Name_2"
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
+          }
+        }
+      },
+      "OBCashAccount5": {
+        "type": "object",
+        "description": "Provides the details to identify the beneficiary account.",
+        "required": [
+          "SchemeName",
+          "Identification"
+        ],
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_0"
+          },
+          "SecondaryIdentification": {
+            "$ref": "#/components/schemas/SecondaryIdentification"
           }
         }
       },
@@ -4525,7 +4590,7 @@
             "$ref": "#/components/schemas/Identification_0"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_1"
+            "$ref": "#/components/schemas/Name_3"
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
@@ -4548,7 +4613,7 @@
             "$ref": "#/components/schemas/Identification_0"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_1"
+            "$ref": "#/components/schemas/Name_3"
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
@@ -4571,7 +4636,7 @@
             "$ref": "#/components/schemas/Identification_0"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_1"
+            "$ref": "#/components/schemas/Name_3"
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
@@ -4687,7 +4752,7 @@
             "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1"
+            "$ref": "#/components/schemas/OBRemittanceInformation1_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -4729,7 +4794,7 @@
             "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1"
+            "$ref": "#/components/schemas/OBRemittanceInformation1_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -4925,7 +4990,7 @@
             "$ref": "#/components/schemas/ContractIdentification"
           },
           "ExpirationDateTime": {
-            "$ref": "#/components/schemas/ExpirationDateTime_1"
+            "$ref": "#/components/schemas/ExpirationDateTime_2"
           }
         }
       },
@@ -4998,6 +5063,20 @@
           "UK.OBIE.SEPAInstantCreditTransfer",
           "UK.OBIE.SWIFT",
           "UK.OBIE.Target2"
+        ]
+      },
+      "OBExternalPISPermissions1Code": {
+        "type": "string",
+        "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
+        "enum": [
+          "ReadAccountsBasic",
+          "ReadAccountsDetail",
+          "ReadBalances",
+          "ReadBeneficiariesBasic",
+          "ReadBeneficiariesDetail",
+          "ReadPAN",
+          "ReadParty",
+          "ReadPartyPSU"
         ]
       },
       "OBExternalPaymentChargeType1Code": {
@@ -5082,7 +5161,7 @@
             "$ref": "#/components/schemas/OBCashAccountDebtor4_0"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1"
+            "$ref": "#/components/schemas/OBRemittanceInformation1_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -5131,16 +5210,16 @@
             "$ref": "#/components/schemas/OBCashAccountDebtor4_0"
           },
           "Creditor": {
-            "$ref": "#/components/schemas/OBPartyIdentification43"
+            "$ref": "#/components/schemas/OBPartyIdentification43_1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3_0"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1"
+            "$ref": "#/components/schemas/OBRemittanceInformation1_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -5192,16 +5271,16 @@
             "$ref": "#/components/schemas/OBCashAccountDebtor4_0"
           },
           "Creditor": {
-            "$ref": "#/components/schemas/OBPartyIdentification43"
+            "$ref": "#/components/schemas/OBPartyIdentification43_1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3_0"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1"
+            "$ref": "#/components/schemas/OBRemittanceInformation1_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -5250,10 +5329,10 @@
             "$ref": "#/components/schemas/OBCashAccountDebtor4_1"
           },
           "Creditor": {
-            "$ref": "#/components/schemas/OBPartyIdentification43"
+            "$ref": "#/components/schemas/OBPartyIdentification43_1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3_2"
@@ -5283,16 +5362,28 @@
             "$ref": "#/components/schemas/LastUpdateDateTime"
           },
           "ExpirationDateTime": {
-            "$ref": "#/components/schemas/ExpirationDateTime_0"
+            "$ref": "#/components/schemas/ExpirationDateTime_1"
           }
         }
       },
-      "OBPartyIdentification43": {
+      "OBPartyIdentification43_0": {
+        "type": "object",
+        "description": "Set of elements used to identify a person or an organisation.",
+        "properties": {
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          }
+        }
+      },
+      "OBPartyIdentification43_1": {
         "type": "object",
         "description": "Party to which an amount of money is due.",
         "properties": {
           "Name": {
-            "$ref": "#/components/schemas/Name_2"
+            "$ref": "#/components/schemas/Name_1"
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
@@ -5343,7 +5434,19 @@
           "Urgent"
         ]
       },
-      "OBRemittanceInformation1": {
+      "OBRemittanceInformation1_0": {
+        "type": "object",
+        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system.",
+        "properties": {
+          "Unstructured": {
+            "$ref": "#/components/schemas/Unstructured"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference_0"
+          }
+        }
+      },
+      "OBRemittanceInformation1_1": {
         "type": "object",
         "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
         "properties": {
@@ -5389,25 +5492,535 @@
           "Rejected"
         ]
       },
+      "OBWriteAccount1": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "Account": {
+                "type": "array",
+                "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "AccountId",
+                    "Currency",
+                    "AccountType",
+                    "AccountSubType"
+                  ],
+                  "properties": {
+                    "AccountId": {
+                      "$ref": "#/components/schemas/AccountId"
+                    },
+                    "Currency": {
+                      "type": "string",
+                      "description": "Identification of the currency in which the account is held. \nUsage: Currency should only be used in case one and the same account number covers several currencies\nand the initiating party needs to identify which currency needs to be used for settlement on the account.",
+                      "pattern": "^[A-Z]{3,3}$"
+                    },
+                    "AccountType": {
+                      "type": "string",
+                      "description": "Specifies the type of account (personal or business).",
+                      "enum": [
+                        "Business",
+                        "Personal"
+                      ]
+                    },
+                    "AccountSubType": {
+                      "type": "string",
+                      "description": "Specifies the sub type of account (product family group).",
+                      "enum": [
+                        "ChargeCard",
+                        "CreditCard",
+                        "CurrentAccount",
+                        "EMoney",
+                        "Loan",
+                        "Mortgage",
+                        "PrePaidCard",
+                        "Savings"
+                      ]
+                    },
+                    "Description": {
+                      "type": "string",
+                      "description": "Specifies the description of the account type.",
+                      "minLength": 1,
+                      "maxLength": 35
+                    },
+                    "Nickname": {
+                      "type": "string",
+                      "description": "The nickname of the account, assigned by the account owner in order to provide an additional means of identification of the account.",
+                      "minLength": 1,
+                      "maxLength": 70
+                    },
+                    "Account": {
+                      "type": "array",
+                      "description": "Provides the details to identify an account.",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "SchemeName",
+                          "Identification"
+                        ],
+                        "properties": {
+                          "SchemeName": {
+                            "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                          },
+                          "Identification": {
+                            "$ref": "#/components/schemas/Identification_0"
+                          },
+                          "Name": {
+                            "$ref": "#/components/schemas/Name_0"
+                          },
+                          "SecondaryIdentification": {
+                            "$ref": "#/components/schemas/SecondaryIdentification"
+                          }
+                        }
+                      }
+                    },
+                    "Servicer": {
+                      "type": "object",
+                      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.",
+                      "required": [
+                        "SchemeName",
+                        "Identification"
+                      ],
+                      "properties": {
+                        "SchemeName": {
+                          "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+                        },
+                        "Identification": {
+                          "$ref": "#/components/schemas/Identification_1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OBWriteAccountReadConsent1": {
+        "type": "object",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "Permissions"
+            ],
+            "properties": {
+              "Permissions": {
+                "$ref": "#/components/schemas/OBExternalPISPermissions1Code"
+              },
+              "ExpirationDateTime": {
+                "$ref": "#/components/schemas/ExpirationDateTime_0"
+              }
+            }
+          }
+        }
+      },
+      "OBWriteAccountReadConsentResponse1": {
+        "type": "object",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "CreationDateTime",
+              "Status",
+              "StatusUpdateDateTime",
+              "Permissions"
+            ],
+            "properties": {
+              "ConsentId": {
+                "type": "string",
+                "description": "Unique identification as assigned to identify the account access consent resource.",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "CreationDateTime": {
+                "$ref": "#/components/schemas/CreationDateTime_0"
+              },
+              "Status": {
+                "type": "string",
+                "description": "Specifies the status of consent resource in code form.",
+                "enum": [
+                  "Authorised",
+                  "AwaitingAuthorisation",
+                  "Rejected",
+                  "Revoked"
+                ]
+              },
+              "StatusUpdateDateTime": {
+                "$ref": "#/components/schemas/StatusUpdateDateTime_0"
+              },
+              "Permissions": {
+                "$ref": "#/components/schemas/OBExternalPISPermissions1Code"
+              },
+              "ExpirationDateTime": {
+                "$ref": "#/components/schemas/ExpirationDateTime_0"
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBWriteBalance1": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "Balance"
+            ],
+            "properties": {
+              "Balance": {
+                "type": "array",
+                "description": "Set of elements used to define the balance details.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "AccountId",
+                    "CreditDebitIndicator",
+                    "Type",
+                    "DateTime",
+                    "Amount"
+                  ],
+                  "properties": {
+                    "AccountId": {
+                      "$ref": "#/components/schemas/AccountId"
+                    },
+                    "CreditDebitIndicator": {
+                      "type": "string",
+                      "description": "Indicates whether the balance is a credit or a debit balance. \nUsage: A zero balance is considered to be a credit balance.",
+                      "enum": [
+                        "Credit",
+                        "Debit"
+                      ]
+                    },
+                    "Type": {
+                      "type": "string",
+                      "description": "Balance type, in a coded form.",
+                      "enum": [
+                        "ClosingAvailable",
+                        "ClosingBooked",
+                        "ClosingCleared",
+                        "Expected",
+                        "ForwardAvailable",
+                        "Information",
+                        "InterimAvailable",
+                        "InterimBooked",
+                        "InterimCleared",
+                        "OpeningAvailable",
+                        "OpeningBooked",
+                        "OpeningCleared",
+                        "PreviouslyClosedBooked"
+                      ]
+                    },
+                    "DateTime": {
+                      "description": "Indicates the date (and time) of the balance.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "Amount": {
+                      "type": "object",
+                      "description": "Amount of money of the cash balance.",
+                      "required": [
+                        "Amount",
+                        "Currency"
+                      ],
+                      "properties": {
+                        "Amount": {
+                          "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                        },
+                        "Currency": {
+                          "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
+                        }
+                      }
+                    },
+                    "CreditLine": {
+                      "type": "array",
+                      "description": "Set of elements used to provide details on the credit line.",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "Included"
+                        ],
+                        "properties": {
+                          "Included": {
+                            "type": "boolean",
+                            "description": "Indicates whether or not the credit line is included in the balance of the account.\nUsage: If not present, credit line is not included in the balance amount of the account."
+                          },
+                          "Type": {
+                            "type": "string",
+                            "description": "Limit type, in a coded form.",
+                            "enum": [
+                              "Available",
+                              "Credit",
+                              "Emergency",
+                              "Pre-Agreed",
+                              "Temporary"
+                            ]
+                          },
+                          "Amount": {
+                            "type": "object",
+                            "description": "Amount of money of the credit line.",
+                            "required": [
+                              "Amount",
+                              "Currency"
+                            ],
+                            "properties": {
+                              "Amount": {
+                                "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                              },
+                              "Currency": {
+                                "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "minItems": 1
+              }
+            }
+          }
+        }
+      },
       "OBWriteBeneficiary1": {
         "type": "object",
-        "properties": {}
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "Beneficiary": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "BeneficiaryId",
+                    "CreditorAccount"
+                  ],
+                  "properties": {
+                    "BeneficiaryId": {
+                      "type": "string",
+                      "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the beneficiary resource",
+                      "minLength": 1,
+                      "maxLength": 128
+                    },
+                    "RemittanceInformation": {
+                      "$ref": "#/components/schemas/OBRemittanceInformation1_0"
+                    },
+                    "Creditor": {
+                      "$ref": "#/components/schemas/OBPartyIdentification43_0"
+                    },
+                    "CreditorAgent": {
+                      "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+                    },
+                    "CreditorAccount": {
+                      "$ref": "#/components/schemas/OBCashAccount5"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "OBWriteBeneficiaryConsent1": {
         "type": "object",
-        "properties": {}
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "Initiation"
+            ],
+            "properties": {
+              "Initiation": {
+                "$ref": "#/components/schemas/OBBeneficiary4"
+              }
+            }
+          }
+        }
       },
       "OBWriteBeneficiaryConsentResponse1": {
         "type": "object",
-        "properties": {}
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "Status",
+              "CreationDateTime",
+              "StatusUpdateDateTime",
+              "Initiation"
+            ],
+            "properties": {
+              "ConsentId": {
+                "$ref": "#/components/schemas/ConsentId"
+              },
+              "Status": {
+                "$ref": "#/components/schemas/OBExternalConsentStatus1Code"
+              },
+              "CreationDateTime": {
+                "$ref": "#/components/schemas/CreationDateTime_1"
+              },
+              "StatusUpdateDateTime": {
+                "$ref": "#/components/schemas/StatusUpdateDateTime_0"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBBeneficiary4"
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
       },
       "OBWriteBeneficiaryRequest1": {
         "type": "object",
-        "properties": {}
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "Initiation"
+            ],
+            "properties": {
+              "ConsentId": {
+                "$ref": "#/components/schemas/ConsentId"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBBeneficiary4"
+              }
+            }
+          }
+        }
       },
       "OBWriteBeneficiaryResponse1": {
         "type": "object",
-        "properties": {}
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "BeneficiaryId",
+              "Status",
+              "CreationDateTime",
+              "StatusUpdateDateTime",
+              "Initiation"
+            ],
+            "properties": {
+              "ConsentId": {
+                "$ref": "#/components/schemas/ConsentId"
+              },
+              "BeneficiaryId": {
+                "type": "string",
+                "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the beneficiary resource.",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "Status": {
+                "type": "string",
+                "description": "Specifies the status of beneficiary resource in code form.",
+                "enum": [
+                  "Active",
+                  "Inactive"
+                ]
+              },
+              "CreationDateTime": {
+                "$ref": "#/components/schemas/CreationDateTime_1"
+              },
+              "StatusUpdateDateTime": {
+                "$ref": "#/components/schemas/StatusUpdateDateTime_0"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBBeneficiary4"
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBWriteDataDomesticResponse2": {
+        "type": "object",
+        "required": [
+          "DomesticPaymentId",
+          "ConsentId",
+          "CreationDateTime",
+          "Status",
+          "StatusUpdateDateTime",
+          "Initiation"
+        ],
+        "properties": {
+          "DomesticPaymentId": {
+            "$ref": "#/components/schemas/DomesticPaymentId"
+          },
+          "ConsentId": {
+            "$ref": "#/components/schemas/ConsentId"
+          },
+          "CreationDateTime": {
+            "$ref": "#/components/schemas/CreationDateTime_2"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/OBTransactionIndividualStatus1Code"
+          },
+          "StatusUpdateDateTime": {
+            "$ref": "#/components/schemas/StatusUpdateDateTime_0"
+          },
+          "ExpectedExecutionDateTime": {
+            "$ref": "#/components/schemas/ExpectedExecutionDateTime"
+          },
+          "ExpectedSettlementDateTime": {
+            "$ref": "#/components/schemas/ExpectedSettlementDateTime"
+          },
+          "Charges": {
+            "$ref": "#/components/schemas/OBCharge2"
+          },
+          "Initiation": {
+            "$ref": "#/components/schemas/OBDomestic2"
+          },
+          "MultiAuthorisation": {
+            "$ref": "#/components/schemas/OBMultiAuthorisation1"
+          }
+        }
       },
       "OBWriteDomestic2": {
         "type": "object",
@@ -5529,50 +6142,24 @@
         ],
         "properties": {
           "Data": {
-            "type": "object",
-            "required": [
-              "DomesticPaymentId",
-              "ConsentId",
-              "CreationDateTime",
-              "Status",
-              "StatusUpdateDateTime",
-              "Initiation"
-            ],
-            "properties": {
-              "DomesticPaymentId": {
-                "type": "string",
-                "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.",
-                "minLength": 1,
-                "maxLength": 40
-              },
-              "ConsentId": {
-                "$ref": "#/components/schemas/ConsentId"
-              },
-              "CreationDateTime": {
-                "$ref": "#/components/schemas/CreationDateTime_1"
-              },
-              "Status": {
-                "$ref": "#/components/schemas/OBTransactionIndividualStatus1Code"
-              },
-              "StatusUpdateDateTime": {
-                "$ref": "#/components/schemas/StatusUpdateDateTime_0"
-              },
-              "ExpectedExecutionDateTime": {
-                "$ref": "#/components/schemas/ExpectedExecutionDateTime"
-              },
-              "ExpectedSettlementDateTime": {
-                "$ref": "#/components/schemas/ExpectedSettlementDateTime"
-              },
-              "Charges": {
-                "$ref": "#/components/schemas/OBCharge2"
-              },
-              "Initiation": {
-                "$ref": "#/components/schemas/OBDomestic2"
-              },
-              "MultiAuthorisation": {
-                "$ref": "#/components/schemas/OBMultiAuthorisation1"
-              }
-            }
+            "$ref": "#/components/schemas/OBWriteDataDomesticResponse2"
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBWriteDomesticResponse3": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "$ref": "#/components/schemas/OBWriteDataDomesticResponse2"
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -5730,7 +6317,7 @@
                 "$ref": "#/components/schemas/ConsentId"
               },
               "CreationDateTime": {
-                "$ref": "#/components/schemas/CreationDateTime_1"
+                "$ref": "#/components/schemas/CreationDateTime_2"
               },
               "Status": {
                 "$ref": "#/components/schemas/OBExternalStatus1Code"
@@ -6062,7 +6649,7 @@
                 "$ref": "#/components/schemas/ConsentId"
               },
               "CreationDateTime": {
-                "$ref": "#/components/schemas/CreationDateTime_1"
+                "$ref": "#/components/schemas/CreationDateTime_2"
               },
               "Status": {
                 "$ref": "#/components/schemas/OBExternalStatus1Code"
@@ -6273,7 +6860,7 @@
                 "$ref": "#/components/schemas/ConsentId"
               },
               "CreationDateTime": {
-                "$ref": "#/components/schemas/CreationDateTime_1"
+                "$ref": "#/components/schemas/CreationDateTime_2"
               },
               "Status": {
                 "$ref": "#/components/schemas/OBTransactionIndividualStatus1Code"
@@ -6476,7 +7063,7 @@
                 "$ref": "#/components/schemas/ConsentId"
               },
               "CreationDateTime": {
-                "$ref": "#/components/schemas/CreationDateTime_1"
+                "$ref": "#/components/schemas/CreationDateTime_2"
               },
               "Status": {
                 "$ref": "#/components/schemas/OBExternalStatus1Code"
@@ -6691,6 +7278,109 @@
           },
           "Meta": {
             "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBWriteParty1": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "Party": {
+                "type": "object",
+                "required": [
+                  "PartyId"
+                ],
+                "properties": {
+                  "PartyId": {
+                    "type": "string",
+                    "description": "A unique and immutable identifier used to identify the customer resource. This identifier has no meaning to the account owner.",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "PartyNumber": {
+                    "type": "string",
+                    "description": "Number assigned by an agent to identify its customer.",
+                    "minLength": 1,
+                    "maxLength": 35
+                  },
+                  "PartyType": {
+                    "type": "string",
+                    "description": "Party type, in a coded form.",
+                    "enum": [
+                      "Delegate",
+                      "Joint",
+                      "Sole"
+                    ]
+                  },
+                  "Name": {
+                    "type": "string",
+                    "description": "Name by which a party is known and which is usually used to identify that party.",
+                    "minLength": 1,
+                    "maxLength": 70
+                  },
+                  "EmailAddress": {
+                    "type": "string",
+                    "description": "Address for electronic mail (e-mail).",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "Phone": {
+                    "type": "string",
+                    "description": "Collection of information that identifies a phone number, as defined by telecom services.",
+                    "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
+                  },
+                  "Mobile": {
+                    "type": "string",
+                    "description": "Collection of information that identifies a mobile phone number, as defined by telecom services.",
+                    "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
+                  },
+                  "Address": {
+                    "type": "array",
+                    "description": "Postal address of a party.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "Country"
+                      ],
+                      "properties": {
+                        "AddressType": {
+                          "$ref": "#/components/schemas/OBAddressTypeCode"
+                        },
+                        "AddressLine": {
+                          "$ref": "#/components/schemas/AddressLine_1"
+                        },
+                        "StreetName": {
+                          "$ref": "#/components/schemas/StreetName"
+                        },
+                        "BuildingNumber": {
+                          "$ref": "#/components/schemas/BuildingNumber"
+                        },
+                        "PostCode": {
+                          "$ref": "#/components/schemas/PostCode"
+                        },
+                        "TownName": {
+                          "$ref": "#/components/schemas/TownName"
+                        },
+                        "CountrySubDivision": {
+                          "type": "string",
+                          "description": "Identifies a subdivision of a country eg, state, region, county.",
+                          "minLength": 1,
+                          "maxLength": 35
+                        },
+                        "Country": {
+                          "$ref": "#/components/schemas/CountryCode_1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
