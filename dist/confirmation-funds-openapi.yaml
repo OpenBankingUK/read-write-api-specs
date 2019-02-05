@@ -369,32 +369,6 @@ components:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
   schemas:
-    ActiveOrHistoricCurrencyCode:
-      type: string
-      description: >-
-        A code allocated to a currency by a Maintenance Agency under an
-        international identification scheme, as described in the latest edition
-        of the international standard ISO 4217 "Codes for the representation of
-        currencies and funds".
-      pattern: '^[A-Z]{3,3}$'
-    ConsentId:
-      type: string
-      description: >-
-        Unique identification as assigned by the ASPSP to uniquely identify the
-        funds confirmation consent resource.
-      minLength: 1
-      maxLength: 128
-    CreationDateTime:
-      description: >-
-        Date and time at which the resource was created.All dates in the JSON
-        payloads are represented in ISO 8601 date-time format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        2017-04-05T10:43:07+00:00
-      type: string
-      format: date-time
     ISODateTime:
       description: >-
         All dates in the JSON payloads are represented in ISO 8601 date-time
@@ -406,13 +380,6 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
-    Identification:
-      type: string
-      description: >-
-        Identification assigned by an institution to identify an account. This
-        identification is known by the account owner.
-      minLength: 1
-      maxLength: 256
     Links:
       type: object
       description: Links relevant to the payload
@@ -448,52 +415,6 @@ components:
         LastAvailableDateTime:
           $ref: '#/components/schemas/ISODateTime'
       additionalProperties: false
-    Name:
-      type: string
-      description: >-
-        Name of the account, as assigned by the account servicing institution.
-
-        Usage: The account name is the name or names of the account owner(s)
-        represented at an account level. The account name is not the product
-        name or the nickname of the account.
-      minLength: 1
-      maxLength: 70
-    OBActiveCurrencyAndAmount_SimpleType:
-      type: string
-      description: >-
-        A number of monetary units specified in an active currency where the
-        unit of currency is explicit and compliant with ISO 4217.
-      pattern: '^\d{1,13}\.\d{1,5}$'
-    OBActiveOrHistoricCurrencyAndAmount:
-      type: object
-      description: >-
-        Amount of money to be confirmed as available funds in the debtor
-        account. Contains an Amount and a Currency.
-      required:
-        - Amount
-        - Currency
-      properties:
-        Amount:
-          $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
-        Currency:
-          $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode'
-    OBCashAccountDebtor4:
-      type: object
-      description: >-
-        Unambiguous identification of the account of the debtor to which a
-        confirmation of funds consent will be applied.
-      required:
-        - SchemeName
-        - Identification
-      properties:
-        SchemeName:
-          $ref: '#/components/schemas/OBExternalAccountIdentification4Code'
-        Identification:
-          $ref: '#/components/schemas/Identification'
-        Name:
-          $ref: '#/components/schemas/Name'
-        SecondaryIdentification:
-          $ref: '#/components/schemas/SecondaryIdentification'
     OBError1:
       type: object
       properties:
@@ -589,17 +510,6 @@ components:
         - Message
         - Errors
       additionalProperties: false
-    OBExternalAccountIdentification4Code:
-      type: string
-      description: >-
-        Name of the identification scheme, in a coded form as published in an
-        external list.
-      example:
-        - UK.OBIE.BBAN
-        - UK.OBIE.IBAN
-        - UK.OBIE.PAN
-        - UK.OBIE.Paym
-        - UK.OBIE.SortCodeAccountNumber
     OBFundsConfirmation1:
       type: object
       required:
@@ -613,11 +523,43 @@ components:
             - InstructedAmount
           properties:
             ConsentId:
-              $ref: '#/components/schemas/ConsentId'
+              type: string
+              description: >-
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the funds confirmation consent resource.
+              minLength: 1
+              maxLength: 128
             Reference:
-              $ref: '#/components/schemas/Reference'
+              type: string
+              description: >-
+                Unique reference, as assigned by the CBPII, to unambiguously
+                refer to the request related to the payment transaction.
+              minLength: 1
+              maxLength: 35
             InstructedAmount:
-              $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
+              type: object
+              description: >-
+                Amount of money to be confirmed as available funds in the debtor
+                account. Contains an Amount and a Currency.
+              required:
+                - Amount
+                - Currency
+              properties:
+                Amount:
+                  type: string
+                  description: >-
+                    A number of monetary units specified in an active currency
+                    where the unit of currency is explicit and compliant with
+                    ISO 4217.
+                  pattern: '^\d{1,13}\.\d{1,5}$'
+                Currency:
+                  type: string
+                  description: >-
+                    A code allocated to a currency by a Maintenance Agency under
+                    an international identification scheme, as described in the
+                    latest edition of the international standard ISO 4217 "Codes
+                    for the representation of currencies and funds".
+                  pattern: '^[A-Z]{3,3}$'
     OBFundsConfirmationConsent1:
       type: object
       required:
@@ -640,7 +582,54 @@ components:
               type: string
               format: date-time
             DebtorAccount:
-              $ref: '#/components/schemas/OBCashAccountDebtor4'
+              type: object
+              description: >-
+                Unambiguous identification of the account of the debtor to which
+                a confirmation of funds consent will be applied.
+              required:
+                - SchemeName
+                - Identification
+              properties:
+                SchemeName:
+                  type: string
+                  description: >-
+                    Name of the identification scheme, in a coded form as
+                    published in an external list.
+                  example:
+                    - UK.OBIE.BBAN
+                    - UK.OBIE.IBAN
+                    - UK.OBIE.PAN
+                    - UK.OBIE.Paym
+                    - UK.OBIE.SortCodeAccountNumber
+                Identification:
+                  type: string
+                  description: >-
+                    Identification assigned by an institution to identify an
+                    account. This identification is known by the account owner.
+                  minLength: 1
+                  maxLength: 256
+                Name:
+                  type: string
+                  description: >-
+                    Name of the account, as assigned by the account servicing
+                    institution.
+
+                    Usage: The account name is the name or names of the account
+                    owner(s) represented at an account level. The account name
+                    is not the product name or the nickname of the account.
+                  minLength: 1
+                  maxLength: 70
+                SecondaryIdentification:
+                  type: string
+                  description: >-
+                    This is secondary identification of the account, as assigned
+                    by the account servicing institution. 
+
+                    This can be used by building societies to additionally
+                    identify accounts with a roll number (in addition to a sort
+                    code and account number combination).
+                  minLength: 1
+                  maxLength: 34
     OBFundsConfirmationConsentResponse1:
       type: object
       required:
@@ -663,7 +652,16 @@ components:
               minLength: 1
               maxLength: 128
             CreationDateTime:
-              $ref: '#/components/schemas/CreationDateTime'
+              description: >-
+                Date and time at which the resource was created.All dates in the
+                JSON payloads are represented in ISO 8601 date-time format. 
+
+                All date-time fields in responses must include the timezone. An
+                example is below:
+
+                2017-04-05T10:43:07+00:00
+              type: string
+              format: date-time
             Status:
               type: string
               description: Specifies the status of consent resource in code form.
@@ -700,7 +698,54 @@ components:
               type: string
               format: date-time
             DebtorAccount:
-              $ref: '#/components/schemas/OBCashAccountDebtor4'
+              type: object
+              description: >-
+                Unambiguous identification of the account of the debtor to which
+                a confirmation of funds consent will be applied.
+              required:
+                - SchemeName
+                - Identification
+              properties:
+                SchemeName:
+                  type: string
+                  description: >-
+                    Name of the identification scheme, in a coded form as
+                    published in an external list.
+                  example:
+                    - UK.OBIE.BBAN
+                    - UK.OBIE.IBAN
+                    - UK.OBIE.PAN
+                    - UK.OBIE.Paym
+                    - UK.OBIE.SortCodeAccountNumber
+                Identification:
+                  type: string
+                  description: >-
+                    Identification assigned by an institution to identify an
+                    account. This identification is known by the account owner.
+                  minLength: 1
+                  maxLength: 256
+                Name:
+                  type: string
+                  description: >-
+                    Name of the account, as assigned by the account servicing
+                    institution.
+
+                    Usage: The account name is the name or names of the account
+                    owner(s) represented at an account level. The account name
+                    is not the product name or the nickname of the account.
+                  minLength: 1
+                  maxLength: 70
+                SecondaryIdentification:
+                  type: string
+                  description: >-
+                    This is secondary identification of the account, as assigned
+                    by the account servicing institution. 
+
+                    This can be used by building societies to additionally
+                    identify accounts with a roll number (in addition to a sort
+                    code and account number combination).
+                  minLength: 1
+                  maxLength: 34
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
@@ -728,38 +773,61 @@ components:
               minLength: 1
               maxLength: 40
             ConsentId:
-              $ref: '#/components/schemas/ConsentId'
+              type: string
+              description: >-
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the funds confirmation consent resource.
+              minLength: 1
+              maxLength: 128
             CreationDateTime:
-              $ref: '#/components/schemas/CreationDateTime'
+              description: >-
+                Date and time at which the resource was created.All dates in the
+                JSON payloads are represented in ISO 8601 date-time format. 
+
+                All date-time fields in responses must include the timezone. An
+                example is below:
+
+                2017-04-05T10:43:07+00:00
+              type: string
+              format: date-time
             FundsAvailable:
               type: boolean
               description: Flag to indicate the result of a confirmation of funds check.
             Reference:
-              $ref: '#/components/schemas/Reference'
+              type: string
+              description: >-
+                Unique reference, as assigned by the CBPII, to unambiguously
+                refer to the request related to the payment transaction.
+              minLength: 1
+              maxLength: 35
             InstructedAmount:
-              $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
+              type: object
+              description: >-
+                Amount of money to be confirmed as available funds in the debtor
+                account. Contains an Amount and a Currency.
+              required:
+                - Amount
+                - Currency
+              properties:
+                Amount:
+                  type: string
+                  description: >-
+                    A number of monetary units specified in an active currency
+                    where the unit of currency is explicit and compliant with
+                    ISO 4217.
+                  pattern: '^\d{1,13}\.\d{1,5}$'
+                Currency:
+                  type: string
+                  description: >-
+                    A code allocated to a currency by a Maintenance Agency under
+                    an international identification scheme, as described in the
+                    latest edition of the international standard ISO 4217 "Codes
+                    for the representation of currencies and funds".
+                  pattern: '^[A-Z]{3,3}$'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    Reference:
-      type: string
-      description: >-
-        Unique reference, as assigned by the CBPII, to unambiguously refer to
-        the request related to the payment transaction.
-      minLength: 1
-      maxLength: 35
-    SecondaryIdentification:
-      type: string
-      description: >-
-        This is secondary identification of the account, as assigned by the
-        account servicing institution. 
-
-        This can be used by building societies to additionally identify accounts
-        with a roll number (in addition to a sort code and account number
-        combination).
-      minLength: 1
-      maxLength: 34
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2
