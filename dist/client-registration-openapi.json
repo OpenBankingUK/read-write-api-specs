@@ -3,7 +3,16 @@
   "info": {
     "title": "Dynamic Client Registration API",
     "description": "This specification defines the APIs for a TPP to submit a Software Statement Assertion to an ASPSP for the purpose of creating OAuth clients that are registered with ASPSP.\n",
-    "version": "v3.1.1-draft1"
+    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "contact": {
+      "name": "Service Desk",
+      "email": "ServiceDesk@openbanking.org.uk"
+    },
+    "license": {
+      "name": "open-licence",
+      "url": "https://www.openbanking.org.uk/open-licence"
+    },
+    "version": "v3.1.1-RC1"
   },
   "paths": {
     "/register": {
@@ -204,7 +213,8 @@
           "WWW-Authenticate": {
             "description": "Response header field specified in https://tools.ietf.org/html/rfc6750",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^Bearer .*"
             }
           }
         }
@@ -235,7 +245,7 @@
           "application_type",
           "id_token_signed_response_alg",
           "request_object_signing_alg",
-          "tls_client_auth_dn"
+          "tls_client_auth_subject_dn"
         ],
         "properties": {
           "client_id": {
@@ -331,7 +341,7 @@
           "token_endpoint_auth_signing_alg": {
             "$ref": "#/components/schemas/SupportedAlgorithms"
           },
-          "tls_client_auth_dn": {
+          "tls_client_auth_subject_dn": {
             "type": "string",
             "minLength": 1,
             "maxLength": 128
@@ -360,14 +370,12 @@
               "iat": {
                 "description": "The time at which the request was issued by the TPP  expressed as seconds since 1970-01-01T00:00:00Z as measured in UTC",
                 "type": "integer",
-                "format": "int32",
-                "minimum": 0
+                "format": "int32"
               },
               "exp": {
                 "description": "The time at which the request expires expressed as seconds since 1970-01-01T00:00:00Z as measured in UTC",
                 "type": "integer",
-                "format": "int32",
-                "minimum": 0
+                "format": "int32"
               },
               "aud": {
                 "description": "The audience for the request. This should be the unique identifier\nfor the ASPSP issued by the issuer of the software statement.\nImplemented as Base62 encoded GUID\n",
