@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.1-draft1"
+    "version": "v3.1.1-RC1"
   },
   "paths": {
     "/domestic-payment-consents": {
@@ -23886,380 +23886,6 @@
         ]
       }
     },
-    "/international-scheduled-payment-consents/{ConsentId}/funds-confirmation": {
-      "get": {
-        "tags": [
-          "International Scheduled Payments"
-        ],
-        "summary": "Get International Scheduled Payment Consents Funds Confirmation",
-        "operationId": "GetInternationalScheduledPaymentConsentsConsentIdFundsConfirmation",
-        "parameters": [
-          {
-            "name": "ConsentId",
-            "in": "path",
-            "description": "ConsentId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-fapi-financial-id",
-            "required": true,
-            "description": "The unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-fapi-customer-last-logged-time",
-            "required": false,
-            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
-            "schema": {
-              "type": "string",
-              "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-fapi-customer-ip-address",
-            "required": false,
-            "description": "The PSU's IP address if the PSU is currently logged in with the TPP.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-fapi-interaction-id",
-            "required": false,
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-customer-user-agent",
-            "description": "Indicates the user-agent that the PSU is using.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "International Payment Consents Read",
-            "headers": {
-              "x-fapi-interaction-id": {
-                "description": "An RFC4122 UID used as a correlation id.",
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "x-jws-signature": {
-                "description": "Header containing a detached JWS signature of the body of the payload.",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "Data": {
-                      "type": "object",
-                      "properties": {
-                        "FundsAvailableResult": {
-                          "description": "Result of a funds availability check.",
-                          "type": "object",
-                          "properties": {
-                            "FundsAvailableDateTime": {
-                              "description": "Date and time at which the funds availability check was generated.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                              "type": "string",
-                              "format": "date-time"
-                            },
-                            "FundsAvailable": {
-                              "description": "Flag to indicate the availability of funds given the Amount in the consent request.",
-                              "type": "boolean"
-                            }
-                          },
-                          "required": [
-                            "FundsAvailableDateTime",
-                            "FundsAvailable"
-                          ],
-                          "additionalProperties": false
-                        },
-                        "SupplementaryData": {
-                          "description": "Additional information that can not be captured in the structured fields and/or any other specific block.",
-                          "type": "object",
-                          "properties": {},
-                          "additionalProperties": false
-                        }
-                      },
-                      "additionalProperties": false
-                    },
-                    "Links": {
-                      "type": "object",
-                      "description": "Links relevant to the payload",
-                      "properties": {
-                        "Self": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "First": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "Prev": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "Next": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "Last": {
-                          "type": "string",
-                          "format": "uri"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "Self"
-                      ]
-                    },
-                    "Meta": {
-                      "title": "MetaData",
-                      "type": "object",
-                      "description": "Meta Data relevant to the payload",
-                      "properties": {
-                        "TotalPages": {
-                          "type": "integer",
-                          "format": "int32"
-                        },
-                        "FirstAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "LastAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  },
-                  "required": [
-                    "Data",
-                    "Links",
-                    "Meta"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
-                  "type": "object",
-                  "properties": {
-                    "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 500
-                    },
-                    "Errors": {
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "ErrorCode",
-                          "Message"
-                        ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
-                    }
-                  },
-                  "required": [
-                    "Code",
-                    "Message",
-                    "Errors"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not found"
-          },
-          "405": {
-            "description": "Method Not Allowed"
-          },
-          "406": {
-            "description": "Not Acceptable"
-          },
-          "429": {
-            "description": "Too Many Requests",
-            "headers": {
-              "Retry-After": {
-                "description": "Number in seconds to wait",
-                "schema": {
-                  "type": "integer"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
-                  "type": "object",
-                  "properties": {
-                    "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 500
-                    },
-                    "Errors": {
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "ErrorCode",
-                          "Message"
-                        ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
-                    }
-                  },
-                  "required": [
-                    "Code",
-                    "Message",
-                    "Errors"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "PSUOAuth2Security": [
-              "payments"
-            ]
-          }
-        ]
-      }
-    },
     "/international-scheduled-payments": {
       "post": {
         "tags": [
@@ -26790,6 +26416,380 @@
         "security": [
           {
             "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/international-scheduled-payments/{ConsentId}/funds-confirmation": {
+      "get": {
+        "tags": [
+          "International Scheduled Payments"
+        ],
+        "summary": "Get International Scheduled Payment Consents Funds Confirmation",
+        "operationId": "GetInternationalScheduledPaymentConsentsConsentIdFundsConfirmation",
+        "parameters": [
+          {
+            "name": "ConsentId",
+            "in": "path",
+            "description": "ConsentId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-financial-id",
+            "required": true,
+            "description": "The unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-last-logged-time",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "schema": {
+              "type": "string",
+              "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "International Payment Consents Funds Confirmation Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "description": "An RFC4122 UID used as a correlation id.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the body of the payload.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "FundsAvailableResult": {
+                          "description": "Result of a funds availability check.",
+                          "type": "object",
+                          "properties": {
+                            "FundsAvailableDateTime": {
+                              "description": "Date and time at which the funds availability check was generated.\nAll dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "FundsAvailable": {
+                              "description": "Flag to indicate the availability of funds given the Amount in the consent request.",
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "FundsAvailableDateTime",
+                            "FundsAvailable"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "SupplementaryData": {
+                          "description": "Additional information that can not be captured in the structured fields and/or any other specific block.",
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": false
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "Data",
+                    "Links",
+                    "Meta"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "description": "High level textual error code, to help categorize the errors.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 40
+                    },
+                    "Id": {
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 40
+                    },
+                    "Message": {
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    "Errors": {
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "Message": {
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 500
+                          },
+                          "Path": {
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 500
+                          },
+                          "Url": {
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "additionalProperties": false,
+                        "minProperties": 1
+                      },
+                      "type": "array",
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "Code",
+                    "Message",
+                    "Errors"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "405": {
+            "description": "Method Not Allowed"
+          },
+          "406": {
+            "description": "Not Acceptable"
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "description": "High level textual error code, to help categorize the errors.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 40
+                    },
+                    "Id": {
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 40
+                    },
+                    "Message": {
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500
+                    },
+                    "Errors": {
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 128
+                          },
+                          "Message": {
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 500
+                          },
+                          "Path": {
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 500
+                          },
+                          "Url": {
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "additionalProperties": false,
+                        "minProperties": 1
+                      },
+                      "type": "array",
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "Code",
+                    "Message",
+                    "Errors"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "PSUOAuth2Security": [
               "payments"
             ]
           }
