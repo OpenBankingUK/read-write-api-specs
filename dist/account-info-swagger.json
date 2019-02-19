@@ -631,10 +631,78 @@
         ]
       }
     },
+    "/accounts/{AccountId}/parties": {
+      "get": {
+        "tags": [
+          "Parties"
+        ],
+        "summary": "Get Parties",
+        "operationId": "GetParties",
+        "parameters": [
+          {
+            "$ref": "#/parameters/AccountId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-last-logged-time-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent-Param"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200PartiesRead"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/404ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "PSUOAuth2Security": [
+              "accounts"
+            ]
+          }
+        ]
+      }
+    },
     "/accounts/{AccountId}/party": {
       "get": {
         "tags": [
-          "Partys"
+          "Parties"
         ],
         "summary": "Get Party",
         "operationId": "GetAccountsAccountIdParty",
@@ -1531,7 +1599,7 @@
     "/party": {
       "get": {
         "tags": [
-          "Partys"
+          "Parties"
         ],
         "summary": "Get Party",
         "operationId": "GetParty",
@@ -2149,7 +2217,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction4"
+        "$ref": "#/definitions/OBReadTransaction5"
       }
     },
     "200TransactionsRead": {
@@ -2161,7 +2229,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction4"
+        "$ref": "#/definitions/OBReadTransaction5"
       }
     },
     "200AccountsAccountIdDirectDebitsRead": {
@@ -2197,7 +2265,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadStatement1"
+        "$ref": "#/definitions/OBReadStatement2"
       }
     },
     "200AccountsAccountIdStatementsStatementIdRead": {
@@ -2209,7 +2277,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadStatement1"
+        "$ref": "#/definitions/OBReadStatement2"
       }
     },
     "200AccountsAccountIdStatementsStatementIdFileRead": {
@@ -2233,7 +2301,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction4"
+        "$ref": "#/definitions/OBReadTransaction5"
       }
     },
     "200StatementsRead": {
@@ -2245,7 +2313,19 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadStatement1"
+        "$ref": "#/definitions/OBReadStatement2"
+      }
+    },
+    "200PartiesRead": {
+      "description": "Parties Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadParty3"
       }
     },
     "200AccountsAccountIdPartyRead": {
@@ -2257,7 +2337,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadParty1"
+        "$ref": "#/definitions/OBReadParty2"
       }
     },
     "200PartyRead": {
@@ -2269,7 +2349,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadParty1"
+        "$ref": "#/definitions/OBReadParty2"
       }
     },
     "200AccountsAccountIdStandingOrdersRead": {
@@ -2431,7 +2511,7 @@
   },
   "definitions": {
     "AccountId": {
-      "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
+      "description": "Account Identification of the customer for Product Details",
       "type": "string",
       "minLength": 1,
       "maxLength": 40
@@ -4886,11 +4966,15 @@
       "properties": {
         "Code": {
           "description": "Specifies the family within a domain.",
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4
         },
         "SubCode": {
           "description": "Specifies the sub-product family within a specific family.",
-          "type": "string"
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4
         }
       },
       "required": [
@@ -5144,6 +5228,28 @@
         "Pending"
       ]
     },
+    "OBExternalAccountRole1Code": {
+      "description": "A party’s role with respect to the related account.",
+      "type": "string",
+      "example": [
+        "UK.OBIE.Administrator",
+        "UK.OBIE.Beneficiary",
+        "UK.OBIE.CustodianForMinor",
+        "UK.OBIE.Granter",
+        "UK.OBIE.LegalGuardian",
+        "UK.OBIE.OtherParty",
+        "UK.OBIE.PowerOfAttorney",
+        "UK.OBIE.Principal",
+        "UK.OBIE.Protector",
+        "UK.OBIE.RegisteredShareholderName",
+        "UK.OBIE.SecondaryOwner",
+        "UK.OBIE.SeniorManagingOfficial",
+        "UK.OBIE.Settlor",
+        "UK.OBIE.SuccessorOnDeath"
+      ],
+      "minLength": 1,
+      "maxLength": 70
+    },
     "OBExternalAccountSubType1Code": {
       "description": "Specifies the sub type of account (product family group).",
       "type": "string",
@@ -5206,6 +5312,26 @@
         "Temporary"
       ]
     },
+    "OBExternalLegalStructureType1Code": {
+      "description": "Legal standing of the party.",
+      "type": "string",
+      "example": [
+        "UK.OBIE.CIC",
+        "UK.OBIE.CIO",
+        "UK.OBIE.Charity",
+        "UK.OBIE.CoOp",
+        "UK.OBIE.GeneralPartnership",
+        "UK.OBIE.Individual",
+        "UK.OBIE.LimitedLiabilityPartnership",
+        "UK.OBIE.LimitedPartnership",
+        "UK.OBIE.PrivateLimitedCompany",
+        "UK.OBIE.PublicLimitedCompany",
+        "UK.OBIE.ScottishLimitedPartnership",
+        "UK.OBIE.Sole"
+      ],
+      "minLength": 1,
+      "maxLength": 70
+    },
     "OBExternalOfferType1Code": {
       "description": "Offer type, in a coded form.",
       "type": "string",
@@ -5254,7 +5380,7 @@
       ]
     },
     "OBExternalProductType1Code": {
-      "description": "Descriptive code for the product category. \nIf ProductType - \"Other\" is chosen, the object OtherProductType must be populated with name, and description.",
+      "description": "Product type : Personal Current Account, Business Current Account",
       "type": "string",
       "enum": [
         "BusinessCurrentAccount",
@@ -7547,7 +7673,7 @@
       },
       "additionalProperties": false
     },
-    "OBParty1": {
+    "OBParty2": {
       "type": "object",
       "properties": {
         "PartyId": {
@@ -7571,6 +7697,22 @@
           "minLength": 1,
           "maxLength": 70
         },
+        "FullLegalName": {
+          "description": "The full legal name of the party.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 350
+        },
+        "LegalStructure": {
+          "$ref": "#/definitions/OBExternalLegalStructureType1Code"
+        },
+        "BeneficialOwnership": {
+          "description": "A flag to indicate a party’s beneficial ownership of the related account.",
+          "type": "boolean"
+        },
+        "AccountRole": {
+          "$ref": "#/definitions/OBExternalAccountRole1Code"
+        },
         "EmailAddress": {
           "description": "Address for electronic mail (e-mail).",
           "type": "string",
@@ -7587,6 +7729,9 @@
           "type": "string",
           "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
         },
+        "Relationships": {
+          "$ref": "#/definitions/OBPartyRelationships1"
+        },
         "Address": {
           "items": {
             "$ref": "#/definitions/OBPostalAddress8"
@@ -7598,6 +7743,16 @@
       "required": [
         "PartyId"
       ],
+      "additionalProperties": false
+    },
+    "OBPartyRelationships1": {
+      "description": "The Party's relationships with other resources.",
+      "type": "object",
+      "properties": {
+        "Account": {
+          "$ref": "#/definitions/OBRelationship1"
+        }
+      },
       "additionalProperties": false
     },
     "OBPostalAddress6": {
@@ -7761,7 +7916,7 @@
           "maxLength": 35
         },
         "OtherProductType": {
-          "$ref": "#/definitions/OB_OtherProductType1"
+          "$ref": "#/definitions/OBOtherProductType1"
         },
         "BCA": {
           "$ref": "#/definitions/OBBCAData1"
@@ -8051,14 +8206,43 @@
       ],
       "additionalProperties": false
     },
-    "OBReadParty1": {
+    "OBReadParty3": {
       "type": "object",
       "properties": {
         "Data": {
           "type": "object",
           "properties": {
             "Party": {
-              "$ref": "#/definitions/OBParty1"
+              "items": {
+                "$ref": "#/definitions/OBParty2"
+              },
+              "type": "array"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      },
+      "required": [
+        "Data",
+        "Links",
+        "Meta"
+      ],
+      "additionalProperties": false
+    },
+    "OBReadParty2": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "type": "object",
+          "properties": {
+            "Party": {
+              "$ref": "#/definitions/OBParty2"
             }
           },
           "additionalProperties": false
@@ -8078,19 +8262,11 @@
       "additionalProperties": false
     },
     "OBReadProduct2": {
+      "description": "Product details of Other Product which is not avaiable in the standard list",
       "type": "object",
       "properties": {
         "Data": {
-          "type": "object",
-          "properties": {
-            "Product": {
-              "items": {
-                "$ref": "#/definitions/OBProduct2"
-              },
-              "type": "array"
-            }
-          },
-          "additionalProperties": false
+          "$ref": "#/definitions/OB_ReadDataProduct1"
         },
         "Links": {
           "$ref": "#/definitions/Links"
@@ -8164,7 +8340,7 @@
       ],
       "additionalProperties": false
     },
-    "OBReadStatement1": {
+    "OBReadStatement2": {
       "type": "object",
       "properties": {
         "Data": {
@@ -8172,7 +8348,7 @@
           "properties": {
             "Statement": {
               "items": {
-                "$ref": "#/definitions/OBStatement1"
+                "$ref": "#/definitions/OBStatement2"
               },
               "type": "array",
               "description": "Provides further details on a statement resource."
@@ -8194,7 +8370,7 @@
       ],
       "additionalProperties": false
     },
-    "OBReadTransaction4": {
+    "OBReadTransaction5": {
       "type": "object",
       "properties": {
         "Data": {
@@ -8202,7 +8378,7 @@
           "properties": {
             "Transaction": {
               "items": {
-                "$ref": "#/definitions/OBTransaction4"
+                "$ref": "#/definitions/OBTransaction5"
               },
               "type": "array",
               "description": "Provides further details on an entry in the report."
@@ -8221,6 +8397,27 @@
         "Data",
         "Links",
         "Meta"
+      ],
+      "additionalProperties": false
+    },
+    "OBRelationship1": {
+      "description": "Relationship to the Account resource.",
+      "type": "object",
+      "properties": {
+        "Related": {
+          "description": "Absolute URI to the related resource.",
+          "type": "string"
+        },
+        "Id": {
+          "description": "Unique identification as assigned by the ASPSP to uniquely identify the related resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        }
+      },
+      "required": [
+        "Related",
+        "Id"
       ],
       "additionalProperties": false
     },
@@ -8550,7 +8747,7 @@
       ],
       "additionalProperties": false
     },
-    "OBStatement1": {
+    "OBStatement2": {
       "description": "Provides further details on a statement resource.",
       "type": "object",
       "properties": {
@@ -8605,14 +8802,14 @@
         },
         "StatementFee": {
           "items": {
-            "$ref": "#/definitions/OBStatementFee1"
+            "$ref": "#/definitions/OBStatementFee2"
           },
           "type": "array",
           "description": "Set of elements used to provide details of a fee for the statement resource."
         },
         "StatementInterest": {
           "items": {
-            "$ref": "#/definitions/OBStatementInterest1"
+            "$ref": "#/definitions/OBStatementInterest2"
           },
           "type": "array",
           "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
@@ -8655,7 +8852,7 @@
       ],
       "additionalProperties": false
     },
-    "OBStatement1Basic": {
+    "OBStatement2Basic": {
       "description": "Provides further details on a statement resource.",
       "type": "object",
       "properties": {
@@ -8710,14 +8907,14 @@
         },
         "StatementFee": {
           "items": {
-            "$ref": "#/definitions/OBStatementFee1"
+            "$ref": "#/definitions/OBStatementFee2"
           },
           "type": "array",
           "description": "Set of elements used to provide details of a fee for the statement resource."
         },
         "StatementInterest": {
           "items": {
-            "$ref": "#/definitions/OBStatementInterest1"
+            "$ref": "#/definitions/OBStatementInterest2"
           },
           "type": "array",
           "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
@@ -8753,7 +8950,7 @@
       ],
       "additionalProperties": false
     },
-    "OBStatement1Detail": {
+    "OBStatement2Detail": {
       "description": "Provides further details on a statement resource.",
       "type": "object",
       "properties": {
@@ -8808,14 +9005,14 @@
         },
         "StatementFee": {
           "items": {
-            "$ref": "#/definitions/OBStatementFee1"
+            "$ref": "#/definitions/OBStatementFee2"
           },
           "type": "array",
           "description": "Set of elements used to provide details of a fee for the statement resource."
         },
         "StatementInterest": {
           "items": {
-            "$ref": "#/definitions/OBStatementInterest1"
+            "$ref": "#/definitions/OBStatementInterest2"
           },
           "type": "array",
           "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
@@ -8920,10 +9117,16 @@
       ],
       "additionalProperties": false
     },
-    "OBStatementFee1": {
+    "OBStatementFee2": {
       "description": "Set of elements used to provide details of a fee for the statement resource.",
       "type": "object",
       "properties": {
+        "Description": {
+          "description": "Description that may be available for the statement fee.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
         "CreditDebitIndicator": {
           "type": "string",
           "enum": [
@@ -8934,6 +9137,16 @@
         },
         "Type": {
           "$ref": "#/definitions/OBExternalStatementFeeType1Code"
+        },
+        "Rate": {
+          "description": "Rate charged for Statement Fee (where it is charged in terms of a rate rather than an amount)",
+          "type": "number"
+        },
+        "RateType": {
+          "$ref": "#/definitions/OBExternalStatementFeeRateType1Code"
+        },
+        "Frequency": {
+          "$ref": "#/definitions/OBExternalStatementFeeFrequency1Code"
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -8946,10 +9159,16 @@
       ],
       "additionalProperties": false
     },
-    "OBStatementInterest1": {
+    "OBStatementInterest2": {
       "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
       "type": "object",
       "properties": {
+        "Description": {
+          "description": "Description that may be available for the statement interest.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
         "CreditDebitIndicator": {
           "type": "string",
           "enum": [
@@ -8960,6 +9179,16 @@
         },
         "Type": {
           "$ref": "#/definitions/OBExternalStatementInterestType1Code"
+        },
+        "Rate": {
+          "description": "field representing a percentage (e.g. 0.05 represents 5% and 0.9525 represents 95.25%). Note the number of decimal places may vary.",
+          "type": "number"
+        },
+        "RateType": {
+          "$ref": "#/definitions/OBExternalStatementInterestRateType1Code"
+        },
+        "Frequency": {
+          "$ref": "#/definitions/OBExternalStatementInterestFrequency1Code"
         },
         "Amount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount"
@@ -8977,14 +9206,13 @@
       "type": "object",
       "properties": {
         "Rate": {
-          "description": "Rate associated with the statement rate type.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 10,
-          "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
+          "$ref": "#/definitions/OBExternalStatementRateType1Code"
         },
         "Type": {
-          "$ref": "#/definitions/OBExternalStatementRateType1Code"
+          "description": "Statement rate type, in a coded form.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
         }
       },
       "required": [
@@ -8998,12 +9226,13 @@
       "type": "object",
       "properties": {
         "Value": {
-          "description": "Value associated with the statement value type.",
-          "type": "integer",
-          "format": "int32"
+          "$ref": "#/definitions/OBExternalStatementValueType1Code"
         },
         "Type": {
-          "$ref": "#/definitions/OBExternalStatementValueType1Code"
+          "description": "Statement value type, in a coded form.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
         }
       },
       "required": [
@@ -9012,7 +9241,7 @@
       ],
       "additionalProperties": false
     },
-    "OBTransaction4": {
+    "OBTransaction5": {
       "description": "Provides further details on an entry in the report.",
       "type": "object",
       "properties": {
@@ -9023,7 +9252,7 @@
           "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 40
+          "maxLength": 210
         },
         "TransactionReference": {
           "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
@@ -9138,7 +9367,7 @@
       ],
       "additionalProperties": false
     },
-    "OBTransaction4Basic": {
+    "OBTransaction5Basic": {
       "description": "Provides further details on an entry in the report.",
       "type": "object",
       "properties": {
@@ -9149,7 +9378,7 @@
           "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 40
+          "maxLength": 210
         },
         "TransactionReference": {
           "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
@@ -9243,7 +9472,7 @@
       ],
       "additionalProperties": false
     },
-    "OBTransaction4Detail": {
+    "OBTransaction5Detail": {
       "description": "Provides further details on an entry in the report.",
       "type": "object",
       "properties": {
@@ -9254,7 +9483,7 @@
           "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
           "type": "string",
           "minLength": 1,
-          "maxLength": 40
+          "maxLength": 210
         },
         "TransactionReference": {
           "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
@@ -9501,7 +9730,7 @@
           "maxLength": 256
         },
         "Name": {
-          "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+          "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
           "type": "string",
           "minLength": 1,
           "maxLength": 70
@@ -9533,7 +9762,7 @@
           "maxLength": 256
         },
         "Name": {
-          "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+          "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
           "type": "string",
           "minLength": 1,
           "maxLength": 70
@@ -9625,7 +9854,7 @@
       "maxLength": 40
     },
     "OBExternalStatementRateType1Code": {
-      "description": "Statement rate type, in a coded form.",
+      "description": "Rate associated with the statement rate type.",
       "type": "string",
       "example": [
         "UK.OBIE.AnnualBalanceTransfer",
@@ -9640,10 +9869,11 @@
         "UK.OBIE.MonthlyPurchase"
       ],
       "minLength": 1,
-      "maxLength": 40
+      "maxLength": 40,
+      "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
     },
     "OBExternalStatementValueType1Code": {
-      "description": "Statement value type, in a coded form.",
+      "description": "Value associated with the statement value type.",
       "type": "string",
       "example": [
         "UK.OBIE.AirMilesPoints",
@@ -9715,6 +9945,54 @@
       },
       "additionalProperties": false
     },
+    "OBExternalStatementFeeRateType1Code": {
+      "description": "Description that may be available for the statement fee rate type.",
+      "type": "string",
+      "example": [
+        "UK.OBIE.AER",
+        "UK.OBIE.EAR"
+      ]
+    },
+    "OBExternalStatementFeeFrequency1Code": {
+      "description": "How frequently the fee is applied to the Account.",
+      "type": "string",
+      "example": [
+        "UK.OBIE.ChargingPeriod",
+        "UK.OBIE.PerTransactionAmount",
+        "UK.OBIE.PerTransactionPercentage",
+        "UK.OBIE.Quarterly",
+        "UK.OBIE.StatementMonthly",
+        "UK.OBIE.Weekly"
+      ],
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "OBExternalStatementInterestRateType1Code": {
+      "description": "Description that may be available for the statement Interest rate type.",
+      "type": "string",
+      "example": [
+        "UK.OBIE.BOEBaseRate",
+        "UK.OBIE.FixedRate",
+        "UK.OBIE.Gross",
+        "UK.OBIE.LoanProviderBaseRate",
+        "UK.OBIE.Net"
+      ]
+    },
+    "OBExternalStatementInterestFrequency1Code": {
+      "description": "Specifies the statement fee type requested",
+      "type": "string",
+      "example": [
+        "UK.OBIE.Daily",
+        "UK.OBIE.HalfYearly",
+        "UK.OBIE.Monthly",
+        "UK.OBIE.PerStatementDate",
+        "UK.OBIE.Quarterly",
+        "UK.OBIE.Weekly",
+        "UK.OBIE.Yearly"
+      ],
+      "minLength": 1,
+      "maxLength": 40
+    },
     "OB_CreditInterest1": {
       "description": "Details about the interest that may be payable to the Account holders",
       "type": "object",
@@ -9739,19 +10017,23 @@
       "properties": {
         "MinimumAmount": {
           "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "MaximumAmount": {
           "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "MinimumRate": {
           "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "MaximumRate": {
           "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         }
       },
       "additionalProperties": false
@@ -9832,11 +10114,13 @@
         },
         "FeeAmount": {
           "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRate": {
           "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRateType": {
           "$ref": "#/definitions/OB_InterestRateType1Code"
@@ -10076,11 +10360,13 @@
         },
         "FeeAmount": {
           "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRate": {
           "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRateType": {
           "$ref": "#/definitions/OB_InterestRateType1Code"
@@ -10158,22 +10444,26 @@
         },
         "TierValueMinimum": {
           "description": "Minimum loan value for which the loan interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "TierValueMaximum": {
           "description": "Minimum loan value for which the loan interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "TierValueMinTerm": {
           "description": "Minimum loan value for which the loan interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "MinTermPeriod": {
           "$ref": "#/definitions/OB_Period1Code"
         },
         "TierValueMaxTerm": {
           "description": "Minimum loan value for which the loan interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "MaxTermPeriod": {
           "$ref": "#/definitions/OB_Period1Code"
@@ -10183,14 +10473,16 @@
         },
         "RepAPR": {
           "description": "Minimum loan value for which the loan interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "LoanProviderInterestRateType": {
           "$ref": "#/definitions/OB_InterestRateType1Code"
         },
         "LoanProviderInterestRate": {
           "description": "Minimum loan value for which the loan interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "Notes": {
           "items": {
@@ -10383,37 +10675,6 @@
       ],
       "additionalProperties": false
     },
-    "OB_OtherProductData1": {
-      "type": "object",
-      "properties": {
-        "ProductDetails": {
-          "$ref": "#/definitions/OB_OtherProductDetails1"
-        },
-        "CreditInterest": {
-          "$ref": "#/definitions/OB_CreditInterest1"
-        },
-        "Overdraft": {
-          "$ref": "#/definitions/OB_Overdraft1"
-        },
-        "LoanInterest": {
-          "$ref": "#/definitions/OB_LoanInterest1"
-        },
-        "Repayment": {
-          "$ref": "#/definitions/OB_Repayment1"
-        },
-        "OtherFeesCharges": {
-          "items": {
-            "$ref": "#/definitions/OB_OtherFeesAndCharges1"
-          },
-          "type": "array",
-          "description": "Contains details of fees and charges which are not associated with either Overdraft or features/benefits"
-        },
-        "SupplementaryData": {
-          "$ref": "#/definitions/OBSupplementaryData1"
-        }
-      },
-      "additionalProperties": false
-    },
     "OB_OtherProductDetails1": {
       "type": "object",
       "properties": {
@@ -10486,22 +10747,45 @@
       ]
     },
     "OB_OtherProductType1": {
+      "description": "Other product type details associated with the account.",
       "type": "object",
       "properties": {
         "Name": {
-          "description": "Long name associated with the code",
+          "description": "Long name associated with the product",
           "type": "string",
           "minLength": 1,
           "maxLength": 350
         },
         "Description": {
-          "description": "Description to describe the purpose of the code",
+          "description": "Description of the Product associated with the account",
           "type": "string",
           "minLength": 1,
           "maxLength": 350
         },
-        "OtherProductDetails": {
-          "$ref": "#/definitions/OB_OtherProductData1"
+        "ProductDetails": {
+          "$ref": "#/definitions/OB_OtherProductDetails1"
+        },
+        "CreditInterest": {
+          "$ref": "#/definitions/OB_CreditInterest1"
+        },
+        "Overdraft": {
+          "$ref": "#/definitions/OB_Overdraft1"
+        },
+        "LoanInterest": {
+          "$ref": "#/definitions/OB_LoanInterest1"
+        },
+        "Repayment": {
+          "$ref": "#/definitions/OB_Repayment1"
+        },
+        "OtherFeesCharges": {
+          "items": {
+            "$ref": "#/definitions/OB_OtherFeesAndCharges1"
+          },
+          "type": "array",
+          "description": "Contains details of fees and charges which are not associated with either Overdraft or features/benefits"
+        },
+        "SupplementaryData": {
+          "$ref": "#/definitions/OBSupplementaryData1"
         }
       },
       "required": [
@@ -10623,15 +10907,18 @@
         },
         "IncrementalBorrowingAmount": {
           "description": "Every additional tranche of an overdraft balance to which an overdraft fee is applied",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeAmount": {
           "description": "Every additional tranche of an overdraft balance to which an overdraft fee is applied",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRate": {
           "description": "Every additional tranche of an overdraft balance to which an overdraft fee is applied",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRateType": {
           "$ref": "#/definitions/OB_InterestRateType1Code"
@@ -10715,23 +11002,28 @@
         },
         "TierValueMin": {
           "description": "Minimum value of Overdraft Tier/Band",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "TierValueMax": {
           "description": "Minimum value of Overdraft Tier/Band",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "EAR": {
           "description": "Minimum value of Overdraft Tier/Band",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "AgreementLengthMin": {
           "description": "Minimum value of Overdraft Tier/Band",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "AgreementLengthMax": {
           "description": "Minimum value of Overdraft Tier/Band",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "AgreementPeriod": {
           "$ref": "#/definitions/OB_Period1Code"
@@ -10788,7 +11080,8 @@
         },
         "BufferAmount": {
           "description": "When a customer exceeds their credit limit, a financial institution will not charge the customer unauthorised overdraft charges if they do not exceed by more than the buffer amount. Note: Authorised overdraft charges may still apply.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "Notes": {
           "items": {
@@ -10843,6 +11136,64 @@
         "PWEK",
         "PYER"
       ]
+    },
+    "OB_Product1": {
+      "description": "Product details associated with the Account",
+      "type": "object",
+      "properties": {
+        "ProductName": {
+          "description": "The name of the Product used for marketing purposes from a customer perspective. I.e. what the customer would recognise.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 350
+        },
+        "ProductId": {
+          "description": "The unique ID that has been internally assigned by the financial institution to each of the current account banking products they market to their retail and/or small to medium enterprise (SME) customers.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "AccountId": {
+          "$ref": "#/definitions/AccountId"
+        },
+        "SecondaryProductId": {
+          "description": "Any secondary Identification which  supports Product Identifier to uniquely identify the current account banking products.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 70
+        },
+        "ProductType": {
+          "$ref": "#/definitions/OBExternalProductType1Code"
+        },
+        "MarketingStateId": {
+          "description": "Unique and unambiguous identification of a  Product Marketing State.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35
+        },
+        "OtherProductType": {
+          "$ref": "#/definitions/OB_OtherProductType1"
+        }
+      },
+      "required": [
+        "AccountId",
+        "ProductType"
+      ],
+      "additionalProperties": false
+    },
+    "OB_ReadDataProduct1": {
+      "description": "Aligning with the read write specs structure.",
+      "type": "object",
+      "properties": {
+        "Product": {
+          "items": {
+            "$ref": "#/definitions/OB_Product1"
+          },
+          "type": "array",
+          "description": "Product details associated with the Account"
+        }
+      },
+      "additionalProperties": false
     },
     "OB_Repayment1": {
       "description": "Repayment details of the Loan product",
@@ -10965,11 +11316,13 @@
         },
         "FeeAmount": {
           "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRate": {
           "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "FeeRateType": {
           "$ref": "#/definitions/OB_InterestRateType1Code"
@@ -11114,11 +11467,13 @@
         },
         "TierValueMinimum": {
           "description": "Minimum deposit value for which the credit interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "TierValueMaximum": {
           "description": "Minimum deposit value for which the credit interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "CalculationFrequency": {
           "$ref": "#/definitions/OB_Frequency1Code"
@@ -11134,14 +11489,16 @@
         },
         "AER": {
           "description": "Minimum deposit value for which the credit interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "BankInterestRateType": {
           "$ref": "#/definitions/OB_InterestRateType1Code"
         },
         "BankInterestRate": {
           "description": "Minimum deposit value for which the credit interest tier applies.",
-          "type": "number"
+          "type": "number",
+          "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
         },
         "Notes": {
           "items": {

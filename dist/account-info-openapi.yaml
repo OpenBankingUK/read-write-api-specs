@@ -1263,7 +1263,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadTransaction4'
+            $ref: '#/components/schemas/OBReadTransaction5'
     200TransactionsRead:
       description: Transactions Read
       headers:
@@ -1274,7 +1274,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadTransaction4'
+            $ref: '#/components/schemas/OBReadTransaction5'
     200AccountsAccountIdDirectDebitsRead:
       description: Direct Debits Read
       headers:
@@ -1307,7 +1307,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadStatement1'
+            $ref: '#/components/schemas/OBReadStatement2'
     200AccountsAccountIdStatementsStatementIdRead:
       description: Statements Read
       headers:
@@ -1318,7 +1318,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadStatement1'
+            $ref: '#/components/schemas/OBReadStatement2'
     200AccountsAccountIdStatementsStatementIdFileRead:
       description: Statements Read
       headers:
@@ -1341,7 +1341,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadTransaction4'
+            $ref: '#/components/schemas/OBReadTransaction5'
     200StatementsRead:
       description: Statements Read
       headers:
@@ -1352,7 +1352,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadStatement1'
+            $ref: '#/components/schemas/OBReadStatement2'
     200AccountsAccountIdPartyRead:
       description: Party Read
       headers:
@@ -1604,8 +1604,12 @@ components:
       pattern: '^\d{1,13}\.\d{1,5}$'
     OBActiveOrHistoricCurrencyAndAmount:
       description: >-
-        Amount of money of the cash balance after a transaction entry is applied
-        to the account..
+        Amount of money to be moved between the debtor and creditor, before
+        deduction of charges, expressed in the currency as ordered by the
+        initiating party.
+
+        Usage: This amount has to be transported unchanged through the
+        transaction chain.
       type: object
       properties:
         Amount:
@@ -3951,9 +3955,13 @@ components:
         Code:
           description: Specifies the family within a domain.
           type: string
+          minLength: 1
+          maxLength: 4
         SubCode:
           description: Specifies the sub-product family within a specific family.
           type: string
+          minLength: 1
+          maxLength: 4
       required:
         - Code
         - SubCode
@@ -6811,7 +6819,7 @@ components:
           minLength: 1
           maxLength: 35
         OtherProductType:
-          $ref: '#/components/schemas/OB_OtherProductType1'
+          $ref: '#/components/schemas/OBOtherProductType1'
         BCA:
           $ref: '#/components/schemas/OBBCAData1'
         PCA:
@@ -7194,7 +7202,7 @@ components:
         - Links
         - Meta
       additionalProperties: false
-    OBReadStatement1:
+    OBReadStatement2:
       type: object
       properties:
         Data:
@@ -7202,7 +7210,7 @@ components:
           properties:
             Statement:
               items:
-                $ref: '#/components/schemas/OBStatement1'
+                $ref: '#/components/schemas/OBStatement2'
               type: array
               description: Provides further details on a statement resource.
           additionalProperties: false
@@ -7215,7 +7223,7 @@ components:
         - Links
         - Meta
       additionalProperties: false
-    OBReadTransaction4:
+    OBReadTransaction5:
       type: object
       properties:
         Data:
@@ -7223,7 +7231,7 @@ components:
           properties:
             Transaction:
               items:
-                $ref: '#/components/schemas/OBTransaction4'
+                $ref: '#/components/schemas/OBTransaction5'
               type: array
               description: Provides further details on an entry in the report.
           additionalProperties: false
@@ -7684,11 +7692,11 @@ components:
         - Frequency
         - CreditorAccount
       additionalProperties: false
-    OBStatement1:
+    OBStatement2:
       oneOf:
-        - $ref: '#/components/schemas/OBStatement1Basic'
-        - $ref: '#/components/schemas/OBStatement1Detail'
-    OBStatement1Basic:
+        - $ref: '#/components/schemas/OBStatement2Basic'
+        - $ref: '#/components/schemas/OBStatement2Detail'
+    OBStatement2Basic:
       description: Provides further details on a statement resource.
       type: object
       properties:
@@ -7765,14 +7773,14 @@ components:
             amount for the statement resource.
         StatementFee:
           items:
-            $ref: '#/components/schemas/OBStatementFee1'
+            $ref: '#/components/schemas/OBStatementFee2'
           type: array
           description: >-
             Set of elements used to provide details of a fee for the statement
             resource.
         StatementInterest:
           items:
-            $ref: '#/components/schemas/OBStatementInterest1'
+            $ref: '#/components/schemas/OBStatementInterest2'
           type: array
           description: >-
             Set of elements used to provide details of a generic interest amount
@@ -7805,7 +7813,7 @@ components:
         - EndDateTime
         - CreationDateTime
       additionalProperties: false
-    OBStatement1Detail:
+    OBStatement2Detail:
       description: Provides further details on a statement resource.
       type: object
       properties:
@@ -7882,14 +7890,14 @@ components:
             amount for the statement resource.
         StatementFee:
           items:
-            $ref: '#/components/schemas/OBStatementFee1'
+            $ref: '#/components/schemas/OBStatementFee2'
           type: array
           description: >-
             Set of elements used to provide details of a fee for the statement
             resource.
         StatementInterest:
           items:
-            $ref: '#/components/schemas/OBStatementInterest1'
+            $ref: '#/components/schemas/OBStatementInterest2'
           type: array
           description: >-
             Set of elements used to provide details of a generic interest amount
@@ -7991,12 +7999,17 @@ components:
         - DateTime
         - Type
       additionalProperties: false
-    OBStatementFee1:
+    OBStatementFee2:
       description: >-
         Set of elements used to provide details of a fee for the statement
         resource.
       type: object
       properties:
+        Description:
+          description: Description that may be available for the statement fee.
+          type: string
+          minLength: 1
+          maxLength: 128
         CreditDebitIndicator:
           type: string
           enum:
@@ -8007,6 +8020,15 @@ components:
             Usage: A zero amount is considered to be a credit amount.
         Type:
           $ref: '#/components/schemas/OBExternalStatementFeeType1Code'
+        Rate:
+          description: >-
+            Rate charged for Statement Fee (where it is charged in terms of a
+            rate rather than an amount)
+          type: number
+        RateType:
+          $ref: '#/components/schemas/OBExternalStatementFeeRateType1Code'
+        Frequency:
+          $ref: '#/components/schemas/OBExternalStatementFeeFrequency1Code'
         Amount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
       required:
@@ -8014,12 +8036,17 @@ components:
         - Type
         - Amount
       additionalProperties: false
-    OBStatementInterest1:
+    OBStatementInterest2:
       description: >-
         Set of elements used to provide details of a generic interest amount
         related to the statement resource.
       type: object
       properties:
+        Description:
+          description: Description that may be available for the statement interest.
+          type: string
+          minLength: 1
+          maxLength: 128
         CreditDebitIndicator:
           type: string
           enum:
@@ -8030,6 +8057,15 @@ components:
             Usage: A zero amount is considered to be a credit amount.
         Type:
           $ref: '#/components/schemas/OBExternalStatementInterestType1Code'
+        Rate:
+          description: >-
+            field representing a percentage (e.g. 0.05 represents 5% and 0.9525
+            represents 95.25%). Note the number of decimal places may vary.
+          type: number
+        RateType:
+          $ref: '#/components/schemas/OBExternalStatementInterestRateType1Code'
+        Frequency:
+          $ref: '#/components/schemas/OBExternalStatementInterestFrequency1Code'
         Amount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
       required:
@@ -8044,13 +8080,12 @@ components:
       type: object
       properties:
         Rate:
-          description: Rate associated with the statement rate type.
+          $ref: '#/components/schemas/OBExternalStatementRateType1Code'
+        Type:
+          description: 'Statement rate type, in a coded form.'
           type: string
           minLength: 1
-          maxLength: 10
-          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
-        Type:
-          $ref: '#/components/schemas/OBExternalStatementRateType1Code'
+          maxLength: 40
       required:
         - Rate
         - Type
@@ -8062,20 +8097,21 @@ components:
       type: object
       properties:
         Value:
-          description: Value associated with the statement value type.
-          type: integer
-          format: int32
-        Type:
           $ref: '#/components/schemas/OBExternalStatementValueType1Code'
+        Type:
+          description: 'Statement value type, in a coded form.'
+          type: string
+          minLength: 1
+          maxLength: 40
       required:
         - Value
         - Type
       additionalProperties: false
-    OBTransaction4:
+    OBTransaction5:
       oneOf:
-        - $ref: '#/components/schemas/OBTransaction4Basic'
-        - $ref: '#/components/schemas/OBTransaction4Detail'
-    OBTransaction4Basic:
+        - $ref: '#/components/schemas/OBTransaction5Basic'
+        - $ref: '#/components/schemas/OBTransaction5Detail'
+    OBTransaction5Basic:
       description: Provides further details on an entry in the report.
       type: object
       properties:
@@ -8087,7 +8123,7 @@ components:
             institution. This identifier is both unique and immutable.
           type: string
           minLength: 1
-          maxLength: 40
+          maxLength: 210
         TransactionReference:
           description: >-
             Unique reference for the transaction. This reference is optionally
@@ -8203,7 +8239,7 @@ components:
         - BookingDateTime
         - Amount
       additionalProperties: false
-    OBTransaction4Detail:
+    OBTransaction5Detail:
       description: Provides further details on an entry in the report.
       type: object
       properties:
@@ -8215,7 +8251,7 @@ components:
             institution. This identifier is both unique and immutable.
           type: string
           minLength: 1
-          maxLength: 40
+          maxLength: 210
         TransactionReference:
           description: >-
             Unique reference for the transaction. This reference is optionally
@@ -8514,12 +8550,12 @@ components:
           maxLength: 256
         Name:
           description: >-
-            Name of the account, as assigned by the account servicing
-            institution.
+            The account name is the name or names of the account owner(s)
+            represented at an account level, as displayed by the ASPSP's online
+            channels.
 
-            Usage: The account name is the name or names of the account owner(s)
-            represented at an account level. The account name is not the product
-            name or the nickname of the account.
+            Note, the account name is not the product name or the nickname of
+            the account.
           type: string
           minLength: 1
           maxLength: 70
@@ -8605,7 +8641,7 @@ components:
       minLength: 1
       maxLength: 40
     OBExternalStatementRateType1Code:
-      description: 'Statement rate type, in a coded form.'
+      description: Rate associated with the statement rate type.
       type: string
       example:
         - UK.OBIE.AnnualBalanceTransfer
@@ -8620,8 +8656,9 @@ components:
         - UK.OBIE.MonthlyPurchase
       minLength: 1
       maxLength: 40
+      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
     OBExternalStatementValueType1Code:
-      description: 'Statement value type, in a coded form.'
+      description: Value associated with the statement value type.
       type: string
       example:
         - UK.OBIE.AirMilesPoints
@@ -8665,16 +8702,20 @@ components:
       minLength: 1
       maxLength: 40
     OBBranchAndFinancialInstitutionIdentification6:
-      description: Financial institution servicing an account for the debtor.
+      description: >-
+        Party that manages the account on behalf of the account owner, that is
+        manages the registration and booking of entries on the account,
+        calculates balances on the account and provides information about the
+        account.
+
+        This is the servicer of the beneficiary account.
       type: object
       properties:
         SchemeName:
           $ref: >-
             #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
         Identification:
-          description: >-
-            Unique and unambiguous identification of a financial institution or
-            a branch of a financial institution.
+          description: Unique and unambiguous identification of the servicing institution.
           type: string
           minLength: 1
           maxLength: 35
@@ -8688,6 +8729,46 @@ components:
         PostalAddress:
           $ref: '#/components/schemas/OBPostalAddress6'
       additionalProperties: false
+    OBExternalStatementFeeRateType1Code:
+      description: Description that may be available for the statement fee rate type.
+      type: string
+      example:
+        - UK.OBIE.AER
+        - UK.OBIE.EAR
+    OBExternalStatementFeeFrequency1Code:
+      description: How frequently the fee is applied to the Account.
+      type: string
+      example:
+        - UK.OBIE.ChargingPeriod
+        - UK.OBIE.PerTransactionAmount
+        - UK.OBIE.PerTransactionPercentage
+        - UK.OBIE.Quarterly
+        - UK.OBIE.StatementMonthly
+        - UK.OBIE.Weekly
+      minLength: 1
+      maxLength: 40
+    OBExternalStatementInterestRateType1Code:
+      description: Description that may be available for the statement Interest rate type.
+      type: string
+      example:
+        - UK.OBIE.BOEBaseRate
+        - UK.OBIE.FixedRate
+        - UK.OBIE.Gross
+        - UK.OBIE.LoanProviderBaseRate
+        - UK.OBIE.Net
+    OBExternalStatementInterestFrequency1Code:
+      description: Specifies the statement fee type requested
+      type: string
+      example:
+        - UK.OBIE.Daily
+        - UK.OBIE.HalfYearly
+        - UK.OBIE.Monthly
+        - UK.OBIE.PerStatementDate
+        - UK.OBIE.Quarterly
+        - UK.OBIE.Weekly
+        - UK.OBIE.Yearly
+      minLength: 1
+      maxLength: 40
     OB_CreditInterest1:
       description: Details about the interest that may be payable to the Account holders
       type: object
@@ -8712,21 +8793,25 @@ components:
             Minimum Amount on which fee/charge is applicable (where it is
             expressed as an amount)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         MaximumAmount:
           description: >-
             Minimum Amount on which fee/charge is applicable (where it is
             expressed as an amount)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         MinimumRate:
           description: >-
             Minimum Amount on which fee/charge is applicable (where it is
             expressed as an amount)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         MaximumRate:
           description: >-
             Minimum Amount on which fee/charge is applicable (where it is
             expressed as an amount)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
       additionalProperties: false
     OB_FeeCategory1Code:
       description: Categorisation of fees and charges into standard categories.
@@ -8795,11 +8880,13 @@ components:
             Fee Amount charged for a fee/charge (where it is charged in terms of
             an amount rather than a rate)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRate:
           description: >-
             Fee Amount charged for a fee/charge (where it is charged in terms of
             an amount rather than a rate)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRateType:
           $ref: '#/components/schemas/OB_InterestRateType1Code'
         ApplicationFrequency:
@@ -9004,11 +9091,13 @@ components:
             Fee Amount charged for a fee/charge (where it is charged in terms of
             an amount rather than a rate)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRate:
           description: >-
             Fee Amount charged for a fee/charge (where it is charged in terms of
             an amount rather than a rate)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRateType:
           $ref: '#/components/schemas/OB_InterestRateType1Code'
         ApplicationFrequency:
@@ -9072,17 +9161,21 @@ components:
         TierValueMinimum:
           description: Minimum loan value for which the loan interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         TierValueMaximum:
           description: Minimum loan value for which the loan interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         TierValueMinTerm:
           description: Minimum loan value for which the loan interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         MinTermPeriod:
           $ref: '#/components/schemas/OB_Period1Code'
         TierValueMaxTerm:
           description: Minimum loan value for which the loan interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         MaxTermPeriod:
           $ref: '#/components/schemas/OB_Period1Code'
         FixedVariableInterestRateType:
@@ -9090,11 +9183,13 @@ components:
         RepAPR:
           description: Minimum loan value for which the loan interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         LoanProviderInterestRateType:
           $ref: '#/components/schemas/OB_InterestRateType1Code'
         LoanProviderInterestRate:
           description: Minimum loan value for which the loan interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         Notes:
           items:
             type: string
@@ -9250,29 +9345,6 @@ components:
       required:
         - FeeChargeDetail
       additionalProperties: false
-    OB_OtherProductData1:
-      type: object
-      properties:
-        ProductDetails:
-          $ref: '#/components/schemas/OB_OtherProductDetails1'
-        CreditInterest:
-          $ref: '#/components/schemas/OB_CreditInterest1'
-        Overdraft:
-          $ref: '#/components/schemas/OB_Overdraft1'
-        LoanInterest:
-          $ref: '#/components/schemas/OB_LoanInterest1'
-        Repayment:
-          $ref: '#/components/schemas/OB_Repayment1'
-        OtherFeesCharges:
-          items:
-            $ref: '#/components/schemas/OB_OtherFeesAndCharges1'
-          type: array
-          description: >-
-            Contains details of fees and charges which are not associated with
-            either Overdraft or features/benefits
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-      additionalProperties: false
     OB_OtherProductDetails1:
       type: object
       properties:
@@ -9351,20 +9423,38 @@ components:
         - PSST
         - PSSW
     OB_OtherProductType1:
+      description: Other product type details associated with the account.
       type: object
       properties:
         Name:
-          description: Long name associated with the code
+          description: Long name associated with the product
           type: string
           minLength: 1
           maxLength: 350
         Description:
-          description: Description to describe the purpose of the code
+          description: Description of the Product associated with the account
           type: string
           minLength: 1
           maxLength: 350
-        OtherProductDetails:
-          $ref: '#/components/schemas/OB_OtherProductData1'
+        ProductDetails:
+          $ref: '#/components/schemas/OB_OtherProductDetails1'
+        CreditInterest:
+          $ref: '#/components/schemas/OB_CreditInterest1'
+        Overdraft:
+          $ref: '#/components/schemas/OB_Overdraft1'
+        LoanInterest:
+          $ref: '#/components/schemas/OB_LoanInterest1'
+        Repayment:
+          $ref: '#/components/schemas/OB_Repayment1'
+        OtherFeesCharges:
+          items:
+            $ref: '#/components/schemas/OB_OtherFeesAndCharges1'
+          type: array
+          description: >-
+            Contains details of fees and charges which are not associated with
+            either Overdraft or features/benefits
+        SupplementaryData:
+          $ref: '#/components/schemas/OBSupplementaryData1'
       required:
         - Name
         - Description
@@ -9473,16 +9563,19 @@ components:
             Every additional tranche of an overdraft balance to which an
             overdraft fee is applied
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeAmount:
           description: >-
             Every additional tranche of an overdraft balance to which an
             overdraft fee is applied
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRate:
           description: >-
             Every additional tranche of an overdraft balance to which an
             overdraft fee is applied
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRateType:
           $ref: '#/components/schemas/OB_InterestRateType1Code'
         ApplicationFrequency:
@@ -9554,18 +9647,23 @@ components:
         TierValueMin:
           description: Minimum value of Overdraft Tier/Band
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         TierValueMax:
           description: Minimum value of Overdraft Tier/Band
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         EAR:
           description: Minimum value of Overdraft Tier/Band
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         AgreementLengthMin:
           description: Minimum value of Overdraft Tier/Band
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         AgreementLengthMax:
           description: Minimum value of Overdraft Tier/Band
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         AgreementPeriod:
           $ref: '#/components/schemas/OB_Period1Code'
         OverdraftInterestChargingCoverage:
@@ -9618,6 +9716,7 @@ components:
             do not exceed by more than the buffer amount. Note: Authorised
             overdraft charges may still apply.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         Notes:
           items:
             type: string
@@ -9767,11 +9866,13 @@ components:
             Fee Amount charged for a fee/charge (where it is charged in terms of
             an amount rather than a rate)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRate:
           description: >-
             Fee Amount charged for a fee/charge (where it is charged in terms of
             an amount rather than a rate)
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         FeeRateType:
           $ref: '#/components/schemas/OB_InterestRateType1Code'
         ApplicationFrequency:
@@ -9890,9 +9991,11 @@ components:
         TierValueMinimum:
           description: Minimum deposit value for which the credit interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         TierValueMaximum:
           description: Minimum deposit value for which the credit interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         CalculationFrequency:
           $ref: '#/components/schemas/OB_Frequency1Code'
         ApplicationFrequency:
@@ -9904,11 +10007,13 @@ components:
         AER:
           description: Minimum deposit value for which the credit interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         BankInterestRateType:
           $ref: '#/components/schemas/OB_InterestRateType1Code'
         BankInterestRate:
           description: Minimum deposit value for which the credit interest tier applies.
           type: number
+          pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
         Notes:
           items:
             type: string
