@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v4.0-draft4
+  version: v4.0-draft6
 basePath: /open-banking/v4.0
 schemes:
   - https
@@ -17,176 +17,8 @@ consumes:
   - application/json; charset=utf-8
 produces:
   - application/json; charset=utf-8
-paths:
-  /callback-urls:
-    post:
-      tags:
-        - Callback Urls
-      summary: Create Callback Url
-      operationId: CreateCallbackUrls
-      parameters:
-        - $ref: '#/parameters/OBCallbackUrl2Param'
-        - $ref: '#/parameters/x-fapi-financial-id'
-        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
-        - $ref: '#/parameters/x-fapi-customer-ip-address'
-        - $ref: '#/parameters/x-fapi-interaction-id'
-        - $ref: '#/parameters/Authorization'
-        - $ref: '#/parameters/x-jws-signature'
-      responses:
-        '201':
-          $ref: '#/responses/201CallbackUrlsCreated'
-        '400':
-          $ref: '#/responses/400Error'
-        '401':
-          $ref: '#/responses/401Error'
-        '403':
-          $ref: '#/responses/403Error'
-        '404':
-          $ref: '#/responses/404Error'
-        '405':
-          $ref: '#/responses/405Error'
-        '406':
-          $ref: '#/responses/406Error'
-        '429':
-          $ref: '#/responses/429Error'
-        '500':
-          $ref: '#/responses/500Error'
-      security:
-        - TPPOAuth2Security:
-            - accounts
-            - payments
-            - fundsconfirmations
-    get:
-      tags:
-        - Callback Urls
-      summary: Get Callback Url
-      operationId: GetCallbackUrls
-      parameters:
-        - $ref: '#/parameters/x-fapi-financial-id'
-        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
-        - $ref: '#/parameters/x-fapi-customer-ip-address'
-        - $ref: '#/parameters/x-fapi-interaction-id'
-        - $ref: '#/parameters/Authorization'
-      responses:
-        '200':
-          $ref: '#/responses/200CallbackUrlsRead'
-        '400':
-          $ref: '#/responses/400Error'
-        '401':
-          $ref: '#/responses/401Error'
-        '403':
-          $ref: '#/responses/403Error'
-        '404':
-          $ref: '#/responses/404Error'
-        '405':
-          $ref: '#/responses/405Error'
-        '406':
-          $ref: '#/responses/406Error'
-        '429':
-          $ref: '#/responses/429Error'
-        '500':
-          $ref: '#/responses/500Error'
-      security:
-        - TPPOAuth2Security:
-            - accounts
-            - payments
-            - fundsconfirmations
-  '/callback-urls/{CallbackUrlId}':
-    put:
-      tags:
-        - Callback Urls
-      summary: Change Callback Url
-      operationId: ChangeCallbackUrlsCallbackUrlId
-      parameters:
-        - $ref: '#/parameters/OBCallbackUrlResponse2Param'
-        - $ref: '#/parameters/CallbackUrlId'
-        - $ref: '#/parameters/x-fapi-financial-id'
-        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
-        - $ref: '#/parameters/x-fapi-customer-ip-address'
-        - $ref: '#/parameters/x-fapi-interaction-id'
-        - $ref: '#/parameters/Authorization'
-        - $ref: '#/parameters/x-jws-signature'
-      responses:
-        '200':
-          $ref: '#/responses/200CallbackUrlsCallbackUrlIdChanged'
-        '400':
-          $ref: '#/responses/400Error'
-        '401':
-          $ref: '#/responses/401Error'
-        '403':
-          $ref: '#/responses/403Error'
-        '404':
-          $ref: '#/responses/404Error'
-        '405':
-          $ref: '#/responses/405Error'
-        '406':
-          $ref: '#/responses/406Error'
-        '429':
-          $ref: '#/responses/429Error'
-        '500':
-          $ref: '#/responses/500Error'
-      security:
-        - TPPOAuth2Security:
-            - accounts
-            - payments
-            - fundsconfirmations
-    delete:
-      tags:
-        - Callback Urls
-      summary: Delete Callback Url
-      operationId: DeleteCallbackUrlsCallbackUrlId
-      parameters:
-        - $ref: '#/parameters/CallbackUrlId'
-        - $ref: '#/parameters/x-fapi-financial-id'
-        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
-        - $ref: '#/parameters/x-fapi-customer-ip-address'
-        - $ref: '#/parameters/x-fapi-interaction-id'
-        - $ref: '#/parameters/Authorization'
-      responses:
-        '204':
-          $ref: '#/responses/204CallbackUrlsCallbackUrlIdDeleted'
-        '400':
-          $ref: '#/responses/400Error'
-        '401':
-          $ref: '#/responses/401Error'
-        '403':
-          $ref: '#/responses/403Error'
-        '404':
-          $ref: '#/responses/404Error'
-        '405':
-          $ref: '#/responses/405Error'
-        '406':
-          $ref: '#/responses/406Error'
-        '429':
-          $ref: '#/responses/429Error'
-        '500':
-          $ref: '#/responses/500Error'
-      security:
-        - TPPOAuth2Security:
-            - accounts
-            - payments
-            - fundsconfirmations
+paths: {}
 parameters:
-  OBCallbackUrl2Param:
-    name: OBCallbackUrl2Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBCallbackUrl2'
-  CallbackUrlId:
-    name: CallbackUrlId
-    in: path
-    description: CallbackUrlId
-    required: true
-    type: string
-  OBCallbackUrlResponse2Param:
-    name: OBCallbackUrlResponse2Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBCallbackUrlResponse2'
   Authorization:
     in: header
     name: Authorization
@@ -252,48 +84,6 @@ parameters:
     required: true
     description: A detached JWS signature of the body of the payload.
 responses:
-  201CallbackUrlsCreated:
-    description: Callback Url Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBCallbackUrlResponse2'
-  200CallbackUrlsRead:
-    description: Callback Url Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBCallbackUrlsResponse2'
-  200CallbackUrlsCallbackUrlIdChanged:
-    description: Callback Url Changed
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBCallbackUrlResponse2'
-  204CallbackUrlsCallbackUrlIdDeleted:
-    description: Callback Url Deleted
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
   400Error:
     description: Bad request
     headers:
@@ -429,9 +219,6 @@ definitions:
             $ref: '#/definitions/Url'
           Version:
             $ref: '#/definitions/Version'
-  OBCallbackUrl2:
-    type: object
-    properties: {}
   OBCallbackUrlResponse1:
     type: object
     required:
@@ -459,9 +246,6 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-  OBCallbackUrlResponse2:
-    type: object
-    properties: {}
   OBCallbackUrlsResponse1:
     type: object
     required:
@@ -494,9 +278,6 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-  OBCallbackUrlsResponse2:
-    type: object
-    properties: {}
   OBError1:
     type: object
     properties:

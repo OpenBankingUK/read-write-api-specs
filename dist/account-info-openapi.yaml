@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v4.0-draft4
+  version: v4.0-draft6
 paths:
   /account-access-consents:
     post:
@@ -1054,17 +1054,17 @@ components:
       required: true
       schema:
         type: string
-    ConsentId:
-      name: ConsentId
-      in: path
-      description: ConsentId
-      required: true
-      schema:
-        type: string
     StatementId:
       name: StatementId
       in: path
       description: StatementId
+      required: true
+      schema:
+        type: string
+    ConsentId:
+      name: ConsentId
+      in: path
+      description: ConsentId
       required: true
       schema:
         type: string
@@ -1149,6 +1149,116 @@ components:
             $ref: '#/components/schemas/OBReadConsent1'
       required: true
   responses:
+    200AccountsAccountIdTransactionsRead:
+      description: Transactions Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadTransaction5'
+    200TransactionsRead:
+      description: Transactions Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadTransaction5'
+    200AccountsAccountIdBalancesRead:
+      description: Balances Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadBalance1'
+    200BalancesRead:
+      description: Balances Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadBalance1'
+    200AccountsAccountIdDirectDebitsRead:
+      description: Direct Debits Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadDirectDebit1'
+    200DirectDebitsRead:
+      description: Direct Debits Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadDirectDebit1'
+    200AccountsAccountIdOffersRead:
+      description: Offers Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadOffer1'
+    200OffersRead:
+      description: Offers Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadOffer1'
+    200AccountsAccountIdPartyRead:
+      description: Party Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadParty1'
+    200PartyRead:
+      description: Party Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadParty1'
     200AccountsAccountIdBeneficiariesRead:
       description: Beneficiaries Read
       headers:
@@ -1181,7 +1291,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadStandingOrder4'
+            $ref: '#/components/schemas/OBReadStandingOrder5'
     200StandingOrdersRead:
       description: Standing Orders Read
       headers:
@@ -1192,9 +1302,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadStandingOrder4'
-    200AccountsAccountIdOffersRead:
-      description: Offers Read
+            $ref: '#/components/schemas/OBReadStandingOrder5'
+    200AccountsRead:
+      description: Accounts Read
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -1203,9 +1313,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadOffer1'
-    200OffersRead:
-      description: Offers Read
+            $ref: '#/components/schemas/OBReadAccount4'
+    200AccountsAccountIdRead:
+      description: Accounts Read
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -1214,9 +1324,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadOffer1'
-    200AccountsAccountIdBalancesRead:
-      description: Balances Read
+            $ref: '#/components/schemas/OBReadAccount4'
+    200AccountsAccountIdStatementsRead:
+      description: Statements Read
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -1225,9 +1335,9 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadBalance1'
-    200BalancesRead:
-      description: Balances Read
+            $ref: '#/components/schemas/OBReadStatement2'
+    200AccountsAccountIdStatementsStatementIdRead:
+      description: Statements Read
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -1236,7 +1346,40 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBReadBalance1'
+            $ref: '#/components/schemas/OBReadStatement2'
+    200AccountsAccountIdStatementsStatementIdFileRead:
+      description: Statements Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/File'
+    200AccountsAccountIdStatementsStatementIdTransactionsRead:
+      description: Transactions Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadTransaction5'
+    200StatementsRead:
+      description: Statements Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadStatement2'
     201AccountAccessConsentsCreated:
       description: Account Access Consents Created
       headers:
@@ -1270,127 +1413,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/'
-    200AccountsAccountIdDirectDebitsRead:
-      description: Direct Debits Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadDirectDebit1'
-    200DirectDebitsRead:
-      description: Direct Debits Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadDirectDebit1'
-    200AccountsAccountIdPartyRead:
-      description: Party Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadParty1'
-    200PartyRead:
-      description: Party Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadParty1'
-    200AccountsAccountIdTransactionsRead:
-      description: Transactions Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadTransaction4'
-    200TransactionsRead:
-      description: Transactions Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadTransaction4'
-    200AccountsAccountIdStatementsRead:
-      description: Statements Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadStatement1'
-    200AccountsAccountIdStatementsStatementIdRead:
-      description: Statements Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadStatement1'
-    200AccountsAccountIdStatementsStatementIdFileRead:
-      description: Statements Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/File'
-    200AccountsAccountIdStatementsStatementIdTransactionsRead:
-      description: Transactions Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadTransaction3'
-    200StatementsRead:
-      description: Statements Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadStatement1'
     200AccountsAccountIdProductRead:
       description: Products Read
       headers:
@@ -1435,28 +1457,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadScheduledPayment2'
-    200AccountsRead:
-      description: Accounts Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadAccount4'
-    200AccountsAccountIdRead:
-      description: Accounts Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadAccount4'
     400Error:
       description: Bad request
       headers:
@@ -8022,6 +8022,9 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBReadStandingOrder5:
+      type: object
+      properties: {}
     OBReadStatement1:
       type: object
       required:
@@ -8036,7 +8039,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBReadTransaction3:
+    OBReadStatement2:
       type: object
       properties: {}
     OBReadTransaction4:
@@ -8053,6 +8056,9 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBReadTransaction5:
+      type: object
+      properties: {}
     OBRisk2:
       description: >-
         The Risk section is sent by the initiating party to the ASPSP. It is
