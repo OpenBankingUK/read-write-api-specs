@@ -1739,7 +1739,7 @@ definitions:
   Number:
     type: integer
     description: Value associated with the statement value type.
-  OBAccount3:
+  OBAccount4:
     type: array
     description: >-
       Unambiguous identification of the account to which credit and debit
@@ -1754,6 +1754,10 @@ definitions:
       properties:
         AccountId:
           $ref: '#/definitions/AccountId'
+        Status:
+          $ref: '#/definitions/OBAccountStatus1Code'
+        StatusUpdateDateTime:
+          $ref: '#/definitions/StatusUpdateDateTime'
         Currency:
           $ref: '#/definitions/ActiveOrHistoricCurrencyCode_0'
         AccountType:
@@ -1768,7 +1772,7 @@ definitions:
           $ref: '#/definitions/OBCashAccount5_0'
         Servicer:
           $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_0'
-  OBAccount3Basic:
+  OBAccount4Basic:
     type: array
     description: >-
       Unambiguous identification of the account to which credit and debit
@@ -1783,6 +1787,10 @@ definitions:
       properties:
         AccountId:
           $ref: '#/definitions/AccountId'
+        Status:
+          $ref: '#/definitions/OBAccountStatus1Code'
+        StatusUpdateDateTime:
+          $ref: '#/definitions/StatusUpdateDateTime'
         Currency:
           $ref: '#/definitions/ActiveOrHistoricCurrencyCode_0'
         AccountType:
@@ -1793,7 +1801,7 @@ definitions:
           $ref: '#/definitions/Description'
         Nickname:
           $ref: '#/definitions/Nickname'
-  OBAccount3Detail:
+  OBAccount4Detail:
     type: array
     description: >-
       Unambiguous identification of the account to which credit and debit
@@ -1809,6 +1817,10 @@ definitions:
       properties:
         AccountId:
           $ref: '#/definitions/AccountId'
+        Status:
+          $ref: '#/definitions/OBAccountStatus1Code'
+        StatusUpdateDateTime:
+          $ref: '#/definitions/StatusUpdateDateTime'
         Currency:
           $ref: '#/definitions/ActiveOrHistoricCurrencyCode_0'
         AccountType:
@@ -1823,6 +1835,15 @@ definitions:
           $ref: '#/definitions/OBCashAccount5_0'
         Servicer:
           $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_0'
+  OBAccountStatus1Code:
+    type: string
+    description: Specifies the status of account resource in code form.
+    enum:
+      - Deleted
+      - Disabled
+      - Enabled
+      - Pending
+      - ProForma
   OBActiveCurrencyAndAmount_SimpleType:
     type: string
     description: >-
@@ -2588,7 +2609,7 @@ definitions:
           type: string
           minLength: 1
           maxLength: 70
-  OBReadAccount3:
+  OBReadAccount4:
     type: object
     required:
       - Data
@@ -2597,14 +2618,11 @@ definitions:
         type: object
         properties:
           Account:
-            $ref: '#/definitions/OBAccount3'
+            $ref: '#/definitions/OBAccount4'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-  OBReadAccount4:
-    type: object
-    properties: {}
   OBReadBalance1:
     type: object
     required:
@@ -2832,17 +2850,7 @@ definitions:
               - Rejected
               - Revoked
           StatusUpdateDateTime:
-            description: >-
-              Date and time at which the resource status was updated.All dates
-              in the JSON payloads are represented in ISO 8601 date-time
-              format. 
-
-              All date-time fields in responses must include the timezone. An
-              example is below:
-
-              2017-04-05T10:43:07+00:00
-            type: string
-            format: date-time
+            $ref: '#/definitions/StatusUpdateDateTime'
           Permissions:
             type: array
             description: >-
@@ -8741,6 +8749,17 @@ definitions:
       type: string
       minLength: 1
       maxLength: 35
+  StatusUpdateDateTime:
+    description: >-
+      Date and time at which the resource status was updated.All dates in the
+      JSON payloads are represented in ISO 8601 date-time format. 
+
+      All date-time fields in responses must include the timezone. An example is
+      below:
+
+      2017-04-05T10:43:07+00:00
+    type: string
+    format: date-time
   StreetName:
     type: string
     description: Name of a street or thoroughfare.

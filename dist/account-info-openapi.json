@@ -2802,17 +2802,17 @@
         "type": "integer",
         "description": "Value associated with the statement value type."
       },
-      "OBAccount3": {
+      "OBAccount4": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/OBAccount3Basic"
+            "$ref": "#/components/schemas/OBAccount4Basic"
           },
           {
-            "$ref": "#/components/schemas/OBAccount3Detail"
+            "$ref": "#/components/schemas/OBAccount4Detail"
           }
         ]
       },
-      "OBAccount3Basic": {
+      "OBAccount4Basic": {
         "type": "array",
         "description": "Unambiguous identification of the account to which credit and debit entries are made.",
         "items": {
@@ -2826,6 +2826,12 @@
           "properties": {
             "AccountId": {
               "$ref": "#/components/schemas/AccountId"
+            },
+            "Status": {
+              "$ref": "#/components/schemas/OBAccountStatus1Code"
+            },
+            "StatusUpdateDateTime": {
+              "$ref": "#/components/schemas/StatusUpdateDateTime"
             },
             "Currency": {
               "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
@@ -2845,7 +2851,7 @@
           }
         }
       },
-      "OBAccount3Detail": {
+      "OBAccount4Detail": {
         "type": "array",
         "description": "Unambiguous identification of the account to which credit and debit entries are made.",
         "items": {
@@ -2860,6 +2866,12 @@
           "properties": {
             "AccountId": {
               "$ref": "#/components/schemas/AccountId"
+            },
+            "Status": {
+              "$ref": "#/components/schemas/OBAccountStatus1Code"
+            },
+            "StatusUpdateDateTime": {
+              "$ref": "#/components/schemas/StatusUpdateDateTime"
             },
             "Currency": {
               "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
@@ -2884,6 +2896,17 @@
             }
           }
         }
+      },
+      "OBAccountStatus1Code": {
+        "type": "string",
+        "description": "Specifies the status of account resource in code form.",
+        "enum": [
+          "Deleted",
+          "Disabled",
+          "Enabled",
+          "Pending",
+          "ProForma"
+        ]
       },
       "OBActiveCurrencyAndAmount_SimpleType": {
         "type": "string",
@@ -3787,7 +3810,7 @@
           }
         }
       },
-      "OBReadAccount3": {
+      "OBReadAccount4": {
         "type": "object",
         "required": [
           "Data"
@@ -3797,7 +3820,7 @@
             "type": "object",
             "properties": {
               "Account": {
-                "$ref": "#/components/schemas/OBAccount3"
+                "$ref": "#/components/schemas/OBAccount4"
               }
             }
           },
@@ -3808,10 +3831,6 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
-      },
-      "OBReadAccount4": {
-        "type": "object",
-        "properties": {}
       },
       "OBReadBalance1": {
         "type": "object",
@@ -4050,9 +4069,7 @@
                 ]
               },
               "StatusUpdateDateTime": {
-                "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
+                "$ref": "#/components/schemas/StatusUpdateDateTime"
               },
               "Permissions": {
                 "type": "array",
@@ -9842,6 +9859,11 @@
           "minLength": 1,
           "maxLength": 35
         }
+      },
+      "StatusUpdateDateTime": {
+        "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
       },
       "StreetName": {
         "type": "string",
