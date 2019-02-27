@@ -195,6 +195,41 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
+  '/domestic-payments/{DomesticPaymentId}/payments':
+    get:
+      tags:
+        - Domestic Payments
+      summary: Get Domestic Payments
+      operationId: GetDomesticPaymentsDomesticPaymentIdPayments
+      parameters:
+        - $ref: '#/parameters/DomesticPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+      responses:
+        '200':
+          $ref: '#/responses/200DomesticPaymentsDomesticPaymentIdPaymentsRead'
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - payments
   /domestic-scheduled-payment-consents:
     post:
       tags:
@@ -1802,6 +1837,18 @@ responses:
           Header containing a detached JWS signature of the body of the payload.
     schema:
       $ref: '#/definitions/OBWriteDomesticResponse2'
+  200DomesticPaymentsDomesticPaymentIdPaymentsRead:
+    description: Domestic Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWritePaymentStatus1'
   201InternationalPaymentConsentsCreated:
     description: International Payment Consents Created
     headers:
@@ -11712,6 +11759,9 @@ definitions:
                       maxLength: 35
                     Country:
                       $ref: '#/definitions/CountryCode_1'
+  OBWritePaymentStatus1:
+    type: object
+    properties: {}
   PostCode:
     type: string
     description: >-

@@ -193,6 +193,42 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
+  '/domestic-payments/{DomesticPaymentId}/payments':
+    get:
+      tags:
+        - Domestic Payments
+      summary: Get Domestic Payments
+      operationId: GetDomesticPaymentsDomesticPaymentIdPayments
+      parameters:
+        - $ref: '#/components/parameters/DomesticPaymentId'
+        - $ref: '#/components/parameters/x-fapi-financial-id'
+        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          $ref: >-
+            #/components/responses/200DomesticPaymentsDomesticPaymentIdPaymentsRead
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '405':
+          $ref: '#/components/responses/405Error'
+        '406':
+          $ref: '#/components/responses/406Error'
+        '429':
+          $ref: '#/components/responses/429Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - payments
   /domestic-scheduled-payment-consents:
     post:
       tags:
@@ -1981,6 +2017,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBWriteDomesticResponse2'
+    200DomesticPaymentsDomesticPaymentIdPaymentsRead:
+      description: Domestic Payments Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWritePaymentStatus1'
     201InternationalPaymentConsentsCreated:
       description: International Payment Consents Created
       headers:
@@ -12114,6 +12167,9 @@ components:
                         maxLength: 35
                       Country:
                         $ref: '#/components/schemas/CountryCode_1'
+    OBWritePaymentStatus1:
+      type: object
+      properties: {}
     PostCode:
       type: string
       description: >-
