@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.1-RC1"
+    "version": "v4.0-draft3"
   },
   "paths": {
     "/funds-confirmation-consents": {
@@ -141,7 +141,7 @@
                             "SchemeName": {
                               "type": "string",
                               "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                              "x-namespaced-enum": [
+                              "example": [
                                 "UK.OBIE.BBAN",
                                 "UK.OBIE.IBAN",
                                 "UK.OBIE.PAN",
@@ -656,7 +656,7 @@
                           "SchemeName": {
                             "type": "string",
                             "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                            "x-namespaced-enum": [
+                            "example": [
                               "UK.OBIE.BBAN",
                               "UK.OBIE.IBAN",
                               "UK.OBIE.PAN",
@@ -829,7 +829,7 @@
                             "SchemeName": {
                               "type": "string",
                               "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                              "x-namespaced-enum": [
+                              "example": [
                                 "UK.OBIE.BBAN",
                                 "UK.OBIE.IBAN",
                                 "UK.OBIE.PAN",
@@ -2436,11 +2436,12 @@
   },
   "components": {
     "securitySchemes": {
-      "TPPOAuth2Security": {
+      "PSUOAuth2Security": {
         "type": "oauth2",
-        "description": "TPP client credential authorisation flow with the ASPSP",
+        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
         "flows": {
-          "clientCredentials": {
+          "authorizationCode": {
+            "authorizationUrl": "https://authserver.example/authorization",
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
               "fundsconfirmations": "Funds confirmation entitlement"
@@ -2448,12 +2449,11 @@
           }
         }
       },
-      "PSUOAuth2Security": {
+      "TPPOAuth2Security": {
         "type": "oauth2",
-        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
+        "description": "TPP client credential authorisation flow with the ASPSP",
         "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://authserver.example/authorization",
+          "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
               "fundsconfirmations": "Funds confirmation entitlement"
