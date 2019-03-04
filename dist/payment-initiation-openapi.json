@@ -3790,14 +3790,9 @@
         "minLength": 1,
         "maxLength": 16
       },
-      "CountryCode_0": {
+      "CountryCode": {
         "type": "string",
         "description": "Nation with its own government.",
-        "pattern": "^[A-Z]{2,2}$"
-      },
-      "CountryCode_1": {
-        "type": "string",
-        "description": "Nation with its own government, occupying a particular territory.",
         "pattern": "^[A-Z]{2,2}$"
       },
       "CountrySubDivision": {
@@ -3883,7 +3878,7 @@
       },
       "Name": {
         "type": "string",
-        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
         "minLength": 1,
         "maxLength": 70
       },
@@ -4090,6 +4085,24 @@
           "UK.OBIE.BICFI"
         ]
       },
+      "OBExternalLocalInstrument1Code": {
+        "type": "string",
+        "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
+        "x-namespaced-enum": [
+          "UK.OBIE.BACS",
+          "UK.OBIE.BalanceTransfer",
+          "UK.OBIE.CHAPS",
+          "UK.OBIE.Euro1",
+          "UK.OBIE.FPS",
+          "UK.OBIE.Link",
+          "UK.OBIE.MoneyTransfer",
+          "UK.OBIE.Paym",
+          "UK.OBIE.SEPACreditTransfer",
+          "UK.OBIE.SEPAInstantCreditTransfer",
+          "UK.OBIE.SWIFT",
+          "UK.OBIE.Target2"
+        ]
+      },
       "OBExternalPaymentChargeType1Code": {
         "type": "string",
         "description": "Charge type, in a coded form.",
@@ -4141,7 +4154,7 @@
             "$ref": "#/components/schemas/CountrySubDivision"
           },
           "Country": {
-            "$ref": "#/components/schemas/CountryCode_0"
+            "$ref": "#/components/schemas/CountryCode"
           },
           "AddressLine": {
             "$ref": "#/components/schemas/AddressLine"
@@ -4236,7 +4249,9 @@
                 }
               },
               "Country": {
-                "$ref": "#/components/schemas/CountryCode_1"
+                "type": "string",
+                "description": "Nation with its own government, occupying a particular territory.",
+                "pattern": "^[A-Z]{2,2}$"
               }
             }
           }
@@ -4869,250 +4884,6 @@
           }
         }
       },
-      "OBWriteDataDomesticResponse2": {
-        "type": "object",
-        "required": [
-          "DomesticPaymentId",
-          "ConsentId",
-          "CreationDateTime",
-          "Status",
-          "StatusUpdateDateTime",
-          "Initiation"
-        ],
-        "properties": {
-          "DomesticPaymentId": {
-            "type": "string",
-            "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.",
-            "minLength": 1,
-            "maxLength": 40
-          },
-          "ConsentId": {
-            "type": "string",
-            "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
-            "minLength": 1,
-            "maxLength": 128
-          },
-          "CreationDateTime": {
-            "description": "Date and time at which the message was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-            "type": "string",
-            "format": "date-time"
-          },
-          "Status": {
-            "type": "string",
-            "description": "Specifies the status of the payment information group.",
-            "enum": [
-              "AcceptedSettlementCompleted",
-              "AcceptedSettlementInProcess",
-              "Pending",
-              "Rejected"
-            ]
-          },
-          "StatusUpdateDateTime": {
-            "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-            "type": "string",
-            "format": "date-time"
-          },
-          "ExpectedExecutionDateTime": {
-            "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-            "type": "string",
-            "format": "date-time"
-          },
-          "ExpectedSettlementDateTime": {
-            "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-            "type": "string",
-            "format": "date-time"
-          },
-          "Charges": {
-            "type": "array",
-            "description": "Set of elements used to provide details of a charge for the payment initiation.",
-            "items": {
-              "type": "object",
-              "required": [
-                "ChargeBearer",
-                "Type",
-                "Amount"
-              ],
-              "properties": {
-                "ChargeBearer": {
-                  "$ref": "#/components/schemas/OBChargeBearerType1Code"
-                },
-                "Type": {
-                  "$ref": "#/components/schemas/OBExternalPaymentChargeType1Code"
-                },
-                "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
-                }
-              }
-            }
-          },
-          "Initiation": {
-            "type": "object",
-            "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a single domestic payment.",
-            "required": [
-              "InstructionIdentification",
-              "EndToEndIdentification",
-              "InstructedAmount",
-              "CreditorAccount"
-            ],
-            "properties": {
-              "InstructionIdentification": {
-                "type": "string",
-                "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the  instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.",
-                "minLength": 1,
-                "maxLength": 35
-              },
-              "EndToEndIdentification": {
-                "type": "string",
-                "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field.",
-                "minLength": 1,
-                "maxLength": 35
-              },
-              "LocalInstrument": {
-                "type": "string",
-                "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                "x-namespaced-enum": [
-                  "UK.OBIE.BACS",
-                  "UK.OBIE.BalanceTransfer",
-                  "UK.OBIE.CHAPS",
-                  "UK.OBIE.Euro1",
-                  "UK.OBIE.FPS",
-                  "UK.OBIE.Link",
-                  "UK.OBIE.MoneyTransfer",
-                  "UK.OBIE.Paym",
-                  "UK.OBIE.SEPACreditTransfer",
-                  "UK.OBIE.SEPAInstantCreditTransfer",
-                  "UK.OBIE.SWIFT",
-                  "UK.OBIE.Target2"
-                ]
-              },
-              "InstructedAmount": {
-                "type": "object",
-                "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
-                "required": [
-                  "Amount",
-                  "Currency"
-                ],
-                "properties": {
-                  "Amount": {
-                    "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
-                  },
-                  "Currency": {
-                    "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode"
-                  }
-                }
-              },
-              "DebtorAccount": {
-                "type": "object",
-                "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
-                "required": [
-                  "SchemeName",
-                  "Identification"
-                ],
-                "properties": {
-                  "SchemeName": {
-                    "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
-                  },
-                  "Identification": {
-                    "$ref": "#/components/schemas/Identification_0"
-                  },
-                  "Name": {
-                    "$ref": "#/components/schemas/Name"
-                  },
-                  "SecondaryIdentification": {
-                    "$ref": "#/components/schemas/SecondaryIdentification"
-                  }
-                }
-              },
-              "CreditorAccount": {
-                "type": "object",
-                "description": "Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.",
-                "required": [
-                  "SchemeName",
-                  "Identification",
-                  "Name"
-                ],
-                "properties": {
-                  "SchemeName": {
-                    "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
-                  },
-                  "Identification": {
-                    "$ref": "#/components/schemas/Identification_0"
-                  },
-                  "Name": {
-                    "type": "string",
-                    "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                    "minLength": 1,
-                    "maxLength": 70
-                  },
-                  "SecondaryIdentification": {
-                    "$ref": "#/components/schemas/SecondaryIdentification"
-                  }
-                }
-              },
-              "CreditorPostalAddress": {
-                "$ref": "#/components/schemas/OBPostalAddress6"
-              },
-              "RemittanceInformation": {
-                "type": "object",
-                "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                "properties": {
-                  "Unstructured": {
-                    "type": "string",
-                    "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                    "minLength": 1,
-                    "maxLength": 140
-                  },
-                  "Reference": {
-                    "type": "string",
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                    "minLength": 1,
-                    "maxLength": 35
-                  }
-                }
-              },
-              "SupplementaryData": {
-                "$ref": "#/components/schemas/OBSupplementaryData1"
-              }
-            }
-          },
-          "MultiAuthorisation": {
-            "type": "object",
-            "description": "The multiple authorisation flow response from the ASPSP.",
-            "required": [
-              "Status"
-            ],
-            "properties": {
-              "Status": {
-                "type": "string",
-                "description": "Specifies the status of the authorisation flow in code form.",
-                "enum": [
-                  "Authorised",
-                  "AwaitingFurtherAuthorisation",
-                  "Rejected"
-                ]
-              },
-              "NumberRequired": {
-                "type": "integer",
-                "description": "Number of authorisations required for payment order (total required at the start of the multi authorisation journey)."
-              },
-              "NumberReceived": {
-                "type": "integer",
-                "description": "Number of authorisations received."
-              },
-              "LastUpdateDateTime": {
-                "description": "Last date and time at the authorisation flow was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              },
-              "ExpirationDateTime": {
-                "description": "Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              }
-            }
-          }
-        }
-      },
       "OBWriteDomestic2": {
         "type": "object",
         "required": [
@@ -5156,22 +4927,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -5228,7 +4984,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -5306,22 +5062,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -5378,7 +5119,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -5546,22 +5287,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -5618,7 +5344,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -5690,20 +5416,7 @@
       },
       "OBWriteDomesticResponse2": {
         "type": "object",
-        "required": [
-          "Data"
-        ],
-        "properties": {
-          "Data": {
-            "$ref": "#/components/schemas/OBWriteDataDomesticResponse2"
-          },
-          "Links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "Meta": {
-            "$ref": "#/components/schemas/Meta"
-          }
-        }
+        "properties": {}
       },
       "OBWriteDomesticResponse3": {
         "type": "object",
@@ -5712,7 +5425,235 @@
         ],
         "properties": {
           "Data": {
-            "$ref": "#/components/schemas/OBWriteDataDomesticResponse2"
+            "type": "object",
+            "required": [
+              "DomesticPaymentId",
+              "ConsentId",
+              "CreationDateTime",
+              "Status",
+              "StatusUpdateDateTime",
+              "Initiation"
+            ],
+            "properties": {
+              "DomesticPaymentId": {
+                "type": "string",
+                "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              "ConsentId": {
+                "type": "string",
+                "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "CreationDateTime": {
+                "description": "Date and time at which the message was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                "type": "string",
+                "format": "date-time"
+              },
+              "Status": {
+                "type": "string",
+                "description": "Specifies the status of the payment information group.",
+                "enum": [
+                  "AcceptedCreditSettlementCompleted",
+                  "AcceptedSettlementCompleted",
+                  "AcceptedSettlementInProcess",
+                  "AcceptedWithoutPosting",
+                  "Pending",
+                  "Rejected"
+                ]
+              },
+              "StatusUpdateDateTime": {
+                "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                "type": "string",
+                "format": "date-time"
+              },
+              "ExpectedExecutionDateTime": {
+                "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                "type": "string",
+                "format": "date-time"
+              },
+              "ExpectedSettlementDateTime": {
+                "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                "type": "string",
+                "format": "date-time"
+              },
+              "Charges": {
+                "type": "array",
+                "description": "Set of elements used to provide details of a charge for the payment initiation.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "ChargeBearer",
+                    "Type",
+                    "Amount"
+                  ],
+                  "properties": {
+                    "ChargeBearer": {
+                      "$ref": "#/components/schemas/OBChargeBearerType1Code"
+                    },
+                    "Type": {
+                      "$ref": "#/components/schemas/OBExternalPaymentChargeType1Code"
+                    },
+                    "Amount": {
+                      "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+                    }
+                  }
+                }
+              },
+              "Initiation": {
+                "type": "object",
+                "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a single domestic payment.",
+                "required": [
+                  "InstructionIdentification",
+                  "EndToEndIdentification",
+                  "InstructedAmount",
+                  "CreditorAccount"
+                ],
+                "properties": {
+                  "InstructionIdentification": {
+                    "type": "string",
+                    "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the  instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.",
+                    "minLength": 1,
+                    "maxLength": 35
+                  },
+                  "EndToEndIdentification": {
+                    "type": "string",
+                    "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field.",
+                    "minLength": 1,
+                    "maxLength": 35
+                  },
+                  "LocalInstrument": {
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
+                  },
+                  "InstructedAmount": {
+                    "type": "object",
+                    "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
+                    "required": [
+                      "Amount",
+                      "Currency"
+                    ],
+                    "properties": {
+                      "Amount": {
+                        "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                      },
+                      "Currency": {
+                        "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode"
+                      }
+                    }
+                  },
+                  "DebtorAccount": {
+                    "type": "object",
+                    "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                    "required": [
+                      "SchemeName",
+                      "Identification"
+                    ],
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "$ref": "#/components/schemas/Name"
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  },
+                  "CreditorAccount": {
+                    "type": "object",
+                    "description": "Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "type": "string",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  },
+                  "CreditorPostalAddress": {
+                    "$ref": "#/components/schemas/OBPostalAddress6"
+                  },
+                  "RemittanceInformation": {
+                    "type": "object",
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "type": "string",
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "type": "string",
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
+                  },
+                  "SupplementaryData": {
+                    "$ref": "#/components/schemas/OBSupplementaryData1"
+                  }
+                }
+              },
+              "MultiAuthorisation": {
+                "type": "object",
+                "description": "The multiple authorisation flow response from the ASPSP.",
+                "required": [
+                  "Status"
+                ],
+                "properties": {
+                  "Status": {
+                    "type": "string",
+                    "description": "Specifies the status of the authorisation flow in code form.",
+                    "enum": [
+                      "Authorised",
+                      "AwaitingFurtherAuthorisation",
+                      "Rejected"
+                    ]
+                  },
+                  "NumberRequired": {
+                    "type": "integer",
+                    "description": "Number of authorisations required for payment order (total required at the start of the multi authorisation journey)."
+                  },
+                  "NumberReceived": {
+                    "type": "integer",
+                    "description": "Number of authorisations received."
+                  },
+                  "LastUpdateDateTime": {
+                    "description": "Last date and time at the authorisation flow was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "ExpirationDateTime": {
+                    "description": "Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -5765,22 +5706,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "RequestedExecutionDateTime": {
                     "description": "Date at which the initiating party requests the clearing agent to process the payment. \nUsage: This is the date on which the debtor's account is to be debited.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -5842,7 +5768,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -5928,22 +5854,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "RequestedExecutionDateTime": {
                     "description": "Date at which the initiating party requests the clearing agent to process the payment. \nUsage: This is the date on which the debtor's account is to be debited.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -6005,7 +5916,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -6181,22 +6092,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "RequestedExecutionDateTime": {
                     "description": "Date at which the initiating party requests the clearing agent to process the payment. \nUsage: This is the date on which the debtor's account is to be debited.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -6258,7 +6154,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -6328,7 +6224,7 @@
           }
         }
       },
-      "OBWriteDomesticScheduledResponse2": {
+      "OBWriteDomesticScheduledResponse3": {
         "type": "object",
         "required": [
           "Data"
@@ -6366,6 +6262,7 @@
                 "type": "string",
                 "description": "Specifies the status of the payment order resource.",
                 "enum": [
+                  "Cancelled",
                   "InitiationCompleted",
                   "InitiationFailed",
                   "InitiationPending"
@@ -6432,22 +6329,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "RequestedExecutionDateTime": {
                     "description": "Date at which the initiating party requests the clearing agent to process the payment. \nUsage: This is the date on which the debtor's account is to be debited.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -6509,7 +6391,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -6590,11 +6472,7 @@
           }
         }
       },
-      "OBWriteDomesticScheduledResponse3": {
-        "type": "object",
-        "properties": {}
-      },
-      "OBWriteDomesticStandingOrder2": {
+      "OBWriteDomesticStandingOrder3": {
         "type": "object",
         "required": [
           "Data",
@@ -6627,7 +6505,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -6743,7 +6621,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -6764,11 +6642,7 @@
           }
         }
       },
-      "OBWriteDomesticStandingOrder3": {
-        "type": "object",
-        "properties": {}
-      },
-      "OBWriteDomesticStandingOrderConsent2": {
+      "OBWriteDomesticStandingOrderConsent3": {
         "type": "object",
         "required": [
           "Data",
@@ -6802,7 +6676,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -6918,7 +6792,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -6961,11 +6835,7 @@
           }
         }
       },
-      "OBWriteDomesticStandingOrderConsent3": {
-        "type": "object",
-        "properties": {}
-      },
-      "OBWriteDomesticStandingOrderConsentResponse2": {
+      "OBWriteDomesticStandingOrderConsentResponse3": {
         "type": "object",
         "required": [
           "Data",
@@ -7057,7 +6927,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -7173,7 +7043,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -7222,11 +7092,11 @@
           }
         }
       },
-      "OBWriteDomesticStandingOrderConsentResponse3": {
+      "OBWriteDomesticStandingOrderResponse3": {
         "type": "object",
         "properties": {}
       },
-      "OBWriteDomesticStandingOrderResponse2": {
+      "OBWriteDomesticStandingOrderResponse4": {
         "type": "object",
         "required": [
           "Data"
@@ -7264,6 +7134,7 @@
                 "type": "string",
                 "description": "Specifies the status of the payment order resource.",
                 "enum": [
+                  "Cancelled",
                   "InitiationCompleted",
                   "InitiationFailed",
                   "InitiationPending"
@@ -7310,7 +7181,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -7426,7 +7297,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -7485,10 +7356,6 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
-      },
-      "OBWriteDomesticStandingOrderResponse3": {
-        "type": "object",
-        "properties": {}
       },
       "OBWriteFile2": {
         "type": "object",
@@ -7552,22 +7419,7 @@
                     "format": "date-time"
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "DebtorAccount": {
                     "type": "object",
@@ -7673,22 +7525,7 @@
                     "format": "date-time"
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "DebtorAccount": {
                     "type": "object",
@@ -7875,22 +7712,7 @@
                     "format": "date-time"
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "DebtorAccount": {
                     "type": "object",
@@ -8083,22 +7905,7 @@
                     "format": "date-time"
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "DebtorAccount": {
                     "type": "object",
@@ -8276,22 +8083,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -8443,7 +8235,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -8519,22 +8311,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -8686,7 +8463,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -8892,22 +8669,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -9059,7 +8821,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -9128,6 +8890,10 @@
       },
       "OBWriteInternationalResponse2": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalResponse3": {
+        "type": "object",
         "required": [
           "Data"
         ],
@@ -9164,8 +8930,10 @@
                 "type": "string",
                 "description": "Specifies the status of the payment information group.",
                 "enum": [
+                  "AcceptedCreditSettlementCompleted",
                   "AcceptedSettlementCompleted",
                   "AcceptedSettlementInProcess",
+                  "AcceptedWithoutPosting",
                   "Pending",
                   "Rejected"
                 ]
@@ -9272,22 +9040,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -9439,7 +9192,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -9565,22 +9318,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -9737,7 +9475,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -9825,22 +9563,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -9997,7 +9720,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -10215,22 +9938,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -10387,7 +10095,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -10458,7 +10166,7 @@
         "type": "object",
         "properties": {}
       },
-      "OBWriteInternationalScheduledResponse2": {
+      "OBWriteInternationalScheduledResponse3": {
         "type": "object",
         "required": [
           "Data"
@@ -10496,6 +10204,7 @@
                 "type": "string",
                 "description": "Specifies the status of the payment order resource.",
                 "enum": [
+                  "Cancelled",
                   "InitiationCompleted",
                   "InitiationFailed",
                   "InitiationPending"
@@ -10603,22 +10312,7 @@
                     "maxLength": 35
                   },
                   "LocalInstrument": {
-                    "type": "string",
-                    "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BACS",
-                      "UK.OBIE.BalanceTransfer",
-                      "UK.OBIE.CHAPS",
-                      "UK.OBIE.Euro1",
-                      "UK.OBIE.FPS",
-                      "UK.OBIE.Link",
-                      "UK.OBIE.MoneyTransfer",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SEPACreditTransfer",
-                      "UK.OBIE.SEPAInstantCreditTransfer",
-                      "UK.OBIE.SWIFT",
-                      "UK.OBIE.Target2"
-                    ]
+                    "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                   },
                   "InstructionPriority": {
                     "type": "string",
@@ -10775,7 +10469,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -10853,7 +10547,7 @@
           }
         }
       },
-      "OBWriteInternationalStandingOrder2": {
+      "OBWriteInternationalStandingOrder3": {
         "type": "object",
         "required": [
           "Data",
@@ -10887,7 +10581,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -10998,7 +10692,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -11019,11 +10713,7 @@
           }
         }
       },
-      "OBWriteInternationalStandingOrder3": {
-        "type": "object",
-        "properties": {}
-      },
-      "OBWriteInternationalStandingOrderConsent2": {
+      "OBWriteInternationalStandingOrderConsent3": {
         "type": "object",
         "required": [
           "Data",
@@ -11058,7 +10748,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -11169,7 +10859,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -11212,11 +10902,7 @@
           }
         }
       },
-      "OBWriteInternationalStandingOrderConsent3": {
-        "type": "object",
-        "properties": {}
-      },
-      "OBWriteInternationalStandingOrderConsentResponse2": {
+      "OBWriteInternationalStandingOrderConsentResponse3": {
         "type": "object",
         "required": [
           "Data",
@@ -11309,7 +10995,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -11420,7 +11106,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -11469,11 +11155,11 @@
           }
         }
       },
-      "OBWriteInternationalStandingOrderConsentResponse3": {
+      "OBWriteInternationalStandingOrderResponse3": {
         "type": "object",
         "properties": {}
       },
-      "OBWriteInternationalStandingOrderResponse2": {
+      "OBWriteInternationalStandingOrderResponse4": {
         "type": "object",
         "required": [
           "Data"
@@ -11511,6 +11197,7 @@
                 "type": "string",
                 "description": "Specifies the status of resource in code form.",
                 "enum": [
+                  "Cancelled",
                   "InitiationCompleted",
                   "InitiationFailed",
                   "InitiationPending"
@@ -11558,7 +11245,7 @@
                   "Frequency": {
                     "type": "string",
                     "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "Reference": {
                     "type": "string",
@@ -11669,7 +11356,7 @@
                       },
                       "Name": {
                         "type": "string",
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                         "minLength": 1,
                         "maxLength": 70
                       },
@@ -11729,11 +11416,7 @@
           }
         }
       },
-      "OBWriteInternationalStandingOrderResponse3": {
-        "type": "object",
-        "properties": {}
-      },
-      "OBWriteParty1": {
+      "OBWritePaymentDetailsResponse1": {
         "type": "object",
         "required": [
           "Data"
@@ -11741,112 +11424,95 @@
         "properties": {
           "Data": {
             "type": "object",
+            "required": [
+              "PaymentStatus"
+            ],
             "properties": {
-              "Party": {
-                "type": "object",
-                "required": [
-                  "PartyId"
-                ],
-                "properties": {
-                  "PartyId": {
-                    "type": "string",
-                    "description": "A unique and immutable identifier used to identify the customer resource. This identifier has no meaning to the account owner.",
-                    "minLength": 1,
-                    "maxLength": 40
-                  },
-                  "PartyNumber": {
-                    "type": "string",
-                    "description": "Number assigned by an agent to identify its customer.",
-                    "minLength": 1,
-                    "maxLength": 35
-                  },
-                  "PartyType": {
-                    "type": "string",
-                    "description": "Party type, in a coded form.",
-                    "enum": [
-                      "Delegate",
-                      "Joint",
-                      "Sole"
-                    ]
-                  },
-                  "Name": {
-                    "type": "string",
-                    "description": "Name by which a party is known and which is usually used to identify that party.",
-                    "minLength": 1,
-                    "maxLength": 70
-                  },
-                  "EmailAddress": {
-                    "type": "string",
-                    "description": "Address for electronic mail (e-mail).",
-                    "minLength": 1,
-                    "maxLength": 256
-                  },
-                  "Phone": {
-                    "type": "string",
-                    "description": "Collection of information that identifies a phone number, as defined by telecom services.",
-                    "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
-                  },
-                  "Mobile": {
-                    "type": "string",
-                    "description": "Collection of information that identifies a mobile phone number, as defined by telecom services.",
-                    "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
-                  },
-                  "Address": {
-                    "type": "array",
-                    "description": "Postal address of a party.",
-                    "items": {
+              "PaymentStatus": {
+                "type": "array",
+                "description": "Payment status details.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "PaymentTransactionId",
+                    "Status",
+                    "StatusUpdateDateTime"
+                  ],
+                  "properties": {
+                    "PaymentTransactionId": {
+                      "type": "string",
+                      "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
+                      "minLength": 1,
+                      "maxLength": 210
+                    },
+                    "Status": {
+                      "type": "string",
+                      "description": "Status of a transfe, as assigned by the transaction administrator.",
+                      "enum": [
+                        "Accepted",
+                        "AcceptedCancellationRequest",
+                        "AcceptedCreditSettlementCompleted",
+                        "AcceptedCustomerProfile",
+                        "AcceptedFundsChecked",
+                        "AcceptedSettlementCompleted",
+                        "AcceptedSettlementInProcess",
+                        "AcceptedTechnicalValidation",
+                        "AcceptedWithChange",
+                        "AcceptedWithoutPosting",
+                        "Cancelled",
+                        "NoCancellationProcess",
+                        "PartiallyAcceptedCancellationRequest",
+                        "PartiallyAcceptedTechnicalCorrect",
+                        "PaymentCancelled",
+                        "Pending",
+                        "PendingCancellationRequest",
+                        "Received",
+                        "Rejected",
+                        "RejectedCancellationRequest"
+                      ]
+                    },
+                    "StatusUpdateDateTime": {
+                      "description": "Date and time at which the status was assigned to the transfer.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "StatusDetail": {
                       "type": "object",
+                      "description": "Payment status details as per underlying Payment Rail.",
                       "required": [
-                        "Country"
+                        "Status"
                       ],
                       "properties": {
-                        "AddressType": {
-                          "$ref": "#/components/schemas/OBAddressTypeCode"
+                        "LocalInstrument": {
+                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                         },
-                        "AddressLine": {
-                          "type": "array",
-                          "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
-                          "minItems": 0,
-                          "maxItems": 5,
-                          "items": {
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 70
-                          }
-                        },
-                        "StreetName": {
-                          "$ref": "#/components/schemas/StreetName"
-                        },
-                        "BuildingNumber": {
-                          "$ref": "#/components/schemas/BuildingNumber"
-                        },
-                        "PostCode": {
-                          "$ref": "#/components/schemas/PostCode"
-                        },
-                        "TownName": {
-                          "$ref": "#/components/schemas/TownName"
-                        },
-                        "CountrySubDivision": {
+                        "Status": {
                           "type": "string",
-                          "description": "Identifies a subdivision of a country eg, state, region, county.",
+                          "description": "Status of a transfer, as assigned by the transaction administrator.",
                           "minLength": 1,
-                          "maxLength": 35
+                          "maxLength": 128
                         },
-                        "Country": {
-                          "$ref": "#/components/schemas/CountryCode_1"
+                        "Reason": {
+                          "type": "string",
+                          "description": "Reason provided for the status of a transfer.",
+                          "minLength": 1,
+                          "maxLength": 256
                         }
                       }
                     }
                   }
-                }
+                },
+                "minItems": 1
               }
             }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
           }
         }
-      },
-      "OBWritePaymentDetailsResponse1": {
-        "type": "object",
-        "properties": {}
       },
       "PostCode": {
         "type": "string",

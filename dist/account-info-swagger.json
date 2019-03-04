@@ -2434,7 +2434,18 @@
       "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
       "pattern": "^[A-Z]{3,3}$"
     },
-    "AddressLine": {
+    "AddressLine_0": {
+      "type": "array",
+      "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
+      "minItems": 0,
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 70
+      }
+    },
+    "AddressLine_1": {
       "type": "string",
       "description": "Information that locates and identifies a specific address for a transaction entry, that is presented in free format text.",
       "minLength": 1,
@@ -2457,6 +2468,17 @@
       "minLength": 1,
       "maxLength": 16
     },
+    "CountryCode": {
+      "type": "string",
+      "description": "Nation with its own government, occupying a particular territory.",
+      "pattern": "^[A-Z]{2,2}$"
+    },
+    "CountrySubDivision": {
+      "type": "string",
+      "description": "Identifies a subdivision of a country eg, state, region, county.",
+      "minLength": 1,
+      "maxLength": 35
+    },
     "CreationDateTime": {
       "description": "Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
       "type": "string",
@@ -2467,11 +2489,29 @@
       "type": "string",
       "format": "date-time"
     },
-    "Description": {
+    "Description_0": {
       "type": "string",
       "description": "Specifies the description of the account type.",
       "minLength": 1,
       "maxLength": 35
+    },
+    "Description_1": {
+      "type": "string",
+      "description": "Description that may be available for the statement fee.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "Description_2": {
+      "type": "string",
+      "description": "Description that may be available for the statement interest.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "EmailAddress": {
+      "type": "string",
+      "description": "Address for electronic mail (e-mail).",
+      "minLength": 1,
+      "maxLength": 256
     },
     "EndDateTime": {
       "description": "Date and time at which the statement period ends.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -2492,10 +2532,21 @@
       "type": "string",
       "format": "date-time"
     },
-    "Frequency": {
+    "Frequency_0": {
       "type": "string",
       "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
       "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+    },
+    "Frequency_1": {
+      "type": "string",
+      "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
+      "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+    },
+    "FullLegalName": {
+      "type": "string",
+      "description": "Specifies a character string with a maximum length of 350 characters.",
+      "minLength": 1,
+      "maxLength": 350
     },
     "ISODateTime": {
       "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -2570,11 +2621,17 @@
     },
     "Name_0": {
       "type": "string",
-      "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
       "minLength": 1,
       "maxLength": 70
     },
     "Name_1": {
+      "type": "string",
+      "description": "Name by which a party is known and which is usually used to identify that party.",
+      "minLength": 1,
+      "maxLength": 70
+    },
+    "Name_2": {
       "type": "string",
       "description": "Name by which an agent is known and which is usually used to identify that agent.",
       "minLength": 1,
@@ -2591,9 +2648,117 @@
       "minLength": 1,
       "maxLength": 70
     },
-    "Number": {
-      "type": "integer",
-      "description": "Value associated with the statement value type."
+    "OBAccount3": {
+      "type": "array",
+      "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+      "items": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/definitions/AccountId"
+          },
+          "Currency": {
+            "$ref": "#/definitions/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/definitions/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/definitions/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/definitions/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/definitions/Nickname"
+          },
+          "Account": {
+            "$ref": "#/definitions/OBCashAccount5_0"
+          },
+          "Servicer": {
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_0"
+          }
+        }
+      }
+    },
+    "OBAccount3Basic": {
+      "type": "array",
+      "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+      "items": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/definitions/AccountId"
+          },
+          "Currency": {
+            "$ref": "#/definitions/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/definitions/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/definitions/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/definitions/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/definitions/Nickname"
+          }
+        }
+      }
+    },
+    "OBAccount3Detail": {
+      "type": "array",
+      "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+      "items": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType",
+          "Account"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/definitions/AccountId"
+          },
+          "Currency": {
+            "$ref": "#/definitions/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/definitions/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/definitions/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/definitions/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/definitions/Nickname"
+          },
+          "Account": {
+            "$ref": "#/definitions/OBCashAccount5_0"
+          },
+          "Servicer": {
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_0"
+          }
+        }
+      }
     },
     "OBAccount4": {
       "type": "array",
@@ -2626,7 +2791,7 @@
             "$ref": "#/definitions/OBExternalAccountSubType1Code"
           },
           "Description": {
-            "$ref": "#/definitions/Description"
+            "$ref": "#/definitions/Description_0"
           },
           "Nickname": {
             "$ref": "#/definitions/Nickname"
@@ -2671,7 +2836,7 @@
             "$ref": "#/definitions/OBExternalAccountSubType1Code"
           },
           "Description": {
-            "$ref": "#/definitions/Description"
+            "$ref": "#/definitions/Description_0"
           },
           "Nickname": {
             "$ref": "#/definitions/Nickname"
@@ -2711,7 +2876,7 @@
             "$ref": "#/definitions/OBExternalAccountSubType1Code"
           },
           "Description": {
-            "$ref": "#/definitions/Description"
+            "$ref": "#/definitions/Description_0"
           },
           "Nickname": {
             "$ref": "#/definitions/Nickname"
@@ -2743,7 +2908,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_0": {
       "type": "object",
-      "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
+      "description": "The amount of the first Standing Order",
       "required": [
         "Amount",
         "Currency"
@@ -2759,7 +2924,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_1": {
       "type": "object",
-      "description": "The amount of the first Standing Order",
+      "description": "The amount of the next Standing Order.",
       "required": [
         "Amount",
         "Currency"
@@ -2775,7 +2940,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_2": {
       "type": "object",
-      "description": "The amount of the next Standing Order.",
+      "description": "The amount of the final Standing Order",
       "required": [
         "Amount",
         "Currency"
@@ -2791,7 +2956,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_3": {
       "type": "object",
-      "description": "The amount of the final Standing Order",
+      "description": "Amount of money associated with the statement benefit type.",
       "required": [
         "Amount",
         "Currency"
@@ -2807,7 +2972,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_4": {
       "type": "object",
-      "description": "Amount of money associated with the statement benefit type.",
+      "description": "Amount of money associated with the statement fee type.",
       "required": [
         "Amount",
         "Currency"
@@ -2823,7 +2988,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_5": {
       "type": "object",
-      "description": "Amount of money associated with the statement fee type.",
+      "description": "Amount of money associated with the statement interest amount type.",
       "required": [
         "Amount",
         "Currency"
@@ -2839,7 +3004,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_6": {
       "type": "object",
-      "description": "Amount of money associated with the statement interest amount type.",
+      "description": "Amount of money associated with the amount type.",
       "required": [
         "Amount",
         "Currency"
@@ -2855,7 +3020,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_7": {
       "type": "object",
-      "description": "Amount of money associated with the amount type.",
+      "description": "Amount of money in the cash transaction entry.",
       "required": [
         "Amount",
         "Currency"
@@ -2871,7 +3036,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_8": {
       "type": "object",
-      "description": "Amount of money in the cash transaction entry.",
+      "description": "Transaction charges to be paid by the charge bearer.",
       "required": [
         "Amount",
         "Currency"
@@ -2887,7 +3052,7 @@
     },
     "OBActiveOrHistoricCurrencyAndAmount_9": {
       "type": "object",
-      "description": "Transaction charges to be paid by the charge bearer.",
+      "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
       "required": [
         "Amount",
         "Currency"
@@ -2966,10 +3131,10 @@
             "$ref": "#/definitions/Reference"
           },
           "CreditorAgent": {
-            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_2"
           },
           "CreditorAccount": {
-            "$ref": "#/definitions/OBCashAccount5_1"
+            "$ref": "#/definitions/OBCashAccount5_2"
           }
         }
       }
@@ -3004,10 +3169,10 @@
             "$ref": "#/definitions/Reference"
           },
           "CreditorAgent": {
-            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_2"
           },
           "CreditorAccount": {
-            "$ref": "#/definitions/OBCashAccount5_1"
+            "$ref": "#/definitions/OBCashAccount5_2"
           }
         },
         "required": [
@@ -3049,24 +3214,6 @@
     },
     "OBBranchAndFinancialInstitutionIdentification6_0": {
       "type": "object",
-      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
-      "properties": {
-        "SchemeName": {
-          "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
-        },
-        "Identification": {
-          "$ref": "#/definitions/Identification_1"
-        },
-        "Name": {
-          "$ref": "#/definitions/Name_1"
-        },
-        "PostalAddress": {
-          "$ref": "#/definitions/OBPostalAddress6"
-        }
-      }
-    },
-    "OBBranchAndFinancialInstitutionIdentification6_1": {
-      "type": "object",
       "description": "Financial institution servicing an account for the creditor.",
       "properties": {
         "SchemeName": {
@@ -3076,14 +3223,14 @@
           "$ref": "#/definitions/Identification_2"
         },
         "Name": {
-          "$ref": "#/definitions/Name_1"
+          "$ref": "#/definitions/Name_2"
         },
         "PostalAddress": {
           "$ref": "#/definitions/OBPostalAddress6"
         }
       }
     },
-    "OBBranchAndFinancialInstitutionIdentification6_2": {
+    "OBBranchAndFinancialInstitutionIdentification6_1": {
       "type": "object",
       "description": "Financial institution servicing an account for the debtor.",
       "properties": {
@@ -3094,7 +3241,25 @@
           "$ref": "#/definitions/Identification_2"
         },
         "Name": {
-          "$ref": "#/definitions/Name_1"
+          "$ref": "#/definitions/Name_2"
+        },
+        "PostalAddress": {
+          "$ref": "#/definitions/OBPostalAddress6"
+        }
+      }
+    },
+    "OBBranchAndFinancialInstitutionIdentification6_2": {
+      "type": "object",
+      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+      "properties": {
+        "SchemeName": {
+          "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+        },
+        "Identification": {
+          "$ref": "#/definitions/Identification_1"
+        },
+        "Name": {
+          "$ref": "#/definitions/Name_2"
         },
         "PostalAddress": {
           "$ref": "#/definitions/OBPostalAddress6"
@@ -3138,7 +3303,10 @@
           "$ref": "#/definitions/OBExternalAccountIdentification4Code"
         },
         "Identification": {
-          "$ref": "#/definitions/Identification_0"
+          "type": "string",
+          "description": "Beneficiary account identification.",
+          "minLength": 1,
+          "maxLength": 256
         },
         "Name": {
           "$ref": "#/definitions/Name_0"
@@ -3160,10 +3328,7 @@
           "$ref": "#/definitions/OBExternalAccountIdentification4Code"
         },
         "Identification": {
-          "type": "string",
-          "description": "Beneficiary account identification.",
-          "minLength": 1,
-          "maxLength": 256
+          "$ref": "#/definitions/Identification_0"
         },
         "Name": {
           "$ref": "#/definitions/Name_0"
@@ -3211,7 +3376,7 @@
     },
     "OBCreditDebitCode_0": {
       "type": "string",
-      "description": "Indicates whether the balance is a credit or a debit balance. \nUsage: A zero balance is considered to be a credit balance.",
+      "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount.",
       "enum": [
         "Credit",
         "Debit"
@@ -3219,7 +3384,7 @@
     },
     "OBCreditDebitCode_1": {
       "type": "string",
-      "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount.",
+      "description": "Indicates whether the transaction is a credit or a debit entry.",
       "enum": [
         "Credit",
         "Debit"
@@ -3227,7 +3392,7 @@
     },
     "OBCreditDebitCode_2": {
       "type": "string",
-      "description": "Indicates whether the transaction is a credit or a debit entry.",
+      "description": "Indicates whether the balance is a credit or a debit balance. \nUsage: A zero balance is considered to be a credit balance.",
       "enum": [
         "Credit",
         "Debit"
@@ -3405,6 +3570,26 @@
         "UK.OBIE.SortCodeAccountNumber"
       ]
     },
+    "OBExternalAccountRole1Code": {
+      "type": "string",
+      "description": "A party’s role with respect to the related account.",
+      "x-namespaced-enum": [
+        "UK.OBIE.Administrator",
+        "UK.OBIE.Beneficiary",
+        "UK.OBIE.CustodianForMinor",
+        "UK.OBIE.Granter",
+        "UK.OBIE.LegalGuardian",
+        "UK.OBIE.OtherParty",
+        "UK.OBIE.PowerOfAttorney",
+        "UK.OBIE.Principal",
+        "UK.OBIE.Protector",
+        "UK.OBIE.RegisteredShareholderName",
+        "UK.OBIE.SecondaryOwner",
+        "UK.OBIE.SeniorManagingOfficial",
+        "UK.OBIE.Settlor",
+        "UK.OBIE.SuccessorOnDeath"
+      ]
+    },
     "OBExternalAccountSubType1Code": {
       "type": "string",
       "description": "Specifies the sub type of account (product family group).",
@@ -3432,6 +3617,33 @@
       "description": "Name of the identification scheme, in a coded form as published in an external list.",
       "x-namespaced-enum": [
         "UK.OBIE.BICFI"
+      ]
+    },
+    "OBExternalLegalStructureType1Code": {
+      "type": "string",
+      "description": "Legal standing of the party.",
+      "x-namespaced-enum": [
+        "UK.OBIE.CIC",
+        "UK.OBIE.CIO",
+        "UK.OBIE.Charity",
+        "UK.OBIE.CoOp",
+        "UK.OBIE.GeneralPartnership",
+        "UK.OBIE.Individual",
+        "UK.OBIE.LimitedLiabilityPartnership",
+        "UK.OBIE.LimitedPartnership",
+        "UK.OBIE.PrivateLimitedCompany",
+        "UK.OBIE.PublicLimitedCompany",
+        "UK.OBIE.ScottishLimitedPartnership",
+        "UK.OBIE.Sole"
+      ]
+    },
+    "OBExternalPartyType1Code": {
+      "type": "string",
+      "description": "Party type, in a coded form.",
+      "enum": [
+        "Delegate",
+        "Joint",
+        "Sole"
       ]
     },
     "OBExternalScheduleType1Code": {
@@ -3504,6 +3716,26 @@
         "UK.OBIE.StatementAvailable"
       ]
     },
+    "OBExternalStatementFeeFrequency1Code": {
+      "type": "string",
+      "description": "How frequently the fee is applied to the Account.",
+      "x-namespaced-enum": [
+        "UK.OBIE.ChargingPeriod",
+        "UK.OBIE.PerTransactionAmount",
+        "UK.OBIE.PerTransactionPercentage",
+        "UK.OBIE.Quarterly",
+        "UK.OBIE.StatementMonthly",
+        "UK.OBIE.Weekly"
+      ]
+    },
+    "OBExternalStatementFeeRateType1Code": {
+      "type": "string",
+      "description": "Description that may be available for the statement fee rate type.",
+      "x-namespaced-enum": [
+        "UK.OBIE.AER",
+        "UK.OBIE.EAR"
+      ]
+    },
     "OBExternalStatementFeeType1Code": {
       "type": "string",
       "description": "Fee type, in a coded form.",
@@ -3525,6 +3757,30 @@
         "UK.OBIE.Total"
       ]
     },
+    "OBExternalStatementInterestFrequency1Code": {
+      "type": "string",
+      "description": "Specifies the statement fee type requested",
+      "x-namespaced-enum": [
+        "UK.OBIE.Daily",
+        "UK.OBIE.HalfYearly",
+        "UK.OBIE.Monthly",
+        "UK.OBIE.PerStatementDate",
+        "UK.OBIE.Quarterly",
+        "UK.OBIE.Weekly",
+        "UK.OBIE.Yearly"
+      ]
+    },
+    "OBExternalStatementInterestRateType1Code": {
+      "type": "string",
+      "description": "Description that may be available for the statement Interest rate type.",
+      "x-namespaced-enum": [
+        "UK.OBIE.BOEBaseRate",
+        "UK.OBIE.FixedRate",
+        "UK.OBIE.Gross",
+        "UK.OBIE.LoanProviderBaseRate",
+        "UK.OBIE.Net"
+      ]
+    },
     "OBExternalStatementInterestType1Code": {
       "type": "string",
       "description": "Interest amount type, in a coded form.",
@@ -3538,19 +3794,8 @@
     },
     "OBExternalStatementRateType1Code": {
       "type": "string",
-      "description": "Statement rate type, in a coded form.",
-      "x-namespaced-enum": [
-        "UK.OBIE.AnnualBalanceTransfer",
-        "UK.OBIE.AnnualBalanceTransferAfterPromo",
-        "UK.OBIE.AnnualBalanceTransferPromo",
-        "UK.OBIE.AnnualCash",
-        "UK.OBIE.AnnualPurchase",
-        "UK.OBIE.AnnualPurchaseAfterPromo",
-        "UK.OBIE.AnnualPurchasePromo",
-        "UK.OBIE.MonthlyBalanceTransfer",
-        "UK.OBIE.MonthlyCash",
-        "UK.OBIE.MonthlyPurchase"
-      ]
+      "description": "Rate associated with the statement rate type.",
+      "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
     },
     "OBExternalStatementType1Code": {
       "type": "string",
@@ -3565,7 +3810,7 @@
     },
     "OBExternalStatementValueType1Code": {
       "type": "string",
-      "description": "Statement value type, in a coded form.",
+      "description": "Value associated with the statement value type.",
       "x-namespaced-enum": [
         "UK.OBIE.AirMilesPoints",
         "UK.OBIE.AirMilesPointsBalance",
@@ -3592,6 +3837,33 @@
           "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction.",
           "minLength": 3,
           "maxLength": 4
+        }
+      }
+    },
+    "OBPartyRelationships1": {
+      "type": "object",
+      "description": "The Party's relationships with other resources.",
+      "properties": {
+        "Account": {
+          "type": "object",
+          "description": "Relationship to the Account resource.",
+          "required": [
+            "Related",
+            "Id"
+          ],
+          "properties": {
+            "Related": {
+              "type": "string",
+              "description": "Absolute URI to the related resource.",
+              "format": "uri"
+            },
+            "Id": {
+              "type": "string",
+              "description": "Unique identification as assigned by the ASPSP to uniquely identify the related resource.",
+              "minLength": 1,
+              "maxLength": 40
+            }
+          }
         }
       }
     },
@@ -3650,6 +3922,72 @@
         }
       }
     },
+    "OBPostalAddress8": {
+      "type": "array",
+      "description": "Postal address of a party.",
+      "items": {
+        "type": "object",
+        "required": [
+          "Country"
+        ],
+        "properties": {
+          "AddressType": {
+            "$ref": "#/definitions/OBAddressTypeCode"
+          },
+          "AddressLine": {
+            "$ref": "#/definitions/AddressLine_0"
+          },
+          "StreetName": {
+            "$ref": "#/definitions/StreetName"
+          },
+          "BuildingNumber": {
+            "$ref": "#/definitions/BuildingNumber"
+          },
+          "PostCode": {
+            "$ref": "#/definitions/PostCode"
+          },
+          "TownName": {
+            "$ref": "#/definitions/TownName"
+          },
+          "CountrySubDivision": {
+            "$ref": "#/definitions/CountrySubDivision"
+          },
+          "Country": {
+            "$ref": "#/definitions/CountryCode"
+          }
+        }
+      }
+    },
+    "OBRate1_0": {
+      "type": "number",
+      "description": "Rate charged for Statement Fee (where it is charged in terms of a rate rather than an amount)"
+    },
+    "OBRate1_1": {
+      "type": "number",
+      "description": "field representing a percentage (e.g. 0.05 represents 5% and 0.9525 represents 95.25%). Note the number of decimal places may vary."
+    },
+    "OBReadAccount3": {
+      "type": "object",
+      "required": [
+        "Data"
+      ],
+      "properties": {
+        "Data": {
+          "type": "object",
+          "properties": {
+            "Account": {
+              "$ref": "#/definitions/OBAccount3"
+            }
+          }
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      }
+    },
     "OBReadAccount4": {
       "type": "object",
       "required": [
@@ -3701,7 +4039,7 @@
                     "$ref": "#/definitions/AccountId"
                   },
                   "CreditDebitIndicator": {
-                    "$ref": "#/definitions/OBCreditDebitCode_0"
+                    "$ref": "#/definitions/OBCreditDebitCode_2"
                   },
                   "Type": {
                     "$ref": "#/definitions/OBBalanceType1Code"
@@ -3970,6 +4308,22 @@
         }
       }
     },
+    "OBReadDataStatement2": {
+      "type": "object",
+      "properties": {
+        "Statement": {
+          "$ref": "#/definitions/OBStatement2"
+        }
+      }
+    },
+    "OBReadDataTransaction5": {
+      "type": "object",
+      "properties": {
+        "Transaction": {
+          "$ref": "#/definitions/OBTransaction5"
+        }
+      }
+    },
     "OBReadDirectDebit1": {
       "type": "object",
       "required": [
@@ -4188,95 +4542,162 @@
               ],
               "properties": {
                 "PartyId": {
-                  "type": "string",
-                  "description": "A unique and immutable identifier used to identify the customer resource. This identifier has no meaning to the account owner.",
-                  "minLength": 1,
-                  "maxLength": 40
+                  "$ref": "#/definitions/PartyId"
                 },
                 "PartyNumber": {
-                  "type": "string",
-                  "description": "Number assigned by an agent to identify its customer.",
-                  "minLength": 1,
-                  "maxLength": 35
+                  "$ref": "#/definitions/PartyNumber"
                 },
                 "PartyType": {
-                  "type": "string",
-                  "description": "Party type, in a coded form.",
-                  "enum": [
-                    "Delegate",
-                    "Joint",
-                    "Sole"
-                  ]
+                  "$ref": "#/definitions/OBExternalPartyType1Code"
                 },
                 "Name": {
-                  "type": "string",
-                  "description": "Name by which a party is known and which is usually used to identify that party.",
-                  "minLength": 1,
-                  "maxLength": 70
+                  "$ref": "#/definitions/Name_1"
                 },
                 "EmailAddress": {
-                  "type": "string",
-                  "description": "Address for electronic mail (e-mail).",
-                  "minLength": 1,
-                  "maxLength": 256
+                  "$ref": "#/definitions/EmailAddress"
                 },
                 "Phone": {
-                  "type": "string",
-                  "description": "Collection of information that identifies a phone number, as defined by telecom services.",
-                  "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
+                  "$ref": "#/definitions/PhoneNumber_0"
                 },
                 "Mobile": {
-                  "type": "string",
-                  "description": "Collection of information that identifies a mobile phone number, as defined by telecom services.",
-                  "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
+                  "$ref": "#/definitions/PhoneNumber_1"
                 },
                 "Address": {
-                  "type": "array",
-                  "description": "Postal address of a party.",
-                  "items": {
-                    "type": "object",
-                    "required": [
-                      "Country"
-                    ],
-                    "properties": {
-                      "AddressType": {
-                        "$ref": "#/definitions/OBAddressTypeCode"
-                      },
-                      "AddressLine": {
-                        "type": "array",
-                        "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
-                        "minItems": 0,
-                        "maxItems": 5,
-                        "items": {
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 70
-                        }
-                      },
-                      "StreetName": {
-                        "$ref": "#/definitions/StreetName"
-                      },
-                      "BuildingNumber": {
-                        "$ref": "#/definitions/BuildingNumber"
-                      },
-                      "PostCode": {
-                        "$ref": "#/definitions/PostCode"
-                      },
-                      "TownName": {
-                        "$ref": "#/definitions/TownName"
-                      },
-                      "CountrySubDivision": {
-                        "type": "string",
-                        "description": "Identifies a subdivision of a country eg, state, region, county.",
-                        "minLength": 1,
-                        "maxLength": 35
-                      },
-                      "Country": {
-                        "type": "string",
-                        "description": "Nation with its own government, occupying a particular territory.",
-                        "pattern": "^[A-Z]{2,2}$"
-                      }
-                    }
+                  "$ref": "#/definitions/OBPostalAddress8"
+                }
+              }
+            }
+          }
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      }
+    },
+    "OBReadParty2": {
+      "type": "object",
+      "required": [
+        "Data"
+      ],
+      "properties": {
+        "Data": {
+          "type": "object",
+          "properties": {
+            "Party": {
+              "type": "object",
+              "required": [
+                "PartyId"
+              ],
+              "properties": {
+                "PartyId": {
+                  "$ref": "#/definitions/PartyId"
+                },
+                "PartyNumber": {
+                  "$ref": "#/definitions/PartyNumber"
+                },
+                "PartyType": {
+                  "$ref": "#/definitions/OBExternalPartyType1Code"
+                },
+                "Name": {
+                  "$ref": "#/definitions/Name_1"
+                },
+                "FullLegalName": {
+                  "$ref": "#/definitions/FullLegalName"
+                },
+                "LegalStructure": {
+                  "$ref": "#/definitions/OBExternalLegalStructureType1Code"
+                },
+                "BeneficialOwnership": {
+                  "type": "boolean"
+                },
+                "AccountRole": {
+                  "$ref": "#/definitions/OBExternalAccountRole1Code"
+                },
+                "EmailAddress": {
+                  "$ref": "#/definitions/EmailAddress"
+                },
+                "Phone": {
+                  "$ref": "#/definitions/PhoneNumber_0"
+                },
+                "Mobile": {
+                  "$ref": "#/definitions/PhoneNumber_1"
+                },
+                "Relationships": {
+                  "$ref": "#/definitions/OBPartyRelationships1"
+                },
+                "Address": {
+                  "$ref": "#/definitions/OBPostalAddress8"
+                }
+              }
+            }
+          }
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      }
+    },
+    "OBReadParty3": {
+      "type": "object",
+      "required": [
+        "Data"
+      ],
+      "properties": {
+        "Data": {
+          "type": "object",
+          "properties": {
+            "Party": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "PartyId"
+                ],
+                "properties": {
+                  "PartyId": {
+                    "$ref": "#/definitions/PartyId"
+                  },
+                  "PartyNumber": {
+                    "$ref": "#/definitions/PartyNumber"
+                  },
+                  "PartyType": {
+                    "$ref": "#/definitions/OBExternalPartyType1Code"
+                  },
+                  "Name": {
+                    "$ref": "#/definitions/Name_1"
+                  },
+                  "FullLegalName": {
+                    "$ref": "#/definitions/FullLegalName"
+                  },
+                  "LegalStructure": {
+                    "$ref": "#/definitions/OBExternalLegalStructureType1Code"
+                  },
+                  "BeneficialOwnership": {
+                    "type": "boolean"
+                  },
+                  "AccountRole": {
+                    "$ref": "#/definitions/OBExternalAccountRole1Code"
+                  },
+                  "EmailAddress": {
+                    "$ref": "#/definitions/EmailAddress"
+                  },
+                  "Phone": {
+                    "$ref": "#/definitions/PhoneNumber_0"
+                  },
+                  "Mobile": {
+                    "$ref": "#/definitions/PhoneNumber_1"
+                  },
+                  "Relationships": {
+                    "$ref": "#/definitions/OBPartyRelationships1"
+                  },
+                  "Address": {
+                    "$ref": "#/definitions/OBPostalAddress8"
                   }
                 }
               }
@@ -8836,7 +9257,25 @@
     },
     "OBReadStandingOrder5": {
       "type": "object",
-      "properties": {}
+      "required": [
+        "Data"
+      ],
+      "properties": {
+        "Data": {
+          "type": "object",
+          "properties": {
+            "StandingOrder": {
+              "$ref": "#/definitions/OBStandingOrder5"
+            }
+          }
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      }
     },
     "OBReadStatement1": {
       "type": "object",
@@ -8845,12 +9284,7 @@
       ],
       "properties": {
         "Data": {
-          "type": "object",
-          "properties": {
-            "Statement": {
-              "$ref": "#/definitions/OBStatement1"
-            }
-          }
+          "$ref": "#/definitions/OBReadDataStatement2"
         },
         "Links": {
           "$ref": "#/definitions/Links"
@@ -8862,7 +9296,20 @@
     },
     "OBReadStatement2": {
       "type": "object",
-      "properties": {}
+      "required": [
+        "Data"
+      ],
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/OBReadDataStatement2"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      }
     },
     "OBReadTransaction4": {
       "type": "object",
@@ -8871,12 +9318,7 @@
       ],
       "properties": {
         "Data": {
-          "type": "object",
-          "properties": {
-            "Transaction": {
-              "$ref": "#/definitions/OBTransaction4"
-            }
-          }
+          "$ref": "#/definitions/OBReadDataTransaction5"
         },
         "Links": {
           "$ref": "#/definitions/Links"
@@ -8888,7 +9330,20 @@
     },
     "OBReadTransaction5": {
       "type": "object",
-      "properties": {}
+      "required": [
+        "Data"
+      ],
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/OBReadDataTransaction5"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      }
     },
     "OBRisk2": {
       "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Account Info.",
@@ -8923,13 +9378,13 @@
             "$ref": "#/definitions/Reference"
           },
           "InstructedAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_9"
           },
           "CreditorAgent": {
             "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/definitions/OBCashAccount5_2"
+            "$ref": "#/definitions/OBCashAccount5_1"
           }
         }
       }
@@ -8961,7 +9416,7 @@
             "$ref": "#/definitions/Reference"
           },
           "InstructedAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_9"
           }
         }
       }
@@ -8994,13 +9449,13 @@
             "$ref": "#/definitions/Reference"
           },
           "InstructedAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_9"
           },
           "CreditorAgent": {
             "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/definitions/OBCashAccount5_2"
+            "$ref": "#/definitions/OBCashAccount5_1"
           }
         }
       }
@@ -9021,7 +9476,7 @@
             "$ref": "#/definitions/StandingOrderId"
           },
           "Frequency": {
-            "$ref": "#/definitions/Frequency"
+            "$ref": "#/definitions/Frequency_0"
           },
           "Reference": {
             "$ref": "#/definitions/Reference"
@@ -9039,19 +9494,19 @@
             "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
           },
           "NextPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
           },
           "FinalPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_3"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
           },
           "CreditorAgent": {
             "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/definitions/OBCashAccount5_2"
+            "$ref": "#/definitions/OBCashAccount5_1"
           },
           "SupplementaryData": {
             "$ref": "#/definitions/OBSupplementaryData1"
@@ -9075,7 +9530,7 @@
             "$ref": "#/definitions/StandingOrderId"
           },
           "Frequency": {
-            "$ref": "#/definitions/Frequency"
+            "$ref": "#/definitions/Frequency_0"
           },
           "Reference": {
             "$ref": "#/definitions/Reference"
@@ -9093,13 +9548,13 @@
             "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
           },
           "NextPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
           },
           "FinalPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_3"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
           },
           "SupplementaryData": {
             "$ref": "#/definitions/OBSupplementaryData1"
@@ -9124,7 +9579,7 @@
             "$ref": "#/definitions/StandingOrderId"
           },
           "Frequency": {
-            "$ref": "#/definitions/Frequency"
+            "$ref": "#/definitions/Frequency_0"
           },
           "Reference": {
             "$ref": "#/definitions/Reference"
@@ -9142,19 +9597,19 @@
             "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
           },
           "NextPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
           },
           "FinalPaymentAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_3"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
           },
           "CreditorAgent": {
             "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/definitions/OBCashAccount5_2"
+            "$ref": "#/definitions/OBCashAccount5_1"
           },
           "SupplementaryData": {
             "$ref": "#/definitions/OBSupplementaryData1"
@@ -9162,7 +9617,164 @@
         }
       }
     },
-    "OBStatement1": {
+    "OBStandingOrder5": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/definitions/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/definitions/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/definitions/Frequency_1"
+          },
+          "Reference": {
+            "$ref": "#/definitions/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/definitions/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/definitions/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/definitions/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "CreditorAgent": {
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_1"
+          },
+          "CreditorAccount": {
+            "$ref": "#/definitions/OBCashAccount5_1"
+          },
+          "SupplementaryData": {
+            "$ref": "#/definitions/OBSupplementaryData1"
+          }
+        }
+      }
+    },
+    "OBStandingOrder5Basic": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/definitions/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/definitions/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/definitions/Frequency_1"
+          },
+          "Reference": {
+            "$ref": "#/definitions/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/definitions/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/definitions/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/definitions/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "SupplementaryData": {
+            "$ref": "#/definitions/OBSupplementaryData1"
+          }
+        }
+      }
+    },
+    "OBStandingOrder5Detail": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/definitions/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/definitions/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/definitions/Frequency_1"
+          },
+          "Reference": {
+            "$ref": "#/definitions/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/definitions/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/definitions/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/definitions/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/definitions/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "CreditorAgent": {
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification5_1"
+          },
+          "CreditorAccount": {
+            "$ref": "#/definitions/OBCashAccount5_1"
+          },
+          "SupplementaryData": {
+            "$ref": "#/definitions/OBSupplementaryData1"
+          }
+        }
+      }
+    },
+    "OBStatement2": {
       "type": "array",
       "description": "Provides further details on a statement resource.",
       "items": {
@@ -9203,10 +9815,10 @@
             "$ref": "#/definitions/OBStatementBenefit1"
           },
           "StatementFee": {
-            "$ref": "#/definitions/OBStatementFee1"
+            "$ref": "#/definitions/OBStatementFee2"
           },
           "StatementInterest": {
-            "$ref": "#/definitions/OBStatementInterest1"
+            "$ref": "#/definitions/OBStatementInterest2"
           },
           "StatementAmount": {
             "$ref": "#/definitions/OBStatementAmount1"
@@ -9223,7 +9835,7 @@
         }
       }
     },
-    "OBStatement1Basic": {
+    "OBStatement2Basic": {
       "type": "array",
       "description": "Provides further details on a statement resource.",
       "items": {
@@ -9264,10 +9876,10 @@
             "$ref": "#/definitions/OBStatementBenefit1"
           },
           "StatementFee": {
-            "$ref": "#/definitions/OBStatementFee1"
+            "$ref": "#/definitions/OBStatementFee2"
           },
           "StatementInterest": {
-            "$ref": "#/definitions/OBStatementInterest1"
+            "$ref": "#/definitions/OBStatementInterest2"
           },
           "StatementDateTime": {
             "$ref": "#/definitions/OBStatementDateTime1"
@@ -9281,7 +9893,7 @@
         }
       }
     },
-    "OBStatement1Detail": {
+    "OBStatement2Detail": {
       "type": "array",
       "description": "Provides further details on a statement resource.",
       "items": {
@@ -9322,10 +9934,10 @@
             "$ref": "#/definitions/OBStatementBenefit1"
           },
           "StatementFee": {
-            "$ref": "#/definitions/OBStatementFee1"
+            "$ref": "#/definitions/OBStatementFee2"
           },
           "StatementInterest": {
-            "$ref": "#/definitions/OBStatementInterest1"
+            "$ref": "#/definitions/OBStatementInterest2"
           },
           "StatementAmount": {
             "$ref": "#/definitions/OBStatementAmount1"
@@ -9354,13 +9966,13 @@
         ],
         "properties": {
           "CreditDebitIndicator": {
-            "$ref": "#/definitions/OBCreditDebitCode_1"
+            "$ref": "#/definitions/OBCreditDebitCode_0"
           },
           "Type": {
             "$ref": "#/definitions/OBExternalStatementAmountType1Code"
           },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_7"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_6"
           }
         }
       }
@@ -9379,7 +9991,7 @@
             "$ref": "#/definitions/OBExternalStatementBenefitType1Code"
           },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_4"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_3"
           }
         }
       }
@@ -9403,7 +10015,7 @@
         }
       }
     },
-    "OBStatementFee1": {
+    "OBStatementFee2": {
       "type": "array",
       "description": "Set of elements used to provide details of a fee for the statement resource.",
       "items": {
@@ -9414,19 +10026,31 @@
           "Amount"
         ],
         "properties": {
+          "Description": {
+            "$ref": "#/definitions/Description_1"
+          },
           "CreditDebitIndicator": {
-            "$ref": "#/definitions/OBCreditDebitCode_1"
+            "$ref": "#/definitions/OBCreditDebitCode_0"
           },
           "Type": {
             "$ref": "#/definitions/OBExternalStatementFeeType1Code"
           },
+          "Rate": {
+            "$ref": "#/definitions/OBRate1_0"
+          },
+          "RateType": {
+            "$ref": "#/definitions/OBExternalStatementFeeRateType1Code"
+          },
+          "Frequency": {
+            "$ref": "#/definitions/OBExternalStatementFeeFrequency1Code"
+          },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_5"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_4"
           }
         }
       }
     },
-    "OBStatementInterest1": {
+    "OBStatementInterest2": {
       "type": "array",
       "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
       "items": {
@@ -9437,14 +10061,26 @@
           "Amount"
         ],
         "properties": {
+          "Description": {
+            "$ref": "#/definitions/Description_2"
+          },
           "CreditDebitIndicator": {
-            "$ref": "#/definitions/OBCreditDebitCode_1"
+            "$ref": "#/definitions/OBCreditDebitCode_0"
           },
           "Type": {
             "$ref": "#/definitions/OBExternalStatementInterestType1Code"
           },
+          "Rate": {
+            "$ref": "#/definitions/OBRate1_1"
+          },
+          "RateType": {
+            "$ref": "#/definitions/OBExternalStatementInterestRateType1Code"
+          },
+          "Frequency": {
+            "$ref": "#/definitions/OBExternalStatementInterestFrequency1Code"
+          },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_6"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_5"
           }
         }
       }
@@ -9460,10 +10096,10 @@
         ],
         "properties": {
           "Rate": {
-            "$ref": "#/definitions/Rate"
+            "$ref": "#/definitions/OBExternalStatementRateType1Code"
           },
           "Type": {
-            "$ref": "#/definitions/OBExternalStatementRateType1Code"
+            "$ref": "#/definitions/Type_0"
           }
         }
       }
@@ -9479,10 +10115,10 @@
         ],
         "properties": {
           "Value": {
-            "$ref": "#/definitions/Number"
+            "$ref": "#/definitions/OBExternalStatementValueType1Code"
           },
           "Type": {
-            "$ref": "#/definitions/OBExternalStatementValueType1Code"
+            "$ref": "#/definitions/Type_1"
           }
         }
       }
@@ -9493,7 +10129,7 @@
       "additionalProperties": true,
       "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
     },
-    "OBTransaction4": {
+    "OBTransaction5": {
       "type": "array",
       "description": "Provides further details on an entry in the report.",
       "items": {
@@ -9519,7 +10155,7 @@
             "$ref": "#/definitions/StatementReference_1"
           },
           "CreditDebitIndicator": {
-            "$ref": "#/definitions/OBCreditDebitCode_2"
+            "$ref": "#/definitions/OBCreditDebitCode_1"
           },
           "Status": {
             "$ref": "#/definitions/OBEntryStatus1Code"
@@ -9534,13 +10170,13 @@
             "$ref": "#/definitions/TransactionInformation"
           },
           "AddressLine": {
-            "$ref": "#/definitions/AddressLine"
+            "$ref": "#/definitions/AddressLine_1"
           },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_8"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_7"
           },
           "ChargeAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_9"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_8"
           },
           "CurrencyExchange": {
             "$ref": "#/definitions/OBCurrencyExchange5"
@@ -9558,13 +10194,13 @@
             "$ref": "#/definitions/OBMerchantDetails1"
           },
           "CreditorAgent": {
-            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_1"
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/definitions/OBCashAccount6_0"
           },
           "DebtorAgent": {
-            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_2"
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_1"
           },
           "DebtorAccount": {
             "$ref": "#/definitions/OBCashAccount6_1"
@@ -9578,7 +10214,7 @@
         }
       }
     },
-    "OBTransaction4Basic": {
+    "OBTransaction5Basic": {
       "type": "array",
       "description": "Provides further details on an entry in the report.",
       "items": {
@@ -9604,7 +10240,7 @@
             "$ref": "#/definitions/StatementReference_1"
           },
           "CreditDebitIndicator": {
-            "$ref": "#/definitions/OBCreditDebitCode_2"
+            "$ref": "#/definitions/OBCreditDebitCode_1"
           },
           "Status": {
             "$ref": "#/definitions/OBEntryStatus1Code"
@@ -9616,13 +10252,13 @@
             "$ref": "#/definitions/ValueDateTime"
           },
           "AddressLine": {
-            "$ref": "#/definitions/AddressLine"
+            "$ref": "#/definitions/AddressLine_1"
           },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_8"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_7"
           },
           "ChargeAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_9"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_8"
           },
           "CurrencyExchange": {
             "$ref": "#/definitions/OBCurrencyExchange5"
@@ -9642,7 +10278,7 @@
         }
       }
     },
-    "OBTransaction4Detail": {
+    "OBTransaction5Detail": {
       "type": "array",
       "description": "Provides further details on an entry in the report.",
       "items": {
@@ -9668,7 +10304,7 @@
             "$ref": "#/definitions/StatementReference_1"
           },
           "CreditDebitIndicator": {
-            "$ref": "#/definitions/OBCreditDebitCode_2"
+            "$ref": "#/definitions/OBCreditDebitCode_1"
           },
           "Status": {
             "$ref": "#/definitions/OBEntryStatus1Code"
@@ -9683,13 +10319,13 @@
             "$ref": "#/definitions/TransactionInformation"
           },
           "AddressLine": {
-            "$ref": "#/definitions/AddressLine"
+            "$ref": "#/definitions/AddressLine_1"
           },
           "Amount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_8"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_7"
           },
           "ChargeAmount": {
-            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_9"
+            "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_8"
           },
           "CurrencyExchange": {
             "$ref": "#/definitions/OBCurrencyExchange5"
@@ -9707,13 +10343,13 @@
             "$ref": "#/definitions/OBMerchantDetails1"
           },
           "CreditorAgent": {
-            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_1"
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/definitions/OBCashAccount6_0"
           },
           "DebtorAgent": {
-            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_2"
+            "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6_1"
           },
           "DebtorAccount": {
             "$ref": "#/definitions/OBCashAccount6_1"
@@ -9779,7 +10415,7 @@
       ],
       "properties": {
         "CreditDebitIndicator": {
-          "$ref": "#/definitions/OBCreditDebitCode_0"
+          "$ref": "#/definitions/OBCreditDebitCode_2"
         },
         "Type": {
           "$ref": "#/definitions/OBBalanceType1Code"
@@ -9801,6 +10437,28 @@
           }
         }
       }
+    },
+    "PartyId": {
+      "type": "string",
+      "description": "A unique and immutable identifier used to identify the customer resource. This identifier has no meaning to the account owner.",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "PartyNumber": {
+      "type": "string",
+      "description": "Number assigned by an agent to identify its customer.",
+      "minLength": 1,
+      "maxLength": 35
+    },
+    "PhoneNumber_0": {
+      "type": "string",
+      "description": "Collection of information that identifies a phone number, as defined by telecom services.",
+      "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
+    },
+    "PhoneNumber_1": {
+      "type": "string",
+      "description": "Collection of information that identifies a mobile phone number, as defined by telecom services.",
+      "pattern": "\\+[0-9]{1,3}-[0-9()+\\-]{1,30}"
     },
     "PostCode": {
       "type": "string",
@@ -9828,11 +10486,6 @@
           "maxLength": 35
         }
       }
-    },
-    "Rate": {
-      "type": "string",
-      "description": "Rate associated with the statement rate type.",
-      "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
     },
     "Reference": {
       "type": "string",
@@ -9919,7 +10572,7 @@
       "type": "string",
       "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
       "minLength": 1,
-      "maxLength": 40
+      "maxLength": 210
     },
     "TransactionInformation": {
       "type": "string",
@@ -9932,6 +10585,18 @@
       "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
       "minLength": 1,
       "maxLength": 35
+    },
+    "Type_0": {
+      "type": "string",
+      "description": "Statement rate type, in a coded form.",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "Type_1": {
+      "type": "string",
+      "description": "Statement value type, in a coded form.",
+      "minLength": 1,
+      "maxLength": 40
     },
     "ValueDateTime": {
       "description": "Date and time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.\nUsage: If transaction entry status is pending and value date is present, then the value date refers to an expected/requested value date.\nFor transaction entries subject to availability/float and for which availability information is provided, the value date must not be used. In this case the availability component identifies the number of availability days.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
