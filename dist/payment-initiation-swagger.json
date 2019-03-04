@@ -1033,6 +1033,71 @@
         ]
       }
     },
+    "/domestic-standing-orders/{DomesticStandingOrderId}/payment-details": {
+      "get": {
+        "tags": [
+          "Payment Details"
+        ],
+        "summary": "Get Payment Details",
+        "operationId": "GetDomesticStandingOrdersDomesticStandingOrderIdPaymentDetails",
+        "parameters": [
+          {
+            "$ref": "#/parameters/DomesticStandingOrderId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200DomesticStandingOrdersDomesticStandingOrderIdPaymentDetailsRead"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
     "/file-payment-consents": {
       "post": {
         "tags": [
@@ -2937,7 +3002,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBWriteDomesticStandingOrderResponse3"
+        "$ref": "#/definitions/OBWriteDomesticStandingOrderResponse4"
       }
     },
     "200DomesticStandingOrdersDomesticStandingOrderIdRead": {
@@ -2953,7 +3018,23 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBWriteDomesticStandingOrderResponse3"
+        "$ref": "#/definitions/OBWriteDomesticStandingOrderResponse4"
+      }
+    },
+    "200DomesticStandingOrdersDomesticStandingOrderIdPaymentDetailsRead": {
+      "description": "Payment Details Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBWritePaymentDetailsResponse1"
       }
     },
     "201InternationalScheduledPaymentConsentsCreated": {
@@ -6734,10 +6815,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteDomesticStandingOrderResponse3": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteDomesticStandingOrderResponse4": {
       "type": "object",
