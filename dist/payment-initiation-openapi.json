@@ -2640,6 +2640,71 @@
           }
         ]
       }
+    },
+    "/international-standing-orders/{InternationalStandingOrderPaymentId}/payment-details": {
+      "get": {
+        "tags": [
+          "Payment Details"
+        ],
+        "summary": "Get Payment Details",
+        "operationId": "GetInternationalStandingOrdersInternationalStandingOrderPaymentIdPaymentDetails",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/InternationalStandingOrderPaymentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200InternationalStandingOrdersInternationalStandingOrderPaymentIdPaymentDetailsRead"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -3566,7 +3631,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBWriteInternationalStandingOrderResponse3"
+              "$ref": "#/components/schemas/OBWriteInternationalStandingOrderResponse4"
             }
           }
         }
@@ -3590,7 +3655,31 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBWriteInternationalStandingOrderResponse3"
+              "$ref": "#/components/schemas/OBWriteInternationalStandingOrderResponse4"
+            }
+          }
+        }
+      },
+      "200InternationalStandingOrdersInternationalStandingOrderPaymentIdPaymentDetailsRead": {
+        "description": "Payment Details Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBWritePaymentDetailsResponse1"
             }
           }
         }
@@ -11409,10 +11498,6 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
-      },
-      "OBWriteInternationalStandingOrderResponse3": {
-        "type": "object",
-        "properties": {}
       },
       "OBWriteInternationalStandingOrderResponse4": {
         "type": "object",
