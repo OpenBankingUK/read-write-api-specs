@@ -1909,6 +1909,71 @@
         ]
       }
     },
+    "/international-payments/{InternationalPaymentId}/payment-details": {
+      "get": {
+        "tags": [
+          "Payment Details"
+        ],
+        "summary": "Get Payment Details",
+        "operationId": "GetInternationalPaymentsInternationalPaymentIdPaymentDetails",
+        "parameters": [
+          {
+            "$ref": "#/parameters/InternationalPaymentId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200InternationalPaymentsInternationalPaymentIdPaymentDetailsRead"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
     "/international-scheduled-payment-consents": {
       "post": {
         "tags": [
@@ -2211,6 +2276,71 @@
         "responses": {
           "200": {
             "$ref": "#/responses/200InternationalScheduledPaymentsInternationalScheduledPaymentIdRead"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/international-scheduled-payments/{InternationalScheduledPaymentId}/payment-details": {
+      "get": {
+        "tags": [
+          "Payment Details"
+        ],
+        "summary": "Get Payment Details",
+        "operationId": "GetInternationalScheduledPaymentsInternationalScheduledPaymentIdPaymentDetails",
+        "parameters": [
+          {
+            "$ref": "#/parameters/InternationalScheduledPaymentId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200InternationalScheduledPaymentsInternationalScheduledPaymentIdPaymentDetailsRead"
           },
           "400": {
             "$ref": "#/responses/400Error"
@@ -3098,7 +3228,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBWriteInternationalScheduledResponse1"
+        "$ref": "#/definitions/OBWriteInternationalScheduledResponse3"
       }
     },
     "200InternationalScheduledPaymentsInternationalScheduledPaymentIdRead": {
@@ -3114,7 +3244,23 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBWriteInternationalScheduledResponse1"
+        "$ref": "#/definitions/OBWriteInternationalScheduledResponse3"
+      }
+    },
+    "200InternationalScheduledPaymentsInternationalScheduledPaymentIdPaymentDetailsRead": {
+      "description": "Payment Details Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBWritePaymentDetailsResponse1"
       }
     },
     "201InternationalStandingOrderConsentsCreated": {
@@ -3338,7 +3484,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBWriteInternationalResponse2"
+        "$ref": "#/definitions/OBWriteInternationalResponse3"
       }
     },
     "200InternationalPaymentsInternationalPaymentIdRead": {
@@ -3354,7 +3500,23 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBWriteInternationalResponse2"
+        "$ref": "#/definitions/OBWriteInternationalResponse3"
+      }
+    },
+    "200InternationalPaymentsInternationalPaymentIdPaymentDetailsRead": {
+      "description": "Payment Details Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        },
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload.\n"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBWritePaymentDetailsResponse1"
       }
     },
     "400Error": {
@@ -8608,10 +8770,6 @@
         }
       }
     },
-    "OBWriteInternationalResponse2": {
-      "type": "object",
-      "properties": {}
-    },
     "OBWriteInternationalResponse3": {
       "type": "object",
       "required": [
@@ -9881,10 +10039,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteInternationalScheduledResponse1": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteInternationalScheduledResponse3": {
       "type": "object",
