@@ -5,6 +5,13 @@ info:
     This specification defines the APIs for a TPP to submit a Software Statement
     Assertion to an ASPSP for the purpose of creating OAuth clients that are
     registered with ASPSP.
+  termsOfService: 'https://www.openbanking.org.uk/terms'
+  contact:
+    name: Service Desk
+    email: ServiceDesk@openbanking.org.uk
+  license:
+    name: open-licence
+    url: 'https://www.openbanking.org.uk/open-licence'
   version: v4.0-draft6
 paths:
   /register:
@@ -130,6 +137,7 @@ components:
             https://tools.ietf.org/html/rfc6750
           schema:
             type: string
+            pattern: ^Bearer .*
     403Error:
       description: 'The client does not have permission to read, update or delete the Client'
     405Error:
@@ -151,7 +159,7 @@ components:
         - application_type
         - id_token_signed_response_alg
         - request_object_signing_alg
-        - tls_client_auth_dn
+        - tls_client_auth_subject_dn
       properties:
         client_id:
           description: OAuth 2.0 client identifier string
@@ -228,7 +236,7 @@ components:
           $ref: '#/components/schemas/SupportedAlgorithms'
         token_endpoint_auth_signing_alg:
           $ref: '#/components/schemas/SupportedAlgorithms'
-        tls_client_auth_dn:
+        tls_client_auth_subject_dn:
           type: string
           minLength: 1
           maxLength: 128
@@ -256,14 +264,12 @@ components:
                 as seconds since 1970-01-01T00:00:00Z as measured in UTC
               type: integer
               format: int32
-              minimum: 0
             exp:
               description: >-
                 The time at which the request expires expressed as seconds since
                 1970-01-01T00:00:00Z as measured in UTC
               type: integer
               format: int32
-              minimum: 0
             aud:
               description: >
                 The audience for the request. This should be the unique
