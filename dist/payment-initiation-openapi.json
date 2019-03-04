@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.1-RC1"
+    "version": "v4.0-draft6"
   },
   "paths": {
     "/domestic-payment-consents": {
@@ -352,13 +352,13 @@
         ]
       }
     },
-    "/domestic-payments/{DomesticPaymentId}/payments": {
+    "/domestic-payments/{DomesticPaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Domestic Payments"
+          "Payment Details"
         ],
-        "summary": "Get Domestic Payments",
-        "operationId": "GetDomesticPaymentsDomesticPaymentIdPayments",
+        "summary": "Get Payment Details",
+        "operationId": "GetDomesticPaymentsDomesticPaymentIdPaymentDetails",
         "parameters": [
           {
             "$ref": "#/components/parameters/DomesticPaymentId"
@@ -381,7 +381,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/200DomesticPaymentsDomesticPaymentIdPaymentsRead"
+            "$ref": "#/components/responses/200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead"
           },
           "400": {
             "$ref": "#/components/responses/400Error"
@@ -654,6 +654,71 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-scheduled-payments/{DomesticScheduledPaymentId}/payment-details": {
+      "get": {
+        "tags": [
+          "Payment Details"
+        ],
+        "summary": "Get Payment Details",
+        "operationId": "GetDomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetails",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DomesticScheduledPaymentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-financial-id"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-last-logged-time"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead"
           },
           "400": {
             "$ref": "#/components/responses/400Error"
@@ -2767,7 +2832,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBWriteDomesticScheduledResponse2"
+              "$ref": "#/components/schemas/OBWriteDomesticScheduledResponse3"
             }
           }
         }
@@ -2791,7 +2856,31 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBWriteDomesticScheduledResponse2"
+              "$ref": "#/components/schemas/OBWriteDomesticScheduledResponse3"
+            }
+          }
+        }
+      },
+      "200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead": {
+        "description": "Payment Details Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBWritePaymentDetailsResponse1"
             }
           }
         }
@@ -3383,8 +3472,8 @@
           }
         }
       },
-      "200DomesticPaymentsDomesticPaymentIdPaymentsRead": {
-        "description": "Domestic Payments Read",
+      "200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead": {
+        "description": "Payment Details Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3402,7 +3491,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBWritePaymentStatus1"
+              "$ref": "#/components/schemas/OBWritePaymentDetailsResponse1"
             }
           }
         }
@@ -6500,6 +6589,10 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
+      },
+      "OBWriteDomesticScheduledResponse3": {
+        "type": "object",
+        "properties": {}
       },
       "OBWriteDomesticStandingOrder2": {
         "type": "object",
@@ -11751,7 +11844,7 @@
           }
         }
       },
-      "OBWritePaymentStatus1": {
+      "OBWritePaymentDetailsResponse1": {
         "type": "object",
         "properties": {}
       },

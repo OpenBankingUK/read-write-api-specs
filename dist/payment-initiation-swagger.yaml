@@ -9,8 +9,8 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.1-RC1
-basePath: /open-banking/v3.1/pisp
+  version: v4.0-draft6
+basePath: /open-banking/v4.0/pisp
 schemes:
   - https
 produces:
@@ -195,12 +195,12 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
-  '/domestic-payments/{DomesticPaymentId}/payments':
+  '/domestic-payments/{DomesticPaymentId}/payment-details':
     get:
       tags:
-        - Domestic Payments
-      summary: Get Domestic Payments
-      operationId: GetDomesticPaymentsDomesticPaymentIdPayments
+        - Payment Details
+      summary: Get Payment Details
+      operationId: GetDomesticPaymentsDomesticPaymentIdPaymentDetails
       parameters:
         - $ref: '#/parameters/DomesticPaymentId'
         - $ref: '#/parameters/x-fapi-financial-id'
@@ -210,7 +210,7 @@ paths:
         - $ref: '#/parameters/Authorization'
       responses:
         '200':
-          $ref: '#/responses/200DomesticPaymentsDomesticPaymentIdPaymentsRead'
+          $ref: '#/responses/200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead'
         '400':
           $ref: '#/responses/400Error'
         '401':
@@ -356,6 +356,42 @@ paths:
         '200':
           $ref: >-
             #/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/domestic-scheduled-payments/{DomesticScheduledPaymentId}/payment-details':
+    get:
+      tags:
+        - Payment Details
+      summary: Get Payment Details
+      operationId: GetDomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetails
+      parameters:
+        - $ref: '#/parameters/DomesticScheduledPaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+      responses:
+        '200':
+          $ref: >-
+            #/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead
         '400':
           $ref: '#/responses/400Error'
         '401':
@@ -1530,7 +1566,7 @@ responses:
         description: |
           Header containing a detached JWS signature of the body of the payload.
     schema:
-      $ref: '#/definitions/OBWriteDomesticScheduledResponse2'
+      $ref: '#/definitions/OBWriteDomesticScheduledResponse3'
   200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead:
     description: Domestic Scheduled Payments Read
     headers:
@@ -1542,7 +1578,19 @@ responses:
         description: |
           Header containing a detached JWS signature of the body of the payload.
     schema:
-      $ref: '#/definitions/OBWriteDomesticScheduledResponse2'
+      $ref: '#/definitions/OBWriteDomesticScheduledResponse3'
+  200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead:
+    description: Payment Details Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
   201FilePaymentConsentsCreated:
     description: File Payment Consents Created
     headers:
@@ -1837,8 +1885,8 @@ responses:
           Header containing a detached JWS signature of the body of the payload.
     schema:
       $ref: '#/definitions/OBWriteDomesticResponse2'
-  200DomesticPaymentsDomesticPaymentIdPaymentsRead:
-    description: Domestic Payments Read
+  200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead:
+    description: Payment Details Read
     headers:
       x-fapi-interaction-id:
         type: string
@@ -1848,7 +1896,7 @@ responses:
         description: |
           Header containing a detached JWS signature of the body of the payload.
     schema:
-      $ref: '#/definitions/OBWritePaymentStatus1'
+      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
   201InternationalPaymentConsentsCreated:
     description: International Payment Consents Created
     headers:
@@ -5191,6 +5239,9 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
+  OBWriteDomesticScheduledResponse3:
+    type: object
+    properties: {}
   OBWriteDomesticStandingOrder2:
     type: object
     required:
@@ -11759,7 +11810,7 @@ definitions:
                       maxLength: 35
                     Country:
                       $ref: '#/definitions/CountryCode_1'
-  OBWritePaymentStatus1:
+  OBWritePaymentDetailsResponse1:
     type: object
     properties: {}
   PostCode:

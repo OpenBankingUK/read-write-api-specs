@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.1-RC1
+  version: v4.0-draft6
 paths:
   /domestic-payment-consents:
     post:
@@ -193,12 +193,12 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
-  '/domestic-payments/{DomesticPaymentId}/payments':
+  '/domestic-payments/{DomesticPaymentId}/payment-details':
     get:
       tags:
-        - Domestic Payments
-      summary: Get Domestic Payments
-      operationId: GetDomesticPaymentsDomesticPaymentIdPayments
+        - Payment Details
+      summary: Get Payment Details
+      operationId: GetDomesticPaymentsDomesticPaymentIdPaymentDetails
       parameters:
         - $ref: '#/components/parameters/DomesticPaymentId'
         - $ref: '#/components/parameters/x-fapi-financial-id'
@@ -209,7 +209,7 @@ paths:
       responses:
         '200':
           $ref: >-
-            #/components/responses/200DomesticPaymentsDomesticPaymentIdPaymentsRead
+            #/components/responses/200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -358,6 +358,42 @@ paths:
         '200':
           $ref: >-
             #/components/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '405':
+          $ref: '#/components/responses/405Error'
+        '406':
+          $ref: '#/components/responses/406Error'
+        '429':
+          $ref: '#/components/responses/429Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - payments
+  '/domestic-scheduled-payments/{DomesticScheduledPaymentId}/payment-details':
+    get:
+      tags:
+        - Payment Details
+      summary: Get Payment Details
+      operationId: GetDomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetails
+      parameters:
+        - $ref: '#/components/parameters/DomesticScheduledPaymentId'
+        - $ref: '#/components/parameters/x-fapi-financial-id'
+        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          $ref: >-
+            #/components/responses/200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -1582,7 +1618,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBWriteDomesticScheduledResponse2'
+            $ref: '#/components/schemas/OBWriteDomesticScheduledResponse3'
     200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead:
       description: Domestic Scheduled Payments Read
       headers:
@@ -1599,7 +1635,24 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBWriteDomesticScheduledResponse2'
+            $ref: '#/components/schemas/OBWriteDomesticScheduledResponse3'
+    200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead:
+      description: Payment Details Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
     201FilePaymentConsentsCreated:
       description: File Payment Consents Created
       headers:
@@ -2017,8 +2070,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBWriteDomesticResponse2'
-    200DomesticPaymentsDomesticPaymentIdPaymentsRead:
-      description: Domestic Payments Read
+    200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead:
+      description: Payment Details Read
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -2033,7 +2086,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBWritePaymentStatus1'
+            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
     201InternationalPaymentConsentsCreated:
       description: International Payment Consents Created
       headers:
@@ -5463,6 +5516,9 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBWriteDomesticScheduledResponse3:
+      type: object
+      properties: {}
     OBWriteDomesticStandingOrder2:
       type: object
       required:
@@ -12167,7 +12223,7 @@ components:
                         maxLength: 35
                       Country:
                         $ref: '#/components/schemas/CountryCode_1'
-    OBWritePaymentStatus1:
+    OBWritePaymentDetailsResponse1:
       type: object
       properties: {}
     PostCode:
