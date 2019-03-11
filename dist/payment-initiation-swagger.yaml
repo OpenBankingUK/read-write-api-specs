@@ -2260,17 +2260,6 @@ definitions:
       the international standard ISO 4217 "Codes for the representation of
       currencies and funds".
     pattern: '^[A-Z]{3,3}$'
-  AddressLine:
-    type: array
-    description: >-
-      Information that locates and identifies a specific address, as defined by
-      postal services, presented in free format text.
-    minItems: 0
-    maxItems: 7
-    items:
-      type: string
-      minLength: 1
-      maxLength: 70
   BuildingNumber:
     type: string
     description: Number that identifies the position of a building on a street.
@@ -2613,7 +2602,14 @@ definitions:
       Country:
         $ref: '#/definitions/CountryCode'
       AddressLine:
-        $ref: '#/definitions/AddressLine'
+        type: array
+        description: >-
+          Information that locates and identifies a specific address, as defined
+          by postal services, presented in free format text.
+        items:
+          type: object
+        minItems: 0
+        maxItems: 7
   OBRemittanceInformation1:
     type: object
     description: >-
@@ -2692,12 +2688,10 @@ definitions:
             description: >-
               Information that locates and identifies a specific address, as
               defined by postal services, that is presented in free format text.
+            items:
+              type: object
             minItems: 0
             maxItems: 2
-            items:
-              type: string
-              minLength: 1
-              maxLength: 70
           StreetName:
             $ref: '#/definitions/StreetName'
           BuildingNumber:
@@ -2711,12 +2705,10 @@ definitions:
             description: >-
               Identifies a subdivision of a country, for instance state, region,
               county.
+            items:
+              type: object
             minItems: 0
             maxItems: 2
-            items:
-              type: string
-              minLength: 1
-              maxLength: 35
           Country:
             type: string
             description: 'Nation with its own government, occupying a particular territory.'
@@ -2841,18 +2833,9 @@ definitions:
               Specifies the Open Banking account access data types. This is a
               list of the data clusters being consented by the PSU, and
               requested for authorisation with the ASPSP.
-            minItems: 1
             items:
-              type: string
-              enum:
-                - ReadAccountsBasic
-                - ReadAccountsDetail
-                - ReadBalances
-                - ReadBeneficiariesBasic
-                - ReadBeneficiariesDetail
-                - ReadPAN
-                - ReadParty
-                - ReadPartyPSU
+              type: object
+            minItems: 1
           ExpirationDateTime:
             description: >-
               Specified date and time the permissions will expire.
@@ -2923,18 +2906,9 @@ definitions:
               Specifies the Open Banking account access data types. This is a
               list of the data clusters being consented by the PSU, and
               requested for authorisation with the ASPSP.
-            minItems: 1
             items:
-              type: string
-              enum:
-                - ReadAccountsBasic
-                - ReadAccountsDetail
-                - ReadBalances
-                - ReadBeneficiariesBasic
-                - ReadBeneficiariesDetail
-                - ReadPAN
-                - ReadParty
-                - ReadPartyPSU
+              type: object
+            minItems: 1
           ExpirationDateTime:
             description: >-
               Specified date and time the permissions will expire.

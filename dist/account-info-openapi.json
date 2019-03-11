@@ -2724,18 +2724,7 @@
         "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
         "pattern": "^[A-Z]{3,3}$"
       },
-      "AddressLine_0": {
-        "type": "array",
-        "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
-        "minItems": 0,
-        "maxItems": 5,
-        "items": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 70
-        }
-      },
-      "AddressLine_1": {
+      "AddressLine": {
         "type": "string",
         "description": "Information that locates and identifies a specific address for a transaction entry, that is presented in free format text.",
         "minLength": 1,
@@ -2949,75 +2938,89 @@
         ]
       },
       "OBAccount3Basic": {
-        "type": "array",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Currency",
-            "AccountType",
-            "AccountSubType"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "Currency": {
-              "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
-            },
-            "AccountType": {
-              "$ref": "#/components/schemas/OBExternalAccountType1Code"
-            },
-            "AccountSubType": {
-              "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
-            },
-            "Description": {
-              "$ref": "#/components/schemas/Description_0"
-            },
-            "Nickname": {
-              "$ref": "#/components/schemas/Nickname"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/components/schemas/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/components/schemas/Nickname"
           }
         }
       },
       "OBAccount3Detail": {
-        "type": "array",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Currency",
-            "AccountType",
-            "AccountSubType",
-            "Account"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "Currency": {
-              "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
-            },
-            "AccountType": {
-              "$ref": "#/components/schemas/OBExternalAccountType1Code"
-            },
-            "AccountSubType": {
-              "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
-            },
-            "Description": {
-              "$ref": "#/components/schemas/Description_0"
-            },
-            "Nickname": {
-              "$ref": "#/components/schemas/Nickname"
-            },
-            "Account": {
-              "$ref": "#/components/schemas/OBCashAccount5_0"
-            },
-            "Servicer": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType",
+          "Account"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/components/schemas/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/components/schemas/Nickname"
+          },
+          "Account": {
+            "type": "array",
+            "description": "Provides the details to identify an account.",
+            "items": {
+              "type": "object",
+              "required": [
+                "SchemeName",
+                "Identification"
+              ],
+              "properties": {
+                "SchemeName": {
+                  "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                },
+                "Identification": {
+                  "$ref": "#/components/schemas/Identification_0"
+                },
+                "Name": {
+                  "$ref": "#/components/schemas/Name_0"
+                },
+                "SecondaryIdentification": {
+                  "$ref": "#/components/schemas/SecondaryIdentification"
+                }
+              }
             }
+          },
+          "Servicer": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
           }
         }
       },
@@ -3032,87 +3035,101 @@
         ]
       },
       "OBAccount4Basic": {
-        "type": "array",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Currency",
-            "AccountType",
-            "AccountSubType"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "Status": {
-              "$ref": "#/components/schemas/OBAccountStatus1Code"
-            },
-            "StatusUpdateDateTime": {
-              "$ref": "#/components/schemas/StatusUpdateDateTime"
-            },
-            "Currency": {
-              "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
-            },
-            "AccountType": {
-              "$ref": "#/components/schemas/OBExternalAccountType1Code"
-            },
-            "AccountSubType": {
-              "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
-            },
-            "Description": {
-              "$ref": "#/components/schemas/Description_0"
-            },
-            "Nickname": {
-              "$ref": "#/components/schemas/Nickname"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/OBAccountStatus1Code"
+          },
+          "StatusUpdateDateTime": {
+            "$ref": "#/components/schemas/StatusUpdateDateTime"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/components/schemas/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/components/schemas/Nickname"
           }
         }
       },
       "OBAccount4Detail": {
-        "type": "array",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Currency",
-            "AccountType",
-            "AccountSubType",
-            "Account"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "Status": {
-              "$ref": "#/components/schemas/OBAccountStatus1Code"
-            },
-            "StatusUpdateDateTime": {
-              "$ref": "#/components/schemas/StatusUpdateDateTime"
-            },
-            "Currency": {
-              "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
-            },
-            "AccountType": {
-              "$ref": "#/components/schemas/OBExternalAccountType1Code"
-            },
-            "AccountSubType": {
-              "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
-            },
-            "Description": {
-              "$ref": "#/components/schemas/Description_0"
-            },
-            "Nickname": {
-              "$ref": "#/components/schemas/Nickname"
-            },
-            "Account": {
-              "$ref": "#/components/schemas/OBCashAccount5_0"
-            },
-            "Servicer": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Currency",
+          "AccountType",
+          "AccountSubType",
+          "Account"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/OBAccountStatus1Code"
+          },
+          "StatusUpdateDateTime": {
+            "$ref": "#/components/schemas/StatusUpdateDateTime"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
+          },
+          "AccountType": {
+            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          },
+          "AccountSubType": {
+            "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
+          },
+          "Description": {
+            "$ref": "#/components/schemas/Description_0"
+          },
+          "Nickname": {
+            "$ref": "#/components/schemas/Nickname"
+          },
+          "Account": {
+            "type": "array",
+            "description": "Provides the details to identify an account.",
+            "items": {
+              "type": "object",
+              "required": [
+                "SchemeName",
+                "Identification"
+              ],
+              "properties": {
+                "SchemeName": {
+                  "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                },
+                "Identification": {
+                  "$ref": "#/components/schemas/Identification_0"
+                },
+                "Name": {
+                  "$ref": "#/components/schemas/Name_0"
+                },
+                "SecondaryIdentification": {
+                  "$ref": "#/components/schemas/SecondaryIdentification"
+                }
+              }
             }
+          },
+          "Servicer": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
           }
         }
       },
@@ -3354,45 +3371,41 @@
         ]
       },
       "OBBeneficiary3Basic": {
-        "type": "array",
-        "items": {
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "BeneficiaryId": {
-              "$ref": "#/components/schemas/BeneficiaryId"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            }
+        "type": "object",
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "BeneficiaryId": {
+            "$ref": "#/components/schemas/BeneficiaryId"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
           }
         }
       },
       "OBBeneficiary3Detail": {
-        "type": "array",
-        "items": {
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "BeneficiaryId": {
-              "$ref": "#/components/schemas/BeneficiaryId"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "CreditorAgent": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2"
-            },
-            "CreditorAccount": {
-              "$ref": "#/components/schemas/OBCashAccount5_2"
-            }
+        "type": "object",
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
           },
-          "required": [
-            "CreditorAccount"
-          ]
-        }
+          "BeneficiaryId": {
+            "$ref": "#/components/schemas/BeneficiaryId"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5_1"
+          }
+        },
+        "required": [
+          "CreditorAccount"
+        ]
       },
       "OBBranchAndFinancialInstitutionIdentification5_0": {
         "type": "object",
@@ -3481,31 +3494,6 @@
         }
       },
       "OBCashAccount5_0": {
-        "type": "array",
-        "description": "Provides the details to identify an account.",
-        "items": {
-          "type": "object",
-          "required": [
-            "SchemeName",
-            "Identification"
-          ],
-          "properties": {
-            "SchemeName": {
-              "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
-            },
-            "Identification": {
-              "$ref": "#/components/schemas/Identification_0"
-            },
-            "Name": {
-              "$ref": "#/components/schemas/Name_0"
-            },
-            "SecondaryIdentification": {
-              "$ref": "#/components/schemas/SecondaryIdentification"
-            }
-          }
-        }
-      },
-      "OBCashAccount5_1": {
         "type": "object",
         "description": "Provides the details to identify the beneficiary account.",
         "required": [
@@ -3530,7 +3518,7 @@
           }
         }
       },
-      "OBCashAccount5_2": {
+      "OBCashAccount5_1": {
         "type": "object",
         "description": "Provides the details to identify the beneficiary account.",
         "required": [
@@ -4054,6 +4042,92 @@
           }
         }
       },
+      "OBParty2": {
+        "type": "object",
+        "required": [
+          "PartyId"
+        ],
+        "properties": {
+          "PartyId": {
+            "$ref": "#/components/schemas/PartyId"
+          },
+          "PartyNumber": {
+            "$ref": "#/components/schemas/PartyNumber"
+          },
+          "PartyType": {
+            "$ref": "#/components/schemas/OBExternalPartyType1Code"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
+          },
+          "FullLegalName": {
+            "$ref": "#/components/schemas/FullLegalName"
+          },
+          "LegalStructure": {
+            "$ref": "#/components/schemas/OBExternalLegalStructureType1Code"
+          },
+          "BeneficialOwnership": {
+            "type": "boolean"
+          },
+          "AccountRole": {
+            "$ref": "#/components/schemas/OBExternalAccountRole1Code"
+          },
+          "EmailAddress": {
+            "$ref": "#/components/schemas/EmailAddress"
+          },
+          "Phone": {
+            "$ref": "#/components/schemas/PhoneNumber_0"
+          },
+          "Mobile": {
+            "$ref": "#/components/schemas/PhoneNumber_1"
+          },
+          "Relationships": {
+            "$ref": "#/components/schemas/OBPartyRelationships1"
+          },
+          "Address": {
+            "type": "array",
+            "description": "Postal address of a party.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Country"
+              ],
+              "properties": {
+                "AddressType": {
+                  "$ref": "#/components/schemas/OBAddressTypeCode"
+                },
+                "AddressLine": {
+                  "type": "array",
+                  "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
+                  "items": {
+                    "type": "object"
+                  },
+                  "minItems": 0,
+                  "maxItems": 5
+                },
+                "StreetName": {
+                  "$ref": "#/components/schemas/StreetName"
+                },
+                "BuildingNumber": {
+                  "$ref": "#/components/schemas/BuildingNumber"
+                },
+                "PostCode": {
+                  "$ref": "#/components/schemas/PostCode"
+                },
+                "TownName": {
+                  "$ref": "#/components/schemas/TownName"
+                },
+                "CountrySubDivision": {
+                  "$ref": "#/components/schemas/CountrySubDivision"
+                },
+                "Country": {
+                  "$ref": "#/components/schemas/CountryCode"
+                }
+              }
+            }
+          }
+        }
+      },
       "OBPartyRelationships1": {
         "type": "object",
         "description": "The Party's relationships with other resources.",
@@ -4126,49 +4200,11 @@
           "AddressLine": {
             "type": "array",
             "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
-            "minItems": 0,
-            "maxItems": 7,
             "items": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 70
-            }
-          }
-        }
-      },
-      "OBPostalAddress8": {
-        "type": "array",
-        "description": "Postal address of a party.",
-        "items": {
-          "type": "object",
-          "required": [
-            "Country"
-          ],
-          "properties": {
-            "AddressType": {
-              "$ref": "#/components/schemas/OBAddressTypeCode"
+              "type": "object"
             },
-            "AddressLine": {
-              "$ref": "#/components/schemas/AddressLine_0"
-            },
-            "StreetName": {
-              "$ref": "#/components/schemas/StreetName"
-            },
-            "BuildingNumber": {
-              "$ref": "#/components/schemas/BuildingNumber"
-            },
-            "PostCode": {
-              "$ref": "#/components/schemas/PostCode"
-            },
-            "TownName": {
-              "$ref": "#/components/schemas/TownName"
-            },
-            "CountrySubDivision": {
-              "$ref": "#/components/schemas/CountrySubDivision"
-            },
-            "Country": {
-              "$ref": "#/components/schemas/CountryCode"
-            }
+            "minItems": 0,
+            "maxItems": 7
           }
         }
       },
@@ -4190,7 +4226,11 @@
             "type": "object",
             "properties": {
               "Account": {
-                "$ref": "#/components/schemas/OBAccount3"
+                "type": "array",
+                "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+                "items": {
+                  "$ref": "#/components/schemas/OBAccount3"
+                }
               }
             }
           },
@@ -4212,7 +4252,11 @@
             "type": "object",
             "properties": {
               "Account": {
-                "$ref": "#/components/schemas/OBAccount4"
+                "type": "array",
+                "description": "Unambiguous identification of the account to which credit and debit entries are made.",
+                "items": {
+                  "$ref": "#/components/schemas/OBAccount4"
+                }
               }
             }
           },
@@ -4346,7 +4390,10 @@
             "type": "object",
             "properties": {
               "Beneficiary": {
-                "$ref": "#/components/schemas/OBBeneficiary3"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBBeneficiary3"
+                }
               }
             }
           },
@@ -4374,33 +4421,10 @@
               "Permissions": {
                 "type": "array",
                 "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
-                "minItems": 1,
                 "items": {
-                  "type": "string",
-                  "enum": [
-                    "ReadAccountsBasic",
-                    "ReadAccountsDetail",
-                    "ReadBalances",
-                    "ReadBeneficiariesBasic",
-                    "ReadBeneficiariesDetail",
-                    "ReadDirectDebits",
-                    "ReadOffers",
-                    "ReadPAN",
-                    "ReadParty",
-                    "ReadPartyPSU",
-                    "ReadProducts",
-                    "ReadScheduledPaymentsBasic",
-                    "ReadScheduledPaymentsDetail",
-                    "ReadStandingOrdersBasic",
-                    "ReadStandingOrdersDetail",
-                    "ReadStatementsBasic",
-                    "ReadStatementsDetail",
-                    "ReadTransactionsBasic",
-                    "ReadTransactionsCredits",
-                    "ReadTransactionsDebits",
-                    "ReadTransactionsDetail"
-                  ]
-                }
+                  "type": "object"
+                },
+                "minItems": 1
               },
               "ExpirationDateTime": {
                 "description": "Specified date and time the permissions will expire.\nIf this is not populated, the permissions will be open ended.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -4466,33 +4490,10 @@
               "Permissions": {
                 "type": "array",
                 "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
-                "minItems": 1,
                 "items": {
-                  "type": "string",
-                  "enum": [
-                    "ReadAccountsBasic",
-                    "ReadAccountsDetail",
-                    "ReadBalances",
-                    "ReadBeneficiariesBasic",
-                    "ReadBeneficiariesDetail",
-                    "ReadDirectDebits",
-                    "ReadOffers",
-                    "ReadPAN",
-                    "ReadParty",
-                    "ReadPartyPSU",
-                    "ReadProducts",
-                    "ReadScheduledPaymentsBasic",
-                    "ReadScheduledPaymentsDetail",
-                    "ReadStandingOrdersBasic",
-                    "ReadStandingOrdersDetail",
-                    "ReadStatementsBasic",
-                    "ReadStatementsDetail",
-                    "ReadTransactionsBasic",
-                    "ReadTransactionsCredits",
-                    "ReadTransactionsDebits",
-                    "ReadTransactionsDetail"
-                  ]
-                }
+                  "type": "object"
+                },
+                "minItems": 1
               },
               "ExpirationDateTime": {
                 "description": "Specified date and time the permissions will expire.\nIf this is not populated, the permissions will be open ended.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -4526,7 +4527,11 @@
         "type": "object",
         "properties": {
           "Statement": {
-            "$ref": "#/components/schemas/OBStatement2"
+            "type": "array",
+            "description": "Provides further details on a statement resource.",
+            "items": {
+              "$ref": "#/components/schemas/OBStatement2"
+            }
           }
         }
       },
@@ -4534,7 +4539,11 @@
         "type": "object",
         "properties": {
           "Transaction": {
-            "$ref": "#/components/schemas/OBTransaction5"
+            "type": "array",
+            "description": "Provides further details on an entry in the report.",
+            "items": {
+              "$ref": "#/components/schemas/OBTransaction5"
+            }
           }
         }
       },
@@ -4777,7 +4786,46 @@
                     "$ref": "#/components/schemas/PhoneNumber_1"
                   },
                   "Address": {
-                    "$ref": "#/components/schemas/OBPostalAddress8"
+                    "type": "array",
+                    "description": "Postal address of a party.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "Country"
+                      ],
+                      "properties": {
+                        "AddressType": {
+                          "$ref": "#/components/schemas/OBAddressTypeCode"
+                        },
+                        "AddressLine": {
+                          "type": "array",
+                          "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
+                          "items": {
+                            "type": "object"
+                          },
+                          "minItems": 0,
+                          "maxItems": 5
+                        },
+                        "StreetName": {
+                          "$ref": "#/components/schemas/StreetName"
+                        },
+                        "BuildingNumber": {
+                          "$ref": "#/components/schemas/BuildingNumber"
+                        },
+                        "PostCode": {
+                          "$ref": "#/components/schemas/PostCode"
+                        },
+                        "TownName": {
+                          "$ref": "#/components/schemas/TownName"
+                        },
+                        "CountrySubDivision": {
+                          "$ref": "#/components/schemas/CountrySubDivision"
+                        },
+                        "Country": {
+                          "$ref": "#/components/schemas/CountryCode"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -4801,51 +4849,7 @@
             "type": "object",
             "properties": {
               "Party": {
-                "type": "object",
-                "required": [
-                  "PartyId"
-                ],
-                "properties": {
-                  "PartyId": {
-                    "$ref": "#/components/schemas/PartyId"
-                  },
-                  "PartyNumber": {
-                    "$ref": "#/components/schemas/PartyNumber"
-                  },
-                  "PartyType": {
-                    "$ref": "#/components/schemas/OBExternalPartyType1Code"
-                  },
-                  "Name": {
-                    "$ref": "#/components/schemas/Name_1"
-                  },
-                  "FullLegalName": {
-                    "$ref": "#/components/schemas/FullLegalName"
-                  },
-                  "LegalStructure": {
-                    "$ref": "#/components/schemas/OBExternalLegalStructureType1Code"
-                  },
-                  "BeneficialOwnership": {
-                    "type": "boolean"
-                  },
-                  "AccountRole": {
-                    "$ref": "#/components/schemas/OBExternalAccountRole1Code"
-                  },
-                  "EmailAddress": {
-                    "$ref": "#/components/schemas/EmailAddress"
-                  },
-                  "Phone": {
-                    "$ref": "#/components/schemas/PhoneNumber_0"
-                  },
-                  "Mobile": {
-                    "$ref": "#/components/schemas/PhoneNumber_1"
-                  },
-                  "Relationships": {
-                    "$ref": "#/components/schemas/OBPartyRelationships1"
-                  },
-                  "Address": {
-                    "$ref": "#/components/schemas/OBPostalAddress8"
-                  }
-                }
+                "$ref": "#/components/schemas/OBParty2"
               }
             }
           },
@@ -4869,51 +4873,7 @@
               "Party": {
                 "type": "array",
                 "items": {
-                  "type": "object",
-                  "required": [
-                    "PartyId"
-                  ],
-                  "properties": {
-                    "PartyId": {
-                      "$ref": "#/components/schemas/PartyId"
-                    },
-                    "PartyNumber": {
-                      "$ref": "#/components/schemas/PartyNumber"
-                    },
-                    "PartyType": {
-                      "$ref": "#/components/schemas/OBExternalPartyType1Code"
-                    },
-                    "Name": {
-                      "$ref": "#/components/schemas/Name_1"
-                    },
-                    "FullLegalName": {
-                      "$ref": "#/components/schemas/FullLegalName"
-                    },
-                    "LegalStructure": {
-                      "$ref": "#/components/schemas/OBExternalLegalStructureType1Code"
-                    },
-                    "BeneficialOwnership": {
-                      "type": "boolean"
-                    },
-                    "AccountRole": {
-                      "$ref": "#/components/schemas/OBExternalAccountRole1Code"
-                    },
-                    "EmailAddress": {
-                      "$ref": "#/components/schemas/EmailAddress"
-                    },
-                    "Phone": {
-                      "$ref": "#/components/schemas/PhoneNumber_0"
-                    },
-                    "Mobile": {
-                      "$ref": "#/components/schemas/PhoneNumber_1"
-                    },
-                    "Relationships": {
-                      "$ref": "#/components/schemas/OBPartyRelationships1"
-                    },
-                    "Address": {
-                      "$ref": "#/components/schemas/OBPostalAddress8"
-                    }
-                  }
+                  "$ref": "#/components/schemas/OBParty2"
                 }
               }
             }
@@ -9435,7 +9395,10 @@
             "type": "object",
             "properties": {
               "ScheduledPayment": {
-                "$ref": "#/components/schemas/OBScheduledPayment2"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBScheduledPayment2"
+                }
               }
             }
           },
@@ -9457,7 +9420,10 @@
             "type": "object",
             "properties": {
               "StandingOrder": {
-                "$ref": "#/components/schemas/OBStandingOrder4"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStandingOrder4"
+                }
               }
             }
           },
@@ -9479,7 +9445,10 @@
             "type": "object",
             "properties": {
               "StandingOrder": {
-                "$ref": "#/components/schemas/OBStandingOrder5"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStandingOrder5"
+                }
               }
             }
           },
@@ -9576,73 +9545,67 @@
         ]
       },
       "OBScheduledPayment2Basic": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "ScheduledPaymentDateTime",
-            "ScheduledType",
-            "InstructedAmount"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "ScheduledPaymentId": {
-              "$ref": "#/components/schemas/ScheduledPaymentId"
-            },
-            "ScheduledPaymentDateTime": {
-              "$ref": "#/components/schemas/ScheduledPaymentDateTime"
-            },
-            "ScheduledType": {
-              "$ref": "#/components/schemas/OBExternalScheduleType1Code"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "InstructedAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "ScheduledPaymentDateTime",
+          "ScheduledType",
+          "InstructedAmount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "ScheduledPaymentId": {
+            "$ref": "#/components/schemas/ScheduledPaymentId"
+          },
+          "ScheduledPaymentDateTime": {
+            "$ref": "#/components/schemas/ScheduledPaymentDateTime"
+          },
+          "ScheduledType": {
+            "$ref": "#/components/schemas/OBExternalScheduleType1Code"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
           }
         }
       },
       "OBScheduledPayment2Detail": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "ScheduledPaymentDateTime",
-            "ScheduledType",
-            "InstructedAmount",
-            "CreditorAccount"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "ScheduledPaymentId": {
-              "$ref": "#/components/schemas/ScheduledPaymentId"
-            },
-            "ScheduledPaymentDateTime": {
-              "$ref": "#/components/schemas/ScheduledPaymentDateTime"
-            },
-            "ScheduledType": {
-              "$ref": "#/components/schemas/OBExternalScheduleType1Code"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "InstructedAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
-            },
-            "CreditorAgent": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
-            },
-            "CreditorAccount": {
-              "$ref": "#/components/schemas/OBCashAccount5_1"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "ScheduledPaymentDateTime",
+          "ScheduledType",
+          "InstructedAmount",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "ScheduledPaymentId": {
+            "$ref": "#/components/schemas/ScheduledPaymentId"
+          },
+          "ScheduledPaymentDateTime": {
+            "$ref": "#/components/schemas/ScheduledPaymentDateTime"
+          },
+          "ScheduledType": {
+            "$ref": "#/components/schemas/OBExternalScheduleType1Code"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5_0"
           }
         }
       },
@@ -9657,105 +9620,99 @@
         ]
       },
       "OBStandingOrder4Basic": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Frequency"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "StandingOrderId": {
-              "$ref": "#/components/schemas/StandingOrderId"
-            },
-            "Frequency": {
-              "$ref": "#/components/schemas/Frequency_0"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "FirstPaymentDateTime": {
-              "$ref": "#/components/schemas/FirstPaymentDateTime"
-            },
-            "NextPaymentDateTime": {
-              "$ref": "#/components/schemas/NextPaymentDateTime"
-            },
-            "FinalPaymentDateTime": {
-              "$ref": "#/components/schemas/FinalPaymentDateTime"
-            },
-            "StandingOrderStatusCode": {
-              "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
-            },
-            "FirstPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
-            },
-            "NextPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-            },
-            "FinalPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
-            },
-            "SupplementaryData": {
-              "$ref": "#/components/schemas/OBSupplementaryData1"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/components/schemas/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/Frequency_0"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/components/schemas/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/components/schemas/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/components/schemas/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
           }
         }
       },
       "OBStandingOrder4Detail": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Frequency",
-            "CreditorAccount"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "StandingOrderId": {
-              "$ref": "#/components/schemas/StandingOrderId"
-            },
-            "Frequency": {
-              "$ref": "#/components/schemas/Frequency_0"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "FirstPaymentDateTime": {
-              "$ref": "#/components/schemas/FirstPaymentDateTime"
-            },
-            "NextPaymentDateTime": {
-              "$ref": "#/components/schemas/NextPaymentDateTime"
-            },
-            "FinalPaymentDateTime": {
-              "$ref": "#/components/schemas/FinalPaymentDateTime"
-            },
-            "StandingOrderStatusCode": {
-              "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
-            },
-            "FirstPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
-            },
-            "NextPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-            },
-            "FinalPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
-            },
-            "CreditorAgent": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
-            },
-            "CreditorAccount": {
-              "$ref": "#/components/schemas/OBCashAccount5_1"
-            },
-            "SupplementaryData": {
-              "$ref": "#/components/schemas/OBSupplementaryData1"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/components/schemas/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/Frequency_0"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/components/schemas/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/components/schemas/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/components/schemas/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5_0"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
           }
         }
       },
@@ -9770,105 +9727,99 @@
         ]
       },
       "OBStandingOrder5Basic": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Frequency"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "StandingOrderId": {
-              "$ref": "#/components/schemas/StandingOrderId"
-            },
-            "Frequency": {
-              "$ref": "#/components/schemas/Frequency_1"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "FirstPaymentDateTime": {
-              "$ref": "#/components/schemas/FirstPaymentDateTime"
-            },
-            "NextPaymentDateTime": {
-              "$ref": "#/components/schemas/NextPaymentDateTime"
-            },
-            "FinalPaymentDateTime": {
-              "$ref": "#/components/schemas/FinalPaymentDateTime"
-            },
-            "StandingOrderStatusCode": {
-              "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
-            },
-            "FirstPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
-            },
-            "NextPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-            },
-            "FinalPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
-            },
-            "SupplementaryData": {
-              "$ref": "#/components/schemas/OBSupplementaryData1"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/components/schemas/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/Frequency_1"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/components/schemas/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/components/schemas/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/components/schemas/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
           }
         }
       },
       "OBStandingOrder5Detail": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Frequency",
-            "CreditorAccount"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "StandingOrderId": {
-              "$ref": "#/components/schemas/StandingOrderId"
-            },
-            "Frequency": {
-              "$ref": "#/components/schemas/Frequency_1"
-            },
-            "Reference": {
-              "$ref": "#/components/schemas/Reference"
-            },
-            "FirstPaymentDateTime": {
-              "$ref": "#/components/schemas/FirstPaymentDateTime"
-            },
-            "NextPaymentDateTime": {
-              "$ref": "#/components/schemas/NextPaymentDateTime"
-            },
-            "FinalPaymentDateTime": {
-              "$ref": "#/components/schemas/FinalPaymentDateTime"
-            },
-            "StandingOrderStatusCode": {
-              "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
-            },
-            "FirstPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
-            },
-            "NextPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-            },
-            "FinalPaymentAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
-            },
-            "CreditorAgent": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
-            },
-            "CreditorAccount": {
-              "$ref": "#/components/schemas/OBCashAccount5_1"
-            },
-            "SupplementaryData": {
-              "$ref": "#/components/schemas/OBSupplementaryData1"
-            }
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Frequency",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "StandingOrderId": {
+            "$ref": "#/components/schemas/StandingOrderId"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/Frequency_1"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "FirstPaymentDateTime": {
+            "$ref": "#/components/schemas/FirstPaymentDateTime"
+          },
+          "NextPaymentDateTime": {
+            "$ref": "#/components/schemas/NextPaymentDateTime"
+          },
+          "FinalPaymentDateTime": {
+            "$ref": "#/components/schemas/FinalPaymentDateTime"
+          },
+          "StandingOrderStatusCode": {
+            "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
+          },
+          "FirstPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0"
+          },
+          "NextPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5_0"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
           }
         }
       },
@@ -9883,289 +9834,396 @@
         ]
       },
       "OBStatement2Basic": {
-        "type": "array",
-        "description": "Provides further details on a statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Type",
-            "StartDateTime",
-            "EndDateTime",
-            "CreationDateTime"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "StatementId": {
-              "$ref": "#/components/schemas/StatementId"
-            },
-            "StatementReference": {
-              "$ref": "#/components/schemas/StatementReference_0"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementType1Code"
-            },
-            "StartDateTime": {
-              "$ref": "#/components/schemas/StartDateTime"
-            },
-            "EndDateTime": {
-              "$ref": "#/components/schemas/EndDateTime"
-            },
-            "CreationDateTime": {
-              "$ref": "#/components/schemas/CreationDateTime"
-            },
-            "StatementDescription": {
-              "$ref": "#/components/schemas/StatementDescription"
-            },
-            "StatementBenefit": {
-              "$ref": "#/components/schemas/OBStatementBenefit1"
-            },
-            "StatementFee": {
-              "$ref": "#/components/schemas/OBStatementFee2"
-            },
-            "StatementInterest": {
-              "$ref": "#/components/schemas/OBStatementInterest2"
-            },
-            "StatementDateTime": {
-              "$ref": "#/components/schemas/OBStatementDateTime1"
-            },
-            "StatementRate": {
-              "$ref": "#/components/schemas/OBStatementRate1"
-            },
-            "StatementValue": {
-              "$ref": "#/components/schemas/OBStatementValue1"
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Type",
+          "StartDateTime",
+          "EndDateTime",
+          "CreationDateTime"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "StatementId": {
+            "$ref": "#/components/schemas/StatementId"
+          },
+          "StatementReference": {
+            "$ref": "#/components/schemas/StatementReference"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/OBExternalStatementType1Code"
+          },
+          "StartDateTime": {
+            "$ref": "#/components/schemas/StartDateTime"
+          },
+          "EndDateTime": {
+            "$ref": "#/components/schemas/EndDateTime"
+          },
+          "CreationDateTime": {
+            "$ref": "#/components/schemas/CreationDateTime"
+          },
+          "StatementDescription": {
+            "type": "array",
+            "description": "Other descriptions that may be available for the statement resource.",
+            "items": {
+              "type": "object"
+            }
+          },
+          "StatementBenefit": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementBenefitType1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+                }
+              }
+            }
+          },
+          "StatementFee": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a fee for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "CreditDebitIndicator",
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "Description": {
+                  "$ref": "#/components/schemas/Description_1"
+                },
+                "CreditDebitIndicator": {
+                  "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementFeeType1Code"
+                },
+                "Rate": {
+                  "$ref": "#/components/schemas/OBRate1_0"
+                },
+                "RateType": {
+                  "$ref": "#/components/schemas/OBExternalStatementFeeRateType1Code"
+                },
+                "Frequency": {
+                  "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
+                }
+              }
+            }
+          },
+          "StatementInterest": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "CreditDebitIndicator",
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "Description": {
+                  "$ref": "#/components/schemas/Description_2"
+                },
+                "CreditDebitIndicator": {
+                  "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementInterestType1Code"
+                },
+                "Rate": {
+                  "$ref": "#/components/schemas/OBRate1_1"
+                },
+                "RateType": {
+                  "$ref": "#/components/schemas/OBExternalStatementInterestRateType1Code"
+                },
+                "Frequency": {
+                  "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
+                }
+              }
+            }
+          },
+          "StatementDateTime": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic date time for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "DateTime",
+                "Type"
+              ],
+              "properties": {
+                "DateTime": {
+                  "$ref": "#/components/schemas/DateTime"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementDateTimeType1Code"
+                }
+              }
+            }
+          },
+          "StatementRate": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic rate related to the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Rate",
+                "Type"
+              ],
+              "properties": {
+                "Rate": {
+                  "$ref": "#/components/schemas/OBExternalStatementRateType1Code"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/Type_0"
+                }
+              }
+            }
+          },
+          "StatementValue": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic number value related to the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Value",
+                "Type"
+              ],
+              "properties": {
+                "Value": {
+                  "$ref": "#/components/schemas/OBExternalStatementValueType1Code"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/Type_1"
+                }
+              }
             }
           }
         }
       },
       "OBStatement2Detail": {
-        "type": "array",
-        "description": "Provides further details on a statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "Type",
-            "StartDateTime",
-            "EndDateTime",
-            "CreationDateTime"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "StatementId": {
-              "$ref": "#/components/schemas/StatementId"
-            },
-            "StatementReference": {
-              "$ref": "#/components/schemas/StatementReference_0"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementType1Code"
-            },
-            "StartDateTime": {
-              "$ref": "#/components/schemas/StartDateTime"
-            },
-            "EndDateTime": {
-              "$ref": "#/components/schemas/EndDateTime"
-            },
-            "CreationDateTime": {
-              "$ref": "#/components/schemas/CreationDateTime"
-            },
-            "StatementDescription": {
-              "$ref": "#/components/schemas/StatementDescription"
-            },
-            "StatementBenefit": {
-              "$ref": "#/components/schemas/OBStatementBenefit1"
-            },
-            "StatementFee": {
-              "$ref": "#/components/schemas/OBStatementFee2"
-            },
-            "StatementInterest": {
-              "$ref": "#/components/schemas/OBStatementInterest2"
-            },
-            "StatementAmount": {
-              "$ref": "#/components/schemas/OBStatementAmount1"
-            },
-            "StatementDateTime": {
-              "$ref": "#/components/schemas/OBStatementDateTime1"
-            },
-            "StatementRate": {
-              "$ref": "#/components/schemas/OBStatementRate1"
-            },
-            "StatementValue": {
-              "$ref": "#/components/schemas/OBStatementValue1"
+        "type": "object",
+        "required": [
+          "AccountId",
+          "Type",
+          "StartDateTime",
+          "EndDateTime",
+          "CreationDateTime"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "StatementId": {
+            "$ref": "#/components/schemas/StatementId"
+          },
+          "StatementReference": {
+            "$ref": "#/components/schemas/StatementReference"
+          },
+          "Type": {
+            "$ref": "#/components/schemas/OBExternalStatementType1Code"
+          },
+          "StartDateTime": {
+            "$ref": "#/components/schemas/StartDateTime"
+          },
+          "EndDateTime": {
+            "$ref": "#/components/schemas/EndDateTime"
+          },
+          "CreationDateTime": {
+            "$ref": "#/components/schemas/CreationDateTime"
+          },
+          "StatementDescription": {
+            "type": "array",
+            "description": "Other descriptions that may be available for the statement resource.",
+            "items": {
+              "type": "object"
             }
-          }
-        }
-      },
-      "OBStatementAmount1": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a generic amount for the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "CreditDebitIndicator",
-            "Type",
-            "Amount"
-          ],
-          "properties": {
-            "CreditDebitIndicator": {
-              "$ref": "#/components/schemas/OBCreditDebitCode_0"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementAmountType1Code"
-            },
-            "Amount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
+          },
+          "StatementBenefit": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementBenefitType1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+                }
+              }
             }
-          }
-        }
-      },
-      "OBStatementBenefit1": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "Type",
-            "Amount"
-          ],
-          "properties": {
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementBenefitType1Code"
-            },
-            "Amount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+          },
+          "StatementFee": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a fee for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "CreditDebitIndicator",
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "Description": {
+                  "$ref": "#/components/schemas/Description_1"
+                },
+                "CreditDebitIndicator": {
+                  "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementFeeType1Code"
+                },
+                "Rate": {
+                  "$ref": "#/components/schemas/OBRate1_0"
+                },
+                "RateType": {
+                  "$ref": "#/components/schemas/OBExternalStatementFeeRateType1Code"
+                },
+                "Frequency": {
+                  "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
+                }
+              }
             }
-          }
-        }
-      },
-      "OBStatementDateTime1": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a generic date time for the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "DateTime",
-            "Type"
-          ],
-          "properties": {
-            "DateTime": {
-              "$ref": "#/components/schemas/DateTime"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementDateTimeType1Code"
+          },
+          "StatementInterest": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "CreditDebitIndicator",
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "Description": {
+                  "$ref": "#/components/schemas/Description_2"
+                },
+                "CreditDebitIndicator": {
+                  "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementInterestType1Code"
+                },
+                "Rate": {
+                  "$ref": "#/components/schemas/OBRate1_1"
+                },
+                "RateType": {
+                  "$ref": "#/components/schemas/OBExternalStatementInterestRateType1Code"
+                },
+                "Frequency": {
+                  "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
+                }
+              }
             }
-          }
-        }
-      },
-      "OBStatementFee2": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a fee for the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "CreditDebitIndicator",
-            "Type",
-            "Amount"
-          ],
-          "properties": {
-            "Description": {
-              "$ref": "#/components/schemas/Description_1"
-            },
-            "CreditDebitIndicator": {
-              "$ref": "#/components/schemas/OBCreditDebitCode_0"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementFeeType1Code"
-            },
-            "Rate": {
-              "$ref": "#/components/schemas/OBRate1_0"
-            },
-            "RateType": {
-              "$ref": "#/components/schemas/OBExternalStatementFeeRateType1Code"
-            },
-            "Frequency": {
-              "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
-            },
-            "Amount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
+          },
+          "StatementAmount": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic amount for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "CreditDebitIndicator",
+                "Type",
+                "Amount"
+              ],
+              "properties": {
+                "CreditDebitIndicator": {
+                  "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementAmountType1Code"
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
+                }
+              }
             }
-          }
-        }
-      },
-      "OBStatementInterest2": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "CreditDebitIndicator",
-            "Type",
-            "Amount"
-          ],
-          "properties": {
-            "Description": {
-              "$ref": "#/components/schemas/Description_2"
-            },
-            "CreditDebitIndicator": {
-              "$ref": "#/components/schemas/OBCreditDebitCode_0"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/OBExternalStatementInterestType1Code"
-            },
-            "Rate": {
-              "$ref": "#/components/schemas/OBRate1_1"
-            },
-            "RateType": {
-              "$ref": "#/components/schemas/OBExternalStatementInterestRateType1Code"
-            },
-            "Frequency": {
-              "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
-            },
-            "Amount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
+          },
+          "StatementDateTime": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic date time for the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "DateTime",
+                "Type"
+              ],
+              "properties": {
+                "DateTime": {
+                  "$ref": "#/components/schemas/DateTime"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/OBExternalStatementDateTimeType1Code"
+                }
+              }
             }
-          }
-        }
-      },
-      "OBStatementRate1": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a generic rate related to the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "Rate",
-            "Type"
-          ],
-          "properties": {
-            "Rate": {
-              "$ref": "#/components/schemas/OBExternalStatementRateType1Code"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/Type_0"
+          },
+          "StatementRate": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic rate related to the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Rate",
+                "Type"
+              ],
+              "properties": {
+                "Rate": {
+                  "$ref": "#/components/schemas/OBExternalStatementRateType1Code"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/Type_0"
+                }
+              }
             }
-          }
-        }
-      },
-      "OBStatementValue1": {
-        "type": "array",
-        "description": "Set of elements used to provide details of a generic number value related to the statement resource.",
-        "items": {
-          "type": "object",
-          "required": [
-            "Value",
-            "Type"
-          ],
-          "properties": {
-            "Value": {
-              "$ref": "#/components/schemas/OBExternalStatementValueType1Code"
-            },
-            "Type": {
-              "$ref": "#/components/schemas/Type_1"
+          },
+          "StatementValue": {
+            "type": "array",
+            "description": "Set of elements used to provide details of a generic number value related to the statement resource.",
+            "items": {
+              "type": "object",
+              "required": [
+                "Value",
+                "Type"
+              ],
+              "properties": {
+                "Value": {
+                  "$ref": "#/components/schemas/OBExternalStatementValueType1Code"
+                },
+                "Type": {
+                  "$ref": "#/components/schemas/Type_1"
+                }
+              }
             }
           }
         }
@@ -10187,151 +10245,151 @@
         ]
       },
       "OBTransaction5Basic": {
-        "type": "array",
-        "description": "Provides further details on an entry in the report.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "CreditDebitIndicator",
-            "Status",
-            "BookingDateTime",
-            "Amount"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "TransactionId": {
-              "$ref": "#/components/schemas/TransactionId"
-            },
-            "TransactionReference": {
-              "$ref": "#/components/schemas/TransactionReference"
-            },
-            "StatementReference": {
-              "$ref": "#/components/schemas/StatementReference_1"
-            },
-            "CreditDebitIndicator": {
-              "$ref": "#/components/schemas/OBCreditDebitCode_1"
-            },
-            "Status": {
-              "$ref": "#/components/schemas/OBEntryStatus1Code"
-            },
-            "BookingDateTime": {
-              "$ref": "#/components/schemas/BookingDateTime"
-            },
-            "ValueDateTime": {
-              "$ref": "#/components/schemas/ValueDateTime"
-            },
-            "AddressLine": {
-              "$ref": "#/components/schemas/AddressLine_1"
-            },
-            "Amount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
-            },
-            "ChargeAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
-            },
-            "CurrencyExchange": {
-              "$ref": "#/components/schemas/OBCurrencyExchange5"
-            },
-            "BankTransactionCode": {
-              "$ref": "#/components/schemas/OBBankTransactionCodeStructure1"
-            },
-            "ProprietaryBankTransactionCode": {
-              "$ref": "#/components/schemas/ProprietaryBankTransactionCodeStructure1"
-            },
-            "CardInstrument": {
-              "$ref": "#/components/schemas/OBTransactionCardInstrument1"
-            },
-            "SupplementaryData": {
-              "$ref": "#/components/schemas/OBSupplementaryData1"
+        "type": "object",
+        "required": [
+          "AccountId",
+          "CreditDebitIndicator",
+          "Status",
+          "BookingDateTime",
+          "Amount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "TransactionId": {
+            "$ref": "#/components/schemas/TransactionId"
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/TransactionReference"
+          },
+          "StatementReference": {
+            "type": "array",
+            "description": "Unique reference for the statement. This reference may be optionally populated if available.",
+            "items": {
+              "type": "object"
             }
+          },
+          "CreditDebitIndicator": {
+            "$ref": "#/components/schemas/OBCreditDebitCode_1"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/OBEntryStatus1Code"
+          },
+          "BookingDateTime": {
+            "$ref": "#/components/schemas/BookingDateTime"
+          },
+          "ValueDateTime": {
+            "$ref": "#/components/schemas/ValueDateTime"
+          },
+          "AddressLine": {
+            "$ref": "#/components/schemas/AddressLine"
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
+          },
+          "ChargeAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+          },
+          "CurrencyExchange": {
+            "$ref": "#/components/schemas/OBCurrencyExchange5"
+          },
+          "BankTransactionCode": {
+            "$ref": "#/components/schemas/OBBankTransactionCodeStructure1"
+          },
+          "ProprietaryBankTransactionCode": {
+            "$ref": "#/components/schemas/ProprietaryBankTransactionCodeStructure1"
+          },
+          "CardInstrument": {
+            "$ref": "#/components/schemas/OBTransactionCardInstrument1"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
           }
         }
       },
       "OBTransaction5Detail": {
-        "type": "array",
-        "description": "Provides further details on an entry in the report.",
-        "items": {
-          "type": "object",
-          "required": [
-            "AccountId",
-            "CreditDebitIndicator",
-            "Status",
-            "BookingDateTime",
-            "Amount"
-          ],
-          "properties": {
-            "AccountId": {
-              "$ref": "#/components/schemas/AccountId"
-            },
-            "TransactionId": {
-              "$ref": "#/components/schemas/TransactionId"
-            },
-            "TransactionReference": {
-              "$ref": "#/components/schemas/TransactionReference"
-            },
-            "StatementReference": {
-              "$ref": "#/components/schemas/StatementReference_1"
-            },
-            "CreditDebitIndicator": {
-              "$ref": "#/components/schemas/OBCreditDebitCode_1"
-            },
-            "Status": {
-              "$ref": "#/components/schemas/OBEntryStatus1Code"
-            },
-            "BookingDateTime": {
-              "$ref": "#/components/schemas/BookingDateTime"
-            },
-            "ValueDateTime": {
-              "$ref": "#/components/schemas/ValueDateTime"
-            },
-            "TransactionInformation": {
-              "$ref": "#/components/schemas/TransactionInformation"
-            },
-            "AddressLine": {
-              "$ref": "#/components/schemas/AddressLine_1"
-            },
-            "Amount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
-            },
-            "ChargeAmount": {
-              "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
-            },
-            "CurrencyExchange": {
-              "$ref": "#/components/schemas/OBCurrencyExchange5"
-            },
-            "BankTransactionCode": {
-              "$ref": "#/components/schemas/OBBankTransactionCodeStructure1"
-            },
-            "ProprietaryBankTransactionCode": {
-              "$ref": "#/components/schemas/ProprietaryBankTransactionCodeStructure1"
-            },
-            "Balance": {
-              "$ref": "#/components/schemas/OBTransactionCashBalance"
-            },
-            "MerchantDetails": {
-              "$ref": "#/components/schemas/OBMerchantDetails1"
-            },
-            "CreditorAgent": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
-            },
-            "CreditorAccount": {
-              "$ref": "#/components/schemas/OBCashAccount6_0"
-            },
-            "DebtorAgent": {
-              "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
-            },
-            "DebtorAccount": {
-              "$ref": "#/components/schemas/OBCashAccount6_1"
-            },
-            "CardInstrument": {
-              "$ref": "#/components/schemas/OBTransactionCardInstrument1"
-            },
-            "SupplementaryData": {
-              "$ref": "#/components/schemas/OBSupplementaryData1"
+        "type": "object",
+        "required": [
+          "AccountId",
+          "CreditDebitIndicator",
+          "Status",
+          "BookingDateTime",
+          "Amount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "TransactionId": {
+            "$ref": "#/components/schemas/TransactionId"
+          },
+          "TransactionReference": {
+            "$ref": "#/components/schemas/TransactionReference"
+          },
+          "StatementReference": {
+            "type": "array",
+            "description": "Unique reference for the statement. This reference may be optionally populated if available.",
+            "items": {
+              "type": "object"
             }
+          },
+          "CreditDebitIndicator": {
+            "$ref": "#/components/schemas/OBCreditDebitCode_1"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/OBEntryStatus1Code"
+          },
+          "BookingDateTime": {
+            "$ref": "#/components/schemas/BookingDateTime"
+          },
+          "ValueDateTime": {
+            "$ref": "#/components/schemas/ValueDateTime"
+          },
+          "TransactionInformation": {
+            "$ref": "#/components/schemas/TransactionInformation"
+          },
+          "AddressLine": {
+            "$ref": "#/components/schemas/AddressLine"
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
+          },
+          "ChargeAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+          },
+          "CurrencyExchange": {
+            "$ref": "#/components/schemas/OBCurrencyExchange5"
+          },
+          "BankTransactionCode": {
+            "$ref": "#/components/schemas/OBBankTransactionCodeStructure1"
+          },
+          "ProprietaryBankTransactionCode": {
+            "$ref": "#/components/schemas/ProprietaryBankTransactionCodeStructure1"
+          },
+          "Balance": {
+            "$ref": "#/components/schemas/OBTransactionCashBalance"
+          },
+          "MerchantDetails": {
+            "$ref": "#/components/schemas/OBMerchantDetails1"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount6_0"
+          },
+          "DebtorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
+          },
+          "DebtorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount6_1"
+          },
+          "CardInstrument": {
+            "$ref": "#/components/schemas/OBTransactionCardInstrument1"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
           }
         }
       },
@@ -10493,35 +10551,17 @@
         "type": "string",
         "format": "date-time"
       },
-      "StatementDescription": {
-        "type": "array",
-        "description": "Other descriptions that may be available for the statement resource.",
-        "items": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 500
-        }
-      },
       "StatementId": {
         "type": "string",
         "description": "Unique identifier for the statement resource within an servicing institution. This identifier is both unique and immutable.",
         "minLength": 1,
         "maxLength": 40
       },
-      "StatementReference_0": {
+      "StatementReference": {
         "type": "string",
         "description": "Unique reference for the statement. This reference may be optionally populated if available.",
         "minLength": 1,
         "maxLength": 35
-      },
-      "StatementReference_1": {
-        "type": "array",
-        "description": "Unique reference for the statement. This reference may be optionally populated if available.",
-        "items": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 35
-        }
       },
       "StatusUpdateDateTime": {
         "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
