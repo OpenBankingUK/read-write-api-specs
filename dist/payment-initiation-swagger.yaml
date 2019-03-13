@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v4.0-draft6
+  version: v4.0-draft7
 basePath: /open-banking/v4.0/pisp
 schemes:
   - https
@@ -807,6 +807,41 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
+  '/file-payments/{FilePaymentId}/payment-details':
+    get:
+      tags:
+        - Payment Details
+      summary: Get Payment Details
+      operationId: GetFilePaymentsFilePaymentIdPaymentDetails
+      parameters:
+        - $ref: '#/parameters/FilePaymentId'
+        - $ref: '#/parameters/x-fapi-financial-id'
+        - $ref: '#/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+      responses:
+        '200':
+          $ref: '#/responses/200FilePaymentsFilePaymentIdPaymentDetailsRead'
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - payments
   '/file-payments/{FilePaymentId}/report-file':
     get:
       tags:
@@ -1459,6 +1494,72 @@ paths:
         - TPPOAuth2Security:
             - payments
 parameters:
+  OBWriteInternationalScheduledConsent1Param:
+    name: OBWriteInternationalScheduledConsent1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduledConsent1'
+  ConsentId:
+    name: ConsentId
+    in: path
+    description: ConsentId
+    required: true
+    type: string
+  OBWriteInternationalScheduled1Param:
+    name: OBWriteInternationalScheduled1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalScheduled1'
+  InternationalScheduledPaymentId:
+    name: InternationalScheduledPaymentId
+    in: path
+    description: InternationalScheduledPaymentId
+    required: true
+    type: string
+  OBWriteInternationalStandingOrderConsent3Param:
+    name: OBWriteInternationalStandingOrderConsent3Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrderConsent3'
+  OBWriteInternationalStandingOrder3Param:
+    name: OBWriteInternationalStandingOrder3Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteInternationalStandingOrder3'
+  InternationalStandingOrderPaymentId:
+    name: InternationalStandingOrderPaymentId
+    in: path
+    description: InternationalStandingOrderPaymentId
+    required: true
+    type: string
+  OBWriteDomesticConsent2Param:
+    name: OBWriteDomesticConsent2Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomesticConsent2'
+  OBWriteDomestic2Param:
+    name: OBWriteDomestic2Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBWriteDomestic2'
+  DomesticPaymentId:
+    name: DomesticPaymentId
+    in: path
+    description: DomesticPaymentId
+    required: true
+    type: string
   OBWriteDomesticScheduledConsent2Param:
     name: OBWriteDomesticScheduledConsent2Param
     in: body
@@ -1466,12 +1567,6 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/OBWriteDomesticScheduledConsent2'
-  ConsentId:
-    name: ConsentId
-    in: path
-    description: ConsentId
-    required: true
-    type: string
   OBWriteDomesticScheduled2Param:
     name: OBWriteDomesticScheduled2Param
     in: body
@@ -1530,66 +1625,6 @@ parameters:
     name: DomesticStandingOrderId
     in: path
     description: DomesticStandingOrderId
-    required: true
-    type: string
-  OBWriteInternationalScheduledConsent1Param:
-    name: OBWriteInternationalScheduledConsent1Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBWriteInternationalScheduledConsent1'
-  OBWriteInternationalScheduled1Param:
-    name: OBWriteInternationalScheduled1Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBWriteInternationalScheduled1'
-  InternationalScheduledPaymentId:
-    name: InternationalScheduledPaymentId
-    in: path
-    description: InternationalScheduledPaymentId
-    required: true
-    type: string
-  OBWriteInternationalStandingOrderConsent3Param:
-    name: OBWriteInternationalStandingOrderConsent3Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBWriteInternationalStandingOrderConsent3'
-  OBWriteInternationalStandingOrder3Param:
-    name: OBWriteInternationalStandingOrder3Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBWriteInternationalStandingOrder3'
-  InternationalStandingOrderPaymentId:
-    name: InternationalStandingOrderPaymentId
-    in: path
-    description: InternationalStandingOrderPaymentId
-    required: true
-    type: string
-  OBWriteDomesticConsent2Param:
-    name: OBWriteDomesticConsent2Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBWriteDomesticConsent2'
-  OBWriteDomestic2Param:
-    name: OBWriteDomestic2Param
-    in: body
-    description: Default
-    required: true
-    schema:
-      $ref: '#/definitions/OBWriteDomestic2'
-  DomesticPaymentId:
-    name: DomesticPaymentId
-    in: path
-    description: DomesticPaymentId
     required: true
     type: string
   OBWriteInternationalConsent2Param:
@@ -1677,204 +1712,6 @@ parameters:
     required: true
     description: A detached JWS signature of the body of the payload.
 responses:
-  201DomesticScheduledPaymentConsentsCreated:
-    description: Domestic Scheduled Payment Consents Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticScheduledConsentResponse2'
-  200DomesticScheduledPaymentConsentsConsentIdRead:
-    description: Domestic Scheduled Payment Consents Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticScheduledConsentResponse2'
-  201DomesticScheduledPaymentsCreated:
-    description: Domestic Scheduled Payments Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticScheduledResponse3'
-  200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead:
-    description: Domestic Scheduled Payments Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticScheduledResponse3'
-  200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead:
-    description: Payment Details Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
-  201FilePaymentConsentsCreated:
-    description: File Payment Consents Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteFileConsentResponse2'
-  200FilePaymentConsentsConsentIdFileCreated:
-    description: File Payment Consents Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-  200FilePaymentConsentsConsentIdRead:
-    description: File Payment Consents Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteFileConsentResponse2'
-  200FilePaymentConsentsConsentIdFileRead:
-    description: File Payment Consents Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/File'
-  201FilePaymentsCreated:
-    description: File Payments Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteFileResponse2'
-  200FilePaymentsFilePaymentIdRead:
-    description: File Payments Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteFileResponse2'
-  200FilePaymentsFilePaymentIdReportFileRead:
-    description: File Payments Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/File'
-  201DomesticStandingOrderConsentsCreated:
-    description: Domestic Standing Order Consents Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticStandingOrderConsentResponse3'
-  200DomesticStandingOrderConsentsConsentIdRead:
-    description: Domestic Standing Order Consents Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticStandingOrderConsentResponse3'
-  201DomesticStandingOrdersCreated:
-    description: Domestic Standing Orders Created
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticStandingOrderResponse4'
-  200DomesticStandingOrdersDomesticStandingOrderIdRead:
-    description: Domestic Standing Orders Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWriteDomesticStandingOrderResponse4'
-  200DomesticStandingOrdersDomesticStandingOrderIdPaymentDetailsRead:
-    description: Payment Details Read
-    headers:
-      x-fapi-interaction-id:
-        type: string
-        description: An RFC4122 UID used as a correlation id.
-      x-jws-signature:
-        type: string
-        description: |
-          Header containing a detached JWS signature of the body of the payload.
-    schema:
-      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
   201InternationalScheduledPaymentConsentsCreated:
     description: International Scheduled Payment Consents Created
     headers:
@@ -2068,6 +1905,216 @@ responses:
     schema:
       $ref: '#/definitions/OBWriteDomesticResponse2'
   200DomesticPaymentsDomesticPaymentIdPaymentDetailsRead:
+    description: Payment Details Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
+  201DomesticScheduledPaymentConsentsCreated:
+    description: Domestic Scheduled Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledConsentResponse2'
+  200DomesticScheduledPaymentConsentsConsentIdRead:
+    description: Domestic Scheduled Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledConsentResponse2'
+  201DomesticScheduledPaymentsCreated:
+    description: Domestic Scheduled Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledResponse3'
+  200DomesticScheduledPaymentsDomesticScheduledPaymentIdRead:
+    description: Domestic Scheduled Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticScheduledResponse3'
+  200DomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetailsRead:
+    description: Payment Details Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
+  201FilePaymentConsentsCreated:
+    description: File Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileConsentResponse2'
+  200FilePaymentConsentsConsentIdFileCreated:
+    description: File Payment Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  200FilePaymentConsentsConsentIdRead:
+    description: File Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileConsentResponse2'
+  200FilePaymentConsentsConsentIdFileRead:
+    description: File Payment Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/File'
+  201FilePaymentsCreated:
+    description: File Payments Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileResponse2'
+  200FilePaymentsFilePaymentIdRead:
+    description: File Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteFileResponse2'
+  200FilePaymentsFilePaymentIdReportFileRead:
+    description: File Payments Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/File'
+  200FilePaymentsFilePaymentIdPaymentDetailsRead:
+    description: Payment Details Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWritePaymentDetailsResponse1'
+  201DomesticStandingOrderConsentsCreated:
+    description: Domestic Standing Order Consents Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderConsentResponse3'
+  200DomesticStandingOrderConsentsConsentIdRead:
+    description: Domestic Standing Order Consents Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderConsentResponse3'
+  201DomesticStandingOrdersCreated:
+    description: Domestic Standing Orders Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderResponse4'
+  200DomesticStandingOrdersDomesticStandingOrderIdRead:
+    description: Domestic Standing Orders Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBWriteDomesticStandingOrderResponse4'
+  200DomesticStandingOrdersDomesticStandingOrderIdPaymentDetailsRead:
     description: Payment Details Read
     headers:
       x-fapi-interaction-id:
@@ -7360,8 +7407,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -7624,8 +7669,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -8058,8 +8101,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -8493,8 +8534,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -8816,8 +8855,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -9105,8 +9142,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -9564,8 +9599,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -10013,8 +10046,6 @@ definitions:
                   the processing of the instruction.
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -10426,8 +10457,6 @@ definitions:
                 format: date-time
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -10674,8 +10703,6 @@ definitions:
                 format: date-time
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -11018,8 +11045,6 @@ definitions:
                 format: date-time
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
@@ -11355,8 +11380,6 @@ definitions:
                 format: date-time
               Purpose:
                 type: string
-                minLength: 1
-                maxLength: 4
                 description: >-
                   Specifies the external purpose code in the format of character
                   string with a maximum length of 4 characters.
