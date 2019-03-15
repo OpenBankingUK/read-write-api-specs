@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.0"
+    "version": "v3.1.1-RC1"
   },
   "paths": {
     "/account-access-consents": {
@@ -2219,7 +2219,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadTransaction4"
+              "$ref": "#/components/schemas/OBReadTransaction5"
             }
           }
         }
@@ -2237,7 +2237,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadTransaction4"
+              "$ref": "#/components/schemas/OBReadTransaction5"
             }
           }
         }
@@ -2291,7 +2291,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadStatement1"
+              "$ref": "#/components/schemas/OBReadStatement2"
             }
           }
         }
@@ -2309,7 +2309,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadStatement1"
+              "$ref": "#/components/schemas/OBReadStatement2"
             }
           }
         }
@@ -2346,7 +2346,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadTransaction4"
+              "$ref": "#/components/schemas/OBReadTransaction5"
             }
           }
         }
@@ -2364,7 +2364,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadStatement1"
+              "$ref": "#/components/schemas/OBReadStatement2"
             }
           }
         }
@@ -2418,7 +2418,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadStandingOrder4"
+              "$ref": "#/components/schemas/OBReadStandingOrder5"
             }
           }
         }
@@ -2436,7 +2436,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadStandingOrder4"
+              "$ref": "#/components/schemas/OBReadStandingOrder5"
             }
           }
         }
@@ -2711,7 +2711,7 @@
         "pattern": "^\\d{1,13}\\.\\d{1,5}$"
       },
       "OBActiveOrHistoricCurrencyAndAmount": {
-        "description": "Amount of money of the cash balance after a transaction entry is applied to the account..",
+        "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
         "type": "object",
         "properties": {
           "Amount": {
@@ -5018,10 +5018,14 @@
           "Code": {
             "description": "Specifies the family within a domain.",
             "type": "string",
-          ,
+            "minLength": 1,
+            "maxLength": 4
+          },
           "SubCode": {
             "description": "Specifies the sub-product family within a specific family.",
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4
           }
         },
         "required": [
@@ -8249,7 +8253,7 @@
         ],
         "additionalProperties": false
       },
-      "OBReadStandingOrder4": {
+      "OBReadStandingOrder5": {
         "type": "object",
         "properties": {
           "Data": {
@@ -8257,7 +8261,7 @@
             "properties": {
               "StandingOrder": {
                 "items": {
-                  "$ref": "#/components/schemas/OBStandingOrder4"
+                  "$ref": "#/components/schemas/OBStandingOrder5"
                 },
                 "type": "array"
               }
@@ -8278,7 +8282,7 @@
         ],
         "additionalProperties": false
       },
-      "OBReadStatement1": {
+      "OBReadStatement2": {
         "type": "object",
         "properties": {
           "Data": {
@@ -8286,7 +8290,7 @@
             "properties": {
               "Statement": {
                 "items": {
-                  "$ref": "#/components/schemas/OBStatement1"
+                  "$ref": "#/components/schemas/OBStatement2"
                 },
                 "type": "array",
                 "description": "Provides further details on a statement resource."
@@ -8308,7 +8312,7 @@
         ],
         "additionalProperties": false
       },
-      "OBReadTransaction4": {
+      "OBReadTransaction5": {
         "type": "object",
         "properties": {
           "Data": {
@@ -8316,7 +8320,7 @@
             "properties": {
               "Transaction": {
                 "items": {
-                  "$ref": "#/components/schemas/OBTransaction4"
+                  "$ref": "#/components/schemas/OBTransaction5"
                 },
                 "type": "array",
                 "description": "Provides further details on an entry in the report."
@@ -8431,17 +8435,17 @@
         ],
         "additionalProperties": false
       },
-      "OBStandingOrder4": {
+      "OBStandingOrder5": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/OBStandingOrder4Basic"
+            "$ref": "#/components/schemas/OBStandingOrder5Basic"
           },
           {
-            "$ref": "#/components/schemas/OBStandingOrder4Detail"
+            "$ref": "#/components/schemas/OBStandingOrder5Detail"
           }
         ]
       },
-      "OBStandingOrder4Basic": {
+      "OBStandingOrder5Basic": {
         "type": "object",
         "properties": {
           "AccountId": {
@@ -8454,11 +8458,11 @@
             "maxLength": 40
           },
           "Frequency": {
-            "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
+            "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlDay - An interval specified in number of calendar days (02 to 31)\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-05 to -01, 01 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December.\nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December.\nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlDay:NoOfDay (ScheduleCode + NoOfDay)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1])\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
             "type": "string",
             "minLength": 1,
             "maxLength": 35,
-            "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+            "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
           },
           "Reference": {
             "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
@@ -8503,7 +8507,7 @@
         ],
         "additionalProperties": false
       },
-      "OBStandingOrder4Detail": {
+      "OBStandingOrder5Detail": {
         "type": "object",
         "properties": {
           "AccountId": {
@@ -8516,11 +8520,11 @@
             "maxLength": 40
           },
           "Frequency": {
-            "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
+            "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlDay - An interval specified in number of calendar days (02 to 31)\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-05 to -01, 01 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED)\nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December.\nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December.\nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlDay:NoOfDay (ScheduleCode + NoOfDay)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1])\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
             "type": "string",
             "minLength": 1,
             "maxLength": 35,
-            "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+            "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
           },
           "Reference": {
             "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
@@ -8572,17 +8576,17 @@
         ],
         "additionalProperties": false
       },
-      "OBStatement1": {
+      "OBStatement2": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/OBStatement1Basic"
+            "$ref": "#/components/schemas/OBStatement2Basic"
           },
           {
-            "$ref": "#/components/schemas/OBStatement1Detail"
+            "$ref": "#/components/schemas/OBStatement2Detail"
           }
         ]
       },
-      "OBStatement1Basic": {
+      "OBStatement2Basic": {
         "description": "Provides further details on a statement resource.",
         "type": "object",
         "properties": {
@@ -8637,14 +8641,14 @@
           },
           "StatementFee": {
             "items": {
-              "$ref": "#/components/schemas/OBStatementFee1"
+              "$ref": "#/components/schemas/OBStatementFee2"
             },
             "type": "array",
             "description": "Set of elements used to provide details of a fee for the statement resource."
           },
           "StatementInterest": {
             "items": {
-              "$ref": "#/components/schemas/OBStatementInterest1"
+              "$ref": "#/components/schemas/OBStatementInterest2"
             },
             "type": "array",
             "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
@@ -8680,7 +8684,7 @@
         ],
         "additionalProperties": false
       },
-      "OBStatement1Detail": {
+      "OBStatement2Detail": {
         "description": "Provides further details on a statement resource.",
         "type": "object",
         "properties": {
@@ -8735,14 +8739,14 @@
           },
           "StatementFee": {
             "items": {
-              "$ref": "#/components/schemas/OBStatementFee1"
+              "$ref": "#/components/schemas/OBStatementFee2"
             },
             "type": "array",
             "description": "Set of elements used to provide details of a fee for the statement resource."
           },
           "StatementInterest": {
             "items": {
-              "$ref": "#/components/schemas/OBStatementInterest1"
+              "$ref": "#/components/schemas/OBStatementInterest2"
             },
             "type": "array",
             "description": "Set of elements used to provide details of a generic interest amount related to the statement resource."
@@ -8847,10 +8851,16 @@
         ],
         "additionalProperties": false
       },
-      "OBStatementFee1": {
+      "OBStatementFee2": {
         "description": "Set of elements used to provide details of a fee for the statement resource.",
         "type": "object",
         "properties": {
+          "Description": {
+            "description": "Description that may be available for the statement fee.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
           "CreditDebitIndicator": {
             "type": "string",
             "enum": [
@@ -8861,6 +8871,16 @@
           },
           "Type": {
             "$ref": "#/components/schemas/OBExternalStatementFeeType1Code"
+          },
+          "Rate": {
+            "description": "Rate charged for Statement Fee (where it is charged in terms of a rate rather than an amount)",
+            "type": "number"
+          },
+          "RateType": {
+            "$ref": "#/components/schemas/OBExternalStatementFeeRateType1Code"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
           },
           "Amount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
@@ -8873,10 +8893,16 @@
         ],
         "additionalProperties": false
       },
-      "OBStatementInterest1": {
+      "OBStatementInterest2": {
         "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
         "type": "object",
         "properties": {
+          "Description": {
+            "description": "Description that may be available for the statement interest.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
           "CreditDebitIndicator": {
             "type": "string",
             "enum": [
@@ -8887,6 +8913,16 @@
           },
           "Type": {
             "$ref": "#/components/schemas/OBExternalStatementInterestType1Code"
+          },
+          "Rate": {
+            "description": "field representing a percentage (e.g. 0.05 represents 5% and 0.9525 represents 95.25%). Note the number of decimal places may vary.",
+            "type": "number"
+          },
+          "RateType": {
+            "$ref": "#/components/schemas/OBExternalStatementInterestRateType1Code"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
           },
           "Amount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
@@ -8904,14 +8940,13 @@
         "type": "object",
         "properties": {
           "Rate": {
-            "description": "Rate associated with the statement rate type.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10,
-            "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
+            "$ref": "#/components/schemas/OBExternalStatementRateType1Code"
           },
           "Type": {
-            "$ref": "#/components/schemas/OBExternalStatementRateType1Code"
+            "description": "Statement rate type, in a coded form.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
           }
         },
         "required": [
@@ -8925,12 +8960,13 @@
         "type": "object",
         "properties": {
           "Value": {
-            "description": "Value associated with the statement value type.",
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBExternalStatementValueType1Code"
           },
           "Type": {
-            "$ref": "#/components/schemas/OBExternalStatementValueType1Code"
+            "description": "Statement value type, in a coded form.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
           }
         },
         "required": [
@@ -8939,17 +8975,17 @@
         ],
         "additionalProperties": false
       },
-      "OBTransaction4": {
+      "OBTransaction5": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/OBTransaction4Basic"
+            "$ref": "#/components/schemas/OBTransaction5Basic"
           },
           {
-            "$ref": "#/components/schemas/OBTransaction4Detail"
+            "$ref": "#/components/schemas/OBTransaction5Detail"
           }
         ]
       },
-      "OBTransaction4Basic": {
+      "OBTransaction5Basic": {
         "description": "Provides further details on an entry in the report.",
         "type": "object",
         "properties": {
@@ -8960,7 +8996,7 @@
             "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
             "type": "string",
             "minLength": 1,
-            "maxLength": 40
+            "maxLength": 210
           },
           "TransactionReference": {
             "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
@@ -9054,7 +9090,7 @@
         ],
         "additionalProperties": false
       },
-      "OBTransaction4Detail": {
+      "OBTransaction5Detail": {
         "description": "Provides further details on an entry in the report.",
         "type": "object",
         "properties": {
@@ -9065,7 +9101,7 @@
             "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
             "type": "string",
             "minLength": 1,
-            "maxLength": 40
+            "maxLength": 210
           },
           "TransactionReference": {
             "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
@@ -9344,7 +9380,7 @@
             "maxLength": 256
           },
           "Name": {
-            "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+            "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
             "type": "string",
             "minLength": 1,
             "maxLength": 70
@@ -9436,7 +9472,7 @@
         "maxLength": 40
       },
       "OBExternalStatementRateType1Code": {
-        "description": "Statement rate type, in a coded form.",
+        "description": "Rate associated with the statement rate type.",
         "type": "string",
         "example": [
           "UK.OBIE.AnnualBalanceTransfer",
@@ -9451,10 +9487,11 @@
           "UK.OBIE.MonthlyPurchase"
         ],
         "minLength": 1,
-        "maxLength": 40
+        "maxLength": 40,
+        "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
       },
       "OBExternalStatementValueType1Code": {
-        "description": "Statement value type, in a coded form.",
+        "description": "Value associated with the statement value type.",
         "type": "string",
         "example": [
           "UK.OBIE.AirMilesPoints",
@@ -9502,14 +9539,14 @@
         "maxLength": 40
       },
       "OBBranchAndFinancialInstitutionIdentification6": {
-        "description": "Financial institution servicing an account for the debtor.",
+        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
         "type": "object",
         "properties": {
           "SchemeName": {
             "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
           },
           "Identification": {
-            "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+            "description": "Unique and unambiguous identification of the servicing institution.",
             "type": "string",
             "minLength": 1,
             "maxLength": 35
@@ -9525,6 +9562,1585 @@
           }
         },
         "additionalProperties": false
+      },
+      "OBExternalStatementFeeRateType1Code": {
+        "description": "Description that may be available for the statement fee rate type.",
+        "type": "string",
+        "example": [
+          "UK.OBIE.AER",
+          "UK.OBIE.EAR"
+        ]
+      },
+      "OBExternalStatementFeeFrequency1Code": {
+        "description": "How frequently the fee is applied to the Account.",
+        "type": "string",
+        "example": [
+          "UK.OBIE.ChargingPeriod",
+          "UK.OBIE.PerTransactionAmount",
+          "UK.OBIE.PerTransactionPercentage",
+          "UK.OBIE.Quarterly",
+          "UK.OBIE.StatementMonthly",
+          "UK.OBIE.Weekly"
+        ],
+        "minLength": 1,
+        "maxLength": 40
+      },
+      "OBExternalStatementInterestRateType1Code": {
+        "description": "Description that may be available for the statement Interest rate type.",
+        "type": "string",
+        "example": [
+          "UK.OBIE.BOEBaseRate",
+          "UK.OBIE.FixedRate",
+          "UK.OBIE.Gross",
+          "UK.OBIE.LoanProviderBaseRate",
+          "UK.OBIE.Net"
+        ]
+      },
+      "OBExternalStatementInterestFrequency1Code": {
+        "description": "Specifies the statement fee type requested",
+        "type": "string",
+        "example": [
+          "UK.OBIE.Daily",
+          "UK.OBIE.HalfYearly",
+          "UK.OBIE.Monthly",
+          "UK.OBIE.PerStatementDate",
+          "UK.OBIE.Quarterly",
+          "UK.OBIE.Weekly",
+          "UK.OBIE.Yearly"
+        ],
+        "minLength": 1,
+        "maxLength": 40
+      },
+      "OB_CreditInterest1": {
+        "description": "Details about the interest that may be payable to the Account holders",
+        "type": "object",
+        "properties": {
+          "TierBandSet": {
+            "items": {
+              "$ref": "#/components/schemas/OB_TierBandSet1"
+            },
+            "type": "array",
+            "description": "The group of tiers or bands for which credit interest can be applied.",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "TierBandSet"
+        ],
+        "additionalProperties": false
+      },
+      "OB_FeeApplicableRange1": {
+        "description": "Range or amounts or rates for which the fee/charge applies",
+        "type": "object",
+        "properties": {
+          "MinimumAmount": {
+            "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "MaximumAmount": {
+            "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "MinimumRate": {
+            "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "MaximumRate": {
+            "description": "Minimum Amount on which fee/charge is applicable (where it is expressed as an amount)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OB_FeeCategory1Code": {
+        "description": "Categorisation of fees and charges into standard categories.",
+        "type": "string",
+        "enum": [
+          "FCOT",
+          "FCRE",
+          "FCSV"
+        ]
+      },
+      "OB_FeeChargeCap1": {
+        "description": "Details about any caps (maximum charges) that apply to a particular or group of fee/charge",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_FeeType1Code"
+            },
+            "type": "array",
+            "description": "Fee/charge type which is being capped",
+            "minItems": 1
+          },
+          "MinMaxType": {
+            "$ref": "#/components/schemas/OB_MinMaxType1Code"
+          },
+          "FeeCapOccurrence": {
+            "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
+            "type": "integer",
+            "format": "int32"
+          },
+          "FeeCapAmount": {
+            "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
+            "type": "integer",
+            "format": "int32"
+          },
+          "CappingPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Free text for adding  extra details for fee charge cap"
+          },
+          "OtherFeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OtherCodeType1"
+            },
+            "type": "array",
+            "description": "Other fee type code which is not available in the standard code set"
+          }
+        },
+        "required": [
+          "FeeType",
+          "MinMaxType"
+        ],
+        "additionalProperties": false
+      },
+      "OB_FeeChargeDetail1": {
+        "description": "Other fees/charges details",
+        "type": "object",
+        "properties": {
+          "FeeCategory": {
+            "$ref": "#/components/schemas/OB_FeeCategory1Code"
+          },
+          "FeeType": {
+            "$ref": "#/components/schemas/OB_FeeType1Code"
+          },
+          "NegotiableIndicator": {
+            "description": "Fee/charge which is usually negotiable rather than a fixed amount",
+            "type": "boolean"
+          },
+          "FeeAmount": {
+            "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRate": {
+            "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRateType": {
+            "$ref": "#/components/schemas/OB_InterestRateType1Code"
+          },
+          "ApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "CalculationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the fee/charge details."
+          },
+          "FeeChargeCap": {
+            "items": {
+              "$ref": "#/components/schemas/OB_FeeChargeCap1"
+            },
+            "type": "array",
+            "description": "Details about any caps (maximum charges) that apply to a particular or group of fee/charge"
+          },
+          "OtherFeeCategoryType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherFeeType": {
+            "$ref": "#/components/schemas/OB_OtherFeeChargeDetailType"
+          },
+          "OtherFeeRateType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherCalculationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "FeeApplicableRange": {
+            "$ref": "#/components/schemas/OB_FeeApplicableRange1"
+          }
+        },
+        "required": [
+          "FeeCategory",
+          "FeeType",
+          "ApplicationFrequency"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_FeeFrequency1Code": {
+        "description": "How frequently the fee/charge is calculated",
+        "type": "string",
+        "enum": [
+          "FEAC",
+          "FEAO",
+          "FECP",
+          "FEDA",
+          "FEHO",
+          "FEI",
+          "FEMO",
+          "FEOA",
+          "FEOT",
+          "FEPC",
+          "FEPH",
+          "FEPO",
+          "FEPS",
+          "FEPT",
+          "FEPTA",
+          "FEPTP",
+          "FEQU",
+          "FESM",
+          "FEST",
+          "FEWE",
+          "FEYE"
+        ]
+      },
+      "OB_FeeType1Code": {
+        "description": "Fee/charge type which is being capped",
+        "type": "string",
+        "enum": [
+          "FEPF",
+          "FTOT",
+          "FYAF",
+          "FYAM",
+          "FYAQ",
+          "FYCP",
+          "FYDB",
+          "FYMI",
+          "FYXX"
+        ]
+      },
+      "OB_Frequency1Code": {
+        "description": "How often is interest applied to the Product for this tier/band i.e. how often the financial institution pays accumulated interest to the customer's account.",
+        "type": "string",
+        "enum": [
+          "FQAT",
+          "FQDY",
+          "FQHY",
+          "FQMY",
+          "FQOT",
+          "FQQY",
+          "FQSD",
+          "FQWY",
+          "FQYY"
+        ]
+      },
+      "OB_InterestCalculationMethod1Code": {
+        "description": "Methods of calculating interest",
+        "type": "string",
+        "enum": [
+          "ITCO",
+          "ITOT",
+          "ITSI"
+        ]
+      },
+      "OB_InterestDestination1Code": {
+        "description": "Describes whether accrued interest is payable only to the BCA or to another bank account",
+        "type": "string",
+        "enum": [
+          "INOT",
+          "INPA",
+          "INSC"
+        ]
+      },
+      "OB_InterestFixedVariableType1Code": {
+        "description": "Type of interest rate, Fixed or Variable",
+        "type": "string",
+        "enum": [
+          "INFI",
+          "INVA"
+        ]
+      },
+      "OB_InterestRateType1Code": {
+        "description": "Rate type for Fee/Charge (where it is charged in terms of a rate rather than an amount)",
+        "type": "string",
+        "enum": [
+          "INBB",
+          "INFR",
+          "INGR",
+          "INLR",
+          "INNE",
+          "INOT"
+        ]
+      },
+      "OB_LoanInterest1": {
+        "description": "Details about the interest that may be payable to the SME Loan holders",
+        "type": "object",
+        "properties": {
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the LoanInterest"
+          },
+          "LoanInterestTierBandSet": {
+            "items": {
+              "$ref": "#/components/schemas/OB_LoanInterestTierBandSet1"
+            },
+            "type": "array",
+            "description": "The group of tiers or bands for which debit interest can be applied.",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "LoanInterestTierBandSet"
+        ],
+        "additionalProperties": false
+      },
+      "OB_LoanInterestFeesChargeCap1": {
+        "description": "Details about any caps (minimum/maximum charges) that apply to a particular fee/charge",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_FeeType1Code"
+            },
+            "type": "array",
+            "description": "Fee/charge type which is being capped",
+            "minItems": 1
+          },
+          "MinMaxType": {
+            "$ref": "#/components/schemas/OB_MinMaxType1Code"
+          },
+          "FeeCapOccurrence": {
+            "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
+            "type": "integer",
+            "format": "int32"
+          },
+          "FeeCapAmount": {
+            "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
+            "type": "integer",
+            "format": "int32"
+          },
+          "CappingPeriod": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Free text for adding  extra details for fee charge cap"
+          },
+          "OtherFeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OtherCodeType1"
+            },
+            "type": "array",
+            "description": "Other fee type code which is not available in the standard code set"
+          }
+        },
+        "required": [
+          "FeeType",
+          "MinMaxType"
+        ],
+        "additionalProperties": false
+      },
+      "OB_LoanInterestFeesChargeDetail1": {
+        "description": "Other fees/charges details",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "$ref": "#/components/schemas/OB_FeeType1Code"
+          },
+          "NegotiableIndicator": {
+            "description": "Fee/charge which is usually negotiable rather than a fixed amount",
+            "type": "boolean"
+          },
+          "FeeAmount": {
+            "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRate": {
+            "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRateType": {
+            "$ref": "#/components/schemas/OB_InterestRateType1Code"
+          },
+          "ApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "CalculationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the fee/charge details."
+          },
+          "OtherFeeType": {
+            "$ref": "#/components/schemas/OB_OtherFeeChargeDetailType"
+          },
+          "OtherFeeRateType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherCalculationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          }
+        },
+        "required": [
+          "FeeType",
+          "ApplicationFrequency",
+          "CalculationFrequency"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_LoanInterestFeesCharges1": {
+        "description": "Contains details of fees and charges which are not associated with either LoanRepayment or features/benefits",
+        "type": "object",
+        "properties": {
+          "LoanInterestFeeChargeDetail": {
+            "items": {
+              "$ref": "#/components/schemas/OB_LoanInterestFeesChargeDetail1"
+            },
+            "type": "array",
+            "description": "Other fees/charges details",
+            "minItems": 1
+          },
+          "LoanInterestFeeChargeCap": {
+            "items": {
+              "$ref": "#/components/schemas/OB_LoanInterestFeesChargeCap1"
+            },
+            "type": "array",
+            "description": "Details about any caps (minimum/maximum charges) that apply to a particular fee/charge"
+          }
+        },
+        "required": [
+          "LoanInterestFeeChargeDetail"
+        ],
+        "additionalProperties": false
+      },
+      "OB_LoanInterestTierBand1": {
+        "description": "Tier Band Details",
+        "type": "object",
+        "properties": {
+          "Identification": {
+            "description": "Unique and unambiguous identification of a  Tier Band for a SME Loan.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "TierValueMinimum": {
+            "description": "Minimum loan value for which the loan interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "TierValueMaximum": {
+            "description": "Minimum loan value for which the loan interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "TierValueMinTerm": {
+            "description": "Minimum loan value for which the loan interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "MinTermPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "TierValueMaxTerm": {
+            "description": "Minimum loan value for which the loan interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "MaxTermPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "FixedVariableInterestRateType": {
+            "$ref": "#/components/schemas/OB_InterestFixedVariableType1Code"
+          },
+          "RepAPR": {
+            "description": "Minimum loan value for which the loan interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "LoanProviderInterestRateType": {
+            "$ref": "#/components/schemas/OB_InterestRateType1Code"
+          },
+          "LoanProviderInterestRate": {
+            "description": "Minimum loan value for which the loan interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Tier Band details"
+          },
+          "OtherLoanProviderInterestRateType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "LoanInterestFeesCharges": {
+            "items": {
+              "$ref": "#/components/schemas/OB_LoanInterestFeesCharges1"
+            },
+            "type": "array",
+            "description": "Contains details of fees and charges which are not associated with either LoanRepayment or features/benefits"
+          }
+        },
+        "required": [
+          "TierValueMinimum",
+          "TierValueMinTerm",
+          "MinTermPeriod",
+          "FixedVariableInterestRateType",
+          "RepAPR"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_LoanInterestTierBandSet1": {
+        "description": "The group of tiers or bands for which debit interest can be applied.",
+        "type": "object",
+        "properties": {
+          "TierBandMethod": {
+            "$ref": "#/components/schemas/OB_TierBandType1Code"
+          },
+          "Identification": {
+            "description": "Loan interest tierbandset identification. Used by  loan providers for internal use purpose.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "CalculationMethod": {
+            "$ref": "#/components/schemas/OB_InterestCalculationMethod1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Tier Band Set details"
+          },
+          "OtherCalculationMethod": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "LoanInterestTierBand": {
+            "items": {
+              "$ref": "#/components/schemas/OB_LoanInterestTierBand1"
+            },
+            "type": "array",
+            "description": "Tier Band Details",
+            "minItems": 1
+          },
+          "LoanInterestFeesCharges": {
+            "items": {
+              "$ref": "#/components/schemas/OB_LoanInterestFeesCharges1"
+            },
+            "type": "array",
+            "description": "Contains details of fees and charges which are not associated with either LoanRepayment or features/benefits"
+          }
+        },
+        "required": [
+          "TierBandMethod",
+          "CalculationMethod",
+          "LoanInterestTierBand"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_MinMaxType1Code": {
+        "description": "Min Max type",
+        "type": "string",
+        "enum": [
+          "FMMN",
+          "FMMX"
+        ]
+      },
+      "OB_OtherCodeType1": {
+        "description": "Other fee type code which is not available in the standard code set",
+        "type": "object",
+        "properties": {
+          "Code": {
+            "description": "The four letter Mnemonic used within an XML file to identify a code",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4,
+            "pattern": "^\\\\w{0,4}$"
+          },
+          "Name": {
+            "description": "Long name associated with the code",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70
+          },
+          "Description": {
+            "description": "Description to describe the purpose of the code",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350
+          }
+        },
+        "required": [
+          "Name",
+          "Description"
+        ],
+        "additionalProperties": false
+      },
+      "OB_OtherFeeChargeDetailType": {
+        "description": "Other Fee/charge type which is not available in the standard code set",
+        "type": "object",
+        "properties": {
+          "Code": {
+            "description": "The four letter Mnemonic used within an XML file to identify a code",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4,
+            "pattern": "^\\\\w{0,4}$"
+          },
+          "FeeCategory": {
+            "$ref": "#/components/schemas/OB_FeeCategory1Code"
+          },
+          "Name": {
+            "description": "Long name associated with the code",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70
+          },
+          "Description": {
+            "description": "Description to describe the purpose of the code",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350
+          }
+        },
+        "required": [
+          "FeeCategory",
+          "Name",
+          "Description"
+        ],
+        "additionalProperties": false
+      },
+      "OB_OtherFeesAndCharges1": {
+        "description": "Contains details of fees and charges which are not associated with either Overdraft or features/benefits",
+        "type": "object",
+        "properties": {
+          "TariffType": {
+            "$ref": "#/components/schemas/OB_TariffType1Code"
+          },
+          "TariffName": {
+            "description": "Name of the tariff",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350
+          },
+          "OtherTariffType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "FeeChargeDetail": {
+            "items": {
+              "$ref": "#/components/schemas/OB_FeeChargeDetail1"
+            },
+            "type": "array",
+            "description": "Other fees/charges details",
+            "minItems": 1
+          },
+          "FeeChargeCap": {
+            "items": {
+              "$ref": "#/components/schemas/OB_FeeChargeCap1"
+            },
+            "type": "array",
+            "description": "Details about any caps (maximum charges) that apply to a particular or group of fee/charge"
+          }
+        },
+        "required": [
+          "FeeChargeDetail"
+        ],
+        "additionalProperties": false
+      },
+      "OB_OtherProductDetails1": {
+        "type": "object",
+        "properties": {
+          "Segment": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OtherProductSegment1Code"
+            },
+            "type": "array",
+            "description": "Market segmentation is a marketing term referring to the aggregating of prospective buyers into groups, or segments, that have common needs and respond similarly to a marketing action. Market segmentation enables companies to target different categories of consumers who perceive the full value of certain products and services differently from one another.\nRead more: Market Segmentation http://www.investopedia.com/terms/m/marketsegmentation.asp#ixzz4gfEEalTd "
+          },
+          "FeeFreeLength": {
+            "description": "The length/duration of the fee free period",
+            "type": "integer",
+            "format": "int32"
+          },
+          "FeeFreeLengthPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "MonthlyMaximumCharge": {
+            "description": "The length/duration of the fee free period",
+            "type": "integer",
+            "format": "int32"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Core product details"
+          },
+          "OtherSegment": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OB_OtherProductSegment1Code": {
+        "description": "Market segmentation is a marketing term referring to the aggregating of prospective buyers into groups, or segments, that have common needs and respond similarly to a marketing action. Market segmentation enables companies to target different categories of consumers who perceive the full value of certain products and services differently from one another.\nRead more: Market Segmentation http://www.investopedia.com/terms/m/marketsegmentation.asp#ixzz4gfEEalTd ",
+        "type": "string",
+        "enum": [
+          "GEAS",
+          "GEBA",
+          "GEBR",
+          "GEBU",
+          "GECI",
+          "GECS",
+          "GEFB",
+          "GEFG",
+          "GEG",
+          "GEGR",
+          "GEGS",
+          "GEOT",
+          "GEOV",
+          "GEPA",
+          "GEPR",
+          "GERE",
+          "GEST",
+          "GEYA",
+          "GEYO",
+          "PSCA",
+          "PSES",
+          "PSNC",
+          "PSNP",
+          "PSRG",
+          "PSSS",
+          "PSST",
+          "PSSW"
+        ]
+      },
+      "OB_OtherProductType1": {
+        "description": "Other product type details associated with the account.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Long name associated with the product",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350
+          },
+          "Description": {
+            "description": "Description of the Product associated with the account",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350
+          },
+          "ProductDetails": {
+            "$ref": "#/components/schemas/OB_OtherProductDetails1"
+          },
+          "CreditInterest": {
+            "$ref": "#/components/schemas/OB_CreditInterest1"
+          },
+          "Overdraft": {
+            "$ref": "#/components/schemas/OB_Overdraft1"
+          },
+          "LoanInterest": {
+            "$ref": "#/components/schemas/OB_LoanInterest1"
+          },
+          "Repayment": {
+            "$ref": "#/components/schemas/OB_Repayment1"
+          },
+          "OtherFeesCharges": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OtherFeesAndCharges1"
+            },
+            "type": "array",
+            "description": "Contains details of fees and charges which are not associated with either Overdraft or features/benefits"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
+          }
+        },
+        "required": [
+          "Name",
+          "Description"
+        ],
+        "additionalProperties": false
+      },
+      "OB_Overdraft1": {
+        "description": "Borrowing details",
+        "type": "object",
+        "properties": {
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Associated Notes about the overdraft rates"
+          },
+          "OverdraftTierBandSet": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftTierbandSet1"
+            },
+            "type": "array",
+            "description": "Tier band set details",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "OverdraftTierBandSet"
+        ],
+        "additionalProperties": false
+      },
+      "OB_OverdraftFeeChargeCap1": {
+        "description": "Details about any caps (maximum charges) that apply to a particular fee/charge. Capping can either be based on an amount (in gbp), an amount (in items) or a rate.",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftFeeType1Code"
+            },
+            "type": "array",
+            "description": "Fee/charge type which is being capped",
+            "minItems": 1
+          },
+          "MinMaxType": {
+            "$ref": "#/components/schemas/OB_MinMaxType1Code"
+          },
+          "FeeCapOccurrence": {
+            "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it�s part of a government scheme, or whether the rate may vary dependent on the applicant�s circumstances.",
+            "type": "integer",
+            "format": "int32"
+          },
+          "FeeCapAmount": {
+            "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it�s part of a government scheme, or whether the rate may vary dependent on the applicant�s circumstances.",
+            "type": "integer",
+            "format": "int32"
+          },
+          "CappingPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Notes related to Overdraft fee charge cap"
+          },
+          "OtherFeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OtherCodeType1"
+            },
+            "type": "array",
+            "description": "Other fee type code which is not available in the standard code set"
+          }
+        },
+        "required": [
+          "FeeType",
+          "MinMaxType"
+        ],
+        "additionalProperties": false
+      },
+      "OB_OverdraftFeeType1Code": {
+        "description": "Fee/charge type which is being capped",
+        "type": "string",
+        "enum": [
+          "FBAO",
+          "FBAR",
+          "FBEB",
+          "FBIT",
+          "FBOR",
+          "FBOS",
+          "FBSC",
+          "FBTO",
+          "FBUB",
+          "FBUT",
+          "FTOT",
+          "FTUT"
+        ]
+      },
+      "OB_OverdraftFeesChargeDetails1": {
+        "description": "Details about the fees/charges",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "$ref": "#/components/schemas/OB_OverdraftFeeType1Code"
+          },
+          "NegotiableIndicator": {
+            "description": "Indicates whether fee and charges are negotiable",
+            "type": "boolean"
+          },
+          "OverdraftControlIndicator": {
+            "description": "Indicates if the fee/charge is already covered by an 'Overdraft Control' fee or not.",
+            "type": "boolean"
+          },
+          "IncrementalBorrowingAmount": {
+            "description": "Every additional tranche of an overdraft balance to which an overdraft fee is applied",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeAmount": {
+            "description": "Every additional tranche of an overdraft balance to which an overdraft fee is applied",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRate": {
+            "description": "Every additional tranche of an overdraft balance to which an overdraft fee is applied",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRateType": {
+            "$ref": "#/components/schemas/OB_InterestRateType1Code"
+          },
+          "ApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "CalculationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Free text for capturing any other info related to Overdraft Fees Charge Details"
+          },
+          "OverdraftFeeChargeCap": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftFeeChargeCap1"
+            },
+            "type": "array",
+            "description": "Details about any caps (maximum charges) that apply to a particular fee/charge. Capping can either be based on an amount (in gbp), an amount (in items) or a rate."
+          },
+          "OtherFeeType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherFeeRateType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherCalculationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          }
+        },
+        "required": [
+          "FeeType",
+          "ApplicationFrequency"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_OverdraftFeesCharges1": {
+        "description": "Overdraft fees and charges details",
+        "type": "object",
+        "properties": {
+          "OverdraftFeeChargeCap": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftFeeChargeCap1"
+            },
+            "type": "array",
+            "description": "Details about any caps (maximum charges) that apply to a particular fee/charge. Capping can either be based on an amount (in gbp), an amount (in items) or a rate."
+          },
+          "OverdraftFeeChargeDetail": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftFeesChargeDetails1"
+            },
+            "type": "array",
+            "description": "Details about the fees/charges",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "OverdraftFeeChargeDetail"
+        ],
+        "additionalProperties": false
+      },
+      "OB_OverdraftTierBand1": {
+        "description": "Provides overdraft details for a specific tier or band",
+        "type": "object",
+        "properties": {
+          "Identification": {
+            "description": "Unique and unambiguous identification of a  Tier Band for a overdraft.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "TierValueMin": {
+            "description": "Minimum value of Overdraft Tier/Band",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "TierValueMax": {
+            "description": "Minimum value of Overdraft Tier/Band",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "EAR": {
+            "description": "Minimum value of Overdraft Tier/Band",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "AgreementLengthMin": {
+            "description": "Minimum value of Overdraft Tier/Band",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "AgreementLengthMax": {
+            "description": "Minimum value of Overdraft Tier/Band",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "AgreementPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "OverdraftInterestChargingCoverage": {
+            "$ref": "#/components/schemas/OB_TierBandType1Code"
+          },
+          "BankGuaranteedIndicator": {
+            "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it�s part of a government scheme, or whether the rate may vary dependent on the applicant�s circumstances.",
+            "type": "boolean"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Tier/band details"
+          },
+          "OverdraftFeesCharges": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftFeesCharges1"
+            },
+            "type": "array",
+            "description": "Overdraft fees and charges"
+          }
+        },
+        "required": [
+          "TierValueMin"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_OverdraftTierbandSet1": {
+        "description": "Tier band set details",
+        "type": "object",
+        "properties": {
+          "TierBandMethod": {
+            "$ref": "#/components/schemas/OB_TierBandType1Code"
+          },
+          "OverdraftType": {
+            "$ref": "#/components/schemas/OB_OverdraftType1Code"
+          },
+          "Identification": {
+            "description": "Unique and unambiguous identification of a  Tier Band for a overdraft product.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "AuthorisedIndicator": {
+            "description": "Indicates if the Overdraft is authorised (Y) or unauthorised (N)",
+            "type": "boolean"
+          },
+          "BufferAmount": {
+            "description": "When a customer exceeds their credit limit, a financial institution will not charge the customer unauthorised overdraft charges if they do not exceed by more than the buffer amount. Note: Authorised overdraft charges may still apply.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the overdraft Tier Band Set details"
+          },
+          "OverdraftTierBand": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftTierBand1"
+            },
+            "type": "array",
+            "description": "Provides overdraft details for a specific tier or band",
+            "minItems": 1
+          },
+          "OverdraftFeesCharges": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OverdraftFeesCharges1"
+            },
+            "type": "array",
+            "description": "Overdraft fees and charges details"
+          }
+        },
+        "required": [
+          "TierBandMethod",
+          "OverdraftTierBand"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_OverdraftType1Code": {
+        "description": "An overdraft can either be 'committed' which means that the facility cannot be withdrawn without reasonable notification before it's agreed end date, or 'on demand' which means that the financial institution can demand repayment at any point in time.",
+        "type": "string",
+        "enum": [
+          "OVCO",
+          "OVOD",
+          "OVOT"
+        ]
+      },
+      "OB_Period1Code": {
+        "description": "Period e.g. day, week, month etc. for which the fee/charge is capped",
+        "type": "string",
+        "enum": [
+          "PACT",
+          "PDAY",
+          "PHYR",
+          "PMTH",
+          "PQTR",
+          "PWEK",
+          "PYER"
+        ]
+      },
+      "OB_Repayment1": {
+        "description": "Repayment details of the Loan product",
+        "type": "object",
+        "properties": {
+          "RepaymentType": {
+            "$ref": "#/components/schemas/OB_RepaymentType1Code"
+          },
+          "RepaymentFrequency": {
+            "$ref": "#/components/schemas/OB_RepaymentFrequency1Code"
+          },
+          "AmountType": {
+            "$ref": "#/components/schemas/OB_RepaymentAmountType1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Repayment"
+          },
+          "OtherRepaymentType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherRepaymentFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherAmountType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "RepaymentFeeCharges": {
+            "$ref": "#/components/schemas/OB_RepaymentFeeCharges1"
+          },
+          "RepaymentHoliday": {
+            "items": {
+              "$ref": "#/components/schemas/OB_RepaymentHoliday1"
+            },
+            "type": "array",
+            "description": "Details of capital repayment holiday if any"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OB_RepaymentAmountType1Code": {
+        "description": "The repayment is for paying just the interest only or both interest and capital or bullet amount or balance to date etc",
+        "type": "string",
+        "enum": [
+          "RABD",
+          "RABL",
+          "RACI",
+          "RAFC",
+          "RAIO",
+          "RALT",
+          "USOT"
+        ]
+      },
+      "OB_RepaymentFeeChargeCap1": {
+        "description": "RepaymentFeeChargeCap sets daily, weekly, monthly, yearly limits on the fees that are charged",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_FeeType1Code"
+            },
+            "type": "array",
+            "description": "Fee/charge type which is being capped",
+            "minItems": 1
+          },
+          "MinMaxType": {
+            "$ref": "#/components/schemas/OB_MinMaxType1Code"
+          },
+          "FeeCapOccurrence": {
+            "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
+            "type": "integer",
+            "format": "int32"
+          },
+          "FeeCapAmount": {
+            "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
+            "type": "integer",
+            "format": "int32"
+          },
+          "CappingPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Free text for adding  extra details for fee charge cap"
+          },
+          "OtherFeeType": {
+            "items": {
+              "$ref": "#/components/schemas/OB_OtherCodeType1"
+            },
+            "type": "array",
+            "description": "Other fee type code which is not available in the standard code set"
+          }
+        },
+        "required": [
+          "FeeType",
+          "MinMaxType"
+        ],
+        "additionalProperties": false
+      },
+      "OB_RepaymentFeeChargeDetail1": {
+        "description": "Details about specific fees/charges that are applied for repayment",
+        "type": "object",
+        "properties": {
+          "FeeType": {
+            "$ref": "#/components/schemas/OB_FeeType1Code"
+          },
+          "NegotiableIndicator": {
+            "description": "Fee/charge which is usually negotiable rather than a fixed amount",
+            "type": "boolean"
+          },
+          "FeeAmount": {
+            "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRate": {
+            "description": "Fee Amount charged for a fee/charge (where it is charged in terms of an amount rather than a rate)",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "FeeRateType": {
+            "$ref": "#/components/schemas/OB_InterestRateType1Code"
+          },
+          "ApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "CalculationFrequency": {
+            "$ref": "#/components/schemas/OB_FeeFrequency1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the fee/charge details."
+          },
+          "OtherFeeType": {
+            "$ref": "#/components/schemas/OB_OtherFeeChargeDetailType"
+          },
+          "OtherFeeRateType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherCalculationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          }
+        },
+        "required": [
+          "FeeType",
+          "ApplicationFrequency",
+          "CalculationFrequency"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_RepaymentFeeCharges1": {
+        "description": "Applicable fee/charges for repayment such as prepayment, full early repayment or non repayment.",
+        "type": "object",
+        "properties": {
+          "RepaymentFeeChargeDetail": {
+            "items": {
+              "$ref": "#/components/schemas/OB_RepaymentFeeChargeDetail1"
+            },
+            "type": "array",
+            "description": "Details about specific fees/charges that are applied for repayment",
+            "minItems": 1
+          },
+          "RepaymentFeeChargeCap": {
+            "items": {
+              "$ref": "#/components/schemas/OB_RepaymentFeeChargeCap1"
+            },
+            "type": "array",
+            "description": "RepaymentFeeChargeCap sets daily, weekly, monthly, yearly limits on the fees that are charged"
+          }
+        },
+        "required": [
+          "RepaymentFeeChargeDetail"
+        ],
+        "additionalProperties": false
+      },
+      "OB_RepaymentFrequency1Code": {
+        "description": "Repayment frequency",
+        "type": "string",
+        "enum": [
+          "SMDA",
+          "SMFL",
+          "SMFO",
+          "SMHY",
+          "SMMO",
+          "SMOT",
+          "SMQU",
+          "SMWE",
+          "SMYE"
+        ]
+      },
+      "OB_RepaymentHoliday1": {
+        "description": "Details of capital repayment holiday if any",
+        "type": "object",
+        "properties": {
+          "MaxHolidayLength": {
+            "description": "The maximum length/duration of a Repayment Holiday",
+            "type": "integer",
+            "format": "int32"
+          },
+          "MaxHolidayPeriod": {
+            "$ref": "#/components/schemas/OB_Period1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Free text for adding details for repayment holiday"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OB_RepaymentType1Code": {
+        "description": "Repayment type",
+        "type": "string",
+        "enum": [
+          "USBA",
+          "USBU",
+          "USCI",
+          "USCS",
+          "USER",
+          "USFA",
+          "USFB",
+          "USFI",
+          "USIO",
+          "USOT",
+          "USPF",
+          "USRW",
+          "USSL"
+        ]
+      },
+      "OB_TariffType1Code": {
+        "description": "TariffType which defines the fee and charges.",
+        "type": "string",
+        "enum": [
+          "TTEL",
+          "TTMX",
+          "TTOT"
+        ]
+      },
+      "OB_TierBand1": {
+        "description": "Tier Band Details",
+        "type": "object",
+        "properties": {
+          "Identification": {
+            "description": "Unique and unambiguous identification of a  Tier Band for the Product.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "TierValueMinimum": {
+            "description": "Minimum deposit value for which the credit interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "TierValueMaximum": {
+            "description": "Minimum deposit value for which the credit interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "CalculationFrequency": {
+            "$ref": "#/components/schemas/OB_Frequency1Code"
+          },
+          "ApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_Frequency1Code"
+          },
+          "DepositInterestAppliedCoverage": {
+            "$ref": "#/components/schemas/OB_TierBandType1Code"
+          },
+          "FixedVariableInterestRateType": {
+            "$ref": "#/components/schemas/OB_InterestFixedVariableType1Code"
+          },
+          "AER": {
+            "description": "Minimum deposit value for which the credit interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "BankInterestRateType": {
+            "$ref": "#/components/schemas/OB_InterestRateType1Code"
+          },
+          "BankInterestRate": {
+            "description": "Minimum deposit value for which the credit interest tier applies.",
+            "type": "number",
+            "pattern": "^(-?\\\\d{1,14}){1}(\\\\.\\\\d{1,4}){0,1}$"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Tier Band details"
+          },
+          "OtherBankInterestType": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherApplicationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherCalculationFrequency": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          }
+        },
+        "required": [
+          "TierValueMinimum",
+          "ApplicationFrequency",
+          "FixedVariableInterestRateType",
+          "AER"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_TierBandSet1": {
+        "description": "The group of tiers or bands for which credit interest can be applied.",
+        "type": "object",
+        "properties": {
+          "TierBandMethod": {
+            "$ref": "#/components/schemas/OB_TierBandType1Code"
+          },
+          "CalculationMethod": {
+            "$ref": "#/components/schemas/OB_InterestCalculationMethod1Code"
+          },
+          "Destination": {
+            "$ref": "#/components/schemas/OB_InterestDestination1Code"
+          },
+          "Notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            "type": "array",
+            "description": "Optional additional notes to supplement the Tier Band Set details"
+          },
+          "OtherCalculationMethod": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "OtherDestination": {
+            "$ref": "#/components/schemas/OB_OtherCodeType1"
+          },
+          "TierBand": {
+            "items": {
+              "$ref": "#/components/schemas/OB_TierBand1"
+            },
+            "type": "array",
+            "description": "Tier Band Details",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "TierBandMethod",
+          "Destination",
+          "TierBand"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OB_TierBandType1Code": {
+        "description": "The methodology of how credit interest is charged. It can be:-\n1. Banded\nInterest rates are banded. i.e. Increasing rate on whole balance as balance increases.\n2. Tiered\nInterest rates are tiered. i.e. increasing rate for each tier as balance increases, but interest paid on tier fixed for that tier and not on whole balance.\n3. Whole\nThe same interest rate is applied irrespective of the SME Loan balance",
+        "type": "string",
+        "enum": [
+          "INBA",
+          "INTI",
+          "INWH"
+        ]
       },
       "OBError1": {
         "type": "object",
