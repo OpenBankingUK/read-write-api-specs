@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Aggregated Event Polling API Specification
-  description: OpenAPI for Aggregated Event Polling API Specification
+  title: Event Subscription API Specification - ASPSP Endpoints
+  description: OpenAPI for Event Subscription API Specification - ASPSP Endpoints
   termsOfService: 'https://www.openbanking.org.uk/terms'
   contact:
     name: Service Desk
@@ -11,21 +11,22 @@ info:
     url: 'https://www.openbanking.org.uk/open-licence'
   version: v4.0-draft7
 paths:
-  /events:
+  /event-subscriptions:
     post:
       tags:
-        - Events
-      summary: Create Events
-      operationId: CreateEvents
+        - Event Subscriptions
+      summary: Create Event Subscription
+      operationId: CreateEventSubscriptions
       parameters:
         - $ref: '#/components/parameters/x-fapi-financial-id'
         - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-jws-signature'
       responses:
         '201':
-          $ref: '#/components/responses/201EventsCreated'
+          $ref: '#/components/responses/201EventSubscriptionsCreated'
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -44,11 +45,133 @@ paths:
           $ref: '#/components/responses/500Error'
       security:
         - TPPOAuth2Security:
-            - eventpolling
+            - accounts
+            - payments
+            - fundsconfirmations
       requestBody:
-        $ref: '#/components/requestBodies/OBEventPolling1Param'
+        $ref: '#/components/requestBodies/OBEventSubscription1Param'
+    get:
+      tags:
+        - Event Subscriptions
+      summary: Get Event Subscription
+      operationId: GetEventSubscriptions
+      parameters:
+        - $ref: '#/components/parameters/x-fapi-financial-id'
+        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '200':
+          $ref: '#/components/responses/200EventSubscriptionsRead'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '405':
+          $ref: '#/components/responses/405Error'
+        '406':
+          $ref: '#/components/responses/406Error'
+        '429':
+          $ref: '#/components/responses/429Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
+  '/event-subscriptions/{EventSubscriptionId}':
+    put:
+      tags:
+        - Event Subscriptions
+      summary: Change Event Subscription
+      operationId: ChangeEventSubscriptionsEventSubscriptionId
+      parameters:
+        - $ref: '#/components/parameters/EventSubscriptionId'
+        - $ref: '#/components/parameters/x-fapi-financial-id'
+        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-jws-signature'
+      responses:
+        '200':
+          $ref: >-
+            #/components/responses/200EventSubscriptionsEventSubscriptionIdChanged
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '405':
+          $ref: '#/components/responses/405Error'
+        '406':
+          $ref: '#/components/responses/406Error'
+        '429':
+          $ref: '#/components/responses/429Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
+      requestBody:
+        $ref: '#/components/requestBodies/OBEventSubscriptionResponse1Param'
+    delete:
+      tags:
+        - Event Subscriptions
+      summary: Delete Event Subscription
+      operationId: DeleteEventSubscriptionsEventSubscriptionId
+      parameters:
+        - $ref: '#/components/parameters/EventSubscriptionId'
+        - $ref: '#/components/parameters/x-fapi-financial-id'
+        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/components/parameters/x-fapi-interaction-id'
+        - $ref: '#/components/parameters/Authorization'
+      responses:
+        '204':
+          $ref: >-
+            #/components/responses/204EventSubscriptionsEventSubscriptionIdDeleted
+        '400':
+          $ref: '#/components/responses/400Error'
+        '401':
+          $ref: '#/components/responses/401Error'
+        '403':
+          $ref: '#/components/responses/403Error'
+        '404':
+          $ref: '#/components/responses/404Error'
+        '405':
+          $ref: '#/components/responses/405Error'
+        '406':
+          $ref: '#/components/responses/406Error'
+        '429':
+          $ref: '#/components/responses/429Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
 components:
   parameters:
+    EventSubscriptionId:
+      name: EventSubscriptionId
+      in: path
+      description: EventSubscriptionId
+      required: true
+      schema:
+        type: string
     Authorization:
       in: header
       name: Authorization
@@ -122,25 +245,79 @@ components:
       schema:
         type: string
   requestBodies:
-    OBEventPolling1Param:
+    OBEventSubscription1Param:
       description: Default
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBEventPolling1'
+            $ref: '#/components/schemas/OBEventSubscription1'
+      required: true
+    OBEventSubscriptionResponse1Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBEventSubscriptionResponse1'
       required: true
   responses:
-    201EventsCreated:
-      description: Events Created
+    201EventSubscriptionsCreated:
+      description: Event Subscription Created
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/OBEventPollingResponse1'
+            $ref: '#/components/schemas/OBEventSubscriptionResponse1'
+    200EventSubscriptionsRead:
+      description: Event Subscription Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBEventSubscriptionsResponse1'
+    200EventSubscriptionsEventSubscriptionIdChanged:
+      description: Event Subscription Changed
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBEventSubscriptionResponse1'
+    204EventSubscriptionsEventSubscriptionIdDeleted:
+      description: Event Subscription Deleted
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     400Error:
       description: Bad request
       headers:
@@ -362,75 +539,112 @@ components:
         - Message
         - Errors
       additionalProperties: false
-    OBEventPolling1:
-      type: object
-      properties:
-        maxEvents:
-          description: >-
-            Maximum number of events to be returned. A value of zero indicates
-            the ASPSP should not return events even if available
-          type: integer
-        returnImmediately:
-          description: >-
-            Indicates whether an ASPSP should return a response immediately or
-            provide a long poll
-          type: boolean
-        ack:
-          type: array
-          items:
-            description: "An array of jti\_values indicating event notifications positively acknowledged by the TPP"
-            type: string
-            minLength: 1
-            maxLength: 128
-        setErrs:
-          type: object
-          description: >-
-            An object that encapsulates all negative acknowledgements
-            transmitted by the TPP
-          properties: {}
-          additionalProperties:
-            type: object
-            required:
-              - err
-              - description
-            properties:
-              err:
-                description: >-
-                  A value from the IANA "Security Event Token Delivery Error
-                  Codes" registry that identifies the error as defined here 
-
-                  https://tools.ietf.org/id/draft-ietf-secevent-http-push-03.html#error_codes
-                type: string
-                minLength: 1
-                maxLength: 40
-              description:
-                description: >-
-                  A human-readable string that provides additional diagnostic
-                  information
-                type: string
-                minLength: 1
-                maxLength: 256
-    OBEventPollingResponse1:
+    OBEventSubscription1:
       type: object
       required:
-        - moreAvailable
-        - sets
+        - Data
       properties:
-        moreAvailable:
-          description: >-
-            A JSON boolean value that indicates if more unacknowledged event
-            notifications are available to be returned.
-          type: boolean
-        sets:
+        Data:
           type: object
-          description: >-
-            A JSON object that contains zero or more nested JSON attributes. If
-            there are no outstanding event notifications to be transmitted, the
-            JSON object SHALL be empty.
-          properties: {}
-          additionalProperties:
-            description: "An object named with the jti\_of the\_event notification to be delivered. The value is the event notification, expressed as a\_string.\nThe payload of the event should be defined in the OBEventNotification2\_format."
-            type: string
+          required:
+            - Version
+          properties:
+            CallbackUrl:
+              description: >-
+                Callback URL for a TPP hosted service. Will be used by ASPSPs,
+                in conjunction with the resource name, to construct a URL to
+                send event notifications to.
+              type: string
+              format: uri
+            Version:
+              $ref: '#/components/schemas/Version'
+            EventTypes:
+              type: array
+              items:
+                description: Array of event types the subscription applies to.
+                type: string
+    OBEventSubscriptionResponse1:
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          required:
+            - EventSubscriptionId
+            - Version
+          properties:
+            EventSubscriptionId:
+              description: >-
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the callback URL resource.
+              type: string
+              minLength: 1
+              maxLength: 40
+            CallbackUrl:
+              description: >-
+                Callback URL for a TPP hosted service. Will be used by ASPSPs,
+                in conjunction with the resource name, to construct a URL to
+                send event notifications to.
+              type: string
+              format: uri
+            Version:
+              $ref: '#/components/schemas/Version'
+            EventTypes:
+              type: array
+              items:
+                description: Array of event types the subscription applies to.
+                type: string
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+    OBEventSubscriptionsResponse1:
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          properties:
+            EventSubscription:
+              type: array
+              items:
+                type: object
+                required:
+                  - EventSubscriptionId
+                  - Version
+                properties:
+                  EventSubscriptionId:
+                    description: >-
+                      Unique identification as assigned by the ASPSP to uniquely
+                      identify the callback url resource.
+                    type: string
+                    minLength: 1
+                    maxLength: 40
+                  CallbackUrl:
+                    description: >-
+                      Callback URL for a TPP hosted service. Will be used by
+                      ASPSPs, in conjunction with the resource name, to
+                      construct a URL to send event notifications to.
+                    type: string
+                    format: uri
+                  Version:
+                    $ref: '#/components/schemas/Version'
+                  EventTypes:
+                    type: array
+                    items:
+                      description: Array of event types the subscription applies to.
+                      type: string
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+    Version:
+      description: Version for the event notification.
+      type: string
+      minLength: 1
+      maxLength: 10
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2
@@ -439,4 +653,6 @@ components:
         clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
-            eventpolling: 'Ability to poll for, acknowledge and receive Security Event Tokens'
+            accounts: Ability to read Accounts information
+            fundsconfirmations: Ability to confirm funds
+            payments: Generic payment scope
