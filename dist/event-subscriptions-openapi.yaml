@@ -18,8 +18,7 @@ paths:
       summary: Create Event Subscription
       operationId: CreateEventSubscriptions
       parameters:
-        - $ref: '#/components/parameters/x-fapi-financial-id'
-        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-auth-date'
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
@@ -56,8 +55,7 @@ paths:
       summary: Get Event Subscription
       operationId: GetEventSubscriptions
       parameters:
-        - $ref: '#/components/parameters/x-fapi-financial-id'
-        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-auth-date'
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
@@ -93,8 +91,7 @@ paths:
       operationId: ChangeEventSubscriptionsEventSubscriptionId
       parameters:
         - $ref: '#/components/parameters/EventSubscriptionId'
-        - $ref: '#/components/parameters/x-fapi-financial-id'
-        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-auth-date'
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
@@ -133,8 +130,7 @@ paths:
       operationId: DeleteEventSubscriptionsEventSubscriptionId
       parameters:
         - $ref: '#/components/parameters/EventSubscriptionId'
-        - $ref: '#/components/parameters/x-fapi-financial-id'
-        - $ref: '#/components/parameters/x-fapi-customer-last-logged-time'
+        - $ref: '#/components/parameters/x-fapi-auth-date'
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
@@ -193,9 +189,9 @@ components:
       description: The PSU's IP address if the PSU is currently logged in with the TPP.
       schema:
         type: string
-    x-fapi-customer-last-logged-time:
+    x-fapi-auth-date:
       in: header
-      name: x-fapi-customer-last-logged-time
+      name: x-fapi-auth-date
       required: false
       description: >-
         The time when the PSU last logged in with the TPP. 
@@ -210,15 +206,6 @@ components:
           ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
           (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
           \d{2}:\d{2}:\d{2} (GMT|UTC)$
-    x-fapi-financial-id:
-      in: header
-      name: x-fapi-financial-id
-      required: true
-      description: >-
-        The unique id of the ASPSP to which the request is issued. The unique id
-        will be issued by OB.
-      schema:
-        type: string
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
