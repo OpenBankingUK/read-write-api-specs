@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Event Notification API Specification - TPP Endpoints",
-    "description": "Swagger for Event Notification API Specification - TPP Endpoints",
+    "title": "Real Time Event Notification API",
+    "description": "Swagger for Real Time Event Notification API (TPP Endpoints)\n\nNote that the `EventNotification` is expected to be a signed JSON Web Token (JSON Web Signature) with the payload encoded as per `#/definitions/OBEventNotification2`\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -24,7 +24,7 @@
         "summary": "Send an event notification",
         "operationId": "CreateEventNotification",
         "consumes": [
-          "application/jwt"
+          "application/jose"
         ],
         "tags": [
           "Event Notification"
@@ -32,12 +32,11 @@
         "parameters": [
           {
             "in": "body",
-            "name": "OBEventNotification1Param",
-            "description": "Create an Callback URI",
+            "name": "EventNotification",
+            "description": "JSON Web Signature with payload encoded as per `#/definitions/OBEventNotification2`",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "base64"
+              "type": "string"
             }
           },
           {
@@ -54,19 +53,6 @@
           }
         }
       }
-    }
-  },
-  "securityDefinitions": {
-    "TPPOAuth2Security": {
-      "type": "oauth2",
-      "flow": "application",
-      "tokenUrl": "https://authserver.example/token",
-      "scopes": {
-        "accounts": "Ability to read Accounts information",
-        "fundsconfirmation": "Ability to confirm funds",
-        "payments": "Generic payment scope"
-      },
-      "description": "TPP client credential authorisation flow with the ASPSP"
     }
   }
 }

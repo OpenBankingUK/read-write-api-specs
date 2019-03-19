@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Event Notification API Specification - TPP Endpoints",
-    "description": "OpenAPI for Event Notification API Specification - TPP Endpoints",
+    "title": "Real Time Event Notification API",
+    "description": "OpenAPI for Real Time Event Notification API (TPP Endpoints)\n\nNote that the `EventNotification` is expected to be a signed JSON Web Token (JSON Web Signature) with the payload encoded as per `#/definitions/OBEventNotification2`\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -24,7 +24,7 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
           }
         ],
         "responses": {
@@ -33,14 +33,14 @@
           }
         },
         "requestBody": {
-          "$ref": "#/components/requestBodies/OBEventNotification1Param"
+          "$ref": "#/components/requestBodies/EventNotification"
         }
       }
     }
   },
   "components": {
     "parameters": {
-      "x-fapi-interaction-id-Param": {
+      "x-fapi-interaction-id": {
         "in": "header",
         "name": "x-fapi-interaction-id",
         "required": false,
@@ -51,13 +51,12 @@
       }
     },
     "requestBodies": {
-      "OBEventNotification1Param": {
-        "description": "Create an Callback URI",
+      "EventNotification": {
+        "description": "JSON Web Signature with payload encoded as per `#/components/schemas/OBEventNotification2`",
         "content": {
           "application/json": {
             "schema": {
-              "type": "string",
-              "format": "base64"
+              "type": "string"
             }
           }
         },
@@ -66,42 +65,7 @@
     },
     "responses": {},
     "schemas": {
-      "OBEvent1": {
-        "description": "Events.",
-        "type": "object",
-        "properties": {
-          "urn:uk:org:openbanking:events:resource-update": {
-            "$ref": "#/components/schemas/OBEventResourceUpdate1"
-          }
-        },
-        "required": [
-          "urn:uk:org:openbanking:events:resource-update"
-        ],
-        "additionalProperties": false
-      },
-      "OBEventLink1": {
-        "description": "Resource links to other available versions of the resource.",
-        "type": "object",
-        "properties": {
-          "version": {
-            "description": "Resource version.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 10
-          },
-          "link": {
-            "description": "Resource link.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "version",
-          "link"
-        ],
-        "additionalProperties": false,
-        "minProperties": 1
-      },
-      "OBEventNotification1": {
+      "OBEventNotification2": {
         "description": "The resource-update event.",
         "type": "object",
         "properties": {
@@ -145,7 +109,7 @@
             "minimum": 0
           },
           "events": {
-            "$ref": "#/components/schemas/OBEvent1"
+            "$ref": "#/components/schemas/OBEvent2"
           }
         },
         "required": [
@@ -160,74 +124,198 @@
         ],
         "additionalProperties": false
       },
-      "OBEventResourceUpdate1": {
-        "description": "Resource-Update Event.",
+      "OBEvent2": {
+        "description": "Events.",
         "type": "object",
         "properties": {
-          "subject": {
-            "$ref": "#/components/schemas/OBEventSubject1"
+          "urn:uk:org:openbanking:events:resource-update": {
+            "$ref": "#/components/schemas/OBEventResourceUpdate2"
+          },
+          "urn:uk:org:openbanking:events:account-access-consent-linked-account-update": {
+            "$ref": "#/components/schemas/OBExternalEventAccountAccessConsentLinkedAccountUpdateReason1Code"
+          },
+          "urn:uk:org:openbanking:events:consent-authorization-revoked": {
+            "$ref": "#/components/schemas/OBEventConsentAuthorizationRevoked1"
           }
         },
+        "additionalProperties": false
+      },
+      "OBEventResourceUpdate2": {
+        "description": "Resource-Update Event.",
+        "type": "object",
         "required": [
           "subject"
         ],
+        "properties": {
+          "subject": {
+            "type": "object",
+            "properties": {
+              "subject_type": {
+                "description": "Subject type for the updated resource. ",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rid": {
+                "description": "Resource Id for the updated resource.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rty": {
+                "description": "Resource Type for the updated resource.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rlk": {
+                "items": {
+                  "$ref": "#/components/schemas/OBEventLink1"
+                },
+                "type": "array",
+                "description": "Resource links to other available versions of the resource.",
+                "minItems": 1
+              }
+            },
+            "required": [
+              "subject_type",
+              "http://openbanking.org.uk/rid",
+              "http://openbanking.org.uk/rty",
+              "http://openbanking.org.uk/rlk"
+            ]
+          }
+        },
         "additionalProperties": false
       },
-      "OBEventSubject1": {
-        "description": "The resource-update event.",
+      "OBExternalEventAccountAccessConsentLinkedAccountUpdateReason1Code": {
+        "description": "An event that indicates an account linked to a consent has move in/out of scope of the consent.",
+        "type": "object",
+        "required": [
+          "subject"
+        ],
+        "properties": {
+          "reason": {
+            "description": "Reason for the Account Access Consent Linked Account Update event.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "subject": {
+            "type": "object",
+            "properties": {
+              "subject_type": {
+                "description": "Subject type for the updated resource. ",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rid": {
+                "description": "Resource Id for the updated resource.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rty": {
+                "description": "Resource Type for the updated resource.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rlk": {
+                "items": {
+                  "$ref": "#/components/schemas/OBEventLink1"
+                },
+                "type": "array",
+                "description": "Resource links to other available versions of the resource.",
+                "minItems": 1
+              }
+            },
+            "required": [
+              "subject_type",
+              "http://openbanking.org.uk/rid",
+              "http://openbanking.org.uk/rty",
+              "http://openbanking.org.uk/rlk"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "OBEventConsentAuthorizationRevoked1": {
+        "description": "An event that indicates a consent resource has had its authorisation revoked.",
+        "type": "object",
+        "required": [
+          "subject"
+        ],
+        "properties": {
+          "reason": {
+            "description": "Reason for the Consent Authorization Revoked event.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "subject": {
+            "type": "object",
+            "properties": {
+              "subject_type": {
+                "description": "Subject type for the updated resource. ",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rid": {
+                "description": "Resource Id for the updated resource.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rty": {
+                "description": "Resource Type for the updated resource.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "http://openbanking.org.uk/rlk": {
+                "items": {
+                  "$ref": "#/components/schemas/OBEventLink1"
+                },
+                "type": "array",
+                "description": "Resource links to other available versions of the resource.",
+                "minItems": 1
+              }
+            },
+            "required": [
+              "subject_type",
+              "http://openbanking.org.uk/rid",
+              "http://openbanking.org.uk/rty",
+              "http://openbanking.org.uk/rlk"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "OBEventLink1": {
+        "description": "Resource links to other available versions of the resource.",
         "type": "object",
         "properties": {
-          "subject_type": {
-            "description": "Subject type for the updated resource. ",
+          "version": {
+            "description": "Resource version.",
             "type": "string",
             "minLength": 1,
-            "maxLength": 128
+            "maxLength": 10
           },
-          "http://openbanking.org.uk/rid": {
-            "description": "Resource Id for the updated resource.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 128
-          },
-          "http://openbanking.org.uk/rty": {
-            "description": "Resource Type for the updated resource.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 128
-          },
-          "http://openbanking.org.uk/rlk": {
-            "items": {
-              "$ref": "#/components/schemas/OBEventLink1"
-            },
-            "type": "array",
-            "description": "Resource links to other available versions of the resource.",
-            "minItems": 1
+          "link": {
+            "description": "Resource link.",
+            "type": "string"
           }
         },
         "required": [
-          "subject_type",
-          "http://openbanking.org.uk/rid",
-          "http://openbanking.org.uk/rty",
-          "http://openbanking.org.uk/rlk"
+          "version",
+          "link"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "minProperties": 1
       }
     },
-    "securitySchemes": {
-      "TPPOAuth2Security": {
-        "type": "oauth2",
-        "description": "TPP client credential authorisation flow with the ASPSP",
-        "flows": {
-          "clientCredentials": {
-            "tokenUrl": "https://authserver.example/token",
-            "scopes": {
-              "accounts": "Ability to read Accounts information",
-              "fundsconfirmation": "Ability to confirm funds",
-              "payments": "Generic payment scope"
-            }
-          }
-        }
-      }
-    }
+    "securitySchemes": {}
   }
 }
