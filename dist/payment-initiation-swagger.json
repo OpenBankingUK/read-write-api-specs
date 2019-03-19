@@ -3680,12 +3680,6 @@
     }
   },
   "definitions": {
-    "AccountId": {
-      "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 40
-    },
     "ActiveOrHistoricCurrencyCode": {
       "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
       "type": "string",
@@ -3723,17 +3717,11 @@
       "type": "string",
       "format": "date-time"
     },
-    "Identification_0": {
+    "Identification": {
       "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
       "type": "string",
       "minLength": 1,
       "maxLength": 256
-    },
-    "Identification_1": {
-      "description": "Unique and unambiguous identification of the servicing institution.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 35
     },
     "Links": {
       "type": "object",
@@ -3783,12 +3771,6 @@
       },
       "additionalProperties": false
     },
-    "Name": {
-      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 70
-    },
     "OBActiveCurrencyAndAmount_SimpleType": {
       "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
       "type": "string",
@@ -3823,49 +3805,6 @@
         "Residential",
         "Statement"
       ]
-    },
-    "OBBranchAndFinancialInstitutionIdentification6": {
-      "type": "object",
-      "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
-      "properties": {
-        "SchemeName": {
-          "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
-        },
-        "Identification": {
-          "$ref": "#/definitions/Identification_1"
-        },
-        "Name": {
-          "description": "Name by which an agent is known and which is usually used to identify that agent.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 140
-        },
-        "PostalAddress": {
-          "$ref": "#/definitions/OBPostalAddress6"
-        }
-      }
-    },
-    "OBCashAccount5": {
-      "type": "object",
-      "required": [
-        "SchemeName",
-        "Identification"
-      ],
-      "description": "Provides the details to identify the beneficiary account.",
-      "properties": {
-        "SchemeName": {
-          "$ref": "#/definitions/OBExternalAccountIdentification4Code"
-        },
-        "Identification": {
-          "$ref": "#/definitions/Identification_0"
-        },
-        "Name": {
-          "$ref": "#/definitions/Name"
-        },
-        "SecondaryIdentification": {
-          "$ref": "#/definitions/SecondaryIdentification"
-        }
-      }
     },
     "OBChargeBearerType1Code": {
       "description": "Specifies which party/parties will bear the charges associated with the processing of the payment transaction.",
@@ -3985,13 +3924,6 @@
         "UK.OBIE.SortCodeAccountNumber"
       ]
     },
-    "OBExternalFinancialInstitutionIdentification4Code": {
-      "description": "Name of the identification scheme, in a coded form as published in an external list.",
-      "type": "string",
-      "x-namespaced-enum": [
-        "UK.OBIE.BICFI"
-      ]
-    },
     "OBExternalLocalInstrument1Code": {
       "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
       "type": "string",
@@ -4016,21 +3948,6 @@
       "x-namespaced-enum": [
         "UK.OBIE.CHAPSOut"
       ]
-    },
-    "OBPartyIdentification43": {
-      "type": "object",
-      "description": "Set of elements used to identify a person or an organisation.",
-      "properties": {
-        "Name": {
-          "description": "Name by which a party is known and which is usually used to identify that party.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 140
-        },
-        "PostalAddress": {
-          "$ref": "#/definitions/OBPostalAddress6"
-        }
-      }
     },
     "OBPostalAddress6": {
       "type": "object",
@@ -4073,24 +3990,6 @@
           },
           "minItems": 0,
           "maxItems": 7
-        }
-      }
-    },
-    "OBRemittanceInformation1": {
-      "type": "object",
-      "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system.",
-      "properties": {
-        "Unstructured": {
-          "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 140
-        },
-        "Reference": {
-          "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 35
         }
       }
     },
@@ -4178,627 +4077,6 @@
       "additionalProperties": true,
       "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
     },
-    "OBWriteAccount1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "properties": {
-            "Account": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-                "required": [
-                  "AccountId",
-                  "Currency",
-                  "AccountType",
-                  "AccountSubType"
-                ],
-                "properties": {
-                  "AccountId": {
-                    "$ref": "#/definitions/AccountId"
-                  },
-                  "Currency": {
-                    "description": "Identification of the currency in which the account is held. \nUsage: Currency should only be used in case one and the same account number covers several currencies\nand the initiating party needs to identify which currency needs to be used for settlement on the account.",
-                    "type": "string",
-                    "pattern": "^[A-Z]{3,3}$"
-                  },
-                  "AccountType": {
-                    "description": "Specifies the type of account (personal or business).",
-                    "type": "string",
-                    "enum": [
-                      "Business",
-                      "Personal"
-                    ]
-                  },
-                  "AccountSubType": {
-                    "description": "Specifies the sub type of account (product family group).",
-                    "type": "string",
-                    "enum": [
-                      "ChargeCard",
-                      "CreditCard",
-                      "CurrentAccount",
-                      "EMoney",
-                      "Loan",
-                      "Mortgage",
-                      "PrePaidCard",
-                      "Savings"
-                    ]
-                  },
-                  "Description": {
-                    "description": "Specifies the description of the account type.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
-                  },
-                  "Nickname": {
-                    "description": "The nickname of the account, assigned by the account owner in order to provide an additional means of identification of the account.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 70
-                  },
-                  "Account": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "Provides the details to identify an account.",
-                      "required": [
-                        "SchemeName",
-                        "Identification"
-                      ],
-                      "properties": {
-                        "SchemeName": {
-                          "$ref": "#/definitions/OBExternalAccountIdentification4Code"
-                        },
-                        "Identification": {
-                          "$ref": "#/definitions/Identification_0"
-                        },
-                        "Name": {
-                          "$ref": "#/definitions/Name"
-                        },
-                        "SecondaryIdentification": {
-                          "$ref": "#/definitions/SecondaryIdentification"
-                        }
-                      }
-                    }
-                  },
-                  "Servicer": {
-                    "type": "object",
-                    "required": [
-                      "SchemeName",
-                      "Identification"
-                    ],
-                    "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/definitions/Identification_1"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "OBWriteAccountReadConsent1": {
-      "type": "object",
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "Permissions"
-          ],
-          "properties": {
-            "Permissions": {
-              "type": "array",
-              "items": {
-                "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
-                "type": "string",
-                "enum": [
-                  "ReadAccountsBasic",
-                  "ReadAccountsDetail",
-                  "ReadBalances",
-                  "ReadBeneficiariesBasic",
-                  "ReadBeneficiariesDetail",
-                  "ReadPAN",
-                  "ReadParty",
-                  "ReadPartyPSU"
-                ]
-              },
-              "minItems": 1
-            },
-            "ExpirationDateTime": {
-              "description": "Specified date and time the permissions will expire.\nIf this is not populated, the permissions will be open ended.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        }
-      }
-    },
-    "OBWriteAccountReadConsentResponse1": {
-      "type": "object",
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "ConsentId",
-            "CreationDateTime",
-            "Status",
-            "StatusUpdateDateTime",
-            "Permissions"
-          ],
-          "properties": {
-            "ConsentId": {
-              "description": "Unique identification as assigned to identify the account access consent resource.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "CreationDateTime": {
-              "description": "Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            },
-            "Status": {
-              "description": "Specifies the status of consent resource in code form.",
-              "type": "string",
-              "enum": [
-                "Authorised",
-                "AwaitingAuthorisation",
-                "Rejected",
-                "Revoked"
-              ]
-            },
-            "StatusUpdateDateTime": {
-              "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            },
-            "Permissions": {
-              "type": "array",
-              "items": {
-                "description": "Specifies the Open Banking account access data types. This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP.",
-                "type": "string",
-                "enum": [
-                  "ReadAccountsBasic",
-                  "ReadAccountsDetail",
-                  "ReadBalances",
-                  "ReadBeneficiariesBasic",
-                  "ReadBeneficiariesDetail",
-                  "ReadPAN",
-                  "ReadParty",
-                  "ReadPartyPSU"
-                ]
-              },
-              "minItems": 1
-            },
-            "ExpirationDateTime": {
-              "description": "Specified date and time the permissions will expire.\nIf this is not populated, the permissions will be open ended.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        },
-        "Links": {
-          "$ref": "#/definitions/Links"
-        },
-        "Meta": {
-          "$ref": "#/definitions/Meta"
-        }
-      }
-    },
-    "OBWriteBalance1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "Balance"
-          ],
-          "properties": {
-            "Balance": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "description": "Set of elements used to define the balance details.",
-                "required": [
-                  "AccountId",
-                  "CreditDebitIndicator",
-                  "Type",
-                  "DateTime",
-                  "Amount"
-                ],
-                "properties": {
-                  "AccountId": {
-                    "$ref": "#/definitions/AccountId"
-                  },
-                  "CreditDebitIndicator": {
-                    "description": "Indicates whether the balance is a credit or a debit balance. \nUsage: A zero balance is considered to be a credit balance.",
-                    "type": "string",
-                    "enum": [
-                      "Credit",
-                      "Debit"
-                    ]
-                  },
-                  "Type": {
-                    "description": "Balance type, in a coded form.",
-                    "type": "string",
-                    "enum": [
-                      "ClosingAvailable",
-                      "ClosingBooked",
-                      "ClosingCleared",
-                      "Expected",
-                      "ForwardAvailable",
-                      "Information",
-                      "InterimAvailable",
-                      "InterimBooked",
-                      "InterimCleared",
-                      "OpeningAvailable",
-                      "OpeningBooked",
-                      "OpeningCleared",
-                      "PreviouslyClosedBooked"
-                    ]
-                  },
-                  "DateTime": {
-                    "description": "Indicates the date (and time) of the balance.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "Amount": {
-                    "type": "object",
-                    "required": [
-                      "Amount",
-                      "Currency"
-                    ],
-                    "description": "Amount of money of the cash balance.",
-                    "properties": {
-                      "Amount": {
-                        "$ref": "#/definitions/OBActiveCurrencyAndAmount_SimpleType"
-                      },
-                      "Currency": {
-                        "$ref": "#/definitions/ActiveOrHistoricCurrencyCode"
-                      }
-                    }
-                  },
-                  "CreditLine": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "Set of elements used to provide details on the credit line.",
-                      "required": [
-                        "Included"
-                      ],
-                      "properties": {
-                        "Included": {
-                          "description": "Indicates whether or not the credit line is included in the balance of the account.\nUsage: If not present, credit line is not included in the balance amount of the account.",
-                          "type": "boolean"
-                        },
-                        "Type": {
-                          "description": "Limit type, in a coded form.",
-                          "type": "string",
-                          "enum": [
-                            "Available",
-                            "Credit",
-                            "Emergency",
-                            "Pre-Agreed",
-                            "Temporary"
-                          ]
-                        },
-                        "Amount": {
-                          "type": "object",
-                          "required": [
-                            "Amount",
-                            "Currency"
-                          ],
-                          "description": "Amount of money of the credit line.",
-                          "properties": {
-                            "Amount": {
-                              "$ref": "#/definitions/OBActiveCurrencyAndAmount_SimpleType"
-                            },
-                            "Currency": {
-                              "$ref": "#/definitions/ActiveOrHistoricCurrencyCode"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "minItems": 1
-            }
-          }
-        }
-      }
-    },
-    "OBWriteBeneficiary1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "properties": {
-            "Beneficiary": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "required": [
-                  "BeneficiaryId",
-                  "CreditorAccount"
-                ],
-                "properties": {
-                  "BeneficiaryId": {
-                    "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the beneficiary resource",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 128
-                  },
-                  "RemittanceInformation": {
-                    "$ref": "#/definitions/OBRemittanceInformation1"
-                  },
-                  "Creditor": {
-                    "$ref": "#/definitions/OBPartyIdentification43"
-                  },
-                  "CreditorAgent": {
-                    "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
-                  },
-                  "CreditorAccount": {
-                    "$ref": "#/definitions/OBCashAccount5"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "OBWriteBeneficiaryConsent1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "Initiation"
-          ],
-          "properties": {
-            "Initiation": {
-              "type": "object",
-              "required": [
-                "CreditorAccount"
-              ],
-              "description": "The Initiation payload is sent by the initiating party to the ASPSP.",
-              "properties": {
-                "RemittanceInformation": {
-                  "$ref": "#/definitions/OBRemittanceInformation1"
-                },
-                "Creditor": {
-                  "$ref": "#/definitions/OBPartyIdentification43"
-                },
-                "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
-                },
-                "CreditorAccount": {
-                  "$ref": "#/definitions/OBCashAccount5"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "OBWriteBeneficiaryConsentResponse1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "ConsentId",
-            "Status",
-            "CreationDateTime",
-            "StatusUpdateDateTime",
-            "Initiation"
-          ],
-          "properties": {
-            "ConsentId": {
-              "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "Status": {
-              "description": "Specifies the status of consent resource in code form.",
-              "type": "string",
-              "enum": [
-                "Authorised",
-                "AwaitingAuthorisation",
-                "Consumed",
-                "Rejected"
-              ]
-            },
-            "CreationDateTime": {
-              "description": "Date and time at which the resource status was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            },
-            "StatusUpdateDateTime": {
-              "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            },
-            "Initiation": {
-              "type": "object",
-              "required": [
-                "CreditorAccount"
-              ],
-              "description": "The Initiation payload is sent by the initiating party to the ASPSP.",
-              "properties": {
-                "RemittanceInformation": {
-                  "$ref": "#/definitions/OBRemittanceInformation1"
-                },
-                "Creditor": {
-                  "$ref": "#/definitions/OBPartyIdentification43"
-                },
-                "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
-                },
-                "CreditorAccount": {
-                  "$ref": "#/definitions/OBCashAccount5"
-                }
-              }
-            }
-          }
-        },
-        "Links": {
-          "$ref": "#/definitions/Links"
-        },
-        "Meta": {
-          "$ref": "#/definitions/Meta"
-        }
-      }
-    },
-    "OBWriteBeneficiaryRequest1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "ConsentId",
-            "Initiation"
-          ],
-          "properties": {
-            "ConsentId": {
-              "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "Initiation": {
-              "type": "object",
-              "required": [
-                "CreditorAccount"
-              ],
-              "description": "The Initiation payload is sent by the initiating party to the ASPSP.",
-              "properties": {
-                "RemittanceInformation": {
-                  "$ref": "#/definitions/OBRemittanceInformation1"
-                },
-                "Creditor": {
-                  "$ref": "#/definitions/OBPartyIdentification43"
-                },
-                "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
-                },
-                "CreditorAccount": {
-                  "$ref": "#/definitions/OBCashAccount5"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "OBWriteBeneficiaryResponse1": {
-      "type": "object",
-      "required": [
-        "Data"
-      ],
-      "properties": {
-        "Data": {
-          "type": "object",
-          "required": [
-            "ConsentId",
-            "BeneficiaryId",
-            "Status",
-            "CreationDateTime",
-            "StatusUpdateDateTime",
-            "Initiation"
-          ],
-          "properties": {
-            "ConsentId": {
-              "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "BeneficiaryId": {
-              "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the beneficiary resource.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "Status": {
-              "description": "Specifies the status of beneficiary resource in code form.",
-              "type": "string",
-              "enum": [
-                "Active",
-                "Inactive"
-              ]
-            },
-            "CreationDateTime": {
-              "description": "Date and time at which the resource status was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            },
-            "StatusUpdateDateTime": {
-              "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-              "type": "string",
-              "format": "date-time"
-            },
-            "Initiation": {
-              "type": "object",
-              "required": [
-                "CreditorAccount"
-              ],
-              "description": "The Initiation payload is sent by the initiating party to the ASPSP.",
-              "properties": {
-                "RemittanceInformation": {
-                  "$ref": "#/definitions/OBRemittanceInformation1"
-                },
-                "Creditor": {
-                  "$ref": "#/definitions/OBPartyIdentification43"
-                },
-                "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
-                },
-                "CreditorAccount": {
-                  "$ref": "#/definitions/OBCashAccount5"
-                }
-              }
-            }
-          }
-        },
-        "Links": {
-          "$ref": "#/definitions/Links"
-        },
-        "Meta": {
-          "$ref": "#/definitions/Meta"
-        }
-      }
-    },
     "OBWriteDomestic2": {
       "type": "object",
       "required": [
@@ -4872,10 +4150,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -4895,10 +4176,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -4941,7 +4222,7 @@
         }
       }
     },
-    "OBWriteDomesticConsent2": {
+    "OBWriteDomesticConsent3": {
       "type": "object",
       "required": [
         "Data",
@@ -5007,10 +4288,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -5030,10 +4314,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -5090,6 +4374,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -5098,11 +4415,7 @@
         }
       }
     },
-    "OBWriteDomesticConsent3": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteDomesticConsentResponse2": {
+    "OBWriteDomesticConsentResponse3": {
       "type": "object",
       "required": [
         "Data",
@@ -5236,10 +4549,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -5259,10 +4575,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -5319,6 +4635,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -5332,10 +4681,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteDomesticConsentResponse3": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteDomesticResponse2": {
       "type": "object",
@@ -5478,10 +4823,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -5501,10 +4849,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -5664,10 +5012,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -5687,10 +5038,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -5733,7 +5084,7 @@
         }
       }
     },
-    "OBWriteDomesticScheduledConsent2": {
+    "OBWriteDomesticScheduledConsent3": {
       "type": "object",
       "required": [
         "Data",
@@ -5812,10 +5163,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -5835,10 +5189,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -5895,6 +5249,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -5903,11 +5290,7 @@
         }
       }
     },
-    "OBWriteDomesticScheduledConsent3": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteDomesticScheduledConsentResponse2": {
+    "OBWriteDomesticScheduledConsentResponse3": {
       "type": "object",
       "required": [
         "Data",
@@ -6054,10 +5437,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -6077,10 +5463,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -6137,6 +5523,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -6150,10 +5569,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteDomesticScheduledConsentResponse3": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteDomesticScheduledResponse3": {
       "type": "object",
@@ -6295,10 +5710,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -6318,10 +5736,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -6525,10 +5943,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -6548,10 +5969,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -6573,7 +5994,7 @@
         }
       }
     },
-    "OBWriteDomesticStandingOrderConsent3": {
+    "OBWriteDomesticStandingOrderConsent4": {
       "type": "object",
       "required": [
         "Data",
@@ -6696,10 +6117,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -6719,10 +6143,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -6758,6 +6182,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -6766,11 +6223,7 @@
         }
       }
     },
-    "OBWriteDomesticStandingOrderConsent4": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteDomesticStandingOrderConsentResponse3": {
+    "OBWriteDomesticStandingOrderConsentResponse4": {
       "type": "object",
       "required": [
         "Data",
@@ -6951,10 +6404,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -6974,10 +6430,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -7013,6 +6469,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -7026,10 +6515,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteDomesticStandingOrderConsentResponse4": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteDomesticStandingOrderResponse4": {
       "type": "object",
@@ -7205,10 +6690,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -7228,10 +6716,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -7368,10 +6856,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -7405,7 +6896,7 @@
         }
       }
     },
-    "OBWriteFileConsent2": {
+    "OBWriteFileConsent3": {
       "type": "object",
       "required": [
         "Data"
@@ -7474,10 +6965,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -7528,16 +7022,45 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         }
       }
     },
-    "OBWriteFileConsent3": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteFileConsentResponse2": {
+    "OBWriteFileConsentResponse3": {
       "type": "object",
       "required": [
         "Data"
@@ -7665,10 +7188,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -7719,6 +7245,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -7729,10 +7288,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteFileConsentResponse3": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteFileResponse2": {
       "type": "object",
@@ -7862,10 +7417,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -8110,10 +7668,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -8140,7 +7701,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -8172,10 +7737,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -8215,7 +7780,7 @@
         }
       }
     },
-    "OBWriteInternationalConsent2": {
+    "OBWriteInternationalConsent3": {
       "type": "object",
       "required": [
         "Data",
@@ -8336,10 +7901,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -8366,7 +7934,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -8398,10 +7970,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -8455,6 +8027,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -8463,11 +8068,7 @@
         }
       }
     },
-    "OBWriteInternationalConsent3": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteInternationalConsentResponse2": {
+    "OBWriteInternationalConsentResponse3": {
       "type": "object",
       "required": [
         "Data",
@@ -8696,10 +8297,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -8726,7 +8330,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -8758,10 +8366,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -8815,6 +8423,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -8828,10 +8469,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteInternationalConsentResponse3": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteInternationalResponse3": {
       "type": "object",
@@ -9065,10 +8702,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -9095,7 +8735,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -9127,10 +8771,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -9346,10 +8990,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -9376,7 +9023,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -9408,10 +9059,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -9451,7 +9102,7 @@
         }
       }
     },
-    "OBWriteInternationalScheduledConsent2": {
+    "OBWriteInternationalScheduledConsent3": {
       "type": "object",
       "required": [
         "Data",
@@ -9585,10 +9236,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -9615,7 +9269,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -9647,10 +9305,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -9704,6 +9362,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -9712,11 +9403,7 @@
         }
       }
     },
-    "OBWriteInternationalScheduledConsent3": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteInternationalScheduledConsentResponse2": {
+    "OBWriteInternationalScheduledConsentResponse3": {
       "type": "object",
       "required": [
         "Data",
@@ -9958,10 +9645,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -9988,7 +9678,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -10020,10 +9714,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -10077,6 +9771,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -10090,10 +9817,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteInternationalScheduledConsentResponse3": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteInternationalScheduledResponse3": {
       "type": "object",
@@ -10330,10 +10053,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -10360,7 +10086,11 @@
                   "description": "Financial institution servicing an account for the creditor.",
                   "properties": {
                     "SchemeName": {
-                      "$ref": "#/definitions/OBExternalFinancialInstitutionIdentification4Code"
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
                     },
                     "Identification": {
                       "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
@@ -10392,10 +10122,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -10572,10 +10302,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -10598,7 +10331,32 @@
                   }
                 },
                 "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
+                  "type": "object",
+                  "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+                  "properties": {
+                    "SchemeName": {
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
+                    },
+                    "Identification": {
+                      "description": "Unique and unambiguous identification of the servicing institution.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 35
+                    },
+                    "Name": {
+                      "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 140
+                    },
+                    "PostalAddress": {
+                      "$ref": "#/definitions/OBPostalAddress6"
+                    }
+                  }
                 },
                 "CreditorAccount": {
                   "type": "object",
@@ -10613,10 +10371,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -10638,7 +10396,7 @@
         }
       }
     },
-    "OBWriteInternationalStandingOrderConsent3": {
+    "OBWriteInternationalStandingOrderConsent4": {
       "type": "object",
       "required": [
         "Data",
@@ -10737,10 +10495,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -10763,7 +10524,32 @@
                   }
                 },
                 "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
+                  "type": "object",
+                  "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+                  "properties": {
+                    "SchemeName": {
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
+                    },
+                    "Identification": {
+                      "description": "Unique and unambiguous identification of the servicing institution.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 35
+                    },
+                    "Name": {
+                      "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 140
+                    },
+                    "PostalAddress": {
+                      "$ref": "#/definitions/OBPostalAddress6"
+                    }
+                  }
                 },
                 "CreditorAccount": {
                   "type": "object",
@@ -10778,10 +10564,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -10817,6 +10603,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -10825,11 +10644,7 @@
         }
       }
     },
-    "OBWriteInternationalStandingOrderConsent4": {
-      "type": "object",
-      "properties": {}
-    },
-    "OBWriteInternationalStandingOrderConsentResponse3": {
+    "OBWriteInternationalStandingOrderConsentResponse4": {
       "type": "object",
       "required": [
         "Data",
@@ -10986,10 +10801,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -11012,7 +10830,32 @@
                   }
                 },
                 "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
+                  "type": "object",
+                  "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+                  "properties": {
+                    "SchemeName": {
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
+                    },
+                    "Identification": {
+                      "description": "Unique and unambiguous identification of the servicing institution.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 35
+                    },
+                    "Name": {
+                      "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 140
+                    },
+                    "PostalAddress": {
+                      "$ref": "#/definitions/OBPostalAddress6"
+                    }
+                  }
                 },
                 "CreditorAccount": {
                   "type": "object",
@@ -11027,10 +10870,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -11066,6 +10909,39 @@
                   "format": "date-time"
                 }
               }
+            },
+            "SCASupportData": {
+              "type": "object",
+              "description": "Supporting Data provided by TPP, when requesting SCA Exemption.",
+              "properties": {
+                "RequestedSCAExemptionType": {
+                  "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation",
+                  "type": "string",
+                  "enum": [
+                    "BillPayment",
+                    "ContactlessTravel",
+                    "EcommerceGoods",
+                    "EcommerceServices",
+                    "Kiosk",
+                    "Parking",
+                    "PartyToParty"
+                  ]
+                },
+                "AppliedAuthenticationApproach": {
+                  "description": "Specifies a character string with a maximum length of 40 characters.\nUsage: This field indicates whether the PSU was subject to SCA performed by the TPP",
+                  "type": "string",
+                  "enum": [
+                    "CA",
+                    "SCA"
+                  ]
+                },
+                "ReferencePaymentOrderId": {
+                  "description": "Specifies a character string with a maximum length of 140 characters.\nUsage: If the payment is recurring then the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
             }
           }
         },
@@ -11079,10 +10955,6 @@
           "$ref": "#/definitions/Meta"
         }
       }
-    },
-    "OBWriteInternationalStandingOrderConsentResponse4": {
-      "type": "object",
-      "properties": {}
     },
     "OBWriteInternationalStandingOrderResponse4": {
       "type": "object",
@@ -11234,10 +11106,13 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "$ref": "#/definitions/Name"
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 70
                     },
                     "SecondaryIdentification": {
                       "$ref": "#/definitions/SecondaryIdentification"
@@ -11260,7 +11135,32 @@
                   }
                 },
                 "CreditorAgent": {
-                  "$ref": "#/definitions/OBBranchAndFinancialInstitutionIdentification6"
+                  "type": "object",
+                  "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+                  "properties": {
+                    "SchemeName": {
+                      "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                      "type": "string",
+                      "x-namespaced-enum": [
+                        "UK.OBIE.BICFI"
+                      ]
+                    },
+                    "Identification": {
+                      "description": "Unique and unambiguous identification of the servicing institution.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 35
+                    },
+                    "Name": {
+                      "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 140
+                    },
+                    "PostalAddress": {
+                      "$ref": "#/definitions/OBPostalAddress6"
+                    }
+                  }
                 },
                 "CreditorAccount": {
                   "type": "object",
@@ -11275,10 +11175,10 @@
                       "$ref": "#/definitions/OBExternalAccountIdentification4Code"
                     },
                     "Identification": {
-                      "$ref": "#/definitions/Identification_0"
+                      "$ref": "#/definitions/Identification"
                     },
                     "Name": {
-                      "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                      "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 70
@@ -11347,9 +11247,6 @@
       "properties": {
         "Data": {
           "type": "object",
-          "required": [
-            "PaymentStatus"
-          ],
           "properties": {
             "PaymentStatus": {
               "type": "array",
@@ -11415,7 +11312,20 @@
                         "minLength": 1,
                         "maxLength": 128
                       },
-                      "Reason": {
+                      "StatusReason": {
+                        "description": "Reason Code provided for the status of a transfer.",
+                        "type": "string",
+                        "enum": [
+                          "Cancelled",
+                          "PendingFailingSettlement",
+                          "PendingSettlement",
+                          "Proprietary",
+                          "ProprietaryRejection",
+                          "Suspended",
+                          "Unmatched"
+                        ]
+                      },
+                      "StatusReasonDescription": {
                         "description": "Reason provided for the status of a transfer.",
                         "type": "string",
                         "minLength": 1,
@@ -11424,8 +11334,7 @@
                     }
                   }
                 }
-              },
-              "minItems": 1
+              }
             }
           }
         },
