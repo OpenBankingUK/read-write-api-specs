@@ -1647,6 +1647,11 @@ components:
       type: string
       minLength: 1
       maxLength: 128
+    Description_3:
+      description: Description to describe the purpose of the code
+      type: string
+      minLength: 1
+      maxLength: 350
     EmailAddress:
       description: Address for electronic mail (e-mail).
       type: string
@@ -1921,6 +1926,11 @@ components:
       type: string
       minLength: 1
       maxLength: 140
+    Name_3:
+      description: Long name associated with the code
+      type: string
+      minLength: 1
+      maxLength: 70
     NextPaymentDateTime:
       description: >-
         The date on which the next payment for a Standing Order schedule will be
@@ -1940,6 +1950,18 @@ components:
       type: string
       minLength: 1
       maxLength: 70
+    Number_0:
+      description: >-
+        Indicates whether the advertised overdraft rate is guaranteed to be
+        offered to a borrower by the bank e.g. if it�s part of a government
+        scheme, or whether the rate may vary dependent on the applicant�s
+        circumstances.
+      type: integer
+    Number_1:
+      description: >-
+        fee/charges are captured dependent on the number of occurrences rather
+        than capped at a particular amount
+      type: integer
     OBAccount3:
       oneOf:
         - $ref: '#/components/schemas/OBAccount3Basic'
@@ -3654,20 +3676,26 @@ components:
       type: object
       required:
         - Data
+      description: >-
+        Product details of Other Product which is not avaiable in the standard
+        list
       properties:
         Data:
           type: object
+          description: Aligning with the read write specs structure.
           properties:
             Product:
               type: array
               items:
                 type: object
+                description: Product details associated with the Account
                 required:
                   - AccountId
+                  - ProductType
                 properties:
                   ProductName:
                     description: >-
-                      The name of the product used for marketing purposes from a
+                      The name of the Product used for marketing purposes from a
                       customer perspective. I.e. what the customer would
                       recognise.
                     type: string
@@ -3675,27 +3703,30 @@ components:
                     maxLength: 350
                   ProductId:
                     description: >-
-                      Identifier within the parent organisation for the product.
-                      Must be unique in the organisation.
+                      The unique ID that has been internally assigned by the
+                      financial institution to each of the current account
+                      banking products they market to their retail and/or small
+                      to medium enterprise (SME) customers.
                     type: string
                     minLength: 1
                     maxLength: 40
                   AccountId:
-                    $ref: '#/components/schemas/AccountId'
+                    description: Account Identification of the customer for Product Details
+                    type: string
+                    minLength: 1
+                    maxLength: 40
                   SecondaryProductId:
                     description: >-
-                      Identifier within the parent organisation for the product.
-                      Must be unique in the organisation.
+                      Any secondary Identification which  supports Product
+                      Identifier to uniquely identify the current account
+                      banking products.
                     type: string
                     minLength: 1
                     maxLength: 70
                   ProductType:
                     description: >-
-                      Descriptive code for the product category. 
-
-                      If ProductType - "Other" is chosen, the object
-                      OtherProductType must be populated with name, and
-                      description.
+                      Product type : Personal Current Account, Business Current
+                      Account
                     type: string
                     enum:
                       - BusinessCurrentAccount
@@ -3705,7 +3736,7 @@ components:
                       - SMELoan
                   MarketingStateId:
                     description: >-
-                      Unique and unambiguous identification of a Product
+                      Unique and unambiguous identification of a  Product
                       Marketing State.
                     type: string
                     minLength: 1
@@ -3715,24 +3746,1856 @@ components:
                     required:
                       - Name
                       - Description
-                    description: >-
-                      This field provides extension to the ProductType
-                      enumeration.
-
-                      If ProductType - "Other" is chosen, this field must be
-                      populated with name, and description for ASPSP specific
-                      product type.
+                    description: Other product type details associated with the account.
                     properties:
                       Name:
-                        description: Name of "Other" product type.
+                        description: Long name associated with the product
                         type: string
                         minLength: 1
                         maxLength: 350
                       Description:
-                        description: Description of "Other" product type.
+                        description: Description of the Product associated with the account
                         type: string
                         minLength: 1
                         maxLength: 350
+                      ProductDetails:
+                        type: object
+                        properties:
+                          Segment:
+                            type: array
+                            items:
+                              description: >-
+                                Market segmentation is a marketing term
+                                referring to the aggregating of prospective
+                                buyers into groups, or segments, that have
+                                common needs and respond similarly to a
+                                marketing action. Market segmentation enables
+                                companies to target different categories of
+                                consumers who perceive the full value of certain
+                                products and services differently from one
+                                another.
+
+                                Read more: Market Segmentation
+                                http://www.investopedia.com/terms/m/marketsegmentation.asp#ixzz4gfEEalTd 
+                              type: string
+                              enum:
+                                - GEAS
+                                - GEBA
+                                - GEBR
+                                - GEBU
+                                - GECI
+                                - GECS
+                                - GEFB
+                                - GEFG
+                                - GEG
+                                - GEGR
+                                - GEGS
+                                - GEOT
+                                - GEOV
+                                - GEPA
+                                - GEPR
+                                - GERE
+                                - GEST
+                                - GEYA
+                                - GEYO
+                                - PSCA
+                                - PSES
+                                - PSNC
+                                - PSNP
+                                - PSRG
+                                - PSSS
+                                - PSST
+                                - PSSW
+                          FeeFreeLength:
+                            description: The length/duration of the fee free period
+                            type: integer
+                          FeeFreeLengthPeriod:
+                            description: >-
+                              The unit of period (days, weeks, months etc.) of
+                              the promotional length
+                            type: string
+                            enum:
+                              - PACT
+                              - PDAY
+                              - PHYR
+                              - PMTH
+                              - PQTR
+                              - PWEK
+                              - PYER
+                          MonthlyMaximumCharge:
+                            description: >-
+                              The maximum relevant charges that could accrue as
+                              defined fully in Part 7 of the CMA order
+                            type: string
+                            pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                          Notes:
+                            type: array
+                            items:
+                              description: >-
+                                Optional additional notes to supplement the Core
+                                product details
+                              type: string
+                              minLength: 1
+                              maxLength: 2000
+                          OtherSegment:
+                            $ref: '#/components/schemas/OB_OtherCodeType1_0'
+                      CreditInterest:
+                        type: object
+                        required:
+                          - TierBandSet
+                        description: >-
+                          Details about the interest that may be payable to the
+                          Account holders
+                        properties:
+                          TierBandSet:
+                            type: array
+                            items:
+                              type: object
+                              description: >-
+                                The group of tiers or bands for which credit
+                                interest can be applied.
+                              required:
+                                - TierBandMethod
+                                - Destination
+                                - TierBand
+                              properties:
+                                TierBandMethod:
+                                  description: >-
+                                    The methodology of how credit interest is
+                                    paid/applied. It can be:-
+
+                                    1. Banded
+
+                                    Interest rates are banded. i.e. Increasing
+                                    rate on whole balance as balance increases.
+
+                                    2. Tiered
+
+                                    Interest rates are tiered. i.e. increasing
+                                    rate for each tier as balance increases, but
+                                    interest paid on tier fixed for that tier
+                                    and not on whole balance.
+
+                                    3. Whole
+
+                                    The same interest rate is applied
+                                    irrespective of the product holder's account
+                                    balance
+                                  type: string
+                                  enum:
+                                    - INBA
+                                    - INTI
+                                    - INWH
+                                CalculationMethod:
+                                  $ref: >-
+                                    #/components/schemas/OB_InterestCalculationMethod1Code
+                                Destination:
+                                  description: >-
+                                    Describes whether accrued interest is
+                                    payable only to the BCA or to another bank
+                                    account
+                                  type: string
+                                  enum:
+                                    - INOT
+                                    - INPA
+                                    - INSC
+                                Notes:
+                                  type: array
+                                  items:
+                                    description: >-
+                                      Optional additional notes to supplement
+                                      the Tier Band Set details
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 2000
+                                OtherCalculationMethod:
+                                  $ref: '#/components/schemas/OB_OtherCodeType1_0'
+                                OtherDestination:
+                                  $ref: '#/components/schemas/OB_OtherCodeType1_0'
+                                TierBand:
+                                  type: array
+                                  items:
+                                    type: object
+                                    description: Tier Band Details
+                                    required:
+                                      - TierValueMinimum
+                                      - ApplicationFrequency
+                                      - FixedVariableInterestRateType
+                                      - AER
+                                    properties:
+                                      Identification:
+                                        description: >-
+                                          Unique and unambiguous identification of
+                                          a  Tier Band for the Product.
+                                        type: string
+                                        minLength: 1
+                                        maxLength: 35
+                                      TierValueMinimum:
+                                        description: >-
+                                          Minimum deposit value for which the
+                                          credit interest tier applies.
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      TierValueMaximum:
+                                        description: >-
+                                          Maximum deposit value for which the
+                                          credit interest tier applies.
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      CalculationFrequency:
+                                        description: >-
+                                          How often is credit interest calculated
+                                          for the account.
+                                        type: string
+                                        enum:
+                                          - FQAT
+                                          - FQDY
+                                          - FQHY
+                                          - FQMY
+                                          - FQOT
+                                          - FQQY
+                                          - FQSD
+                                          - FQWY
+                                          - FQYY
+                                      ApplicationFrequency:
+                                        description: >-
+                                          How often is interest applied to the
+                                          Product for this tier/band i.e. how
+                                          often the financial institution pays
+                                          accumulated interest to the customer's
+                                          account.
+                                        type: string
+                                        enum:
+                                          - FQAT
+                                          - FQDY
+                                          - FQHY
+                                          - FQMY
+                                          - FQOT
+                                          - FQQY
+                                          - FQSD
+                                          - FQWY
+                                          - FQYY
+                                      DepositInterestAppliedCoverage:
+                                        description: Amount on which Interest applied.
+                                        type: string
+                                        enum:
+                                          - INBA
+                                          - INTI
+                                          - INWH
+                                      FixedVariableInterestRateType:
+                                        $ref: >-
+                                          #/components/schemas/OB_InterestFixedVariableType1Code
+                                      AER:
+                                        description: >-
+                                          The annual equivalent rate (AER) is
+                                          interest that is calculated under the
+                                          assumption that any interest paid is
+                                          combined with the original balance and
+                                          the next interest payment will be based
+                                          on the slightly higher account balance.
+                                          Overall, this means that interest can be
+                                          compounded several times in a year
+                                          depending on the number of times that
+                                          interest payments are made. 
+
+                                          Read more: Annual Equivalent Rate (AER)
+                                          http://www.investopedia.com/terms/a/aer.asp#ixzz4gfR7IO1A
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                                      BankInterestRateType:
+                                        description: >-
+                                          Interest rate types, other than AER,
+                                          which financial institutions may use to
+                                          describe the annual interest rate
+                                          payable to the account holder's account.
+                                        type: string
+                                        enum:
+                                          - INBB
+                                          - INFR
+                                          - INGR
+                                          - INLR
+                                          - INNE
+                                          - INOT
+                                      BankInterestRate:
+                                        description: Bank Interest for the product
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                                      Notes:
+                                        type: array
+                                        items:
+                                          description: >-
+                                            Optional additional notes to supplement
+                                            the Tier Band details
+                                          type: string
+                                          minLength: 1
+                                          maxLength: 2000
+                                      OtherBankInterestType:
+                                        type: object
+                                        required:
+                                          - Name
+                                          - Description
+                                        description: >-
+                                          Other interest rate types which are not
+                                          available in the standard code list
+                                        properties:
+                                          Code:
+                                            $ref: '#/components/schemas/OB_CodeMnemonic'
+                                          Name:
+                                            $ref: '#/components/schemas/Name_3'
+                                          Description:
+                                            $ref: '#/components/schemas/Description_3'
+                                      OtherApplicationFrequency:
+                                        $ref: '#/components/schemas/OB_OtherCodeType1_1'
+                                      OtherCalculationFrequency:
+                                        $ref: '#/components/schemas/OB_OtherCodeType1_2'
+                                  minItems: 1
+                            minItems: 1
+                      Overdraft:
+                        type: object
+                        required:
+                          - OverdraftTierBandSet
+                        description: Borrowing details
+                        properties:
+                          Notes:
+                            type: array
+                            items:
+                              description: Associated Notes about the overdraft rates
+                              type: string
+                              minLength: 1
+                              maxLength: 2000
+                          OverdraftTierBandSet:
+                            type: array
+                            items:
+                              type: object
+                              description: Tier band set details
+                              required:
+                                - TierBandMethod
+                                - OverdraftTierBand
+                              properties:
+                                TierBandMethod:
+                                  description: >-
+                                    The methodology of how overdraft is charged.
+                                    It can be:
+
+                                    'Whole'  Where the same charge/rate is
+                                    applied to the entirety of the overdraft
+                                    balance (where charges are applicable). 
+
+                                    'Tiered' Where different charges/rates are
+                                    applied dependent on overdraft maximum and
+                                    minimum balance amount tiers defined by the
+                                    lending financial organisation
+
+                                    'Banded' Where different charges/rates are
+                                    applied dependent on overdraft maximum and
+                                    minimum balance amount bands defined by a
+                                    government organisation.
+                                  type: string
+                                  enum:
+                                    - INBA
+                                    - INTI
+                                    - INWH
+                                OverdraftType:
+                                  description: >-
+                                    An overdraft can either be 'committed' which
+                                    means that the facility cannot be withdrawn
+                                    without reasonable notification before it's
+                                    agreed end date, or 'on demand' which means
+                                    that the financial institution can demand
+                                    repayment at any point in time.
+                                  type: string
+                                  enum:
+                                    - OVCO
+                                    - OVOD
+                                    - OVOT
+                                Identification:
+                                  description: >-
+                                    Unique and unambiguous identification of a 
+                                    Tier Band for a overdraft product.
+                                  type: string
+                                  minLength: 1
+                                  maxLength: 35
+                                AuthorisedIndicator:
+                                  description: >-
+                                    Indicates if the Overdraft is authorised (Y)
+                                    or unauthorised (N)
+                                  type: boolean
+                                BufferAmount:
+                                  description: >-
+                                    When a customer exceeds their credit limit,
+                                    a financial institution will not charge the
+                                    customer unauthorised overdraft charges if
+                                    they do not exceed by more than the buffer
+                                    amount. Note: Authorised overdraft charges
+                                    may still apply.
+                                  type: string
+                                  pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                Notes:
+                                  type: array
+                                  items:
+                                    description: >-
+                                      Optional additional notes to supplement
+                                      the overdraft Tier Band Set details
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 2000
+                                OverdraftTierBand:
+                                  type: array
+                                  items:
+                                    type: object
+                                    description: >-
+                                      Provides overdraft details for a specific
+                                      tier or band
+                                    required:
+                                      - TierValueMin
+                                    properties:
+                                      Identification:
+                                        description: >-
+                                          Unique and unambiguous identification of
+                                          a  Tier Band for a overdraft.
+                                        type: string
+                                        minLength: 1
+                                        maxLength: 35
+                                      TierValueMin:
+                                        description: Minimum value of Overdraft Tier/Band
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      TierValueMax:
+                                        description: Maximum value of Overdraft Tier/Band
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      EAR:
+                                        description: >-
+                                          EAR means Effective Annual Rate and/or
+                                          Equivalent Annual Rate (frequently
+
+                                          used interchangeably), being the actual
+                                          annual interest rate of an Overdraft.
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                                      AgreementLengthMin:
+                                        description: >-
+                                          Specifies the minimum length of a band
+                                          for a fixed overdraft agreement
+                                        type: integer
+                                      AgreementLengthMax:
+                                        description: >-
+                                          Specifies the maximum length of a band
+                                          for a fixed overdraft agreement
+                                        type: integer
+                                      AgreementPeriod:
+                                        description: >-
+                                          Specifies the period of a fixed length
+                                          overdraft agreement
+                                        type: string
+                                        enum:
+                                          - PACT
+                                          - PDAY
+                                          - PHYR
+                                          - PMTH
+                                          - PQTR
+                                          - PWEK
+                                          - PYER
+                                      OverdraftInterestChargingCoverage:
+                                        description: >-
+                                          Refers to which interest rate is applied
+                                          when interests are tiered. For example,
+                                          if an overdraft balance is �2k and the
+                                          interest tiers are:- 0-�500 0.1%,
+                                          500-1000 0.2%, 1000-10000 0.5%, then the
+                                          applicable interest rate could either be
+                                          0.5% of the entire balance (since the
+                                          account balance sits in the top interest
+                                          tier) or
+                                          (0.1%*500)+(0.2%*500)+(0.5%*1000). In
+                                          the 1st situation, we say the interest
+                                          is applied to the �Whole� of the account
+                                          balance,  and in the 2nd that it is
+                                          �Tiered�.
+                                        type: string
+                                        enum:
+                                          - INBA
+                                          - INTI
+                                          - INWH
+                                      BankGuaranteedIndicator:
+                                        description: >-
+                                          Indicates whether the advertised
+                                          overdraft rate is guaranteed to be
+                                          offered to a borrower by the bank e.g.
+                                          if it�s part of a government scheme, or
+                                          whether the rate may vary dependent on
+                                          the applicant�s circumstances.
+                                        type: boolean
+                                      Notes:
+                                        type: array
+                                        items:
+                                          description: >-
+                                            Optional additional notes to supplement
+                                            the Tier/band details
+                                          type: string
+                                          minLength: 1
+                                          maxLength: 2000
+                                      OverdraftFeesCharges:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: Overdraft fees and charges
+                                          required:
+                                            - OverdraftFeeChargeDetail
+                                          properties:
+                                            OverdraftFeeChargeCap:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: >-
+                                                  Details about any caps (maximum charges)
+                                                  that apply to a particular fee/charge.
+                                                  Capping can either be based on an amount
+                                                  (in gbp), an amount (in items) or a
+                                                  rate.
+                                                required:
+                                                  - FeeType
+                                                  - MinMaxType
+                                                properties:
+                                                  FeeType:
+                                                    type: array
+                                                    items:
+                                                      description: Fee/charge type which is being capped
+                                                      type: string
+                                                      enum:
+                                                        - FBAO
+                                                        - FBAR
+                                                        - FBEB
+                                                        - FBIT
+                                                        - FBOR
+                                                        - FBOS
+                                                        - FBSC
+                                                        - FBTO
+                                                        - FBUB
+                                                        - FBUT
+                                                        - FTOT
+                                                        - FTUT
+                                                    minItems: 1
+                                                  MinMaxType:
+                                                    $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                                  FeeCapOccurrence:
+                                                    $ref: '#/components/schemas/Number_0'
+                                                  FeeCapAmount:
+                                                    $ref: '#/components/schemas/OB_Amount1_0'
+                                                  CappingPeriod:
+                                                    $ref: '#/components/schemas/OB_Period1Code'
+                                                  Notes:
+                                                    type: array
+                                                    items:
+                                                      description: >-
+                                                        Notes related to Overdraft fee charge
+                                                        cap
+                                                      type: string
+                                                      minLength: 1
+                                                      maxLength: 2000
+                                                  OtherFeeType:
+                                                    type: array
+                                                    items:
+                                                      type: object
+                                                      description: >-
+                                                        Other fee type code which is not
+                                                        available in the standard code set
+                                                      required:
+                                                        - Name
+                                                        - Description
+                                                      properties:
+                                                        Code:
+                                                          $ref: '#/components/schemas/OB_CodeMnemonic'
+                                                        Name:
+                                                          $ref: '#/components/schemas/Name_3'
+                                                        Description:
+                                                          $ref: '#/components/schemas/Description_3'
+                                            OverdraftFeeChargeDetail:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: Details about the fees/charges
+                                                required:
+                                                  - FeeType
+                                                  - ApplicationFrequency
+                                                properties:
+                                                  FeeType:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_OverdraftFeeType1Code
+                                                  NegotiableIndicator:
+                                                    description: >-
+                                                      Indicates whether fee and charges are
+                                                      negotiable
+                                                    type: boolean
+                                                  OverdraftControlIndicator:
+                                                    description: >-
+                                                      Indicates if the fee/charge is already
+                                                      covered by an 'Overdraft Control' fee or
+                                                      not.
+                                                    type: boolean
+                                                  IncrementalBorrowingAmount:
+                                                    $ref: '#/components/schemas/OB_Amount1_1'
+                                                  FeeAmount:
+                                                    $ref: '#/components/schemas/OB_Amount1_2'
+                                                  FeeRate:
+                                                    $ref: '#/components/schemas/OB_Rate1_0'
+                                                  FeeRateType:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_InterestRateType1Code_0
+                                                  ApplicationFrequency:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_FeeFrequency1Code_0
+                                                  CalculationFrequency:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_FeeFrequency1Code_1
+                                                  Notes:
+                                                    type: array
+                                                    items:
+                                                      description: >-
+                                                        Free text for capturing any other info
+                                                        related to Overdraft Fees Charge Details
+                                                      type: string
+                                                      minLength: 1
+                                                      maxLength: 2000
+                                                  OverdraftFeeChargeCap:
+                                                    type: array
+                                                    items:
+                                                      type: object
+                                                      description: >-
+                                                        Details about any caps (maximum charges)
+                                                        that apply to a particular fee/charge.
+                                                        Capping can either be based on an amount
+                                                        (in gbp), an amount (in items) or a
+                                                        rate.
+                                                      required:
+                                                        - FeeType
+                                                        - MinMaxType
+                                                      properties:
+                                                        FeeType:
+                                                          type: array
+                                                          items:
+                                                            description: Fee/charge type which is being capped
+                                                            type: string
+                                                            enum:
+                                                              - FBAO
+                                                              - FBAR
+                                                              - FBEB
+                                                              - FBIT
+                                                              - FBOR
+                                                              - FBOS
+                                                              - FBSC
+                                                              - FBTO
+                                                              - FBUB
+                                                              - FBUT
+                                                              - FTOT
+                                                              - FTUT
+                                                          minItems: 1
+                                                        MinMaxType:
+                                                          $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                                        FeeCapOccurrence:
+                                                          $ref: '#/components/schemas/Number_0'
+                                                        FeeCapAmount:
+                                                          $ref: '#/components/schemas/OB_Amount1_0'
+                                                        CappingPeriod:
+                                                          $ref: '#/components/schemas/OB_Period1Code'
+                                                        Notes:
+                                                          type: array
+                                                          items:
+                                                            description: >-
+                                                              Notes related to Overdraft fee charge
+                                                              cap
+                                                            type: string
+                                                            minLength: 1
+                                                            maxLength: 2000
+                                                        OtherFeeType:
+                                                          type: array
+                                                          items:
+                                                            type: object
+                                                            description: >-
+                                                              Other fee type code which is not
+                                                              available in the standard code set
+                                                            required:
+                                                              - Name
+                                                              - Description
+                                                            properties:
+                                                              Code:
+                                                                $ref: '#/components/schemas/OB_CodeMnemonic'
+                                                              Name:
+                                                                $ref: '#/components/schemas/Name_3'
+                                                              Description:
+                                                                $ref: '#/components/schemas/Description_3'
+                                                  OtherFeeType:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_3'
+                                                  OtherFeeRateType:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_4'
+                                                  OtherApplicationFrequency:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_1'
+                                                  OtherCalculationFrequency:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_2'
+                                              minItems: 1
+                                  minItems: 1
+                                OverdraftFeesCharges:
+                                  type: array
+                                  items:
+                                    type: object
+                                    description: Overdraft fees and charges details
+                                    required:
+                                      - OverdraftFeeChargeDetail
+                                    properties:
+                                      OverdraftFeeChargeCap:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: >-
+                                            Details about any caps (maximum charges)
+                                            that apply to a particular fee/charge.
+                                            Capping can either be based on an amount
+                                            (in gbp), an amount (in items) or a
+                                            rate.
+                                          required:
+                                            - FeeType
+                                            - MinMaxType
+                                          properties:
+                                            FeeType:
+                                              type: array
+                                              items:
+                                                description: Fee/charge type which is being capped
+                                                type: string
+                                                enum:
+                                                  - FBAO
+                                                  - FBAR
+                                                  - FBEB
+                                                  - FBIT
+                                                  - FBOR
+                                                  - FBOS
+                                                  - FBSC
+                                                  - FBTO
+                                                  - FBUB
+                                                  - FBUT
+                                                  - FTOT
+                                                  - FTUT
+                                              minItems: 1
+                                            MinMaxType:
+                                              $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                            FeeCapOccurrence:
+                                              $ref: '#/components/schemas/Number_0'
+                                            FeeCapAmount:
+                                              $ref: '#/components/schemas/OB_Amount1_0'
+                                            CappingPeriod:
+                                              $ref: '#/components/schemas/OB_Period1Code'
+                                            Notes:
+                                              type: array
+                                              items:
+                                                description: >-
+                                                  Notes related to Overdraft fee charge
+                                                  cap
+                                                type: string
+                                                minLength: 1
+                                                maxLength: 2000
+                                            OtherFeeType:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: >-
+                                                  Other fee type code which is not
+                                                  available in the standard code set
+                                                required:
+                                                  - Name
+                                                  - Description
+                                                properties:
+                                                  Code:
+                                                    $ref: '#/components/schemas/OB_CodeMnemonic'
+                                                  Name:
+                                                    $ref: '#/components/schemas/Name_3'
+                                                  Description:
+                                                    $ref: '#/components/schemas/Description_3'
+                                      OverdraftFeeChargeDetail:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: Details about the fees/charges
+                                          required:
+                                            - FeeType
+                                            - ApplicationFrequency
+                                          properties:
+                                            FeeType:
+                                              $ref: >-
+                                                #/components/schemas/OB_OverdraftFeeType1Code
+                                            NegotiableIndicator:
+                                              description: >-
+                                                Indicates whether fee and charges are
+                                                negotiable
+                                              type: boolean
+                                            OverdraftControlIndicator:
+                                              description: >-
+                                                Indicates if the fee/charge is already
+                                                covered by an 'Overdraft Control' fee or
+                                                not.
+                                              type: boolean
+                                            IncrementalBorrowingAmount:
+                                              $ref: '#/components/schemas/OB_Amount1_1'
+                                            FeeAmount:
+                                              $ref: '#/components/schemas/OB_Amount1_2'
+                                            FeeRate:
+                                              $ref: '#/components/schemas/OB_Rate1_0'
+                                            FeeRateType:
+                                              $ref: >-
+                                                #/components/schemas/OB_InterestRateType1Code_0
+                                            ApplicationFrequency:
+                                              $ref: >-
+                                                #/components/schemas/OB_FeeFrequency1Code_0
+                                            CalculationFrequency:
+                                              $ref: >-
+                                                #/components/schemas/OB_FeeFrequency1Code_1
+                                            Notes:
+                                              type: array
+                                              items:
+                                                description: >-
+                                                  Free text for capturing any other info
+                                                  related to Overdraft Fees Charge Details
+                                                type: string
+                                                minLength: 1
+                                                maxLength: 2000
+                                            OverdraftFeeChargeCap:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: >-
+                                                  Details about any caps (maximum charges)
+                                                  that apply to a particular fee/charge.
+                                                  Capping can either be based on an amount
+                                                  (in gbp), an amount (in items) or a
+                                                  rate.
+                                                required:
+                                                  - FeeType
+                                                  - MinMaxType
+                                                properties:
+                                                  FeeType:
+                                                    type: array
+                                                    items:
+                                                      description: Fee/charge type which is being capped
+                                                      type: string
+                                                      enum:
+                                                        - FBAO
+                                                        - FBAR
+                                                        - FBEB
+                                                        - FBIT
+                                                        - FBOR
+                                                        - FBOS
+                                                        - FBSC
+                                                        - FBTO
+                                                        - FBUB
+                                                        - FBUT
+                                                        - FTOT
+                                                        - FTUT
+                                                    minItems: 1
+                                                  MinMaxType:
+                                                    $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                                  FeeCapOccurrence:
+                                                    $ref: '#/components/schemas/Number_0'
+                                                  FeeCapAmount:
+                                                    $ref: '#/components/schemas/OB_Amount1_0'
+                                                  CappingPeriod:
+                                                    $ref: '#/components/schemas/OB_Period1Code'
+                                                  Notes:
+                                                    type: array
+                                                    items:
+                                                      description: >-
+                                                        Notes related to Overdraft fee charge
+                                                        cap
+                                                      type: string
+                                                      minLength: 1
+                                                      maxLength: 2000
+                                                  OtherFeeType:
+                                                    type: array
+                                                    items:
+                                                      type: object
+                                                      description: >-
+                                                        Other fee type code which is not
+                                                        available in the standard code set
+                                                      required:
+                                                        - Name
+                                                        - Description
+                                                      properties:
+                                                        Code:
+                                                          $ref: '#/components/schemas/OB_CodeMnemonic'
+                                                        Name:
+                                                          $ref: '#/components/schemas/Name_3'
+                                                        Description:
+                                                          $ref: '#/components/schemas/Description_3'
+                                            OtherFeeType:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_3'
+                                            OtherFeeRateType:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_4'
+                                            OtherApplicationFrequency:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_1'
+                                            OtherCalculationFrequency:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_2'
+                                        minItems: 1
+                            minItems: 1
+                      LoanInterest:
+                        type: object
+                        required:
+                          - LoanInterestTierBandSet
+                        description: >-
+                          Details about the interest that may be payable to the
+                          SME Loan holders
+                        properties:
+                          Notes:
+                            type: array
+                            items:
+                              description: >-
+                                Optional additional notes to supplement the
+                                LoanInterest
+                              type: string
+                              minLength: 1
+                              maxLength: 2000
+                          LoanInterestTierBandSet:
+                            type: array
+                            items:
+                              type: object
+                              description: >-
+                                The group of tiers or bands for which debit
+                                interest can be applied.
+                              required:
+                                - TierBandMethod
+                                - CalculationMethod
+                                - LoanInterestTierBand
+                              properties:
+                                TierBandMethod:
+                                  description: >-
+                                    The methodology of how credit interest is
+                                    charged. It can be:-
+
+                                    1. Banded
+
+                                    Interest rates are banded. i.e. Increasing
+                                    rate on whole balance as balance increases.
+
+                                    2. Tiered
+
+                                    Interest rates are tiered. i.e. increasing
+                                    rate for each tier as balance increases, but
+                                    interest paid on tier fixed for that tier
+                                    and not on whole balance.
+
+                                    3. Whole
+
+                                    The same interest rate is applied
+                                    irrespective of the SME Loan balance
+                                  type: string
+                                  enum:
+                                    - INBA
+                                    - INTI
+                                    - INWH
+                                Identification:
+                                  description: >-
+                                    Loan interest tierbandset identification.
+                                    Used by  loan providers for internal use
+                                    purpose.
+                                  type: string
+                                  minLength: 1
+                                  maxLength: 35
+                                CalculationMethod:
+                                  $ref: >-
+                                    #/components/schemas/OB_InterestCalculationMethod1Code
+                                Notes:
+                                  type: array
+                                  items:
+                                    description: >-
+                                      Optional additional notes to supplement
+                                      the Tier Band Set details
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 2000
+                                OtherCalculationMethod:
+                                  $ref: '#/components/schemas/OB_OtherCodeType1_0'
+                                LoanInterestTierBand:
+                                  type: array
+                                  items:
+                                    type: object
+                                    description: Tier Band Details
+                                    required:
+                                      - TierValueMinimum
+                                      - TierValueMinTerm
+                                      - MinTermPeriod
+                                      - FixedVariableInterestRateType
+                                      - RepAPR
+                                    properties:
+                                      Identification:
+                                        description: >-
+                                          Unique and unambiguous identification of
+                                          a  Tier Band for a SME Loan.
+                                        type: string
+                                        minLength: 1
+                                        maxLength: 35
+                                      TierValueMinimum:
+                                        description: >-
+                                          Minimum loan value for which the loan
+                                          interest tier applies.
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      TierValueMaximum:
+                                        description: >-
+                                          Maximum loan value for which the loan
+                                          interest tier applies.
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      TierValueMinTerm:
+                                        description: >-
+                                          Minimum loan term for which the loan
+                                          interest tier applies.
+                                        type: integer
+                                      MinTermPeriod:
+                                        description: >-
+                                          The unit of period (days, weeks, months
+                                          etc.) of the Minimum Term
+                                        type: string
+                                        enum:
+                                          - PACT
+                                          - PDAY
+                                          - PHYR
+                                          - PMTH
+                                          - PQTR
+                                          - PWEK
+                                          - PYER
+                                      TierValueMaxTerm:
+                                        description: >-
+                                          Maximum loan term for which the loan
+                                          interest tier applies.
+                                        type: integer
+                                      MaxTermPeriod:
+                                        description: >-
+                                          The unit of period (days, weeks, months
+                                          etc.) of the Maximum Term
+                                        type: string
+                                        enum:
+                                          - PACT
+                                          - PDAY
+                                          - PHYR
+                                          - PMTH
+                                          - PQTR
+                                          - PWEK
+                                          - PYER
+                                      FixedVariableInterestRateType:
+                                        $ref: >-
+                                          #/components/schemas/OB_InterestFixedVariableType1Code
+                                      RepAPR:
+                                        description: >-
+                                          The annual equivalent rate (AER) is
+                                          interest that is calculated under the
+                                          assumption that any interest paid is
+                                          combined with the original balance and
+                                          the next interest payment will be based
+                                          on the slightly higher account balance.
+                                          Overall, this means that interest can be
+                                          compounded several times in a year
+                                          depending on the number of times that
+                                          interest payments are made. 
+
+                                          For SME Loan, this APR is the
+                                          representative APR which includes any
+                                          account fees.
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                                      LoanProviderInterestRateType:
+                                        description: >-
+                                          Interest rate types, other than APR,
+                                          which financial institutions may use to
+                                          describe the annual interest rate
+                                          payable for the SME Loan.
+                                        type: string
+                                        enum:
+                                          - INBB
+                                          - INFR
+                                          - INGR
+                                          - INLR
+                                          - INNE
+                                          - INOT
+                                      LoanProviderInterestRate:
+                                        description: >-
+                                          Loan provider Interest for the SME Loan
+                                          product
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                                      Notes:
+                                        type: array
+                                        items:
+                                          description: >-
+                                            Optional additional notes to supplement
+                                            the Tier Band details
+                                          type: string
+                                          minLength: 1
+                                          maxLength: 2000
+                                      OtherLoanProviderInterestRateType:
+                                        type: object
+                                        required:
+                                          - Name
+                                          - Description
+                                        description: >-
+                                          Other loan interest rate types which are
+                                          not available in the standard code list
+                                        properties:
+                                          Code:
+                                            $ref: '#/components/schemas/OB_CodeMnemonic'
+                                          Name:
+                                            $ref: '#/components/schemas/Name_3'
+                                          Description:
+                                            $ref: '#/components/schemas/Description_3'
+                                      LoanInterestFeesCharges:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: >-
+                                            Contains details of fees and charges
+                                            which are not associated with either
+                                            LoanRepayment or features/benefits
+                                          required:
+                                            - LoanInterestFeeChargeDetail
+                                          properties:
+                                            LoanInterestFeeChargeDetail:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: Other fees/charges details
+                                                required:
+                                                  - FeeType
+                                                  - ApplicationFrequency
+                                                  - CalculationFrequency
+                                                properties:
+                                                  FeeType:
+                                                    $ref: '#/components/schemas/OB_FeeType1Code'
+                                                  NegotiableIndicator:
+                                                    description: >-
+                                                      Fee/charge which is usually negotiable
+                                                      rather than a fixed amount
+                                                    type: boolean
+                                                  FeeAmount:
+                                                    $ref: '#/components/schemas/OB_Amount1_3'
+                                                  FeeRate:
+                                                    $ref: '#/components/schemas/OB_Rate1_1'
+                                                  FeeRateType:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_InterestRateType1Code_1
+                                                  ApplicationFrequency:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_FeeFrequency1Code_2
+                                                  CalculationFrequency:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_FeeFrequency1Code_3
+                                                  Notes:
+                                                    type: array
+                                                    items:
+                                                      description: >-
+                                                        Optional additional notes to supplement
+                                                        the fee/charge details.
+                                                      type: string
+                                                      minLength: 1
+                                                      maxLength: 2000
+                                                  OtherFeeType:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_OtherFeeChargeDetailType
+                                                  OtherFeeRateType:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_5'
+                                                  OtherApplicationFrequency:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_6'
+                                                  OtherCalculationFrequency:
+                                                    $ref: '#/components/schemas/OB_OtherCodeType1_7'
+                                              minItems: 1
+                                            LoanInterestFeeChargeCap:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: >-
+                                                  Details about any caps (minimum/maximum
+                                                  charges) that apply to a particular
+                                                  fee/charge
+                                                required:
+                                                  - FeeType
+                                                  - MinMaxType
+                                                properties:
+                                                  FeeType:
+                                                    type: array
+                                                    items:
+                                                      description: Fee/charge type which is being capped
+                                                      type: string
+                                                      enum:
+                                                        - FEPF
+                                                        - FTOT
+                                                        - FYAF
+                                                        - FYAM
+                                                        - FYAQ
+                                                        - FYCP
+                                                        - FYDB
+                                                        - FYMI
+                                                        - FYXX
+                                                    minItems: 1
+                                                  MinMaxType:
+                                                    $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                                  FeeCapOccurrence:
+                                                    $ref: '#/components/schemas/Number_1'
+                                                  FeeCapAmount:
+                                                    $ref: '#/components/schemas/OB_Amount1_4'
+                                                  CappingPeriod:
+                                                    $ref: >-
+                                                      #/components/schemas/OB_FeeFrequency1Code_4
+                                                  Notes:
+                                                    type: array
+                                                    items:
+                                                      description: >-
+                                                        Free text for adding  extra details for
+                                                        fee charge cap
+                                                      type: string
+                                                      minLength: 1
+                                                      maxLength: 2000
+                                                  OtherFeeType:
+                                                    type: array
+                                                    items:
+                                                      type: object
+                                                      description: >-
+                                                        Other fee type code which is not
+                                                        available in the standard code set
+                                                      required:
+                                                        - Name
+                                                        - Description
+                                                      properties:
+                                                        Code:
+                                                          $ref: '#/components/schemas/OB_CodeMnemonic'
+                                                        Name:
+                                                          $ref: '#/components/schemas/Name_3'
+                                                        Description:
+                                                          $ref: '#/components/schemas/Description_3'
+                                  minItems: 1
+                                LoanInterestFeesCharges:
+                                  type: array
+                                  items:
+                                    type: object
+                                    description: >-
+                                      Contains details of fees and charges which
+                                      are not associated with either
+                                      LoanRepayment or features/benefits
+                                    required:
+                                      - LoanInterestFeeChargeDetail
+                                    properties:
+                                      LoanInterestFeeChargeDetail:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: Other fees/charges details
+                                          required:
+                                            - FeeType
+                                            - ApplicationFrequency
+                                            - CalculationFrequency
+                                          properties:
+                                            FeeType:
+                                              $ref: '#/components/schemas/OB_FeeType1Code'
+                                            NegotiableIndicator:
+                                              description: >-
+                                                Fee/charge which is usually negotiable
+                                                rather than a fixed amount
+                                              type: boolean
+                                            FeeAmount:
+                                              $ref: '#/components/schemas/OB_Amount1_3'
+                                            FeeRate:
+                                              $ref: '#/components/schemas/OB_Rate1_1'
+                                            FeeRateType:
+                                              $ref: >-
+                                                #/components/schemas/OB_InterestRateType1Code_1
+                                            ApplicationFrequency:
+                                              $ref: >-
+                                                #/components/schemas/OB_FeeFrequency1Code_2
+                                            CalculationFrequency:
+                                              $ref: >-
+                                                #/components/schemas/OB_FeeFrequency1Code_3
+                                            Notes:
+                                              type: array
+                                              items:
+                                                description: >-
+                                                  Optional additional notes to supplement
+                                                  the fee/charge details.
+                                                type: string
+                                                minLength: 1
+                                                maxLength: 2000
+                                            OtherFeeType:
+                                              $ref: >-
+                                                #/components/schemas/OB_OtherFeeChargeDetailType
+                                            OtherFeeRateType:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_5'
+                                            OtherApplicationFrequency:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_6'
+                                            OtherCalculationFrequency:
+                                              $ref: '#/components/schemas/OB_OtherCodeType1_7'
+                                        minItems: 1
+                                      LoanInterestFeeChargeCap:
+                                        type: array
+                                        items:
+                                          type: object
+                                          description: >-
+                                            Details about any caps (minimum/maximum
+                                            charges) that apply to a particular
+                                            fee/charge
+                                          required:
+                                            - FeeType
+                                            - MinMaxType
+                                          properties:
+                                            FeeType:
+                                              type: array
+                                              items:
+                                                description: Fee/charge type which is being capped
+                                                type: string
+                                                enum:
+                                                  - FEPF
+                                                  - FTOT
+                                                  - FYAF
+                                                  - FYAM
+                                                  - FYAQ
+                                                  - FYCP
+                                                  - FYDB
+                                                  - FYMI
+                                                  - FYXX
+                                              minItems: 1
+                                            MinMaxType:
+                                              $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                            FeeCapOccurrence:
+                                              $ref: '#/components/schemas/Number_1'
+                                            FeeCapAmount:
+                                              $ref: '#/components/schemas/OB_Amount1_4'
+                                            CappingPeriod:
+                                              $ref: >-
+                                                #/components/schemas/OB_FeeFrequency1Code_4
+                                            Notes:
+                                              type: array
+                                              items:
+                                                description: >-
+                                                  Free text for adding  extra details for
+                                                  fee charge cap
+                                                type: string
+                                                minLength: 1
+                                                maxLength: 2000
+                                            OtherFeeType:
+                                              type: array
+                                              items:
+                                                type: object
+                                                description: >-
+                                                  Other fee type code which is not
+                                                  available in the standard code set
+                                                required:
+                                                  - Name
+                                                  - Description
+                                                properties:
+                                                  Code:
+                                                    $ref: '#/components/schemas/OB_CodeMnemonic'
+                                                  Name:
+                                                    $ref: '#/components/schemas/Name_3'
+                                                  Description:
+                                                    $ref: '#/components/schemas/Description_3'
+                            minItems: 1
+                      Repayment:
+                        type: object
+                        description: Repayment details of the Loan product
+                        properties:
+                          RepaymentType:
+                            description: Repayment type
+                            type: string
+                            enum:
+                              - USBA
+                              - USBU
+                              - USCI
+                              - USCS
+                              - USER
+                              - USFA
+                              - USFB
+                              - USFI
+                              - USIO
+                              - USOT
+                              - USPF
+                              - USRW
+                              - USSL
+                          RepaymentFrequency:
+                            description: Repayment frequency
+                            type: string
+                            enum:
+                              - SMDA
+                              - SMFL
+                              - SMFO
+                              - SMHY
+                              - SMMO
+                              - SMOT
+                              - SMQU
+                              - SMWE
+                              - SMYE
+                          AmountType:
+                            description: >-
+                              The repayment is for paying just the interest only
+                              or both interest and capital or bullet amount or
+                              balance to date etc
+                            type: string
+                            enum:
+                              - RABD
+                              - RABL
+                              - RACI
+                              - RAFC
+                              - RAIO
+                              - RALT
+                              - USOT
+                          Notes:
+                            type: array
+                            items:
+                              description: >-
+                                Optional additional notes to supplement the
+                                Repayment
+                              type: string
+                              minLength: 1
+                              maxLength: 2000
+                          OtherRepaymentType:
+                            type: object
+                            required:
+                              - Name
+                              - Description
+                            description: >-
+                              Other repayment type which is not in the standard
+                              code list
+                            properties:
+                              Code:
+                                $ref: '#/components/schemas/OB_CodeMnemonic'
+                              Name:
+                                $ref: '#/components/schemas/Name_3'
+                              Description:
+                                $ref: '#/components/schemas/Description_3'
+                          OtherRepaymentFrequency:
+                            type: object
+                            required:
+                              - Name
+                              - Description
+                            description: >-
+                              Other repayment frequency which is not in the
+                              standard code list
+                            properties:
+                              Code:
+                                $ref: '#/components/schemas/OB_CodeMnemonic'
+                              Name:
+                                $ref: '#/components/schemas/Name_3'
+                              Description:
+                                $ref: '#/components/schemas/Description_3'
+                          OtherAmountType:
+                            type: object
+                            required:
+                              - Name
+                              - Description
+                            description: >-
+                              Other amount type which is not in the standard
+                              code list
+                            properties:
+                              Code:
+                                $ref: '#/components/schemas/OB_CodeMnemonic'
+                              Name:
+                                $ref: '#/components/schemas/Name_3'
+                              Description:
+                                $ref: '#/components/schemas/Description_3'
+                          RepaymentFeeCharges:
+                            type: object
+                            required:
+                              - RepaymentFeeChargeDetail
+                            description: >-
+                              Applicable fee/charges for repayment such as
+                              prepayment, full early repayment or non repayment.
+                            properties:
+                              RepaymentFeeChargeDetail:
+                                type: array
+                                items:
+                                  type: object
+                                  description: >-
+                                    Details about specific fees/charges that are
+                                    applied for repayment
+                                  required:
+                                    - FeeType
+                                    - ApplicationFrequency
+                                    - CalculationFrequency
+                                  properties:
+                                    FeeType:
+                                      $ref: '#/components/schemas/OB_FeeType1Code'
+                                    NegotiableIndicator:
+                                      description: >-
+                                        Fee/charge which is usually negotiable
+                                        rather than a fixed amount
+                                      type: boolean
+                                    FeeAmount:
+                                      $ref: '#/components/schemas/OB_Amount1_3'
+                                    FeeRate:
+                                      $ref: '#/components/schemas/OB_Rate1_1'
+                                    FeeRateType:
+                                      $ref: >-
+                                        #/components/schemas/OB_InterestRateType1Code_1
+                                    ApplicationFrequency:
+                                      $ref: >-
+                                        #/components/schemas/OB_FeeFrequency1Code_2
+                                    CalculationFrequency:
+                                      $ref: >-
+                                        #/components/schemas/OB_FeeFrequency1Code_3
+                                    Notes:
+                                      type: array
+                                      items:
+                                        description: >-
+                                          Optional additional notes to supplement
+                                          the fee/charge details.
+                                        type: string
+                                        minLength: 1
+                                        maxLength: 2000
+                                    OtherFeeType:
+                                      $ref: >-
+                                        #/components/schemas/OB_OtherFeeChargeDetailType
+                                    OtherFeeRateType:
+                                      $ref: '#/components/schemas/OB_OtherCodeType1_8'
+                                    OtherApplicationFrequency:
+                                      $ref: '#/components/schemas/OB_OtherCodeType1_6'
+                                    OtherCalculationFrequency:
+                                      $ref: '#/components/schemas/OB_OtherCodeType1_7'
+                                minItems: 1
+                              RepaymentFeeChargeCap:
+                                type: array
+                                items:
+                                  type: object
+                                  description: >-
+                                    RepaymentFeeChargeCap sets daily, weekly,
+                                    monthly, yearly limits on the fees that are
+                                    charged
+                                  required:
+                                    - FeeType
+                                    - MinMaxType
+                                  properties:
+                                    FeeType:
+                                      type: array
+                                      items:
+                                        description: Fee/charge type which is being capped
+                                        type: string
+                                        enum:
+                                          - FEPF
+                                          - FTOT
+                                          - FYAF
+                                          - FYAM
+                                          - FYAQ
+                                          - FYCP
+                                          - FYDB
+                                          - FYMI
+                                          - FYXX
+                                      minItems: 1
+                                    MinMaxType:
+                                      $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                    FeeCapOccurrence:
+                                      $ref: '#/components/schemas/Number_1'
+                                    FeeCapAmount:
+                                      $ref: '#/components/schemas/OB_Amount1_4'
+                                    CappingPeriod:
+                                      $ref: '#/components/schemas/OB_Period1Code'
+                                    Notes:
+                                      type: array
+                                      items:
+                                        description: >-
+                                          Free text for adding  extra details for
+                                          fee charge cap
+                                        type: string
+                                        minLength: 1
+                                        maxLength: 2000
+                                    OtherFeeType:
+                                      type: array
+                                      items:
+                                        type: object
+                                        description: >-
+                                          Other fee type code which is not
+                                          available in the standard code set
+                                        required:
+                                          - Name
+                                          - Description
+                                        properties:
+                                          Code:
+                                            $ref: '#/components/schemas/OB_CodeMnemonic'
+                                          Name:
+                                            $ref: '#/components/schemas/Name_3'
+                                          Description:
+                                            $ref: '#/components/schemas/Description_3'
+                          RepaymentHoliday:
+                            type: array
+                            items:
+                              type: object
+                              description: Details of capital repayment holiday if any
+                              properties:
+                                MaxHolidayLength:
+                                  description: >-
+                                    The maximum length/duration of a Repayment
+                                    Holiday
+                                  type: integer
+                                MaxHolidayPeriod:
+                                  description: >-
+                                    The unit of period (days, weeks, months
+                                    etc.) of the repayment holiday
+                                  type: string
+                                  enum:
+                                    - PACT
+                                    - PDAY
+                                    - PHYR
+                                    - PMTH
+                                    - PQTR
+                                    - PWEK
+                                    - PYER
+                                Notes:
+                                  type: array
+                                  items:
+                                    description: >-
+                                      Free text for adding details for repayment
+                                      holiday
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 2000
+                      OtherFeesCharges:
+                        type: array
+                        items:
+                          type: object
+                          description: >-
+                            Contains details of fees and charges which are not
+                            associated with either Overdraft or
+                            features/benefits
+                          required:
+                            - FeeChargeDetail
+                          properties:
+                            TariffType:
+                              description: TariffType which defines the fee and charges.
+                              type: string
+                              enum:
+                                - TTEL
+                                - TTMX
+                                - TTOT
+                            TariffName:
+                              description: Name of the tariff
+                              type: string
+                              minLength: 1
+                              maxLength: 350
+                            OtherTariffType:
+                              type: object
+                              required:
+                                - Name
+                                - Description
+                              description: >-
+                                Other tariff type which is not in the standard
+                                list.
+                              properties:
+                                Code:
+                                  $ref: '#/components/schemas/OB_CodeMnemonic'
+                                Name:
+                                  $ref: '#/components/schemas/Name_3'
+                                Description:
+                                  $ref: '#/components/schemas/Description_3'
+                            FeeChargeDetail:
+                              type: array
+                              items:
+                                type: object
+                                description: Other fees/charges details
+                                required:
+                                  - FeeCategory
+                                  - FeeType
+                                  - ApplicationFrequency
+                                properties:
+                                  FeeCategory:
+                                    $ref: '#/components/schemas/OB_FeeCategory1Code'
+                                  FeeType:
+                                    $ref: '#/components/schemas/OB_FeeType1Code'
+                                  NegotiableIndicator:
+                                    description: >-
+                                      Fee/charge which is usually negotiable
+                                      rather than a fixed amount
+                                    type: boolean
+                                  FeeAmount:
+                                    $ref: '#/components/schemas/OB_Amount1_3'
+                                  FeeRate:
+                                    $ref: '#/components/schemas/OB_Rate1_1'
+                                  FeeRateType:
+                                    $ref: >-
+                                      #/components/schemas/OB_InterestRateType1Code_1
+                                  ApplicationFrequency:
+                                    $ref: >-
+                                      #/components/schemas/OB_FeeFrequency1Code_2
+                                  CalculationFrequency:
+                                    $ref: >-
+                                      #/components/schemas/OB_FeeFrequency1Code_3
+                                  Notes:
+                                    type: array
+                                    items:
+                                      description: >-
+                                        Optional additional notes to supplement
+                                        the fee/charge details.
+                                      type: string
+                                      minLength: 1
+                                      maxLength: 2000
+                                  FeeChargeCap:
+                                    type: array
+                                    items:
+                                      type: object
+                                      description: >-
+                                        Details about any caps (maximum charges)
+                                        that apply to a particular or group of
+                                        fee/charge
+                                      required:
+                                        - FeeType
+                                        - MinMaxType
+                                      properties:
+                                        FeeType:
+                                          type: array
+                                          items:
+                                            description: Fee/charge type which is being capped
+                                            type: string
+                                            enum:
+                                              - FEPF
+                                              - FTOT
+                                              - FYAF
+                                              - FYAM
+                                              - FYAQ
+                                              - FYCP
+                                              - FYDB
+                                              - FYMI
+                                              - FYXX
+                                          minItems: 1
+                                        MinMaxType:
+                                          $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                        FeeCapOccurrence:
+                                          $ref: '#/components/schemas/Number_1'
+                                        FeeCapAmount:
+                                          $ref: '#/components/schemas/OB_Amount1_4'
+                                        CappingPeriod:
+                                          $ref: '#/components/schemas/OB_Period1Code'
+                                        Notes:
+                                          type: array
+                                          items:
+                                            description: >-
+                                              Free text for adding  extra details for
+                                              fee charge cap
+                                            type: string
+                                            minLength: 1
+                                            maxLength: 2000
+                                        OtherFeeType:
+                                          type: array
+                                          items:
+                                            type: object
+                                            description: >-
+                                              Other fee type code which is not
+                                              available in the standard code set
+                                            required:
+                                              - Name
+                                              - Description
+                                            properties:
+                                              Code:
+                                                $ref: '#/components/schemas/OB_CodeMnemonic'
+                                              Name:
+                                                $ref: '#/components/schemas/Name_3'
+                                              Description:
+                                                $ref: '#/components/schemas/Description_3'
+                                  OtherFeeCategoryType:
+                                    $ref: '#/components/schemas/OB_OtherCodeType1_0'
+                                  OtherFeeType:
+                                    $ref: >-
+                                      #/components/schemas/OB_OtherFeeChargeDetailType
+                                  OtherFeeRateType:
+                                    $ref: '#/components/schemas/OB_OtherCodeType1_8'
+                                  OtherApplicationFrequency:
+                                    $ref: '#/components/schemas/OB_OtherCodeType1_6'
+                                  OtherCalculationFrequency:
+                                    $ref: '#/components/schemas/OB_OtherCodeType1_7'
+                                  FeeApplicableRange:
+                                    type: object
+                                    description: >-
+                                      Range or amounts or rates for which the
+                                      fee/charge applies
+                                    properties:
+                                      MinimumAmount:
+                                        description: >-
+                                          Minimum Amount on which fee/charge is
+                                          applicable (where it is expressed as an
+                                          amount)
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      MaximumAmount:
+                                        description: >-
+                                          Maximum Amount on which fee is
+                                          applicable (where it is expressed as an
+                                          amount)
+                                        type: string
+                                        pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+                                      MinimumRate:
+                                        description: >-
+                                          Minimum rate on which fee/charge is
+                                          applicable(where it is expressed as an
+                                          rate)
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                                      MaximumRate:
+                                        description: >-
+                                          Maximum rate on which fee/charge is
+                                          applicable(where it is expressed as an
+                                          rate)
+                                        type: string
+                                        pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+                              minItems: 1
+                            FeeChargeCap:
+                              type: array
+                              items:
+                                type: object
+                                description: >-
+                                  Details about any caps (maximum charges) that
+                                  apply to a particular or group of fee/charge
+                                required:
+                                  - FeeType
+                                  - MinMaxType
+                                properties:
+                                  FeeType:
+                                    type: array
+                                    items:
+                                      description: Fee/charge type which is being capped
+                                      type: string
+                                      enum:
+                                        - FEPF
+                                        - FTOT
+                                        - FYAF
+                                        - FYAM
+                                        - FYAQ
+                                        - FYCP
+                                        - FYDB
+                                        - FYMI
+                                        - FYXX
+                                    minItems: 1
+                                  MinMaxType:
+                                    $ref: '#/components/schemas/OB_MinMaxType1Code'
+                                  FeeCapOccurrence:
+                                    $ref: '#/components/schemas/Number_1'
+                                  FeeCapAmount:
+                                    $ref: '#/components/schemas/OB_Amount1_4'
+                                  CappingPeriod:
+                                    $ref: '#/components/schemas/OB_Period1Code'
+                                  Notes:
+                                    type: array
+                                    items:
+                                      description: >-
+                                        Free text for adding  extra details for
+                                        fee charge cap
+                                      type: string
+                                      minLength: 1
+                                      maxLength: 2000
+                                  OtherFeeType:
+                                    type: array
+                                    items:
+                                      type: object
+                                      description: >-
+                                        Other fee type code which is not
+                                        available in the standard code set
+                                      required:
+                                        - Name
+                                        - Description
+                                      properties:
+                                        Code:
+                                          $ref: '#/components/schemas/OB_CodeMnemonic'
+                                        Name:
+                                          $ref: '#/components/schemas/Name_3'
+                                        Description:
+                                          $ref: '#/components/schemas/Description_3'
+                      SupplementaryData:
+                        $ref: '#/components/schemas/OBSupplementaryData1'
                   BCA:
                     type: object
                     title: BCA
@@ -9131,6 +10994,401 @@ components:
               $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
             Currency:
               $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
+    OB_Amount1_0:
+      description: Cap amount charged for a fee/charge
+      type: string
+      pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+    OB_Amount1_1:
+      description: >-
+        Every additional tranche of an overdraft balance to which an overdraft
+        fee is applied
+      type: string
+      pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+    OB_Amount1_2:
+      description: >-
+        Amount charged for an overdraft fee/charge (where it is charged in terms
+        of an amount rather than a rate)
+      type: string
+      pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+    OB_Amount1_3:
+      description: >-
+        Fee Amount charged for a fee/charge (where it is charged in terms of an
+        amount rather than a rate)
+      type: string
+      pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+    OB_Amount1_4:
+      description: >-
+        Cap amount charged for a fee/charge (where it is charged in terms of an
+        amount rather than a rate)
+      type: string
+      pattern: '^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$'
+    OB_CodeMnemonic:
+      description: The four letter Mnemonic used within an XML file to identify a code
+      type: string
+      pattern: '^\\w{0,4}$'
+    OB_FeeCategory1Code:
+      description: Categorisation of fees and charges into standard categories.
+      type: string
+      enum:
+        - FCOT
+        - FCRE
+        - FCSV
+    OB_FeeFrequency1Code_0:
+      description: Frequency at which the overdraft charge is applied to the account
+      type: string
+      enum:
+        - FEAC
+        - FEAO
+        - FECP
+        - FEDA
+        - FEHO
+        - FEI
+        - FEMO
+        - FEOA
+        - FEOT
+        - FEPC
+        - FEPH
+        - FEPO
+        - FEPS
+        - FEPT
+        - FEPTA
+        - FEPTP
+        - FEQU
+        - FESM
+        - FEST
+        - FEWE
+        - FEYE
+    OB_FeeFrequency1Code_1:
+      description: How often is the overdraft fee/charge calculated for the account.
+      type: string
+      enum:
+        - FEAC
+        - FEAO
+        - FECP
+        - FEDA
+        - FEHO
+        - FEI
+        - FEMO
+        - FEOA
+        - FEOT
+        - FEPC
+        - FEPH
+        - FEPO
+        - FEPS
+        - FEPT
+        - FEPTA
+        - FEPTP
+        - FEQU
+        - FESM
+        - FEST
+        - FEWE
+        - FEYE
+    OB_FeeFrequency1Code_2:
+      description: How frequently the fee/charge is applied to the account
+      type: string
+      enum:
+        - FEAC
+        - FEAO
+        - FECP
+        - FEDA
+        - FEHO
+        - FEI
+        - FEMO
+        - FEOA
+        - FEOT
+        - FEPC
+        - FEPH
+        - FEPO
+        - FEPS
+        - FEPT
+        - FEPTA
+        - FEPTP
+        - FEQU
+        - FESM
+        - FEST
+        - FEWE
+        - FEYE
+    OB_FeeFrequency1Code_3:
+      description: How frequently the fee/charge is calculated
+      type: string
+      enum:
+        - FEAC
+        - FEAO
+        - FECP
+        - FEDA
+        - FEHO
+        - FEI
+        - FEMO
+        - FEOA
+        - FEOT
+        - FEPC
+        - FEPH
+        - FEPO
+        - FEPS
+        - FEPT
+        - FEPTA
+        - FEPTP
+        - FEQU
+        - FESM
+        - FEST
+        - FEWE
+        - FEYE
+    OB_FeeFrequency1Code_4:
+      description: 'Period e.g. day, week, month etc. for which the fee/charge is capped'
+      type: string
+      enum:
+        - FEAC
+        - FEAO
+        - FECP
+        - FEDA
+        - FEHO
+        - FEI
+        - FEMO
+        - FEOA
+        - FEOT
+        - FEPC
+        - FEPH
+        - FEPO
+        - FEPS
+        - FEPT
+        - FEPTA
+        - FEPTP
+        - FEQU
+        - FESM
+        - FEST
+        - FEWE
+        - FEYE
+    OB_FeeType1Code:
+      description: Fee/Charge Type
+      type: string
+      enum:
+        - FEPF
+        - FTOT
+        - FYAF
+        - FYAM
+        - FYAQ
+        - FYCP
+        - FYDB
+        - FYMI
+        - FYXX
+    OB_InterestCalculationMethod1Code:
+      description: Methods of calculating interest
+      type: string
+      enum:
+        - ITCO
+        - ITOT
+        - ITSI
+    OB_InterestFixedVariableType1Code:
+      description: 'Type of interest rate, Fixed or Variable'
+      type: string
+      enum:
+        - INFI
+        - INVA
+    OB_InterestRateType1Code_0:
+      description: >-
+        Rate type for overdraft fee/charge (where it is charged in terms of a
+        rate rather than an amount)
+      type: string
+      enum:
+        - INBB
+        - INFR
+        - INGR
+        - INLR
+        - INNE
+        - INOT
+    OB_InterestRateType1Code_1:
+      description: >-
+        Rate type for Fee/Charge (where it is charged in terms of a rate rather
+        than an amount)
+      type: string
+      enum:
+        - INBB
+        - INFR
+        - INGR
+        - INLR
+        - INNE
+        - INOT
+    OB_MinMaxType1Code:
+      description: Min Max type
+      type: string
+      enum:
+        - FMMN
+        - FMMX
+    OB_OtherCodeType1_0:
+      type: object
+      required:
+        - Name
+        - Description
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_1:
+      type: object
+      required:
+        - Name
+        - Description
+      description: >-
+        Other application frequencies that are not available in the standard
+        code list
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_2:
+      type: object
+      required:
+        - Name
+        - Description
+      description: >-
+        Other calculation frequency which is not available in the standard code
+        set.
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_3:
+      type: object
+      required:
+        - Name
+        - Description
+      description: Other Fee type which is not available in the standard code set
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_4:
+      type: object
+      required:
+        - Name
+        - Description
+      description: Other fee rate type code which is not available in the standard code set
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_5:
+      type: object
+      required:
+        - Name
+        - Description
+      description: Other fee rate type which is not in the standard rate type list
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_6:
+      type: object
+      required:
+        - Name
+        - Description
+      description: Other application frequencies not covered in the standard code list
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_7:
+      type: object
+      required:
+        - Name
+        - Description
+      description: Other calculation frequency which is not available in standard code set.
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherCodeType1_8:
+      type: object
+      required:
+        - Name
+        - Description
+      description: Other fee rate type which is not available in the standard code set
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OtherFeeChargeDetailType:
+      type: object
+      required:
+        - FeeCategory
+        - Name
+        - Description
+      description: Other Fee/charge type which is not available in the standard code set
+      properties:
+        Code:
+          $ref: '#/components/schemas/OB_CodeMnemonic'
+        FeeCategory:
+          $ref: '#/components/schemas/OB_FeeCategory1Code'
+        Name:
+          $ref: '#/components/schemas/Name_3'
+        Description:
+          $ref: '#/components/schemas/Description_3'
+    OB_OverdraftFeeType1Code:
+      description: Overdraft fee type
+      type: string
+      enum:
+        - FBAO
+        - FBAR
+        - FBEB
+        - FBIT
+        - FBOR
+        - FBOS
+        - FBSC
+        - FBTO
+        - FBUB
+        - FBUT
+        - FTOT
+        - FTUT
+    OB_Period1Code:
+      description: 'Period e.g. day, week, month etc. for which the fee/charge is capped'
+      type: string
+      enum:
+        - PACT
+        - PDAY
+        - PHYR
+        - PMTH
+        - PQTR
+        - PWEK
+        - PYER
+    OB_Rate1_0:
+      description: >-
+        Rate charged for overdraft fee/charge (where it is charged in terms of a
+        rate rather than an amount)
+      type: string
+      pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+    OB_Rate1_1:
+      description: >-
+        Rate charged for Fee/Charge (where it is charged in terms of a rate
+        rather than an amount)
+      type: string
+      pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
     PartyId:
       description: >-
         A unique and immutable identifier used to identify the customer
