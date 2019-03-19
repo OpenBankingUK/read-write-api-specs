@@ -2487,13 +2487,6 @@ components:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
   schemas:
-    AccountId:
-      description: >-
-        A unique and immutable identifier used to identify the account resource.
-        This identifier has no meaning to the account owner.
-      type: string
-      minLength: 1
-      maxLength: 40
     ActiveOrHistoricCurrencyCode:
       description: >-
         A code allocated to a currency by a Maintenance Agency under an
@@ -2535,18 +2528,13 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
-    Identification_0:
+    Identification:
       description: >-
         Identification assigned by an institution to identify an account. This
         identification is known by the account owner.
       type: string
       minLength: 1
       maxLength: 256
-    Identification_1:
-      description: Unique and unambiguous identification of the servicing institution.
-      type: string
-      minLength: 1
-      maxLength: 35
     Links:
       type: object
       description: Links relevant to the payload
@@ -2582,17 +2570,6 @@ components:
         LastAvailableDateTime:
           $ref: '#/components/schemas/ISODateTime'
       additionalProperties: false
-    Name:
-      description: >-
-        The account name is the name or names of the account owner(s)
-        represented at an account level, as displayed by the ASPSP's online
-        channels.
-
-        Note, the account name is not the product name or the nickname of the
-        account.
-      type: string
-      minLength: 1
-      maxLength: 70
     OBActiveCurrencyAndAmount_SimpleType:
       description: >-
         A number of monetary units specified in an active currency where the
@@ -2622,45 +2599,6 @@ components:
         - Postal
         - Residential
         - Statement
-    OBBranchAndFinancialInstitutionIdentification6:
-      type: object
-      description: >-
-        Party that manages the account on behalf of the account owner, that is
-        manages the registration and booking of entries on the account,
-        calculates balances on the account and provides information about the
-        account.
-
-        This is the servicer of the beneficiary account.
-      properties:
-        SchemeName:
-          $ref: >-
-            #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
-        Identification:
-          $ref: '#/components/schemas/Identification_1'
-        Name:
-          description: >-
-            Name by which an agent is known and which is usually used to
-            identify that agent.
-          type: string
-          minLength: 1
-          maxLength: 140
-        PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress6'
-    OBCashAccount5:
-      type: object
-      required:
-        - SchemeName
-        - Identification
-      description: Provides the details to identify the beneficiary account.
-      properties:
-        SchemeName:
-          $ref: '#/components/schemas/OBExternalAccountIdentification4Code'
-        Identification:
-          $ref: '#/components/schemas/Identification_0'
-        Name:
-          $ref: '#/components/schemas/Name'
-        SecondaryIdentification:
-          $ref: '#/components/schemas/SecondaryIdentification'
     OBChargeBearerType1Code:
       description: >-
         Specifies which party/parties will bear the charges associated with the
@@ -2777,13 +2715,6 @@ components:
         - UK.OBIE.PAN
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
-    OBExternalFinancialInstitutionIdentification4Code:
-      description: >-
-        Name of the identification scheme, in a coded form as published in an
-        external list.
-      type: string
-      x-namespaced-enum:
-        - UK.OBIE.BICFI
     OBExternalLocalInstrument1Code:
       description: >-
         User community specific instrument.
@@ -2809,19 +2740,6 @@ components:
       type: string
       x-namespaced-enum:
         - UK.OBIE.CHAPSOut
-    OBPartyIdentification43:
-      type: object
-      description: Set of elements used to identify a person or an organisation.
-      properties:
-        Name:
-          description: >-
-            Name by which a party is known and which is usually used to identify
-            that party.
-          type: string
-          minLength: 1
-          maxLength: 140
-        PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress6'
     OBPostalAddress6:
       type: object
       description: >-
@@ -2857,43 +2775,6 @@ components:
             maxLength: 70
           minItems: 0
           maxItems: 7
-    OBRemittanceInformation1:
-      type: object
-      description: >-
-        Information supplied to enable the matching/reconciliation of an entry
-        with the items that the payment is intended to settle, such as
-        commercial invoices in an accounts' receivable system.
-      properties:
-        Unstructured:
-          description: >-
-            Information supplied to enable the matching/reconciliation of an
-            entry with the items that the payment is intended to settle, such as
-            commercial invoices in an accounts' receivable system, in an
-            unstructured form.
-          type: string
-          minLength: 1
-          maxLength: 140
-        Reference:
-          description: >-
-            Unique reference, as assigned by the creditor, to unambiguously
-            refer to the payment transaction.
-
-            Usage: If available, the initiating party should provide this
-            reference in the structured remittance information, to enable
-            reconciliation by the creditor upon receipt of the amount of money.
-
-            If the business context requires the use of a creditor reference or
-            a payment remit identification, and only one identifier can be
-            passed through the end-to-end chain, the creditor's reference or
-            payment remittance identification should be quoted in the end-to-end
-            transaction identification.
-
-            OB: The Faster Payments Scheme can only accept 18 characters for the
-            ReferenceInformation field - which is where this ISO field will be
-            mapped.
-          type: string
-          minLength: 1
-          maxLength: 35
     OBRisk1:
       type: object
       description: >-
@@ -2974,597 +2855,6 @@ components:
       description: >-
         Additional information that can not be captured in the structured fields
         and/or any other specific block.
-    OBWriteAccount1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          properties:
-            Account:
-              type: array
-              items:
-                type: object
-                description: >-
-                  Unambiguous identification of the account to which credit and
-                  debit entries are made.
-                required:
-                  - AccountId
-                  - Currency
-                  - AccountType
-                  - AccountSubType
-                properties:
-                  AccountId:
-                    $ref: '#/components/schemas/AccountId'
-                  Currency:
-                    description: >-
-                      Identification of the currency in which the account is
-                      held. 
-
-                      Usage: Currency should only be used in case one and the
-                      same account number covers several currencies
-
-                      and the initiating party needs to identify which currency
-                      needs to be used for settlement on the account.
-                    type: string
-                    pattern: '^[A-Z]{3,3}$'
-                  AccountType:
-                    description: Specifies the type of account (personal or business).
-                    type: string
-                    enum:
-                      - Business
-                      - Personal
-                  AccountSubType:
-                    description: Specifies the sub type of account (product family group).
-                    type: string
-                    enum:
-                      - ChargeCard
-                      - CreditCard
-                      - CurrentAccount
-                      - EMoney
-                      - Loan
-                      - Mortgage
-                      - PrePaidCard
-                      - Savings
-                  Description:
-                    description: Specifies the description of the account type.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
-                  Nickname:
-                    description: >-
-                      The nickname of the account, assigned by the account owner
-                      in order to provide an additional means of identification
-                      of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  Account:
-                    type: array
-                    items:
-                      type: object
-                      description: Provides the details to identify an account.
-                      required:
-                        - SchemeName
-                        - Identification
-                      properties:
-                        SchemeName:
-                          $ref: >-
-                            #/components/schemas/OBExternalAccountIdentification4Code
-                        Identification:
-                          $ref: '#/components/schemas/Identification_0'
-                        Name:
-                          $ref: '#/components/schemas/Name'
-                        SecondaryIdentification:
-                          $ref: '#/components/schemas/SecondaryIdentification'
-                  Servicer:
-                    type: object
-                    required:
-                      - SchemeName
-                      - Identification
-                    description: >-
-                      Party that manages the account on behalf of the account
-                      owner, that is manages the registration and booking of
-                      entries on the account, calculates balances on the account
-                      and provides information about the account.
-                    properties:
-                      SchemeName:
-                        $ref: >-
-                          #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
-                      Identification:
-                        $ref: '#/components/schemas/Identification_1'
-    OBWriteAccountReadConsent1:
-      type: object
-      properties:
-        Data:
-          type: object
-          required:
-            - Permissions
-          properties:
-            Permissions:
-              type: array
-              items:
-                description: >-
-                  Specifies the Open Banking account access data types. This is
-                  a list of the data clusters being consented by the PSU, and
-                  requested for authorisation with the ASPSP.
-                type: string
-                enum:
-                  - ReadAccountsBasic
-                  - ReadAccountsDetail
-                  - ReadBalances
-                  - ReadBeneficiariesBasic
-                  - ReadBeneficiariesDetail
-                  - ReadPAN
-                  - ReadParty
-                  - ReadPartyPSU
-              minItems: 1
-            ExpirationDateTime:
-              description: >-
-                Specified date and time the permissions will expire.
-
-                If this is not populated, the permissions will be open ended.All
-                dates in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-    OBWriteAccountReadConsentResponse1:
-      type: object
-      properties:
-        Data:
-          type: object
-          required:
-            - ConsentId
-            - CreationDateTime
-            - Status
-            - StatusUpdateDateTime
-            - Permissions
-          properties:
-            ConsentId:
-              description: >-
-                Unique identification as assigned to identify the account access
-                consent resource.
-              type: string
-              minLength: 1
-              maxLength: 128
-            CreationDateTime:
-              description: >-
-                Date and time at which the resource was created.All dates in the
-                JSON payloads are represented in ISO 8601 date-time format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-            Status:
-              description: Specifies the status of consent resource in code form.
-              type: string
-              enum:
-                - Authorised
-                - AwaitingAuthorisation
-                - Rejected
-                - Revoked
-            StatusUpdateDateTime:
-              description: >-
-                Date and time at which the resource status was updated.All dates
-                in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-            Permissions:
-              type: array
-              items:
-                description: >-
-                  Specifies the Open Banking account access data types. This is
-                  a list of the data clusters being consented by the PSU, and
-                  requested for authorisation with the ASPSP.
-                type: string
-                enum:
-                  - ReadAccountsBasic
-                  - ReadAccountsDetail
-                  - ReadBalances
-                  - ReadBeneficiariesBasic
-                  - ReadBeneficiariesDetail
-                  - ReadPAN
-                  - ReadParty
-                  - ReadPartyPSU
-              minItems: 1
-            ExpirationDateTime:
-              description: >-
-                Specified date and time the permissions will expire.
-
-                If this is not populated, the permissions will be open ended.All
-                dates in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-        Links:
-          $ref: '#/components/schemas/Links'
-        Meta:
-          $ref: '#/components/schemas/Meta'
-    OBWriteBalance1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - Balance
-          properties:
-            Balance:
-              type: array
-              items:
-                type: object
-                description: Set of elements used to define the balance details.
-                required:
-                  - AccountId
-                  - CreditDebitIndicator
-                  - Type
-                  - DateTime
-                  - Amount
-                properties:
-                  AccountId:
-                    $ref: '#/components/schemas/AccountId'
-                  CreditDebitIndicator:
-                    description: >-
-                      Indicates whether the balance is a credit or a debit
-                      balance. 
-
-                      Usage: A zero balance is considered to be a credit
-                      balance.
-                    type: string
-                    enum:
-                      - Credit
-                      - Debit
-                  Type:
-                    description: 'Balance type, in a coded form.'
-                    type: string
-                    enum:
-                      - ClosingAvailable
-                      - ClosingBooked
-                      - ClosingCleared
-                      - Expected
-                      - ForwardAvailable
-                      - Information
-                      - InterimAvailable
-                      - InterimBooked
-                      - InterimCleared
-                      - OpeningAvailable
-                      - OpeningBooked
-                      - OpeningCleared
-                      - PreviouslyClosedBooked
-                  DateTime:
-                    description: >-
-                      Indicates the date (and time) of the balance.All dates in
-                      the JSON payloads are represented in ISO 8601 date-time
-                      format. 
-
-                      All date-time fields in responses must include the
-                      timezone. An example is below:
-
-                      2017-04-05T10:43:07+00:00
-                    type: string
-                    format: date-time
-                  Amount:
-                    type: object
-                    required:
-                      - Amount
-                      - Currency
-                    description: Amount of money of the cash balance.
-                    properties:
-                      Amount:
-                        $ref: >-
-                          #/components/schemas/OBActiveCurrencyAndAmount_SimpleType
-                      Currency:
-                        $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode'
-                  CreditLine:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details on the credit
-                        line.
-                      required:
-                        - Included
-                      properties:
-                        Included:
-                          description: >-
-                            Indicates whether or not the credit line is included
-                            in the balance of the account.
-
-                            Usage: If not present, credit line is not included
-                            in the balance amount of the account.
-                          type: boolean
-                        Type:
-                          description: 'Limit type, in a coded form.'
-                          type: string
-                          enum:
-                            - Available
-                            - Credit
-                            - Emergency
-                            - Pre-Agreed
-                            - Temporary
-                        Amount:
-                          type: object
-                          required:
-                            - Amount
-                            - Currency
-                          description: Amount of money of the credit line.
-                          properties:
-                            Amount:
-                              $ref: >-
-                                #/components/schemas/OBActiveCurrencyAndAmount_SimpleType
-                            Currency:
-                              $ref: >-
-                                #/components/schemas/ActiveOrHistoricCurrencyCode
-              minItems: 1
-    OBWriteBeneficiary1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          properties:
-            Beneficiary:
-              type: array
-              items:
-                type: object
-                required:
-                  - BeneficiaryId
-                  - CreditorAccount
-                properties:
-                  BeneficiaryId:
-                    description: >-
-                      OB: Unique identification as assigned by the ASPSP to
-                      uniquely identify the beneficiary resource
-                    type: string
-                    minLength: 1
-                    maxLength: 128
-                  RemittanceInformation:
-                    $ref: '#/components/schemas/OBRemittanceInformation1'
-                  Creditor:
-                    $ref: '#/components/schemas/OBPartyIdentification43'
-                  CreditorAgent:
-                    $ref: >-
-                      #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
-                  CreditorAccount:
-                    $ref: '#/components/schemas/OBCashAccount5'
-    OBWriteBeneficiaryConsent1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - Initiation
-          properties:
-            Initiation:
-              type: object
-              required:
-                - CreditorAccount
-              description: >-
-                The Initiation payload is sent by the initiating party to the
-                ASPSP.
-              properties:
-                RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                Creditor:
-                  $ref: '#/components/schemas/OBPartyIdentification43'
-                CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
-                CreditorAccount:
-                  $ref: '#/components/schemas/OBCashAccount5'
-    OBWriteBeneficiaryConsentResponse1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - ConsentId
-            - Status
-            - CreationDateTime
-            - StatusUpdateDateTime
-            - Initiation
-          properties:
-            ConsentId:
-              description: >-
-                OB: Unique identification as assigned by the ASPSP to uniquely
-                identify the consent resource.
-              type: string
-              minLength: 1
-              maxLength: 128
-            Status:
-              description: Specifies the status of consent resource in code form.
-              type: string
-              enum:
-                - Authorised
-                - AwaitingAuthorisation
-                - Consumed
-                - Rejected
-            CreationDateTime:
-              description: >-
-                Date and time at which the resource status was created.All dates
-                in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-            StatusUpdateDateTime:
-              description: >-
-                Date and time at which the resource status was updated.All dates
-                in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-            Initiation:
-              type: object
-              required:
-                - CreditorAccount
-              description: >-
-                The Initiation payload is sent by the initiating party to the
-                ASPSP.
-              properties:
-                RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                Creditor:
-                  $ref: '#/components/schemas/OBPartyIdentification43'
-                CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
-                CreditorAccount:
-                  $ref: '#/components/schemas/OBCashAccount5'
-        Links:
-          $ref: '#/components/schemas/Links'
-        Meta:
-          $ref: '#/components/schemas/Meta'
-    OBWriteBeneficiaryRequest1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - ConsentId
-            - Initiation
-          properties:
-            ConsentId:
-              description: >-
-                OB: Unique identification as assigned by the ASPSP to uniquely
-                identify the consent resource.
-              type: string
-              minLength: 1
-              maxLength: 128
-            Initiation:
-              type: object
-              required:
-                - CreditorAccount
-              description: >-
-                The Initiation payload is sent by the initiating party to the
-                ASPSP.
-              properties:
-                RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                Creditor:
-                  $ref: '#/components/schemas/OBPartyIdentification43'
-                CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
-                CreditorAccount:
-                  $ref: '#/components/schemas/OBCashAccount5'
-    OBWriteBeneficiaryResponse1:
-      type: object
-      required:
-        - Data
-      properties:
-        Data:
-          type: object
-          required:
-            - ConsentId
-            - BeneficiaryId
-            - Status
-            - CreationDateTime
-            - StatusUpdateDateTime
-            - Initiation
-          properties:
-            ConsentId:
-              description: >-
-                OB: Unique identification as assigned by the ASPSP to uniquely
-                identify the consent resource.
-              type: string
-              minLength: 1
-              maxLength: 128
-            BeneficiaryId:
-              description: >-
-                OB: Unique identification as assigned by the ASPSP to uniquely
-                identify the beneficiary resource.
-              type: string
-              minLength: 1
-              maxLength: 128
-            Status:
-              description: Specifies the status of beneficiary resource in code form.
-              type: string
-              enum:
-                - Active
-                - Inactive
-            CreationDateTime:
-              description: >-
-                Date and time at which the resource status was created.All dates
-                in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-            StatusUpdateDateTime:
-              description: >-
-                Date and time at which the resource status was updated.All dates
-                in the JSON payloads are represented in ISO 8601 date-time
-                format. 
-
-                All date-time fields in responses must include the timezone. An
-                example is below:
-
-                2017-04-05T10:43:07+00:00
-              type: string
-              format: date-time
-            Initiation:
-              type: object
-              required:
-                - CreditorAccount
-              description: >-
-                The Initiation payload is sent by the initiating party to the
-                ASPSP.
-              properties:
-                RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                Creditor:
-                  $ref: '#/components/schemas/OBPartyIdentification43'
-                CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
-                CreditorAccount:
-                  $ref: '#/components/schemas/OBCashAccount5'
-        Links:
-          $ref: '#/components/schemas/Links'
-        Meta:
-          $ref: '#/components/schemas/Meta'
     OBWriteDomestic2:
       type: object
       required:
@@ -3661,9 +2951,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -3681,12 +2980,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -3744,7 +3042,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteDomesticConsent2:
+    OBWriteDomesticConsent3:
       type: object
       required:
         - Data
@@ -3832,9 +3130,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -3852,12 +3159,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -3937,12 +3243,49 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteDomesticConsent3:
-      type: object
-      properties: {}
-    OBWriteDomesticConsentResponse2:
+    OBWriteDomesticConsentResponse3:
       type: object
       required:
         - Data
@@ -4126,9 +3469,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -4146,12 +3498,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -4231,15 +3582,52 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteDomesticConsentResponse3:
-      type: object
-      properties: {}
     OBWriteDomesticResponse2:
       type: object
       properties: {}
@@ -4424,9 +3812,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -4444,12 +3841,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -4665,9 +4061,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -4685,12 +4090,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -4748,7 +4152,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteDomesticScheduledConsent2:
+    OBWriteDomesticScheduledConsent3:
       type: object
       required:
         - Data
@@ -4857,9 +4261,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -4877,12 +4290,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -4962,12 +4374,49 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteDomesticScheduledConsent3:
-      type: object
-      properties: {}
-    OBWriteDomesticScheduledConsentResponse2:
+    OBWriteDomesticScheduledConsentResponse3:
       type: object
       required:
         - Data
@@ -5172,9 +4621,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -5192,12 +4650,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -5277,15 +4734,52 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteDomesticScheduledConsentResponse3:
-      type: object
-      properties: {}
     OBWriteDomesticScheduledResponse3:
       type: object
       required:
@@ -5480,9 +4974,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -5500,12 +5003,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -5823,9 +5325,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -5842,12 +5353,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -5863,7 +5373,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteDomesticStandingOrderConsent3:
+    OBWriteDomesticStandingOrderConsent4:
       type: object
       required:
         - Data
@@ -6074,9 +5584,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -6093,12 +5612,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -6136,12 +5654,49 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteDomesticStandingOrderConsent4:
-      type: object
-      properties: {}
-    OBWriteDomesticStandingOrderConsentResponse3:
+    OBWriteDomesticStandingOrderConsentResponse4:
       type: object
       required:
         - Data
@@ -6424,9 +5979,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -6443,12 +6007,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -6486,15 +6049,52 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteDomesticStandingOrderConsentResponse4:
-      type: object
-      properties: {}
     OBWriteDomesticStandingOrderResponse4:
       type: object
       required:
@@ -6767,9 +6367,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorAccount:
@@ -6786,12 +6395,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -6942,9 +6550,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
@@ -6989,7 +6606,7 @@ components:
                       maxLength: 35
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
-    OBWriteFileConsent2:
+    OBWriteFileConsent3:
       type: object
       required:
         - Data
@@ -7069,9 +6686,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
@@ -7140,10 +6766,47 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
-    OBWriteFileConsent3:
-      type: object
-      properties: {}
-    OBWriteFileConsentResponse2:
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
+    OBWriteFileConsentResponse3:
       type: object
       required:
         - Data
@@ -7296,9 +6959,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
@@ -7367,13 +7039,50 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteFileConsentResponse3:
-      type: object
-      properties: {}
     OBWriteFileResponse2:
       type: object
       required:
@@ -7521,9 +7230,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
@@ -7817,9 +7535,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -7840,8 +7567,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -7873,12 +7604,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -7934,7 +7664,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalConsent2:
+    OBWriteInternationalConsent3:
       type: object
       required:
         - Data
@@ -8088,9 +7818,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -8111,8 +7850,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -8144,12 +7887,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -8227,12 +7969,49 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalConsent3:
-      type: object
-      properties: {}
-    OBWriteInternationalConsentResponse2:
+    OBWriteInternationalConsentResponse3:
       type: object
       required:
         - Data
@@ -8532,9 +8311,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -8555,8 +8343,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -8588,12 +8380,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -8671,15 +8462,52 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalConsentResponse3:
-      type: object
-      properties: {}
     OBWriteInternationalResponse3:
       type: object
       required:
@@ -8977,9 +8805,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -9000,8 +8837,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -9033,12 +8874,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -9322,9 +9162,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -9345,8 +9194,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -9378,12 +9231,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -9439,7 +9291,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalScheduledConsent2:
+    OBWriteInternationalScheduledConsent3:
       type: object
       required:
         - Data
@@ -9615,9 +9467,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -9638,8 +9499,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -9671,12 +9536,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -9754,12 +9618,49 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalScheduledConsent3:
-      type: object
-      properties: {}
-    OBWriteInternationalScheduledConsentResponse2:
+    OBWriteInternationalScheduledConsentResponse3:
       type: object
       required:
         - Data
@@ -10081,9 +9982,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -10104,8 +10014,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -10137,12 +10051,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -10220,15 +10133,52 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalScheduledConsentResponse3:
-      type: object
-      properties: {}
     OBWriteInternationalScheduledResponse3:
       type: object
       required:
@@ -10540,9 +10490,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -10563,8 +10522,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
                     Identification:
                       description: >-
                         Unique and unambiguous identification of a financial
@@ -10596,12 +10559,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -10904,9 +10866,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -10923,8 +10894,38 @@ components:
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
+                  type: object
+                  description: >-
+                    Party that manages the account on behalf of the account
+                    owner, that is manages the registration and booking of
+                    entries on the account, calculates balances on the account
+                    and provides information about the account.
+
+                    This is the servicer of the beneficiary account.
+                  properties:
+                    SchemeName:
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
+                    Identification:
+                      description: >-
+                        Unique and unambiguous identification of the servicing
+                        institution.
+                      type: string
+                      minLength: 1
+                      maxLength: 35
+                    Name:
+                      description: >-
+                        Name by which an agent is known and which is usually
+                        used to identify that agent.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
                   type: object
                   required:
@@ -10937,12 +10938,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -10958,7 +10958,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalStandingOrderConsent3:
+    OBWriteInternationalStandingOrderConsent4:
       type: object
       required:
         - Data
@@ -11156,9 +11156,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -11175,8 +11184,38 @@ components:
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
+                  type: object
+                  description: >-
+                    Party that manages the account on behalf of the account
+                    owner, that is manages the registration and booking of
+                    entries on the account, calculates balances on the account
+                    and provides information about the account.
+
+                    This is the servicer of the beneficiary account.
+                  properties:
+                    SchemeName:
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
+                    Identification:
+                      description: >-
+                        Unique and unambiguous identification of the servicing
+                        institution.
+                      type: string
+                      minLength: 1
+                      maxLength: 35
+                    Name:
+                      description: >-
+                        Name by which an agent is known and which is usually
+                        used to identify that agent.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
                   type: object
                   required:
@@ -11189,12 +11228,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -11232,12 +11270,49 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalStandingOrderConsent4:
-      type: object
-      properties: {}
-    OBWriteInternationalStandingOrderConsentResponse3:
+    OBWriteInternationalStandingOrderConsentResponse4:
       type: object
       required:
         - Data
@@ -11507,9 +11582,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -11526,8 +11610,38 @@ components:
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
+                  type: object
+                  description: >-
+                    Party that manages the account on behalf of the account
+                    owner, that is manages the registration and booking of
+                    entries on the account, calculates balances on the account
+                    and provides information about the account.
+
+                    This is the servicer of the beneficiary account.
+                  properties:
+                    SchemeName:
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
+                    Identification:
+                      description: >-
+                        Unique and unambiguous identification of the servicing
+                        institution.
+                      type: string
+                      minLength: 1
+                      maxLength: 35
+                    Name:
+                      description: >-
+                        Name by which an agent is known and which is usually
+                        used to identify that agent.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
                   type: object
                   required:
@@ -11540,12 +11654,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -11583,15 +11696,52 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
+            SCASupportData:
+              type: object
+              description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
+              properties:
+                RequestedSCAExemptionType:
+                  description: >-
+                    This field allows a PISP to request specific SCA Exemption
+                    for a Payment Initiation
+                  type: string
+                  enum:
+                    - BillPayment
+                    - ContactlessTravel
+                    - EcommerceGoods
+                    - EcommerceServices
+                    - Kiosk
+                    - Parking
+                    - PartyToParty
+                AppliedAuthenticationApproach:
+                  description: >-
+                    Specifies a character string with a maximum length of 40
+                    characters.
+
+                    Usage: This field indicates whether the PSU was subject to
+                    SCA performed by the TPP
+                  type: string
+                  enum:
+                    - CA
+                    - SCA
+                ReferencePaymentOrderId:
+                  description: >-
+                    Specifies a character string with a maximum length of 140
+                    characters.
+
+                    Usage: If the payment is recurring then the transaction
+                    identifier of the previous payment occurrence so that the
+                    ASPSP can verify that the PISP, amount and the payee are the
+                    same as the previous occurrence.
+                  type: string
+                  minLength: 1
+                  maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalStandingOrderConsentResponse4:
-      type: object
-      properties: {}
     OBWriteInternationalStandingOrderResponse4:
       type: object
       required:
@@ -11851,9 +12001,18 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
-                      $ref: '#/components/schemas/Name'
+                      description: >-
+                        The account name is the name or names of the account
+                        owner(s) represented at an account level, as displayed
+                        by the ASPSP's online channels.
+
+                        Note, the account name is not the product name or the
+                        nickname of the account.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 Creditor:
@@ -11870,8 +12029,38 @@ components:
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAgent:
-                  $ref: >-
-                    #/components/schemas/OBBranchAndFinancialInstitutionIdentification6
+                  type: object
+                  description: >-
+                    Party that manages the account on behalf of the account
+                    owner, that is manages the registration and booking of
+                    entries on the account, calculates balances on the account
+                    and provides information about the account.
+
+                    This is the servicer of the beneficiary account.
+                  properties:
+                    SchemeName:
+                      description: >-
+                        Name of the identification scheme, in a coded form as
+                        published in an external list.
+                      type: string
+                      x-namespaced-enum:
+                        - UK.OBIE.BICFI
+                    Identification:
+                      description: >-
+                        Unique and unambiguous identification of the servicing
+                        institution.
+                      type: string
+                      minLength: 1
+                      maxLength: 35
+                    Name:
+                      description: >-
+                        Name by which an agent is known and which is usually
+                        used to identify that agent.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
                   type: object
                   required:
@@ -11884,12 +12073,11 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification_0'
+                      $ref: '#/components/schemas/Identification'
                     Name:
                       description: >-
                         The account name is the name or names of the account
-                        owner(s) represented at an account level, as displayed
-                        by the ASPSP's online channels.
+                        owner(s) represented at an account level.
 
                         Note, the account name is not the product name or the
                         nickname of the account.
@@ -11959,8 +12147,6 @@ components:
       properties:
         Data:
           type: object
-          required:
-            - PaymentStatus
           properties:
             PaymentStatus:
               type: array
@@ -12032,12 +12218,22 @@ components:
                         type: string
                         minLength: 1
                         maxLength: 128
-                      Reason:
+                      StatusReason:
+                        description: Reason Code provided for the status of a transfer.
+                        type: string
+                        enum:
+                          - Cancelled
+                          - PendingFailingSettlement
+                          - PendingSettlement
+                          - Proprietary
+                          - ProprietaryRejection
+                          - Suspended
+                          - Unmatched
+                      StatusReasonDescription:
                         description: Reason provided for the status of a transfer.
                         type: string
                         minLength: 1
                         maxLength: 256
-              minItems: 1
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
