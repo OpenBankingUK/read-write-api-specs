@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v4.0-draft7"
+    "version": "v4.0-RC1"
   },
   "paths": {
     "/account-access-consents": {
@@ -1859,19 +1859,19 @@
           "type": "string"
         }
       },
-      "StatementId": {
-        "name": "StatementId",
+      "ConsentId": {
+        "name": "ConsentId",
         "in": "path",
-        "description": "StatementId",
+        "description": "ConsentId",
         "required": true,
         "schema": {
           "type": "string"
         }
       },
-      "ConsentId": {
-        "name": "ConsentId",
+      "StatementId": {
+        "name": "StatementId",
         "in": "path",
-        "description": "ConsentId",
+        "description": "StatementId",
         "required": true,
         "schema": {
           "type": "string"
@@ -1958,8 +1958,8 @@
       }
     },
     "responses": {
-      "200AccountsAccountIdTransactionsRead": {
-        "description": "Transactions Read",
+      "200AccountsAccountIdStandingOrdersRead": {
+        "description": "Standing Orders Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -1971,13 +1971,13 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadTransaction5"
+              "$ref": "#/components/schemas/OBReadStandingOrder5"
             }
           }
         }
       },
-      "200TransactionsRead": {
-        "description": "Transactions Read",
+      "200StandingOrdersRead": {
+        "description": "Standing Orders Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -1989,7 +1989,162 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadTransaction5"
+              "$ref": "#/components/schemas/OBReadStandingOrder5"
+            }
+          }
+        }
+      },
+      "201AccountAccessConsentsCreated": {
+        "description": "Account Access Consents Created",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadConsentResponse1"
+            }
+          }
+        }
+      },
+      "200AccountAccessConsentsConsentIdRead": {
+        "description": "Account Access Consents Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadConsentResponse1"
+            }
+          }
+        }
+      },
+      "204AccountAccessConsentsConsentIdDeleted": {
+        "description": "Account Access Consents Deleted",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "200AccountsAccountIdBalancesRead": {
+        "description": "Balances Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadBalance1"
+            }
+          }
+        }
+      },
+      "200BalancesRead": {
+        "description": "Balances Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadBalance1"
+            }
+          }
+        }
+      },
+      "200AccountsAccountIdProductRead": {
+        "description": "Products Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadProduct2"
+            }
+          }
+        }
+      },
+      "200ProductsRead": {
+        "description": "Products Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadProduct2"
+            }
+          }
+        }
+      },
+      "200AccountsAccountIdDirectDebitsRead": {
+        "description": "Direct Debits Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadDirectDebit1"
+            }
+          }
+        }
+      },
+      "200DirectDebitsRead": {
+        "description": "Direct Debits Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadDirectDebit1"
             }
           }
         }
@@ -2044,6 +2199,114 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/OBReadParty2"
+            }
+          }
+        }
+      },
+      "200AccountsAccountIdTransactionsRead": {
+        "description": "Transactions Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadTransaction5"
+            }
+          }
+        }
+      },
+      "200TransactionsRead": {
+        "description": "Transactions Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadTransaction5"
+            }
+          }
+        }
+      },
+      "200AccountsAccountIdOffersRead": {
+        "description": "Offers Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadOffer1"
+            }
+          }
+        }
+      },
+      "200OffersRead": {
+        "description": "Offers Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadOffer1"
+            }
+          }
+        }
+      },
+      "200AccountsAccountIdScheduledPaymentsRead": {
+        "description": "Scheduled Payments Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadScheduledPayment2"
+            }
+          }
+        }
+      },
+      "200ScheduledPaymentsRead": {
+        "description": "Scheduled Payments Read",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBReadScheduledPayment2"
             }
           }
         }
@@ -2138,8 +2401,8 @@
           }
         }
       },
-      "200AccountsAccountIdBalancesRead": {
-        "description": "Balances Read",
+      "200AccountsRead": {
+        "description": "Accounts Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -2151,13 +2414,13 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadBalance1"
+              "$ref": "#/components/schemas/OBReadAccount4"
             }
           }
         }
       },
-      "200BalancesRead": {
-        "description": "Balances Read",
+      "200AccountsAccountIdRead": {
+        "description": "Accounts Read",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -2169,43 +2432,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadBalance1"
-            }
-          }
-        }
-      },
-      "200AccountsAccountIdDirectDebitsRead": {
-        "description": "Direct Debits Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadDirectDebit1"
-            }
-          }
-        }
-      },
-      "200DirectDebitsRead": {
-        "description": "Direct Debits Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadDirectDebit1"
+              "$ref": "#/components/schemas/OBReadAccount4"
             }
           }
         }
@@ -2242,233 +2469,6 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/OBReadBeneficiary3"
-            }
-          }
-        }
-      },
-      "200AccountsAccountIdProductRead": {
-        "description": "Products Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadProduct2"
-            }
-          }
-        }
-      },
-      "200ProductsRead": {
-        "description": "Products Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadProduct2"
-            }
-          }
-        }
-      },
-      "200AccountsAccountIdOffersRead": {
-        "description": "Offers Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadOffer1"
-            }
-          }
-        }
-      },
-      "200OffersRead": {
-        "description": "Offers Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadOffer1"
-            }
-          }
-        }
-      },
-      "200AccountsAccountIdStandingOrdersRead": {
-        "description": "Standing Orders Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadStandingOrder5"
-            }
-          }
-        }
-      },
-      "200StandingOrdersRead": {
-        "description": "Standing Orders Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadStandingOrder5"
-            }
-          }
-        }
-      },
-      "200AccountsAccountIdScheduledPaymentsRead": {
-        "description": "Scheduled Payments Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadScheduledPayment2"
-            }
-          }
-        }
-      },
-      "200ScheduledPaymentsRead": {
-        "description": "Scheduled Payments Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadScheduledPayment2"
-            }
-          }
-        }
-      },
-      "201AccountAccessConsentsCreated": {
-        "description": "Account Access Consents Created",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadConsentResponse1"
-            }
-          }
-        }
-      },
-      "200AccountAccessConsentsConsentIdRead": {
-        "description": "Account Access Consents Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadConsentResponse1"
-            }
-          }
-        }
-      },
-      "204AccountAccessConsentsConsentIdDeleted": {
-        "description": "Account Access Consents Deleted",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "200AccountsRead": {
-        "description": "Accounts Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadAccount4"
-            }
-          }
-        }
-      },
-      "200AccountsAccountIdRead": {
-        "description": "Accounts Read",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        },
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/OBReadAccount4"
             }
           }
         }
