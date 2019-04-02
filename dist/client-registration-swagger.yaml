@@ -16,7 +16,7 @@ info:
 schemes:
   - https
 consumes:
-  - application/jwt
+  - application/jose
 produces:
   - application/json
 paths:
@@ -211,6 +211,9 @@ definitions:
             - code id_token
       software_id:
         type: string
+        minLength: 1
+        maxLength: 22
+        pattern: '^[0-9a-zA-Z]{1,22}$'
       scope:
         type: string
         minLength: 1
@@ -246,9 +249,9 @@ definitions:
           iss:
             description: Unique identifier for the TPP. Implemented as Base62 encoded GUID
             type: string
-            pattern: '^[0-9a-zA-Z]{1,18}$'
+            pattern: '^[0-9a-zA-Z]{1,22}$'
             minLength: 1
-            maxLength: 18
+            maxLength: 22
           iat:
             description: >-
               The time at which the request was issued by the TPP  expressed as
