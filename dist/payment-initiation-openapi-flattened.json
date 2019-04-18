@@ -3201,7 +3201,450 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "required": [
+                        "DomesticPaymentId",
+                        "ConsentId",
+                        "CreationDateTime",
+                        "Status",
+                        "StatusUpdateDateTime",
+                        "Initiation"
+                      ],
+                      "properties": {
+                        "DomesticPaymentId": {
+                          "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 40
+                        },
+                        "ConsentId": {
+                          "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "CreationDateTime": {
+                          "description": "Date and time at which the message was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "Status": {
+                          "description": "Specifies the status of the payment information group.",
+                          "type": "string",
+                          "enum": [
+                            "AcceptedCreditSettlementCompleted",
+                            "AcceptedSettlementCompleted",
+                            "AcceptedSettlementInProcess",
+                            "AcceptedWithoutPosting",
+                            "Pending",
+                            "Rejected"
+                          ]
+                        },
+                        "StatusUpdateDateTime": {
+                          "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "ExpectedExecutionDateTime": {
+                          "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "ExpectedSettlementDateTime": {
+                          "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "Charges": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "description": "Set of elements used to provide details of a charge for the payment initiation.",
+                            "required": [
+                              "ChargeBearer",
+                              "Type",
+                              "Amount"
+                            ],
+                            "properties": {
+                              "ChargeBearer": {
+                                "description": "Specifies which party/parties will bear the charges associated with the processing of the payment transaction.",
+                                "type": "string",
+                                "enum": [
+                                  "BorneByCreditor",
+                                  "BorneByDebtor",
+                                  "FollowingServiceLevel",
+                                  "Shared"
+                                ]
+                              },
+                              "Type": {
+                                "description": "Charge type, in a coded form.",
+                                "type": "string",
+                                "x-namespaced-enum": [
+                                  "UK.OBIE.CHAPSOut"
+                                ]
+                              },
+                              "Amount": {
+                                "type": "object",
+                                "required": [
+                                  "Amount",
+                                  "Currency"
+                                ],
+                                "description": "Amount of money associated with the charge type.",
+                                "properties": {
+                                  "Amount": {
+                                    "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
+                                    "type": "string",
+                                    "pattern": "^\\d{1,13}\\.\\d{1,5}$"
+                                  },
+                                  "Currency": {
+                                    "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+                                    "type": "string",
+                                    "pattern": "^[A-Z]{3,3}$"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "Initiation": {
+                          "type": "object",
+                          "required": [
+                            "InstructionIdentification",
+                            "EndToEndIdentification",
+                            "InstructedAmount",
+                            "CreditorAccount"
+                          ],
+                          "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a single domestic payment.",
+                          "properties": {
+                            "InstructionIdentification": {
+                              "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the  instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.",
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 35
+                            },
+                            "EndToEndIdentification": {
+                              "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field.",
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 35
+                            },
+                            "LocalInstrument": {
+                              "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
+                              "type": "string",
+                              "x-namespaced-enum": [
+                                "UK.OBIE.BACS",
+                                "UK.OBIE.BalanceTransfer",
+                                "UK.OBIE.CHAPS",
+                                "UK.OBIE.Euro1",
+                                "UK.OBIE.FPS",
+                                "UK.OBIE.Link",
+                                "UK.OBIE.MoneyTransfer",
+                                "UK.OBIE.Paym",
+                                "UK.OBIE.SEPACreditTransfer",
+                                "UK.OBIE.SEPAInstantCreditTransfer",
+                                "UK.OBIE.SWIFT",
+                                "UK.OBIE.Target2"
+                              ]
+                            },
+                            "InstructedAmount": {
+                              "type": "object",
+                              "required": [
+                                "Amount",
+                                "Currency"
+                              ],
+                              "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
+                              "properties": {
+                                "Amount": {
+                                  "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
+                                  "type": "string",
+                                  "pattern": "^\\d{1,13}\\.\\d{1,5}$"
+                                },
+                                "Currency": {
+                                  "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+                                  "type": "string",
+                                  "pattern": "^[A-Z]{3,3}$"
+                                }
+                              }
+                            },
+                            "DebtorAccount": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            },
+                            "CreditorAccount": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification",
+                                "Name"
+                              ],
+                              "description": "Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            },
+                            "CreditorPostalAddress": {
+                              "type": "object",
+                              "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                              "properties": {
+                                "AddressType": {
+                                  "description": "Identifies the nature of the postal address.",
+                                  "type": "string",
+                                  "enum": [
+                                    "Business",
+                                    "Correspondence",
+                                    "DeliveryTo",
+                                    "MailTo",
+                                    "POBox",
+                                    "Postal",
+                                    "Residential",
+                                    "Statement"
+                                  ]
+                                },
+                                "Department": {
+                                  "description": "Identification of a division of a large organisation or building.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SubDepartment": {
+                                  "description": "Identification of a sub-division of a large organisation or building.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "StreetName": {
+                                  "description": "Name of a street or thoroughfare.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "BuildingNumber": {
+                                  "description": "Number that identifies the position of a building on a street.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 16
+                                },
+                                "PostCode": {
+                                  "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 16
+                                },
+                                "TownName": {
+                                  "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "CountrySubDivision": {
+                                  "description": "Identifies a subdivision of a country such as state, region, county.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Country": {
+                                  "description": "Nation with its own government.",
+                                  "type": "string",
+                                  "pattern": "^[A-Z]{2,2}$"
+                                },
+                                "AddressLine": {
+                                  "type": "array",
+                                  "items": {
+                                    "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "minItems": 0,
+                                  "maxItems": 7
+                                }
+                              }
+                            },
+                            "RemittanceInformation": {
+                              "type": "object",
+                              "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                              "properties": {
+                                "Unstructured": {
+                                  "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "Reference": {
+                                  "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                }
+                              }
+                            },
+                            "SupplementaryData": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": true,
+                              "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
+                            }
+                          }
+                        },
+                        "MultiAuthorisation": {
+                          "type": "object",
+                          "required": [
+                            "Status"
+                          ],
+                          "description": "The multiple authorisation flow response from the ASPSP.",
+                          "properties": {
+                            "Status": {
+                              "description": "Specifies the status of the authorisation flow in code form.",
+                              "type": "string",
+                              "enum": [
+                                "Authorised",
+                                "AwaitingFurtherAuthorisation",
+                                "Rejected"
+                              ]
+                            },
+                            "NumberRequired": {
+                              "description": "Number of authorisations required for payment order (total required at the start of the multi authorisation journey).",
+                              "type": "integer"
+                            },
+                            "NumberReceived": {
+                              "description": "Number of authorisations received.",
+                              "type": "integer"
+                            },
+                            "LastUpdateDateTime": {
+                              "description": "Last date and time at the authorisation flow was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "ExpirationDateTime": {
+                              "description": "Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -4063,7 +4506,450 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "required": [
+                        "DomesticPaymentId",
+                        "ConsentId",
+                        "CreationDateTime",
+                        "Status",
+                        "StatusUpdateDateTime",
+                        "Initiation"
+                      ],
+                      "properties": {
+                        "DomesticPaymentId": {
+                          "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 40
+                        },
+                        "ConsentId": {
+                          "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "CreationDateTime": {
+                          "description": "Date and time at which the message was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "Status": {
+                          "description": "Specifies the status of the payment information group.",
+                          "type": "string",
+                          "enum": [
+                            "AcceptedCreditSettlementCompleted",
+                            "AcceptedSettlementCompleted",
+                            "AcceptedSettlementInProcess",
+                            "AcceptedWithoutPosting",
+                            "Pending",
+                            "Rejected"
+                          ]
+                        },
+                        "StatusUpdateDateTime": {
+                          "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "ExpectedExecutionDateTime": {
+                          "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "ExpectedSettlementDateTime": {
+                          "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "Charges": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "description": "Set of elements used to provide details of a charge for the payment initiation.",
+                            "required": [
+                              "ChargeBearer",
+                              "Type",
+                              "Amount"
+                            ],
+                            "properties": {
+                              "ChargeBearer": {
+                                "description": "Specifies which party/parties will bear the charges associated with the processing of the payment transaction.",
+                                "type": "string",
+                                "enum": [
+                                  "BorneByCreditor",
+                                  "BorneByDebtor",
+                                  "FollowingServiceLevel",
+                                  "Shared"
+                                ]
+                              },
+                              "Type": {
+                                "description": "Charge type, in a coded form.",
+                                "type": "string",
+                                "x-namespaced-enum": [
+                                  "UK.OBIE.CHAPSOut"
+                                ]
+                              },
+                              "Amount": {
+                                "type": "object",
+                                "required": [
+                                  "Amount",
+                                  "Currency"
+                                ],
+                                "description": "Amount of money associated with the charge type.",
+                                "properties": {
+                                  "Amount": {
+                                    "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
+                                    "type": "string",
+                                    "pattern": "^\\d{1,13}\\.\\d{1,5}$"
+                                  },
+                                  "Currency": {
+                                    "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+                                    "type": "string",
+                                    "pattern": "^[A-Z]{3,3}$"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "Initiation": {
+                          "type": "object",
+                          "required": [
+                            "InstructionIdentification",
+                            "EndToEndIdentification",
+                            "InstructedAmount",
+                            "CreditorAccount"
+                          ],
+                          "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a single domestic payment.",
+                          "properties": {
+                            "InstructionIdentification": {
+                              "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the  instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.",
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 35
+                            },
+                            "EndToEndIdentification": {
+                              "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field.",
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 35
+                            },
+                            "LocalInstrument": {
+                              "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
+                              "type": "string",
+                              "x-namespaced-enum": [
+                                "UK.OBIE.BACS",
+                                "UK.OBIE.BalanceTransfer",
+                                "UK.OBIE.CHAPS",
+                                "UK.OBIE.Euro1",
+                                "UK.OBIE.FPS",
+                                "UK.OBIE.Link",
+                                "UK.OBIE.MoneyTransfer",
+                                "UK.OBIE.Paym",
+                                "UK.OBIE.SEPACreditTransfer",
+                                "UK.OBIE.SEPAInstantCreditTransfer",
+                                "UK.OBIE.SWIFT",
+                                "UK.OBIE.Target2"
+                              ]
+                            },
+                            "InstructedAmount": {
+                              "type": "object",
+                              "required": [
+                                "Amount",
+                                "Currency"
+                              ],
+                              "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
+                              "properties": {
+                                "Amount": {
+                                  "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
+                                  "type": "string",
+                                  "pattern": "^\\d{1,13}\\.\\d{1,5}$"
+                                },
+                                "Currency": {
+                                  "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+                                  "type": "string",
+                                  "pattern": "^[A-Z]{3,3}$"
+                                }
+                              }
+                            },
+                            "DebtorAccount": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            },
+                            "CreditorAccount": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification",
+                                "Name"
+                              ],
+                              "description": "Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            },
+                            "CreditorPostalAddress": {
+                              "type": "object",
+                              "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                              "properties": {
+                                "AddressType": {
+                                  "description": "Identifies the nature of the postal address.",
+                                  "type": "string",
+                                  "enum": [
+                                    "Business",
+                                    "Correspondence",
+                                    "DeliveryTo",
+                                    "MailTo",
+                                    "POBox",
+                                    "Postal",
+                                    "Residential",
+                                    "Statement"
+                                  ]
+                                },
+                                "Department": {
+                                  "description": "Identification of a division of a large organisation or building.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SubDepartment": {
+                                  "description": "Identification of a sub-division of a large organisation or building.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "StreetName": {
+                                  "description": "Name of a street or thoroughfare.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "BuildingNumber": {
+                                  "description": "Number that identifies the position of a building on a street.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 16
+                                },
+                                "PostCode": {
+                                  "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 16
+                                },
+                                "TownName": {
+                                  "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "CountrySubDivision": {
+                                  "description": "Identifies a subdivision of a country such as state, region, county.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Country": {
+                                  "description": "Nation with its own government.",
+                                  "type": "string",
+                                  "pattern": "^[A-Z]{2,2}$"
+                                },
+                                "AddressLine": {
+                                  "type": "array",
+                                  "items": {
+                                    "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "minItems": 0,
+                                  "maxItems": 7
+                                }
+                              }
+                            },
+                            "RemittanceInformation": {
+                              "type": "object",
+                              "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                              "properties": {
+                                "Unstructured": {
+                                  "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "Reference": {
+                                  "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                }
+                              }
+                            },
+                            "SupplementaryData": {
+                              "type": "object",
+                              "properties": {},
+                              "additionalProperties": true,
+                              "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
+                            }
+                          }
+                        },
+                        "MultiAuthorisation": {
+                          "type": "object",
+                          "required": [
+                            "Status"
+                          ],
+                          "description": "The multiple authorisation flow response from the ASPSP.",
+                          "properties": {
+                            "Status": {
+                              "description": "Specifies the status of the authorisation flow in code form.",
+                              "type": "string",
+                              "enum": [
+                                "Authorised",
+                                "AwaitingFurtherAuthorisation",
+                                "Rejected"
+                              ]
+                            },
+                            "NumberRequired": {
+                              "description": "Number of authorisations required for payment order (total required at the start of the multi authorisation journey).",
+                              "type": "integer"
+                            },
+                            "NumberReceived": {
+                              "description": "Number of authorisations received.",
+                              "type": "integer"
+                            },
+                            "LastUpdateDateTime": {
+                              "description": "Last date and time at the authorisation flow was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "ExpirationDateTime": {
+                              "description": "Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -33703,7 +34589,542 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {}
+                "required": [
+                  "Data",
+                  "Risk"
+                ],
+                "properties": {
+                  "Data": {
+                    "type": "object",
+                    "required": [
+                      "ConsentId",
+                      "Initiation"
+                    ],
+                    "properties": {
+                      "ConsentId": {
+                        "description": "OB: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 128
+                      },
+                      "Initiation": {
+                        "type": "object",
+                        "required": [
+                          "InstructionIdentification",
+                          "RequestedExecutionDateTime",
+                          "CurrencyOfTransfer",
+                          "InstructedAmount",
+                          "CreditorAccount"
+                        ],
+                        "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a single scheduled international payment.",
+                        "properties": {
+                          "InstructionIdentification": {
+                            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the  instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. It can be included in several messages related to the instruction.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 35
+                          },
+                          "EndToEndIdentification": {
+                            "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. It can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 35
+                          },
+                          "LocalInstrument": {
+                            "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
+                            "type": "string",
+                            "x-namespaced-enum": [
+                              "UK.OBIE.BACS",
+                              "UK.OBIE.BalanceTransfer",
+                              "UK.OBIE.CHAPS",
+                              "UK.OBIE.Euro1",
+                              "UK.OBIE.FPS",
+                              "UK.OBIE.Link",
+                              "UK.OBIE.MoneyTransfer",
+                              "UK.OBIE.Paym",
+                              "UK.OBIE.SEPACreditTransfer",
+                              "UK.OBIE.SEPAInstantCreditTransfer",
+                              "UK.OBIE.SWIFT",
+                              "UK.OBIE.Target2"
+                            ]
+                          },
+                          "InstructionPriority": {
+                            "description": "Indicator of the urgency or order of importance that the instructing party would like the instructed party to apply to the processing of the instruction.",
+                            "type": "string",
+                            "enum": [
+                              "Normal",
+                              "Urgent"
+                            ]
+                          },
+                          "Purpose": {
+                            "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                            "type": "string"
+                          },
+                          "ChargeBearer": {
+                            "description": "Specifies which party/parties will bear the charges associated with the processing of the payment transaction.",
+                            "type": "string",
+                            "enum": [
+                              "BorneByCreditor",
+                              "BorneByDebtor",
+                              "FollowingServiceLevel",
+                              "Shared"
+                            ]
+                          },
+                          "RequestedExecutionDateTime": {
+                            "description": "Date at which the initiating party requests the clearing agent to process the payment. \nUsage: This is the date on which the debtor's account is to be debited.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "CurrencyOfTransfer": {
+                            "description": "Specifies the currency of the to be transferred amount, which is different from the currency of the debtor's account.",
+                            "type": "string",
+                            "pattern": "^[A-Z]{3,3}$"
+                          },
+                          "InstructedAmount": {
+                            "type": "object",
+                            "required": [
+                              "Amount",
+                              "Currency"
+                            ],
+                            "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
+                            "properties": {
+                              "Amount": {
+                                "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
+                                "type": "string",
+                                "pattern": "^\\d{1,13}\\.\\d{1,5}$"
+                              },
+                              "Currency": {
+                                "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+                                "type": "string",
+                                "pattern": "^[A-Z]{3,3}$"
+                              }
+                            }
+                          },
+                          "ExchangeRateInformation": {
+                            "type": "object",
+                            "required": [
+                              "UnitCurrency",
+                              "RateType"
+                            ],
+                            "description": "Provides details on the currency exchange rate and contract.",
+                            "properties": {
+                              "UnitCurrency": {
+                                "description": "Currency in which the rate of exchange is expressed in a currency exchange. In the example 1GBP = xxxCUR, the unit currency is GBP.",
+                                "type": "string",
+                                "pattern": "^[A-Z]{3,3}$"
+                              },
+                              "ExchangeRate": {
+                                "description": "The factor used for conversion of an amount from one currency to another. This reflects the price at which one currency was bought with another currency.",
+                                "type": "number"
+                              },
+                              "RateType": {
+                                "description": "Specifies the type used to complete the currency exchange.",
+                                "type": "string",
+                                "enum": [
+                                  "Actual",
+                                  "Agreed",
+                                  "Indicative"
+                                ]
+                              },
+                              "ContractIdentification": {
+                                "description": "Unique and unambiguous reference to the foreign exchange contract agreed between the initiating party/creditor and the debtor agent.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 256
+                              }
+                            }
+                          },
+                          "DebtorAccount": {
+                            "type": "object",
+                            "required": [
+                              "SchemeName",
+                              "Identification"
+                            ],
+                            "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                            "properties": {
+                              "SchemeName": {
+                                "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                "type": "string",
+                                "x-namespaced-enum": [
+                                  "UK.OBIE.BBAN",
+                                  "UK.OBIE.IBAN",
+                                  "UK.OBIE.PAN",
+                                  "UK.OBIE.Paym",
+                                  "UK.OBIE.SortCodeAccountNumber"
+                                ]
+                              },
+                              "Identification": {
+                                "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 256
+                              },
+                              "Name": {
+                                "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 70
+                              },
+                              "SecondaryIdentification": {
+                                "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 34
+                              }
+                            }
+                          },
+                          "Creditor": {
+                            "type": "object",
+                            "description": "Party to which an amount of money is due.",
+                            "properties": {
+                              "Name": {
+                                "description": "Name by which a party is known and which is usually used to identify that party.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 140
+                              },
+                              "PostalAddress": {
+                                "type": "object",
+                                "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                "properties": {
+                                  "AddressType": {
+                                    "description": "Identifies the nature of the postal address.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Business",
+                                      "Correspondence",
+                                      "DeliveryTo",
+                                      "MailTo",
+                                      "POBox",
+                                      "Postal",
+                                      "Residential",
+                                      "Statement"
+                                    ]
+                                  },
+                                  "Department": {
+                                    "description": "Identification of a division of a large organisation or building.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "SubDepartment": {
+                                    "description": "Identification of a sub-division of a large organisation or building.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "StreetName": {
+                                    "description": "Name of a street or thoroughfare.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "BuildingNumber": {
+                                    "description": "Number that identifies the position of a building on a street.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 16
+                                  },
+                                  "PostCode": {
+                                    "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 16
+                                  },
+                                  "TownName": {
+                                    "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 35
+                                  },
+                                  "CountrySubDivision": {
+                                    "description": "Identifies a subdivision of a country such as state, region, county.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 35
+                                  },
+                                  "Country": {
+                                    "description": "Nation with its own government.",
+                                    "type": "string",
+                                    "pattern": "^[A-Z]{2,2}$"
+                                  },
+                                  "AddressLine": {
+                                    "type": "array",
+                                    "items": {
+                                      "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 7
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "CreditorAgent": {
+                            "type": "object",
+                            "description": "Financial institution servicing an account for the creditor.",
+                            "properties": {
+                              "SchemeName": {
+                                "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                "type": "string",
+                                "x-namespaced-enum": [
+                                  "UK.OBIE.BICFI"
+                                ]
+                              },
+                              "Identification": {
+                                "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 35
+                              },
+                              "Name": {
+                                "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 140
+                              },
+                              "PostalAddress": {
+                                "type": "object",
+                                "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                "properties": {
+                                  "AddressType": {
+                                    "description": "Identifies the nature of the postal address.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Business",
+                                      "Correspondence",
+                                      "DeliveryTo",
+                                      "MailTo",
+                                      "POBox",
+                                      "Postal",
+                                      "Residential",
+                                      "Statement"
+                                    ]
+                                  },
+                                  "Department": {
+                                    "description": "Identification of a division of a large organisation or building.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "SubDepartment": {
+                                    "description": "Identification of a sub-division of a large organisation or building.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "StreetName": {
+                                    "description": "Name of a street or thoroughfare.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 70
+                                  },
+                                  "BuildingNumber": {
+                                    "description": "Number that identifies the position of a building on a street.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 16
+                                  },
+                                  "PostCode": {
+                                    "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 16
+                                  },
+                                  "TownName": {
+                                    "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 35
+                                  },
+                                  "CountrySubDivision": {
+                                    "description": "Identifies a subdivision of a country such as state, region, county.",
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 35
+                                  },
+                                  "Country": {
+                                    "description": "Nation with its own government.",
+                                    "type": "string",
+                                    "pattern": "^[A-Z]{2,2}$"
+                                  },
+                                  "AddressLine": {
+                                    "type": "array",
+                                    "items": {
+                                      "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "minItems": 0,
+                                    "maxItems": 7
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "CreditorAccount": {
+                            "type": "object",
+                            "required": [
+                              "SchemeName",
+                              "Identification",
+                              "Name"
+                            ],
+                            "description": "Unambiguous identification of the account of the creditor to which a credit entry will be posted as a result of the payment transaction.",
+                            "properties": {
+                              "SchemeName": {
+                                "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                "type": "string",
+                                "x-namespaced-enum": [
+                                  "UK.OBIE.BBAN",
+                                  "UK.OBIE.IBAN",
+                                  "UK.OBIE.PAN",
+                                  "UK.OBIE.Paym",
+                                  "UK.OBIE.SortCodeAccountNumber"
+                                ]
+                              },
+                              "Identification": {
+                                "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 256
+                              },
+                              "Name": {
+                                "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 70
+                              },
+                              "SecondaryIdentification": {
+                                "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 34
+                              }
+                            }
+                          },
+                          "RemittanceInformation": {
+                            "type": "object",
+                            "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                            "properties": {
+                              "Unstructured": {
+                                "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 140
+                              },
+                              "Reference": {
+                                "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 35
+                              }
+                            }
+                          },
+                          "SupplementaryData": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": true,
+                            "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Risk": {
+                    "type": "object",
+                    "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments.",
+                    "properties": {
+                      "PaymentContextCode": {
+                        "description": "Specifies the payment context",
+                        "type": "string",
+                        "enum": [
+                          "BillPayment",
+                          "EcommerceGoods",
+                          "EcommerceServices",
+                          "Other",
+                          "PartyToParty"
+                        ]
+                      },
+                      "MerchantCategoryCode": {
+                        "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction.",
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 4
+                      },
+                      "MerchantCustomerIdentification": {
+                        "description": "The unique customer identifier of the PSU with the merchant.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "DeliveryAddress": {
+                        "type": "object",
+                        "required": [
+                          "TownName",
+                          "Country"
+                        ],
+                        "description": "Information that locates and identifies a specific address, as defined by postal services or in free format text.",
+                        "properties": {
+                          "AddressLine": {
+                            "type": "array",
+                            "items": {
+                              "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.",
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 70
+                            },
+                            "minItems": 0,
+                            "maxItems": 2
+                          },
+                          "StreetName": {
+                            "description": "Name of a street or thoroughfare.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 70
+                          },
+                          "BuildingNumber": {
+                            "description": "Number that identifies the position of a building on a street.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 16
+                          },
+                          "PostCode": {
+                            "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 16
+                          },
+                          "TownName": {
+                            "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 35
+                          },
+                          "CountrySubDivision": {
+                            "type": "array",
+                            "items": {
+                              "description": "Identifies a subdivision of a country, for instance state, region, county.",
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 35
+                            },
+                            "minItems": 0,
+                            "maxItems": 2
+                          },
+                          "Country": {
+                            "description": "Nation with its own government, occupying a particular territory.",
+                            "type": "string",
+                            "pattern": "^[A-Z]{2,2}$"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           },
