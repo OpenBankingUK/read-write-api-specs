@@ -1,0 +1,607 @@
+swagger: '2.0'
+info:
+  title: Event Subscription API Specification - ASPSP Endpoints
+  description: Swagger for Event Subscription API Specification - ASPSP Endpoints
+  termsOfService: 'https://www.openbanking.org.uk/terms'
+  contact:
+    name: Service Desk
+    email: ServiceDesk@openbanking.org.uk
+  license:
+    name: open-licence
+    url: 'https://www.openbanking.org.uk/open-licence'
+  version: v3.1.2
+basePath: /open-banking/v3.1
+schemes:
+  - https
+consumes:
+  - application/json; charset=utf-8
+  - application/jose+jwe
+produces:
+  - application/json; charset=utf-8
+  - application/jose+jwe
+paths:
+  /event-subscriptions:
+    post:
+      tags:
+        - Event Subscriptions
+      summary: Create Event Subscription
+      operationId: CreateEventSubscriptions
+      parameters:
+        - $ref: '#/parameters/OBEventSubscription1Param'
+        - $ref: '#/parameters/x-fapi-auth-date'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+        - $ref: '#/parameters/x-jws-signature'
+      responses:
+        '201':
+          $ref: '#/responses/201EventSubscriptionsCreated'
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
+    get:
+      tags:
+        - Event Subscriptions
+      summary: Get Event Subscription
+      operationId: GetEventSubscriptions
+      parameters:
+        - $ref: '#/parameters/x-fapi-auth-date'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+      responses:
+        '200':
+          $ref: '#/responses/200EventSubscriptionsRead'
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
+  '/event-subscriptions/{EventSubscriptionId}':
+    put:
+      tags:
+        - Event Subscriptions
+      summary: Change Event Subscription
+      operationId: ChangeEventSubscriptionsEventSubscriptionId
+      parameters:
+        - $ref: '#/parameters/OBEventSubscriptionResponse1Param'
+        - $ref: '#/parameters/EventSubscriptionId'
+        - $ref: '#/parameters/x-fapi-auth-date'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+        - $ref: '#/parameters/x-jws-signature'
+      responses:
+        '200':
+          $ref: '#/responses/200EventSubscriptionsEventSubscriptionIdChanged'
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
+    delete:
+      tags:
+        - Event Subscriptions
+      summary: Delete Event Subscription
+      operationId: DeleteEventSubscriptionsEventSubscriptionId
+      parameters:
+        - $ref: '#/parameters/EventSubscriptionId'
+        - $ref: '#/parameters/x-fapi-auth-date'
+        - $ref: '#/parameters/x-fapi-customer-ip-address'
+        - $ref: '#/parameters/x-fapi-interaction-id'
+        - $ref: '#/parameters/Authorization'
+      responses:
+        '204':
+          $ref: '#/responses/204EventSubscriptionsEventSubscriptionIdDeleted'
+        '400':
+          $ref: '#/responses/400Error'
+        '401':
+          $ref: '#/responses/401Error'
+        '403':
+          $ref: '#/responses/403Error'
+        '404':
+          $ref: '#/responses/404Error'
+        '405':
+          $ref: '#/responses/405Error'
+        '406':
+          $ref: '#/responses/406Error'
+        '429':
+          $ref: '#/responses/429Error'
+        '500':
+          $ref: '#/responses/500Error'
+      security:
+        - TPPOAuth2Security:
+            - accounts
+            - payments
+            - fundsconfirmations
+parameters:
+  OBEventSubscription1Param:
+    name: OBEventSubscription1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBEventSubscription1'
+  EventSubscriptionId:
+    name: EventSubscriptionId
+    in: path
+    description: EventSubscriptionId
+    required: true
+    type: string
+  OBEventSubscriptionResponse1Param:
+    name: OBEventSubscriptionResponse1Param
+    in: body
+    description: Default
+    required: true
+    schema:
+      $ref: '#/definitions/OBEventSubscriptionResponse1'
+  Authorization:
+    in: header
+    name: Authorization
+    type: string
+    required: true
+    description: 'An Authorisation Token as per https://tools.ietf.org/html/rfc6750'
+  x-customer-user-agent:
+    in: header
+    name: x-customer-user-agent
+    type: string
+    description: Indicates the user-agent that the PSU is using.
+    required: false
+  x-fapi-customer-ip-address:
+    in: header
+    name: x-fapi-customer-ip-address
+    type: string
+    required: false
+    description: The PSU's IP address if the PSU is currently logged in with the TPP.
+  x-fapi-auth-date:
+    in: header
+    name: x-fapi-auth-date
+    type: string
+    required: false
+    description: >-
+      The time when the PSU last logged in with the TPP. 
+
+      All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
+      example is below: 
+
+      Sun, 10 Sep 2017 19:43:31 UTC
+    pattern: >-
+      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
+      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2}
+      (GMT|UTC)$
+  x-fapi-interaction-id:
+    in: header
+    name: x-fapi-interaction-id
+    type: string
+    required: false
+    description: An RFC4122 UID used as a correlation id.
+  x-idempotency-key:
+    name: x-idempotency-key
+    in: header
+    description: |
+      Every request will be processed only once per x-idempotency-key.  The
+      Idempotency Key will be valid for 24 hours.
+    required: true
+    type: string
+    pattern: ^(?!\s)(.*)(\S)$
+    maxLength: 40
+  x-jws-signature:
+    in: header
+    name: x-jws-signature
+    type: string
+    required: true
+    description: A detached JWS signature of the body of the payload.
+responses:
+  201EventSubscriptionsCreated:
+    description: Event Subscription Created
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBEventSubscriptionResponse1'
+  200EventSubscriptionsRead:
+    description: Event Subscription Read
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBEventSubscriptionsResponse1'
+  200EventSubscriptionsEventSubscriptionIdChanged:
+    description: Event Subscription Changed
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+      x-jws-signature:
+        type: string
+        description: |
+          Header containing a detached JWS signature of the body of the payload.
+    schema:
+      $ref: '#/definitions/OBEventSubscriptionResponse1'
+  204EventSubscriptionsEventSubscriptionIdDeleted:
+    description: Event Subscription Deleted
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  400Error:
+    description: Bad request
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
+  401Error:
+    description: Unauthorized
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  403Error:
+    description: Forbidden
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
+  404Error:
+    description: Not found
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  405Error:
+    description: Method Not Allowed
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  406Error:
+    description: Not Acceptable
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  415Error:
+    description: Unsupported Media Type
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  429Error:
+    description: Too Many Requests
+    headers:
+      Retry-After:
+        description: Number in seconds to wait
+        type: integer
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+  500Error:
+    description: Internal Server Error
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
+    schema:
+      $ref: '#/definitions/OBErrorResponse1'
+securityDefinitions:
+  TPPOAuth2Security:
+    type: oauth2
+    flow: application
+    tokenUrl: 'https://authserver.example/token'
+    scopes:
+      accounts: Ability to read Accounts information
+      fundsconfirmations: Ability to confirm funds
+      payments: Generic payment scope
+    description: TPP client credential authorisation flow with the ASPSP
+definitions:
+  ISODateTime:
+    description: >-
+      All dates in the JSON payloads are represented in ISO 8601 date-time
+      format. 
+
+      All date-time fields in responses must include the timezone. An example is
+      below:
+
+      2017-04-05T10:43:07+00:00
+    type: string
+    format: date-time
+  Links:
+    type: object
+    description: Links relevant to the payload
+    properties:
+      Self:
+        type: string
+        format: uri
+      First:
+        type: string
+        format: uri
+      Prev:
+        type: string
+        format: uri
+      Next:
+        type: string
+        format: uri
+      Last:
+        type: string
+        format: uri
+    additionalProperties: false
+    required:
+      - Self
+  Meta:
+    title: MetaData
+    type: object
+    description: Meta Data relevant to the payload
+    properties:
+      TotalPages:
+        type: integer
+        format: int32
+      FirstAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+      LastAvailableDateTime:
+        $ref: '#/definitions/ISODateTime'
+    additionalProperties: false
+  OBError1:
+    type: object
+    properties:
+      ErrorCode:
+        description: 'Low level textual error code, e.g., UK.OBIE.Field.Missing'
+        type: string
+        x-namespaced-enum:
+          - UK.OBIE.Field.Expected
+          - UK.OBIE.Field.Invalid
+          - UK.OBIE.Field.InvalidDate
+          - UK.OBIE.Field.Missing
+          - UK.OBIE.Field.Unexpected
+          - UK.OBIE.Header.Invalid
+          - UK.OBIE.Header.Missing
+          - UK.OBIE.Reauthenticate
+          - UK.OBIE.Resource.ConsentMismatch
+          - UK.OBIE.Resource.InvalidConsentStatus
+          - UK.OBIE.Resource.InvalidFormat
+          - UK.OBIE.Resource.NotFound
+          - UK.OBIE.Rules.AfterCutOffDateTime
+          - UK.OBIE.Rules.DuplicateReference
+          - UK.OBIE.Signature.Invalid
+          - UK.OBIE.Signature.InvalidClaim
+          - UK.OBIE.Signature.Malformed
+          - UK.OBIE.Signature.Missing
+          - UK.OBIE.Signature.MissingClaim
+          - UK.OBIE.Signature.Unexpected
+          - UK.OBIE.UnexpectedError
+          - UK.OBIE.Unsupported.AccountIdentifier
+          - UK.OBIE.Unsupported.AccountSecondaryIdentifier
+          - UK.OBIE.Unsupported.Currency
+          - UK.OBIE.Unsupported.Frequency
+          - UK.OBIE.Unsupported.LocalInstrument
+          - UK.OBIE.Unsupported.Scheme
+      Message:
+        description: >-
+          A description of the error that occurred. e.g., 'A mandatory field
+          isn't supplied' or 'RequestedExecutionDateTime must be in future'
+
+          OBIE doesn't standardise this field
+        type: string
+        minLength: 1
+        maxLength: 500
+      Path:
+        description: >-
+          Recommended but optional reference to the JSON Path of the field with
+          error, e.g., Data.Initiation.InstructedAmount.Currency
+        type: string
+        minLength: 1
+        maxLength: 500
+      Url:
+        description: >-
+          URL to help remediate the problem, or provide more information, or to
+          API Reference, or help etc
+        type: string
+    required:
+      - ErrorCode
+      - Message
+    additionalProperties: false
+    minProperties: 1
+  OBErrorResponse1:
+    description: >-
+      An array of detail error codes, and messages, and URLs to documentation to
+      help remediation.
+    type: object
+    properties:
+      Code:
+        description: 'High level textual error code, to help categorize the errors.'
+        type: string
+        minLength: 1
+        maxLength: 40
+      Id:
+        description: >-
+          A unique reference for the error instance, for audit purposes, in case
+          of unknown/unclassified errors.
+        type: string
+        minLength: 1
+        maxLength: 40
+      Message:
+        description: >-
+          Brief Error message, e.g., 'There is something wrong with the request
+          parameters provided'
+        type: string
+        minLength: 1
+        maxLength: 500
+      Errors:
+        items:
+          $ref: '#/definitions/OBError1'
+        type: array
+        minItems: 1
+    required:
+      - Code
+      - Message
+      - Errors
+    additionalProperties: false
+  OBEventSubscription1:
+    type: object
+    required:
+      - Data
+    properties:
+      Data:
+        type: object
+        required:
+          - Version
+        properties:
+          CallbackUrl:
+            description: >-
+              Callback URL for a TPP hosted service. Will be used by ASPSPs, in
+              conjunction with the resource name, to construct a URL to send
+              event notifications to.
+            type: string
+            format: uri
+          Version:
+            $ref: '#/definitions/Version'
+          EventTypes:
+            type: array
+            items:
+              description: Array of event types the subscription applies to.
+              type: string
+  OBEventSubscriptionResponse1:
+    type: object
+    required:
+      - Data
+    properties:
+      Data:
+        type: object
+        required:
+          - EventSubscriptionId
+          - Version
+        properties:
+          EventSubscriptionId:
+            description: >-
+              Unique identification as assigned by the ASPSP to uniquely
+              identify the callback URL resource.
+            type: string
+            minLength: 1
+            maxLength: 40
+          CallbackUrl:
+            description: >-
+              Callback URL for a TPP hosted service. Will be used by ASPSPs, in
+              conjunction with the resource name, to construct a URL to send
+              event notifications to.
+            type: string
+            format: uri
+          Version:
+            $ref: '#/definitions/Version'
+          EventTypes:
+            type: array
+            items:
+              description: Array of event types the subscription applies to.
+              type: string
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+  OBEventSubscriptionsResponse1:
+    type: object
+    required:
+      - Data
+    properties:
+      Data:
+        type: object
+        properties:
+          EventSubscription:
+            type: array
+            items:
+              type: object
+              required:
+                - EventSubscriptionId
+                - Version
+              properties:
+                EventSubscriptionId:
+                  description: >-
+                    Unique identification as assigned by the ASPSP to uniquely
+                    identify the callback url resource.
+                  type: string
+                  minLength: 1
+                  maxLength: 40
+                CallbackUrl:
+                  description: >-
+                    Callback URL for a TPP hosted service. Will be used by
+                    ASPSPs, in conjunction with the resource name, to construct
+                    a URL to send event notifications to.
+                  type: string
+                  format: uri
+                Version:
+                  $ref: '#/definitions/Version'
+                EventTypes:
+                  type: array
+                  items:
+                    description: Array of event types the subscription applies to.
+                    type: string
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
+  Version:
+    description: Version for the event notification.
+    type: string
+    minLength: 1
+    maxLength: 10
