@@ -1,0 +1,651 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Event Notification API Specification - ASPSP Endpoints",
+    "description": "Swagger for Event Notification API Specification - ASPSP Endpoints",
+    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "contact": {
+      "name": "Service Desk",
+      "email": "ServiceDesk@openbanking.org.uk"
+    },
+    "license": {
+      "name": "open-licence",
+      "url": "https://www.openbanking.org.uk/open-licence"
+    },
+    "version": "v3.1.1"
+  },
+  "basePath": "/open-banking/v3.1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json; charset=utf-8",
+    "application/jose+jwe"
+  ],
+  "produces": [
+    "application/json; charset=utf-8",
+    "application/jose+jwe"
+  ],
+  "paths": {
+    "/callback-urls": {
+      "post": {
+        "summary": "Create a callback URL",
+        "tags": [
+          "Callback URLs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/OBCallbackUrl1Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          },
+          {
+            "$ref": "#/parameters/x-jws-signature-Param"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201CallbackUrlsCreated"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "415": {
+            "$ref": "#/responses/415ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "fundsconfirmation",
+              "payments"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "summary": "Read all callback URLs",
+        "tags": [
+          "Callback URLs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200CallbackUrlsRead"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/404ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "fundsconfirmation",
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/callback-urls/{CallbackUrlId}": {
+      "put": {
+        "summary": "Amend a callback URI",
+        "tags": [
+          "Callback URLs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/CallbackUrlId"
+          },
+          {
+            "$ref": "#/parameters/OBCallbackUrl1Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          },
+          {
+            "$ref": "#/parameters/x-jws-signature-Param"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200CallbackUrlsChanged"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/404ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "415": {
+            "$ref": "#/responses/415ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "fundsconfirmation",
+              "payments"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete a callback URI",
+        "tags": [
+          "Callback URLs"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/CallbackUrlId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-financial-id-Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id-Param"
+          },
+          {
+            "$ref": "#/parameters/AuthorizationParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/204CallbackUrlsDeleted"
+          },
+          "400": {
+            "$ref": "#/responses/400ErrorResponse"
+          },
+          "401": {
+            "$ref": "#/responses/401ErrorResponse"
+          },
+          "403": {
+            "$ref": "#/responses/403ErrorResponse"
+          },
+          "404": {
+            "$ref": "#/responses/404ErrorResponse"
+          },
+          "405": {
+            "$ref": "#/responses/405ErrorResponse"
+          },
+          "406": {
+            "$ref": "#/responses/406ErrorResponse"
+          },
+          "429": {
+            "$ref": "#/responses/429ErrorResponse"
+          },
+          "500": {
+            "$ref": "#/responses/500ErrorResponse"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "fundsconfirmation",
+              "payments"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "parameters": {
+    "OBCallbackUrl1Param": {
+      "in": "body",
+      "name": "OBCallbackUrl1Param",
+      "description": "Create an Callback URI",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/OBCallbackUrl1"
+      }
+    },
+    "CallbackUrlId": {
+      "name": "CallbackUrlId",
+      "in": "path",
+      "description": "CallbackUrlId",
+      "required": true,
+      "type": "string"
+    },
+    "x-fapi-financial-id-Param": {
+      "in": "header",
+      "name": "x-fapi-financial-id",
+      "type": "string",
+      "required": true,
+      "description": "The unique id of the ASPSP to which the request is issued. The unique id will be issued by OB."
+    },
+    "x-fapi-interaction-id-Param": {
+      "in": "header",
+      "name": "x-fapi-interaction-id",
+      "type": "string",
+      "required": false,
+      "description": "An RFC4122 UID used as a correlation id."
+    },
+    "AuthorizationParam": {
+      "in": "header",
+      "name": "Authorization",
+      "type": "string",
+      "required": true,
+      "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+    },
+    "x-jws-signature-Param": {
+      "in": "header",
+      "name": "x-jws-signature",
+      "type": "string",
+      "required": true,
+      "description": "Header containing a detached JWS signature of the body of the payload."
+    }
+  },
+  "responses": {
+    "200CallbackUrlsRead": {
+      "description": "An array of callback URLs",
+      "schema": {
+        "$ref": "#/definitions/OBCallbackUrlsResponse1"
+      },
+      "headers": {
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload."
+        }
+      }
+    },
+    "201CallbackUrlsCreated": {
+      "description": "Callback URL created",
+      "schema": {
+        "$ref": "#/definitions/OBCallbackUrlResponse1"
+      },
+      "headers": {
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload."
+        }
+      }
+    },
+    "200CallbackUrlsChanged": {
+      "description": "Callback URL changed",
+      "schema": {
+        "$ref": "#/definitions/OBCallbackUrlResponse1"
+      },
+      "headers": {
+        "x-jws-signature": {
+          "type": "string",
+          "description": "Header containing a detached JWS signature of the body of the payload."
+        }
+      }
+    },
+    "204CallbackUrlsDeleted": {
+      "description": "Callback URL changed"
+    },
+    "400ErrorResponse": {
+      "description": "Bad request",
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
+    },
+    "401ErrorResponse": {
+      "description": "Unauthorized"
+    },
+    "403ErrorResponse": {
+      "description": "Forbidden"
+    },
+    "404ErrorResponse": {
+      "description": "Not found"
+    },
+    "405ErrorResponse": {
+      "description": "Method Not Allowed"
+    },
+    "406ErrorResponse": {
+      "description": "Not Acceptable"
+    },
+    "415ErrorResponse": {
+      "description": "Unsupported Media Type"
+    },
+    "429ErrorResponse": {
+      "description": "Too Many Requests",
+      "headers": {
+        "Retry-After": {
+          "description": "Number in seconds to wait",
+          "type": "integer"
+        }
+      }
+    },
+    "500ErrorResponse": {
+      "description": "Internal Server Error",
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "TPPOAuth2Security": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://authserver.example/token",
+      "scopes": {
+        "accounts": "Ability to read Accounts information",
+        "fundsconfirmation": "Ability to confirm funds",
+        "payments": "Generic payment scope"
+      },
+      "description": "TPP client credential authorisation flow with the ASPSP"
+    }
+  },
+  "definitions": {
+    "OBCallbackUrl1": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/OBCallbackUrlData1"
+        }
+      },
+      "required": [
+        "Data"
+      ],
+      "additionalProperties": false
+    },
+    "OBCallbackUrlData1": {
+      "type": "object",
+      "properties": {
+        "Url": {
+          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
+          "type": "string"
+        },
+        "Version": {
+          "description": "Version for the event notification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10
+        }
+      },
+      "required": [
+        "Url",
+        "Version"
+      ],
+      "additionalProperties": false
+    },
+    "OBCallbackUrlResponse1": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/OBCallbackUrlResponseData1"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      },
+      "required": [
+        "Data",
+        "Links",
+        "Meta"
+      ],
+      "additionalProperties": false
+    },
+    "OBCallbackUrlResponseData1": {
+      "type": "object",
+      "properties": {
+        "CallbackUrlId": {
+          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "Url": {
+          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
+          "type": "string"
+        },
+        "Version": {
+          "description": "Version for the event notification.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10
+        }
+      },
+      "required": [
+        "CallbackUrlId",
+        "Url",
+        "Version"
+      ],
+      "additionalProperties": false
+    },
+    "OBCallbackUrlsResponse1": {
+      "type": "object",
+      "properties": {
+        "Data": {
+          "$ref": "#/definitions/OBCallbackUrlsResponseData1"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      },
+      "required": [
+        "Data",
+        "Links",
+        "Meta"
+      ],
+      "additionalProperties": false
+    },
+    "OBCallbackUrlsResponseData1": {
+      "type": "object",
+      "properties": {
+        "CallbackUrl": {
+          "items": {
+            "$ref": "#/definitions/OBCallbackUrlResponseData1"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OBError1": {
+      "type": "object",
+      "properties": {
+        "ErrorCode": {
+          "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "Message": {
+          "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "Path": {
+          "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "Url": {
+          "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ErrorCode",
+        "Message"
+      ],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "OBErrorResponse1": {
+      "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+      "type": "object",
+      "properties": {
+        "Code": {
+          "description": "High level textual error code, to help categorize the errors.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "Id": {
+          "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "Message": {
+          "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "Errors": {
+          "items": {
+            "$ref": "#/definitions/OBError1"
+          },
+          "type": "array",
+          "minItems": 1
+        }
+      },
+      "required": [
+        "Code",
+        "Message",
+        "Errors"
+      ],
+      "additionalProperties": false
+    },
+    "ISODateTime": {
+      "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+      "type": "string",
+      "format": "date-time"
+    },
+    "Links": {
+      "type": "object",
+      "description": "Links relevant to the payload",
+      "properties": {
+        "Self": {
+          "type": "string",
+          "format": "uri"
+        },
+        "First": {
+          "type": "string",
+          "format": "uri"
+        },
+        "Prev": {
+          "type": "string",
+          "format": "uri"
+        },
+        "Next": {
+          "type": "string",
+          "format": "uri"
+        },
+        "Last": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "Self"
+      ]
+    },
+    "Meta": {
+      "title": "MetaData",
+      "type": "object",
+      "description": "Meta Data relevant to the payload",
+      "properties": {
+        "TotalPages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "FirstAvailableDateTime": {
+          "$ref": "#/definitions/ISODateTime"
+        },
+        "LastAvailableDateTime": {
+          "$ref": "#/definitions/ISODateTime"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
