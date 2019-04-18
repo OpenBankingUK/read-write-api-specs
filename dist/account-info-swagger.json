@@ -12,9 +12,9 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v4.0-RC1"
+    "version": "v3.1.2"
   },
-  "basePath": "/open-banking/v4.0/aisp",
+  "basePath": "/open-banking/v3.1/aisp",
   "schemes": [
     "https"
   ],
@@ -1853,13 +1853,6 @@
       "format": "date-time",
       "description": "The UTC ISO 8601 Date Time to filter statements TO\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component."
     },
-    "AccountId": {
-      "name": "AccountId",
-      "in": "path",
-      "description": "AccountId",
-      "required": true,
-      "type": "string"
-    },
     "OBReadConsent1Param": {
       "name": "OBReadConsent1Param",
       "in": "body",
@@ -1873,6 +1866,13 @@
       "name": "ConsentId",
       "in": "path",
       "description": "ConsentId",
+      "required": true,
+      "type": "string"
+    },
+    "AccountId": {
+      "name": "AccountId",
+      "in": "path",
+      "description": "AccountId",
       "required": true,
       "type": "string"
     },
@@ -1937,30 +1937,6 @@
     }
   },
   "responses": {
-    "200AccountsAccountIdStandingOrdersRead": {
-      "description": "Standing Orders Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadStandingOrder5"
-      }
-    },
-    "200StandingOrdersRead": {
-      "description": "Standing Orders Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadStandingOrder5"
-      }
-    },
     "201AccountAccessConsentsCreated": {
       "description": "Account Access Consents Created",
       "headers": {
@@ -1994,6 +1970,30 @@
         }
       }
     },
+    "200AccountsRead": {
+      "description": "Accounts Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadAccount4"
+      }
+    },
+    "200AccountsAccountIdRead": {
+      "description": "Accounts Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadAccount4"
+      }
+    },
     "200AccountsAccountIdBalancesRead": {
       "description": "Balances Read",
       "headers": {
@@ -2016,6 +2016,102 @@
       },
       "schema": {
         "$ref": "#/definitions/OBReadBalance1"
+      }
+    },
+    "200AccountsAccountIdTransactionsRead": {
+      "description": "Transactions Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadTransaction5"
+      }
+    },
+    "200TransactionsRead": {
+      "description": "Transactions Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadTransaction5"
+      }
+    },
+    "200AccountsAccountIdBeneficiariesRead": {
+      "description": "Beneficiaries Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadBeneficiary3"
+      }
+    },
+    "200BeneficiariesRead": {
+      "description": "Beneficiaries Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadBeneficiary3"
+      }
+    },
+    "200AccountsAccountIdDirectDebitsRead": {
+      "description": "Direct Debits Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadDirectDebit1"
+      }
+    },
+    "200DirectDebitsRead": {
+      "description": "Direct Debits Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadDirectDebit1"
+      }
+    },
+    "200AccountsAccountIdStandingOrdersRead": {
+      "description": "Standing Orders Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadStandingOrder5"
+      }
+    },
+    "200StandingOrdersRead": {
+      "description": "Standing Orders Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBReadStandingOrder5"
       }
     },
     "200AccountsAccountIdProductRead": {
@@ -2042,8 +2138,8 @@
         "$ref": "#/definitions/OBReadProduct2"
       }
     },
-    "200AccountsAccountIdDirectDebitsRead": {
-      "description": "Direct Debits Read",
+    "200AccountsAccountIdOffersRead": {
+      "description": "Offers Read",
       "headers": {
         "x-fapi-interaction-id": {
           "type": "string",
@@ -2051,11 +2147,11 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadDirectDebit1"
+        "$ref": "#/definitions/OBReadOffer1"
       }
     },
-    "200DirectDebitsRead": {
-      "description": "Direct Debits Read",
+    "200OffersRead": {
+      "description": "Offers Read",
       "headers": {
         "x-fapi-interaction-id": {
           "type": "string",
@@ -2063,7 +2159,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadDirectDebit1"
+        "$ref": "#/definitions/OBReadOffer1"
       }
     },
     "200AccountsAccountIdPartiesRead": {
@@ -2100,54 +2196,6 @@
       },
       "schema": {
         "$ref": "#/definitions/OBReadParty2"
-      }
-    },
-    "200AccountsAccountIdTransactionsRead": {
-      "description": "Transactions Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadTransaction5"
-      }
-    },
-    "200TransactionsRead": {
-      "description": "Transactions Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadTransaction5"
-      }
-    },
-    "200AccountsAccountIdOffersRead": {
-      "description": "Offers Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadOffer1"
-      }
-    },
-    "200OffersRead": {
-      "description": "Offers Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadOffer1"
       }
     },
     "200AccountsAccountIdScheduledPaymentsRead": {
@@ -2232,54 +2280,6 @@
       },
       "schema": {
         "$ref": "#/definitions/OBReadStatement2"
-      }
-    },
-    "200AccountsRead": {
-      "description": "Accounts Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadAccount4"
-      }
-    },
-    "200AccountsAccountIdRead": {
-      "description": "Accounts Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadAccount4"
-      }
-    },
-    "200AccountsAccountIdBeneficiariesRead": {
-      "description": "Beneficiaries Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadBeneficiary3"
-      }
-    },
-    "200BeneficiariesRead": {
-      "description": "Beneficiaries Read",
-      "headers": {
-        "x-fapi-interaction-id": {
-          "type": "string",
-          "description": "An RFC4122 UID used as a correlation id."
-        }
-      },
-      "schema": {
-        "$ref": "#/definitions/OBReadBeneficiary3"
       }
     },
     "400Error": {
@@ -2378,6 +2378,15 @@
     }
   },
   "securityDefinitions": {
+    "TPPOAuth2Security": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://authserver.example/token",
+      "scopes": {
+        "accounts": "Ability to read Accounts information"
+      },
+      "description": "TPP client credential authorisation flow with the ASPSP"
+    },
     "PSUOAuth2Security": {
       "type": "oauth2",
       "flow": "accessCode",
@@ -2387,15 +2396,6 @@
         "accounts": "Ability to read Accounts information"
       },
       "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU"
-    },
-    "TPPOAuth2Security": {
-      "type": "oauth2",
-      "flow": "application",
-      "tokenUrl": "https://authserver.example/token",
-      "scopes": {
-        "accounts": "Ability to read Accounts information"
-      },
-      "description": "TPP client credential authorisation flow with the ASPSP"
     }
   },
   "definitions": {
