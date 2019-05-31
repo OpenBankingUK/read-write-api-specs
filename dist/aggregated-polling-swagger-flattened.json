@@ -1,0 +1,534 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Aggregated Event Polling API Specification",
+    "description": "Swagger for Aggregated Event Polling API Specification",
+    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "contact": {
+      "name": "Service Desk",
+      "email": "ServiceDesk@openbanking.org.uk"
+    },
+    "license": {
+      "name": "open-licence",
+      "url": "https://www.openbanking.org.uk/open-licence"
+    },
+    "version": "v3.1.2"
+  },
+  "basePath": "/open-banking/v3.1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json; charset=utf-8",
+    "application/jose+jwe"
+  ],
+  "produces": [
+    "application/json; charset=utf-8",
+    "application/jose+jwe"
+  ],
+  "paths": {
+    "/events": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Create Events",
+        "operationId": "CreateEvents",
+        "parameters": [
+          {
+            "name": "OBEventPolling1Param",
+            "in": "body",
+            "description": "Default",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "maxEvents": {
+                  "description": "Maximum number of events to be returned. A value of zero indicates the ASPSP should not return events even if available",
+                  "type": "integer"
+                },
+                "returnImmediately": {
+                  "description": "Indicates whether an ASPSP should return a response immediately or provide a long poll",
+                  "type": "boolean"
+                },
+                "ack": {
+                  "type": "array",
+                  "items": {
+                    "description": "An array of jti values indicating event notifications positively acknowledged by the TPP",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  }
+                },
+                "setErrs": {
+                  "type": "object",
+                  "description": "An object that encapsulates all negative acknowledgements transmitted by the TPP",
+                  "properties": {},
+                  "additionalProperties": {
+                    "type": "object",
+                    "required": [
+                      "err",
+                      "description"
+                    ],
+                    "properties": {
+                      "err": {
+                        "description": "A value from the IANA \"Security Event Token Delivery Error Codes\" registry that identifies the error as defined here \nhttps://tools.ietf.org/id/draft-ietf-secevent-http-push-03.html#error_codes",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 40
+                      },
+                      "description": {
+                        "description": "A human-readable string that provides additional diagnostic information",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Events Created",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "moreAvailable",
+                "sets"
+              ],
+              "properties": {
+                "moreAvailable": {
+                  "description": "A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.",
+                  "type": "boolean"
+                },
+                "sets": {
+                  "type": "object",
+                  "description": "A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.",
+                  "properties": {},
+                  "additionalProperties": {
+                    "description": "An object named with the jti of the event notification to be delivered. The value is the event notification, expressed as a string.\nThe payload of the event should be defined in the OBEventNotification2 format.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "eventpolling"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "TPPOAuth2Security": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://authserver.example/token",
+      "scopes": {
+        "eventpolling": "Ability to poll for, acknowledge and receive Security Event Tokens"
+      },
+      "description": "TPP client credential authorisation flow with the ASPSP"
+    }
+  }
+}
