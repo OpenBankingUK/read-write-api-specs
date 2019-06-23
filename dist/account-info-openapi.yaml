@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.2
+  version: v3.1.3-draft1
 paths:
   /account-access-consents:
     post:
@@ -1219,28 +1219,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadBalance1'
-    200AccountsAccountIdTransactionsRead:
-      description: Transactions Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadTransaction5'
-    200TransactionsRead:
-      description: Transactions Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadTransaction5'
     200AccountsAccountIdBeneficiariesRead:
       description: Beneficiaries Read
       headers:
@@ -1285,50 +1263,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadDirectDebit1'
-    200AccountsAccountIdStandingOrdersRead:
-      description: Standing Orders Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadStandingOrder5'
-    200StandingOrdersRead:
-      description: Standing Orders Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadStandingOrder5'
-    200AccountsAccountIdProductRead:
-      description: Products Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadProduct2'
-    200ProductsRead:
-      description: Products Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBReadProduct2'
     200AccountsAccountIdOffersRead:
       description: Offers Read
       headers:
@@ -1384,6 +1318,28 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadParty2'
+    200AccountsAccountIdProductRead:
+      description: Products Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadProduct2'
+    200ProductsRead:
+      description: Products Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadProduct2'
     200AccountsAccountIdScheduledPaymentsRead:
       description: Scheduled Payments Read
       headers:
@@ -1406,6 +1362,28 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadScheduledPayment2'
+    200AccountsAccountIdStandingOrdersRead:
+      description: Standing Orders Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadStandingOrder5'
+    200StandingOrdersRead:
+      description: Standing Orders Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadStandingOrder5'
     200AccountsAccountIdStatementsRead:
       description: Statements Read
       headers:
@@ -1461,6 +1439,28 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBReadStatement2'
+    200AccountsAccountIdTransactionsRead:
+      description: Transactions Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadTransaction5'
+    200TransactionsRead:
+      description: Transactions Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBReadTransaction5'
     400Error:
       description: Bad request
       headers:
@@ -11595,14 +11595,6 @@ components:
       type: string
       format: date-time
   securitySchemes:
-    TPPOAuth2Security:
-      type: oauth2
-      description: TPP client credential authorisation flow with the ASPSP
-      flows:
-        clientCredentials:
-          tokenUrl: 'https://authserver.example/token'
-          scopes:
-            accounts: Ability to read Accounts information
     PSUOAuth2Security:
       type: oauth2
       description: >-
@@ -11611,6 +11603,14 @@ components:
       flows:
         authorizationCode:
           authorizationUrl: 'https://authserver.example/authorization'
+          tokenUrl: 'https://authserver.example/token'
+          scopes:
+            accounts: Ability to read Accounts information
+    TPPOAuth2Security:
+      type: oauth2
+      description: TPP client credential authorisation flow with the ASPSP
+      flows:
+        clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
             accounts: Ability to read Accounts information
