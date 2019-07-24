@@ -6107,7 +6107,218 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "RefundAccount": {
+                          "type": "object",
+                          "required": [
+                            "Account"
+                          ],
+                          "properties": {
+                            "Agent": {
+                              "type": "object",
+                              "description": "Financial institution servicing an account for the debtor.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BICFI"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Name": {
+                                  "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "PostalAddress": {
+                                  "type": "object",
+                                  "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                  "properties": {
+                                    "AddressType": {
+                                      "description": "Identifies the nature of the postal address.",
+                                      "type": "string",
+                                      "enum": [
+                                        "Business",
+                                        "Correspondence",
+                                        "DeliveryTo",
+                                        "MailTo",
+                                        "POBox",
+                                        "Postal",
+                                        "Residential",
+                                        "Statement"
+                                      ]
+                                    },
+                                    "Department": {
+                                      "description": "Identification of a division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "SubDepartment": {
+                                      "description": "Identification of a sub-division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "StreetName": {
+                                      "description": "Name of a street or thoroughfare.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "BuildingNumber": {
+                                      "description": "Number that identifies the position of a building on a street.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "PostCode": {
+                                      "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "TownName": {
+                                      "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "CountrySubDivision": {
+                                      "description": "Identifies a subdivision of a country such as state, region, county.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "Country": {
+                                      "description": "Nation with its own government.",
+                                      "type": "string",
+                                      "pattern": "^[A-Z]{2,2}$"
+                                    },
+                                    "AddressLine": {
+                                      "type": "array",
+                                      "items": {
+                                        "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 70
+                                      },
+                                      "minItems": 0,
+                                      "maxItems": 7
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Account": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -12087,7 +12298,218 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "RefundAccount": {
+                          "type": "object",
+                          "required": [
+                            "Account"
+                          ],
+                          "properties": {
+                            "Agent": {
+                              "type": "object",
+                              "description": "Financial institution servicing an account for the debtor.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BICFI"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Name": {
+                                  "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "PostalAddress": {
+                                  "type": "object",
+                                  "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                  "properties": {
+                                    "AddressType": {
+                                      "description": "Identifies the nature of the postal address.",
+                                      "type": "string",
+                                      "enum": [
+                                        "Business",
+                                        "Correspondence",
+                                        "DeliveryTo",
+                                        "MailTo",
+                                        "POBox",
+                                        "Postal",
+                                        "Residential",
+                                        "Statement"
+                                      ]
+                                    },
+                                    "Department": {
+                                      "description": "Identification of a division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "SubDepartment": {
+                                      "description": "Identification of a sub-division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "StreetName": {
+                                      "description": "Name of a street or thoroughfare.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "BuildingNumber": {
+                                      "description": "Number that identifies the position of a building on a street.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "PostCode": {
+                                      "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "TownName": {
+                                      "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "CountrySubDivision": {
+                                      "description": "Identifies a subdivision of a country such as state, region, county.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "Country": {
+                                      "description": "Nation with its own government.",
+                                      "type": "string",
+                                      "pattern": "^[A-Z]{2,2}$"
+                                    },
+                                    "AddressLine": {
+                                      "type": "array",
+                                      "items": {
+                                        "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 70
+                                      },
+                                      "minItems": 0,
+                                      "maxItems": 7
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Account": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -17673,7 +18095,218 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "RefundAccount": {
+                          "type": "object",
+                          "required": [
+                            "Account"
+                          ],
+                          "properties": {
+                            "Agent": {
+                              "type": "object",
+                              "description": "Financial institution servicing an account for the debtor.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BICFI"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Name": {
+                                  "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "PostalAddress": {
+                                  "type": "object",
+                                  "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                  "properties": {
+                                    "AddressType": {
+                                      "description": "Identifies the nature of the postal address.",
+                                      "type": "string",
+                                      "enum": [
+                                        "Business",
+                                        "Correspondence",
+                                        "DeliveryTo",
+                                        "MailTo",
+                                        "POBox",
+                                        "Postal",
+                                        "Residential",
+                                        "Statement"
+                                      ]
+                                    },
+                                    "Department": {
+                                      "description": "Identification of a division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "SubDepartment": {
+                                      "description": "Identification of a sub-division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "StreetName": {
+                                      "description": "Name of a street or thoroughfare.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "BuildingNumber": {
+                                      "description": "Number that identifies the position of a building on a street.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "PostCode": {
+                                      "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "TownName": {
+                                      "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "CountrySubDivision": {
+                                      "description": "Identifies a subdivision of a country such as state, region, county.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "Country": {
+                                      "description": "Nation with its own government.",
+                                      "type": "string",
+                                      "pattern": "^[A-Z]{2,2}$"
+                                    },
+                                    "AddressLine": {
+                                      "type": "array",
+                                      "items": {
+                                        "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 70
+                                      },
+                                      "minItems": 0,
+                                      "maxItems": 7
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Account": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -31244,7 +31877,218 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "RefundAccount": {
+                          "type": "object",
+                          "required": [
+                            "Account"
+                          ],
+                          "properties": {
+                            "Agent": {
+                              "type": "object",
+                              "description": "Financial institution servicing an account for the debtor.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BICFI"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Name": {
+                                  "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "PostalAddress": {
+                                  "type": "object",
+                                  "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                  "properties": {
+                                    "AddressType": {
+                                      "description": "Identifies the nature of the postal address.",
+                                      "type": "string",
+                                      "enum": [
+                                        "Business",
+                                        "Correspondence",
+                                        "DeliveryTo",
+                                        "MailTo",
+                                        "POBox",
+                                        "Postal",
+                                        "Residential",
+                                        "Statement"
+                                      ]
+                                    },
+                                    "Department": {
+                                      "description": "Identification of a division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "SubDepartment": {
+                                      "description": "Identification of a sub-division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "StreetName": {
+                                      "description": "Name of a street or thoroughfare.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "BuildingNumber": {
+                                      "description": "Number that identifies the position of a building on a street.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "PostCode": {
+                                      "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "TownName": {
+                                      "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "CountrySubDivision": {
+                                      "description": "Identifies a subdivision of a country such as state, region, county.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "Country": {
+                                      "description": "Nation with its own government.",
+                                      "type": "string",
+                                      "pattern": "^[A-Z]{2,2}$"
+                                    },
+                                    "AddressLine": {
+                                      "type": "array",
+                                      "items": {
+                                        "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 70
+                                      },
+                                      "minItems": 0,
+                                      "maxItems": 7
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Account": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -39041,7 +39885,218 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "RefundAccount": {
+                          "type": "object",
+                          "required": [
+                            "Account"
+                          ],
+                          "properties": {
+                            "Agent": {
+                              "type": "object",
+                              "description": "Financial institution servicing an account for the debtor.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BICFI"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Name": {
+                                  "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "PostalAddress": {
+                                  "type": "object",
+                                  "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                  "properties": {
+                                    "AddressType": {
+                                      "description": "Identifies the nature of the postal address.",
+                                      "type": "string",
+                                      "enum": [
+                                        "Business",
+                                        "Correspondence",
+                                        "DeliveryTo",
+                                        "MailTo",
+                                        "POBox",
+                                        "Postal",
+                                        "Residential",
+                                        "Statement"
+                                      ]
+                                    },
+                                    "Department": {
+                                      "description": "Identification of a division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "SubDepartment": {
+                                      "description": "Identification of a sub-division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "StreetName": {
+                                      "description": "Name of a street or thoroughfare.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "BuildingNumber": {
+                                      "description": "Number that identifies the position of a building on a street.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "PostCode": {
+                                      "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "TownName": {
+                                      "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "CountrySubDivision": {
+                                      "description": "Identifies a subdivision of a country such as state, region, county.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "Country": {
+                                      "description": "Nation with its own government.",
+                                      "type": "string",
+                                      "pattern": "^[A-Z]{2,2}$"
+                                    },
+                                    "AddressLine": {
+                                      "type": "array",
+                                      "items": {
+                                        "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 70
+                                      },
+                                      "minItems": 0,
+                                      "maxItems": 7
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Account": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }
@@ -45647,7 +46702,218 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {}
+                  "required": [
+                    "Data"
+                  ],
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "RefundAccount": {
+                          "type": "object",
+                          "required": [
+                            "Account"
+                          ],
+                          "properties": {
+                            "Agent": {
+                              "type": "object",
+                              "description": "Financial institution servicing an account for the debtor.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BICFI"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 35
+                                },
+                                "Name": {
+                                  "description": "Name by which an agent is known and which is usually used to identify that agent.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 140
+                                },
+                                "PostalAddress": {
+                                  "type": "object",
+                                  "description": "Information that locates and identifies a specific address, as defined by postal services.",
+                                  "properties": {
+                                    "AddressType": {
+                                      "description": "Identifies the nature of the postal address.",
+                                      "type": "string",
+                                      "enum": [
+                                        "Business",
+                                        "Correspondence",
+                                        "DeliveryTo",
+                                        "MailTo",
+                                        "POBox",
+                                        "Postal",
+                                        "Residential",
+                                        "Statement"
+                                      ]
+                                    },
+                                    "Department": {
+                                      "description": "Identification of a division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "SubDepartment": {
+                                      "description": "Identification of a sub-division of a large organisation or building.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "StreetName": {
+                                      "description": "Name of a street or thoroughfare.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 70
+                                    },
+                                    "BuildingNumber": {
+                                      "description": "Number that identifies the position of a building on a street.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "PostCode": {
+                                      "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 16
+                                    },
+                                    "TownName": {
+                                      "description": "Name of a built-up area, with defined boundaries, and a local government.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "CountrySubDivision": {
+                                      "description": "Identifies a subdivision of a country such as state, region, county.",
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 35
+                                    },
+                                    "Country": {
+                                      "description": "Nation with its own government.",
+                                      "type": "string",
+                                      "pattern": "^[A-Z]{2,2}$"
+                                    },
+                                    "AddressLine": {
+                                      "type": "array",
+                                      "items": {
+                                        "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 70
+                                      },
+                                      "minItems": 0,
+                                      "maxItems": 7
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "Account": {
+                              "type": "object",
+                              "required": [
+                                "SchemeName",
+                                "Identification"
+                              ],
+                              "description": "Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.",
+                              "properties": {
+                                "SchemeName": {
+                                  "description": "Name of the identification scheme, in a coded form as published in an external list.",
+                                  "type": "string",
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.BBAN",
+                                    "UK.OBIE.IBAN",
+                                    "UK.OBIE.PAN",
+                                    "UK.OBIE.Paym",
+                                    "UK.OBIE.SortCodeAccountNumber"
+                                  ]
+                                },
+                                "Identification": {
+                                  "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 256
+                                },
+                                "Name": {
+                                  "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 70
+                                },
+                                "SecondaryIdentification": {
+                                  "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 34
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "type": "object",
+                      "description": "Links relevant to the payload",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "Self"
+                      ]
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "description": "Meta Data relevant to the payload",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
                 }
               }
             }

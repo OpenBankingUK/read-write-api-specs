@@ -2571,13 +2571,20 @@ definitions:
       2017-04-05T10:43:07+00:00
     type: string
     format: date-time
-  Identification:
+  Identification_0:
     description: >-
       Identification assigned by an institution to identify an account. This
       identification is known by the account owner.
     type: string
     minLength: 1
     maxLength: 256
+  Identification_1:
+    description: >-
+      Unique and unambiguous identification of a financial institution or a
+      branch of a financial institution.
+    type: string
+    minLength: 1
+    maxLength: 35
   Links:
     type: object
     description: Links relevant to the payload
@@ -2613,6 +2620,23 @@ definitions:
       LastAvailableDateTime:
         $ref: '#/definitions/ISODateTime'
     additionalProperties: false
+  Name_0:
+    description: >-
+      The account name is the name or names of the account owner(s) represented
+      at an account level, as displayed by the ASPSP's online channels.
+
+      Note, the account name is not the product name or the nickname of the
+      account.
+    type: string
+    minLength: 1
+    maxLength: 70
+  Name_1:
+    description: >-
+      Name by which an agent is known and which is usually used to identify that
+      agent.
+    type: string
+    minLength: 1
+    maxLength: 140
   OBActiveCurrencyAndAmount_SimpleType:
     description: >-
       A number of monetary units specified in an active currency where the unit
@@ -2642,6 +2666,23 @@ definitions:
       - Postal
       - Residential
       - Statement
+  OBCashAccountDebtor4:
+    type: object
+    required:
+      - SchemeName
+      - Identification
+    description: >-
+      Unambiguous identification of the account of the debtor to which a debit
+      entry will be made as a result of the transaction.
+    properties:
+      SchemeName:
+        $ref: '#/definitions/OBExternalAccountIdentification4Code'
+      Identification:
+        $ref: '#/definitions/Identification_0'
+      Name:
+        $ref: '#/definitions/Name_0'
+      SecondaryIdentification:
+        $ref: '#/definitions/SecondaryIdentification'
   OBChargeBearerType1Code:
     description: >-
       Specifies which party/parties will bear the charges associated with the
@@ -2758,6 +2799,13 @@ definitions:
       - UK.OBIE.PAN
       - UK.OBIE.Paym
       - UK.OBIE.SortCodeAccountNumber
+  OBExternalFinancialInstitutionIdentification4Code:
+    description: >-
+      Name of the identification scheme, in a coded form as published in an
+      external list.
+    type: string
+    x-namespaced-enum:
+      - UK.OBIE.BICFI
   OBExternalLocalInstrument1Code:
     description: >-
       User community specific instrument.
@@ -2976,32 +3024,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -3016,7 +3039,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -3149,32 +3172,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -3189,7 +3187,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -3482,32 +3480,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -3522,7 +3495,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -3816,32 +3789,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -3856,7 +3804,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -4059,32 +4007,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -4099,7 +4022,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -4253,32 +4176,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -4293,7 +4191,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -4607,32 +4505,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -4647,7 +4520,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -4954,32 +4827,7 @@ definitions:
                   Currency:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               CreditorAccount:
                 type: object
                 required:
@@ -4994,7 +4842,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -5310,18 +5158,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
@@ -5337,7 +5176,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -5563,18 +5402,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
@@ -5590,7 +5420,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -5952,18 +5782,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
@@ -5979,7 +5800,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -6334,18 +6155,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
@@ -6361,7 +6173,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -6501,32 +6313,7 @@ definitions:
               LocalInstrument:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               RemittanceInformation:
                 type: object
                 description: >-
@@ -6633,32 +6420,7 @@ definitions:
               LocalInstrument:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               RemittanceInformation:
                 type: object
                 description: >-
@@ -6902,32 +6664,7 @@ definitions:
               LocalInstrument:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               RemittanceInformation:
                 type: object
                 description: >-
@@ -7169,32 +6906,7 @@ definitions:
               LocalInstrument:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               RemittanceInformation:
                 type: object
                 description: >-
@@ -7468,32 +7180,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -7512,26 +7199,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -7548,7 +7221,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -7744,32 +7417,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -7788,26 +7436,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -7824,7 +7458,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -8230,32 +7864,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -8274,26 +7883,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -8310,7 +7905,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -8717,32 +8312,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -8761,26 +8331,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -8797,7 +8353,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -9064,32 +8620,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -9108,26 +8639,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -9144,7 +8661,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -9362,32 +8879,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -9406,26 +8898,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -9442,7 +8920,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -9870,32 +9348,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -9914,26 +9367,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -9950,7 +9389,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -10371,32 +9810,7 @@ definitions:
                     minLength: 1
                     maxLength: 256
               DebtorAccount:
-                type: object
-                required:
-                  - SchemeName
-                  - Identification
-                description: >-
-                  Unambiguous identification of the account of the debtor to
-                  which a debit entry will be made as a result of the
-                  transaction.
-                properties:
-                  SchemeName:
-                    $ref: '#/definitions/OBExternalAccountIdentification4Code'
-                  Identification:
-                    $ref: '#/definitions/Identification'
-                  Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
-                  SecondaryIdentification:
-                    $ref: '#/definitions/SecondaryIdentification'
+                $ref: '#/definitions/OBCashAccountDebtor4'
               Creditor:
                 type: object
                 description: Party to which an amount of money is due.
@@ -10415,26 +9829,12 @@ definitions:
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
-                    description: >-
-                      Unique and unambiguous identification of a financial
-                      institution or a branch of a financial institution.
-                    type: string
-                    minLength: 1
-                    maxLength: 35
+                    $ref: '#/definitions/Identification_1'
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -10451,7 +9851,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -10755,18 +10155,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
@@ -10793,12 +10184,8 @@ definitions:
                   This is the servicer of the beneficiary account.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
                     description: >-
                       Unique and unambiguous identification of the servicing
@@ -10807,12 +10194,7 @@ definitions:
                     minLength: 1
                     maxLength: 35
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -10826,7 +10208,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -11042,18 +10424,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
@@ -11080,12 +10453,8 @@ definitions:
                   This is the servicer of the beneficiary account.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
                     description: >-
                       Unique and unambiguous identification of the servicing
@@ -11094,12 +10463,7 @@ definitions:
                     minLength: 1
                     maxLength: 35
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -11113,7 +10477,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -11465,18 +10829,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
@@ -11503,12 +10858,8 @@ definitions:
                   This is the servicer of the beneficiary account.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
                     description: >-
                       Unique and unambiguous identification of the servicing
@@ -11517,12 +10868,7 @@ definitions:
                     minLength: 1
                     maxLength: 35
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -11536,7 +10882,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -11881,18 +11227,9 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
-                    description: >-
-                      The account name is the name or names of the account
-                      owner(s) represented at an account level, as displayed by
-                      the ASPSP's online channels.
-
-                      Note, the account name is not the product name or the
-                      nickname of the account.
-                    type: string
-                    minLength: 1
-                    maxLength: 70
+                    $ref: '#/definitions/Name_0'
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
@@ -11919,12 +11256,8 @@ definitions:
                   This is the servicer of the beneficiary account.
                 properties:
                   SchemeName:
-                    description: >-
-                      Name of the identification scheme, in a coded form as
-                      published in an external list.
-                    type: string
-                    x-namespaced-enum:
-                      - UK.OBIE.BICFI
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
                   Identification:
                     description: >-
                       Unique and unambiguous identification of the servicing
@@ -11933,12 +11266,7 @@ definitions:
                     minLength: 1
                     maxLength: 35
                   Name:
-                    description: >-
-                      Name by which an agent is known and which is usually used
-                      to identify that agent.
-                    type: string
-                    minLength: 1
-                    maxLength: 140
+                    $ref: '#/definitions/Name_1'
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
@@ -11952,7 +11280,7 @@ definitions:
                   SchemeName:
                     $ref: '#/definitions/OBExternalAccountIdentification4Code'
                   Identification:
-                    $ref: '#/definitions/Identification'
+                    $ref: '#/definitions/Identification_0'
                   Name:
                     description: >-
                       The account name is the name or names of the account
@@ -12119,7 +11447,36 @@ definitions:
         $ref: '#/definitions/Meta'
   OBWriteRefundAccountResponse1:
     type: object
-    properties: {}
+    required:
+      - Data
+    properties:
+      Data:
+        type: object
+        properties:
+          RefundAccount:
+            type: object
+            required:
+              - Account
+            properties:
+              Agent:
+                type: object
+                description: Financial institution servicing an account for the debtor.
+                properties:
+                  SchemeName:
+                    $ref: >-
+                      #/definitions/OBExternalFinancialInstitutionIdentification4Code
+                  Identification:
+                    $ref: '#/definitions/Identification_1'
+                  Name:
+                    $ref: '#/definitions/Name_1'
+                  PostalAddress:
+                    $ref: '#/definitions/OBPostalAddress6'
+              Account:
+                $ref: '#/definitions/OBCashAccountDebtor4'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
   PostCode:
     description: >-
       Identifier consisting of a group of letters and/or numbers that is added
