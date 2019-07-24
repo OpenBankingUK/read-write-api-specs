@@ -1854,16 +1854,6 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
-    ISODate_0:
-      description: >-
-        Date on which the account and related basic services are effectively
-        operational for the account owner.
-      type: string
-      format: date
-    ISODate_1:
-      description: Maturity date of the account.
-      type: string
-      format: date
     Identification_0:
       description: >-
         Identification assigned by an institution to identify an account. This
@@ -1913,6 +1903,17 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    MaturityDate:
+      description: >-
+        Maturity date of the account.All dates in the JSON payloads are
+        represented in ISO 8601 date-time format. 
+
+        All date-time fields in responses must include the timezone. An example
+        is below:
+
+        2017-04-05T10:43:07+00:00
+      type: string
+      format: date-time
     Meta:
       title: MetaData
       type: object
@@ -2174,9 +2175,9 @@ components:
         Nickname:
           $ref: '#/components/schemas/Nickname'
         OpeningDate:
-          $ref: '#/components/schemas/ISODate_0'
+          $ref: '#/components/schemas/OpeningDate'
         MaturityDate:
-          $ref: '#/components/schemas/ISODate_1'
+          $ref: '#/components/schemas/MaturityDate'
     OBAccount6Detail:
       type: object
       description: >-
@@ -2206,9 +2207,9 @@ components:
         Nickname:
           $ref: '#/components/schemas/Nickname'
         OpeningDate:
-          $ref: '#/components/schemas/ISODate_0'
+          $ref: '#/components/schemas/OpeningDate'
         MaturityDate:
-          $ref: '#/components/schemas/ISODate_1'
+          $ref: '#/components/schemas/MaturityDate'
         Account:
           type: array
           items:
@@ -5080,7 +5081,7 @@ components:
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
     OBExternalAccountRole1Code:
-      description: A party�s role with respect to the related account.
+      description: A party’s role with respect to the related account.
       type: string
       x-namespaced-enum:
         - UK.OBIE.Administrator
@@ -11408,6 +11409,18 @@ components:
         rather than an amount)
       type: string
       pattern: '^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$'
+    OpeningDate:
+      description: >-
+        Date on which the account and related basic services are effectively
+        operational for the account owner.All dates in the JSON payloads are
+        represented in ISO 8601 date-time format. 
+
+        All date-time fields in responses must include the timezone. An example
+        is below:
+
+        2017-04-05T10:43:07+00:00
+      type: string
+      format: date-time
     PartyId:
       description: >-
         A unique and immutable identifier used to identify the customer
