@@ -9096,17 +9096,6 @@
           }
         }
       },
-      "OBReadDataStatement2": {
-        "type": "object",
-        "properties": {
-          "Statement": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OBStatement2"
-            }
-          }
-        }
-      },
       "OBReadDataTransaction5": {
         "type": "object",
         "properties": {
@@ -11618,7 +11607,243 @@
         ],
         "properties": {
           "Data": {
-            "$ref": "#/components/schemas/OBReadDataStatement2"
+            "type": "object",
+            "properties": {
+              "Statement": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "description": "Provides further details on a statement resource.",
+                  "required": [
+                    "AccountId",
+                    "Type",
+                    "StartDateTime",
+                    "EndDateTime",
+                    "CreationDateTime"
+                  ],
+                  "properties": {
+                    "AccountId": {
+                      "$ref": "#/components/schemas/AccountId"
+                    },
+                    "StatementId": {
+                      "$ref": "#/components/schemas/StatementId"
+                    },
+                    "StatementReference": {
+                      "$ref": "#/components/schemas/StatementReference"
+                    },
+                    "Type": {
+                      "$ref": "#/components/schemas/OBExternalStatementType1Code"
+                    },
+                    "StartDateTime": {
+                      "$ref": "#/components/schemas/StartDateTime"
+                    },
+                    "EndDateTime": {
+                      "$ref": "#/components/schemas/EndDateTime"
+                    },
+                    "CreationDateTime": {
+                      "$ref": "#/components/schemas/CreationDateTime"
+                    },
+                    "StatementDescription": {
+                      "type": "array",
+                      "items": {
+                        "description": "Other descriptions that may be available for the statement resource.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      }
+                    },
+                    "StatementBenefit": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a benefit or reward amount for the statement resource.",
+                        "required": [
+                          "Type",
+                          "Amount"
+                        ],
+                        "properties": {
+                          "Type": {
+                            "$ref": "#/components/schemas/OBExternalStatementBenefitType1Code"
+                          },
+                          "Amount": {
+                            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
+                          }
+                        }
+                      }
+                    },
+                    "StatementFee": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a fee for the statement resource.",
+                        "required": [
+                          "CreditDebitIndicator",
+                          "Type",
+                          "Amount"
+                        ],
+                        "properties": {
+                          "Description": {
+                            "$ref": "#/components/schemas/Description_1"
+                          },
+                          "CreditDebitIndicator": {
+                            "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                          },
+                          "Type": {
+                            "$ref": "#/components/schemas/OBExternalStatementFeeType1Code"
+                          },
+                          "Rate": {
+                            "$ref": "#/components/schemas/OBRate1_0"
+                          },
+                          "RateType": {
+                            "$ref": "#/components/schemas/OBExternalStatementFeeRateType1Code"
+                          },
+                          "Frequency": {
+                            "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
+                          },
+                          "Amount": {
+                            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
+                          }
+                        }
+                      }
+                    },
+                    "StatementInterest": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a generic interest amount related to the statement resource.",
+                        "required": [
+                          "CreditDebitIndicator",
+                          "Type",
+                          "Amount"
+                        ],
+                        "properties": {
+                          "Description": {
+                            "$ref": "#/components/schemas/Description_2"
+                          },
+                          "CreditDebitIndicator": {
+                            "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                          },
+                          "Type": {
+                            "$ref": "#/components/schemas/OBExternalStatementInterestType1Code"
+                          },
+                          "Rate": {
+                            "$ref": "#/components/schemas/OBRate1_1"
+                          },
+                          "RateType": {
+                            "$ref": "#/components/schemas/OBExternalStatementInterestRateType1Code"
+                          },
+                          "Frequency": {
+                            "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
+                          },
+                          "Amount": {
+                            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
+                          }
+                        }
+                      }
+                    },
+                    "StatementAmount": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a generic amount for the statement resource.",
+                        "required": [
+                          "CreditDebitIndicator",
+                          "Type",
+                          "Amount"
+                        ],
+                        "properties": {
+                          "CreditDebitIndicator": {
+                            "$ref": "#/components/schemas/OBCreditDebitCode_0"
+                          },
+                          "Type": {
+                            "$ref": "#/components/schemas/OBExternalStatementAmountType1Code"
+                          },
+                          "Amount": {
+                            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
+                          }
+                        }
+                      }
+                    },
+                    "StatementDateTime": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a generic date time for the statement resource.",
+                        "required": [
+                          "DateTime",
+                          "Type"
+                        ],
+                        "properties": {
+                          "DateTime": {
+                            "$ref": "#/components/schemas/DateTime"
+                          },
+                          "Type": {
+                            "$ref": "#/components/schemas/OBExternalStatementDateTimeType1Code"
+                          }
+                        }
+                      }
+                    },
+                    "StatementRate": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a generic rate related to the statement resource.",
+                        "required": [
+                          "Rate",
+                          "Type"
+                        ],
+                        "properties": {
+                          "Rate": {
+                            "description": "Rate associated with the statement rate type.",
+                            "type": "string",
+                            "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
+                          },
+                          "Type": {
+                            "description": "Statement rate type, in a coded form.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 40
+                          }
+                        }
+                      }
+                    },
+                    "StatementValue": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Set of elements used to provide details of a generic number value related to the statement resource.",
+                        "required": [
+                          "Value",
+                          "Type"
+                        ],
+                        "properties": {
+                          "Value": {
+                            "description": "Value associated with the statement value type.",
+                            "type": "string",
+                            "x-namespaced-enum": [
+                              "UK.OBIE.AirMilesPoints",
+                              "UK.OBIE.AirMilesPointsBalance",
+                              "UK.OBIE.Credits",
+                              "UK.OBIE.Debits",
+                              "UK.OBIE.HotelPoints",
+                              "UK.OBIE.HotelPointsBalance",
+                              "UK.OBIE.RetailShoppingPoints",
+                              "UK.OBIE.RetailShoppingPointsBalance"
+                            ]
+                          },
+                          "Type": {
+                            "description": "Statement value type, in a coded form.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 40
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -11635,7 +11860,15 @@
         ],
         "properties": {
           "Data": {
-            "$ref": "#/components/schemas/OBReadDataStatement2"
+            "type": "object",
+            "properties": {
+              "Statement": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatement2"
+                }
+              }
+            }
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
