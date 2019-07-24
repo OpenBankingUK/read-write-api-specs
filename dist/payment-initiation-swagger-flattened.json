@@ -5711,6 +5711,449 @@
         ]
       }
     },
+    "/domestic-payments/{DomesticPaymentId}/refund-account": {
+      "get": {
+        "tags": [
+          "Refund Accounts"
+        ],
+        "summary": "Get Refund Account",
+        "operationId": "GetDomesticPaymentsDomesticPaymentIdRefundAccount",
+        "parameters": [
+          {
+            "name": "DomesticPaymentId",
+            "in": "path",
+            "description": "DomesticPaymentId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund Account Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
     "/domestic-scheduled-payment-consents": {
       "post": {
         "tags": [
@@ -10916,6 +11359,449 @@
         ]
       }
     },
+    "/domestic-scheduled-payments/{DomesticScheduledPaymentId}/refund-account": {
+      "get": {
+        "tags": [
+          "Refund Accounts"
+        ],
+        "summary": "Get Refund Account",
+        "operationId": "GetDomesticScheduledPaymentsDomesticScheduledPaymentIdRefundAccount",
+        "parameters": [
+          {
+            "name": "DomesticScheduledPaymentId",
+            "in": "path",
+            "description": "DomesticScheduledPaymentId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund Account Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
     "/domestic-standing-order-consents": {
       "post": {
         "tags": [
@@ -15345,6 +16231,449 @@
                   "additionalProperties": false
                 }
               }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-standing-orders/{DomesticStandingOrderId}/refund-account": {
+      "get": {
+        "tags": [
+          "Refund Accounts"
+        ],
+        "summary": "Get Refund Account",
+        "operationId": "GetDomesticStandingOrdersDomesticStandingOrderIdRefundAccount",
+        "parameters": [
+          {
+            "name": "DomesticStandingOrderId",
+            "in": "path",
+            "description": "DomesticStandingOrderId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund Account Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           },
           "400": {
@@ -28029,6 +29358,449 @@
         ]
       }
     },
+    "/international-payments/{InternationalPaymentId}/refund-account": {
+      "get": {
+        "tags": [
+          "Refund Accounts"
+        ],
+        "summary": "Get Refund Account",
+        "operationId": "GetInternationalPaymentsInternationalPaymentIdRefundAccount",
+        "parameters": [
+          {
+            "name": "InternationalPaymentId",
+            "in": "path",
+            "description": "InternationalPaymentId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund Account Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
     "/international-scheduled-payment-consents": {
       "post": {
         "tags": [
@@ -34997,6 +36769,449 @@
         ]
       }
     },
+    "/international-scheduled-payments/{InternationalScheduledPaymentId}/refund-account": {
+      "get": {
+        "tags": [
+          "Refund Accounts"
+        ],
+        "summary": "Get Refund Account",
+        "operationId": "GetInternationalScheduledPaymentsInternationalScheduledPaymentIdRefundAccount",
+        "parameters": [
+          {
+            "name": "InternationalScheduledPaymentId",
+            "in": "path",
+            "description": "InternationalScheduledPaymentId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund Account Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
     "/international-standing-order-consents": {
       "post": {
         "tags": [
@@ -40446,6 +42661,449 @@
                   "additionalProperties": false
                 }
               }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "type": "integer"
+              },
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+              "type": "object",
+              "properties": {
+                "Code": {
+                  "description": "High level textual error code, to help categorize the errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Id": {
+                  "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "Message": {
+                  "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                },
+                "Errors": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "ErrorCode": {
+                        "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+                        "type": "string",
+                        "x-namespaced-enum": [
+                          "UK.OBIE.Field.Expected",
+                          "UK.OBIE.Field.Invalid",
+                          "UK.OBIE.Field.InvalidDate",
+                          "UK.OBIE.Field.Missing",
+                          "UK.OBIE.Field.Unexpected",
+                          "UK.OBIE.Header.Invalid",
+                          "UK.OBIE.Header.Missing",
+                          "UK.OBIE.Reauthenticate",
+                          "UK.OBIE.Resource.ConsentMismatch",
+                          "UK.OBIE.Resource.InvalidConsentStatus",
+                          "UK.OBIE.Resource.InvalidFormat",
+                          "UK.OBIE.Resource.NotFound",
+                          "UK.OBIE.Rules.AfterCutOffDateTime",
+                          "UK.OBIE.Rules.DuplicateReference",
+                          "UK.OBIE.Signature.Invalid",
+                          "UK.OBIE.Signature.InvalidClaim",
+                          "UK.OBIE.Signature.Malformed",
+                          "UK.OBIE.Signature.Missing",
+                          "UK.OBIE.Signature.MissingClaim",
+                          "UK.OBIE.Signature.Unexpected",
+                          "UK.OBIE.UnexpectedError",
+                          "UK.OBIE.Unsupported.AccountIdentifier",
+                          "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+                          "UK.OBIE.Unsupported.Currency",
+                          "UK.OBIE.Unsupported.Frequency",
+                          "UK.OBIE.Unsupported.LocalInstrument",
+                          "UK.OBIE.Unsupported.Scheme"
+                        ]
+                      },
+                      "Message": {
+                        "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Path": {
+                        "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "Url": {
+                        "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ErrorCode",
+                      "Message"
+                    ],
+                    "additionalProperties": false,
+                    "minProperties": 1
+                  },
+                  "type": "array",
+                  "minItems": 1
+                }
+              },
+              "required": [
+                "Code",
+                "Message",
+                "Errors"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/international-standing-orders/{InternationalStandingOrderPaymentId}/refund-account": {
+      "get": {
+        "tags": [
+          "Refund Accounts"
+        ],
+        "summary": "Get Refund Account",
+        "operationId": "GetInternationalStandingOrdersInternationalStandingOrderPaymentIdRefundAccount",
+        "parameters": [
+          {
+            "name": "InternationalStandingOrderPaymentId",
+            "in": "path",
+            "description": "InternationalStandingOrderPaymentId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-auth-date",
+            "type": "string",
+            "required": false,
+            "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+            "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-customer-ip-address",
+            "type": "string",
+            "required": false,
+            "description": "The PSU's IP address if the PSU is currently logged in with the TPP."
+          },
+          {
+            "in": "header",
+            "name": "x-fapi-interaction-id",
+            "type": "string",
+            "required": false,
+            "description": "An RFC4122 UID used as a correlation id."
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refund Account Read",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
+              },
+              "x-jws-signature": {
+                "type": "string",
+                "description": "Header containing a detached JWS signature of the body of the payload.\n"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {}
             }
           },
           "400": {
