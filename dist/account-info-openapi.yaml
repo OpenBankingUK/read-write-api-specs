@@ -5081,7 +5081,7 @@ components:
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
     OBExternalAccountRole1Code:
-      description: A party’s role with respect to the related account.
+      description: A party�s role with respect to the related account.
       type: string
       x-namespaced-enum:
         - UK.OBIE.Administrator
@@ -5277,9 +5277,19 @@ components:
         - UK.OBIE.Purchase
         - UK.OBIE.Total
     OBExternalStatementRateType1Code:
-      description: Rate associated with the statement rate type.
+      description: 'Statement rate type, in a coded form.'
       type: string
-      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
+      x-namespaced-enum:
+        - UK.OBIE.AnnualBalanceTransfer
+        - UK.OBIE.AnnualBalanceTransferAfterPromo
+        - UK.OBIE.AnnualBalanceTransferPromo
+        - UK.OBIE.AnnualCash
+        - UK.OBIE.AnnualPurchase
+        - UK.OBIE.AnnualPurchaseAfterPromo
+        - UK.OBIE.AnnualPurchasePromo
+        - UK.OBIE.MonthlyBalanceTransfer
+        - UK.OBIE.MonthlyCash
+        - UK.OBIE.MonthlyPurchase
     OBExternalStatementType1Code:
       description: 'Statement type, in a coded form.'
       type: string
@@ -5290,7 +5300,7 @@ components:
         - Interim
         - RegularPeriodic
     OBExternalStatementValueType1Code:
-      description: Value associated with the statement value type.
+      description: 'Statement value type, in a coded form.'
       type: string
       x-namespaced-enum:
         - UK.OBIE.AirMilesPoints
@@ -8000,6 +8010,13 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBReadDataStatement2:
+      type: object
+      properties:
+        Statement:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBStatement2'
     OBReadDataTransaction5:
       type: object
       properties:
@@ -10281,203 +10298,7 @@ components:
         - Data
       properties:
         Data:
-          type: object
-          properties:
-            Statement:
-              type: array
-              items:
-                type: object
-                description: Provides further details on a statement resource.
-                required:
-                  - AccountId
-                  - Type
-                  - StartDateTime
-                  - EndDateTime
-                  - CreationDateTime
-                properties:
-                  AccountId:
-                    $ref: '#/components/schemas/AccountId'
-                  StatementId:
-                    $ref: '#/components/schemas/StatementId'
-                  StatementReference:
-                    $ref: '#/components/schemas/StatementReference'
-                  Type:
-                    $ref: '#/components/schemas/OBExternalStatementType1Code'
-                  StartDateTime:
-                    $ref: '#/components/schemas/StartDateTime'
-                  EndDateTime:
-                    $ref: '#/components/schemas/EndDateTime'
-                  CreationDateTime:
-                    $ref: '#/components/schemas/CreationDateTime'
-                  StatementDescription:
-                    type: array
-                    items:
-                      description: >-
-                        Other descriptions that may be available for the
-                        statement resource.
-                      type: string
-                      minLength: 1
-                      maxLength: 500
-                  StatementBenefit:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a benefit or
-                        reward amount for the statement resource.
-                      required:
-                        - Type
-                        - Amount
-                      properties:
-                        Type:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementBenefitType1Code
-                        Amount:
-                          $ref: >-
-                            #/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4
-                  StatementFee:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a fee for the
-                        statement resource.
-                      required:
-                        - CreditDebitIndicator
-                        - Type
-                        - Amount
-                      properties:
-                        Description:
-                          $ref: '#/components/schemas/Description_1'
-                        CreditDebitIndicator:
-                          $ref: '#/components/schemas/OBCreditDebitCode_0'
-                        Type:
-                          $ref: '#/components/schemas/OBExternalStatementFeeType1Code'
-                        Rate:
-                          $ref: '#/components/schemas/OBRate1_0'
-                        RateType:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementFeeRateType1Code
-                        Frequency:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementFeeFrequency1Code
-                        Amount:
-                          $ref: >-
-                            #/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5
-                  StatementInterest:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a generic
-                        interest amount related to the statement resource.
-                      required:
-                        - CreditDebitIndicator
-                        - Type
-                        - Amount
-                      properties:
-                        Description:
-                          $ref: '#/components/schemas/Description_2'
-                        CreditDebitIndicator:
-                          $ref: '#/components/schemas/OBCreditDebitCode_0'
-                        Type:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementInterestType1Code
-                        Rate:
-                          $ref: '#/components/schemas/OBRate1_1'
-                        RateType:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementInterestRateType1Code
-                        Frequency:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementInterestFrequency1Code
-                        Amount:
-                          $ref: >-
-                            #/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6
-                  StatementAmount:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a generic
-                        amount for the statement resource.
-                      required:
-                        - CreditDebitIndicator
-                        - Type
-                        - Amount
-                      properties:
-                        CreditDebitIndicator:
-                          $ref: '#/components/schemas/OBCreditDebitCode_0'
-                        Type:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementAmountType1Code
-                        Amount:
-                          $ref: >-
-                            #/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7
-                  StatementDateTime:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a generic
-                        date time for the statement resource.
-                      required:
-                        - DateTime
-                        - Type
-                      properties:
-                        DateTime:
-                          $ref: '#/components/schemas/DateTime'
-                        Type:
-                          $ref: >-
-                            #/components/schemas/OBExternalStatementDateTimeType1Code
-                  StatementRate:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a generic
-                        rate related to the statement resource.
-                      required:
-                        - Rate
-                        - Type
-                      properties:
-                        Rate:
-                          description: Rate associated with the statement rate type.
-                          type: string
-                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
-                        Type:
-                          description: 'Statement rate type, in a coded form.'
-                          type: string
-                          minLength: 1
-                          maxLength: 40
-                  StatementValue:
-                    type: array
-                    items:
-                      type: object
-                      description: >-
-                        Set of elements used to provide details of a generic
-                        number value related to the statement resource.
-                      required:
-                        - Value
-                        - Type
-                      properties:
-                        Value:
-                          description: Value associated with the statement value type.
-                          type: string
-                          x-namespaced-enum:
-                            - UK.OBIE.AirMilesPoints
-                            - UK.OBIE.AirMilesPointsBalance
-                            - UK.OBIE.Credits
-                            - UK.OBIE.Debits
-                            - UK.OBIE.HotelPoints
-                            - UK.OBIE.HotelPointsBalance
-                            - UK.OBIE.RetailShoppingPoints
-                            - UK.OBIE.RetailShoppingPointsBalance
-                        Type:
-                          description: 'Statement value type, in a coded form.'
-                          type: string
-                          minLength: 1
-                          maxLength: 40
+          $ref: '#/components/schemas/OBReadDataStatement2'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
@@ -10488,12 +10309,7 @@ components:
         - Data
       properties:
         Data:
-          type: object
-          properties:
-            Statement:
-              type: array
-              items:
-                $ref: '#/components/schemas/OBStatement2'
+          $ref: '#/components/schemas/OBReadDataStatement2'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
@@ -10848,9 +10664,9 @@ components:
               - Type
             properties:
               Rate:
-                $ref: '#/components/schemas/OBExternalStatementRateType1Code'
+                $ref: '#/components/schemas/Rate'
               Type:
-                $ref: '#/components/schemas/Type_0'
+                $ref: '#/components/schemas/OBExternalStatementRateType1Code'
         StatementValue:
           type: array
           items:
@@ -10863,9 +10679,9 @@ components:
               - Type
             properties:
               Value:
-                $ref: '#/components/schemas/OBExternalStatementValueType1Code'
+                $ref: '#/components/schemas/Value'
               Type:
-                $ref: '#/components/schemas/Type_1'
+                $ref: '#/components/schemas/OBExternalStatementValueType1Code'
     OBStatement2Detail:
       type: object
       description: Provides further details on a statement resource.
@@ -11011,9 +10827,9 @@ components:
               - Type
             properties:
               Rate:
-                $ref: '#/components/schemas/OBExternalStatementRateType1Code'
+                $ref: '#/components/schemas/Rate'
               Type:
-                $ref: '#/components/schemas/Type_0'
+                $ref: '#/components/schemas/OBExternalStatementRateType1Code'
         StatementValue:
           type: array
           items:
@@ -11026,9 +10842,9 @@ components:
               - Type
             properties:
               Value:
-                $ref: '#/components/schemas/OBExternalStatementValueType1Code'
+                $ref: '#/components/schemas/Value'
               Type:
-                $ref: '#/components/schemas/Type_1'
+                $ref: '#/components/schemas/OBExternalStatementValueType1Code'
     OBSupplementaryData1:
       type: object
       properties: {}
@@ -11677,6 +11493,10 @@ components:
           type: string
           minLength: 1
           maxLength: 35
+    Rate:
+      description: Rate associated with the statement rate type.
+      type: string
+      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
     Reference:
       description: >-
         Unique reference, as assigned by the creditor, to unambiguously refer to
@@ -11800,13 +11620,8 @@ components:
       type: string
       minLength: 1
       maxLength: 35
-    Type_0:
-      description: 'Statement rate type, in a coded form.'
-      type: string
-      minLength: 1
-      maxLength: 40
-    Type_1:
-      description: 'Statement value type, in a coded form.'
+    Value:
+      description: Value associated with the statement value type.
       type: string
       minLength: 1
       maxLength: 40
