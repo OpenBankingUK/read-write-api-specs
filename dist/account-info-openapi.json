@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.3-draft3"
+    "version": "v3.1.3-RC1"
   },
   "paths": {
     "/account-access-consents": {
@@ -2090,7 +2090,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadBeneficiary3"
+              "$ref": "#/components/schemas/OBReadBeneficiary4"
             }
           }
         }
@@ -2108,7 +2108,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadBeneficiary3"
+              "$ref": "#/components/schemas/OBReadBeneficiary4"
             }
           }
         }
@@ -2288,7 +2288,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadScheduledPayment2"
+              "$ref": "#/components/schemas/OBReadScheduledPayment3"
             }
           }
         }
@@ -2306,7 +2306,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBReadScheduledPayment2"
+              "$ref": "#/components/schemas/OBReadScheduledPayment3"
             }
           }
         }
@@ -2661,6 +2661,12 @@
         "type": "string",
         "format": "date-time"
       },
+      "DebtorReference": {
+        "description": "A reference value provided by the PSU to the PISP while setting up the scheduled payment.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35
+      },
       "Description_0": {
         "description": "Specifies the description of the account type.",
         "type": "string",
@@ -2821,22 +2827,22 @@
         "maxLength": 70
       },
       "Name_1": {
+        "description": "Name by which an agent is known and which is usually used to identify that agent.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
+      },
+      "Name_2": {
         "description": "Name of Service User.",
         "type": "string",
         "minLength": 1,
         "maxLength": 70
       },
-      "Name_2": {
+      "Name_3": {
         "description": "Name by which a party is known and which is usually used to identify that party.",
         "type": "string",
         "minLength": 1,
         "maxLength": 70
-      },
-      "Name_3": {
-        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 140
       },
       "Name_4": {
         "description": "Long name associated with the code",
@@ -3234,7 +3240,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "The amount of the first Standing Order",
+        "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3250,7 +3256,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.\nUsage: This amount has to be transported unchanged through the transaction chain.",
+        "description": "Transaction charges to be paid by the charge bearer.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3266,7 +3272,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "The amount of the next Standing Order.",
+        "description": "The amount of the first Standing Order",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3282,7 +3288,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "The amount of the final Standing Order",
+        "description": "The amount of the next Standing Order.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3298,7 +3304,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Amount of money associated with the statement benefit type.",
+        "description": "The amount of the final Standing Order",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3314,7 +3320,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Amount of money associated with the statement fee type.",
+        "description": "Amount of money associated with the statement benefit type.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3330,7 +3336,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Amount of money associated with the statement interest amount type.",
+        "description": "Amount of money associated with the statement fee type.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3346,7 +3352,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Amount of money associated with the amount type.",
+        "description": "Amount of money associated with the statement interest amount type.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3362,7 +3368,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Amount of money in the cash transaction entry.",
+        "description": "Amount of money associated with the amount type.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -3378,7 +3384,7 @@
           "Amount",
           "Currency"
         ],
-        "description": "Transaction charges to be paid by the charge bearer.",
+        "description": "Amount of money in the cash transaction entry.",
         "properties": {
           "Amount": {
             "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -5729,10 +5735,63 @@
             "$ref": "#/components/schemas/Reference"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
-            "$ref": "#/components/schemas/OBCashAccount5_1"
+            "$ref": "#/components/schemas/OBCashAccount5_0"
+          }
+        },
+        "required": [
+          "CreditorAccount"
+        ]
+      },
+      "OBBeneficiary4": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/OBBeneficiary4Basic"
+          },
+          {
+            "$ref": "#/components/schemas/OBBeneficiary4Detail"
+          }
+        ]
+      },
+      "OBBeneficiary4Basic": {
+        "type": "object",
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "BeneficiaryId": {
+            "$ref": "#/components/schemas/BeneficiaryId"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
+          }
+        }
+      },
+      "OBBeneficiary4Detail": {
+        "type": "object",
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "BeneficiaryId": {
+            "$ref": "#/components/schemas/BeneficiaryId"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "SupplementaryData": {
+            "$ref": "#/components/schemas/OBSupplementaryData1"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5_0"
           }
         },
         "required": [
@@ -5773,6 +5832,24 @@
       },
       "OBBranchAndFinancialInstitutionIdentification6_0": {
         "type": "object",
+        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+          },
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_1"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          }
+        }
+      },
+      "OBBranchAndFinancialInstitutionIdentification6_1": {
+        "type": "object",
         "description": "Financial institution servicing an account for the creditor.",
         "properties": {
           "SchemeName": {
@@ -5782,14 +5859,14 @@
             "$ref": "#/components/schemas/Identification_2"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_3"
+            "$ref": "#/components/schemas/Name_1"
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
           }
         }
       },
-      "OBBranchAndFinancialInstitutionIdentification6_1": {
+      "OBBranchAndFinancialInstitutionIdentification6_2": {
         "type": "object",
         "description": "Financial institution servicing an account for the debtor.",
         "properties": {
@@ -5800,25 +5877,7 @@
             "$ref": "#/components/schemas/Identification_2"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_3"
-          },
-          "PostalAddress": {
-            "$ref": "#/components/schemas/OBPostalAddress6"
-          }
-        }
-      },
-      "OBBranchAndFinancialInstitutionIdentification6_2": {
-        "type": "object",
-        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
-        "properties": {
-          "SchemeName": {
-            "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
-          },
-          "Identification": {
-            "$ref": "#/components/schemas/Identification_1"
-          },
-          "Name": {
-            "$ref": "#/components/schemas/Name_3"
+            "$ref": "#/components/schemas/Name_1"
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
@@ -5837,10 +5896,7 @@
             "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
           },
           "Identification": {
-            "description": "Beneficiary account identification.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 256
+            "$ref": "#/components/schemas/Identification_0"
           },
           "Name": {
             "$ref": "#/components/schemas/Name_0"
@@ -5862,7 +5918,10 @@
             "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
           },
           "Identification": {
-            "$ref": "#/components/schemas/Identification_0"
+            "description": "Beneficiary account identification.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
           },
           "Name": {
             "$ref": "#/components/schemas/Name_0"
@@ -8569,7 +8628,7 @@
             "$ref": "#/components/schemas/OBExternalPartyType1Code"
           },
           "Name": {
-            "$ref": "#/components/schemas/Name_2"
+            "$ref": "#/components/schemas/Name_3"
           },
           "FullLegalName": {
             "$ref": "#/components/schemas/FullLegalName"
@@ -8943,6 +9002,31 @@
           }
         }
       },
+      "OBReadBeneficiary4": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "Beneficiary": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBBeneficiary4"
+                }
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
       "OBReadConsent1": {
         "type": "object",
         "required": [
@@ -9162,7 +9246,7 @@
                       "$ref": "#/components/schemas/OBExternalDirectDebitStatus1Code"
                     },
                     "Name": {
-                      "$ref": "#/components/schemas/Name_1"
+                      "$ref": "#/components/schemas/Name_2"
                     },
                     "PreviousPaymentDateTime": {
                       "$ref": "#/components/schemas/PreviousPaymentDateTime"
@@ -9216,7 +9300,7 @@
                       "$ref": "#/components/schemas/OBExternalDirectDebitStatus1Code"
                     },
                     "Name": {
-                      "$ref": "#/components/schemas/Name_1"
+                      "$ref": "#/components/schemas/Name_2"
                     },
                     "PreviousPaymentDateTime": {
                       "$ref": "#/components/schemas/PreviousPaymentDateTime"
@@ -9395,7 +9479,7 @@
                     "$ref": "#/components/schemas/OBExternalPartyType1Code"
                   },
                   "Name": {
-                    "$ref": "#/components/schemas/Name_2"
+                    "$ref": "#/components/schemas/Name_3"
                   },
                   "EmailAddress": {
                     "$ref": "#/components/schemas/EmailAddress"
@@ -11572,6 +11656,31 @@
           }
         }
       },
+      "OBReadScheduledPayment3": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "ScheduledPayment": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBScheduledPayment3"
+                }
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
       "OBReadStandingOrder4": {
         "type": "object",
         "required": [
@@ -11731,7 +11840,7 @@
             "$ref": "#/components/schemas/Reference"
           },
           "InstructedAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_10"
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
           }
         }
       },
@@ -11761,13 +11870,94 @@
             "$ref": "#/components/schemas/Reference"
           },
           "InstructedAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_10"
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
           },
           "CreditorAgent": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/components/schemas/OBCashAccount5_0"
+            "$ref": "#/components/schemas/OBCashAccount5_1"
+          }
+        }
+      },
+      "OBScheduledPayment3": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/OBScheduledPayment3Basic"
+          },
+          {
+            "$ref": "#/components/schemas/OBScheduledPayment3Detail"
+          }
+        ]
+      },
+      "OBScheduledPayment3Basic": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "ScheduledPaymentDateTime",
+          "ScheduledType",
+          "InstructedAmount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "ScheduledPaymentId": {
+            "$ref": "#/components/schemas/ScheduledPaymentId"
+          },
+          "ScheduledPaymentDateTime": {
+            "$ref": "#/components/schemas/ScheduledPaymentDateTime"
+          },
+          "ScheduledType": {
+            "$ref": "#/components/schemas/OBExternalScheduleType1Code"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "DebtorReference": {
+            "$ref": "#/components/schemas/DebtorReference"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
+          }
+        }
+      },
+      "OBScheduledPayment3Detail": {
+        "type": "object",
+        "required": [
+          "AccountId",
+          "ScheduledPaymentDateTime",
+          "ScheduledType",
+          "InstructedAmount",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "AccountId": {
+            "$ref": "#/components/schemas/AccountId"
+          },
+          "ScheduledPaymentId": {
+            "$ref": "#/components/schemas/ScheduledPaymentId"
+          },
+          "ScheduledPaymentDateTime": {
+            "$ref": "#/components/schemas/ScheduledPaymentDateTime"
+          },
+          "ScheduledType": {
+            "$ref": "#/components/schemas/OBExternalScheduleType1Code"
+          },
+          "Reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "DebtorReference": {
+            "$ref": "#/components/schemas/DebtorReference"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccount5_1"
           }
         }
       },
@@ -11813,13 +12003,13 @@
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-          },
-          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
           },
-          "FinalPaymentAmount": {
+          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11859,19 +12049,19 @@
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-          },
-          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
           },
-          "FinalPaymentAmount": {
+          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
           },
           "CreditorAgent": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/components/schemas/OBCashAccount5_0"
+            "$ref": "#/components/schemas/OBCashAccount5_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11920,13 +12110,13 @@
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-          },
-          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
           },
-          "FinalPaymentAmount": {
+          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11966,19 +12156,19 @@
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
           },
           "FirstPaymentAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
-          },
-          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2"
           },
-          "FinalPaymentAmount": {
+          "NextPaymentAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3"
+          },
+          "FinalPaymentAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
           },
           "CreditorAgent": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
           },
           "CreditorAccount": {
-            "$ref": "#/components/schemas/OBCashAccount5_0"
+            "$ref": "#/components/schemas/OBCashAccount5_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12050,7 +12240,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementBenefitType1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
                 }
               }
             }
@@ -12085,7 +12275,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
                 }
               }
             }
@@ -12120,7 +12310,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
                 }
               }
             }
@@ -12239,7 +12429,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementBenefitType1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
                 }
               }
             }
@@ -12274,7 +12464,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementFeeFrequency1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
                 }
               }
             }
@@ -12309,7 +12499,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementInterestFrequency1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
                 }
               }
             }
@@ -12332,7 +12522,7 @@
                   "$ref": "#/components/schemas/OBExternalStatementAmountType1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7"
+                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
                 }
               }
             }
@@ -12454,10 +12644,10 @@
             "$ref": "#/components/schemas/AddressLine"
           },
           "Amount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
           },
           "ChargeAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_10"
           },
           "CurrencyExchange": {
             "$ref": "#/components/schemas/OBCurrencyExchange5"
@@ -12521,10 +12711,10 @@
             "$ref": "#/components/schemas/AddressLine"
           },
           "Amount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
           },
           "ChargeAmount": {
-            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9"
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_10"
           },
           "CurrencyExchange": {
             "$ref": "#/components/schemas/OBCurrencyExchange5"
@@ -12542,13 +12732,13 @@
             "$ref": "#/components/schemas/OBMerchantDetails1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount6_0"
           },
           "DebtorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2"
           },
           "DebtorAccount": {
             "$ref": "#/components/schemas/OBCashAccount6_1"

@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.3-draft3
+  version: v3.1.3-RC1
 basePath: /open-banking/v3.1/aisp
 schemes:
   - https
@@ -1198,7 +1198,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadBeneficiary3'
+      $ref: '#/definitions/OBReadBeneficiary4'
   200BeneficiariesRead:
     description: Beneficiaries Read
     headers:
@@ -1206,7 +1206,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadBeneficiary3'
+      $ref: '#/definitions/OBReadBeneficiary4'
   200AccountsAccountIdDirectDebitsRead:
     description: Direct Debits Read
     headers:
@@ -1286,7 +1286,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadScheduledPayment2'
+      $ref: '#/definitions/OBReadScheduledPayment3'
   200ScheduledPaymentsRead:
     description: Scheduled Payments Read
     headers:
@@ -1294,7 +1294,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadScheduledPayment2'
+      $ref: '#/definitions/OBReadScheduledPayment3'
   200AccountsAccountIdStandingOrdersRead:
     description: Standing Orders Read
     headers:
@@ -1540,6 +1540,13 @@ definitions:
       2017-04-05T10:43:07+00:00
     type: string
     format: date-time
+  DebtorReference:
+    description: >-
+      A reference value provided by the PSU to the PISP while setting up the
+      scheduled payment.
+    type: string
+    minLength: 1
+    maxLength: 35
   Description_0:
     description: Specifies the description of the account type.
     type: string
@@ -1842,24 +1849,24 @@ definitions:
     minLength: 1
     maxLength: 70
   Name_1:
-    description: Name of Service User.
-    type: string
-    minLength: 1
-    maxLength: 70
-  Name_2:
-    description: >-
-      Name by which a party is known and which is usually used to identify that
-      party.
-    type: string
-    minLength: 1
-    maxLength: 70
-  Name_3:
     description: >-
       Name by which an agent is known and which is usually used to identify that
       agent.
     type: string
     minLength: 1
     maxLength: 140
+  Name_2:
+    description: Name of Service User.
+    type: string
+    minLength: 1
+    maxLength: 70
+  Name_3:
+    description: >-
+      Name by which a party is known and which is usually used to identify that
+      party.
+    type: string
+    minLength: 1
+    maxLength: 70
   Name_4:
     description: Long name associated with the code
     type: string
@@ -2287,17 +2294,6 @@ definitions:
     required:
       - Amount
       - Currency
-    description: The amount of the first Standing Order
-    properties:
-      Amount:
-        $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
-      Currency:
-        $ref: '#/definitions/ActiveOrHistoricCurrencyCode_1'
-  OBActiveOrHistoricCurrencyAndAmount_10:
-    type: object
-    required:
-      - Amount
-      - Currency
     description: >-
       Amount of money to be moved between the debtor and creditor, before
       deduction of charges, expressed in the currency as ordered by the
@@ -2310,12 +2306,23 @@ definitions:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
       Currency:
         $ref: '#/definitions/ActiveOrHistoricCurrencyCode_1'
+  OBActiveOrHistoricCurrencyAndAmount_10:
+    type: object
+    required:
+      - Amount
+      - Currency
+    description: Transaction charges to be paid by the charge bearer.
+    properties:
+      Amount:
+        $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
+      Currency:
+        $ref: '#/definitions/ActiveOrHistoricCurrencyCode_1'
   OBActiveOrHistoricCurrencyAndAmount_2:
     type: object
     required:
       - Amount
       - Currency
-    description: The amount of the next Standing Order.
+    description: The amount of the first Standing Order
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2326,7 +2333,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: The amount of the final Standing Order
+    description: The amount of the next Standing Order.
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2337,7 +2344,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: Amount of money associated with the statement benefit type.
+    description: The amount of the final Standing Order
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2348,7 +2355,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: Amount of money associated with the statement fee type.
+    description: Amount of money associated with the statement benefit type.
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2359,7 +2366,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: Amount of money associated with the statement interest amount type.
+    description: Amount of money associated with the statement fee type.
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2370,7 +2377,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: Amount of money associated with the amount type.
+    description: Amount of money associated with the statement interest amount type.
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2381,7 +2388,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: Amount of money in the cash transaction entry.
+    description: Amount of money associated with the amount type.
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -2392,7 +2399,7 @@ definitions:
     required:
       - Amount
       - Currency
-    description: Transaction charges to be paid by the charge bearer.
+    description: Amount of money in the cash transaction entry.
     properties:
       Amount:
         $ref: '#/definitions/OBActiveCurrencyAndAmount_SimpleType'
@@ -4736,9 +4743,9 @@ definitions:
       Reference:
         $ref: '#/definitions/Reference'
       CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_2'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_0'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_1'
+        $ref: '#/definitions/OBCashAccount5_0'
   OBBeneficiary3Basic:
     type: object
     properties:
@@ -4758,9 +4765,52 @@ definitions:
       Reference:
         $ref: '#/definitions/Reference'
       CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_2'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_0'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_1'
+        $ref: '#/definitions/OBCashAccount5_0'
+    required:
+      - CreditorAccount
+  OBBeneficiary4:
+    type: object
+    properties:
+      AccountId:
+        $ref: '#/definitions/AccountId'
+      BeneficiaryId:
+        $ref: '#/definitions/BeneficiaryId'
+      Reference:
+        $ref: '#/definitions/Reference'
+      SupplementaryData:
+        $ref: '#/definitions/OBSupplementaryData1'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_0'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccount5_0'
+  OBBeneficiary4Basic:
+    type: object
+    properties:
+      AccountId:
+        $ref: '#/definitions/AccountId'
+      BeneficiaryId:
+        $ref: '#/definitions/BeneficiaryId'
+      Reference:
+        $ref: '#/definitions/Reference'
+      SupplementaryData:
+        $ref: '#/definitions/OBSupplementaryData1'
+  OBBeneficiary4Detail:
+    type: object
+    properties:
+      AccountId:
+        $ref: '#/definitions/AccountId'
+      BeneficiaryId:
+        $ref: '#/definitions/BeneficiaryId'
+      Reference:
+        $ref: '#/definitions/Reference'
+      SupplementaryData:
+        $ref: '#/definitions/OBSupplementaryData1'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_0'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccount5_0'
     required:
       - CreditorAccount
   OBBranchAndFinancialInstitutionIdentification5_0:
@@ -4795,30 +4845,6 @@ definitions:
         $ref: '#/definitions/Identification_1'
   OBBranchAndFinancialInstitutionIdentification6_0:
     type: object
-    description: Financial institution servicing an account for the creditor.
-    properties:
-      SchemeName:
-        $ref: '#/definitions/OBExternalFinancialInstitutionIdentification4Code'
-      Identification:
-        $ref: '#/definitions/Identification_2'
-      Name:
-        $ref: '#/definitions/Name_3'
-      PostalAddress:
-        $ref: '#/definitions/OBPostalAddress6'
-  OBBranchAndFinancialInstitutionIdentification6_1:
-    type: object
-    description: Financial institution servicing an account for the debtor.
-    properties:
-      SchemeName:
-        $ref: '#/definitions/OBExternalFinancialInstitutionIdentification4Code'
-      Identification:
-        $ref: '#/definitions/Identification_2'
-      Name:
-        $ref: '#/definitions/Name_3'
-      PostalAddress:
-        $ref: '#/definitions/OBPostalAddress6'
-  OBBranchAndFinancialInstitutionIdentification6_2:
-    type: object
     description: >-
       Party that manages the account on behalf of the account owner, that is
       manages the registration and booking of entries on the account, calculates
@@ -4831,7 +4857,31 @@ definitions:
       Identification:
         $ref: '#/definitions/Identification_1'
       Name:
-        $ref: '#/definitions/Name_3'
+        $ref: '#/definitions/Name_1'
+      PostalAddress:
+        $ref: '#/definitions/OBPostalAddress6'
+  OBBranchAndFinancialInstitutionIdentification6_1:
+    type: object
+    description: Financial institution servicing an account for the creditor.
+    properties:
+      SchemeName:
+        $ref: '#/definitions/OBExternalFinancialInstitutionIdentification4Code'
+      Identification:
+        $ref: '#/definitions/Identification_2'
+      Name:
+        $ref: '#/definitions/Name_1'
+      PostalAddress:
+        $ref: '#/definitions/OBPostalAddress6'
+  OBBranchAndFinancialInstitutionIdentification6_2:
+    type: object
+    description: Financial institution servicing an account for the debtor.
+    properties:
+      SchemeName:
+        $ref: '#/definitions/OBExternalFinancialInstitutionIdentification4Code'
+      Identification:
+        $ref: '#/definitions/Identification_2'
+      Name:
+        $ref: '#/definitions/Name_1'
       PostalAddress:
         $ref: '#/definitions/OBPostalAddress6'
   OBCashAccount5_0:
@@ -4844,10 +4894,7 @@ definitions:
       SchemeName:
         $ref: '#/definitions/OBExternalAccountIdentification4Code'
       Identification:
-        description: Beneficiary account identification.
-        type: string
-        minLength: 1
-        maxLength: 256
+        $ref: '#/definitions/Identification_0'
       Name:
         $ref: '#/definitions/Name_0'
       SecondaryIdentification:
@@ -4862,7 +4909,10 @@ definitions:
       SchemeName:
         $ref: '#/definitions/OBExternalAccountIdentification4Code'
       Identification:
-        $ref: '#/definitions/Identification_0'
+        description: Beneficiary account identification.
+        type: string
+        minLength: 1
+        maxLength: 256
       Name:
         $ref: '#/definitions/Name_0'
       SecondaryIdentification:
@@ -7519,7 +7569,7 @@ definitions:
       PartyType:
         $ref: '#/definitions/OBExternalPartyType1Code'
       Name:
-        $ref: '#/definitions/Name_2'
+        $ref: '#/definitions/Name_3'
       FullLegalName:
         $ref: '#/definitions/FullLegalName'
       LegalStructure:
@@ -7806,6 +7856,22 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
+  OBReadBeneficiary4:
+    type: object
+    required:
+      - Data
+    properties:
+      Data:
+        type: object
+        properties:
+          Beneficiary:
+            type: array
+            items:
+              $ref: '#/definitions/OBBeneficiary4'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
   OBReadConsent1:
     type: object
     required:
@@ -8050,7 +8116,7 @@ definitions:
                 DirectDebitStatusCode:
                   $ref: '#/definitions/OBExternalDirectDebitStatus1Code'
                 Name:
-                  $ref: '#/definitions/Name_1'
+                  $ref: '#/definitions/Name_2'
                 PreviousPaymentDateTime:
                   $ref: '#/definitions/PreviousPaymentDateTime'
                 PreviousPaymentAmount:
@@ -8086,7 +8152,7 @@ definitions:
                 DirectDebitStatusCode:
                   $ref: '#/definitions/OBExternalDirectDebitStatus1Code'
                 Name:
-                  $ref: '#/definitions/Name_1'
+                  $ref: '#/definitions/Name_2'
                 PreviousPaymentDateTime:
                   $ref: '#/definitions/PreviousPaymentDateTime'
                 Frequency:
@@ -8235,7 +8301,7 @@ definitions:
               PartyType:
                 $ref: '#/definitions/OBExternalPartyType1Code'
               Name:
-                $ref: '#/definitions/Name_2'
+                $ref: '#/definitions/Name_3'
               EmailAddress:
                 $ref: '#/definitions/EmailAddress'
               Phone:
@@ -10226,6 +10292,22 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
+  OBReadScheduledPayment3:
+    type: object
+    required:
+      - Data
+    properties:
+      Data:
+        type: object
+        properties:
+          ScheduledPayment:
+            type: array
+            items:
+              $ref: '#/definitions/OBScheduledPayment3'
+      Links:
+        $ref: '#/definitions/Links'
+      Meta:
+        $ref: '#/definitions/Meta'
   OBReadStandingOrder4:
     type: object
     required:
@@ -10328,11 +10410,11 @@ definitions:
       Reference:
         $ref: '#/definitions/Reference'
       InstructedAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_10'
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
       CreditorAgent:
         $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_0'
+        $ref: '#/definitions/OBCashAccount5_1'
   OBScheduledPayment2Basic:
     type: object
     required:
@@ -10352,7 +10434,7 @@ definitions:
       Reference:
         $ref: '#/definitions/Reference'
       InstructedAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_10'
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
   OBScheduledPayment2Detail:
     type: object
     required:
@@ -10373,11 +10455,86 @@ definitions:
       Reference:
         $ref: '#/definitions/Reference'
       InstructedAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_10'
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
       CreditorAgent:
         $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_0'
+        $ref: '#/definitions/OBCashAccount5_1'
+  OBScheduledPayment3:
+    type: object
+    required:
+      - AccountId
+      - ScheduledPaymentDateTime
+      - ScheduledType
+      - InstructedAmount
+    properties:
+      AccountId:
+        $ref: '#/definitions/AccountId'
+      ScheduledPaymentId:
+        $ref: '#/definitions/ScheduledPaymentId'
+      ScheduledPaymentDateTime:
+        $ref: '#/definitions/ScheduledPaymentDateTime'
+      ScheduledType:
+        $ref: '#/definitions/OBExternalScheduleType1Code'
+      Reference:
+        $ref: '#/definitions/Reference'
+      DebtorReference:
+        $ref: '#/definitions/DebtorReference'
+      InstructedAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccount5_1'
+  OBScheduledPayment3Basic:
+    type: object
+    required:
+      - AccountId
+      - ScheduledPaymentDateTime
+      - ScheduledType
+      - InstructedAmount
+    properties:
+      AccountId:
+        $ref: '#/definitions/AccountId'
+      ScheduledPaymentId:
+        $ref: '#/definitions/ScheduledPaymentId'
+      ScheduledPaymentDateTime:
+        $ref: '#/definitions/ScheduledPaymentDateTime'
+      ScheduledType:
+        $ref: '#/definitions/OBExternalScheduleType1Code'
+      Reference:
+        $ref: '#/definitions/Reference'
+      DebtorReference:
+        $ref: '#/definitions/DebtorReference'
+      InstructedAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
+  OBScheduledPayment3Detail:
+    type: object
+    required:
+      - AccountId
+      - ScheduledPaymentDateTime
+      - ScheduledType
+      - InstructedAmount
+      - CreditorAccount
+    properties:
+      AccountId:
+        $ref: '#/definitions/AccountId'
+      ScheduledPaymentId:
+        $ref: '#/definitions/ScheduledPaymentId'
+      ScheduledPaymentDateTime:
+        $ref: '#/definitions/ScheduledPaymentDateTime'
+      ScheduledType:
+        $ref: '#/definitions/OBExternalScheduleType1Code'
+      Reference:
+        $ref: '#/definitions/Reference'
+      DebtorReference:
+        $ref: '#/definitions/DebtorReference'
+      InstructedAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
+      CreditorAgent:
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
+      CreditorAccount:
+        $ref: '#/definitions/OBCashAccount5_1'
   OBStandingOrder4:
     type: object
     required:
@@ -10401,15 +10558,15 @@ definitions:
       StandingOrderStatusCode:
         $ref: '#/definitions/OBExternalStandingOrderStatus1Code'
       FirstPaymentAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
-      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_2'
-      FinalPaymentAmount:
+      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_3'
+      FinalPaymentAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
       CreditorAgent:
         $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_0'
+        $ref: '#/definitions/OBCashAccount5_1'
       SupplementaryData:
         $ref: '#/definitions/OBSupplementaryData1'
   OBStandingOrder4Basic:
@@ -10435,11 +10592,11 @@ definitions:
       StandingOrderStatusCode:
         $ref: '#/definitions/OBExternalStandingOrderStatus1Code'
       FirstPaymentAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
-      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_2'
-      FinalPaymentAmount:
+      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_3'
+      FinalPaymentAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
       SupplementaryData:
         $ref: '#/definitions/OBSupplementaryData1'
   OBStandingOrder4Detail:
@@ -10466,15 +10623,15 @@ definitions:
       StandingOrderStatusCode:
         $ref: '#/definitions/OBExternalStandingOrderStatus1Code'
       FirstPaymentAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
-      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_2'
-      FinalPaymentAmount:
+      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_3'
+      FinalPaymentAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
       CreditorAgent:
         $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_0'
+        $ref: '#/definitions/OBCashAccount5_1'
       SupplementaryData:
         $ref: '#/definitions/OBSupplementaryData1'
   OBStandingOrder5:
@@ -10500,15 +10657,15 @@ definitions:
       StandingOrderStatusCode:
         $ref: '#/definitions/OBExternalStandingOrderStatus1Code'
       FirstPaymentAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
-      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_2'
-      FinalPaymentAmount:
+      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_3'
+      FinalPaymentAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
       CreditorAgent:
         $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_0'
+        $ref: '#/definitions/OBCashAccount5_1'
       SupplementaryData:
         $ref: '#/definitions/OBSupplementaryData1'
   OBStandingOrder5Basic:
@@ -10534,11 +10691,11 @@ definitions:
       StandingOrderStatusCode:
         $ref: '#/definitions/OBExternalStandingOrderStatus1Code'
       FirstPaymentAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
-      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_2'
-      FinalPaymentAmount:
+      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_3'
+      FinalPaymentAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
       SupplementaryData:
         $ref: '#/definitions/OBSupplementaryData1'
   OBStandingOrder5Detail:
@@ -10565,15 +10722,15 @@ definitions:
       StandingOrderStatusCode:
         $ref: '#/definitions/OBExternalStandingOrderStatus1Code'
       FirstPaymentAmount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_1'
-      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_2'
-      FinalPaymentAmount:
+      NextPaymentAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_3'
+      FinalPaymentAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
       CreditorAgent:
         $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification5_1'
       CreditorAccount:
-        $ref: '#/definitions/OBCashAccount5_0'
+        $ref: '#/definitions/OBCashAccount5_1'
       SupplementaryData:
         $ref: '#/definitions/OBSupplementaryData1'
   OBStatement2:
@@ -10621,7 +10778,7 @@ definitions:
             Type:
               $ref: '#/definitions/OBExternalStatementBenefitType1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_5'
       StatementFee:
         type: array
         items:
@@ -10647,7 +10804,7 @@ definitions:
             Frequency:
               $ref: '#/definitions/OBExternalStatementFeeFrequency1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_5'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_6'
       StatementInterest:
         type: array
         items:
@@ -10673,7 +10830,7 @@ definitions:
             Frequency:
               $ref: '#/definitions/OBExternalStatementInterestFrequency1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_6'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_7'
       StatementAmount:
         type: array
         items:
@@ -10691,7 +10848,7 @@ definitions:
             Type:
               $ref: '#/definitions/OBExternalStatementAmountType1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_7'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_8'
       StatementDateTime:
         type: array
         items:
@@ -10782,7 +10939,7 @@ definitions:
             Type:
               $ref: '#/definitions/OBExternalStatementBenefitType1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_5'
       StatementFee:
         type: array
         items:
@@ -10808,7 +10965,7 @@ definitions:
             Frequency:
               $ref: '#/definitions/OBExternalStatementFeeFrequency1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_5'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_6'
       StatementInterest:
         type: array
         items:
@@ -10834,7 +10991,7 @@ definitions:
             Frequency:
               $ref: '#/definitions/OBExternalStatementInterestFrequency1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_6'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_7'
       StatementDateTime:
         type: array
         items:
@@ -10925,7 +11082,7 @@ definitions:
             Type:
               $ref: '#/definitions/OBExternalStatementBenefitType1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_4'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_5'
       StatementFee:
         type: array
         items:
@@ -10951,7 +11108,7 @@ definitions:
             Frequency:
               $ref: '#/definitions/OBExternalStatementFeeFrequency1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_5'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_6'
       StatementInterest:
         type: array
         items:
@@ -10977,7 +11134,7 @@ definitions:
             Frequency:
               $ref: '#/definitions/OBExternalStatementInterestFrequency1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_6'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_7'
       StatementAmount:
         type: array
         items:
@@ -10995,7 +11152,7 @@ definitions:
             Type:
               $ref: '#/definitions/OBExternalStatementAmountType1Code'
             Amount:
-              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_7'
+              $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_8'
       StatementDateTime:
         type: array
         items:
@@ -11081,9 +11238,9 @@ definitions:
       AddressLine:
         $ref: '#/definitions/AddressLine'
       Amount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_8'
-      ChargeAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_9'
+      ChargeAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_10'
       CurrencyExchange:
         $ref: '#/definitions/OBCurrencyExchange5'
       BankTransactionCode:
@@ -11095,11 +11252,11 @@ definitions:
       MerchantDetails:
         $ref: '#/definitions/OBMerchantDetails1'
       CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_0'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_1'
       CreditorAccount:
         $ref: '#/definitions/OBCashAccount6_0'
       DebtorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_1'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_2'
       DebtorAccount:
         $ref: '#/definitions/OBCashAccount6_1'
       CardInstrument:
@@ -11137,9 +11294,9 @@ definitions:
       AddressLine:
         $ref: '#/definitions/AddressLine'
       Amount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_8'
-      ChargeAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_9'
+      ChargeAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_10'
       CurrencyExchange:
         $ref: '#/definitions/OBCurrencyExchange5'
       BankTransactionCode:
@@ -11183,9 +11340,9 @@ definitions:
       AddressLine:
         $ref: '#/definitions/AddressLine'
       Amount:
-        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_8'
-      ChargeAmount:
         $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_9'
+      ChargeAmount:
+        $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount_10'
       CurrencyExchange:
         $ref: '#/definitions/OBCurrencyExchange5'
       BankTransactionCode:
@@ -11197,11 +11354,11 @@ definitions:
       MerchantDetails:
         $ref: '#/definitions/OBMerchantDetails1'
       CreditorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_0'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_1'
       CreditorAccount:
         $ref: '#/definitions/OBCashAccount6_0'
       DebtorAgent:
-        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_1'
+        $ref: '#/definitions/OBBranchAndFinancialInstitutionIdentification6_2'
       DebtorAccount:
         $ref: '#/definitions/OBCashAccount6_1'
       CardInstrument:
