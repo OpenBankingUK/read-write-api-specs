@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.3-RC1
+  version: v3.1.4-RC1
 paths:
   /domestic-payment-consents:
     post:
@@ -2528,13 +2528,20 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
-    Identification:
+    Identification_0:
       description: >-
         Identification assigned by an institution to identify an account. This
         identification is known by the account owner.
       type: string
       minLength: 1
       maxLength: 256
+    Identification_1:
+      description: >-
+        Unique and unambiguous identification of a financial institution or a
+        branch of a financial institution.
+      type: string
+      minLength: 1
+      maxLength: 35
     Links:
       type: object
       description: Links relevant to the payload
@@ -2570,6 +2577,13 @@ components:
         LastAvailableDateTime:
           $ref: '#/components/schemas/ISODateTime'
       additionalProperties: false
+    Name:
+      description: >-
+        Name by which an agent is known and which is usually used to identify
+        that agent.
+      type: string
+      minLength: 1
+      maxLength: 140
     OBActiveCurrencyAndAmount_SimpleType:
       description: >-
         A number of monetary units specified in an active currency where the
@@ -2715,6 +2729,13 @@ components:
         - UK.OBIE.PAN
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
+    OBExternalFinancialInstitutionIdentification4Code:
+      description: >-
+        Name of the identification scheme, in a coded form as published in an
+        external list.
+      type: string
+      x-namespaced-enum:
+        - UK.OBIE.BICFI
     OBExternalLocalInstrument1Code:
       description: >-
         User community specific instrument.
@@ -2951,7 +2972,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -2980,7 +3001,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -3044,6 +3065,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticConsent3:
       type: object
+      properties: {}
+    OBWriteDomesticConsent4:
+      type: object
       required:
         - Data
         - Risk
@@ -3053,6 +3077,12 @@ components:
           required:
             - Initiation
           properties:
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             Initiation:
               type: object
               required:
@@ -3130,7 +3160,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -3159,7 +3189,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -3287,6 +3317,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticConsentResponse3:
       type: object
+      properties: {}
+    OBWriteDomesticConsentResponse4:
+      type: object
       required:
         - Data
         - Risk
@@ -3338,6 +3371,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             CutOffDateTime:
               description: >-
                 Specified cut-off date and time for the payment consent.All
@@ -3469,7 +3508,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -3498,7 +3537,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -3628,7 +3667,60 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBWriteDomesticRefundResponse1:
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          properties:
+            Refund:
+              type: object
+              required:
+                - Account
+              description: >-
+                Unambiguous identification of the refund account to which a
+                refund will be made as a result of the transaction.
+              properties:
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
     OBWriteDomesticResponse3:
+      type: object
+      properties: {}
+    OBWriteDomesticResponse4:
       type: object
       required:
         - Data
@@ -3714,6 +3806,44 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            Refund:
+              type: object
+              required:
+                - Account
+              description: >-
+                Unambiguous identification of the refund account to which a
+                refund will be made as a result of the transaction.
+              properties:
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
             Charges:
               type: array
               items:
@@ -3809,7 +3939,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -3838,7 +3968,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4058,7 +4188,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4087,7 +4217,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4151,6 +4281,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticScheduledConsent3:
       type: object
+      properties: {}
+    OBWriteDomesticScheduledConsent4:
+      type: object
       required:
         - Data
         - Risk
@@ -4166,6 +4299,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             Initiation:
               type: object
               required:
@@ -4258,7 +4397,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4287,7 +4426,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4415,6 +4554,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticScheduledConsentResponse3:
       type: object
+      properties: {}
+    OBWriteDomesticScheduledConsentResponse4:
+      type: object
       required:
         - Data
         - Risk
@@ -4472,6 +4614,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             CutOffDateTime:
               description: >-
                 Specified cut-off date and time for the payment consent.All
@@ -4618,7 +4766,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4647,7 +4795,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -4779,6 +4927,9 @@ components:
           $ref: '#/components/schemas/Meta'
     OBWriteDomesticScheduledResponse3:
       type: object
+      properties: {}
+    OBWriteDomesticScheduledResponse4:
+      type: object
       required:
         - Data
       properties:
@@ -4861,6 +5012,44 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            Refund:
+              type: object
+              required:
+                - Account
+              description: >-
+                Unambiguous identification of the refund account to which a
+                refund will be made as a result of the transaction.
+              properties:
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
             Charges:
               type: array
               items:
@@ -4971,7 +5160,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -5000,7 +5189,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -5322,7 +5511,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -5350,7 +5539,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -5372,6 +5561,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticStandingOrderConsent4:
       type: object
+      properties: {}
+    OBWriteDomesticStandingOrderConsent5:
+      type: object
       required:
         - Data
         - Risk
@@ -5387,6 +5579,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             Initiation:
               type: object
               required:
@@ -5581,7 +5779,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -5609,7 +5807,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -5695,6 +5893,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticStandingOrderConsentResponse4:
       type: object
+      properties: {}
+    OBWriteDomesticStandingOrderConsentResponse5:
+      type: object
       required:
         - Data
         - Risk
@@ -5752,6 +5953,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             CutOffDateTime:
               description: >-
                 Specified cut-off date and time for the payment consent.All
@@ -5976,7 +6183,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -6004,7 +6211,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -6094,6 +6301,9 @@ components:
           $ref: '#/components/schemas/Meta'
     OBWriteDomesticStandingOrderResponse4:
       type: object
+      properties: {}
+    OBWriteDomesticStandingOrderResponse5:
+      type: object
       required:
         - Data
       properties:
@@ -6152,6 +6362,44 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            Refund:
+              type: object
+              required:
+                - Account
+              description: >-
+                Unambiguous identification of the refund account to which a
+                refund will be made as a result of the transaction.
+              properties:
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
             Charges:
               type: array
               items:
@@ -6364,7 +6612,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -6392,7 +6640,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -6547,7 +6795,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -6683,7 +6931,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -6956,7 +7204,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -7227,7 +7475,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -7551,7 +7799,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -7583,26 +7831,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -7620,7 +7854,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -7682,6 +7916,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteInternationalConsent4:
       type: object
+      properties: {}
+    OBWriteInternationalConsent5:
+      type: object
       required:
         - Data
         - Risk
@@ -7691,6 +7928,12 @@ components:
           required:
             - Initiation
           properties:
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             Initiation:
               type: object
               required:
@@ -7853,7 +8096,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -7885,26 +8128,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -7922,7 +8151,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -8048,6 +8277,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteInternationalConsentResponse4:
       type: object
+      properties: {}
+    OBWriteInternationalConsentResponse5:
+      type: object
       required:
         - Data
         - Risk
@@ -8099,6 +8331,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             CutOffDateTime:
               description: >-
                 Specified cut-off date and time for the payment consent.All
@@ -8365,7 +8603,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -8397,26 +8635,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -8434,7 +8658,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -8562,6 +8786,84 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBWriteInternationalRefundResponse1:
+      type: object
+      required:
+        - Data
+      properties:
+        Data:
+          type: object
+          properties:
+            Refund:
+              type: object
+              required:
+                - Account
+              properties:
+                Creditor:
+                  type: object
+                  description: >-
+                    Set of elements used to identify a person or an
+                    organisation.
+                  properties:
+                    Name:
+                      description: >-
+                        Name by which a party is known and which is usually used
+                        to identify that party.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Agent:
+                  type: object
+                  description: >-
+                    Set of elements used to uniquely and unambiguously identify
+                    a financial institution or a branch of a financial
+                    institution.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_1'
+                    Name:
+                      $ref: '#/components/schemas/Name'
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
     OBWriteInternationalResponse4:
       type: object
       required:
@@ -8648,6 +8950,72 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            Refund:
+              type: object
+              required:
+                - Account
+              properties:
+                Creditor:
+                  type: object
+                  description: >-
+                    Set of elements used to identify a person or an
+                    organisation.
+                  properties:
+                    Name:
+                      description: >-
+                        Name by which a party is known and which is usually used
+                        to identify that party.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Agent:
+                  type: object
+                  description: >-
+                    Set of elements used to uniquely and unambiguously identify
+                    a financial institution or a branch of a financial
+                    institution.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_1'
+                    Name:
+                      $ref: '#/components/schemas/Name'
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
             Charges:
               type: array
               items:
@@ -8878,7 +9246,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -8910,26 +9278,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -8947,7 +9301,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -9251,7 +9605,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -9283,26 +9637,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -9320,7 +9660,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -9382,6 +9722,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteInternationalScheduledConsent4:
       type: object
+      properties: {}
+    OBWriteInternationalScheduledConsent5:
+      type: object
       required:
         - Data
         - Risk
@@ -9397,6 +9740,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             Initiation:
               type: object
               required:
@@ -9575,7 +9924,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -9607,26 +9956,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -9644,7 +9979,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -9770,6 +10105,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteInternationalScheduledConsentResponse4:
       type: object
+      properties: {}
+    OBWriteInternationalScheduledConsentResponse5:
+      type: object
       required:
         - Data
         - Risk
@@ -9827,6 +10165,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             CutOffDateTime:
               description: >-
                 Specified cut-off date and time for the payment consent.All
@@ -10109,7 +10453,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -10141,26 +10485,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -10178,7 +10508,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -10308,6 +10638,9 @@ components:
           $ref: '#/components/schemas/Meta'
     OBWriteInternationalScheduledResponse4:
       type: object
+      properties: {}
+    OBWriteInternationalScheduledResponse5:
+      type: object
       required:
         - Data
       properties:
@@ -10390,6 +10723,72 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            Refund:
+              type: object
+              required:
+                - Account
+              properties:
+                Creditor:
+                  type: object
+                  description: >-
+                    Set of elements used to identify a person or an
+                    organisation.
+                  properties:
+                    Name:
+                      description: >-
+                        Name by which a party is known and which is usually used
+                        to identify that party.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Agent:
+                  type: object
+                  description: >-
+                    Set of elements used to uniquely and unambiguously identify
+                    a financial institution or a branch of a financial
+                    institution.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_1'
+                    Name:
+                      $ref: '#/components/schemas/Name'
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
             Charges:
               type: array
               items:
@@ -10636,7 +11035,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -10668,26 +11067,12 @@ components:
                   description: Financial institution servicing an account for the creditor.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
-                      description: >-
-                        Unique and unambiguous identification of a financial
-                        institution or a branch of a financial institution.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                      $ref: '#/components/schemas/Identification_1'
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -10705,7 +11090,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11031,7 +11416,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11069,12 +11454,8 @@ components:
                     This is the servicer of the beneficiary account.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
                       description: >-
                         Unique and unambiguous identification of the servicing
@@ -11083,12 +11464,7 @@ components:
                       minLength: 1
                       maxLength: 35
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -11103,7 +11479,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11125,6 +11501,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteInternationalStandingOrderConsent5:
       type: object
+      properties: {}
+    OBWriteInternationalStandingOrderConsent6:
+      type: object
       required:
         - Data
         - Risk
@@ -11140,6 +11519,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             Initiation:
               type: object
               required:
@@ -11340,7 +11725,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11378,12 +11763,8 @@ components:
                     This is the servicer of the beneficiary account.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
                       description: >-
                         Unique and unambiguous identification of the servicing
@@ -11392,12 +11773,7 @@ components:
                       minLength: 1
                       maxLength: 35
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -11412,7 +11788,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11498,6 +11874,9 @@ components:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteInternationalStandingOrderConsentResponse5:
       type: object
+      properties: {}
+    OBWriteInternationalStandingOrderConsentResponse6:
+      type: object
       required:
         - Data
         - Risk
@@ -11555,6 +11934,12 @@ components:
               type: string
               enum:
                 - Create
+            ReadRefundAccount:
+              description: Specifies to share the refund account details with PISP
+              type: string
+              enum:
+                - 'No'
+                - 'Yes'
             CutOffDateTime:
               description: >-
                 Specified cut-off date and time for the payment consent.All
@@ -11785,7 +12170,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11823,12 +12208,8 @@ components:
                     This is the servicer of the beneficiary account.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
                       description: >-
                         Unique and unambiguous identification of the servicing
@@ -11837,12 +12218,7 @@ components:
                       minLength: 1
                       maxLength: 35
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -11857,7 +12233,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -11947,6 +12323,9 @@ components:
           $ref: '#/components/schemas/Meta'
     OBWriteInternationalStandingOrderResponse5:
       type: object
+      properties: {}
+    OBWriteInternationalStandingOrderResponse6:
+      type: object
       required:
         - Data
       properties:
@@ -12005,6 +12384,72 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            Refund:
+              type: object
+              required:
+                - Account
+              properties:
+                Creditor:
+                  type: object
+                  description: >-
+                    Set of elements used to identify a person or an
+                    organisation.
+                  properties:
+                    Name:
+                      description: >-
+                        Name by which a party is known and which is usually used
+                        to identify that party.
+                      type: string
+                      minLength: 1
+                      maxLength: 140
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Agent:
+                  type: object
+                  description: >-
+                    Set of elements used to uniquely and unambiguously identify
+                    a financial institution or a branch of a financial
+                    institution.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_1'
+                    Name:
+                      $ref: '#/components/schemas/Name'
+                    PostalAddress:
+                      $ref: '#/components/schemas/OBPostalAddress6'
+                Account:
+                  type: object
+                  required:
+                    - SchemeName
+                    - Identification
+                    - Name
+                  description: Provides the details to identify an account.
+                  properties:
+                    SchemeName:
+                      $ref: >-
+                        #/components/schemas/OBExternalAccountIdentification4Code
+                    Identification:
+                      $ref: '#/components/schemas/Identification_0'
+                    Name:
+                      description: >-
+                        Name of the account, as assigned by the account
+                        servicing institution.
+
+                        Usage: The account name is the name or names of the
+                        account owner(s) represented at an account level. The
+                        account name is not the product name or the nickname of
+                        the account.
+
+                        OB: ASPSPs may carry out name validation for
+                        Confirmation of Payee, but it is not mandatory.
+                      type: string
+                      minLength: 1
+                      maxLength: 70
+                    SecondaryIdentification:
+                      $ref: '#/components/schemas/SecondaryIdentification'
             Charges:
               type: array
               items:
@@ -12223,7 +12668,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account
@@ -12261,12 +12706,8 @@ components:
                     This is the servicer of the beneficiary account.
                   properties:
                     SchemeName:
-                      description: >-
-                        Name of the identification scheme, in a coded form as
-                        published in an external list.
-                      type: string
-                      x-namespaced-enum:
-                        - UK.OBIE.BICFI
+                      $ref: >-
+                        #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
                     Identification:
                       description: >-
                         Unique and unambiguous identification of the servicing
@@ -12275,12 +12716,7 @@ components:
                       minLength: 1
                       maxLength: 35
                     Name:
-                      description: >-
-                        Name by which an agent is known and which is usually
-                        used to identify that agent.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress6'
                 CreditorAccount:
@@ -12295,7 +12731,7 @@ components:
                       $ref: >-
                         #/components/schemas/OBExternalAccountIdentification4Code
                     Identification:
-                      $ref: '#/components/schemas/Identification'
+                      $ref: '#/components/schemas/Identification_0'
                     Name:
                       description: >-
                         The account name is the name or names of the account

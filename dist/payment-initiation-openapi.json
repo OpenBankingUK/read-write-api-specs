@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.3-RC1"
+    "version": "v3.1.4-RC1"
   },
   "paths": {
     "/domestic-payment-consents": {
@@ -4112,11 +4112,17 @@
         "type": "string",
         "format": "date-time"
       },
-      "Identification": {
+      "Identification_0": {
         "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
         "type": "string",
         "minLength": 1,
         "maxLength": 256
+      },
+      "Identification_1": {
+        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35
       },
       "Links": {
         "type": "object",
@@ -4165,6 +4171,12 @@
           }
         },
         "additionalProperties": false
+      },
+      "Name": {
+        "description": "Name by which an agent is known and which is usually used to identify that agent.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
       },
       "OBActiveCurrencyAndAmount_SimpleType": {
         "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
@@ -4317,6 +4329,13 @@
           "UK.OBIE.PAN",
           "UK.OBIE.Paym",
           "UK.OBIE.SortCodeAccountNumber"
+        ]
+      },
+      "OBExternalFinancialInstitutionIdentification4Code": {
+        "description": "Name of the identification scheme, in a coded form as published in an external list.",
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.BICFI"
         ]
       },
       "OBExternalLocalInstrument1Code": {
@@ -4545,7 +4564,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -4571,7 +4590,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -4619,6 +4638,10 @@
       },
       "OBWriteDomesticConsent3": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticConsent4": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -4630,6 +4653,14 @@
               "Initiation"
             ],
             "properties": {
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
+                ]
+              },
               "Initiation": {
                 "type": "object",
                 "required": [
@@ -4683,7 +4714,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -4709,7 +4740,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -4812,6 +4843,10 @@
       },
       "OBWriteDomesticConsentResponse3": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticConsentResponse4": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -4852,6 +4887,14 @@
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
+                ]
               },
               "CutOffDateTime": {
                 "description": "Specified cut-off date and time for the payment consent.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -4944,7 +4987,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -4970,7 +5013,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -5077,7 +5120,65 @@
           }
         }
       },
+      "OBWriteDomesticRefundResponse1": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+                "properties": {
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
       "OBWriteDomesticResponse3": {
+        "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticResponse4": {
         "type": "object",
         "required": [
           "Data"
@@ -5137,6 +5238,41 @@
                 "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+                "properties": {
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
               },
               "Charges": {
                 "type": "array",
@@ -5214,7 +5350,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -5240,7 +5376,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -5403,7 +5539,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -5429,7 +5565,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -5477,6 +5613,10 @@
       },
       "OBWriteDomesticScheduledConsent3": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticScheduledConsent4": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -5494,6 +5634,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "Initiation": {
@@ -5554,7 +5702,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -5580,7 +5728,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -5683,6 +5831,10 @@
       },
       "OBWriteDomesticScheduledConsentResponse3": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticScheduledConsentResponse4": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -5730,6 +5882,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "CutOffDateTime": {
@@ -5828,7 +5988,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -5854,7 +6014,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -5963,6 +6123,10 @@
       },
       "OBWriteDomesticScheduledResponse3": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticScheduledResponse4": {
+        "type": "object",
         "required": [
           "Data"
         ],
@@ -6019,6 +6183,41 @@
                 "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+                "properties": {
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
               },
               "Charges": {
                 "type": "array",
@@ -6101,7 +6300,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -6127,7 +6326,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -6334,7 +6533,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -6360,7 +6559,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -6387,6 +6586,10 @@
       },
       "OBWriteDomesticStandingOrderConsent4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticStandingOrderConsent5": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -6404,6 +6607,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "Initiation": {
@@ -6508,7 +6719,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -6534,7 +6745,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -6616,6 +6827,10 @@
       },
       "OBWriteDomesticStandingOrderConsentResponse4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticStandingOrderConsentResponse5": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -6663,6 +6878,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "CutOffDateTime": {
@@ -6795,7 +7018,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -6821,7 +7044,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -6909,6 +7132,10 @@
       },
       "OBWriteDomesticStandingOrderResponse4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteDomesticStandingOrderResponse5": {
+        "type": "object",
         "required": [
           "Data"
         ],
@@ -6955,6 +7182,41 @@
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+                "properties": {
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
               },
               "Charges": {
                 "type": "array",
@@ -7081,7 +7343,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -7107,7 +7369,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -7247,7 +7509,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -7356,7 +7618,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -7579,7 +7841,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -7808,7 +8070,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -8072,7 +8334,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -8105,23 +8367,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -8141,7 +8393,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -8186,6 +8438,10 @@
       },
       "OBWriteInternationalConsent4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalConsent5": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -8197,6 +8453,14 @@
               "Initiation"
             ],
             "properties": {
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
+                ]
+              },
               "Initiation": {
                 "type": "object",
                 "required": [
@@ -8318,7 +8582,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -8351,23 +8615,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -8387,7 +8641,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -8487,6 +8741,10 @@
       },
       "OBWriteInternationalConsentResponse4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalConsentResponse5": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -8527,6 +8785,14 @@
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
+                ]
               },
               "CutOffDateTime": {
                 "description": "Specified cut-off date and time for the payment consent.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -8727,7 +8993,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -8760,23 +9026,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -8796,7 +9052,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -8900,6 +9156,92 @@
           }
         }
       },
+      "OBWriteInternationalRefundResponse1": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "properties": {
+                  "Creditor": {
+                    "type": "object",
+                    "description": "Set of elements used to identify a person or an organisation.",
+                    "properties": {
+                      "Name": {
+                        "description": "Name by which a party is known and which is usually used to identify that party.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Agent": {
+                    "type": "object",
+                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_1"
+                      },
+                      "Name": {
+                        "$ref": "#/components/schemas/Name"
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
       "OBWriteInternationalResponse4": {
         "type": "object",
         "required": [
@@ -8960,6 +9302,73 @@
                 "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "properties": {
+                  "Creditor": {
+                    "type": "object",
+                    "description": "Set of elements used to identify a person or an organisation.",
+                    "properties": {
+                      "Name": {
+                        "description": "Name by which a party is known and which is usually used to identify that party.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Agent": {
+                    "type": "object",
+                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_1"
+                      },
+                      "Name": {
+                        "$ref": "#/components/schemas/Name"
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
               },
               "Charges": {
                 "type": "array",
@@ -9145,7 +9554,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -9178,23 +9587,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -9214,7 +9613,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -9442,7 +9841,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -9475,23 +9874,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -9511,7 +9900,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -9556,6 +9945,10 @@
       },
       "OBWriteInternationalScheduledConsent4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalScheduledConsent5": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -9573,6 +9966,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "Initiation": {
@@ -9701,7 +10102,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -9734,23 +10135,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -9770,7 +10161,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -9870,6 +10261,10 @@
       },
       "OBWriteInternationalScheduledConsentResponse4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalScheduledConsentResponse5": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -9917,6 +10312,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "CutOffDateTime": {
@@ -10123,7 +10526,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -10156,23 +10559,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10192,7 +10585,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -10298,6 +10691,10 @@
       },
       "OBWriteInternationalScheduledResponse4": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalScheduledResponse5": {
+        "type": "object",
         "required": [
           "Data"
         ],
@@ -10354,6 +10751,73 @@
                 "description": "Expected settlement date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "properties": {
+                  "Creditor": {
+                    "type": "object",
+                    "description": "Set of elements used to identify a person or an organisation.",
+                    "properties": {
+                      "Name": {
+                        "description": "Name by which a party is known and which is usually used to identify that party.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Agent": {
+                    "type": "object",
+                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_1"
+                      },
+                      "Name": {
+                        "$ref": "#/components/schemas/Name"
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
               },
               "Charges": {
                 "type": "array",
@@ -10544,7 +11008,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -10577,23 +11041,13 @@
                     "description": "Financial institution servicing an account for the creditor.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
-                        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
+                        "$ref": "#/components/schemas/Identification_1"
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10613,7 +11067,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -10806,7 +11260,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -10839,11 +11293,7 @@
                     "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
                         "description": "Unique and unambiguous identification of the servicing institution.",
@@ -10852,10 +11302,7 @@
                         "maxLength": 35
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10875,7 +11322,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -10902,6 +11349,10 @@
       },
       "OBWriteInternationalStandingOrderConsent5": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalStandingOrderConsent6": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -10919,6 +11370,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "Initiation": {
@@ -11012,7 +11471,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -11045,11 +11504,7 @@
                     "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
                         "description": "Unique and unambiguous identification of the servicing institution.",
@@ -11058,10 +11513,7 @@
                         "maxLength": 35
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11081,7 +11533,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -11163,6 +11615,10 @@
       },
       "OBWriteInternationalStandingOrderConsentResponse5": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalStandingOrderConsentResponse6": {
+        "type": "object",
         "required": [
           "Data",
           "Risk"
@@ -11210,6 +11666,14 @@
                 "type": "string",
                 "enum": [
                   "Create"
+                ]
+              },
+              "ReadRefundAccount": {
+                "description": "Specifies to share the refund account details with PISP",
+                "type": "string",
+                "enum": [
+                  "No",
+                  "Yes"
                 ]
               },
               "CutOffDateTime": {
@@ -11331,7 +11795,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -11364,11 +11828,7 @@
                     "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
                         "description": "Unique and unambiguous identification of the servicing institution.",
@@ -11377,10 +11837,7 @@
                         "maxLength": 35
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11400,7 +11857,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
@@ -11488,6 +11945,10 @@
       },
       "OBWriteInternationalStandingOrderResponse5": {
         "type": "object",
+        "properties": {}
+      },
+      "OBWriteInternationalStandingOrderResponse6": {
+        "type": "object",
         "required": [
           "Data"
         ],
@@ -11534,6 +11995,73 @@
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "Refund": {
+                "type": "object",
+                "required": [
+                  "Account"
+                ],
+                "properties": {
+                  "Creditor": {
+                    "type": "object",
+                    "description": "Set of elements used to identify a person or an organisation.",
+                    "properties": {
+                      "Name": {
+                        "description": "Name by which a party is known and which is usually used to identify that party.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Agent": {
+                    "type": "object",
+                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_1"
+                      },
+                      "Name": {
+                        "$ref": "#/components/schemas/Name"
+                      },
+                      "PostalAddress": {
+                        "$ref": "#/components/schemas/OBPostalAddress6"
+                      }
+                    }
+                  },
+                  "Account": {
+                    "type": "object",
+                    "required": [
+                      "SchemeName",
+                      "Identification",
+                      "Name"
+                    ],
+                    "description": "Provides the details to identify an account.",
+                    "properties": {
+                      "SchemeName": {
+                        "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+                      },
+                      "Identification": {
+                        "$ref": "#/components/schemas/Identification_0"
+                      },
+                      "Name": {
+                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 70
+                      },
+                      "SecondaryIdentification": {
+                        "$ref": "#/components/schemas/SecondaryIdentification"
+                      }
+                    }
+                  }
+                }
               },
               "Charges": {
                 "type": "array",
@@ -11649,7 +12177,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP's online channels.\nNote, the account name is not the product name or the nickname of the account.",
@@ -11682,11 +12210,7 @@
                     "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
                     "properties": {
                       "SchemeName": {
-                        "description": "Name of the identification scheme, in a coded form as published in an external list.",
-                        "type": "string",
-                        "x-namespaced-enum": [
-                          "UK.OBIE.BICFI"
-                        ]
+                        "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
                       },
                       "Identification": {
                         "description": "Unique and unambiguous identification of the servicing institution.",
@@ -11695,10 +12219,7 @@
                         "maxLength": 35
                       },
                       "Name": {
-                        "description": "Name by which an agent is known and which is usually used to identify that agent.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
+                        "$ref": "#/components/schemas/Name"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11718,7 +12239,7 @@
                         "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
                       },
                       "Identification": {
-                        "$ref": "#/components/schemas/Identification"
+                        "$ref": "#/components/schemas/Identification_0"
                       },
                       "Name": {
                         "description": "The account name is the name or names of the account owner(s) represented at an account level.\nNote, the account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
