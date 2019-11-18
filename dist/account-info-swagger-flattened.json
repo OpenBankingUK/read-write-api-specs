@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.2"
+    "version": "v3.1.3-RC1"
   },
   "basePath": "/open-banking/v3.1/aisp",
   "schemes": [
@@ -1793,6 +1793,16 @@
                             "minLength": 1,
                             "maxLength": 70
                           },
+                          "OpeningDate": {
+                            "description": "Date on which the account and related basic services are effectively operational for the account owner.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "MaturityDate": {
+                            "description": "Maturity date of the account.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                            "type": "string",
+                            "format": "date-time"
+                          },
                           "Account": {
                             "type": "array",
                             "items": {
@@ -2421,6 +2431,16 @@
                             "type": "string",
                             "minLength": 1,
                             "maxLength": 70
+                          },
+                          "OpeningDate": {
+                            "description": "Date on which the account and related basic services are effectively operational for the account owner.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "MaturityDate": {
+                            "description": "Maturity date of the account.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "Account": {
                             "type": "array",
@@ -3614,6 +3634,12 @@
                             "minLength": 1,
                             "maxLength": 35
                           },
+                          "SupplementaryData": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": true,
+                            "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
+                          },
                           "CreditorAgent": {
                             "type": "object",
                             "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
@@ -4294,6 +4320,20 @@
                             "description": "Date of most recent direct debit collection.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "Frequency": {
+                            "description": "Regularity with which direct debit instructions are to be created and processed.",
+                            "type": "string",
+                            "x-namespaced-enum": [
+                              "UK.OBIE.Annual",
+                              "UK.OBIE.Daily",
+                              "UK.OBIE.Fortnightly",
+                              "UK.OBIE.HalfYearly",
+                              "UK.OBIE.Monthly",
+                              "UK.OBIE.NotKnown",
+                              "UK.OBIE.Quarterly",
+                              "UK.OBIE.Weekly"
+                            ]
                           },
                           "PreviousPaymentAmount": {
                             "type": "object",
@@ -6803,7 +6843,7 @@
                             "maxLength": 40
                           },
                           "AccountId": {
-                            "description": "Account Identification of the customer for Product Details",
+                            "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
                             "type": "string",
                             "minLength": 1,
                             "maxLength": 40
@@ -15301,6 +15341,12 @@
                             "minLength": 1,
                             "maxLength": 35
                           },
+                          "DebtorReference": {
+                            "description": "A reference value provided by the PSU to the PISP while setting up the scheduled payment.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 35
+                          },
                           "InstructedAmount": {
                             "type": "object",
                             "required": [
@@ -16973,8 +17019,18 @@
                                 "Type": {
                                   "description": "Statement rate type, in a coded form.",
                                   "type": "string",
-                                  "minLength": 1,
-                                  "maxLength": 40
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.AnnualBalanceTransfer",
+                                    "UK.OBIE.AnnualBalanceTransferAfterPromo",
+                                    "UK.OBIE.AnnualBalanceTransferPromo",
+                                    "UK.OBIE.AnnualCash",
+                                    "UK.OBIE.AnnualPurchase",
+                                    "UK.OBIE.AnnualPurchaseAfterPromo",
+                                    "UK.OBIE.AnnualPurchasePromo",
+                                    "UK.OBIE.MonthlyBalanceTransfer",
+                                    "UK.OBIE.MonthlyCash",
+                                    "UK.OBIE.MonthlyPurchase"
+                                  ]
                                 }
                               }
                             }
@@ -16992,6 +17048,12 @@
                                 "Value": {
                                   "description": "Value associated with the statement value type.",
                                   "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 40
+                                },
+                                "Type": {
+                                  "description": "Statement value type, in a coded form.",
+                                  "type": "string",
                                   "x-namespaced-enum": [
                                     "UK.OBIE.AirMilesPoints",
                                     "UK.OBIE.AirMilesPointsBalance",
@@ -17002,12 +17064,6 @@
                                     "UK.OBIE.RetailShoppingPoints",
                                     "UK.OBIE.RetailShoppingPointsBalance"
                                   ]
-                                },
-                                "Type": {
-                                  "description": "Statement value type, in a coded form.",
-                                  "type": "string",
-                                  "minLength": 1,
-                                  "maxLength": 40
                                 }
                               }
                             }
@@ -17921,8 +17977,18 @@
                                 "Type": {
                                   "description": "Statement rate type, in a coded form.",
                                   "type": "string",
-                                  "minLength": 1,
-                                  "maxLength": 40
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.AnnualBalanceTransfer",
+                                    "UK.OBIE.AnnualBalanceTransferAfterPromo",
+                                    "UK.OBIE.AnnualBalanceTransferPromo",
+                                    "UK.OBIE.AnnualCash",
+                                    "UK.OBIE.AnnualPurchase",
+                                    "UK.OBIE.AnnualPurchaseAfterPromo",
+                                    "UK.OBIE.AnnualPurchasePromo",
+                                    "UK.OBIE.MonthlyBalanceTransfer",
+                                    "UK.OBIE.MonthlyCash",
+                                    "UK.OBIE.MonthlyPurchase"
+                                  ]
                                 }
                               }
                             }
@@ -17940,6 +18006,12 @@
                                 "Value": {
                                   "description": "Value associated with the statement value type.",
                                   "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 40
+                                },
+                                "Type": {
+                                  "description": "Statement value type, in a coded form.",
+                                  "type": "string",
                                   "x-namespaced-enum": [
                                     "UK.OBIE.AirMilesPoints",
                                     "UK.OBIE.AirMilesPointsBalance",
@@ -17950,12 +18022,6 @@
                                     "UK.OBIE.RetailShoppingPoints",
                                     "UK.OBIE.RetailShoppingPointsBalance"
                                   ]
-                                },
-                                "Type": {
-                                  "description": "Statement value type, in a coded form.",
-                                  "type": "string",
-                                  "minLength": 1,
-                                  "maxLength": 40
                                 }
                               }
                             }
@@ -19080,11 +19146,15 @@
                             "properties": {
                               "Code": {
                                 "description": "Specifies the family within a domain.",
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4
                               },
                               "SubCode": {
                                 "description": "Specifies the sub-product family within a specific family.",
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4
                               }
                             }
                           },
@@ -20202,11 +20272,15 @@
                             "properties": {
                               "Code": {
                                 "description": "Specifies the family within a domain.",
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4
                               },
                               "SubCode": {
                                 "description": "Specifies the sub-product family within a specific family.",
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4
                               }
                             }
                           },
@@ -21744,6 +21818,12 @@
                             "minLength": 1,
                             "maxLength": 35
                           },
+                          "SupplementaryData": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": true,
+                            "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
+                          },
                           "CreditorAgent": {
                             "type": "object",
                             "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
@@ -22417,6 +22497,20 @@
                             "description": "Date of most recent direct debit collection.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "Frequency": {
+                            "description": "Regularity with which direct debit instructions are to be created and processed.",
+                            "type": "string",
+                            "x-namespaced-enum": [
+                              "UK.OBIE.Annual",
+                              "UK.OBIE.Daily",
+                              "UK.OBIE.Fortnightly",
+                              "UK.OBIE.HalfYearly",
+                              "UK.OBIE.Monthly",
+                              "UK.OBIE.NotKnown",
+                              "UK.OBIE.Quarterly",
+                              "UK.OBIE.Weekly"
+                            ]
                           },
                           "PreviousPaymentAmount": {
                             "type": "object",
@@ -24217,7 +24311,7 @@
                             "maxLength": 40
                           },
                           "AccountId": {
-                            "description": "Account Identification of the customer for Product Details",
+                            "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
                             "type": "string",
                             "minLength": 1,
                             "maxLength": 40
@@ -32708,6 +32802,12 @@
                             "minLength": 1,
                             "maxLength": 35
                           },
+                          "DebtorReference": {
+                            "description": "A reference value provided by the PSU to the PISP while setting up the scheduled payment.",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 35
+                          },
                           "InstructedAmount": {
                             "type": "object",
                             "required": [
@@ -34366,8 +34466,18 @@
                                 "Type": {
                                   "description": "Statement rate type, in a coded form.",
                                   "type": "string",
-                                  "minLength": 1,
-                                  "maxLength": 40
+                                  "x-namespaced-enum": [
+                                    "UK.OBIE.AnnualBalanceTransfer",
+                                    "UK.OBIE.AnnualBalanceTransferAfterPromo",
+                                    "UK.OBIE.AnnualBalanceTransferPromo",
+                                    "UK.OBIE.AnnualCash",
+                                    "UK.OBIE.AnnualPurchase",
+                                    "UK.OBIE.AnnualPurchaseAfterPromo",
+                                    "UK.OBIE.AnnualPurchasePromo",
+                                    "UK.OBIE.MonthlyBalanceTransfer",
+                                    "UK.OBIE.MonthlyCash",
+                                    "UK.OBIE.MonthlyPurchase"
+                                  ]
                                 }
                               }
                             }
@@ -34385,6 +34495,12 @@
                                 "Value": {
                                   "description": "Value associated with the statement value type.",
                                   "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 40
+                                },
+                                "Type": {
+                                  "description": "Statement value type, in a coded form.",
+                                  "type": "string",
                                   "x-namespaced-enum": [
                                     "UK.OBIE.AirMilesPoints",
                                     "UK.OBIE.AirMilesPointsBalance",
@@ -34395,12 +34511,6 @@
                                     "UK.OBIE.RetailShoppingPoints",
                                     "UK.OBIE.RetailShoppingPointsBalance"
                                   ]
-                                },
-                                "Type": {
-                                  "description": "Statement value type, in a coded form.",
-                                  "type": "string",
-                                  "minLength": 1,
-                                  "maxLength": 40
                                 }
                               }
                             }
@@ -35091,11 +35201,15 @@
                             "properties": {
                               "Code": {
                                 "description": "Specifies the family within a domain.",
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4
                               },
                               "SubCode": {
                                 "description": "Specifies the sub-product family within a specific family.",
-                                "type": "string"
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4
                               }
                             }
                           },

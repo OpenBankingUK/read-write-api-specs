@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.2
+  version: v3.1.3-RC1
 paths:
   /domestic-payment-consents:
     post:
@@ -898,7 +898,7 @@ paths:
         - TPPOAuth2Security:
             - payments
       requestBody:
-        $ref: '#/components/requestBodies/OBWriteInternationalConsent3Param'
+        $ref: '#/components/requestBodies/OBWriteInternationalConsent4Param'
   '/international-payment-consents/{ConsentId}':
     get:
       tags:
@@ -1004,7 +1004,7 @@ paths:
         - PSUOAuth2Security:
             - payments
       requestBody:
-        $ref: '#/components/requestBodies/OBWriteInternational2Param'
+        $ref: '#/components/requestBodies/OBWriteInternational3Param'
   '/international-payments/{InternationalPaymentId}':
     get:
       tags:
@@ -1112,7 +1112,7 @@ paths:
         - TPPOAuth2Security:
             - payments
       requestBody:
-        $ref: '#/components/requestBodies/OBWriteInternationalScheduledConsent3Param'
+        $ref: '#/components/requestBodies/OBWriteInternationalScheduledConsent4Param'
   '/international-scheduled-payment-consents/{ConsentId}':
     get:
       tags:
@@ -1219,7 +1219,7 @@ paths:
         - PSUOAuth2Security:
             - payments
       requestBody:
-        $ref: '#/components/requestBodies/OBWriteInternationalScheduled2Param'
+        $ref: '#/components/requestBodies/OBWriteInternationalScheduled3Param'
   '/international-scheduled-payments/{InternationalScheduledPaymentId}':
     get:
       tags:
@@ -1328,7 +1328,7 @@ paths:
             - payments
       requestBody:
         $ref: >-
-          #/components/requestBodies/OBWriteInternationalStandingOrderConsent4Param
+          #/components/requestBodies/OBWriteInternationalStandingOrderConsent5Param
   '/international-standing-order-consents/{ConsentId}':
     get:
       tags:
@@ -1400,7 +1400,7 @@ paths:
         - PSUOAuth2Security:
             - payments
       requestBody:
-        $ref: '#/components/requestBodies/OBWriteInternationalStandingOrder3Param'
+        $ref: '#/components/requestBodies/OBWriteInternationalStandingOrder4Param'
   '/international-standing-orders/{InternationalStandingOrderPaymentId}':
     get:
       tags:
@@ -1502,6 +1502,13 @@ components:
       required: true
       schema:
         type: string
+    FilePaymentId:
+      name: FilePaymentId
+      in: path
+      description: FilePaymentId
+      required: true
+      schema:
+        type: string
     InternationalPaymentId:
       name: InternationalPaymentId
       in: path
@@ -1520,13 +1527,6 @@ components:
       name: InternationalStandingOrderPaymentId
       in: path
       description: InternationalStandingOrderPaymentId
-      required: true
-      schema:
-        type: string
-    FilePaymentId:
-      name: FilePaymentId
-      in: path
-      description: FilePaymentId
       required: true
       schema:
         type: string
@@ -1636,48 +1636,6 @@ components:
           schema:
             $ref: '#/components/schemas/OBWriteDomesticStandingOrder3'
       required: true
-    OBWriteInternationalConsent3Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalConsent3'
-      required: true
-    OBWriteInternational2Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternational2'
-      required: true
-    OBWriteInternationalScheduledConsent3Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalScheduledConsent3'
-      required: true
-    OBWriteInternationalScheduled2Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalScheduled2'
-      required: true
-    OBWriteInternationalStandingOrderConsent4Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalStandingOrderConsent4'
-      required: true
-    OBWriteInternationalStandingOrder3Param:
-      description: Default
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalStandingOrder3'
-      required: true
     OBWriteFileConsent3Param:
       description: Default
       content:
@@ -1698,6 +1656,48 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBWriteFile2'
+      required: true
+    OBWriteInternationalConsent4Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalConsent4'
+      required: true
+    OBWriteInternational3Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternational3'
+      required: true
+    OBWriteInternationalScheduledConsent4Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalScheduledConsent4'
+      required: true
+    OBWriteInternationalScheduled3Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalScheduled3'
+      required: true
+    OBWriteInternationalStandingOrderConsent5Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalStandingOrderConsent5'
+      required: true
+    OBWriteInternationalStandingOrder4Param:
+      description: Default
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalStandingOrder4'
       required: true
   responses:
     201DomesticPaymentConsentsCreated:
@@ -1972,297 +1972,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
-    201InternationalPaymentConsentsCreated:
-      description: International Payment Consents Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalConsentResponse3'
-    200InternationalPaymentConsentsConsentIdRead:
-      description: International Payment Consents Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalConsentResponse3'
-    200InternationalPaymentConsentsConsentIdFundsConfirmationRead:
-      description: International Payment Consents Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteFundsConfirmationResponse1'
-    201InternationalPaymentsCreated:
-      description: International Payments Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalResponse3'
-    200InternationalPaymentsInternationalPaymentIdRead:
-      description: International Payments Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalResponse3'
-    200InternationalPaymentsInternationalPaymentIdPaymentDetailsRead:
-      description: Payment Details Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
-    201InternationalScheduledPaymentConsentsCreated:
-      description: International Scheduled Payment Consents Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalScheduledConsentResponse3'
-    200InternationalScheduledPaymentConsentsConsentIdRead:
-      description: International Scheduled Payment Consents Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalScheduledConsentResponse3'
-    200InternationalScheduledPaymentConsentsConsentIdFundsConfirmationRead:
-      description: International Scheduled Payment Consents Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteFundsConfirmationResponse1'
-    201InternationalScheduledPaymentsCreated:
-      description: International Scheduled Payments Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalScheduledResponse3'
-    200InternationalScheduledPaymentsInternationalScheduledPaymentIdRead:
-      description: International Scheduled Payments Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalScheduledResponse3'
-    200InternationalScheduledPaymentsInternationalScheduledPaymentIdPaymentDetailsRead:
-      description: Payment Details Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
-    201InternationalStandingOrderConsentsCreated:
-      description: International Standing Order Consents Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: >-
-              #/components/schemas/OBWriteInternationalStandingOrderConsentResponse4
-    200InternationalStandingOrderConsentsConsentIdRead:
-      description: International Standing Order Consents Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: >-
-              #/components/schemas/OBWriteInternationalStandingOrderConsentResponse4
-    201InternationalStandingOrdersCreated:
-      description: International Standing Orders Created
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalStandingOrderResponse4'
-    200InternationalStandingOrdersInternationalStandingOrderPaymentIdRead:
-      description: International Standing Orders Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWriteInternationalStandingOrderResponse4'
-    200InternationalStandingOrdersInternationalStandingOrderPaymentIdPaymentDetailsRead:
-      description: Payment Details Read
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          schema:
-            type: string
-        x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
     201FilePaymentConsentsCreated:
       description: File Payment Consents Created
       headers:
@@ -2373,6 +2082,297 @@ components:
           schema:
             $ref: '#/components/schemas/File'
     200FilePaymentsFilePaymentIdPaymentDetailsRead:
+      description: Payment Details Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
+    201InternationalPaymentConsentsCreated:
+      description: International Payment Consents Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalConsentResponse4'
+    200InternationalPaymentConsentsConsentIdRead:
+      description: International Payment Consents Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalConsentResponse4'
+    200InternationalPaymentConsentsConsentIdFundsConfirmationRead:
+      description: International Payment Consents Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteFundsConfirmationResponse1'
+    201InternationalPaymentsCreated:
+      description: International Payments Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalResponse4'
+    200InternationalPaymentsInternationalPaymentIdRead:
+      description: International Payments Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalResponse4'
+    200InternationalPaymentsInternationalPaymentIdPaymentDetailsRead:
+      description: Payment Details Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
+    201InternationalScheduledPaymentConsentsCreated:
+      description: International Scheduled Payment Consents Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalScheduledConsentResponse4'
+    200InternationalScheduledPaymentConsentsConsentIdRead:
+      description: International Scheduled Payment Consents Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalScheduledConsentResponse4'
+    200InternationalScheduledPaymentConsentsConsentIdFundsConfirmationRead:
+      description: International Scheduled Payment Consents Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteFundsConfirmationResponse1'
+    201InternationalScheduledPaymentsCreated:
+      description: International Scheduled Payments Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalScheduledResponse4'
+    200InternationalScheduledPaymentsInternationalScheduledPaymentIdRead:
+      description: International Scheduled Payments Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalScheduledResponse4'
+    200InternationalScheduledPaymentsInternationalScheduledPaymentIdPaymentDetailsRead:
+      description: Payment Details Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWritePaymentDetailsResponse1'
+    201InternationalStandingOrderConsentsCreated:
+      description: International Standing Order Consents Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: >-
+              #/components/schemas/OBWriteInternationalStandingOrderConsentResponse5
+    200InternationalStandingOrderConsentsConsentIdRead:
+      description: International Standing Order Consents Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: >-
+              #/components/schemas/OBWriteInternationalStandingOrderConsentResponse5
+    201InternationalStandingOrdersCreated:
+      description: International Standing Orders Created
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalStandingOrderResponse5'
+    200InternationalStandingOrdersInternationalStandingOrderPaymentIdRead:
+      description: International Standing Orders Read
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+        x-jws-signature:
+          description: >
+            Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBWriteInternationalStandingOrderResponse5'
+    200InternationalStandingOrdersInternationalStandingOrderPaymentIdPaymentDetailsRead:
       description: Payment Details Read
       headers:
         x-fapi-interaction-id:
@@ -7370,7 +7370,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternational2:
+    OBWriteInternational3:
       type: object
       required:
         - Data
@@ -7454,6 +7454,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -7463,6 +7473,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -7661,7 +7680,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalConsent3:
+    OBWriteInternationalConsent4:
       type: object
       required:
         - Data
@@ -7737,6 +7756,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -7746,6 +7775,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -8008,7 +8046,7 @@ components:
                   maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalConsentResponse3:
+    OBWriteInternationalConsentResponse4:
       type: object
       required:
         - Data
@@ -8230,6 +8268,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -8239,6 +8287,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -8505,7 +8562,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalResponse3:
+    OBWriteInternationalResponse4:
       type: object
       required:
         - Data
@@ -8724,6 +8781,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -8733,6 +8800,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -8978,7 +9054,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalScheduled2:
+    OBWriteInternationalScheduled3:
       type: object
       required:
         - Data
@@ -9063,6 +9139,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -9087,6 +9173,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -9285,7 +9380,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalScheduledConsent3:
+    OBWriteInternationalScheduledConsent4:
       type: object
       required:
         - Data
@@ -9368,6 +9463,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -9392,6 +9497,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -9654,7 +9768,7 @@ components:
                   maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalScheduledConsentResponse3:
+    OBWriteInternationalScheduledConsentResponse4:
       type: object
       required:
         - Data
@@ -9883,6 +9997,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -9907,6 +10031,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -10173,7 +10306,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalScheduledResponse3:
+    OBWriteInternationalScheduledResponse4:
       type: object
       required:
         - Data
@@ -10391,6 +10524,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -10415,6 +10558,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -10660,7 +10812,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalStandingOrder3:
+    OBWriteInternationalStandingOrder4:
       type: object
       required:
         - Data
@@ -10822,6 +10974,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -10831,6 +10993,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -10952,7 +11123,7 @@ components:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalStandingOrderConsent4:
+    OBWriteInternationalStandingOrderConsent5:
       type: object
       required:
         - Data
@@ -11112,6 +11283,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -11121,6 +11302,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -11306,7 +11496,7 @@ components:
                   maxLength: 128
         Risk:
           $ref: '#/components/schemas/OBRisk1'
-    OBWriteInternationalStandingOrderConsentResponse4:
+    OBWriteInternationalStandingOrderConsentResponse5:
       type: object
       required:
         - Data
@@ -11538,6 +11728,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -11547,6 +11747,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
@@ -11736,7 +11945,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-    OBWriteInternationalStandingOrderResponse4:
+    OBWriteInternationalStandingOrderResponse5:
       type: object
       required:
         - Data
@@ -11957,6 +12166,16 @@ components:
 
                     External code sets can be downloaded from www.iso20022.org.
                   type: string
+                  minLength: 1
+                  maxLength: 4
+                ExtendedPurpose:
+                  description: >-
+                    Specifies the purpose of an international payment, when
+                    there is no corresponding 4 character code available in the
+                    ISO20022 list of Purpose Codes.
+                  type: string
+                  minLength: 1
+                  maxLength: 140
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -11966,6 +12185,15 @@ components:
                     account.
                   type: string
                   pattern: '^[A-Z]{3,3}$'
+                DestinationCountryCode:
+                  description: >-
+                    Country in which Credit Account is domiciled. Code to
+                    identify a country, a dependency, or another area of
+                    particular geopolitical interest, on the basis of country
+                    names obtained from the United Nations (ISO 3166, Alpha-2
+                    code).
+                  type: string
+                  pattern: '[A-Z]{2,2}'
                 InstructedAmount:
                   type: object
                   required:
