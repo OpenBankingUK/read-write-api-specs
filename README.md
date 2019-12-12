@@ -22,7 +22,7 @@ Repository contains following API Specifications in the following listed formats
 |Confirmation of Funds|- Open API - Flattened JSON (No ref links)<BR/>- Open API - JSON<BR/>- Open API - YAML<BR/>- Swagger - Flattened JSON (No ref links)<BR/>- Swagger - JSON<BR/>- Swagger - YAML|
 |Event Notifications API (TPP Endpoint sample)|- Open API - Flattened JSON (No ref links)<BR/>- Open API - JSON<BR/>- Open API - YAML<BR/>- Swagger - Flattened JSON (No ref links)<BR/>- Swagger - JSON<BR/>- Swagger - YAML|
 |Event Subscription (use events instead)|- Open API - Flattened JSON (No ref links)<BR/>- Open API - JSON<BR/>- Open API - YAML<BR/>- Swagger - Flattened JSON (No ref links)<BR/>- Swagger - JSON<BR/>- Swagger - YAML|
-|Events API (Combines Events Subscriptions and Pollinh)|- Open API - Flattened JSON (No ref links)<BR/>- Open API - JSON<BR/>- Open API - YAML<BR/>- Swagger - Flattened JSON (No ref links)<BR/>- Swagger - JSON<BR/>- Swagger - YAML|
+|Events API (Combines Events Subscriptions and Polling)|- Open API - Flattened JSON (No ref links)<BR/>- Open API - JSON<BR/>- Open API - YAML<BR/>- Swagger - Flattened JSON (No ref links)<BR/>- Swagger - JSON<BR/>- Swagger - YAML|
 |Payment Initiation|- Open API - Flattened JSON (No ref links)<BR/>- Open API - JSON<BR/>- Open API - YAML<BR/>- Swagger - Flattened JSON (No ref links)<BR/>- Swagger - JSON<BR/>- Swagger - YAML|
 
 
