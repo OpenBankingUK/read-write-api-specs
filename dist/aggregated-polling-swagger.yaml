@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.4-draft4
+  version: v3.1.4-RC1
 basePath: /open-banking/v3.1
 schemes:
   - https
@@ -53,7 +53,8 @@ paths:
           $ref: '#/responses/500Error'
       security:
         - TPPOAuth2Security:
-            - eventpolling
+            - accounts
+            - fundsconfirmation
 parameters:
   OBEventPolling1Param:
     name: OBEventPolling1Param
@@ -196,7 +197,8 @@ securityDefinitions:
     flow: application
     tokenUrl: 'https://authserver.example/token'
     scopes:
-      eventpolling: 'Ability to poll for, acknowledge and receive Security Event Tokens'
+      accounts: "Ability to read Accounts information"
+      fundsconfirmation: "Ability to confirm funds"
     description: TPP client credential authorisation flow with the ASPSP
 definitions:
   ISODateTime:
