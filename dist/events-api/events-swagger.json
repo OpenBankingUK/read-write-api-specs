@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-draft4"
+    "version": "v3.1.4-RC1"
   },
   "basePath": "/open-banking/v3.1",
   "schemes": [
@@ -312,6 +312,15 @@
         "$ref": "#/definitions/OBEventSubscriptionResponse1"
       }
     },
+    "OBEventPolling1Param": {
+      "name": "OBEventPolling1Param",
+      "in": "body",
+      "description": "Default",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/OBEventPolling1"
+      }
+    },
     "Authorization": {
       "in": "header",
       "name": "Authorization",
@@ -421,6 +430,18 @@
           "type": "string",
           "description": "An RFC4122 UID used as a correlation id."
         }
+      }
+    },
+    "201EventsCreated": {
+      "description": "Events Created",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventPollingResponse1"
       }
     },
     "400Error": {
@@ -814,6 +835,76 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 10
+    },
+    "OBEventPolling1": {
+      "type": "object",
+      "properties": {
+        "maxEvents": {
+          "description": "Maximum number of events to be returned. A value of zero indicates the ASPSP should not return events even if available",
+          "type": "integer"
+        },
+        "returnImmediately": {
+          "description": "Indicates whether an ASPSP should return a response immediately or provide a long poll",
+          "type": "boolean"
+        },
+        "ack": {
+          "type": "array",
+          "items": {
+            "description": "An array of jti values indicating event notifications positively acknowledged by the TPP",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "setErrs": {
+          "type": "object",
+          "description": "An object that encapsulates all negative acknowledgements transmitted by the TPP",
+          "properties": {},
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "err",
+              "description"
+            ],
+            "properties": {
+              "err": {
+                "description": "A value from the IANA \"Security Event Token Delivery Error Codes\" registry that identifies the error as defined here \nhttps://tools.ietf.org/id/draft-ietf-secevent-http-push-03.html#error_codes",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              "description": {
+                "description": "A human-readable string that provides additional diagnostic information",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            }
+          }
+        }
+      }
+    },
+    "OBEventPollingResponse1": {
+      "type": "object",
+      "required": [
+        "moreAvailable",
+        "sets"
+      ],
+      "properties": {
+        "moreAvailable": {
+          "description": "A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.",
+          "type": "boolean"
+        },
+        "sets": {
+          "type": "object",
+          "description": "A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.",
+          "properties": {},
+          "additionalProperties": {
+            "description": "An object named with the jti of the event notification to be delivered. The value is the event notification, expressed as a string.\nThe payload of the event should be defined in the OBEventNotification2 format.",
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
