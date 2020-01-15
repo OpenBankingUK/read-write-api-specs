@@ -1,6 +1,8 @@
-Distribution contains each specification in 4 formats:
+# API Swagger/OpenAPI Specifications
 
-- Swagger (OpenAPI 2 - fka Swagger)
-- Swagger (OpenAPI 2 - flat structure - no refs)
-- OpenApi (OpenAPI 3)
-- OpenApi (OpenAPI 3 - flat structure - no refs)
+Distribution contains each specification in 4 formats
+
+- [Swagger (OpenAPI 2 - fka Swagger)](./swagger/)
+- [Swagger (OpenAPI 2 - flat structure - no refs)](./swagger-flattened/)
+- [OpenApi (OpenAPI 3)](./openapi/)
+- [OpenApi (OpenAPI 3 - flat structure - no refs)](./swagger-flattened/)
