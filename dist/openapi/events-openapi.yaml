@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.4-RC1
+  version: v3.1.4-RC2
 paths:
   /event-subscriptions:
     post:
@@ -23,6 +23,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-jws-signature'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '201':
           $ref: '#/components/responses/201EventSubscriptionsCreated'
@@ -38,6 +39,8 @@ paths:
           $ref: '#/components/responses/405Error'
         '406':
           $ref: '#/components/responses/406Error'
+        '409':
+          $ref: '#/components/responses/409Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -59,6 +62,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/components/responses/200EventSubscriptionsRead'
@@ -96,6 +100,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-jws-signature'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/components/responses/200EventSubscriptionsEventSubscriptionIdChanged'
@@ -133,6 +138,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '204':
           $ref: '#/components/responses/204EventSubscriptionsEventSubscriptionIdDeleted'
@@ -168,6 +174,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '201':
           $ref: '#/components/responses/201EventsCreated'
@@ -398,6 +405,13 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+    409Error:
+      description: Conflict
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     415Error:
       description: Unsupported Media Type
       headers:
@@ -574,6 +588,7 @@ components:
               items:
                 description: Array of event types the subscription applies to.
                 type: string
+      additionalProperties: false
     OBEventSubscriptionResponse1:
       type: object
       required:
@@ -605,6 +620,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+      additionalProperties: false
     OBEventSubscriptionsResponse1:
       type: object
       required:
@@ -627,7 +643,9 @@ components:
                     minLength: 1
                     maxLength: 40
                   CallbackUrl:
-                    description: 'Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.'
+                    description:  |- 
+                      'Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, 
+                      to construct a URL to send event notifications to.'
                     type: string
                     format: uri
                   Version:
@@ -641,6 +659,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+      additionalProperties: false
     Version:
       description: Version for the event notification.
       type: string
@@ -684,6 +703,7 @@ components:
                 type: string
                 minLength: 1
                 maxLength: 256
+      additionalProperties: false
     OBEventPollingResponse1:
       type: object
       required:
@@ -695,11 +715,16 @@ components:
           type: boolean
         sets:
           type: object
-          description: 'A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.'
+          description:  |- 
+            'A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, 
+            the JSON object SHALL be empty.'
           properties: {}
           additionalProperties:
-            description: "An object named with the jti\_of the\_event notification to be delivered. The value is the event notification, expressed as a\_string.\nThe payload of the event should be defined in the OBEventNotification2\_format."
+            description:  |- 
+              "An object named with the jti\_of the\_event notification to be delivered. The value is the event notification, 
+              expressed as a\_string.\nThe payload of the event should be defined in the OBEventNotification2\_format."
             type: string
+      additionalProperties: false
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2

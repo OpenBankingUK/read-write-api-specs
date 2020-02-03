@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4-RC2"
   },
   "basePath": "/open-banking/v3.1",
   "schemes": [
@@ -52,6 +52,9 @@
           },
           {
             "$ref": "#/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -75,6 +78,9 @@
           },
           "406": {
             "$ref": "#/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/responses/409Error"
           },
           "429": {
             "$ref": "#/responses/429Error"
@@ -111,6 +117,9 @@
           },
           {
             "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -181,6 +190,9 @@
           },
           {
             "$ref": "#/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -243,6 +255,9 @@
           },
           {
             "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -504,6 +519,15 @@
         }
       }
     },
+    "409Error": {
+      "description": "Conflict",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
+    },
     "415Error": {
       "description": "Unsupported Media Type",
       "headers": {
@@ -732,7 +756,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBEventSubscriptionResponse1": {
       "type": "object",
@@ -776,7 +801,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBEventSubscriptionsResponse1": {
       "type": "object",
@@ -828,7 +854,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties":false
     },
     "Version": {
       "description": "Version for the event notification.",
@@ -882,7 +909,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBEventPollingResponse1": {
       "type": "object",
@@ -904,7 +932,8 @@
             "type": "string"
           }
         }
-      }
+      },
+      "additionalProperties":false
     }
   }
 }

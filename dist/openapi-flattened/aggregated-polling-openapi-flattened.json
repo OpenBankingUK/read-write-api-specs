@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4-RC2"
   },
   "paths": {
     "/events": {
@@ -59,6 +59,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -94,7 +103,8 @@
                         "type": "string"
                       }
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -491,7 +501,8 @@
         "security": [
           {
             "TPPOAuth2Security": [
-              "accounts", "fundsconfirmation"
+              "accounts",
+              "fundsconfirmation"
             ]
           }
         ],
@@ -545,7 +556,8 @@
                       }
                     }
                   }
-                }
+                },
+                "additionalProperties": false
               }
             }
           },
@@ -563,8 +575,8 @@
           "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
-              "accounts": "Ability to receive events. Re-uses existing scope fo simplicity.",
-              "fundsconfirmation": "Ability to receive events. Re-uses existing scope fo simplicity."
+              "accounts": "Ability to read Accounts information",
+              "fundsconfirmation": "Ability to confirm funds"
             }
           }
         }

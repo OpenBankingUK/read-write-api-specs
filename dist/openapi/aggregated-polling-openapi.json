@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4-RC2"
   },
   "paths": {
     "/events": {
@@ -34,6 +34,9 @@
           },
           {
             "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -307,59 +310,6 @@
       }
     },
     "schemas": {
-      "ISODateTime": {
-        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-        "type": "string",
-        "format": "date-time"
-      },
-      "Links": {
-        "type": "object",
-        "description": "Links relevant to the payload",
-        "properties": {
-          "Self": {
-            "type": "string",
-            "format": "uri"
-          },
-          "First": {
-            "type": "string",
-            "format": "uri"
-          },
-          "Prev": {
-            "type": "string",
-            "format": "uri"
-          },
-          "Next": {
-            "type": "string",
-            "format": "uri"
-          },
-          "Last": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "Self"
-        ]
-      },
-      "Meta": {
-        "title": "MetaData",
-        "type": "object",
-        "description": "Meta Data relevant to the payload",
-        "properties": {
-          "TotalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "FirstAvailableDateTime": {
-            "$ref": "#/components/schemas/ISODateTime"
-          },
-          "LastAvailableDateTime": {
-            "$ref": "#/components/schemas/ISODateTime"
-          }
-        },
-        "additionalProperties": false
-      },
       "OBError1": {
         "type": "object",
         "properties": {
@@ -503,7 +453,8 @@
               }
             }
           }
-        }
+        }, 
+        "additionalProperties":false
       },
       "OBEventPollingResponse1": {
         "type": "object",
@@ -525,7 +476,8 @@
               "type": "string"
             }
           }
-        }
+        }, 
+        "additionalProperties":false
       }
     },
     "securitySchemes": {

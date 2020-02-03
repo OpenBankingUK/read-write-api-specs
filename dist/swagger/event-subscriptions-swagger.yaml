@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.4-RC1
+  version: v3.1.4-RC2
 basePath: /open-banking/v3.1
 schemes:
   - https
@@ -33,6 +33,7 @@ paths:
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
         - $ref: '#/parameters/x-jws-signature'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '201':
           $ref: '#/responses/201EventSubscriptionsCreated'
@@ -48,6 +49,8 @@ paths:
           $ref: '#/responses/405Error'
         '406':
           $ref: '#/responses/406Error'
+        '409':
+          $ref: '#/responses/409Error'
         '429':
           $ref: '#/responses/429Error'
         '500':
@@ -67,6 +70,7 @@ paths:
         - $ref: '#/parameters/x-fapi-customer-ip-address'
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/responses/200EventSubscriptionsRead'
@@ -105,6 +109,7 @@ paths:
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
         - $ref: '#/parameters/x-jws-signature'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/responses/200EventSubscriptionsEventSubscriptionIdChanged'
@@ -140,6 +145,7 @@ paths:
         - $ref: '#/parameters/x-fapi-customer-ip-address'
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '204':
           $ref: '#/responses/204EventSubscriptionsEventSubscriptionIdDeleted'
@@ -208,17 +214,11 @@ parameters:
     name: x-fapi-auth-date
     type: string
     required: false
-    description: >-
+    description: |-
       The time when the PSU last logged in with the TPP. 
-
-      All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
-      example is below: 
-
+      All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
       Sun, 10 Sep 2017 19:43:31 UTC
-    pattern: >-
-      ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-      (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2}
-      (GMT|UTC)$
+    pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
   x-fapi-interaction-id:
     in: header
     name: x-fapi-interaction-id
@@ -324,6 +324,12 @@ responses:
       x-fapi-interaction-id:
         type: string
         description: An RFC4122 UID used as a correlation id.
+  409Error:
+    description: Conflict
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
   415Error:
     description: Unsupported Media Type
     headers:
@@ -359,13 +365,9 @@ securityDefinitions:
     description: TPP client credential authorisation flow with the ASPSP
 definitions:
   ISODateTime:
-    description: >-
-      All dates in the JSON payloads are represented in ISO 8601 date-time
-      format. 
-
-      All date-time fields in responses must include the timezone. An example is
-      below:
-
+    description: |-
+      All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+      All date-time fields in responses must include the timezone. An example is below:
       2017-04-05T10:43:07+00:00
     type: string
     format: date-time
@@ -510,10 +512,7 @@ definitions:
           - Version
         properties:
           CallbackUrl:
-            description: >-
-              Callback URL for a TPP hosted service. Will be used by ASPSPs, in
-              conjunction with the resource name, to construct a URL to send
-              event notifications to.
+            description: 'Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.'
             type: string
             format: uri
           Version:
@@ -523,6 +522,7 @@ definitions:
             items:
               description: Array of event types the subscription applies to.
               type: string
+    additionalProperties: false
   OBEventSubscriptionResponse1:
     type: object
     required:
@@ -555,6 +555,7 @@ definitions:
             items:
               description: Array of event types the subscription applies to.
               type: string
+        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
@@ -600,6 +601,7 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
+    additionalProperties: false
   Version:
     description: Version for the event notification.
     type: string

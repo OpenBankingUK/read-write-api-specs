@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.4-RC1
+  version: v3.1.4-RC2
 basePath: /open-banking/v3.1
 schemes:
   - https
@@ -33,6 +33,7 @@ paths:
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
         - $ref: '#/parameters/x-jws-signature'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '201':
           $ref: '#/responses/201EventSubscriptionsCreated'
@@ -48,6 +49,8 @@ paths:
           $ref: '#/responses/405Error'
         '406':
           $ref: '#/responses/406Error'
+        '409':
+          $ref: '#/responses/409Error'
         '429':
           $ref: '#/responses/429Error'
         '500':
@@ -67,6 +70,7 @@ paths:
         - $ref: '#/parameters/x-fapi-customer-ip-address'
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/responses/200EventSubscriptionsRead'
@@ -105,6 +109,7 @@ paths:
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
         - $ref: '#/parameters/x-jws-signature'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/responses/200EventSubscriptionsEventSubscriptionIdChanged'
@@ -140,6 +145,7 @@ paths:
         - $ref: '#/parameters/x-fapi-customer-ip-address'
         - $ref: '#/parameters/x-fapi-interaction-id'
         - $ref: '#/parameters/Authorization'
+        - $ref: '#/parameters/x-customer-user-agent'
       responses:
         '204':
           $ref: '#/responses/204EventSubscriptionsEventSubscriptionIdDeleted'
@@ -333,6 +339,12 @@ responses:
       x-fapi-interaction-id:
         type: string
         description: An RFC4122 UID used as a correlation id.
+  409Error:
+    description: Conflict
+    headers:
+      x-fapi-interaction-id:
+        type: string
+        description: An RFC4122 UID used as a correlation id.
   415Error:
     description: Unsupported Media Type
     headers:
@@ -513,6 +525,7 @@ definitions:
             items:
               description: Array of event types the subscription applies to.
               type: string
+    additionalProperties: false
   OBEventSubscriptionResponse1:
     type: object
     required:
@@ -544,6 +557,7 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
+    additionalProperties: false
   OBEventSubscriptionsResponse1:
     type: object
     required:
@@ -580,6 +594,7 @@ definitions:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
+    additionalProperties: false
   Version:
     description: Version for the event notification.
     type: string
@@ -623,6 +638,7 @@ definitions:
               type: string
               minLength: 1
               maxLength: 256
+    additionalProperties: false
   OBEventPollingResponse1:
     type: object
     required:
@@ -639,3 +655,4 @@ definitions:
         additionalProperties:
           description: "An object named with the jti\_of the\_event notification to be delivered. The value is the event notification, expressed as a\_string.\nThe payload of the event should be defined in the OBEventNotification2\_format."
           type: string
+    additionalProperties: false
