@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Event Subscription API Specification - ASPSP Endpoints
-  description: OpenAPI for Event Subscription API Specification - ASPSP Endpoints
+  title: Events API Specification - ASPSP Endpoints
+  description: OpenAPI for Events (Subscription & Aggregated Polling) API Specification - ASPSP Endpoints
   termsOfService: 'https://www.openbanking.org.uk/terms'
   contact:
     name: Service Desk
@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.4-RC2
+  version: v3.1.4
 paths:
   /event-subscriptions:
     post:
@@ -176,6 +176,8 @@ paths:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
+        '200':
+          $ref: '#/components/responses/200EventsRead'
         '201':
           $ref: '#/components/responses/201EventsCreated'
         '400':
@@ -355,6 +357,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/OBEventPollingResponse1'
+    200EventsRead:
+      description: Read Awaiting Events
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBEventPollingResponse1'        
     400Error:
       description: Bad request
       headers:

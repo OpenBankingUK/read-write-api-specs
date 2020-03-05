@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC2"
+    "version": "v3.1.4"
   },
   "basePath": "/open-banking/v3.1",
   "schemes": [
@@ -57,6 +57,9 @@
         "responses": {
           "201": {
             "$ref": "#/responses/201EventsCreated"
+          },
+          "200": {
+            "$ref": "#/responses/200EventsRead"
           },
           "400": {
             "$ref": "#/responses/400Error"
@@ -159,6 +162,18 @@
   "responses": {
     "201EventsCreated": {
       "description": "Events Created",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventPollingResponse1"
+      }
+    },
+    "200EventsRead": {
+      "description": "Awaiting Events Read",
       "headers": {
         "x-fapi-interaction-id": {
           "type": "string",

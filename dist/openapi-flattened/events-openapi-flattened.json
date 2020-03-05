@@ -1,9 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Event Subscription API Specification - ASPSP Endpoints",
-    "description": "OpenAPI for Event Subscription API Specification - ASPSP Endpoints",
-    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "title": "Events API Specification - ASPSP Endpoints",
+    "description": "OpenAPI for Events (Subscription & Aggregated Polling) API Specification - ASPSP Endpoints",    "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
       "email": "ServiceDesk@openbanking.org.uk"
@@ -12,7 +11,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC2"
+    "version": "v3.1.4"
   },
   "paths": {
     "/event-subscriptions": {
@@ -2449,6 +2448,44 @@
         "responses": {
           "201": {
             "description": "Events Created",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "description": "An RFC4122 UID used as a correlation id.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "moreAvailable",
+                    "sets"
+                  ],
+                  "properties": {
+                    "moreAvailable": {
+                      "description": "A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.",
+                      "type": "boolean"
+                    },
+                    "sets": {
+                      "type": "object",
+                      "description": "A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.",
+                      "properties": {},
+                      "additionalProperties": {
+                        "description": "An object named with the jti of the event notification to be delivered. The value is the event notification, expressed as a string.\nThe payload of the event should be defined in the OBEventNotification2 format.",
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Read Awaiting Events",
             "headers": {
               "x-fapi-interaction-id": {
                 "description": "An RFC4122 UID used as a correlation id.",
