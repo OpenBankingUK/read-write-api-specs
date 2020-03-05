@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4"
   },
   "paths": {
     "/event-subscriptions": {
@@ -37,6 +37,9 @@
           },
           {
             "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -60,6 +63,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -99,6 +105,9 @@
           },
           {
             "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -166,6 +175,9 @@
           },
           {
             "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -231,6 +243,9 @@
           },
           {
             "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -540,6 +555,17 @@
           }
         }
       },
+      "409Error": {
+        "description": "Conflict",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "415Error": {
         "description": "Unsupported Media Type",
         "headers": {
@@ -767,7 +793,8 @@
               }
             }
           }
-        }
+        },
+        "additionalProperties":false
       },
       "OBEventSubscriptionResponse1": {
         "type": "object",
@@ -811,7 +838,8 @@
           "Meta": {
             "$ref": "#/components/schemas/Meta"
           }
-        }
+        },
+        "additionalProperties":false
       },
       "OBEventSubscriptionsResponse1": {
         "type": "object",
@@ -863,7 +891,8 @@
           "Meta": {
             "$ref": "#/components/schemas/Meta"
           }
-        }
+        },
+        "additionalProperties":false
       },
       "Version": {
         "description": "Version for the event notification.",
@@ -880,9 +909,9 @@
           "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
-              "accounts": "Ability to read Accounts information",
-              "fundsconfirmations": "Ability to confirm funds",
-              "payments": "Generic payment scope"
+              "accounts": "Ability to receive events associated with Accounts information",
+              "fundsconfirmations": "Ability to receive events associated with confirmation of funds",
+              "payments": "Ability to receieve events associated with payments"
             }
           }
         }

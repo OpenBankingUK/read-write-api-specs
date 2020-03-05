@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4"
   },
   "paths": {
     "/event-subscriptions": {
@@ -65,6 +65,15 @@
             "name": "x-jws-signature",
             "required": true,
             "description": "A detached JWS signature of the body of the payload.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -180,7 +189,8 @@
                       },
                       "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -447,6 +457,17 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "description": "An RFC4122 UID used as a correlation id.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "429": {
             "description": "Too Many Requests",
             "headers": {
@@ -619,7 +640,8 @@
                       }
                     }
                   }
-                }
+                },
+                "additionalProperties": false
               }
             }
           },
@@ -666,6 +688,15 @@
             "name": "Authorization",
             "required": true,
             "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -789,7 +820,8 @@
                       },
                       "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -1256,6 +1288,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1368,7 +1409,8 @@
                       },
                       "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -1866,7 +1908,8 @@
                     },
                     "additionalProperties": false
                   }
-                }
+                },
+                "additionalProperties": false
               }
             }
           },
@@ -1922,6 +1965,15 @@
             "name": "Authorization",
             "required": true,
             "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -2349,9 +2401,9 @@
           "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
-              "accounts": "Ability to read Accounts information",
-              "fundsconfirmations": "Ability to confirm funds",
-              "payments": "Generic payment scope"
+              "accounts": "Ability to receive events associated with Accounts information",
+              "fundsconfirmations": "Ability to receive events associated with confirmation of funds",
+              "payments": "Ability to receieve events associated with payments"
             }
           }
         }

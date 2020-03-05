@@ -1,9 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Event Subscription API Specification - ASPSP Endpoints",
-    "description": "Swagger for Event Subscription API Specification - ASPSP Endpoints",
-    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "title": "Events API Specification - ASPSP Endpoints",
+    "description": "OpenAPI for Events (Subscription & Aggregated Polling) API Specification - ASPSP Endpoints",    "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
       "email": "ServiceDesk@openbanking.org.uk"
@@ -12,7 +11,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4"
   },
   "basePath": "/open-banking/v3.1",
   "schemes": [
@@ -52,6 +51,9 @@
           },
           {
             "$ref": "#/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -75,6 +77,9 @@
           },
           "406": {
             "$ref": "#/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/responses/409Error"
           },
           "429": {
             "$ref": "#/responses/429Error"
@@ -111,6 +116,9 @@
           },
           {
             "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -181,6 +189,9 @@
           },
           {
             "$ref": "#/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -243,6 +254,9 @@
           },
           {
             "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -280,6 +294,74 @@
               "accounts",
               "payments",
               "fundsconfirmations"
+            ]
+          }
+        ]
+      }
+    },
+    "/events": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Create Events",
+        "operationId": "CreateEvents",
+        "parameters": [
+          {
+            "$ref": "#/parameters/OBEventPolling1Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201EventsCreated"
+          },
+          "200": {
+            "$ref": "#/responses/200EventsRead"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts", "fundsconfirmations"
             ]
           }
         ]
@@ -444,6 +526,18 @@
         "$ref": "#/definitions/OBEventPollingResponse1"
       }
     },
+    "200EventsRead": {
+      "description": "Read Awaiting Events",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventPollingResponse1"
+      }
+    },
     "400Error": {
       "description": "Bad request",
       "headers": {
@@ -504,6 +598,15 @@
         }
       }
     },
+    "409Error": {
+      "description": "Conflict",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "type": "string",
+          "description": "An RFC4122 UID used as a correlation id."
+        }
+      }
+    },
     "415Error": {
       "description": "Unsupported Media Type",
       "headers": {
@@ -545,9 +648,9 @@
       "flow": "application",
       "tokenUrl": "https://authserver.example/token",
       "scopes": {
-        "accounts": "Ability to read Accounts information",
-        "fundsconfirmations": "Ability to confirm funds",
-        "payments": "Generic payment scope"
+        "accounts": "Ability to receive events associated with Accounts information",
+        "fundsconfirmations": "Ability to receive events associated with confirmation of funds",
+        "payments": "Ability to receieve events associated with payments"
       },
       "description": "TPP client credential authorisation flow with the ASPSP"
     }
@@ -732,7 +835,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBEventSubscriptionResponse1": {
       "type": "object",
@@ -776,7 +880,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBEventSubscriptionsResponse1": {
       "type": "object",
@@ -828,7 +933,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties":false
     },
     "Version": {
       "description": "Version for the event notification.",
@@ -882,7 +988,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBEventPollingResponse1": {
       "type": "object",
@@ -904,7 +1011,8 @@
             "type": "string"
           }
         }
-      }
+      },
+      "additionalProperties":false
     }
   }
 }

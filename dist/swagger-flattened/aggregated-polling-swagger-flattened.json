@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4"
   },
   "basePath": "/open-banking/v3.1",
   "schemes": [
@@ -86,7 +86,8 @@
                     }
                   }
                 }
-              }
+              },
+              "additionalProperties": false
             }
           },
           {
@@ -117,6 +118,13 @@
             "type": "string",
             "required": true,
             "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "type": "string",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false
           }
         ],
         "responses": {
@@ -148,7 +156,40 @@
                     "type": "string"
                   }
                 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "200": {
+            "description": "Read Awaiting Events",
+            "headers": {
+              "x-fapi-interaction-id": {
+                "type": "string",
+                "description": "An RFC4122 UID used as a correlation id."
               }
+            },
+            "schema": {
+              "type": "object",
+              "required": [
+                "moreAvailable",
+                "sets"
+              ],
+              "properties": {
+                "moreAvailable": {
+                  "description": "A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.",
+                  "type": "boolean"
+                },
+                "sets": {
+                  "type": "object",
+                  "description": "A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.",
+                  "properties": {},
+                  "additionalProperties": {
+                    "description": "An object named with the jti of the event notification to be delivered. The value is the event notification, expressed as a string.\nThe payload of the event should be defined in the OBEventNotification2 format.",
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
             }
           },
           "400": {
@@ -513,7 +554,8 @@
         "security": [
           {
             "TPPOAuth2Security": [
-              "accounts", "fundsconfirmation"
+              "accounts",
+              "fundsconfirmations"
             ]
           }
         ]
@@ -526,8 +568,8 @@
       "flow": "application",
       "tokenUrl": "https://authserver.example/token",
       "scopes": {
-        "accounts": "Ability to read Accounts information",
-        "fundsconfirmation": "Ability to confirm funds"
+        "accounts": "Ability to receive events associated with Accounts information",
+        "fundsconfirmations": "Ability to receive events associated with confirmation of funds"
       },
       "description": "TPP client credential authorisation flow with the ASPSP"
     }

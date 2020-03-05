@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.4-RC1
+  version: v3.1.4
 paths:
   /event-subscriptions:
     post:
@@ -23,6 +23,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-jws-signature'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '201':
           $ref: '#/components/responses/201EventSubscriptionsCreated'
@@ -38,6 +39,8 @@ paths:
           $ref: '#/components/responses/405Error'
         '406':
           $ref: '#/components/responses/406Error'
+        '409':
+          $ref: '#/components/responses/409Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -59,6 +62,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '200':
           $ref: '#/components/responses/200EventSubscriptionsRead'
@@ -96,10 +100,10 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-jws-signature'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '200':
-          $ref: >-
-            #/components/responses/200EventSubscriptionsEventSubscriptionIdChanged
+          $ref: '#/components/responses/200EventSubscriptionsEventSubscriptionIdChanged'
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -134,10 +138,10 @@ paths:
         - $ref: '#/components/parameters/x-fapi-customer-ip-address'
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
         '204':
-          $ref: >-
-            #/components/responses/204EventSubscriptionsEventSubscriptionIdDeleted
+          $ref: '#/components/responses/204EventSubscriptionsEventSubscriptionIdDeleted'
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -193,19 +197,13 @@ components:
       in: header
       name: x-fapi-auth-date
       required: false
-      description: >-
+      description: |-
         The time when the PSU last logged in with the TPP. 
-
-        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
-        example is below: 
-
+        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -255,9 +253,8 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
+          description: |
+            Header containing a detached JWS signature of the body of the payload.
           schema:
             type: string
       content:
@@ -272,9 +269,8 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
+          description: |
+            Header containing a detached JWS signature of the body of the payload.
           schema:
             type: string
       content:
@@ -289,9 +285,8 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: >
-            Header containing a detached JWS signature of the body of the
-            payload.
+          description: |
+            Header containing a detached JWS signature of the body of the payload.
           schema:
             type: string
       content:
@@ -355,6 +350,13 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+    409Error:
+      description: Conflict
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          schema:
+            type: string
     415Error:
       description: Unsupported Media Type
       headers:
@@ -386,13 +388,9 @@ components:
             $ref: '#/components/schemas/OBErrorResponse1'
   schemas:
     ISODateTime:
-      description: >-
-        All dates in the JSON payloads are represented in ISO 8601 date-time
-        format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
+      description: |-
+        All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+        All date-time fields in responses must include the timezone. An example is below:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
@@ -475,16 +473,12 @@ components:
           minLength: 1
           maxLength: 500
         Path:
-          description: >-
-            Recommended but optional reference to the JSON Path of the field
-            with error, e.g., Data.Initiation.InstructedAmount.Currency
+          description: 'Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency'
           type: string
           minLength: 1
           maxLength: 500
         Url:
-          description: >-
-            URL to help remediate the problem, or provide more information, or
-            to API Reference, or help etc
+          description: 'URL to help remediate the problem, or provide more information, or to API Reference, or help etc'
           type: string
       required:
         - ErrorCode
@@ -492,9 +486,7 @@ components:
       additionalProperties: false
       minProperties: 1
     OBErrorResponse1:
-      description: >-
-        An array of detail error codes, and messages, and URLs to documentation
-        to help remediation.
+      description: 'An array of detail error codes, and messages, and URLs to documentation to help remediation.'
       type: object
       properties:
         Code:
@@ -503,16 +495,12 @@ components:
           minLength: 1
           maxLength: 40
         Id:
-          description: >-
-            A unique reference for the error instance, for audit purposes, in
-            case of unknown/unclassified errors.
+          description: 'A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.'
           type: string
           minLength: 1
           maxLength: 40
         Message:
-          description: >-
-            Brief Error message, e.g., 'There is something wrong with the
-            request parameters provided'
+          description: 'Brief Error message, e.g., ''There is something wrong with the request parameters provided'''
           type: string
           minLength: 1
           maxLength: 500
@@ -550,6 +538,7 @@ components:
               items:
                 description: Array of event types the subscription applies to.
                 type: string
+      additionalProperties: false
     OBEventSubscriptionResponse1:
       type: object
       required:
@@ -562,9 +551,7 @@ components:
             - Version
           properties:
             EventSubscriptionId:
-              description: >-
-                Unique identification as assigned by the ASPSP to uniquely
-                identify the callback URL resource.
+              description: Unique identification as assigned by the ASPSP to uniquely identify the callback URL resource.
               type: string
               minLength: 1
               maxLength: 40
@@ -586,6 +573,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+      additionalProperties: false
     OBEventSubscriptionsResponse1:
       type: object
       required:
@@ -603,9 +591,7 @@ components:
                   - Version
                 properties:
                   EventSubscriptionId:
-                    description: >-
-                      Unique identification as assigned by the ASPSP to uniquely
-                      identify the callback url resource.
+                    description: Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.
                     type: string
                     minLength: 1
                     maxLength: 40
@@ -627,6 +613,7 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+      additionalProperties: false
     Version:
       description: Version for the event notification.
       type: string
@@ -640,6 +627,6 @@ components:
         clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
-            accounts: Ability to read Accounts information
-            fundsconfirmations: Ability to confirm funds
-            payments: Generic payment scope
+            accounts: Ability to receive events associated with Accounts information
+            fundsconfirmations: Ability to receive events associated with confirmation of funds
+            payments: Ability to receieve events associated with payments

@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Event Subscription API Specification - ASPSP Endpoints",
-    "description": "OpenAPI for Event Subscription API Specification - ASPSP Endpoints",
+    "title": "Events API Specification - ASPSP Endpoints",
+    "description": "OpenAPI for Events (Subscription & Aggregated Polling) API Specification - ASPSP Endpoints",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4-RC1"
+    "version": "v3.1.4"
   },
   "paths": {
     "/event-subscriptions": {
@@ -37,6 +37,9 @@
           },
           {
             "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -60,6 +63,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -99,6 +105,9 @@
           },
           {
             "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -166,6 +175,9 @@
           },
           {
             "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -231,6 +243,9 @@
           },
           {
             "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
@@ -292,11 +307,17 @@
           },
           {
             "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
           }
         ],
         "responses": {
           "201": {
             "$ref": "#/components/responses/201EventsCreated"
+          },
+          "200": {
+            "$ref": "#/components/responses/200EventsRead"
           },
           "400": {
             "$ref": "#/components/responses/400Error"
@@ -326,7 +347,7 @@
         "security": [
           {
             "TPPOAuth2Security": [
-              "accounts", "fundsconfirmation"
+              "accounts", "fundsconfirmations"
             ]
           }
         ],
@@ -551,6 +572,24 @@
           }
         }
       },
+      "200EventsRead": {
+        "description": "Read Awaiting Events",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBEventPollingResponse1"
+            }
+          }
+        }
+      },
       "400Error": {
         "description": "Bad request",
         "headers": {
@@ -622,6 +661,17 @@
       },
       "406Error": {
         "description": "Not Acceptable",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "409Error": {
+        "description": "Conflict",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -858,7 +908,8 @@
               }
             }
           }
-        }
+        },
+        "additionalProperties":false
       },
       "OBEventSubscriptionResponse1": {
         "type": "object",
@@ -902,7 +953,8 @@
           "Meta": {
             "$ref": "#/components/schemas/Meta"
           }
-        }
+        },
+        "additionalProperties":false
       },
       "OBEventSubscriptionsResponse1": {
         "type": "object",
@@ -954,7 +1006,8 @@
           "Meta": {
             "$ref": "#/components/schemas/Meta"
           }
-        }
+        },
+        "additionalProperties":false
       },
       "Version": {
         "description": "Version for the event notification.",
@@ -1008,7 +1061,8 @@
               }
             }
           }
-        }
+        },
+        "additionalProperties":false
       },
       "OBEventPollingResponse1": {
         "type": "object",
@@ -1030,7 +1084,8 @@
               "type": "string"
             }
           }
-        }
+        },
+        "additionalProperties":false
       }
     },
     "securitySchemes": {
@@ -1041,9 +1096,9 @@
           "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
             "scopes": {
-              "accounts": "Ability to read Accounts information",
-              "fundsconfirmations": "Ability to confirm funds",
-              "payments": "Generic payment scope"
+              "accounts": "Ability to receive events associated with Accounts information",
+              "fundsconfirmations": "Ability to receive events associated with confirmation of funds",
+              "payments": "Ability to receieve events associated with payments"
             }
           }
         }
