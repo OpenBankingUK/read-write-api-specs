@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.4"
+    "version": "v3.1.5"
   },
   "basePath": "/open-banking/v3.1/aisp",
   "schemes": [
@@ -2113,7 +2113,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadBeneficiary4"
+        "$ref": "#/definitions/OBReadBeneficiary5"
       }
     },
     "200BeneficiariesRead": {
@@ -2125,7 +2125,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadBeneficiary4"
+        "$ref": "#/definitions/OBReadBeneficiary5"
       }
     },
     "200AccountsAccountIdDirectDebitsRead": {
@@ -2329,7 +2329,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction5"
+        "$ref": "#/definitions/OBReadTransaction6"
       }
     },
     "200StatementsRead": {
@@ -2353,7 +2353,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction5"
+        "$ref": "#/definitions/OBReadTransaction6"
       }
     },
     "200TransactionsRead": {
@@ -2365,7 +2365,7 @@
         }
       },
       "schema": {
-        "$ref": "#/definitions/OBReadTransaction5"
+        "$ref": "#/definitions/OBReadTransaction6"
       }
     },
     "400Error": {
@@ -3273,7 +3273,7 @@
     "OBActiveCurrencyAndAmount_SimpleType": {
       "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
       "type": "string",
-      "pattern": "^\\d{1,13}\\.\\d{1,5}$"
+      "pattern": "^\\d{1,13}$|^\\d{1,13}\\.\\d{1,5}$"
     },
     "OBActiveOrHistoricCurrencyAndAmount_0": {
       "type": "object",
@@ -5834,7 +5834,7 @@
         "CreditorAccount"
       ]
     },
-    "OBBeneficiary4": {
+    "OBBeneficiary5": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -5842,6 +5842,9 @@
         },
         "BeneficiaryId": {
           "$ref": "#/definitions/BeneficiaryId"
+        },
+        "BeneficiaryType": {
+          "$ref": "#/definitions/OBBeneficiaryType1Code"
         },
         "Reference": {
           "$ref": "#/definitions/Reference"
@@ -5857,7 +5860,7 @@
         }
       }
     },
-    "OBBeneficiary4Basic": {
+    "OBBeneficiary5Basic": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -5865,6 +5868,9 @@
         },
         "BeneficiaryId": {
           "$ref": "#/definitions/BeneficiaryId"
+        },
+        "BeneficiaryType": {
+          "$ref": "#/definitions/OBBeneficiaryType1Code"
         },
         "Reference": {
           "$ref": "#/definitions/Reference"
@@ -5874,7 +5880,7 @@
         }
       }
     },
-    "OBBeneficiary4Detail": {
+    "OBBeneficiary5Detail": {
       "type": "object",
       "properties": {
         "AccountId": {
@@ -5882,6 +5888,9 @@
         },
         "BeneficiaryId": {
           "$ref": "#/definitions/BeneficiaryId"
+        },
+        "BeneficiaryType": {
+          "$ref": "#/definitions/OBBeneficiaryType1Code"
         },
         "Reference": {
           "$ref": "#/definitions/Reference"
@@ -6155,6 +6164,14 @@
       "enum": [
         "Booked",
         "Pending"
+      ]
+    },
+    "OBTransactionMutability1Code": {
+      "description": "Specifies the Mutability of the Transaction record.",
+      "type": "string",
+      "enum": [
+        "Mutable",
+        "Immutable"
       ]
     },
     "OBError1": {
@@ -9037,7 +9054,7 @@
       },
       "additionalProperties":false
     },
-    "OBReadBeneficiary4": {
+    "OBReadBeneficiary5": {
       "type": "object",
       "required": [
         "Data"
@@ -9049,7 +9066,7 @@
             "Beneficiary": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/OBBeneficiary4"
+                "$ref": "#/definitions/OBBeneficiary5"
               }
             }
           }
@@ -9238,18 +9255,20 @@
             "$ref": "#/definitions/OBStatement2"
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
-    "OBReadDataTransaction5": {
+    "OBReadDataTransaction6": {
       "type": "object",
       "properties": {
         "Transaction": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/OBTransaction5"
+            "$ref": "#/definitions/OBTransaction6"
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadDirectDebit2": {
       "type": "object",
@@ -9317,7 +9336,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadOffer1": {
       "type": "object",
@@ -9436,7 +9456,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties":false
     },
     "OBReadParty2": {
       "type": "object",
@@ -9458,7 +9479,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadParty3": {
       "type": "object",
@@ -9483,7 +9505,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadProduct2": {
       "type": "object",
@@ -11521,7 +11544,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadScheduledPayment3": {
       "type": "object",
@@ -11546,7 +11570,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadStandingOrder6": {
       "type": "object",
@@ -11571,7 +11596,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBReadStatement2": {
       "type": "object",
@@ -11588,16 +11614,17 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
-    "OBReadTransaction5": {
+    "OBReadTransaction6": {
       "type": "object",
       "required": [
         "Data"
       ],
       "properties": {
         "Data": {
-          "$ref": "#/definitions/OBReadDataTransaction5"
+          "$ref": "#/definitions/OBReadDataTransaction6"
         },
         "Links": {
           "$ref": "#/definitions/Links"
@@ -11605,7 +11632,8 @@
         "Meta": {
           "$ref": "#/definitions/Meta"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBRisk2": {
       "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Account Info.",
@@ -11681,7 +11709,8 @@
         "InstructedAmount": {
           "$ref": "#/definitions/OBActiveOrHistoricCurrencyAndAmount_1"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBScheduledPayment3Detail": {
       "type": "object",
@@ -11720,7 +11749,8 @@
         "CreditorAccount": {
           "$ref": "#/definitions/OBCashAccount5_1"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBStandingOrder6": {
       "type": "object",
@@ -11780,7 +11810,8 @@
         "SupplementaryData": {
           "$ref": "#/definitions/OBSupplementaryData1"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBStandingOrder6Basic": {
       "type": "object",
@@ -11834,7 +11865,8 @@
         "SupplementaryData": {
           "$ref": "#/definitions/OBSupplementaryData1"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBStandingOrder6Detail": {
       "type": "object",
@@ -11895,7 +11927,8 @@
         "SupplementaryData": {
           "$ref": "#/definitions/OBSupplementaryData1"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBStatement2": {
       "type": "object",
@@ -12297,7 +12330,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBStatement2Detail": {
       "type": "object",
@@ -12509,7 +12543,8 @@
             }
           }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBSupplementaryData1": {
       "type": "object",
@@ -12517,7 +12552,7 @@
       "additionalProperties": true,
       "description": "Additional information that can not be captured in the structured fields and/or any other specific block."
     },
-    "OBTransaction5": {
+    "OBTransaction6": {
       "type": "object",
       "description": "Provides further details on an entry in the report.",
       "required": [
@@ -12548,6 +12583,9 @@
         },
         "Status": {
           "$ref": "#/definitions/OBEntryStatus1Code"
+        },
+        "TransactionMutability":{
+          "$ref": "#/definitions/OBTransactionMutability1Code"
         },
         "BookingDateTime": {
           "$ref": "#/definitions/BookingDateTime"
@@ -12603,7 +12641,7 @@
       },
       "additionalProperties":false
     },
-    "OBTransaction5Basic": {
+    "OBTransaction6Basic": {
       "type": "object",
       "description": "Provides further details on an entry in the report.",
       "required": [
@@ -12634,6 +12672,9 @@
         },
         "Status": {
           "$ref": "#/definitions/OBEntryStatus1Code"
+        },
+        "TransactionMutability":{
+          "$ref": "#/definitions/OBTransactionMutability1Code"
         },
         "BookingDateTime": {
           "$ref": "#/definitions/BookingDateTime"
@@ -12665,9 +12706,10 @@
         "SupplementaryData": {
           "$ref": "#/definitions/OBSupplementaryData1"
         }
-      }
+      },
+      "additionalProperties": false
     },
-    "OBTransaction5Detail": {
+    "OBTransaction6Detail": {
       "type": "object",
       "description": "Provides further details on an entry in the report.",
       "required": [
@@ -12698,6 +12740,9 @@
         },
         "Status": {
           "$ref": "#/definitions/OBEntryStatus1Code"
+        },
+        "TransactionMutability":{
+          "$ref": "#/definitions/OBTransactionMutability1Code"
         },
         "BookingDateTime": {
           "$ref": "#/definitions/BookingDateTime"
@@ -12750,7 +12795,8 @@
         "SupplementaryData": {
           "$ref": "#/definitions/OBSupplementaryData1"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OBTransactionCardInstrument1": {
       "type": "object",
@@ -13083,7 +13129,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_1": {
       "type": "object",
@@ -13102,7 +13149,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_2": {
       "type": "object",
@@ -13121,7 +13169,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_3": {
       "type": "object",
@@ -13140,7 +13189,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_4": {
       "type": "object",
@@ -13159,7 +13209,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_5": {
       "type": "object",
@@ -13178,7 +13229,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_6": {
       "type": "object",
@@ -13197,7 +13249,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_7": {
       "type": "object",
@@ -13216,7 +13269,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherCodeType1_8": {
       "type": "object",
@@ -13235,7 +13289,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OtherFeeChargeDetailType": {
       "type": "object",
@@ -13258,7 +13313,8 @@
         "Description": {
           "$ref": "#/definitions/Description_3"
         }
-      }
+      },
+      "additionalProperties": false
     },
     "OB_OverdraftFeeType1Code": {
       "description": "Overdraft fee type",
@@ -13358,7 +13414,8 @@
           "minLength": 1,
           "maxLength": 35
         }
-      }
+      },
+      "additionalProperties": false
     },
     "Rate": {
       "description": "Rate associated with the statement rate type.",
@@ -13370,6 +13427,14 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 35
+    },
+    "OBBeneficiaryType1Code": {
+      "description": "Specifies the Beneficiary Type.",
+      "type":"string",
+      "enum": [
+        "Trusted",
+        "Ordinary"
+      ]
     },
     "ScheduledPaymentDateTime": {
       "description": "The date on which the scheduled payment will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -13444,7 +13509,7 @@
       "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
       "type": "string",
       "minLength": 1,
-      "maxLength": 35
+      "maxLength": 210
     },
     "Value": {
       "description": "Value associated with the statement value type.",
