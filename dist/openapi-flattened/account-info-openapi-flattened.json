@@ -3638,7 +3638,8 @@
                       },
                       "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -4146,6 +4147,14 @@
                                     "minLength": 1,
                                     "maxLength": 40
                                   },
+                                  "BeneficiaryType": {
+                                    "description": "Specifies the Beneficiary Type.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Trusted",
+                                      "Ordinary"
+                                    ]
+                                  },
                                   "Reference": {
                                     "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
                                     "type": "string",
@@ -4174,6 +4183,14 @@
                                     "type": "string",
                                     "minLength": 1,
                                     "maxLength": 40
+                                  },
+                                  "BeneficiaryType": {
+                                    "description": "Specifies the Beneficiary Type.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Trusted",
+                                      "Ordinary"
+                                    ]
                                   },
                                   "Reference": {
                                     "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
@@ -21264,7 +21281,7 @@
                                     "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
                                     "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 35
+                                    "maxLength": 210
                                   },
                                   "StatementReference": {
                                     "type": "array",
@@ -21289,6 +21306,14 @@
                                     "enum": [
                                       "Booked",
                                       "Pending"
+                                    ]
+                                  },
+                                  "TransactionMutability": {
+                                    "description": "Specifies the Mutability of the Transaction record.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Mutable",
+                                      "Immutable"
                                     ]
                                   },
                                   "BookingDateTime": {
@@ -21530,7 +21555,7 @@
                                     "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
                                     "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 35
+                                    "maxLength": 210
                                   },
                                   "StatementReference": {
                                     "type": "array",
@@ -21555,6 +21580,14 @@
                                     "enum": [
                                       "Booked",
                                       "Pending"
+                                    ]
+                                  },
+                                  "TransactionMutability": {
+                                    "description": "Specifies the Mutability of the Transaction record.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Mutable",
+                                      "Immutable"
                                     ]
                                   },
                                   "BookingDateTime": {
@@ -22645,6 +22678,15 @@
             }
           },
           {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "in": "query",
             "name": "fromBookingDateTime",
             "description": "The UTC ISO 8601 Date Time to filter transactions FROM\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component.",
@@ -22660,15 +22702,6 @@
             "schema": {
               "type": "string",
               "format": "date-time"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-customer-user-agent",
-            "description": "Indicates the user-agent that the PSU is using.",
-            "required": false,
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -22725,7 +22758,7 @@
                                     "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
                                     "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 35
+                                    "maxLength": 210
                                   },
                                   "StatementReference": {
                                     "type": "array",
@@ -22750,6 +22783,14 @@
                                     "enum": [
                                       "Booked",
                                       "Pending"
+                                    ]
+                                  },
+                                  "TransactionMutability": {
+                                    "description": "Specifies the Mutability of the Transaction record.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Mutable",
+                                      "Immutable"
                                     ]
                                   },
                                   "BookingDateTime": {
@@ -22991,7 +23032,7 @@
                                     "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
                                     "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 35
+                                    "maxLength": 210
                                   },
                                   "StatementReference": {
                                     "type": "array",
@@ -23016,6 +23057,14 @@
                                     "enum": [
                                       "Booked",
                                       "Pending"
+                                    ]
+                                  },
+                                  "TransactionMutability": {
+                                    "description": "Specifies the Mutability of the Transaction record.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Mutable",
+                                      "Immutable"
                                     ]
                                   },
                                   "BookingDateTime": {
@@ -24307,7 +24356,8 @@
                       },
                       "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
               }
             }
@@ -24806,6 +24856,14 @@
                                     "minLength": 1,
                                     "maxLength": 40
                                   },
+                                  "BeneficiaryType": {
+                                    "description": "Specifies the Beneficiary Type.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Trusted",
+                                      "Ordinary"
+                                    ]
+                                  },
                                   "Reference": {
                                     "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
                                     "type": "string",
@@ -24834,6 +24892,14 @@
                                     "type": "string",
                                     "minLength": 1,
                                     "maxLength": 40
+                                  },
+                                  "BeneficiaryType": {
+                                    "description": "Specifies the Beneficiary Type.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Trusted",
+                                      "Ordinary"
+                                    ]
                                   },
                                   "Reference": {
                                     "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
@@ -37724,15 +37790,6 @@
             }
           },
           {
-            "in": "header",
-            "name": "x-customer-user-agent",
-            "description": "Indicates the user-agent that the PSU is using.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "in": "query",
             "name": "fromStatementDateTime",
             "description": "The UTC ISO 8601 Date Time to filter statements FROM\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component.",
@@ -37748,6 +37805,15 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-customer-user-agent",
+            "description": "Indicates the user-agent that the PSU is using.",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -39215,7 +39281,7 @@
                                     "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
                                     "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 35
+                                    "maxLength": 210
                                   },
                                   "StatementReference": {
                                     "type": "array",
@@ -39240,6 +39306,14 @@
                                     "enum": [
                                       "Booked",
                                       "Pending"
+                                    ]
+                                  },
+                                  "TransactionMutability": {
+                                    "description": "Specifies the Mutability of the Transaction record.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Mutable",
+                                      "Immutable"
                                     ]
                                   },
                                   "BookingDateTime": {
@@ -39481,7 +39555,7 @@
                                     "description": "Unique reference for the transaction. This reference is optionally populated, and may as an example be the FPID in the Faster Payments context.",
                                     "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 35
+                                    "maxLength": 210
                                   },
                                   "StatementReference": {
                                     "type": "array",
@@ -39506,6 +39580,14 @@
                                     "enum": [
                                       "Booked",
                                       "Pending"
+                                    ]
+                                  },
+                                  "TransactionMutability": {
+                                    "description": "Specifies the Mutability of the Transaction record.",
+                                    "type": "string",
+                                    "enum": [
+                                      "Mutable",
+                                      "Immutable"
                                     ]
                                   },
                                   "BookingDateTime": {
