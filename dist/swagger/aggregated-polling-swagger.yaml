@@ -34,10 +34,10 @@ paths:
         - $ref: '#/parameters/Authorization'
         - $ref: '#/parameters/x-customer-user-agent'
       responses:
+        '200':
+          $ref: '#/responses/200EventsRead'
         '201':
           $ref: '#/responses/201EventsCreated'
-        '200':
-          $ref: '#/responses/200EventsRead'  
         '400':
           $ref: '#/responses/400Error'
         '401':
@@ -50,6 +50,8 @@ paths:
           $ref: '#/responses/405Error'
         '406':
           $ref: '#/responses/406Error'
+        '415':
+          $ref: '#/responses/415Error'
         '429':
           $ref: '#/responses/429Error'
         '500':
@@ -293,9 +295,7 @@ definitions:
     type: object
     properties:
       maxEvents:
-        description: >-
-          Maximum number of events to be returned. A value of zero indicates the
-          ASPSP should not return events even if available
+        description: Maximum number of events to be returned. A value of zero indicates the ASPSP should not return events even if available
         type: integer
       returnImmediately:
         description: Indicates whether an ASPSP should return a response immediately or provide a long poll
@@ -318,10 +318,8 @@ definitions:
             - description
           properties:
             err:
-              description: >-
-                A value from the IANA "Security Event Token Delivery Error
-                Codes" registry that identifies the error as defined here 
-
+              description: |-
+                A value from the IANA "Security Event Token Delivery Error Codes" registry that identifies the error as defined here 
                 https://tools.ietf.org/id/draft-ietf-secevent-http-push-03.html#error_codes
               type: string
               minLength: 1
@@ -339,16 +337,11 @@ definitions:
       - sets
     properties:
       moreAvailable:
-        description: >-
-          A JSON boolean value that indicates if more unacknowledged event
-          notifications are available to be returned.
+        description: A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.
         type: boolean
       sets:
         type: object
-        description: >-
-          A JSON object that contains zero or more nested JSON attributes. If
-          there are no outstanding event notifications to be transmitted, the
-          JSON object SHALL be empty.
+        description: 'A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.'
         properties: {}
         additionalProperties:
           description: "An object named with the jti\_of the\_event notification to be delivered. The value is the event notification, expressed as a\_string.\nThe payload of the event should be defined in the OBEventNotification2\_format."
