@@ -52,14 +52,14 @@
           "403": {
             "$ref": "#/components/responses/403Error"
           },
-          "404": {
-            "$ref": "#/components/responses/404Error"
-          },
           "405": {
             "$ref": "#/components/responses/405Error"
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -119,9 +119,6 @@
           },
           "403": {
             "$ref": "#/components/responses/403Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/404Error"
           },
           "405": {
             "$ref": "#/components/responses/405Error"
@@ -183,9 +180,6 @@
           "403": {
             "$ref": "#/components/responses/403Error"
           },
-          "404": {
-            "$ref": "#/components/responses/404Error"
-          },
           "405": {
             "$ref": "#/components/responses/405Error"
           },
@@ -244,9 +238,6 @@
           },
           "403": {
             "$ref": "#/components/responses/403Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/404Error"
           },
           "405": {
             "$ref": "#/components/responses/405Error"
@@ -310,9 +301,6 @@
           "403": {
             "$ref": "#/components/responses/403Error"
           },
-          "404": {
-            "$ref": "#/components/responses/404Error"
-          },
           "405": {
             "$ref": "#/components/responses/405Error"
           },
@@ -374,9 +362,6 @@
           },
           "403": {
             "$ref": "#/components/responses/403Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/404Error"
           },
           "405": {
             "$ref": "#/components/responses/405Error"
@@ -1240,9 +1225,6 @@
           },
           "403": {
             "$ref": "#/components/responses/403Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/404Error"
           },
           "405": {
             "$ref": "#/components/responses/405Error"
@@ -2967,105 +2949,6 @@
         "description": "fee/charges are captured dependent on the number of occurrences rather than capped at a particular amount",
         "type": "integer"
       },
-      "OBAccount3": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/OBAccount3Basic"
-          },
-          {
-            "$ref": "#/components/schemas/OBAccount3Detail"
-          }
-        ]
-      },
-      "OBAccount3Basic": {
-        "type": "object",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-        "required": [
-          "AccountId",
-          "Currency",
-          "AccountType",
-          "AccountSubType"
-        ],
-        "properties": {
-          "AccountId": {
-            "$ref": "#/components/schemas/AccountId"
-          },
-          "Currency": {
-            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
-          },
-          "AccountType": {
-            "$ref": "#/components/schemas/OBExternalAccountType1Code"
-          },
-          "AccountSubType": {
-            "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
-          },
-          "Description": {
-            "$ref": "#/components/schemas/Description_0"
-          },
-          "Nickname": {
-            "$ref": "#/components/schemas/Nickname"
-          }
-        }
-      },
-      "OBAccount3Detail": {
-        "type": "object",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made.",
-        "required": [
-          "AccountId",
-          "Currency",
-          "AccountType",
-          "AccountSubType",
-          "Account"
-        ],
-        "properties": {
-          "AccountId": {
-            "$ref": "#/components/schemas/AccountId"
-          },
-          "Currency": {
-            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
-          },
-          "AccountType": {
-            "$ref": "#/components/schemas/OBExternalAccountType1Code"
-          },
-          "AccountSubType": {
-            "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
-          },
-          "Description": {
-            "$ref": "#/components/schemas/Description_0"
-          },
-          "Nickname": {
-            "$ref": "#/components/schemas/Nickname"
-          },
-          "Account": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "description": "Provides the details to identify an account.",
-              "required": [
-                "SchemeName",
-                "Identification"
-              ],
-              "properties": {
-                "SchemeName": {
-                  "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
-                },
-                "Identification": {
-                  "$ref": "#/components/schemas/Identification_0"
-                },
-                "Name": {
-                  "$ref": "#/components/schemas/Name_0"
-                },
-                "SecondaryIdentification": {
-                  "$ref": "#/components/schemas/SecondaryIdentification"
-                }
-              }
-            }
-          },
-          "Servicer": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
-          }
-        }
-      },
       "OBAccount4": {
         "oneOf": [
           {
@@ -3227,7 +3110,8 @@
           "MaturityDate": {
             "$ref": "#/components/schemas/MaturityDate"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "OBAccount6Detail": {
         "type": "object",
@@ -3298,7 +3182,8 @@
           "Servicer": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "OBAccountStatus1Code": {
         "description": "Specifies the status of account resource in code form.",
@@ -3852,7 +3737,6 @@
                           "AER"
                         ]
                       },
-                      "additionalProperties": false,
                       "minItems": 1
                     }
                   },
@@ -3862,7 +3746,6 @@
                     "TierBand"
                   ]
                 },
-                "additionalProperties": false,
                 "minItems": 1
               }
             },
@@ -4153,16 +4036,14 @@
                                             "Name",
                                             "Description"
                                           ]
-                                        },
-                                        "additionalProperties": false
+                                        }
                                       }
                                     },
                                     "required": [
                                       "FeeType",
                                       "MinMaxType"
                                     ]
-                                  },
-                                  "additionalProperties": false
+                                  }
                                 },
                                 "OverdraftFeeChargeDetail": {
                                   "description": "Details about the fees/charges",
@@ -4405,16 +4286,14 @@
                                                   "Name",
                                                   "Description"
                                                 ]
-                                              },
-                                              "additionalProperties": false
+                                              }
                                             }
                                           },
                                           "required": [
                                             "FeeType",
                                             "MinMaxType"
                                           ]
-                                        },
-                                        "additionalProperties": false
+                                        }
                                       },
                                       "OtherFeeType": {
                                         "description": "Other Fee type which is not available in the standard code set",
@@ -4558,22 +4437,19 @@
                                       "ApplicationFrequency"
                                     ]
                                   },
-                                  "additionalProperties": false,
                                   "minItems": 1
                                 }
                               },
                               "required": [
                                 "OverdraftFeeChargeDetail"
                               ]
-                            },
-                            "additionalProperties": false
+                            }
                           }
                         },
                         "required": [
                           "TierValueMin"
                         ]
                       },
-                      "additionalProperties": false,
                       "minItems": 1
                     },
                     "OverdraftFeesCharges": {
@@ -4696,16 +4572,14 @@
                                       "Name",
                                       "Description"
                                     ]
-                                  },
-                                  "additionalProperties": false
+                                  }
                                 }
                               },
                               "required": [
                                 "FeeType",
                                 "MinMaxType"
                               ]
-                            },
-                            "additionalProperties": false
+                            }
                           },
                           "OverdraftFeeChargeDetail": {
                             "description": "Details about the fees/charges",
@@ -4948,16 +4822,14 @@
                                             "Name",
                                             "Description"
                                           ]
-                                        },
-                                        "additionalProperties": false
+                                        }
                                       }
                                     },
                                     "required": [
                                       "FeeType",
                                       "MinMaxType"
                                     ]
-                                  },
-                                  "additionalProperties": false
+                                  }
                                 },
                                 "OtherFeeType": {
                                   "description": "Other Fee type which is not available in the standard code set",
@@ -5101,15 +4973,13 @@
                                 "ApplicationFrequency"
                               ]
                             },
-                            "additionalProperties": false,
                             "minItems": 1
                           }
                         },
                         "required": [
                           "OverdraftFeeChargeDetail"
                         ]
-                      },
-                      "additionalProperties": false
+                      }
                     }
                   },
                   "required": [
@@ -5117,7 +4987,6 @@
                     "OverdraftTierBand"
                   ]
                 },
-                "additionalProperties": false,
                 "minItems": 1
               }
             },
@@ -5416,16 +5285,14 @@
                                   "Name",
                                   "Description"
                                 ]
-                              },
-                              "additionalProperties": false
+                              }
                             }
                           },
                           "required": [
                             "FeeType",
                             "MinMaxType"
                           ]
-                        },
-                        "additionalProperties": false
+                        }
                       },
                       "OtherFeeCategoryType": {
                         "type": "object",
@@ -5645,7 +5512,6 @@
                       "ApplicationFrequency"
                     ]
                   },
-                  "additionalProperties": false,
                   "minItems": 1
                 },
                 "FeeChargeCap": {
@@ -5756,23 +5622,20 @@
                             "Name",
                             "Description"
                           ]
-                        },
-                        "additionalProperties": false
+                        }
                       }
                     },
                     "required": [
                       "FeeType",
                       "MinMaxType"
                     ]
-                  },
-                  "additionalProperties": false
+                  }
                 }
               },
               "required": [
                 "FeeChargeDetail"
               ]
-            },
-            "additionalProperties": false
+            }
           }
         },
         "additionalProperties": false
@@ -5818,53 +5681,6 @@
           }
         }
       },
-      "OBBeneficiary3": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/OBBeneficiary3Basic"
-          },
-          {
-            "$ref": "#/components/schemas/OBBeneficiary3Detail"
-          }
-        ]
-      },
-      "OBBeneficiary3Basic": {
-        "type": "object",
-        "properties": {
-          "AccountId": {
-            "$ref": "#/components/schemas/AccountId"
-          },
-          "BeneficiaryId": {
-            "$ref": "#/components/schemas/BeneficiaryId"
-          },
-          "Reference": {
-            "$ref": "#/components/schemas/Reference"
-          }
-        }
-      },
-      "OBBeneficiary3Detail": {
-        "type": "object",
-        "properties": {
-          "AccountId": {
-            "$ref": "#/components/schemas/AccountId"
-          },
-          "BeneficiaryId": {
-            "$ref": "#/components/schemas/BeneficiaryId"
-          },
-          "Reference": {
-            "$ref": "#/components/schemas/Reference"
-          },
-          "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
-          },
-          "CreditorAccount": {
-            "$ref": "#/components/schemas/OBCashAccount5_0"
-          }
-        },
-        "required": [
-          "CreditorAccount"
-        ]
-      },
       "OBBeneficiary5": {
         "oneOf": [
           {
@@ -5893,7 +5709,8 @@
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
           }
-        }
+        },
+        "additionalProperties": false
       },
       "OBBeneficiary5Detail": {
         "type": "object",
@@ -5920,6 +5737,7 @@
             "$ref": "#/components/schemas/OBCashAccount5_0"
           }
         },
+        "additionalProperties": false,
         "required": [
           "CreditorAccount"
         ]
@@ -6911,7 +6729,6 @@
                           "AER"
                         ]
                       },
-                      "additionalProperties": false,
                       "minItems": 1
                     }
                   },
@@ -6920,7 +6737,6 @@
                     "TierBand"
                   ]
                 },
-                "additionalProperties": false,
                 "minItems": 1
               }
             },
@@ -7192,16 +7008,14 @@
                                             "Name",
                                             "Description"
                                           ]
-                                        },
-                                        "additionalProperties": false
+                                        }
                                       }
                                     },
                                     "required": [
                                       "FeeType",
                                       "MinMaxType"
                                     ]
-                                  },
-                                  "additionalProperties": false
+                                  }
                                 },
                                 "OverdraftFeeChargeDetail": {
                                   "description": "Details about the fees/charges",
@@ -7580,8 +7394,7 @@
                                                 "Name",
                                                 "Description"
                                               ]
-                                            },
-                                            "additionalProperties": false
+                                            }
                                           }
                                         },
                                         "additionalProperties": false,
@@ -7596,22 +7409,19 @@
                                       "ApplicationFrequency"
                                     ]
                                   },
-                                  "additionalProperties": false,
                                   "minItems": 1
                                 }
                               },
                               "required": [
                                 "OverdraftFeeChargeDetail"
                               ]
-                            },
-                            "additionalProperties": false
+                            }
                           }
                         },
                         "required": [
                           "TierValueMin"
                         ]
                       },
-                      "additionalProperties": false,
                       "minItems": 1
                     },
                     "OverdraftFeesCharges": {
@@ -7740,16 +7550,14 @@
                                       "Name",
                                       "Description"
                                     ]
-                                  },
-                                  "additionalProperties": false
+                                  }
                                 }
                               },
                               "required": [
                                 "FeeType",
                                 "MinMaxType"
                               ]
-                            },
-                            "additionalProperties": false
+                            }
                           },
                           "OverdraftFeeChargeDetail": {
                             "description": "Details about the fees/charges",
@@ -8128,8 +7936,7 @@
                                           "Name",
                                           "Description"
                                         ]
-                                      },
-                                      "additionalProperties": false
+                                      }
                                     }
                                   },
                                   "additionalProperties": false,
@@ -8144,15 +7951,13 @@
                                 "ApplicationFrequency"
                               ]
                             },
-                            "additionalProperties": false,
                             "minItems": 1
                           }
                         },
                         "required": [
                           "OverdraftFeeChargeDetail"
                         ]
-                      },
-                      "additionalProperties": false
+                      }
                     }
                   },
                   "required": [
@@ -8160,7 +7965,6 @@
                     "OverdraftTierBand"
                   ]
                 },
-                "additionalProperties": false,
                 "minItems": 1
               }
             },
@@ -8574,16 +8378,14 @@
                                 "Name",
                                 "Description"
                               ]
-                            },
-                            "additionalProperties": false
+                            }
                           }
                         },
                         "required": [
                           "FeeType",
                           "MinMaxType"
                         ]
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "FeeApplicableRange": {
                       "description": "Range or amounts or rates for which the fee/charge applies",
@@ -8624,7 +8426,6 @@
                     "ApplicationFrequency"
                   ]
                 },
-                "additionalProperties": false,
                 "minItems": 1
               },
               "FeeChargeCap": {
@@ -8732,16 +8533,14 @@
                           "Name",
                           "Description"
                         ]
-                      },
-                      "additionalProperties": false
+                      }
                     }
                   },
                   "required": [
                     "FeeType",
                     "MinMaxType"
                   ]
-                },
-                "additionalProperties": false
+                }
               }
             },
             "additionalProperties": false,
@@ -8838,7 +8637,8 @@
               }
             }
           }
-        }
+        },
+        "additionalProperties": false
       },
       "OBPartyRelationships1": {
         "type": "object",
