@@ -32,12 +32,12 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
           $ref: '#/components/responses/406Error'
+        '415':
+          $ref: '#/components/responses/415Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -69,8 +69,6 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
@@ -103,8 +101,6 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
@@ -137,8 +133,6 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
@@ -172,8 +166,6 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
@@ -207,8 +199,6 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
@@ -671,8 +661,6 @@ paths:
           $ref: '#/components/responses/401Error'
         '403':
           $ref: '#/components/responses/403Error'
-        '404':
-          $ref: '#/components/responses/404Error'
         '405':
           $ref: '#/components/responses/405Error'
         '406':
@@ -2060,77 +2048,6 @@ components:
         fee/charges are captured dependent on the number of occurrences rather
         than capped at a particular amount
       type: integer
-    OBAccount3:
-      oneOf:
-        - $ref: '#/components/schemas/OBAccount3Basic'
-        - $ref: '#/components/schemas/OBAccount3Detail'
-    OBAccount3Basic:
-      type: object
-      description: >-
-        Unambiguous identification of the account to which credit and debit
-        entries are made.
-      required:
-        - AccountId
-        - Currency
-        - AccountType
-        - AccountSubType
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        Currency:
-          $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_0'
-        AccountType:
-          $ref: '#/components/schemas/OBExternalAccountType1Code'
-        AccountSubType:
-          $ref: '#/components/schemas/OBExternalAccountSubType1Code'
-        Description:
-          $ref: '#/components/schemas/Description_0'
-        Nickname:
-          $ref: '#/components/schemas/Nickname'
-    OBAccount3Detail:
-      type: object
-      description: >-
-        Unambiguous identification of the account to which credit and debit
-        entries are made.
-      required:
-        - AccountId
-        - Currency
-        - AccountType
-        - AccountSubType
-        - Account
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        Currency:
-          $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_0'
-        AccountType:
-          $ref: '#/components/schemas/OBExternalAccountType1Code'
-        AccountSubType:
-          $ref: '#/components/schemas/OBExternalAccountSubType1Code'
-        Description:
-          $ref: '#/components/schemas/Description_0'
-        Nickname:
-          $ref: '#/components/schemas/Nickname'
-        Account:
-          type: array
-          items:
-            type: object
-            description: Provides the details to identify an account.
-            required:
-              - SchemeName
-              - Identification
-            properties:
-              SchemeName:
-                $ref: '#/components/schemas/OBExternalAccountIdentification4Code'
-              Identification:
-                $ref: '#/components/schemas/Identification_0'
-              Name:
-                $ref: '#/components/schemas/Name_0'
-              SecondaryIdentification:
-                $ref: '#/components/schemas/SecondaryIdentification'
-        Servicer:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0
     OBAccount4:
       oneOf:
         - $ref: '#/components/schemas/OBAccount4Basic'
@@ -2245,6 +2162,7 @@ components:
           $ref: '#/components/schemas/OpeningDate'
         MaturityDate:
           $ref: '#/components/schemas/MaturityDate'
+      additionalProperties: false
     OBAccount6Detail:
       type: object
       description: >-
@@ -2297,6 +2215,7 @@ components:
         Servicer:
           $ref: >-
             #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0
+      additionalProperties: false
     OBAccountStatus1Code:
       description: Specifies the status of account resource in code form.
       type: string
@@ -2835,13 +2754,11 @@ components:
                         - ApplicationFrequency
                         - FixedVariableInterestRateType
                         - AER
-                    additionalProperties: false
                     minItems: 1
                 required:
                   - TierBandMethod
                   - Destination
                   - TierBand
-              additionalProperties: false
               minItems: 1
           additionalProperties: false
           required:
@@ -3180,11 +3097,9 @@ components:
                                         required:
                                           - Name
                                           - Description
-                                      additionalProperties: false
                                   required:
                                     - FeeType
                                     - MinMaxType
-                                additionalProperties: false
                               OverdraftFeeChargeDetail:
                                 description: Details about the fees/charges
                                 type: array
@@ -3446,11 +3361,9 @@ components:
                                               required:
                                                 - Name
                                                 - Description
-                                            additionalProperties: false
                                         required:
                                           - FeeType
                                           - MinMaxType
-                                      additionalProperties: false
                                     OtherFeeType:
                                       description: >-
                                         Other Fee type which is not available in
@@ -3590,14 +3503,11 @@ components:
                                   required:
                                     - FeeType
                                     - ApplicationFrequency
-                                additionalProperties: false
                                 minItems: 1
                             required:
                               - OverdraftFeeChargeDetail
-                          additionalProperties: false
                       required:
                         - TierValueMin
-                    additionalProperties: false
                     minItems: 1
                   OverdraftFeesCharges:
                     description: Overdraft fees and charges details
@@ -3726,11 +3636,9 @@ components:
                                   required:
                                     - Name
                                     - Description
-                                additionalProperties: false
                             required:
                               - FeeType
                               - MinMaxType
-                          additionalProperties: false
                         OverdraftFeeChargeDetail:
                           description: Details about the fees/charges
                           type: array
@@ -3988,11 +3896,9 @@ components:
                                         required:
                                           - Name
                                           - Description
-                                      additionalProperties: false
                                   required:
                                     - FeeType
                                     - MinMaxType
-                                additionalProperties: false
                               OtherFeeType:
                                 description: >-
                                   Other Fee type which is not available in the
@@ -4132,15 +4038,12 @@ components:
                             required:
                               - FeeType
                               - ApplicationFrequency
-                          additionalProperties: false
                           minItems: 1
                       required:
                         - OverdraftFeeChargeDetail
-                    additionalProperties: false
                 required:
                   - TierBandMethod
                   - OverdraftTierBand
-              additionalProperties: false
               minItems: 1
           additionalProperties: false
           required:
@@ -4434,11 +4337,9 @@ components:
                               required:
                                 - Name
                                 - Description
-                            additionalProperties: false
                         required:
                           - FeeType
                           - MinMaxType
-                      additionalProperties: false
                     OtherFeeCategoryType:
                       type: object
                       title: OtherFeeCategoryType
@@ -4646,7 +4547,6 @@ components:
                     - FeeCategory
                     - FeeType
                     - ApplicationFrequency
-                additionalProperties: false
                 minItems: 1
               FeeChargeCap:
                 description: >-
@@ -4756,14 +4656,11 @@ components:
                         required:
                           - Name
                           - Description
-                      additionalProperties: false
                   required:
                     - FeeType
                     - MinMaxType
-                additionalProperties: false
             required:
               - FeeChargeDetail
-          additionalProperties: false
       additionalProperties: false
     OBBalanceType1Code:
       description: 'Balance type, in a coded form.'
@@ -4801,35 +4698,6 @@ components:
           type: string
           minLength: 1
           maxLength: 4
-    OBBeneficiary3:
-      oneOf:
-        - $ref: '#/components/schemas/OBBeneficiary3Basic'
-        - $ref: '#/components/schemas/OBBeneficiary3Detail'
-    OBBeneficiary3Basic:
-      type: object
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        BeneficiaryId:
-          $ref: '#/components/schemas/BeneficiaryId'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-    OBBeneficiary3Detail:
-      type: object
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        BeneficiaryId:
-          $ref: '#/components/schemas/BeneficiaryId'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
-        CreditorAccount:
-          $ref: '#/components/schemas/OBCashAccount5_0'
-      required:
-        - CreditorAccount
     OBBeneficiary5:
       oneOf:
         - $ref: '#/components/schemas/OBBeneficiary5Basic'
@@ -4847,6 +4715,7 @@ components:
           $ref: '#/components/schemas/Reference'
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
+      additionalProperties: false
     OBBeneficiary5Detail:
       type: object
       properties:
@@ -4865,6 +4734,7 @@ components:
             #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount5_0'
+      additionalProperties: false
       required:
         - CreditorAccount
     OBBranchAndFinancialInstitutionIdentification5_0:
@@ -5830,12 +5700,10 @@ components:
                         - ApplicationFrequency
                         - FixedVariableInterestRateType
                         - AER
-                    additionalProperties: false
                     minItems: 1
                 required:
                   - TierBandMethod
                   - TierBand
-              additionalProperties: false
               minItems: 1
           additionalProperties: false
           required:
@@ -6136,11 +6004,9 @@ components:
                                         required:
                                           - Name
                                           - Description
-                                      additionalProperties: false
                                   required:
                                     - FeeType
                                     - MinMaxType
-                                additionalProperties: false
                               OverdraftFeeChargeDetail:
                                 description: Details about the fees/charges
                                 type: array
@@ -6529,7 +6395,6 @@ components:
                                             required:
                                               - Name
                                               - Description
-                                          additionalProperties: false
                                       additionalProperties: false
                                       required:
                                         - FeeType
@@ -6537,14 +6402,11 @@ components:
                                   required:
                                     - FeeType
                                     - ApplicationFrequency
-                                additionalProperties: false
                                 minItems: 1
                             required:
                               - OverdraftFeeChargeDetail
-                          additionalProperties: false
                       required:
                         - TierValueMin
-                    additionalProperties: false
                     minItems: 1
                   OverdraftFeesCharges:
                     description: Overdraft fees and charges details
@@ -6677,11 +6539,9 @@ components:
                                   required:
                                     - Name
                                     - Description
-                                additionalProperties: false
                             required:
                               - FeeType
                               - MinMaxType
-                          additionalProperties: false
                         OverdraftFeeChargeDetail:
                           description: Details about the fees/charges
                           type: array
@@ -7067,7 +6927,6 @@ components:
                                       required:
                                         - Name
                                         - Description
-                                    additionalProperties: false
                                 additionalProperties: false
                                 required:
                                   - FeeType
@@ -7075,15 +6934,12 @@ components:
                             required:
                               - FeeType
                               - ApplicationFrequency
-                          additionalProperties: false
                           minItems: 1
                       required:
                         - OverdraftFeeChargeDetail
-                    additionalProperties: false
                 required:
                   - TierBandMethod
                   - OverdraftTierBand
-              additionalProperties: false
               minItems: 1
           additionalProperties: false
           required:
@@ -7487,11 +7343,9 @@ components:
                             required:
                               - Name
                               - Description
-                          additionalProperties: false
                       required:
                         - FeeType
                         - MinMaxType
-                    additionalProperties: false
                   FeeApplicableRange:
                     description: Range or amounts or rates for which the fee/charge applies
                     type: object
@@ -7530,7 +7384,6 @@ components:
                   - FeeCategory
                   - FeeType
                   - ApplicationFrequency
-              additionalProperties: false
               minItems: 1
             FeeChargeCap:
               description: >-
@@ -7639,11 +7492,9 @@ components:
                       required:
                         - Name
                         - Description
-                    additionalProperties: false
                 required:
                   - FeeType
                   - MinMaxType
-              additionalProperties: false
           additionalProperties: false
           required:
             - FeeChargeDetail
@@ -7711,6 +7562,7 @@ components:
                 $ref: '#/components/schemas/CountrySubDivision'
               Country:
                 $ref: '#/components/schemas/CountryCode'
+      additionalProperties: false
     OBPartyRelationships1:
       type: object
       description: The Party's relationships with other resources.

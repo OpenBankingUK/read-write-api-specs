@@ -40,6 +40,8 @@ paths:
           $ref: '#/components/responses/405Error'
         '406':
           $ref: '#/components/responses/406Error'
+        '415':
+          $ref: '#/components/responses/415Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -77,13 +79,19 @@ components:
       in: header
       name: x-fapi-auth-date
       required: false
-      description: |-
+      description: >-
         The time when the PSU last logged in with the TPP. 
-        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
+
+        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
+        example is below: 
+
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
+        pattern: >-
+          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
+          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
+          \d{2}:\d{2}:\d{2} (GMT|UTC)$
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -130,7 +138,7 @@ components:
           schema:
             $ref: '#/components/schemas/OBEventPollingResponse1'
     200EventsRead:
-      description: Read Awaiting Events
+      description: Read awaiting events
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -255,19 +263,25 @@ components:
             - UK.OBIE.Unsupported.LocalInstrument
             - UK.OBIE.Unsupported.Scheme
         Message:
-          description: |-
-            A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'
+          description: >-
+            A description of the error that occurred. e.g., 'A mandatory field
+            isn't supplied' or 'RequestedExecutionDateTime must be in future'
+
             OBIE doesn't standardise this field
           type: string
           minLength: 1
           maxLength: 500
         Path:
-          description: 'Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency'
+          description: >-
+            Recommended but optional reference to the JSON Path of the field
+            with error, e.g., Data.Initiation.InstructedAmount.Currency
           type: string
           minLength: 1
           maxLength: 500
         Url:
-          description: 'URL to help remediate the problem, or provide more information, or to API Reference, or help etc'
+          description: >-
+            URL to help remediate the problem, or provide more information, or
+            to API Reference, or help etc
           type: string
       required:
         - ErrorCode
@@ -275,7 +289,9 @@ components:
       additionalProperties: false
       minProperties: 1
     OBErrorResponse1:
-      description: 'An array of detail error codes, and messages, and URLs to documentation to help remediation.'
+      description: >-
+        An array of detail error codes, and messages, and URLs to documentation
+        to help remediation.
       type: object
       properties:
         Code:
@@ -284,12 +300,16 @@ components:
           minLength: 1
           maxLength: 40
         Id:
-          description: 'A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.'
+          description: >-
+            A unique reference for the error instance, for audit purposes, in
+            case of unknown/unclassified errors.
           type: string
           minLength: 1
           maxLength: 40
         Message:
-          description: 'Brief Error message, e.g., ''There is something wrong with the request parameters provided'''
+          description: >-
+            Brief Error message, e.g., 'There is something wrong with the
+            request parameters provided'
           type: string
           minLength: 1
           maxLength: 500
@@ -307,10 +327,14 @@ components:
       type: object
       properties:
         maxEvents:
-          description: Maximum number of events to be returned. A value of zero indicates the ASPSP should not return events even if available
+          description: >-
+            Maximum number of events to be returned. A value of zero indicates
+            the ASPSP should not return events even if available
           type: integer
         returnImmediately:
-          description: Indicates whether an ASPSP should return a response immediately or provide a long poll
+          description: >-
+            Indicates whether an ASPSP should return a response immediately or
+            provide a long poll
           type: boolean
         ack:
           type: array
@@ -321,7 +345,9 @@ components:
             maxLength: 128
         setErrs:
           type: object
-          description: An object that encapsulates all negative acknowledgements transmitted by the TPP
+          description: >-
+            An object that encapsulates all negative acknowledgements
+            transmitted by the TPP
           properties: {}
           additionalProperties:
             type: object
@@ -330,14 +356,18 @@ components:
               - description
             properties:
               err:
-                description: |-
-                  A value from the IANA "Security Event Token Delivery Error Codes" registry that identifies the error as defined here 
+                description: >-
+                  A value from the IANA "Security Event Token Delivery Error
+                  Codes" registry that identifies the error as defined here 
+
                   https://tools.ietf.org/id/draft-ietf-secevent-http-push-03.html#error_codes
                 type: string
                 minLength: 1
                 maxLength: 40
               description:
-                description: A human-readable string that provides additional diagnostic information
+                description: >-
+                  A human-readable string that provides additional diagnostic
+                  information
                 type: string
                 minLength: 1
                 maxLength: 256
@@ -349,11 +379,16 @@ components:
         - sets
       properties:
         moreAvailable:
-          description: A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.
+          description: >-
+            A JSON boolean value that indicates if more unacknowledged event
+            notifications are available to be returned.
           type: boolean
         sets:
           type: object
-          description: 'A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.'
+          description: >-
+            A JSON object that contains zero or more nested JSON attributes. If
+            there are no outstanding event notifications to be transmitted, the
+            JSON object SHALL be empty.
           properties: {}
           additionalProperties:
             description: "An object named with the jti\_of the\_event notification to be delivered. The value is the event notification, expressed as a\_string.\nThe payload of the event should be defined in the OBEventNotification2\_format."
