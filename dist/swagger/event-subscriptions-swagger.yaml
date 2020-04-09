@@ -51,6 +51,8 @@ paths:
           $ref: '#/responses/406Error'
         '409':
           $ref: '#/responses/409Error'
+        '415':
+          $ref: '#/responses/415Error'
         '429':
           $ref: '#/responses/429Error'
         '500':
@@ -125,6 +127,8 @@ paths:
           $ref: '#/responses/405Error'
         '406':
           $ref: '#/responses/406Error'
+        '415':
+          $ref: '#/responses/415Error'
         '429':
           $ref: '#/responses/429Error'
         '500':
@@ -441,25 +445,19 @@ definitions:
           - UK.OBIE.Unsupported.LocalInstrument
           - UK.OBIE.Unsupported.Scheme
       Message:
-        description: >-
-          A description of the error that occurred. e.g., 'A mandatory field
-          isn't supplied' or 'RequestedExecutionDateTime must be in future'
-
+        description: |-
+          A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'
           OBIE doesn't standardise this field
         type: string
         minLength: 1
         maxLength: 500
       Path:
-        description: >-
-          Recommended but optional reference to the JSON Path of the field with
-          error, e.g., Data.Initiation.InstructedAmount.Currency
+        description: 'Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency'
         type: string
         minLength: 1
         maxLength: 500
       Url:
-        description: >-
-          URL to help remediate the problem, or provide more information, or to
-          API Reference, or help etc
+        description: 'URL to help remediate the problem, or provide more information, or to API Reference, or help etc'
         type: string
     required:
       - ErrorCode
@@ -467,9 +465,7 @@ definitions:
     additionalProperties: false
     minProperties: 1
   OBErrorResponse1:
-    description: >-
-      An array of detail error codes, and messages, and URLs to documentation to
-      help remediation.
+    description: 'An array of detail error codes, and messages, and URLs to documentation to help remediation.'
     type: object
     properties:
       Code:
@@ -478,16 +474,12 @@ definitions:
         minLength: 1
         maxLength: 40
       Id:
-        description: >-
-          A unique reference for the error instance, for audit purposes, in case
-          of unknown/unclassified errors.
+        description: 'A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.'
         type: string
         minLength: 1
         maxLength: 40
       Message:
-        description: >-
-          Brief Error message, e.g., 'There is something wrong with the request
-          parameters provided'
+        description: 'Brief Error message, e.g., ''There is something wrong with the request parameters provided'''
         type: string
         minLength: 1
         maxLength: 500
@@ -535,17 +527,12 @@ definitions:
           - Version
         properties:
           EventSubscriptionId:
-            description: >-
-              Unique identification as assigned by the ASPSP to uniquely
-              identify the callback URL resource.
+            description: Unique identification as assigned by the ASPSP to uniquely identify the callback URL resource.
             type: string
             minLength: 1
             maxLength: 40
           CallbackUrl:
-            description: >-
-              Callback URL for a TPP hosted service. Will be used by ASPSPs, in
-              conjunction with the resource name, to construct a URL to send
-              event notifications to.
+            description: 'Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.'
             type: string
             format: uri
           Version:
@@ -577,17 +564,12 @@ definitions:
                 - Version
               properties:
                 EventSubscriptionId:
-                  description: >-
-                    Unique identification as assigned by the ASPSP to uniquely
-                    identify the callback url resource.
+                  description: Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.
                   type: string
                   minLength: 1
                   maxLength: 40
                 CallbackUrl:
-                  description: >-
-                    Callback URL for a TPP hosted service. Will be used by
-                    ASPSPs, in conjunction with the resource name, to construct
-                    a URL to send event notifications to.
+                  description: 'Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.'
                   type: string
                   format: uri
                 Version:
