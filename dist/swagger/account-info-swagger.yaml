@@ -9,15 +9,17 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.5
+  version: v3.1.6
 basePath: /open-banking/v3.1/aisp
 schemes:
   - https
 consumes:
   - application/json; charset=utf-8
+  - application/json
   - application/jose+jwe
 produces:
   - application/json; charset=utf-8
+  - application/json
   - application/jose+jwe
 paths:
   /account-access-consents:
@@ -1164,7 +1166,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadAccount5'
+      $ref: '#/definitions/OBReadAccount6'
   200AccountsAccountIdRead:
     description: Accounts Read
     headers:
@@ -1172,7 +1174,7 @@ responses:
         type: string
         description: An RFC4122 UID used as a correlation id.
     schema:
-      $ref: '#/definitions/OBReadAccount5'
+      $ref: '#/definitions/OBReadAccount6'
   200AccountsAccountIdBalancesRead:
     description: Balances Read
     headers:
@@ -1719,7 +1721,7 @@ definitions:
       Note, the account name is not the product name or the nickname of the account.
     type: string
     minLength: 1
-    maxLength: 70
+    maxLength: 350
   Name_1:
     description: Name by which an agent is known and which is usually used to identify that agent.
     type: string
@@ -1906,6 +1908,8 @@ definitions:
         $ref: '#/definitions/OpeningDate'
       MaturityDate:
         $ref: '#/definitions/MaturityDate'
+      SwitchStatus:
+        $ref: '#/definitions/OBExternalSwitchStatusCode'
       Account:
         type: array
         items:
@@ -1955,6 +1959,8 @@ definitions:
         $ref: '#/definitions/OpeningDate'
       MaturityDate:
         $ref: '#/definitions/MaturityDate'
+      SwitchStatus:
+        $ref: '#/definitions/OBExternalSwitchStatusCode'
     additionalProperties: false
   OBAccount6Detail:
     type: object
@@ -1986,6 +1992,8 @@ definitions:
         $ref: '#/definitions/OpeningDate'
       MaturityDate:
         $ref: '#/definitions/MaturityDate'
+      SwitchStatus:
+        $ref: '#/definitions/OBExternalSwitchStatusCode'
       Account:
         type: array
         items:
@@ -4452,6 +4460,12 @@ definitions:
     type: string
     x-namespaced-enum:
       - UK.OBIE.BICFI
+  OBExternalSwitchStatusCode:
+    description: 'Specifies the switch status for the account, in a coded form.'
+    type: string
+    x-namespaced-enum:
+      - UK.CASS.NotSwitced
+      - UK.CASS.SwitchCompleted
   OBExternalLegalStructureType1Code:
     description: Legal standing of the party.
     type: string
@@ -6570,7 +6584,7 @@ definitions:
   OBRate1_1:
     description: field representing a percentage (e.g. 0.05 represents 5% and 0.9525 represents 95.25%). Note the number of decimal places may vary.
     type: number
-  OBReadAccount5:
+  OBReadAccount6:
     type: object
     required:
       - Data

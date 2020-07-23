@@ -9,7 +9,7 @@ info:
   license:
     name: open-licence
     url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.5
+  version: v3.1.6
 basePath: /open-banking/v3.1/pisp
 schemes:
   - https
@@ -2313,6 +2313,7 @@ definitions:
     maxLength: 70
   File:
     type: object
+    additionalProperties: false
     properties: {}
   ISODateTime:
     description: |-
@@ -2333,6 +2334,7 @@ definitions:
     maxLength: 35
   Links:
     type: object
+    additionalProperties: false
     description: Links relevant to the payload
     properties:
       Self:
@@ -2350,12 +2352,12 @@ definitions:
       Last:
         type: string
         format: uri
-    additionalProperties: false
     required:
       - Self
   Meta:
     title: MetaData
     type: object
+    additionalProperties: false
     description: Meta Data relevant to the payload
     properties:
       TotalPages:
@@ -2365,7 +2367,6 @@ definitions:
         $ref: '#/definitions/ISODateTime'
       LastAvailableDateTime:
         $ref: '#/definitions/ISODateTime'
-    additionalProperties: false
   Name:
     description: Name by which an agent is known and which is usually used to identify that agent.
     type: string
@@ -2377,6 +2378,7 @@ definitions:
     pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
   OBActiveOrHistoricCurrencyAndAmount:
     type: object
+    additionalProperties: false
     required:
       - Amount
       - Currency
@@ -2408,6 +2410,7 @@ definitions:
       - Shared
   OBError1:
     type: object
+    additionalProperties: false
     properties:
       ErrorCode:
         description: 'Low level textual error code, e.g., UK.OBIE.Field.Missing'
@@ -2458,11 +2461,11 @@ definitions:
     required:
       - ErrorCode
       - Message
-    additionalProperties: false
     minProperties: 1
   OBErrorResponse1:
     description: 'An array of detail error codes, and messages, and URLs to documentation to help remediation.'
     type: object
+    additionalProperties: false
     properties:
       Code:
         description: 'High level textual error code, to help categorize the errors.'
@@ -2488,7 +2491,6 @@ definitions:
       - Code
       - Message
       - Errors
-    additionalProperties: false
   OBExternalAccountIdentification4Code:
     description: 'Name of the identification scheme, in a coded form as published in an external list.'
     type: string
@@ -2528,6 +2530,7 @@ definitions:
       - UK.OBIE.CHAPSOut
   OBPostalAddress6:
     type: object
+    additionalProperties: false
     description: 'Information that locates and identifies a specific address, as defined by postal services.'
     properties:
       AddressType:
@@ -2559,15 +2562,17 @@ definitions:
         maxItems: 7
   OBDebtorIdentification1:
     type: object
+    additionalProperties: false
     description: Set of elements used to identify a person or an organisation.
     properties:
       Name:
         type: string
         description: 'The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP''s online channels. Note, the account name is not the product name or the nickname of the account.'
         minLength: 0
-        maxLength: 140
+        maxLength: 350
   OBRisk1:
     type: object
+    additionalProperties: false
     description: The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments.
     properties:
       PaymentContextCode:
@@ -2591,6 +2596,7 @@ definitions:
         maxLength: 70
       DeliveryAddress:
         type: object
+        additionalProperties: false
         required:
           - TownName
           - Country
@@ -2626,12 +2632,14 @@ definitions:
     description: Additional information that can not be captured in the structured fields and/or any other specific block.
   OBWriteDomestic2:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -2643,6 +2651,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -2669,6 +2678,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -2682,6 +2692,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -2697,11 +2708,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -2719,13 +2731,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -2746,15 +2759,16 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteDomesticConsent4:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Initiation
         properties:
@@ -2766,6 +2780,7 @@ definitions:
               - 'Yes'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -2792,6 +2807,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -2805,6 +2821,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -2820,11 +2837,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -2842,13 +2860,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -2869,6 +2888,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -2888,6 +2908,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -2918,15 +2939,16 @@ definitions:
                 maxLength: 128
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteDomesticConsentResponse5:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -2992,6 +3014,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -3006,6 +3029,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -3032,6 +3056,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -3045,6 +3070,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3060,11 +3086,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3082,13 +3109,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -3109,6 +3137,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -3128,6 +3157,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -3158,21 +3188,21 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteDomesticResponse5:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - DomesticPaymentId
           - ConsentId
@@ -3231,12 +3261,14 @@ definitions:
             format: date-time
           Refund:
             type: object
+            additionalProperties: false
             required:
               - Account
             description: Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.
             properties:
               Account:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3254,13 +3286,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
           Charges:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -3275,6 +3308,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -3301,6 +3335,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -3314,6 +3349,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3329,11 +3365,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3351,13 +3388,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -3378,6 +3416,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -3411,20 +3450,20 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteDomesticScheduled2:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -3436,6 +3475,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -3470,6 +3510,7 @@ definitions:
                 format: date-time
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -3483,6 +3524,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3498,11 +3540,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3520,13 +3563,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -3545,18 +3589,18 @@ definitions:
                     maxLength: 35
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteDomesticScheduledConsent4:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Permission
           - Initiation
@@ -3574,6 +3618,7 @@ definitions:
               - 'Yes'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -3608,6 +3653,7 @@ definitions:
                 format: date-time
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -3621,6 +3667,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3636,11 +3683,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3658,13 +3706,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -3685,6 +3734,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -3704,6 +3754,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -3732,18 +3783,18 @@ definitions:
                 type: string
                 minLength: 1
                 maxLength: 128
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteDomesticScheduledConsentResponse5:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -3815,6 +3866,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -3829,6 +3881,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -3863,6 +3916,7 @@ definitions:
                 format: date-time
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -3876,6 +3930,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3891,11 +3946,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -3913,13 +3969,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -3940,6 +3997,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -3959,6 +4017,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -3989,21 +4048,21 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteDomesticScheduledResponse5:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - DomesticScheduledPaymentId
           - ConsentId
@@ -4060,12 +4119,14 @@ definitions:
             format: date-time
           Refund:
             type: object
+            additionalProperties: false
             required:
               - Account
             description: Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.
             properties:
               Account:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4083,13 +4144,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
           Charges:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -4104,6 +4166,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -4138,6 +4201,7 @@ definitions:
                 format: date-time
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4151,6 +4215,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4166,11 +4231,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4188,13 +4254,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorPostalAddress:
                 $ref: '#/definitions/OBPostalAddress6'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -4215,6 +4282,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -4248,20 +4316,20 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteDomesticStandingOrder3:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -4273,6 +4341,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -4347,6 +4416,7 @@ definitions:
                 format: date-time
               FirstPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4358,6 +4428,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               RecurringPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4369,6 +4440,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               FinalPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4380,6 +4452,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4395,11 +4468,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4417,23 +4491,23 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteDomesticStandingOrderConsent5:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Permission
           - Initiation
@@ -4451,6 +4525,7 @@ definitions:
               - 'Yes'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -4525,6 +4600,7 @@ definitions:
                 format: date-time
               FirstPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4536,6 +4612,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               RecurringPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4547,6 +4624,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               FinalPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4558,6 +4636,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4573,11 +4652,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4595,13 +4675,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -4621,6 +4702,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -4649,18 +4731,18 @@ definitions:
                 type: string
                 minLength: 1
                 maxLength: 128
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteDomesticStandingOrderConsentResponse6:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -4718,6 +4800,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -4732,6 +4815,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -4806,6 +4890,7 @@ definitions:
                 format: date-time
               FirstPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4817,6 +4902,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               RecurringPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4828,6 +4914,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               FinalPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -4839,6 +4926,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4854,11 +4942,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -4876,13 +4965,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -4902,6 +4992,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -4932,21 +5023,21 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteDomesticStandingOrderResponse6:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - DomesticStandingOrderId
           - ConsentId
@@ -4989,12 +5080,14 @@ definitions:
             format: date-time
           Refund:
             type: object
+            additionalProperties: false
             required:
               - Account
             description: Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.
             properties:
               Account:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5012,13 +5105,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
           Charges:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -5033,6 +5127,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -5107,6 +5202,7 @@ definitions:
                 format: date-time
               FirstPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -5118,6 +5214,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               RecurringPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -5129,6 +5226,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               FinalPaymentAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -5140,6 +5238,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5155,11 +5254,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5177,13 +5277,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -5217,19 +5318,19 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteFile2:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -5241,6 +5342,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - FileType
               - FileHash
@@ -5281,6 +5383,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5296,11 +5399,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -5319,20 +5423,21 @@ definitions:
                     maxLength: 35
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
-        additionalProperties: false
-    additionalProperties: false
   OBWriteFileConsent3:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Initiation
         properties:
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - FileType
               - FileHash
@@ -5373,6 +5478,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5388,11 +5494,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -5413,6 +5520,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -5432,6 +5540,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -5460,15 +5569,15 @@ definitions:
                 type: string
                 minLength: 1
                 maxLength: 128
-        additionalProperties: false
-    additionalProperties: false
   OBWriteFileConsentResponse4:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -5515,6 +5624,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -5529,6 +5639,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - FileType
               - FileHash
@@ -5569,6 +5680,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5584,11 +5696,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -5609,6 +5722,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -5628,6 +5742,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -5658,19 +5773,19 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteFileResponse3:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - FilePaymentId
           - ConsentId
@@ -5714,6 +5829,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -5728,6 +5844,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - FileType
               - FileHash
@@ -5768,6 +5885,7 @@ definitions:
                 $ref: '#/definitions/OBExternalLocalInstrument1Code'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -5783,11 +5901,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -5808,6 +5927,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -5841,22 +5961,23 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteFundsConfirmationResponse1:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         properties:
           FundsAvailableResult:
             type: object
+            additionalProperties: false
             required:
               - FundsAvailableDateTime
               - FundsAvailable
@@ -5872,22 +5993,22 @@ definitions:
               FundsAvailable:
                 description: Flag to indicate the availability of funds given the Amount in the consent request.
                 type: boolean
-            additionalProperties: false
           SupplementaryData:
             $ref: '#/definitions/OBSupplementaryData1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteInternational3:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -5899,6 +6020,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -5955,6 +6077,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -5968,6 +6091,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -5994,6 +6118,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6009,11 +6134,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -6025,6 +6151,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -6037,6 +6164,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6054,11 +6182,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -6077,18 +6206,18 @@ definitions:
                     maxLength: 35
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteInternationalConsent5:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Initiation
         properties:
@@ -6100,6 +6229,7 @@ definitions:
               - 'Yes'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -6156,6 +6286,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -6169,6 +6300,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -6195,6 +6327,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6210,11 +6343,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -6226,6 +6360,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -6238,6 +6373,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6255,11 +6391,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -6280,6 +6417,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -6299,6 +6437,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -6327,18 +6466,18 @@ definitions:
                 type: string
                 minLength: 1
                 maxLength: 128
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteInternationalConsentResponse6:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -6404,6 +6543,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -6418,6 +6558,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           ExchangeRateInformation:
             type: object
+            additionalProperties: false
             required:
               - UnitCurrency
               - ExchangeRate
@@ -6452,6 +6593,7 @@ definitions:
                 format: date-time
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -6508,6 +6650,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -6521,6 +6664,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -6547,6 +6691,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6562,11 +6707,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -6578,6 +6724,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -6590,6 +6737,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6607,11 +6755,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -6632,6 +6781,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -6651,6 +6801,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -6681,21 +6832,21 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteInternationalResponse5:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - InternationalPaymentId
           - ConsentId
@@ -6754,11 +6905,13 @@ definitions:
             format: date-time
           Refund:
             type: object
+            additionalProperties: false
             required:
               - Account
             properties:
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Set of elements used to identify a person or an organisation.
                 properties:
                   Name:
@@ -6770,6 +6923,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               Agent:
                 type: object
+                additionalProperties: false
                 description: Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.
                 properties:
                   SchemeName:
@@ -6782,6 +6936,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               Account:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6799,13 +6954,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
           Charges:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -6820,6 +6976,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           ExchangeRateInformation:
             type: object
+            additionalProperties: false
             required:
               - UnitCurrency
               - ExchangeRate
@@ -6854,6 +7011,7 @@ definitions:
                 format: date-time
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - EndToEndIdentification
@@ -6910,6 +7068,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -6923,6 +7082,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -6949,6 +7109,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -6964,11 +7125,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -6980,6 +7142,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -6992,6 +7155,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7009,11 +7173,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -7034,6 +7199,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -7067,20 +7233,20 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteInternationalScheduled3:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -7092,6 +7258,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -7156,6 +7323,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -7169,6 +7337,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -7195,6 +7364,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7210,11 +7380,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -7226,6 +7397,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -7238,6 +7410,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7255,11 +7428,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -7278,18 +7452,18 @@ definitions:
                     maxLength: 35
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteInternationalScheduledConsent5:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Permission
           - Initiation
@@ -7307,6 +7481,7 @@ definitions:
               - 'Yes'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -7371,6 +7546,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -7384,6 +7560,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -7410,6 +7587,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7425,11 +7603,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -7441,6 +7620,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -7453,6 +7633,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7470,11 +7651,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -7495,6 +7677,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -7514,6 +7697,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -7542,18 +7726,18 @@ definitions:
                 type: string
                 minLength: 1
                 maxLength: 128
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteInternationalScheduledConsentResponse6:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -7625,6 +7809,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -7639,6 +7824,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           ExchangeRateInformation:
             type: object
+            additionalProperties: false
             required:
               - UnitCurrency
               - ExchangeRate
@@ -7673,6 +7859,7 @@ definitions:
                 format: date-time
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -7737,6 +7924,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -7750,6 +7938,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -7776,6 +7965,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7791,22 +7981,24 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
                     description: Name by which a party is known and which is usually used to identify that party.
                     type: string
                     minLength: 1
-                    maxLength: 140
+                    maxLength: 350
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -7819,6 +8011,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -7836,11 +8029,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -7861,6 +8055,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -7880,6 +8075,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -7910,21 +8106,21 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteInternationalScheduledResponse6:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - InternationalScheduledPaymentId
           - ConsentId
@@ -7981,11 +8177,13 @@ definitions:
             format: date-time
           Refund:
             type: object
+            additionalProperties: false
             required:
               - Account
             properties:
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Set of elements used to identify a person or an organisation.
                 properties:
                   Name:
@@ -7997,6 +8195,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               Agent:
                 type: object
+                additionalProperties: false
                 description: Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.
                 properties:
                   SchemeName:
@@ -8009,6 +8208,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               Account:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8026,13 +8226,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
           Charges:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -8047,6 +8248,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           ExchangeRateInformation:
             type: object
+            additionalProperties: false
             required:
               - UnitCurrency
               - ExchangeRate
@@ -8081,6 +8283,7 @@ definitions:
                 format: date-time
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - InstructionIdentification
               - RequestedExecutionDateTime
@@ -8145,6 +8348,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -8158,6 +8362,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               ExchangeRateInformation:
                 type: object
+                additionalProperties: false
                 required:
                   - UnitCurrency
                   - RateType
@@ -8184,6 +8389,7 @@ definitions:
                     maxLength: 256
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8199,11 +8405,12 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
@@ -8215,6 +8422,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: Financial institution servicing an account for the creditor.
                 properties:
                   SchemeName:
@@ -8227,6 +8435,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8244,11 +8453,12 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               RemittanceInformation:
                 type: object
+                additionalProperties: false
                 description: 'Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts'' receivable system.'
                 properties:
                   Unstructured:
@@ -8269,6 +8479,7 @@ definitions:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -8302,20 +8513,20 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteInternationalStandingOrder4:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - Initiation
@@ -8327,6 +8538,7 @@ definitions:
             maxLength: 128
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -8417,6 +8629,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -8430,6 +8643,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8445,22 +8659,24 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
                     description: Name by which a party is known and which is usually used to identify that party.
                     type: string
                     minLength: 1
-                    maxLength: 140
+                    maxLength: 350
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: |-
                   Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
                   This is the servicer of the beneficiary account.
@@ -8478,6 +8694,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8495,23 +8712,23 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteInternationalStandingOrderConsent6:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - Permission
           - Initiation
@@ -8529,6 +8746,7 @@ definitions:
               - 'Yes'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -8619,6 +8837,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -8632,6 +8851,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8647,22 +8867,24 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
                     description: Name by which a party is known and which is usually used to identify that party.
                     type: string
                     minLength: 1
-                    maxLength: 140
+                    maxLength: 350
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: |-
                   Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
                   This is the servicer of the beneficiary account.
@@ -8680,6 +8902,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8697,13 +8920,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -8723,6 +8947,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -8751,18 +8976,18 @@ definitions:
                 type: string
                 minLength: 1
                 maxLength: 128
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
-    additionalProperties: false
   OBWriteInternationalStandingOrderConsentResponse7:
     type: object
+    additionalProperties: false
     required:
       - Data
       - Risk
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - ConsentId
           - CreationDateTime
@@ -8820,6 +9045,7 @@ definitions:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -8834,6 +9060,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -8924,6 +9151,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -8937,6 +9165,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -8952,22 +9181,24 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
                     description: Name by which a party is known and which is usually used to identify that party.
                     type: string
                     minLength: 1
-                    maxLength: 140
+                    maxLength: 350
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: |-
                   Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
                   This is the servicer of the beneficiary account.
@@ -8985,6 +9216,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -9002,13 +9234,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
           Authorisation:
             type: object
+            additionalProperties: false
             required:
               - AuthorisationType
             description: The authorisation type request from the TPP.
@@ -9028,6 +9261,7 @@ definitions:
                 format: date-time
           SCASupportData:
             type: object
+            additionalProperties: false
             description: 'Supporting Data provided by TPP, when requesting SCA Exemption.'
             properties:
               RequestedSCAExemptionType:
@@ -9058,21 +9292,21 @@ definitions:
                 maxLength: 128
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Risk:
         $ref: '#/definitions/OBRisk1'
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWriteInternationalStandingOrderResponse7:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         required:
           - InternationalStandingOrderId
           - ConsentId
@@ -9115,22 +9349,25 @@ definitions:
             format: date-time
           Refund:
             type: object
+            additionalProperties: false
             required:
               - Account
             properties:
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Set of elements used to identify a person or an organisation.
                 properties:
                   Name:
                     description: Name by which a party is known and which is usually used to identify that party.
                     type: string
                     minLength: 1
-                    maxLength: 140
+                    maxLength: 350
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               Agent:
                 type: object
+                additionalProperties: false
                 description: Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.
                 properties:
                   SchemeName:
@@ -9143,6 +9380,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               Account:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -9160,13 +9398,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
           Charges:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Set of elements used to provide details of a charge for the payment initiation.
               required:
                 - ChargeBearer
@@ -9181,6 +9420,7 @@ definitions:
                   $ref: '#/definitions/OBActiveOrHistoricCurrencyAndAmount'
           Initiation:
             type: object
+            additionalProperties: false
             required:
               - Frequency
               - FirstPaymentDateTime
@@ -9271,6 +9511,7 @@ definitions:
                 pattern: '[A-Z]{2,2}'
               InstructedAmount:
                 type: object
+                additionalProperties: false
                 required:
                   - Amount
                   - Currency
@@ -9284,6 +9525,7 @@ definitions:
                     $ref: '#/definitions/ActiveOrHistoricCurrencyCode'
               DebtorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -9299,22 +9541,24 @@ definitions:
                       Note, the account name is not the product name or the nickname of the account.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               Creditor:
                 type: object
+                additionalProperties: false
                 description: Party to which an amount of money is due.
                 properties:
                   Name:
                     description: Name by which a party is known and which is usually used to identify that party.
                     type: string
                     minLength: 1
-                    maxLength: 140
+                    maxLength: 350
                   PostalAddress:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAgent:
                 type: object
+                additionalProperties: false
                 description: |-
                   Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
                   This is the servicer of the beneficiary account.
@@ -9332,6 +9576,7 @@ definitions:
                     $ref: '#/definitions/OBPostalAddress6'
               CreditorAccount:
                 type: object
+                additionalProperties: false
                 required:
                   - SchemeName
                   - Identification
@@ -9349,13 +9594,14 @@ definitions:
                       OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
                     type: string
                     minLength: 1
-                    maxLength: 70
+                    maxLength: 350
                   SecondaryIdentification:
                     $ref: '#/definitions/SecondaryIdentification'
               SupplementaryData:
                 $ref: '#/definitions/OBSupplementaryData1'
           MultiAuthorisation:
             type: object
+            additionalProperties: false
             required:
               - Status
             description: The multiple authorisation flow response from the ASPSP.
@@ -9389,24 +9635,25 @@ definitions:
                 format: date-time
           Debtor:
             $ref: '#/definitions/OBDebtorIdentification1'
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   OBWritePaymentDetailsResponse1:
     type: object
+    additionalProperties: false
     required:
       - Data
     properties:
       Data:
         type: object
+        additionalProperties: false
         properties:
           PaymentStatus:
             type: array
             items:
               type: object
+              additionalProperties: false
               description: Payment status details.
               required:
                 - PaymentTransactionId
@@ -9451,6 +9698,7 @@ definitions:
                   format: date-time
                 StatusDetail:
                   type: object
+                  additionalProperties: false
                   required:
                     - Status
                   description: Payment status details as per underlying Payment Rail.
@@ -9478,12 +9726,10 @@ definitions:
                       type: string
                       minLength: 1
                       maxLength: 256
-        additionalProperties: false
       Links:
         $ref: '#/definitions/Links'
       Meta:
         $ref: '#/definitions/Meta'
-    additionalProperties: false
   PostCode:
     description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
     type: string
