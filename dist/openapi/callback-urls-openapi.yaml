@@ -1,291 +1,401 @@
 openapi: 3.0.1
 info:
   title: Event Notification API Specification - ASPSP Endpoints
-  description: OpenAPI for Event Notification API Specification - ASPSP Endpoints
-  termsOfService: 'https://www.openbanking.org.uk/terms'
+  description: Swagger for Event Notification API Specification - ASPSP Endpoints
+  termsOfService: https://www.openbanking.org.uk/terms
   contact:
     name: Service Desk
     email: ServiceDesk@openbanking.org.uk
   license:
     name: open-licence
-    url: 'https://www.openbanking.org.uk/open-licence'
-  version: v3.1.5
+    url: https://www.openbanking.org.uk/open-licence
+  version: v3.1.6
+servers:
+- url: /open-banking/v3.1
 paths:
   /callback-urls:
-    post:
-      summary: Create a callback URL
-      tags:
-        - Callback URLs
-      parameters:
-        - $ref: '#/components/parameters/x-fapi-interaction-id-Param'
-        - $ref: '#/components/parameters/AuthorizationParam'
-        - $ref: '#/components/parameters/x-jws-signature-Param'
-      responses:
-        '201':
-          $ref: '#/components/responses/201CallbackUrlsCreated'
-        '400':
-          $ref: '#/components/responses/400ErrorResponse'
-        '401':
-          $ref: '#/components/responses/401ErrorResponse'
-        '403':
-          $ref: '#/components/responses/403ErrorResponse'
-        '405':
-          $ref: '#/components/responses/405ErrorResponse'
-        '406':
-          $ref: '#/components/responses/406ErrorResponse'
-        '415':
-          $ref: '#/components/responses/415ErrorResponse'
-        '429':
-          $ref: '#/components/responses/429ErrorResponse'
-        '500':
-          $ref: '#/components/responses/500ErrorResponse'
-      security:
-        - TPPOAuth2Security:
-            - accounts
-            - fundsconfirmations
-            - payments
-      requestBody:
-        $ref: '#/components/requestBodies/OBCallbackUrl1Param'
     get:
+      tags:
+      - Callback URLs
       summary: Read all callback URLs
-      tags:
-        - Callback URLs
       parameters:
-        - $ref: '#/components/parameters/x-fapi-interaction-id-Param'
-        - $ref: '#/components/parameters/AuthorizationParam'
+      - name: x-fapi-interaction-id
+        in: header
+        description: An RFC4122 UID used as a correlation id.
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: An Authorisation Token as per https://tools.ietf.org/html/rfc6750
+        required: true
+        schema:
+          type: string
       responses:
-        '200':
-          $ref: '#/components/responses/200CallbackUrlsRead'
-        '400':
-          $ref: '#/components/responses/400ErrorResponse'
-        '401':
-          $ref: '#/components/responses/401ErrorResponse'
-        '403':
-          $ref: '#/components/responses/403ErrorResponse'
-        '404':
-          $ref: '#/components/responses/404ErrorResponse'
-        '405':
-          $ref: '#/components/responses/405ErrorResponse'
-        '406':
-          $ref: '#/components/responses/406ErrorResponse'
-        '429':
-          $ref: '#/components/responses/429ErrorResponse'
-        '500':
-          $ref: '#/components/responses/500ErrorResponse'
+        200:
+          description: An array of callback URLs
+          headers:
+            x-jws-signature:
+              description: Header containing a detached JWS signature of the body
+                of the payload.
+              schema:
+                type: string
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBCallbackUrlsResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBCallbackUrlsResponse1'
+        400:
+          description: Bad request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not found
+          content: {}
+        405:
+          description: Method Not Allowed
+          content: {}
+        406:
+          description: Not Acceptable
+          content: {}
+        429:
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Number in seconds to wait
+              schema:
+                type: integer
+          content: {}
+        500:
+          description: Internal Server Error
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
       security:
-        - TPPOAuth2Security:
-            - accounts
-            - fundsconfirmations
-            - payments
-  '/callback-urls/{CallbackUrlId}':
-    put:
-      summary: Amend a callback URI
+      - TPPOAuth2Security:
+        - accounts
+        - fundsconfirmations
+        - payments
+    post:
       tags:
-        - Callback URLs
+      - Callback URLs
+      summary: Create a callback URL
       parameters:
-        - $ref: '#/components/parameters/CallbackUrlId'
-        - $ref: '#/components/parameters/x-fapi-interaction-id-Param'
-        - $ref: '#/components/parameters/AuthorizationParam'
-        - $ref: '#/components/parameters/x-jws-signature-Param'
-      responses:
-        '200':
-          $ref: '#/components/responses/200CallbackUrlsChanged'
-        '400':
-          $ref: '#/components/responses/400ErrorResponse'
-        '401':
-          $ref: '#/components/responses/401ErrorResponse'
-        '403':
-          $ref: '#/components/responses/403ErrorResponse'
-        '404':
-          $ref: '#/components/responses/404ErrorResponse'
-        '405':
-          $ref: '#/components/responses/405ErrorResponse'
-        '406':
-          $ref: '#/components/responses/406ErrorResponse'
-        '415':
-          $ref: '#/components/responses/415ErrorResponse'
-        '429':
-          $ref: '#/components/responses/429ErrorResponse'
-        '500':
-          $ref: '#/components/responses/500ErrorResponse'
-      security:
-        - TPPOAuth2Security:
-            - accounts
-            - fundsconfirmations
-            - payments
+      - name: x-fapi-interaction-id
+        in: header
+        description: An RFC4122 UID used as a correlation id.
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: An Authorisation Token as per https://tools.ietf.org/html/rfc6750
+        required: true
+        schema:
+          type: string
+      - name: x-jws-signature
+        in: header
+        description: Header containing a detached JWS signature of the body of the
+          payload.
+        required: true
+        schema:
+          type: string
       requestBody:
-        $ref: '#/components/requestBodies/OBCallbackUrl1Param'
-    delete:
-      summary: Delete a callback URI
-      tags:
-        - Callback URLs
-      parameters:
-        - $ref: '#/components/parameters/CallbackUrlId'
-        - $ref: '#/components/parameters/x-fapi-interaction-id-Param'
-        - $ref: '#/components/parameters/AuthorizationParam'
+        description: Create an Callback URI
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/OBCallbackUrl1'
+          application/jose+jwe:
+            schema:
+              $ref: '#/components/schemas/OBCallbackUrl1'
+        required: true
       responses:
-        '204':
-          $ref: '#/components/responses/204CallbackUrlsDeleted'
-        '400':
-          $ref: '#/components/responses/400ErrorResponse'
-        '401':
-          $ref: '#/components/responses/401ErrorResponse'
-        '403':
-          $ref: '#/components/responses/403ErrorResponse'
-        '404':
-          $ref: '#/components/responses/404ErrorResponse'
-        '405':
-          $ref: '#/components/responses/405ErrorResponse'
-        '406':
-          $ref: '#/components/responses/406ErrorResponse'
-        '429':
-          $ref: '#/components/responses/429ErrorResponse'
-        '500':
-          $ref: '#/components/responses/500ErrorResponse'
+        201:
+          description: Callback URL created
+          headers:
+            x-jws-signature:
+              description: Header containing a detached JWS signature of the body
+                of the payload.
+              schema:
+                type: string
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBCallbackUrlResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBCallbackUrlResponse1'
+        400:
+          description: Bad request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        405:
+          description: Method Not Allowed
+          content: {}
+        406:
+          description: Not Acceptable
+          content: {}
+        415:
+          description: Unsupported Media Type
+          content: {}
+        429:
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Number in seconds to wait
+              schema:
+                type: integer
+          content: {}
+        500:
+          description: Internal Server Error
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
       security:
-        - TPPOAuth2Security:
-            - accounts
-            - fundsconfirmations
-            - payments
+      - TPPOAuth2Security:
+        - accounts
+        - fundsconfirmations
+        - payments
+      x-codegen-request-body-name: OBCallbackUrl1Param
+  /callback-urls/{CallbackUrlId}:
+    put:
+      tags:
+      - Callback URLs
+      summary: Amend a callback URI
+      parameters:
+      - name: CallbackUrlId
+        in: path
+        description: CallbackUrlId
+        required: true
+        schema:
+          type: string
+      - name: x-fapi-interaction-id
+        in: header
+        description: An RFC4122 UID used as a correlation id.
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: An Authorisation Token as per https://tools.ietf.org/html/rfc6750
+        required: true
+        schema:
+          type: string
+      - name: x-jws-signature
+        in: header
+        description: Header containing a detached JWS signature of the body of the
+          payload.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Create an Callback URI
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/OBCallbackUrl1'
+          application/jose+jwe:
+            schema:
+              $ref: '#/components/schemas/OBCallbackUrl1'
+        required: true
+      responses:
+        200:
+          description: Callback URL changed
+          headers:
+            x-jws-signature:
+              description: Header containing a detached JWS signature of the body
+                of the payload.
+              schema:
+                type: string
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBCallbackUrlResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBCallbackUrlResponse1'
+        400:
+          description: Bad request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not found
+          content: {}
+        405:
+          description: Method Not Allowed
+          content: {}
+        406:
+          description: Not Acceptable
+          content: {}
+        415:
+          description: Unsupported Media Type
+          content: {}
+        429:
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Number in seconds to wait
+              schema:
+                type: integer
+          content: {}
+        500:
+          description: Internal Server Error
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+      security:
+      - TPPOAuth2Security:
+        - accounts
+        - fundsconfirmations
+        - payments
+      x-codegen-request-body-name: OBCallbackUrl1Param
+    delete:
+      tags:
+      - Callback URLs
+      summary: Delete a callback URI
+      parameters:
+      - name: CallbackUrlId
+        in: path
+        description: CallbackUrlId
+        required: true
+        schema:
+          type: string
+      - name: x-fapi-interaction-id
+        in: header
+        description: An RFC4122 UID used as a correlation id.
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: An Authorisation Token as per https://tools.ietf.org/html/rfc6750
+        required: true
+        schema:
+          type: string
+      responses:
+        204:
+          description: Callback URL changed
+          content: {}
+        400:
+          description: Bad request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not found
+          content: {}
+        405:
+          description: Method Not Allowed
+          content: {}
+        406:
+          description: Not Acceptable
+          content: {}
+        429:
+          description: Too Many Requests
+          headers:
+            Retry-After:
+              description: Number in seconds to wait
+              schema:
+                type: integer
+          content: {}
+        500:
+          description: Internal Server Error
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+            application/jose+jwe:
+              schema:
+                $ref: '#/components/schemas/OBErrorResponse1'
+      security:
+      - TPPOAuth2Security:
+        - accounts
+        - fundsconfirmations
+        - payments
 components:
-  parameters:
-    CallbackUrlId:
-      name: CallbackUrlId
-      in: path
-      description: CallbackUrlId
-      required: true
-      schema:
-        type: string
-    x-fapi-interaction-id-Param:
-      in: header
-      name: x-fapi-interaction-id
-      required: false
-      description: An RFC4122 UID used as a correlation id.
-      schema:
-        type: string
-    AuthorizationParam:
-      in: header
-      name: Authorization
-      required: true
-      description: 'An Authorisation Token as per https://tools.ietf.org/html/rfc6750'
-      schema:
-        type: string
-    x-jws-signature-Param:
-      in: header
-      name: x-jws-signature
-      required: true
-      description: Header containing a detached JWS signature of the body of the payload.
-      schema:
-        type: string
-  requestBodies:
-    OBCallbackUrl1Param:
-      description: Create an Callback URI
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBCallbackUrl1'
-      required: true
-  responses:
-    200CallbackUrlsRead:
-      description: An array of callback URLs
-      headers:
-        x-jws-signature:
-          description: >-
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBCallbackUrlsResponse1'
-    201CallbackUrlsCreated:
-      description: Callback URL created
-      headers:
-        x-jws-signature:
-          description: >-
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBCallbackUrlResponse1'
-    200CallbackUrlsChanged:
-      description: Callback URL changed
-      headers:
-        x-jws-signature:
-          description: >-
-            Header containing a detached JWS signature of the body of the
-            payload.
-          schema:
-            type: string
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBCallbackUrlResponse1'
-    204CallbackUrlsDeleted:
-      description: Callback URL changed
-    400ErrorResponse:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBErrorResponse1'
-    401ErrorResponse:
-      description: Unauthorized
-    403ErrorResponse:
-      description: Forbidden
-    404ErrorResponse:
-      description: Not found
-    405ErrorResponse:
-      description: Method Not Allowed
-    406ErrorResponse:
-      description: Not Acceptable
-    415ErrorResponse:
-      description: Unsupported Media Type
-    429ErrorResponse:
-      description: Too Many Requests
-      headers:
-        Retry-After:
-          description: Number in seconds to wait
-          schema:
-            type: integer
-    500ErrorResponse:
-      description: Internal Server Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OBErrorResponse1'
   schemas:
     OBCallbackUrl1:
+      required:
+      - Data
       type: object
       properties:
         Data:
           $ref: '#/components/schemas/OBCallbackUrlData1'
-      required:
-        - Data
-      additionalProperties: false
     OBCallbackUrlData1:
+      required:
+      - Url
+      - Version
       type: object
       properties:
         Url:
-          description: >-
-            Callback URL for a TPP hosted service. Will be used by ASPSPs, in
-            conjunction with the resource name, to construct a URL to send event
+          type: string
+          description: Callback URL for a TPP hosted service. Will be used by ASPSPs,
+            in conjunction with the resource name, to construct a URL to send event
             notifications to.
-          type: string
         Version:
-          description: Version for the event notification.
-          type: string
-          minLength: 1
           maxLength: 10
-      required:
-        - Url
-        - Version
-      additionalProperties: false
+          minLength: 1
+          type: string
+          description: Version for the event notification.
     OBCallbackUrlResponse1:
+      required:
+      - Data
+      - Links
+      - Meta
       type: object
       properties:
         Data:
@@ -294,38 +404,34 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-      required:
-        - Data
-        - Links
-        - Meta
-      additionalProperties: false
     OBCallbackUrlResponseData1:
+      required:
+      - CallbackUrlId
+      - Url
+      - Version
       type: object
       properties:
         CallbackUrlId:
-          description: >-
-            Unique identification as assigned by the ASPSP to uniquely identify
-            the callback url resource.
-          type: string
-          minLength: 1
           maxLength: 40
-        Url:
-          description: >-
-            Callback URL for a TPP hosted service. Will be used by ASPSPs, in
-            conjunction with the resource name, to construct a URL to send event
-            notifications to.
-          type: string
-        Version:
-          description: Version for the event notification.
-          type: string
           minLength: 1
+          type: string
+          description: Unique identification as assigned by the ASPSP to uniquely
+            identify the callback url resource.
+        Url:
+          type: string
+          description: Callback URL for a TPP hosted service. Will be used by ASPSPs,
+            in conjunction with the resource name, to construct a URL to send event
+            notifications to.
+        Version:
           maxLength: 10
-      required:
-        - CallbackUrlId
-        - Url
-        - Version
-      additionalProperties: false
+          minLength: 1
+          type: string
+          description: Version for the event notification.
     OBCallbackUrlsResponse1:
+      required:
+      - Data
+      - Links
+      - Meta
       type: object
       properties:
         Data:
@@ -334,102 +440,82 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-      required:
-        - Data
-        - Links
-        - Meta
-      additionalProperties: false
     OBCallbackUrlsResponseData1:
       type: object
       properties:
         CallbackUrl:
+          type: array
           items:
             $ref: '#/components/schemas/OBCallbackUrlResponseData1'
-          type: array
-      additionalProperties: false
     OBError1:
+      required:
+      - ErrorCode
+      - Message
       type: object
       properties:
         ErrorCode:
-          description: 'Low level textual error code, e.g., UK.OBIE.Field.Missing'
-          type: string
-          minLength: 1
           maxLength: 128
+          minLength: 1
+          type: string
+          description: Low level textual error code, e.g., UK.OBIE.Field.Missing
         Message:
-          description: >-
-            A description of the error that occurred. e.g., 'A mandatory field
-            isn't supplied' or 'RequestedExecutionDateTime must be in future'
-
+          maxLength: 500
+          minLength: 1
+          type: string
+          description: |-
+            A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'
             OBIE doesn't standardise this field
-          type: string
-          minLength: 1
-          maxLength: 500
         Path:
-          description: >-
-            Recommended but optional reference to the JSON Path of the field
-            with error, e.g., Data.Initiation.InstructedAmount.Currency
-          type: string
-          minLength: 1
           maxLength: 500
-        Url:
-          description: >-
-            URL to help remediate the problem, or provide more information, or
-            to API Reference, or help etc
+          minLength: 1
           type: string
-      required:
-        - ErrorCode
-        - Message
-      additionalProperties: false
-      minProperties: 1
+          description: Recommended but optional reference to the JSON Path of the
+            field with error, e.g., Data.Initiation.InstructedAmount.Currency
+        Url:
+          type: string
+          description: URL to help remediate the problem, or provide more information,
+            or to API Reference, or help etc
     OBErrorResponse1:
-      description: >-
-        An array of detail error codes, and messages, and URLs to documentation
-        to help remediation.
+      required:
+      - Code
+      - Errors
+      - Message
       type: object
       properties:
         Code:
-          description: 'High level textual error code, to help categorize the errors.'
-          type: string
-          minLength: 1
           maxLength: 40
+          minLength: 1
+          type: string
+          description: High level textual error code, to help categorize the errors.
         Id:
-          description: >-
-            A unique reference for the error instance, for audit purposes, in
-            case of unknown/unclassified errors.
-          type: string
-          minLength: 1
           maxLength: 40
-        Message:
-          description: >-
-            Brief Error message, e.g., 'There is something wrong with the
-            request parameters provided'
-          type: string
           minLength: 1
+          type: string
+          description: A unique reference for the error instance, for audit purposes,
+            in case of unknown/unclassified errors.
+        Message:
           maxLength: 500
+          minLength: 1
+          type: string
+          description: Brief Error message, e.g., 'There is something wrong with the
+            request parameters provided'
         Errors:
+          minItems: 1
+          type: array
           items:
             $ref: '#/components/schemas/OBError1'
-          type: array
-          minItems: 1
-      required:
-        - Code
-        - Message
-        - Errors
-      additionalProperties: false
+      description: An array of detail error codes, and messages, and URLs to documentation
+        to help remediation.
     ISODateTime:
-      description: >-
-        All dates in the JSON payloads are represented in ISO 8601 date-time
-        format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        2017-04-05T10:43:07+00:00
       type: string
+      description: "All dates in the JSON payloads are represented in ISO 8601 date-time\
+        \ format. \nAll date-time fields in responses must include the timezone. An\
+        \ example is below:\n2017-04-05T10:43:07+00:00"
       format: date-time
     Links:
+      required:
+      - Self
       type: object
-      description: Links relevant to the payload
       properties:
         Self:
           type: string
@@ -446,13 +532,10 @@ components:
         Last:
           type: string
           format: uri
-      additionalProperties: false
-      required:
-        - Self
+      description: Links relevant to the payload
     Meta:
       title: MetaData
       type: object
-      description: Meta Data relevant to the payload
       properties:
         TotalPages:
           type: integer
@@ -461,14 +544,146 @@ components:
           $ref: '#/components/schemas/ISODateTime'
         LastAvailableDateTime:
           $ref: '#/components/schemas/ISODateTime'
-      additionalProperties: false
+      description: Meta Data relevant to the payload
+  responses:
+    200CallbackUrlsChanged:
+      description: Callback URL changed
+      headers:
+        x-jws-signature:
+          description: Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlResponse1'
+    200CallbackUrlsRead:
+      description: An array of callback URLs
+      headers:
+        x-jws-signature:
+          description: Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlsResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlsResponse1'
+    201CallbackUrlsCreated:
+      description: Callback URL created
+      headers:
+        x-jws-signature:
+          description: Header containing a detached JWS signature of the body of the
+            payload.
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrlResponse1'
+    204CallbackUrlsDeleted:
+      description: Callback URL changed
+      content: {}
+    400ErrorResponse:
+      description: Bad request
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+    401ErrorResponse:
+      description: Unauthorized
+      content: {}
+    403ErrorResponse:
+      description: Forbidden
+      content: {}
+    404ErrorResponse:
+      description: Not found
+      content: {}
+    405ErrorResponse:
+      description: Method Not Allowed
+      content: {}
+    406ErrorResponse:
+      description: Not Acceptable
+      content: {}
+    415ErrorResponse:
+      description: Unsupported Media Type
+      content: {}
+    429ErrorResponse:
+      description: Too Many Requests
+      headers:
+        Retry-After:
+          description: Number in seconds to wait
+          schema:
+            type: integer
+      content: {}
+    500ErrorResponse:
+      description: Internal Server Error
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+  parameters:
+    CallbackUrlId:
+      name: CallbackUrlId
+      in: path
+      description: CallbackUrlId
+      required: true
+      schema:
+        type: string
+    x-fapi-interaction-id-Param:
+      name: x-fapi-interaction-id
+      in: header
+      description: An RFC4122 UID used as a correlation id.
+      schema:
+        type: string
+    AuthorizationParam:
+      name: Authorization
+      in: header
+      description: An Authorisation Token as per https://tools.ietf.org/html/rfc6750
+      required: true
+      schema:
+        type: string
+    x-jws-signature-Param:
+      name: x-jws-signature
+      in: header
+      description: Header containing a detached JWS signature of the body of the payload.
+      required: true
+      schema:
+        type: string
+  requestBodies:
+    OBCallbackUrl1Param:
+      description: Create an Callback URI
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrl1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBCallbackUrl1'
+      required: true
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2
       description: TPP client credential authorisation flow with the ASPSP
       flows:
         clientCredentials:
-          tokenUrl: 'https://authserver.example/token'
+          tokenUrl: https://authserver.example/token
           scopes:
             accounts: Ability to read Accounts information
             fundsconfirmations: Ability to confirm funds
