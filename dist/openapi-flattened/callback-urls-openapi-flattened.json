@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Event Notification API Specification - ASPSP Endpoints",
-    "description": "OpenAPI for Event Notification API Specification - ASPSP Endpoints",
+    "description": "Swagger for Event Notification API Specification - ASPSP Endpoints",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,392 +12,34 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.5"
+    "version": "v3.1.6"
   },
+  "servers": [
+    {
+      "url": "/open-banking/v3.1"
+    }
+  ],
   "paths": {
     "/callback-urls": {
-      "post": {
-        "summary": "Create a callback URL",
-        "tags": [
-          "Callback URLs"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "x-fapi-interaction-id",
-            "required": false,
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "x-jws-signature",
-            "required": true,
-            "description": "Header containing a detached JWS signature of the body of the payload.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Callback URL created",
-            "headers": {
-              "x-jws-signature": {
-                "description": "Header containing a detached JWS signature of the body of the payload.",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "Data": {
-                      "type": "object",
-                      "properties": {
-                        "CallbackUrlId": {
-                          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 40
-                        },
-                        "Url": {
-                          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-                          "type": "string"
-                        },
-                        "Version": {
-                          "description": "Version for the event notification.",
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 10
-                        }
-                      },
-                      "required": [
-                        "CallbackUrlId",
-                        "Url",
-                        "Version"
-                      ],
-                      "additionalProperties": false
-                    },
-                    "Links": {
-                      "type": "object",
-                      "description": "Links relevant to the payload",
-                      "properties": {
-                        "Self": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "First": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "Prev": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "Next": {
-                          "type": "string",
-                          "format": "uri"
-                        },
-                        "Last": {
-                          "type": "string",
-                          "format": "uri"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "Self"
-                      ]
-                    },
-                    "Meta": {
-                      "title": "MetaData",
-                      "type": "object",
-                      "description": "Meta Data relevant to the payload",
-                      "properties": {
-                        "TotalPages": {
-                          "type": "integer",
-                          "format": "int32"
-                        },
-                        "FirstAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "LastAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  },
-                  "required": [
-                    "Data",
-                    "Links",
-                    "Meta"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
-                  "type": "object",
-                  "properties": {
-                    "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 500
-                    },
-                    "Errors": {
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "ErrorCode",
-                          "Message"
-                        ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
-                    }
-                  },
-                  "required": [
-                    "Code",
-                    "Message",
-                    "Errors"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "405": {
-            "description": "Method Not Allowed"
-          },
-          "406": {
-            "description": "Not Acceptable"
-          },
-          "415": {
-            "description": "Unsupported Media Type"
-          },
-          "429": {
-            "description": "Too Many Requests",
-            "headers": {
-              "Retry-After": {
-                "description": "Number in seconds to wait",
-                "schema": {
-                  "type": "integer"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
-                  "type": "object",
-                  "properties": {
-                    "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 40
-                    },
-                    "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 500
-                    },
-                    "Errors": {
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "ErrorCode",
-                          "Message"
-                        ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
-                    }
-                  },
-                  "required": [
-                    "Code",
-                    "Message",
-                    "Errors"
-                  ],
-                  "additionalProperties": false
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "TPPOAuth2Security": [
-              "accounts",
-              "fundsconfirmations",
-              "payments"
-            ]
-          }
-        ],
-        "requestBody": {
-          "description": "Create an Callback URI",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "Data": {
-                    "type": "object",
-                    "properties": {
-                      "Url": {
-                        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-                        "type": "string"
-                      },
-                      "Version": {
-                        "description": "Version for the event notification.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 10
-                      }
-                    },
-                    "required": [
-                      "Url",
-                      "Version"
-                    ],
-                    "additionalProperties": false
-                  }
-                },
-                "required": [
-                  "Data"
-                ],
-                "additionalProperties": false
-              }
-            }
-          },
-          "required": true
-        }
-      },
       "get": {
-        "summary": "Read all callback URLs",
         "tags": [
           "Callback URLs"
         ],
+        "summary": "Read all callback URLs",
         "parameters": [
           {
-            "in": "header",
             "name": "x-fapi-interaction-id",
-            "required": false,
+            "in": "header",
             "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
             }
           },
           {
-            "in": "header",
             "name": "Authorization",
-            "required": true,
+            "in": "header",
             "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -415,49 +57,54 @@
               }
             },
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
+                  "required": [
+                    "Data",
+                    "Links",
+                    "Meta"
+                  ],
                   "type": "object",
                   "properties": {
                     "Data": {
                       "type": "object",
                       "properties": {
                         "CallbackUrl": {
+                          "type": "array",
                           "items": {
-                            "type": "object",
-                            "properties": {
-                              "CallbackUrlId": {
-                                "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
-                                "type": "string",
-                                "minLength": 1,
-                                "maxLength": 40
-                              },
-                              "Url": {
-                                "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-                                "type": "string"
-                              },
-                              "Version": {
-                                "description": "Version for the event notification.",
-                                "type": "string",
-                                "minLength": 1,
-                                "maxLength": 10
-                              }
-                            },
                             "required": [
                               "CallbackUrlId",
                               "Url",
                               "Version"
                             ],
-                            "additionalProperties": false
-                          },
-                          "type": "array"
+                            "type": "object",
+                            "properties": {
+                              "CallbackUrlId": {
+                                "maxLength": 40,
+                                "minLength": 1,
+                                "type": "string",
+                                "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource."
+                              },
+                              "Url": {
+                                "type": "string",
+                                "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                              },
+                              "Version": {
+                                "maxLength": 10,
+                                "minLength": 1,
+                                "type": "string",
+                                "description": "Version for the event notification."
+                              }
+                            }
+                          }
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "Links": {
+                      "required": [
+                        "Self"
+                      ],
                       "type": "object",
-                      "description": "Links relevant to the payload",
                       "properties": {
                         "Self": {
                           "type": "string",
@@ -480,40 +127,126 @@
                           "format": "uri"
                         }
                       },
-                      "additionalProperties": false,
-                      "required": [
-                        "Self"
-                      ]
+                      "description": "Links relevant to the payload"
                     },
                     "Meta": {
                       "title": "MetaData",
                       "type": "object",
-                      "description": "Meta Data relevant to the payload",
                       "properties": {
                         "TotalPages": {
                           "type": "integer",
                           "format": "int32"
                         },
                         "FirstAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "format": "date-time"
                         },
                         "LastAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "format": "date-time"
                         }
                       },
-                      "additionalProperties": false
+                      "description": "Meta Data relevant to the payload"
                     }
-                  },
+                  }
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Data",
                     "Links",
                     "Meta"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Data": {
+                      "type": "object",
+                      "properties": {
+                        "CallbackUrl": {
+                          "type": "array",
+                          "items": {
+                            "required": [
+                              "CallbackUrlId",
+                              "Url",
+                              "Version"
+                            ],
+                            "type": "object",
+                            "properties": {
+                              "CallbackUrlId": {
+                                "maxLength": 40,
+                                "minLength": 1,
+                                "type": "string",
+                                "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource."
+                              },
+                              "Url": {
+                                "type": "string",
+                                "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                              },
+                              "Version": {
+                                "maxLength": 10,
+                                "minLength": 1,
+                                "type": "string",
+                                "description": "Version for the event notification."
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Links": {
+                      "required": [
+                        "Self"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "description": "Links relevant to the payload"
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        }
+                      },
+                      "description": "Meta Data relevant to the payload"
+                    }
+                  }
                 }
               }
             }
@@ -521,91 +254,159 @@
           "400": {
             "description": "Bad request",
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
                   "type": "object",
                   "properties": {
                     "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
                     },
                     "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
                     },
                     "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
+                      "maxLength": 500,
                       "minLength": 1,
-                      "maxLength": 500
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
                     },
                     "Errors": {
+                      "minItems": 1,
+                      "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
                         "required": [
                           "ErrorCode",
                           "Message"
                         ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
                     }
                   },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Code",
-                    "Message",
-                    "Errors"
+                    "Errors",
+                    "Message"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {}
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "content": {}
           },
           "404": {
-            "description": "Not found"
+            "description": "Not found",
+            "content": {}
           },
           "405": {
-            "description": "Method Not Allowed"
+            "description": "Method Not Allowed",
+            "content": {}
           },
           "406": {
-            "description": "Not Acceptable"
+            "description": "Not Acceptable",
+            "content": {}
           },
           "429": {
             "description": "Too Many Requests",
@@ -616,78 +417,142 @@
                   "type": "integer"
                 }
               }
-            }
+            },
+            "content": {}
           },
           "500": {
             "description": "Internal Server Error",
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
                   "type": "object",
                   "properties": {
                     "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
                     },
                     "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
                     },
                     "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
+                      "maxLength": 500,
                       "minLength": 1,
-                      "maxLength": 500
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
                     },
                     "Errors": {
+                      "minItems": 1,
+                      "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
                         "required": [
                           "ErrorCode",
                           "Message"
                         ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
                     }
                   },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Code",
-                    "Message",
-                    "Errors"
+                    "Errors",
+                    "Message"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
                 }
               }
             }
@@ -702,55 +567,107 @@
             ]
           }
         ]
-      }
-    },
-    "/callback-urls/{CallbackUrlId}": {
-      "put": {
-        "summary": "Amend a callback URI",
+      },
+      "post": {
         "tags": [
           "Callback URLs"
         ],
+        "summary": "Create a callback URL",
         "parameters": [
           {
-            "name": "CallbackUrlId",
-            "in": "path",
-            "description": "CallbackUrlId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
             "name": "x-fapi-interaction-id",
-            "required": false,
+            "in": "header",
             "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
             }
           },
           {
-            "in": "header",
             "name": "Authorization",
-            "required": true,
+            "in": "header",
             "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "in": "header",
             "name": "x-jws-signature",
-            "required": true,
+            "in": "header",
             "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
             "schema": {
               "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "description": "Create an Callback URI",
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "required": [
+                  "Data"
+                ],
+                "type": "object",
+                "properties": {
+                  "Data": {
+                    "required": [
+                      "Url",
+                      "Version"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "Url": {
+                        "type": "string",
+                        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                      },
+                      "Version": {
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Version for the event notification."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "required": [
+                  "Data"
+                ],
+                "type": "object",
+                "properties": {
+                  "Data": {
+                    "required": [
+                      "Url",
+                      "Version"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "Url": {
+                        "type": "string",
+                        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                      },
+                      "Version": {
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Version for the event notification."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
-          "200": {
-            "description": "Callback URL changed",
+          "201": {
+            "description": "Callback URL created",
             "headers": {
               "x-jws-signature": {
                 "description": "Header containing a detached JWS signature of the body of the payload.",
@@ -760,40 +677,46 @@
               }
             },
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
+                  "required": [
+                    "Data",
+                    "Links",
+                    "Meta"
+                  ],
                   "type": "object",
                   "properties": {
                     "Data": {
-                      "type": "object",
-                      "properties": {
-                        "CallbackUrlId": {
-                          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 40
-                        },
-                        "Url": {
-                          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-                          "type": "string"
-                        },
-                        "Version": {
-                          "description": "Version for the event notification.",
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 10
-                        }
-                      },
                       "required": [
                         "CallbackUrlId",
                         "Url",
                         "Version"
                       ],
-                      "additionalProperties": false
+                      "type": "object",
+                      "properties": {
+                        "CallbackUrlId": {
+                          "maxLength": 40,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource."
+                        },
+                        "Url": {
+                          "type": "string",
+                          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                        },
+                        "Version": {
+                          "maxLength": 10,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Version for the event notification."
+                        }
+                      }
                     },
                     "Links": {
+                      "required": [
+                        "Self"
+                      ],
                       "type": "object",
-                      "description": "Links relevant to the payload",
                       "properties": {
                         "Self": {
                           "type": "string",
@@ -816,40 +739,118 @@
                           "format": "uri"
                         }
                       },
-                      "additionalProperties": false,
-                      "required": [
-                        "Self"
-                      ]
+                      "description": "Links relevant to the payload"
                     },
                     "Meta": {
                       "title": "MetaData",
                       "type": "object",
-                      "description": "Meta Data relevant to the payload",
                       "properties": {
                         "TotalPages": {
                           "type": "integer",
                           "format": "int32"
                         },
                         "FirstAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "format": "date-time"
                         },
                         "LastAvailableDateTime": {
-                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                           "format": "date-time"
                         }
                       },
-                      "additionalProperties": false
+                      "description": "Meta Data relevant to the payload"
                     }
-                  },
+                  }
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Data",
                     "Links",
                     "Meta"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Data": {
+                      "required": [
+                        "CallbackUrlId",
+                        "Url",
+                        "Version"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "CallbackUrlId": {
+                          "maxLength": 40,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource."
+                        },
+                        "Url": {
+                          "type": "string",
+                          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                        },
+                        "Version": {
+                          "maxLength": 10,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Version for the event notification."
+                        }
+                      }
+                    },
+                    "Links": {
+                      "required": [
+                        "Self"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "description": "Links relevant to the payload"
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        }
+                      },
+                      "description": "Meta Data relevant to the payload"
+                    }
+                  }
                 }
               }
             }
@@ -857,94 +858,159 @@
           "400": {
             "description": "Bad request",
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
                   "type": "object",
                   "properties": {
                     "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
                     },
                     "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
                     },
                     "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
+                      "maxLength": 500,
                       "minLength": 1,
-                      "maxLength": 500
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
                     },
                     "Errors": {
+                      "minItems": 1,
+                      "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
                         "required": [
                           "ErrorCode",
                           "Message"
                         ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
                     }
                   },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Code",
-                    "Message",
-                    "Errors"
+                    "Errors",
+                    "Message"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {}
           },
           "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not found"
+            "description": "Forbidden",
+            "content": {}
           },
           "405": {
-            "description": "Method Not Allowed"
+            "description": "Method Not Allowed",
+            "content": {}
           },
           "406": {
-            "description": "Not Acceptable"
+            "description": "Not Acceptable",
+            "content": {}
           },
           "415": {
-            "description": "Unsupported Media Type"
+            "description": "Unsupported Media Type",
+            "content": {}
           },
           "429": {
             "description": "Too Many Requests",
@@ -955,78 +1021,142 @@
                   "type": "integer"
                 }
               }
-            }
+            },
+            "content": {}
           },
           "500": {
             "description": "Internal Server Error",
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
                   "type": "object",
                   "properties": {
                     "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
                     },
                     "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
                     },
                     "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
+                      "maxLength": 500,
                       "minLength": 1,
-                      "maxLength": 500
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
                     },
                     "Errors": {
+                      "minItems": 1,
+                      "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
                         "required": [
                           "ErrorCode",
                           "Message"
                         ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
                     }
                   },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Code",
-                    "Message",
-                    "Errors"
+                    "Errors",
+                    "Message"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
                 }
               }
             }
@@ -1041,49 +1171,15 @@
             ]
           }
         ],
-        "requestBody": {
-          "description": "Create an Callback URI",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "Data": {
-                    "type": "object",
-                    "properties": {
-                      "Url": {
-                        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
-                        "type": "string"
-                      },
-                      "Version": {
-                        "description": "Version for the event notification.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 10
-                      }
-                    },
-                    "required": [
-                      "Url",
-                      "Version"
-                    ],
-                    "additionalProperties": false
-                  }
-                },
-                "required": [
-                  "Data"
-                ],
-                "additionalProperties": false
-              }
-            }
-          },
-          "required": true
-        }
-      },
-      "delete": {
-        "summary": "Delete a callback URI",
+        "x-codegen-request-body-name": "OBCallbackUrl1Param"
+      }
+    },
+    "/callback-urls/{CallbackUrlId}": {
+      "put": {
         "tags": [
           "Callback URLs"
         ],
+        "summary": "Amend a callback URI",
         "parameters": [
           {
             "name": "CallbackUrlId",
@@ -1095,116 +1191,446 @@
             }
           },
           {
-            "in": "header",
             "name": "x-fapi-interaction-id",
-            "required": false,
+            "in": "header",
             "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
             }
           },
           {
-            "in": "header",
             "name": "Authorization",
-            "required": true,
+            "in": "header",
             "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-jws-signature",
+            "in": "header",
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
             "schema": {
               "type": "string"
             }
           }
         ],
+        "requestBody": {
+          "description": "Create an Callback URI",
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "required": [
+                  "Data"
+                ],
+                "type": "object",
+                "properties": {
+                  "Data": {
+                    "required": [
+                      "Url",
+                      "Version"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "Url": {
+                        "type": "string",
+                        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                      },
+                      "Version": {
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Version for the event notification."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "required": [
+                  "Data"
+                ],
+                "type": "object",
+                "properties": {
+                  "Data": {
+                    "required": [
+                      "Url",
+                      "Version"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "Url": {
+                        "type": "string",
+                        "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                      },
+                      "Version": {
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Version for the event notification."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
-          "204": {
-            "description": "Callback URL changed"
+          "200": {
+            "description": "Callback URL changed",
+            "headers": {
+              "x-jws-signature": {
+                "description": "Header containing a detached JWS signature of the body of the payload.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "required": [
+                    "Data",
+                    "Links",
+                    "Meta"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "Data": {
+                      "required": [
+                        "CallbackUrlId",
+                        "Url",
+                        "Version"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "CallbackUrlId": {
+                          "maxLength": 40,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource."
+                        },
+                        "Url": {
+                          "type": "string",
+                          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                        },
+                        "Version": {
+                          "maxLength": 10,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Version for the event notification."
+                        }
+                      }
+                    },
+                    "Links": {
+                      "required": [
+                        "Self"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "description": "Links relevant to the payload"
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        }
+                      },
+                      "description": "Meta Data relevant to the payload"
+                    }
+                  }
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
+                  "required": [
+                    "Data",
+                    "Links",
+                    "Meta"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "Data": {
+                      "required": [
+                        "CallbackUrlId",
+                        "Url",
+                        "Version"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "CallbackUrlId": {
+                          "maxLength": 40,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource."
+                        },
+                        "Url": {
+                          "type": "string",
+                          "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to."
+                        },
+                        "Version": {
+                          "maxLength": 10,
+                          "minLength": 1,
+                          "type": "string",
+                          "description": "Version for the event notification."
+                        }
+                      }
+                    },
+                    "Links": {
+                      "required": [
+                        "Self"
+                      ],
+                      "type": "object",
+                      "properties": {
+                        "Self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "First": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "Last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "description": "Links relevant to the payload"
+                    },
+                    "Meta": {
+                      "title": "MetaData",
+                      "type": "object",
+                      "properties": {
+                        "TotalPages": {
+                          "type": "integer",
+                          "format": "int32"
+                        },
+                        "FirstAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        },
+                        "LastAvailableDateTime": {
+                          "type": "string",
+                          "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                          "format": "date-time"
+                        }
+                      },
+                      "description": "Meta Data relevant to the payload"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad request",
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
                   "type": "object",
                   "properties": {
                     "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
                     },
                     "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
                     },
                     "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
+                      "maxLength": 500,
                       "minLength": 1,
-                      "maxLength": 500
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
                     },
                     "Errors": {
+                      "minItems": 1,
+                      "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
                         "required": [
                           "ErrorCode",
                           "Message"
                         ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
                     }
                   },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Code",
-                    "Message",
-                    "Errors"
+                    "Errors",
+                    "Message"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {}
           },
           "403": {
-            "description": "Forbidden"
+            "description": "Forbidden",
+            "content": {}
           },
           "404": {
-            "description": "Not found"
+            "description": "Not found",
+            "content": {}
           },
           "405": {
-            "description": "Method Not Allowed"
+            "description": "Method Not Allowed",
+            "content": {}
           },
           "406": {
-            "description": "Not Acceptable"
+            "description": "Not Acceptable",
+            "content": {}
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {}
           },
           "429": {
             "description": "Too Many Requests",
@@ -1215,78 +1641,498 @@
                   "type": "integer"
                 }
               }
-            }
+            },
+            "content": {}
           },
           "500": {
             "description": "Internal Server Error",
             "content": {
-              "application/json": {
+              "application/json; charset=utf-8": {
                 "schema": {
-                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
                   "type": "object",
                   "properties": {
                     "Code": {
-                      "description": "High level textual error code, to help categorize the errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
                     },
                     "Id": {
-                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
-                      "type": "string",
+                      "maxLength": 40,
                       "minLength": 1,
-                      "maxLength": 40
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
                     },
                     "Message": {
-                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-                      "type": "string",
+                      "maxLength": 500,
                       "minLength": 1,
-                      "maxLength": 500
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
                     },
                     "Errors": {
+                      "minItems": 1,
+                      "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "ErrorCode": {
-                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "Message": {
-                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Path": {
-                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 500
-                          },
-                          "Url": {
-                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-                            "type": "string"
-                          }
-                        },
                         "required": [
                           "ErrorCode",
                           "Message"
                         ],
-                        "additionalProperties": false,
-                        "minProperties": 1
-                      },
-                      "type": "array",
-                      "minItems": 1
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
                     }
                   },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
                   "required": [
                     "Code",
-                    "Message",
-                    "Errors"
+                    "Errors",
+                    "Message"
                   ],
-                  "additionalProperties": false
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "fundsconfirmations",
+              "payments"
+            ]
+          }
+        ],
+        "x-codegen-request-body-name": "OBCallbackUrl1Param"
+      },
+      "delete": {
+        "tags": [
+          "Callback URLs"
+        ],
+        "summary": "Delete a callback URI",
+        "parameters": [
+          {
+            "name": "CallbackUrlId",
+            "in": "path",
+            "description": "CallbackUrlId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-fapi-interaction-id",
+            "in": "header",
+            "description": "An RFC4122 UID used as a correlation id.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Callback URL changed",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {}
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {}
+          },
+          "406": {
+            "description": "Not Acceptable",
+            "content": {}
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "Retry-After": {
+                "description": "Number in seconds to wait",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+                }
+              },
+              "application/jose+jwe": {
+                "schema": {
+                  "required": [
+                    "Code",
+                    "Errors",
+                    "Message"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "Code": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "High level textual error code, to help categorize the errors."
+                    },
+                    "Id": {
+                      "maxLength": 40,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+                    },
+                    "Message": {
+                      "maxLength": 500,
+                      "minLength": 1,
+                      "type": "string",
+                      "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+                    },
+                    "Errors": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "required": [
+                          "ErrorCode",
+                          "Message"
+                        ],
+                        "type": "object",
+                        "properties": {
+                          "ErrorCode": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+                          },
+                          "Message": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+                          },
+                          "Path": {
+                            "maxLength": 500,
+                            "minLength": 1,
+                            "type": "string",
+                            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+                          },
+                          "Url": {
+                            "type": "string",
+                            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation."
                 }
               }
             }

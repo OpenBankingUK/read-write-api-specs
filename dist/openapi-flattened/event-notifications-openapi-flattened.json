@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Event Notification API Specification - TPP Endpoints",
-    "description": "OpenAPI for Event Notification API Specification - TPP Endpoints",
+    "description": "Swagger for Event Notification API Specification - TPP Endpoints",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,45 +12,44 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "v3.1.5"
+    "version": "v3.1.6"
   },
+  "servers": [
+    {
+      "url": "/open-banking/v3.1"
+    }
+  ],
   "paths": {
     "/event-notifications": {
       "post": {
-        "summary": "Send an event notification",
-        "operationId": "CreateEventNotification",
         "tags": [
           "Event Notification"
         ],
+        "summary": "Send an event notification",
+        "operationId": "CreateEventNotification",
         "parameters": [
           {
-            "in": "header",
             "name": "x-fapi-financial-id",
-            "required": true,
+            "in": "header",
             "description": "The unique id of the ASPSP to which the request is issued. The unique id will be issued by OB.",
+            "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "in": "header",
             "name": "x-fapi-interaction-id",
-            "required": false,
+            "in": "header",
             "description": "An RFC4122 UID used as a correlation id.",
             "schema": {
               "type": "string"
             }
           }
         ],
-        "responses": {
-          "202": {
-            "description": "Accepted"
-          }
-        },
         "requestBody": {
           "description": "Create an Callback URI",
           "content": {
-            "application/json": {
+            "application/jwt": {
               "schema": {
                 "type": "string",
                 "format": "base64"
@@ -58,7 +57,14 @@
             }
           },
           "required": true
-        }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {}
+          }
+        },
+        "x-codegen-request-body-name": "OBEventNotification1Param"
       }
     }
   },
