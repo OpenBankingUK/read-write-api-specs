@@ -10,24 +10,24 @@ API specifications are tagged according to the revision they match e.g. the v3.1
 
 ```https://github.com/OpenBankingUK/open-banking-specs/releases/tag/v3.1.7```
 
-## Specifications in OpenAPI format
+## Specifications in OpenAPI formats
 
 This space contains Read/Write Data API Specifications in [OpenAPI](https://github.com/OAI/OpenAPI-Specification#the-openapi-specification) format.
 
-### OpenAPI 2.0 Formats (Swagger)
-
-- [Account Information](./dist/openapi/account-info-openapi.yaml)
-- [Payment Initiation](./dist/openapi/payment-initiation-openapi.yaml)
-- [Confirmation of Funds](./dist/openapi/confirmation-funds-openapi.yaml)
-- [Events API](./dist/openapi/events-openapi.yaml)
-- [Event Notifications API](./dist/openapi/event-notifications-openapi.yam) (TPP Endpoint sample)
-
-### OpenAPI 3.0 Formats
+- Account Information 
+    * [Swagger (Open API 2.0)](./dist/swagger/account-info-swagger.yaml) 
+    * [Open API 3.0](./dist/swagger/account-info-swagger-openapi-3.json)
+- Payment Initiation
+    - [Swagger (Open API 2.0)](./dist/swagger/payment-initiation-swagger.yaml)
+    - [Open API 3.0](./dist/swagger/payment-initiation-swagger-openapi-3.json)
+- Confirmation of Funds
+    - [Swagger (Open API 2.0)](./dist/swagger/confirmation-funds-swagger.yaml)
+    - [Open API 3.0](./dist/swagger/confirmation-funds-swagger-openapi-3.json)
+- Events API
+    - [Swagger (Open API 2.0)](./dist/swagger/events-swagger.yaml)
+    - [Open API 3.0](./dist/swagger/events-swagger-openapi-3.json)
+- Event Notifications API (TPP Endpoint sample)
+    - [Swagger (Open API 2.0)](./dist/swagger/event-notifications-swagger.yaml) 
+    - [Open API 3.0](./dist/swagger/event-notifications-swagger-openapi-3.json)
 
 The currently published OpenAPI 3.0 files are results of automatic conversions from the 2.0 formats. These conversions produce verbose output where some object references are resolved and copied to their respective endpoints. Although these files are logicaly identical to their 2.0 counterparts, they are to be replaced by sanitised versions to improve their readability.
-
-- [Account Information](./dist/openapi/account-info-openapi.yaml)
-- [Payment Initiation](./dist/openapi/payment-initiation-openapi.yaml)
-- [Confirmation of Funds](./dist/openapi/confirmation-funds-openapi.yaml)
-- [Events API](./dist/openapi/events-openapi.yaml)
-- [Event Notifications API](./dist/openapi/event-notifications-openapi.yam) (TPP Endpoint sample)
