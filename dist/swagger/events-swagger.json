@@ -1,0 +1,1029 @@
+{
+  "basePath": "/open-banking/v3.1",
+  "consumes": [
+    "application/json; charset=utf-8",
+    "application/jose+jwe"
+  ],
+  "definitions": {
+    "ISODateTime": {
+      "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+      "format": "date-time",
+      "type": "string"
+    },
+    "Links": {
+      "additionalProperties": false,
+      "description": "Links relevant to the payload",
+      "properties": {
+        "First": {
+          "format": "uri",
+          "type": "string"
+        },
+        "Last": {
+          "format": "uri",
+          "type": "string"
+        },
+        "Next": {
+          "format": "uri",
+          "type": "string"
+        },
+        "Prev": {
+          "format": "uri",
+          "type": "string"
+        },
+        "Self": {
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "Self"
+      ],
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "description": "Meta Data relevant to the payload",
+      "properties": {
+        "FirstAvailableDateTime": {
+          "$ref": "#/definitions/ISODateTime"
+        },
+        "LastAvailableDateTime": {
+          "$ref": "#/definitions/ISODateTime"
+        },
+        "TotalPages": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "title": "MetaData",
+      "type": "object"
+    },
+    "OBError1": {
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "ErrorCode": {
+          "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+          "type": "string",
+          "x-namespaced-enum": [
+            "UK.OBIE.Field.Expected",
+            "UK.OBIE.Field.Invalid",
+            "UK.OBIE.Field.InvalidDate",
+            "UK.OBIE.Field.Missing",
+            "UK.OBIE.Field.Unexpected",
+            "UK.OBIE.Header.Invalid",
+            "UK.OBIE.Header.Missing",
+            "UK.OBIE.Reauthenticate",
+            "UK.OBIE.Resource.ConsentMismatch",
+            "UK.OBIE.Resource.InvalidConsentStatus",
+            "UK.OBIE.Resource.InvalidFormat",
+            "UK.OBIE.Resource.NotFound",
+            "UK.OBIE.Rules.AfterCutOffDateTime",
+            "UK.OBIE.Rules.DuplicateReference",
+            "UK.OBIE.Signature.Invalid",
+            "UK.OBIE.Signature.InvalidClaim",
+            "UK.OBIE.Signature.Malformed",
+            "UK.OBIE.Signature.Missing",
+            "UK.OBIE.Signature.MissingClaim",
+            "UK.OBIE.Signature.Unexpected",
+            "UK.OBIE.UnexpectedError",
+            "UK.OBIE.Unsupported.AccountIdentifier",
+            "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
+            "UK.OBIE.Unsupported.Currency",
+            "UK.OBIE.Unsupported.Frequency",
+            "UK.OBIE.Unsupported.LocalInstrument",
+            "UK.OBIE.Unsupported.Scheme"
+          ]
+        },
+        "Message": {
+          "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        "Path": {
+          "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        "Url": {
+          "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ErrorCode",
+        "Message"
+      ],
+      "type": "object"
+    },
+    "OBErrorResponse1": {
+      "additionalProperties": false,
+      "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+      "properties": {
+        "Code": {
+          "description": "High level textual error code, to help categorize the errors.",
+          "maxLength": 40,
+          "minLength": 1,
+          "type": "string"
+        },
+        "Errors": {
+          "items": {
+            "$ref": "#/definitions/OBError1"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "Id": {
+          "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+          "maxLength": 40,
+          "minLength": 1,
+          "type": "string"
+        },
+        "Message": {
+          "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "Code",
+        "Message",
+        "Errors"
+      ],
+      "type": "object"
+    },
+    "OBEventPolling1": {
+      "additionalProperties": false,
+      "properties": {
+        "ack": {
+          "items": {
+            "description": "An array of jti values indicating event notifications positively acknowledged by the TPP",
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "maxEvents": {
+          "description": "Maximum number of events to be returned. A value of zero indicates the ASPSP should not return events even if available",
+          "type": "integer"
+        },
+        "returnImmediately": {
+          "description": "Indicates whether an ASPSP should return a response immediately or provide a long poll",
+          "type": "boolean"
+        },
+        "setErrs": {
+          "additionalProperties": {
+            "properties": {
+              "description": {
+                "description": "A human-readable string that provides additional diagnostic information",
+                "maxLength": 256,
+                "minLength": 1,
+                "type": "string"
+              },
+              "err": {
+                "description": "A value from the IANA \"Security Event Token Delivery Error Codes\" registry that identifies the error as defined here \nhttps://tools.ietf.org/id/draft-ietf-secevent-http-push-03.html#error_codes",
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "err",
+              "description"
+            ],
+            "type": "object"
+          },
+          "description": "An object that encapsulates all negative acknowledgements transmitted by the TPP",
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "OBEventPollingResponse1": {
+      "additionalProperties": false,
+      "properties": {
+        "moreAvailable": {
+          "description": "A JSON boolean value that indicates if more unacknowledged event notifications are available to be returned.",
+          "type": "boolean"
+        },
+        "sets": {
+          "additionalProperties": {
+            "description": "An object named with the jti of the event notification to be delivered. The value is the event notification, expressed as a string.\nThe payload of the event should be defined in the OBEventNotification2 format.",
+            "type": "string"
+          },
+          "description": "A JSON object that contains zero or more nested JSON attributes. If there are no outstanding event notifications to be transmitted, the JSON object SHALL be empty.",
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "required": [
+        "moreAvailable",
+        "sets"
+      ],
+      "type": "object"
+    },
+    "OBEventSubscription1": {
+      "additionalProperties": false,
+      "properties": {
+        "Data": {
+          "properties": {
+            "CallbackUrl": {
+              "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
+              "format": "uri",
+              "type": "string"
+            },
+            "EventTypes": {
+              "items": {
+                "description": "Array of event types the subscription applies to.",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "Version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "required": [
+            "Version"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "Data"
+      ],
+      "type": "object"
+    },
+    "OBEventSubscriptionResponse1": {
+      "additionalProperties": false,
+      "properties": {
+        "Data": {
+          "properties": {
+            "CallbackUrl": {
+              "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
+              "format": "uri",
+              "type": "string"
+            },
+            "EventSubscriptionId": {
+              "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback URL resource.",
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            "EventTypes": {
+              "items": {
+                "description": "Array of event types the subscription applies to.",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "Version": {
+              "$ref": "#/definitions/Version"
+            }
+          },
+          "required": [
+            "EventSubscriptionId",
+            "Version"
+          ],
+          "type": "object"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      },
+      "required": [
+        "Data"
+      ],
+      "type": "object"
+    },
+    "OBEventSubscriptionsResponse1": {
+      "additionalProperties": false,
+      "properties": {
+        "Data": {
+          "properties": {
+            "EventSubscription": {
+              "items": {
+                "properties": {
+                  "CallbackUrl": {
+                    "description": "Callback URL for a TPP hosted service. Will be used by ASPSPs, in conjunction with the resource name, to construct a URL to send event notifications to.",
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "EventSubscriptionId": {
+                    "description": "Unique identification as assigned by the ASPSP to uniquely identify the callback url resource.",
+                    "maxLength": 40,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "EventTypes": {
+                    "items": {
+                      "description": "Array of event types the subscription applies to.",
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "Version": {
+                    "$ref": "#/definitions/Version"
+                  }
+                },
+                "required": [
+                  "EventSubscriptionId",
+                  "Version"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "Links": {
+          "$ref": "#/definitions/Links"
+        },
+        "Meta": {
+          "$ref": "#/definitions/Meta"
+        }
+      },
+      "required": [
+        "Data"
+      ],
+      "type": "object"
+    },
+    "Version": {
+      "description": "Version for the event notification.",
+      "maxLength": 10,
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "info": {
+    "contact": {
+      "email": "ServiceDesk@openbanking.org.uk",
+      "name": "Service Desk"
+    },
+    "description": "OpenAPI for Events (Subscription \u0026 Aggregated Polling) API Specification - ASPSP Endpoints",
+    "license": {
+      "name": "open-licence",
+      "url": "https://www.openbanking.org.uk/open-licence"
+    },
+    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "title": "Events API Specification - ASPSP Endpoints",
+    "version": "3.1.7"
+  },
+  "parameters": {
+    "Authorization": {
+      "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+      "in": "header",
+      "name": "Authorization",
+      "required": true,
+      "type": "string"
+    },
+    "EventSubscriptionId": {
+      "description": "EventSubscriptionId",
+      "in": "path",
+      "name": "EventSubscriptionId",
+      "required": true,
+      "type": "string"
+    },
+    "OBEventPolling1Param": {
+      "description": "Default",
+      "in": "body",
+      "name": "OBEventPolling1Param",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/OBEventPolling1"
+      }
+    },
+    "OBEventSubscription1Param": {
+      "description": "Default",
+      "in": "body",
+      "name": "OBEventSubscription1Param",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/OBEventSubscription1"
+      }
+    },
+    "OBEventSubscriptionResponse1Param": {
+      "description": "Default",
+      "in": "body",
+      "name": "OBEventSubscriptionResponse1Param",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/OBEventSubscriptionResponse1"
+      }
+    },
+    "x-customer-user-agent": {
+      "description": "Indicates the user-agent that the PSU is using.",
+      "in": "header",
+      "name": "x-customer-user-agent",
+      "required": false,
+      "type": "string"
+    },
+    "x-fapi-auth-date": {
+      "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+      "in": "header",
+      "name": "x-fapi-auth-date",
+      "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$",
+      "required": false,
+      "type": "string"
+    },
+    "x-fapi-customer-ip-address": {
+      "description": "The PSU's IP address if the PSU is currently logged in with the TPP.",
+      "in": "header",
+      "name": "x-fapi-customer-ip-address",
+      "required": false,
+      "type": "string"
+    },
+    "x-fapi-interaction-id": {
+      "description": "An RFC4122 UID used as a correlation id.",
+      "in": "header",
+      "name": "x-fapi-interaction-id",
+      "required": false,
+      "type": "string"
+    },
+    "x-idempotency-key": {
+      "description": "Every request will be processed only once per x-idempotency-key.  The\nIdempotency Key will be valid for 24 hours.\n",
+      "in": "header",
+      "maxLength": 40,
+      "name": "x-idempotency-key",
+      "pattern": "^(?!\\s)(.*)(\\S)$",
+      "required": true,
+      "type": "string"
+    },
+    "x-jws-signature": {
+      "description": "A detached JWS signature of the body of the payload.",
+      "in": "header",
+      "name": "x-jws-signature",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "paths": {
+    "/event-subscriptions": {
+      "get": {
+        "operationId": "GetEventSubscriptions",
+        "parameters": [
+          {
+            "$ref": "#/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200EventSubscriptionsRead"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ],
+        "summary": "Get Event Subscription",
+        "tags": [
+          "Event Subscriptions"
+        ]
+      },
+      "post": {
+        "operationId": "CreateEventSubscriptions",
+        "parameters": [
+          {
+            "$ref": "#/parameters/OBEventSubscription1Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201EventSubscriptionsCreated"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ],
+        "summary": "Create Event Subscription",
+        "tags": [
+          "Event Subscriptions"
+        ]
+      }
+    },
+    "/event-subscriptions/{EventSubscriptionId}": {
+      "delete": {
+        "operationId": "DeleteEventSubscriptionsEventSubscriptionId",
+        "parameters": [
+          {
+            "$ref": "#/parameters/EventSubscriptionId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/204EventSubscriptionsEventSubscriptionIdDeleted"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ],
+        "summary": "Delete Event Subscription",
+        "tags": [
+          "Event Subscriptions"
+        ]
+      },
+      "put": {
+        "operationId": "ChangeEventSubscriptionsEventSubscriptionId",
+        "parameters": [
+          {
+            "$ref": "#/parameters/OBEventSubscriptionResponse1Param"
+          },
+          {
+            "$ref": "#/parameters/EventSubscriptionId"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200EventSubscriptionsEventSubscriptionIdChanged"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "payments",
+              "fundsconfirmations"
+            ]
+          }
+        ],
+        "summary": "Change Event Subscription",
+        "tags": [
+          "Event Subscriptions"
+        ]
+      }
+    },
+    "/events": {
+      "post": {
+        "operationId": "CreateEvents",
+        "parameters": [
+          {
+            "$ref": "#/parameters/OBEventPolling1Param"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/parameters/Authorization"
+          },
+          {
+            "$ref": "#/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200EventsRead"
+          },
+          "201": {
+            "$ref": "#/responses/201EventsCreated"
+          },
+          "400": {
+            "$ref": "#/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/responses/403Error"
+          },
+          "404": {
+            "$ref": "#/responses/404Error"
+          },
+          "405": {
+            "$ref": "#/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/responses/406Error"
+          },
+          "415": {
+            "$ref": "/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/responses/500Error"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "accounts",
+              "fundsconfirmations"
+            ]
+          }
+        ],
+        "summary": "Create Events",
+        "tags": [
+          "Events"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json; charset=utf-8",
+    "application/jose+jwe"
+  ],
+  "responses": {
+    "200EventSubscriptionsEventSubscriptionIdChanged": {
+      "description": "Event Subscription Changed",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        },
+        "x-jws-signature": {
+          "description": "Header containing a detached JWS signature of the body of the payload.\n",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventSubscriptionResponse1"
+      }
+    },
+    "200EventSubscriptionsRead": {
+      "description": "Event Subscription Read",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        },
+        "x-jws-signature": {
+          "description": "Header containing a detached JWS signature of the body of the payload.\n",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventSubscriptionsResponse1"
+      }
+    },
+    "200EventsRead": {
+      "description": "Read awaiting events",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventPollingResponse1"
+      }
+    },
+    "201EventSubscriptionsCreated": {
+      "description": "Event Subscription Created",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        },
+        "x-jws-signature": {
+          "description": "Header containing a detached JWS signature of the body of the payload.\n",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventSubscriptionResponse1"
+      }
+    },
+    "201EventsCreated": {
+      "description": "Events Created",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBEventPollingResponse1"
+      }
+    },
+    "204EventSubscriptionsEventSubscriptionIdDeleted": {
+      "description": "Event Subscription Deleted",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "400Error": {
+      "description": "Bad request",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
+    },
+    "401Error": {
+      "description": "Unauthorized",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "403Error": {
+      "description": "Forbidden",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
+    },
+    "404Error": {
+      "description": "Not found",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "405Error": {
+      "description": "Method Not Allowed",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "406Error": {
+      "description": "Not Acceptable",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "409Error": {
+      "description": "Conflict",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "415Error": {
+      "description": "Unsupported Media Type",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "429Error": {
+      "description": "Too Many Requests",
+      "headers": {
+        "Retry-After": {
+          "description": "Number in seconds to wait",
+          "type": "integer"
+        },
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      }
+    },
+    "500Error": {
+      "description": "Internal Server Error",
+      "headers": {
+        "x-fapi-interaction-id": {
+          "description": "An RFC4122 UID used as a correlation id.",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/OBErrorResponse1"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "TPPOAuth2Security": {
+      "description": "TPP client credential authorisation flow with the ASPSP",
+      "flow": "application",
+      "scopes": {
+        "accounts": "Ability to receive events associated with Accounts information",
+        "fundsconfirmations": "Ability to receive events associated with confirmation of funds",
+        "payments": "Ability to receieve events associated with payments"
+      },
+      "tokenUrl": "https://authserver.example/token",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0"
+}
