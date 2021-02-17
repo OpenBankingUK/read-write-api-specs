@@ -1,0 +1,525 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="118.8em" height="70.8em" style="background-color:white"><defs>
+	<marker id="Triangle"
+		viewBox="0 0 10 10" refX="0" refY="5" 
+		markerUnits="strokeWidth"
+		markerWidth="15" markerHeight="10"
+		orient="auto">
+		<path d="M 0 0 L 10 5 L 0 10 z" />
+	</marker>
+		
+		<marker id="Diamond"
+		viewBox="0 0 16 10" refX="0" refY="5" 
+		markerUnits="strokeWidth"
+		markerWidth="20" markerHeight="10"
+		orient="auto">
+		<path d="M 0 5 L 8 10 L 16 5 L 8 0 z" />
+	</marker>   
+</defs>
+<rect x="1em" y="1em" width="28.8em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="15.4em" y="2.3em" fill="black">
+<title></title>
+OBWriteDomesticStandingOrderConsent5
+</text>
+
+<rect x="35.8em" y="1em" width="19.200000000000003em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="45.4em" y="2.3em" fill="black">
+<title></title>
+Data
+</text>
+
+<text x="36.8em" y="4.3em" fill="darkslateblue">
+<title>Type: string
+Description: Specifies the Open Banking service request types.
+Values:
+ - Create
+</title>
+Permission [1..1]
+</text>
+
+<text x="36.8em" y="5.6em" fill="darkslateblue">
+<title>Type: string
+Description: Specifies to share the refund account details with PISP
+Values:
+ - No
+ - Yes
+</title>
+ReadRefundAccount [0..1]
+</text>
+
+<rect x="61em" y="1em" width="20em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="71em" y="2.3em" fill="black">
+<title>The authorisation type request from the TPP.</title>
+Authorisation
+</text>
+
+<text x="62em" y="4.3em" fill="darkslateblue">
+<title>Type: string
+Description: Type of authorisation flow requested.
+Values:
+ - Any
+ - Single
+</title>
+AuthorisationType [1..1]
+</text>
+
+<text x="62em" y="5.6em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+CompletionDateTime [0..1]
+</text>
+
+<rect x="61em" y="7.6em" width="24.8em" height="10.8em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="73.4em" y="8.9em" fill="black">
+<title>The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.</title>
+Initiation
+</text>
+
+<text x="62em" y="10.9em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+FinalPaymentDateTime [0..1]
+</text>
+
+<text x="62em" y="12.200000000000001em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+FirstPaymentDateTime [1..1]
+</text>
+
+<text x="62em" y="13.5em" fill="darkslateblue">
+<title>Type: string
+Description: Individual Definitions:
+EvryDay - Every day
+EvryWorkgDay - Every working day
+IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
+WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
+IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
+QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
+ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
+SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
+RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
+Individual Patterns:
+EvryDay (ScheduleCode)
+EvryWorkgDay (ScheduleCode)
+IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode &#43; IntervalInWeeks &#43; DayInWeek)
+WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode &#43; WeekInMonth &#43; DayInWeek)
+IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode &#43; IntervalInMonths &#43; DayInMonth)
+QtrDay: &#43; either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode &#43; QuarterDay
+The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
+EvryDay
+EvryWorkgDay
+IntrvlWkDay:0[1-9]:0[1-7]
+WkInMnthDay:0[1-5]:0[1-7]
+IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
+QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
+Full Regular Expression:
+^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+Pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+</title>
+Frequency [1..1]
+</text>
+
+<text x="62em" y="14.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
+</title>
+NumberOfPayments [0..1]
+</text>
+
+<text x="62em" y="16.1em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the first recurring payment for a Standing Order schedule will be made. 
+Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+RecurringPaymentDateTime [0..1]
+</text>
+
+<text x="62em" y="17.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
+Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
+If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor&#39;s reference or payment remittance identification should be quoted in the end-to-end transaction identification.
+</title>
+Reference [0..1]
+</text>
+
+<rect x="91.8em" y="7.6em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="103.8em" y="8.9em" fill="black">
+<title>Identification assigned by an institution to identify an account. This identification is known by the account owner.</title>
+CreditorAccount
+</text>
+
+<text x="92.8em" y="10.9em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+</title>
+Identification [1..1]
+</text>
+
+<text x="92.8em" y="12.200000000000001em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 350
+Description: The account name is the name or names of the account owner(s) represented at an account level.
+Note, the account name is not the product name or the nickname of the account.
+OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
+</title>
+Name [1..1]
+</text>
+
+<text x="92.8em" y="13.5em" fill="darkslateblue">
+<title>Type: string
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+</title>
+SchemeName [1..1]
+</text>
+
+<text x="92.8em" y="14.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 34
+Description: This is secondary identification of the account, as assigned by the account servicing institution. 
+This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
+</title>
+SecondaryIdentification [0..1]
+</text>
+
+<rect x="91.8em" y="16.799999999999997em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="103.8em" y="18.099999999999998em" fill="black">
+<title>Provides the details to identify the debtor account.</title>
+DebtorAccount
+</text>
+
+<text x="92.8em" y="20.099999999999998em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+</title>
+Identification [1..1]
+</text>
+
+<text x="92.8em" y="21.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 350
+Description: The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP&#39;s online channels.
+Note, the account name is not the product name or the nickname of the account.
+</title>
+Name [0..1]
+</text>
+
+<text x="92.8em" y="22.7em" fill="darkslateblue">
+<title>Type: string
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+</title>
+SchemeName [1..1]
+</text>
+
+<text x="92.8em" y="24em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 34
+Description: This is secondary identification of the account, as assigned by the account servicing institution. 
+This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
+</title>
+SecondaryIdentification [0..1]
+</text>
+
+<rect x="91.8em" y="25.999999999999996em" width="14.4em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="99em" y="27.299999999999997em" fill="black">
+<title>The amount of the final Standing Order</title>
+FinalPaymentAmount
+</text>
+
+<text x="92.8em" y="29.299999999999997em" fill="darkslateblue">
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+</title>
+Amount [1..1]
+</text>
+
+<text x="92.8em" y="30.599999999999998em" fill="darkslateblue">
+<title>Type: string
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
+</title>
+Currency [1..1]
+</text>
+
+<rect x="91.8em" y="32.599999999999994em" width="14.4em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="99em" y="33.89999999999999em" fill="black">
+<title>The amount of the first Standing Order</title>
+FirstPaymentAmount
+</text>
+
+<text x="92.8em" y="35.89999999999999em" fill="darkslateblue">
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+</title>
+Amount [1..1]
+</text>
+
+<text x="92.8em" y="37.19999999999999em" fill="darkslateblue">
+<title>Type: string
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
+</title>
+Currency [1..1]
+</text>
+
+<rect x="91.8em" y="39.199999999999996em" width="17.6em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="100.6em" y="40.49999999999999em" fill="black">
+<title>The amount of the recurring Standing Order</title>
+RecurringPaymentAmount
+</text>
+
+<text x="92.8em" y="42.49999999999999em" fill="darkslateblue">
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+</title>
+Amount [1..1]
+</text>
+
+<text x="92.8em" y="43.79999999999999em" fill="darkslateblue">
+<title>Type: string
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
+</title>
+Currency [1..1]
+</text>
+
+<rect x="91.8em" y="45.8em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="98.6em" y="47.099999999999994em" fill="black">
+<title>Additional information that can not be captured in the structured fields and/or any other specific block.</title>
+SupplementaryData
+</text>
+
+<rect x="61em" y="49.800000000000004em" width="28.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="75.4em" y="51.1em" fill="black">
+<title>Supporting Data provided by TPP, when requesting SCA Exemption.</title>
+SCASupportData
+</text>
+
+<text x="62em" y="53.1em" fill="darkslateblue">
+<title>Type: string
+MaxLength: 40
+Description: Specifies a character string with a maximum length of 40 characters.
+Usage: This field indicates whether the PSU was subject to SCA performed by the TPP
+Values:
+ - CA
+ - SCA
+</title>
+AppliedAuthenticationApproach [0..1]
+</text>
+
+<text x="62em" y="54.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 40
+Description: If the payment is recurring, then this field is populated with the transaction identifier of the previous payment occurrence so that the ASPSP can verify that the PISP, amount and the payee are the same as the previous occurrence. The value here refers to the payment id e.g. DomesticPaymentId  
+</title>
+ReferencePaymentOrderId [0..1]
+</text>
+
+<text x="62em" y="55.7em" fill="darkslateblue">
+<title>Type: string
+Description: This field allows a PISP to request specific SCA Exemption for a Payment Initiation
+Values:
+ - BillPayment
+ - ContactlessTravel
+ - EcommerceGoods
+ - EcommerceServices
+ - Kiosk
+ - Parking
+ - PartyToParty
+</title>
+RequestedSCAExemptionType [0..1]
+</text>
+
+<rect x="35.8em" y="57.7em" width="29.6em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="50.599999999999994em" y="59em" fill="black">
+<title>The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments.</title>
+Risk
+</text>
+
+<text x="36.8em" y="61em" fill="darkslateblue">
+<title>Type: string
+MinLength: 3
+MaxLength: 4
+Description: Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction.
+</title>
+MerchantCategoryCode [0..1]
+</text>
+
+<text x="36.8em" y="62.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: The unique customer identifier of the PSU with the merchant.
+</title>
+MerchantCustomerIdentification [0..1]
+</text>
+
+<text x="36.8em" y="63.6em" fill="darkslateblue">
+<title>Type: string
+Description: Specifies the payment context
+Values:
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - Other
+ - PartyToParty
+</title>
+PaymentContextCode [0..1]
+</text>
+
+<rect x="71.4em" y="57.7em" width="20em" height="12.1em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="81.4em" y="59em" fill="black">
+<title>Information that locates and identifies a specific address, as defined by postal services or in free format text.</title>
+DeliveryAddress
+</text>
+
+<text x="72.4em" y="61em" fill="darkslateblue">
+
+AddressLine [0..2]
+</text>
+
+<text x="72.4em" y="62.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
+Description: Number that identifies the position of a building on a street.
+</title>
+BuildingNumber [0..1]
+</text>
+
+<text x="72.4em" y="63.6em" fill="darkslateblue">
+<title>Type: string
+Description: Nation with its own government, occupying a particular territory.
+Pattern: ^[A-Z]{2,2}$
+</title>
+Country [1..1]
+</text>
+
+<text x="72.4em" y="64.9em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Identifies a subdivision of a country such as state, region, county.
+</title>
+CountrySubDivision [0..1]
+</text>
+
+<text x="72.4em" y="66.2em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
+Description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
+</title>
+PostCode [0..1]
+</text>
+
+<text x="72.4em" y="67.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Name of a street or thoroughfare.
+</title>
+StreetName [0..1]
+</text>
+
+<text x="72.4em" y="68.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Name of a built-up area, with defined boundaries, and a local government.
+</title>
+TownName [1..1]
+</text>
+
+<line x1="29.8em" y1="2em" x2="31.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="31.8em" y1="2em" x2="31.8em" y2="2em" stroke="black" />
+<line x1="31.8em" y1="2em" x2="35em" y2="2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="32.3em" y="1.5em">1..1</text>
+<line x1="55em" y1="2em" x2="57em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="57em" y1="2em" x2="57em" y2="2em" stroke="black" />
+<line x1="57em" y1="2em" x2="60.2em" y2="2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="57.5em" y="1.5em">0..1</text>
+<line x1="55em" y1="2em" x2="57em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="57em" y1="2em" x2="57em" y2="8.6em" stroke="black" />
+<line x1="57em" y1="8.6em" x2="60.2em" y2="8.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="57.5em" y="8.1em">1..1</text>
+<line x1="85.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="87.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" />
+<line x1="87.8em" y1="8.6em" x2="91em" y2="8.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="88.3em" y="8.1em">1..1</text>
+<line x1="85.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="87.8em" y1="8.6em" x2="87.8em" y2="17.799999999999997em" stroke="black" />
+<line x1="87.8em" y1="17.799999999999997em" x2="91em" y2="17.799999999999997em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="88.3em" y="17.299999999999997em">0..1</text>
+<line x1="85.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="87.8em" y1="8.6em" x2="87.8em" y2="26.999999999999996em" stroke="black" />
+<line x1="87.8em" y1="26.999999999999996em" x2="91em" y2="26.999999999999996em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="88.3em" y="26.499999999999996em">0..1</text>
+<line x1="85.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="87.8em" y1="8.6em" x2="87.8em" y2="33.599999999999994em" stroke="black" />
+<line x1="87.8em" y1="33.599999999999994em" x2="91em" y2="33.599999999999994em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="88.3em" y="33.099999999999994em">1..1</text>
+<line x1="85.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="87.8em" y1="8.6em" x2="87.8em" y2="40.199999999999996em" stroke="black" />
+<line x1="87.8em" y1="40.199999999999996em" x2="91em" y2="40.199999999999996em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="88.3em" y="39.699999999999996em">0..1</text>
+<line x1="85.8em" y1="8.6em" x2="87.8em" y2="8.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="87.8em" y1="8.6em" x2="87.8em" y2="46.8em" stroke="black" />
+<line x1="87.8em" y1="46.8em" x2="91em" y2="46.8em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="88.3em" y="46.3em">0..1</text>
+<line x1="55em" y1="2em" x2="57em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="57em" y1="2em" x2="57em" y2="50.800000000000004em" stroke="black" />
+<line x1="57em" y1="50.800000000000004em" x2="60.2em" y2="50.800000000000004em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="57.5em" y="50.300000000000004em">0..1</text>
+<line x1="29.8em" y1="2em" x2="31.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="31.8em" y1="2em" x2="31.8em" y2="58.7em" stroke="black" />
+<line x1="31.8em" y1="58.7em" x2="35em" y2="58.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="32.3em" y="58.2em">1..1</text>
+<line x1="65.4em" y1="58.7em" x2="67.4em" y2="58.7em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="67.4em" y1="58.7em" x2="67.4em" y2="58.7em" stroke="black" />
+<line x1="67.4em" y1="58.7em" x2="70.60000000000001em" y2="58.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="67.9em" y="58.2em">0..1</text></svg>

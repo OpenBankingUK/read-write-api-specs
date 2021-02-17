@@ -6,28 +6,48 @@ This is the Open Banking API specifications repository.
 
 ## Releases
 
-API specifications will be tagged according to the revision they match e.g. the first version will be `v3.0-RC3`. This tag will form a Release. To retrieve the files for a given release be sure to use the appropriate URL, e.g.:
+API specifications are tagged according to the revision they match e.g. the v3.1.7 revision be tagged as `v3.1.7`. This tag will form a Release. To retrieve the files for a given release be sure to use the appropriate URL, e.g.:
 
-```https://github.com/OpenBankingUK/open-banking-specs/releases/tag/v3.0-RC3```
+```https://github.com/OpenBankingUK/open-banking-specs/releases/tag/v3.1.7```
 
-## APIs
+## Specifications in OpenAPI formats
 
-There are two ways to access this collection API Specifications.
+This space contains Read/Write Data API Specifications in [OpenAPI](https://github.com/OAI/OpenAPI-Specification#the-openapi-specification) format.
 
-The files for each specification, are grouped into format specific folders, that means as a consumer, if you are always interested in consuming OpenApi format only, then you can find all specifications in one directory `dist/openapi` and ignore orthers, similarly `dist/swagger` etc.
+### Account Information 
 
-Alternatively following table provides another view, which lists OBIE R/W functional API resources, and the corrresponding files in different formats.
+- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/account-info-swagger.yaml) 
+- [Swagger (OpenAPI 2.0) - JSON](./dist/swagger/account-info-swagger.json)
+- [OpenAPI 3.0 - YAML](./dist/openapi/account-info-openapi.yaml) 
+- [OpenAPI 3.0 - JSON](./dist/openapi/account-info-openapi.json)
 
-|API|Formats|
-|---|---|
-|Account Information|- [Open API - Flattened JSON](../read-write-api-specs/dist/openapi-flattened/account-info-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/account-info-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/account-info-openapi.yaml)<BR/>- [Swagger - Flattened JSON](dist/swagger-flattened/account-info-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/account-info-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/account-info-swagger.yaml)|
-|Payment Initiation|- [Open API - Flattened JSON](./dist/openapi-flattened/payment-initiation-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/payment-initiation-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/payment-initiation-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/payment-initiation-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/payment-initiation-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/payment-initiation-swagger.yaml)|
-|Confirmation of Funds|- [Open API - Flattened JSON](./dist/openapi-flattened/confirmation-funds-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/confirmation-funds-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/confirmation-funds-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/confirmation-funds-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/confirmation-funds-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/confirmation-funds-swagger.yaml)|
-|Events API (Combines Events Subscriptions and Polling)|- [Open API - Flattened JSON](./dist/openapi-flattened/events-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/events-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/events-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/events-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/events-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/events-swagger.yaml)|
-|`Event Subscription`* (use **events** instead)|- [Open API - Flattened JSON](./dist/openapi-flattened/event-subscriptions-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/event-subscriptions-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/event-subscriptions-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/event-subscriptions-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/event-subscriptions-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/event-subscriptions-swagger.yaml)|
-|`Aggregated Polling`* (use **events** instead)|- [Open API - Flattened JSON](./dist/openapi-flattened/aggregated-polling-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/aggregated-polling-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/aggregated-polling-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/aggregated-polling-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/aggregated-polling-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/aggregated-polling-swagger.yaml)|
-|`Callback-urls`* (use **events** instead)|- [Open API - Flattened JSON](./dist/openapi-flattened/callback-urls-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/callback-urls-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/callback-urls-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/callback-urls-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/callback-urls-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/callback-urls-swagger.yaml)|
-|Event Notifications API (TPP Endpoint sample)|- [Open API - Flattened JSON](./dist/openapi-flattened/event-notifications-openapi-flattened.json)<BR/>- [Open API - JSON](./dist/openapi/event-notifications-openapi.json)<BR/>- [Open API - YAML](./dist/openapi/event-notifications-openapi.yaml)<BR/>- [Swagger - Flattened JSON](./dist/swagger-flattened/event-notifications-swagger-flattened.json)<BR/>- [Swagger - JSON](./dist/swagger/event-notifications-swagger.json)<BR/>- [Swagger - YAML](./dist/swagger/event-notifications-swagger.yaml)|
+### Payment Initiation
 
-`*` represents deprecated resources - maintained only for the backward compatibility reasons. Shall be dropped in the next minor/major version update.
+- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/confirmation-funds-swagger.yaml) 
+- [Swagger (OpenAPI 2.0) - JSON](./dist/swagger/payment-initiation-swagger.json)
+- [OpenAPI 3.0 - YAML](./dist/openapi/payment-initiation-openapi.yaml) 
+- [OpenAPI 3.0 - JSON](./dist/openapi/payment-initiation-openapi.json)
 
+### Confirmation of Funds
+
+- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/confirmation-funds-swagger.yaml) 
+- [Swagger (OpenAPI 2.0) - JSON](./dist/swagger/confirmation-funds-swagger.json)
+- [OpenAPI 3.0 - YAML](./dist/openapi/confirmation-funds-openapi.yaml) 
+- [OpenAPI 3.0 - JSON](./dist/openapi/confirmation-funds-openapi.json)
+
+### Events API
+
+- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/events-swagger.yaml) 
+- [Swagger (OpenAPI 2.0) - JSON](./dist/swagger/events-swagger.json)
+- [OpenAPI 3.0 - YAML](./dist/openapi/events-openapi.yaml) 
+- [OpenAPI 3.0 - JSON](./dist/openapi/events-openapi.json)
+
+
+### Event Notifications API (TPP Endpoint sample)
+
+- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/event-notifications-swagger.yaml) 
+- [Swagger (OpenAPI 2.0) - JSON](./dist/swagger/event-notifications-swagger.json)
+- [OpenAPI 3.0 - YAML](./dist/openapi/event-notifications-openapi.yaml) 
+- [OpenAPI 3.0 - JSON](./dist/openapi/event-notifications-openapi.json)
+
+The currently published OpenAPI 3.0 files are results of automatic conversions from the 2.0 formats. These conversions produce verbose output where some object references are resolved and copied to their respective endpoints. Although these files are logicaly identical to their 2.0 counterparts, they are to be replaced by sanitised versions to improve their readability.
