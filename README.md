@@ -23,7 +23,7 @@ This space contains Read/Write Data API Specifications in [OpenAPI](https://gith
 
 ### Payment Initiation
 
-- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/confirmation-funds-swagger.yaml) 
+- [Swagger (OpenAPI 2.0) - YAML](./dist/swagger/payment-initiation-swagger.yaml) 
 - [Swagger (OpenAPI 2.0) - JSON](./dist/swagger/payment-initiation-swagger.json)
 - [OpenAPI 3.0 - YAML](./dist/openapi/payment-initiation-openapi.yaml) 
 - [OpenAPI 3.0 - JSON](./dist/openapi/payment-initiation-openapi.json)
