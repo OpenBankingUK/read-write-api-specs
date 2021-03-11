@@ -1,0 +1,321 @@
+openapi: 3.0.1
+info:
+  title: ${api_name}
+  version: 0.0.1
+  description: ${api_description}
+tags:
+  - name: More Information
+    externalDocs:
+      description: see
+      url: https://www.openbanking.org.uk/
+x-amazon-apigateway-request-validators:
+  basic:
+    validateRequestBody: true
+    validateRequestParameters: true
+x-amazon-apigateway-request-validator: basic
+x-amazon-apigateway-gateway-responses:
+  BAD_REQUEST_BODY:
+    responseTemplates:
+      application/json: "{\"message\": \"$$context.error.validationErrorString\"}"
+
+paths:
+  /report/{organizationId}/overall-performance/{period}:
+    post:
+      tags:
+        - Overall Performance
+      summary: Send data report
+      description: Data for report `Overall Performance`
+      parameters:
+        - in: path
+          name: organizationId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: period
+          schema:
+            type: string
+            enum:
+              - hourly
+          required: true
+      operationId: overallPerformance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverallPerformance'
+        required: true
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${api_gateway_entrypoint_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        timeoutInMillis: ${lambda_integration_timeout}
+        type: "aws_proxy"
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: {"message": "Missing required request parameters [organizationId, period]"}
+        500:
+          description: Internal Server Error
+  /report/{organizationId}/performance-and-availability/{period}:
+    post:
+      tags:
+        - Performance and Availability
+      summary: Send data report
+      description: Data for report `Performance and Availability`
+      parameters:
+        - in: path
+          name: organizationId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: period
+          schema:
+            type: string
+            enum:
+              - hourly
+          required: true
+      operationId: postPerformanceAndAvailability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PerformanceAndAvailability'
+        required: true
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${api_gateway_entrypoint_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        timeoutInMillis: ${lambda_integration_timeout}
+        type: "aws_proxy"
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: {"message": "Missing required request parameters [organizationId, period]"}
+        500:
+          description: Internal Server Error
+      x-codegen-request-body-name: PerformanceAndAvailability
+
+components:
+  schemas:
+    PerformanceAndAvailability:
+      type: array
+      items:
+        title: PerformanceAndAvailability
+        type: object
+        properties:
+          reportDate:
+            pattern: ^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
+            type: string
+            format: date
+            example: '2017-07-21'
+          reportTime:
+            pattern: ^[(]\d\d[.]\d\d [-] \d\d[.]\d\d[)]$
+            enum: [(00.00 - 01.00), (01.00 - 02.00), (02.00 - 03.00), (03.00 - 04.00), (04.00 - 05.00), (05.00 - 06.00), (06.00 - 07.00), (07.00 -08.00), (08.00 - 09.00), (09.00 - 10.00), (10.00 - 11.00), (11.00 -12.00), (12.00 - 13.00), (13.00 - 14.00), (14.00 - 15.00), (15.00 -16.00), (16.00 - 17.00), (17.00 - 18.00), (18.00 - 19.00), (19.00 -20.00), (20.00 - 21.00), (21.00 - 22.00), (22.00 - 23.00), (23.00 -00.00)]
+            type: string
+            example: '(00.00 - 01.00)'
+          aspspBrandIds:
+            type: array
+            items:
+              type: object
+              properties:
+                aspspBrandId:
+                  type: integer
+                  minimum: 1
+                  maximum: 9999
+                  example: 1
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      endPoint:
+                        type: integer
+                        minimum: 1
+                        maximum: 9999
+                        example: 1
+                      totalTtlbResponseTime:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      totalTtfbResponseTime:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      totalResponsePayloadSize:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      successfulApiCalls:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      failedApiCallsBusinessReasons:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      failedApiCallsTechnicalReasons:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      downtime:
+                        pattern: ^([0-6][0-9]|60|all)$
+                        type: string
+                        example: '1'
+                      version:
+                        pattern: ^[v]\d*.\d*$
+                        type: string
+                        example: 'v3.0'
+                    required:
+                      - endPoint
+                      - totalTtlbResponseTime
+                      - totalTtfbResponseTime
+                      - totalResponsePayloadSize
+                      - successfulApiCalls
+                      - failedApiCallsBusinessReasons
+                      - failedApiCallsTechnicalReasons
+                      - downtime
+                      - version
+              required:
+                - aspspBrandId
+        required:
+          - reportDate
+          - reportTime
+    OverallPerformance:
+      type: array
+      items:
+        title: OverallPerformance
+        type: object
+        properties:
+          reportDate:
+            type: string
+            pattern: ^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$
+            format: date
+            example: '2017-07-21'
+          reportTime:
+            type: string
+            enum: [(00.00 - 01.00), (01.00 - 02.00), (02.00 - 03.00), (03.00 - 04.00), (04.00 - 05.00), (05.00 - 06.00), (06.00 - 07.00), (07.00 -08.00), (08.00 - 09.00), (09.00 - 10.00), (10.00 - 11.00), (11.00 -12.00), (12.00 - 13.00), (13.00 - 14.00), (14.00 - 15.00), (15.00 -16.00), (16.00 - 17.00), (17.00 - 18.00), (18.00 - 19.00), (19.00 -20.00), (20.00 - 21.00), (21.00 - 22.00), (22.00 - 23.00), (23.00 -00.00)]
+            maxLength: 40
+            example: '(00.00 - 01.00)'
+          aspspBrandIds:
+            type: array
+            items:
+              type: object
+              properties:
+                tppBrandId:
+                  type: integer
+                  minimum: 1
+                  maximum: 9999
+                  example: 1
+                tspBrandName:
+                  type: string
+                  maxLength: 40
+                  example: '1'
+                aspspBrandId:
+                  type: integer
+                  minimum: 1
+                  maximum: 9999
+                  example: 1
+                data:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      retailBusinessPsu:
+                        type: string
+                        enum: [Retail, Business]
+                        maxLength: 40
+                        example: 'Retail'
+                      endpointId:
+                        minimum: 1
+                        maximum: 9999
+                        type: integer
+                        example: 1
+                      totalNumberOfApiCalls:
+                        type: integer
+                        minimum: 1
+                        example: 1
+                      successfulApiCalls:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      failedApiCallsBusinessReasons:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      failedApiCallsTechnicalReasons:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      apiCallsGeneratingRejectionStatus:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      totalTtlbResponseTime:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      totalTtfbResponseTime:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      totalResponsePayloadSize:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      minimumTtlbApiResponseTime:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      maximumTtlbApiResponseTime:
+                        type: integer
+                        minimum: 0
+                        example: 0
+                      perceivedApiUnavailability:
+                        type: string
+                        pattern: ^[0-6][0-9]:[0-9][0-9]$
+                        example: '00:00'
+                      freeFormatText:
+                        type: string
+                        maxLength: 40
+                      version:
+                        pattern: ^[v]\d*.\d*$
+                        type: string
+                        example: 'v3.0'
+                      cefOutcomeArea:
+                        type: string
+                        enum: [Improved_financial_decision_making, Increased_access_to_advice_and_guidance, Better_borrowing, Increased_saving_and_investing, Expanded_payments_choice, Increased_switching]
+                        maxLength: 40
+                        example: 'Improved_financial_decision_making'
+                    required:
+                      - retailBusinessPsu
+                      - endpointId
+                      - totalNumberOfApiCalls
+                      - successfulApiCalls
+                      - failedApiCallsBusinessReasons
+                      - failedApiCallsTechnicalReasons
+                      - apiCallsGeneratingRejectionStatus
+                      - totalTtlbResponseTime
+                      - totalTtfbResponseTime
+                      - totalResponsePayloadSize
+                      - minimumTtlbApiResponseTime
+                      - maximumTtlbApiResponseTime
+                      - perceivedApiUnavailability
+                      - freeFormatText
+                      - version
+              required:
+                - tppBrandId
+                - tspBrandName
+                - aspspBrandId
+        required:
+          - reportDate
+          - reportTime
