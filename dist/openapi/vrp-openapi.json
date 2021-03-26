@@ -1,0 +1,1100 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "OBIE VRP Profile",
+    "description": "VRP OpenAPI Specification",
+    "version": "3.1.8"
+  },
+  "tags": [
+    {
+      "name": "variable-recurring-payments"
+    }
+  ],
+  "paths": {
+    "/domestic-vrp-consents": {
+      "post": {
+        "tags": [
+          "variable-recurring-payments"
+        ],
+        "summary": "create a domestic vrp",
+        "description": "create a domestic vrp",
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBDomesticVRPConsentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/domestic-vrp-consents/:consentId": {
+      "get": {
+        "tags": [
+          "variable-recurring-payments"
+        ],
+        "summary": "create a domestic vrp",
+        "description": "create a domestic vrp",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBDomesticVRPConsentResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "variable-recurring-payments"
+        ],
+        "summary": "create a domestic vrp",
+        "description": "create a domestic vrp",
+        "responses": {
+          "204": {
+            "description": "all good"
+          }
+        }
+      }
+    },
+    "/domestic-vrp-consents/:consentId/funds-confirmation": {
+      "post": {
+        "tags": [
+          "variable-recurring-payments"
+        ],
+        "summary": "create a domestic vrp",
+        "description": "create a domestic vrp",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/OBVRPFundsConfirmationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OBDomesticVRPConsentResponse": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk",
+          "Links",
+          "Meta"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "CreationDateTime",
+              "Status",
+              "StatusUpdateDateTime",
+              "ControlParameters",
+              "Initiation",
+              "DebtorAccount"
+            ],
+            "properties": {
+              "ReadRefundAccount": {
+                "type": "string",
+                "enum": [
+                  "Yes",
+                  "No"
+                ],
+                "description": "Indicates whether information about RefundAccount should be included in the payment response.\n"
+              },
+              "ConsentId": {
+                "type": "string",
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the consent resource.      | Max128Text\n"
+              },
+              "CreationDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource was created.|ISODateTime\n"
+              },
+              "Status": {
+                "type": "string",
+                "description": "Specifies the status of resource in code form.  |Authorised AwaitingAuthorisation Rejected Revoked Expired\n"
+              },
+              "StatusUpdateDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource status was updated.  | ISODateTime  \n"
+              },
+              "ControlParameters": {
+                "$ref": "#/components/schemas/OBDomesticVRPControlParameters"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              },
+              "DebtorAccount": {
+                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBDomesticVRPConsentRequest": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ControlParameters",
+              "Initiation"
+            ],
+            "properties": {
+              "ReadRefundAccount": {
+                "type": "string",
+                "enum": [
+                  "Yes",
+                  "No"
+                ],
+                "description": "Indicates whether information about RefundAccount should be included in the payment response.\n"
+              },
+              "ControlParameters": {
+                "$ref": "#/components/schemas/OBDomesticVRPControlParameters"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          }
+        }
+      },
+      "OBDomesticVRPControlParameters": {
+        "type": "object",
+        "required": [
+          "VRPType"
+        ],
+        "properties": {
+          "ValidFromDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "^ Start date time for which the consent remains valid. | ISODateTime"
+          },
+          "ValidToDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "^ End date time for which the consent remains valid. | ISODateTime"
+          },
+          "MaximumIndividualAmount": {
+            "type": "object",
+            "required": [
+              "Amount",
+              "Currency"
+            ],
+            "properties": {
+              "Amount": {
+                "type": "string",
+                "description": "^ A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217."
+              },
+              "Currency": {
+                "type": "string",
+                "description": "^ A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".   | ActiveOrHistoricCurrencyCode"
+              }
+            }
+          },
+          "PeriodicLimits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "PeriodType",
+                "PeriodAlignment",
+                "Amount",
+                "Currency"
+              ],
+              "properties": {
+                "PeriodType": {
+                  "type": "string",
+                  "enum": [
+                    "Day",
+                    "Week",
+                    "Fortnight",
+                    "Month",
+                    "Half-year",
+                    "Year"
+                  ],
+                  "description": "^ Period type for this period limit"
+                },
+                "PeriodAlignment": {
+                  "type": "string",
+                  "enum": [
+                    "Consent",
+                    "Calendar"
+                  ],
+                  "description": "^ Specifies whether the period starts on the date of consent creation or lines up with a calendar"
+                },
+                "Amount": {
+                  "type": "string",
+                  "description": "^ A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217."
+                },
+                "Currency": {
+                  "type": "string",
+                  "description": "^ A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".   | ActiveOrHistoricCurrencyCode"
+                }
+              }
+            }
+          },
+          "VRPType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "^ The types of payments that can be made under this VRP consent. This can be used to indicate whether this include sweeping payment or other ecommerce payments.  | OBVRPConsentType - Namespaced Enumeration"
+          },
+          "PSUAuthenticationMethods": {
+            "type": "array",
+            "minItems": 1,
+            "description": "^ Indicates that the PSU authentication methods supported.  | OBVRPAuthenticationMethods - Namespaced Enumeration",
+            "items": {
+              "type": "string"
+            }
+          },
+          "SupplementaryData": {
+            "type": "object",
+            "description": "^ Additional information that can not be captured in the structured fields and/or any other specific block"
+          }
+        }
+      },
+      "OBDomesticVRPInitiation": {
+        "type": "object",
+        "properties": {
+          "DebtorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountCreditor3"
+          },
+          "RemittanceInformation": {
+            "type": "object",
+            "description": "^ Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+            "properties": {
+              "Unstructured": {
+                "type": "string",
+                "maxLength": 140,
+                "description": "^ Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form."
+              },
+              "Reference": {
+                "type": "string",
+                "maxLength": 35,
+                "description": "^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification."
+              }
+            }
+          }
+        }
+      },
+      "OBCashAccountDebtorWithName": {
+        "type": "object",
+        "required": [
+          "SchemeName",
+          "Identification",
+          "Name"
+        ],
+        "description": "^ Only incuded in the response if `Data. ReadRefundAccount` is set to `Yes` in the consent.",
+        "properties": {
+          "SchemeName": {
+            "type": "string",
+            "description": "^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBExternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "description": "^ Identification assigned by an institution to identify an account. This identification is known by the account owner. | Max256Text"
+          },
+          "Name": {
+            "type": "string",
+            "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
+          },
+          "SecondaryIdentification": {
+            "type": "string",
+            "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text"
+          }
+        }
+      },
+      "OBCashAccountCreditor3": {
+        "type": "object",
+        "required": [
+          "SchemeName",
+          "Identification",
+          "Name"
+        ],
+        "properties": {
+          "SchemeName": {
+            "type": "string",
+            "description": "^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBExternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "description": "^ Identification assigned by an institution to identify an account. This identification is known by the account owner. | Max256Text"
+          },
+          "Name": {
+            "type": "string",
+            "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
+          },
+          "SecondaryIdentification": {
+            "type": "string",
+            "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text"
+          }
+        }
+      },
+      "OBBranchAndFinancialInstitutionIdentification6": {
+        "type": "object",
+        "properties": {
+          "SchemeName": {
+            "type": "string",
+            "description": "^ 0..1) | `SchemeName` |Name of the identification scheme, in a coded form as published in an external list. |OBExternalFinancialInstitutionIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "description": "^ 0..1) | `Identification` |Unique and unambiguous identification of a financial institution or a branch of a financial institution.  | Max35Text"
+          },
+          "Name": {
+            "type": "string",
+            "description": "^ 0..1) | `Name` | Name by which an agent is known and which is usually used to identify that agent. | Max140Text"
+          },
+          "PostalAddress": {
+            "type": "object",
+            "description": "^ 0..1) | `PostalAddress` |Information that locates and identifies a specific address, as defined by postal services.| OBPostalAddress6",
+            "properties": {
+              "AddressType": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. AddressType` |Identifies the nature of the postal address. |OBAddressTypeCode  |Business Correspondence DeliveryTo MailTo POBox Postal Residential Statement"
+              },
+              "Department": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. Department` |Identification of a division of a large organisation or building. | Max70Text"
+              },
+              "SubDepartment": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. SubDepartment` |Identification of a sub-division of a large organisation or building. |Max70Text"
+              },
+              "StreetName": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. StreetName`   |Name of a street or thoroughfare.    |Max70Text"
+              },
+              "BuildingNumber": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. BuildingNumber` |Number that identifies the position of a building on a street.   |Max16Text"
+              },
+              "PostCode": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. PostCode` |Identifier consisting of a group of letters and. or numbers that is added to a postal address to assist the sorting of mail.    |Max16Text"
+              },
+              "TownName": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. TownName` |Name of a built-up area, with defined boundaries, and a local government. |Max35Text"
+              },
+              "CountrySubDivision": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. CountrySubDivision` |Identifies a subdivision of a country such as state, region, county.      |Max35Text"
+              },
+              "Country": {
+                "type": "string",
+                "description": "^ 0..1) | `PostalAddress. Country` | Nation with its own government.      |CountryCode"
+              },
+              "AddressLine": {
+                "type": "array",
+                "minItems": 0,
+                "maxItems": 7,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "OBDomesticVRPRequest": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk",
+          "Links",
+          "Meta"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "PSUAuthenticationMethod",
+              "Initiation",
+              "Instruction",
+              "Risk"
+            ],
+            "properties": {
+              "ConsentId": {
+                "type": "string",
+                "maxLength": 128,
+                "description": "Identifier for the Domestic VRP Consent that this payment is made under."
+              },
+              "PSUAuthenticationMethod": {
+                "type": "string",
+                "description": "^ The authentication method that was used to authenicate the PSU.   | OBVRPAuthenticationMethods - Namespaced Enumeration"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              },
+              "Instruction": {
+                "$ref": "#/components/schemas/OBDomesticVRPInstruction"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          }
+        }
+      },
+      "OBDomesticVRPResponse": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk",
+          "Links",
+          "Meta"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "DomesticVRPId",
+              "ConsentId",
+              "CreationDateTime",
+              "Status",
+              "StatusUpdateDateTime",
+              "Initiation",
+              "Instruction",
+              "DebtorAccount"
+            ],
+            "properties": {
+              "DomesticVRPId": {
+                "type": "string",
+                "maxLength": 40,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.\n"
+              },
+              "ConsentId": {
+                "type": "string",
+                "maxLength": 128,
+                "description": "Identifier for the Domestic VRP Consent that this payment is made under.\n"
+              },
+              "CreationDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource was created.\n"
+              },
+              "Status": {
+                "type": "string",
+                "description": "Specifies the status of the payment information group.",
+                "enum": [
+                  "AcceptedCreditSettlementCompleted",
+                  "AcceptedWithoutPosting",
+                  "AcceptedSettlementCompleted",
+                  "AcceptedSettlementInProcess",
+                  "Pending",
+                  "Rejected"
+                ]
+              },
+              "StatusUpdateDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource status was updated.\n"
+              },
+              "ExpectedExecutionDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Expected execution date and time for the payment resource.\n"
+              },
+              "ExpectedSettlementDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Expected settlement date and time for the payment resource.\n"
+              },
+              "Refund": {
+                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+              },
+              "Charges": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "Amount",
+                    "ChargeBearer",
+                    "Type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "ChargeBearer": {
+                      "$ref": "#/components/schemas/OBChargeBearerType1Code"
+                    },
+                    "Type": {
+                      "$ref": "#/components/schemas/OBExternalPaymentChargeType1Code"
+                    },
+                    "Amount": {
+                      "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+                    }
+                  },
+                  "description": "Set of elements used to provide details of a charge for the payment initiation."
+                }
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              },
+              "Instruction": {
+                "$ref": "#/components/schemas/OBDomesticVRPInstruction"
+              },
+              "DebtorAccount": {
+                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBDomesticVRPDetails": {
+        "type": "object",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "PaymentTransactionId"
+            ],
+            "properties": {
+              "PaymentStatus": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "PaymentTransactionId",
+                    "Status",
+                    "StatusUpdateDateTime"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "PaymentTransactionId": {
+                      "type": "string",
+                      "maxLength": 210,
+                      "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
+                    },
+                    "Status": {
+                      "type": "string",
+                      "description": "Status of a transfer, as assigned by the transaction administrator.",
+                      "enum": [
+                        "Accepted",
+                        "AcceptedCancellationRequest",
+                        "AcceptedCreditSettlementCompleted",
+                        "AcceptedCustomerProfile",
+                        "AcceptedFundsChecked",
+                        "AcceptedSettlementCompleted",
+                        "AcceptedSettlementInProcess",
+                        "AcceptedTechnicalValidation",
+                        "AcceptedWithChange",
+                        "AcceptedWithoutPosting",
+                        "Cancelled",
+                        "NoCancellationProcess",
+                        "PartiallyAcceptedCancellationRequest",
+                        "PartiallyAcceptedTechnicalCorrect",
+                        "PaymentCancelled",
+                        "Pending",
+                        "PendingCancellationRequest",
+                        "Received",
+                        "Rejected",
+                        "RejectedCancellationRequest"
+                      ]
+                    },
+                    "StatusUpdateDateTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time at which the status was assigned to the transfer.\n"
+                    },
+                    "StatusDetail": {
+                      "type": "object",
+                      "required": [
+                        "Status"
+                      ],
+                      "properties": {
+                        "LocalInstrument": {
+                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
+                        },
+                        "Status": {
+                          "type": "string",
+                          "maxLength": 128,
+                          "description": "Status of a transfer, as assigned by the transaction administrator."
+                        },
+                        "StatusReason": {
+                          "type": "string",
+                          "description": "Reason Code provided for the status of a transfer.",
+                          "enum": [
+                            "Cancelled",
+                            "PendingFailingSettlement",
+                            "PendingSettlement",
+                            "Proprietary",
+                            "ProprietaryRejection",
+                            "Suspended",
+                            "Unmatched"
+                          ]
+                        },
+                        "StatusReasonDescription": {
+                          "type": "string",
+                          "maxLength": 128,
+                          "description": "Reason provided for the status of a transfer."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OBVRPFundsConfirmationRequest": {
+        "type": "object",
+        "description": "The OBVRPFundsConfirmationRequest object must be used to request funds availability for a specific amount in the Debtor Account included in the VRP consents.",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "Reference",
+              "InstructedAmount"
+            ],
+            "properties": {
+              "ConsentId": {
+                "type": "string",
+                "maxLength": 128,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource."
+              },
+              "Reference": {
+                "type": "string",
+                "maxLength": 35,
+                "description": "nique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction."
+              },
+              "InstructedAmount": {
+                "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+              }
+            }
+          }
+        }
+      },
+      "OBVRPFundsConfirmationResponse": {
+        "type": "object",
+        "description": "The confirmation of funds response contains the result of a funds availability check.",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "FundsConfirmationId",
+              "ConsentId",
+              "CreationDateTime",
+              "Reference",
+              "FundsAvailableResult",
+              "InstructedAmount"
+            ],
+            "properties": {
+              "FundsConfirmationId": {
+                "type": "string",
+                "maxLength": 40,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation resource."
+              },
+              "ConsentId": {
+                "type": "string",
+                "maxLength": 128,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource."
+              },
+              "CreationDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource was created."
+              },
+              "Reference": {
+                "type": "string",
+                "maxLength": 35,
+                "description": "Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction."
+              },
+              "FundsAvailableResult": {
+                "$ref": "#/components/schemas/OBPAFundsAvailableResult1"
+              },
+              "InstructedAmount": {
+                "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+              }
+            }
+          }
+        }
+      },
+      "OBPAFundsAvailableResult1": {
+        "type": "object",
+        "description": "Availaility result, clearly indicating the availability of funds given the Amount in the request.",
+        "required": [
+          "FundsAvailableDateTime",
+          "FundsAvailable"
+        ],
+        "properties": {
+          "FundsAvailableDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time at which the funds availability check was generated."
+          },
+          "FundsAvailable": {
+            "type": "string",
+            "description": "Availaility result, clearly indicating the availability of funds given the Amount in the request.",
+            "enum": [
+              "Available",
+              "NotAvailable"
+            ]
+          }
+        }
+      },
+      "OBCharge2": {
+        "type": "object",
+        "required": [
+          "ChargeBearer",
+          "Type",
+          "Amount"
+        ],
+        "properties": {
+          "ChargeBearer": {
+            "$ref": "#/components/schemas/OBChargeBearerType1Code"
+          }
+        }
+      },
+      "OBExternalStatus2Code": {
+        "type": "string",
+        "enum": [
+          "Authorised",
+          "AwaitingFurtherAuthorisation",
+          "Rejected"
+        ]
+      },
+      "OBChargeBearerType1Code": {
+        "type": "string",
+        "description": "Specifies which party/parties will bear the charges associated with the processing of the payment transaction.",
+        "enum": [
+          "BorneByCreditor",
+          "BorneByDebtor",
+          "FollowingServiceLevel",
+          "Shared"
+        ]
+      },
+      "OBDomesticVRPInstruction": {
+        "type": "object",
+        "required": [
+          "InstructionIdentification",
+          "EndToEndIdentification",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "InstructionIdentification": {
+            "type": "string",
+            "maxLength": 35,
+            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction. \nUsage: the instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. \nIt can be included in several messages related to the instruction."
+          },
+          "EndToEndIdentification": {
+            "type": "string",
+            "maxLength": 35,
+            "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction. \nThis identification is passed on, unchanged, throughout the entire end-to-end chain. \nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction. \nIt can be included in several messages related to the transaction. \nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field"
+          },
+          "RemittanceInformation": {
+            "$ref": "#/components/schemas/OBVRPRemittanceInformation"
+          },
+          "LocalInstrument": {
+            "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          },
+          "CreditorAgent": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountCreditor3"
+          },
+          "SupplementaryData": {
+            "type": "object",
+            "description": "^ Additional information that can not be captured in the structured fields and/or any other specific block"
+          }
+        }
+      },
+      "OBVRPRemittanceInformation": {
+        "type": "object",
+        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.\n",
+        "properties": {
+          "Unstructured": {
+            "type": "string",
+            "maxLength": 140,
+            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form. \n"
+          },
+          "Reference": {
+            "type": "string",
+            "maxLength": 35,
+            "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP must populate this with the same value as specified in the ControlParameters.Reference field of the consent.\n"
+          }
+        }
+      },
+      "OBExternalAccountIdentification4Code": {
+        "type": "string",
+        "description": "Name of the identification scheme, in a coded form as published in an external list.",
+        "x-namespaced-enum": [
+          "UK.OBIE.BBAN",
+          "UK.OBIE.IBAN",
+          "UK.OBIE.PAN",
+          "UK.OBIE.Paym",
+          "UK.OBIE.SortCodeAccountNumber"
+        ]
+      },
+      "OBExternalLocalInstrument1Code": {
+        "type": "string",
+        "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
+        "x-namespaced-enum": [
+          "UK.OBIE.BACS",
+          "UK.OBIE.BalanceTransfer",
+          "UK.OBIE.CHAPS",
+          "UK.OBIE.Euro1",
+          "UK.OBIE.FPS",
+          "UK.OBIE.Link",
+          "UK.OBIE.MoneyTransfer",
+          "UK.OBIE.Paym",
+          "UK.OBIE.SEPACreditTransfer",
+          "UK.OBIE.SEPAInstantCreditTransfer",
+          "UK.OBIE.SWIFT",
+          "UK.OBIE.Target2"
+        ]
+      },
+      "OBActiveOrHistoricCurrencyAndAmount": {
+        "required": [
+          "Amount",
+          "Currency"
+        ],
+        "type": "object",
+        "properties": {
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode"
+          }
+        }
+      },
+      "ActiveOrHistoricCurrencyCode": {
+        "pattern": "^[A-Z]{3,3}$",
+        "type": "string",
+        "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\"."
+      },
+      "OBActiveCurrencyAndAmount_SimpleType": {
+        "pattern": "^\\d{1,13}$|^\\d{1,13}\\.\\d{1,5}$",
+        "type": "string",
+        "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217."
+      },
+      "OBExternalPaymentChargeType1Code": {
+        "type": "string",
+        "enum": [
+          "UK.OBIE.CHAPSOut",
+          "UK.OBIE.BalanceTransferOut",
+          "UK.OBIE.MoneyTransferOut"
+        ]
+      },
+      "OBRisk1": {
+        "type": "object",
+        "properties": {
+          "PaymentContextCode": {
+            "type": "string",
+            "description": "Specifies the payment context",
+            "enum": [
+              "BillPayment",
+              "EcommerceGoods",
+              "EcommerceServices",
+              "Other",
+              "PartyToParty"
+            ]
+          },
+          "MerchantCategoryCode": {
+            "maxLength": 4,
+            "minLength": 3,
+            "type": "string",
+            "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction."
+          },
+          "MerchantCustomerIdentification": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string",
+            "description": "The unique customer identifier of the PSU with the merchant."
+          },
+          "DeliveryAddress": {
+            "required": [
+              "Country",
+              "TownName"
+            ],
+            "type": "object",
+            "properties": {
+              "AddressLine": {
+                "maxItems": 2,
+                "minItems": 0,
+                "type": "array",
+                "items": {
+                  "maxLength": 70,
+                  "minLength": 1,
+                  "type": "string",
+                  "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text."
+                }
+              },
+              "StreetName": {
+                "$ref": "#/components/schemas/StreetName"
+              },
+              "BuildingNumber": {
+                "$ref": "#/components/schemas/BuildingNumber"
+              },
+              "PostCode": {
+                "$ref": "#/components/schemas/PostCode"
+              },
+              "TownName": {
+                "$ref": "#/components/schemas/TownName"
+              },
+              "CountrySubDivision": {
+                "$ref": "#/components/schemas/CountrySubDivision"
+              },
+              "Country": {
+                "pattern": "^[A-Z]{2,2}$",
+                "type": "string",
+                "description": "Nation with its own government, occupying a particular territory."
+              }
+            },
+            "description": "Information that locates and identifies a specific address, as defined by postal services or in free format text."
+          }
+        },
+        "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments."
+      },
+      "StreetName": {
+        "maxLength": 70,
+        "minLength": 1,
+        "type": "string",
+        "description": "Name of a street or thoroughfare."
+      },
+      "TownName": {
+        "maxLength": 35,
+        "minLength": 1,
+        "type": "string",
+        "description": "Name of a built-up area, with defined boundaries, and a local government."
+      },
+      "PostCode": {
+        "maxLength": 16,
+        "minLength": 1,
+        "type": "string",
+        "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail."
+      },
+      "BuildingNumber": {
+        "maxLength": 16,
+        "minLength": 1,
+        "type": "string",
+        "description": "Number that identifies the position of a building on a street."
+      },
+      "CountrySubDivision": {
+        "maxLength": 35,
+        "minLength": 1,
+        "type": "string",
+        "description": "Identifies a subdivision of a country such as state, region, county."
+      },
+      "Links": {
+        "required": [
+          "Self"
+        ],
+        "type": "object",
+        "properties": {
+          "Self": {
+            "type": "string",
+            "format": "uri"
+          },
+          "First": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Prev": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Last": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "description": "Links relevant to the payload"
+      },
+      "Meta": {
+        "title": "MetaData",
+        "type": "object",
+        "description": "Meta Data relevant to the payload. At present no fields are used for VRP."
+      }
+    },
+    "securitySchemes": {
+      "TPPOAuth2Security": {
+        "type": "oauth2",
+        "description": "TPP client credential authorisation flow with the ASPSP",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://authserver.example/token",
+            "scopes": {
+              "payments": "Generic payment scope"
+            }
+          }
+        }
+      },
+      "PSUOAuth2Security": {
+        "type": "oauth2",
+        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://authserver.example/authorization",
+            "tokenUrl": "https://authserver.example/token",
+            "scopes": {
+              "payments": "Generic payment scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

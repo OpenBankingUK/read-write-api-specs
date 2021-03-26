@@ -26,8 +26,13 @@ This space contains Read/Write Data API Specifications in [OpenAPI](https://gith
 
 ### Confirmation of Funds
 
-- [OpenAPI 3.0 - YAML](./dist/openapi/confirmation-funds-openapi.yaml) 
+- [OpenAPI 3.0 - YAML](./dist/openapi/confirmation-funds-openapi.yaml)
 - [OpenAPI 3.0 - JSON](./dist/openapi/confirmation-funds-openapi.json)
+
+### VRP
+
+- [OpenAPI 3.0 - YAML](./dist/openapi/vrp-openapi.yaml) 
+- [OpenAPI 3.0 - JSON](./dist/openapi/vrp-openapi.json)
 
 ### Events API
 
