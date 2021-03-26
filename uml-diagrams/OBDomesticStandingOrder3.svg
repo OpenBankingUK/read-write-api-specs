@@ -1,0 +1,301 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="56.8em" height="43.2em" style="background-color:white"><defs>
+	<marker id="Triangle"
+		viewBox="0 0 10 10" refX="0" refY="5" 
+		markerUnits="strokeWidth"
+		markerWidth="15" markerHeight="10"
+		orient="auto">
+		<path d="M 0 0 L 10 5 L 0 10 z" />
+	</marker>
+		
+		<marker id="Diamond"
+		viewBox="0 0 16 10" refX="0" refY="5" 
+		markerUnits="strokeWidth"
+		markerWidth="20" markerHeight="10"
+		orient="auto">
+		<path d="M 0 5 L 8 10 L 16 5 L 8 0 z" />
+	</marker>   
+</defs>
+<rect x="1em" y="1em" width="24.8em" height="10.8em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="13.4em" y="2.3em" fill="black">
+<title>The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.</title>
+OBDomesticStandingOrder3
+</text>
+
+<text x="2em" y="4.3em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+FinalPaymentDateTime [0..1]
+</text>
+
+<text x="2em" y="5.6em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+FirstPaymentDateTime [1..1]
+</text>
+
+<text x="2em" y="6.9em" fill="darkslateblue">
+<title>Type: string
+Description: Individual Definitions:
+EvryDay - Every day
+EvryWorkgDay - Every working day
+IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
+WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
+IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
+QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
+ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
+SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
+RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
+Individual Patterns:
+EvryDay (ScheduleCode)
+EvryWorkgDay (ScheduleCode)
+IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode &#43; IntervalInWeeks &#43; DayInWeek)
+WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode &#43; WeekInMonth &#43; DayInWeek)
+IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode &#43; IntervalInMonths &#43; DayInMonth)
+QtrDay: &#43; either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode &#43; QuarterDay
+The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
+EvryDay
+EvryWorkgDay
+IntrvlWkDay:0[1-9]:0[1-7]
+WkInMnthDay:0[1-5]:0[1-7]
+IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
+QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
+Full Regular Expression:
+^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+Pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+</title>
+Frequency [1..1]
+</text>
+
+<text x="2em" y="8.2em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
+</title>
+NumberOfPayments [0..1]
+</text>
+
+<text x="2em" y="9.5em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the first recurring payment for a Standing Order schedule will be made. 
+Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+RecurringPaymentDateTime [0..1]
+</text>
+
+<text x="2em" y="10.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
+Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
+If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor&#39;s reference or payment remittance identification should be quoted in the end-to-end transaction identification.
+</title>
+Reference [0..1]
+</text>
+
+<rect x="31.8em" y="1em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="43.8em" y="2.3em" fill="black">
+<title>Identification assigned by an institution to identify an account. This identification is known by the account owner.</title>
+CreditorAccount
+</text>
+
+<text x="32.8em" y="4.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+</title>
+Identification [1..1]
+</text>
+
+<text x="32.8em" y="5.6em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 350
+Description: The account name is the name or names of the account owner(s) represented at an account level.
+Note, the account name is not the product name or the nickname of the account.
+OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.
+</title>
+Name [1..1]
+</text>
+
+<text x="32.8em" y="6.9em" fill="darkslateblue">
+<title>Type: string
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+</title>
+SchemeName [1..1]
+</text>
+
+<text x="32.8em" y="8.2em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 34
+Description: This is secondary identification of the account, as assigned by the account servicing institution. 
+This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
+</title>
+SecondaryIdentification [0..1]
+</text>
+
+<rect x="31.8em" y="10.2em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="43.8em" y="11.5em" fill="black">
+<title>Provides the details to identify the debtor account.</title>
+DebtorAccount
+</text>
+
+<text x="32.8em" y="13.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+</title>
+Identification [1..1]
+</text>
+
+<text x="32.8em" y="14.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 350
+Description: The account name is the name or names of the account owner(s) represented at an account level, as displayed by the ASPSP&#39;s online channels.
+Note, the account name is not the product name or the nickname of the account.
+</title>
+Name [0..1]
+</text>
+
+<text x="32.8em" y="16.1em" fill="darkslateblue">
+<title>Type: string
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+</title>
+SchemeName [1..1]
+</text>
+
+<text x="32.8em" y="17.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 34
+Description: This is secondary identification of the account, as assigned by the account servicing institution. 
+This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
+</title>
+SecondaryIdentification [0..1]
+</text>
+
+<rect x="31.8em" y="19.4em" width="14.4em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="39em" y="20.7em" fill="black">
+<title>The amount of the final Standing Order</title>
+FinalPaymentAmount
+</text>
+
+<text x="32.8em" y="22.7em" fill="darkslateblue">
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+</title>
+Amount [1..1]
+</text>
+
+<text x="32.8em" y="24em" fill="darkslateblue">
+<title>Type: string
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
+</title>
+Currency [1..1]
+</text>
+
+<rect x="31.8em" y="26em" width="14.4em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="39em" y="27.3em" fill="black">
+<title>The amount of the first Standing Order</title>
+FirstPaymentAmount
+</text>
+
+<text x="32.8em" y="29.3em" fill="darkslateblue">
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+</title>
+Amount [1..1]
+</text>
+
+<text x="32.8em" y="30.6em" fill="darkslateblue">
+<title>Type: string
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
+</title>
+Currency [1..1]
+</text>
+
+<rect x="31.8em" y="32.6em" width="17.6em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="40.6em" y="33.9em" fill="black">
+<title>The amount of the recurring Standing Order</title>
+RecurringPaymentAmount
+</text>
+
+<text x="32.8em" y="35.9em" fill="darkslateblue">
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+</title>
+Amount [1..1]
+</text>
+
+<text x="32.8em" y="37.199999999999996em" fill="darkslateblue">
+<title>Type: string
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
+</title>
+Currency [1..1]
+</text>
+
+<rect x="31.8em" y="39.2em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="38.6em" y="40.5em" fill="black">
+<title>Additional information that can not be captured in the structured fields and/or any other specific block.</title>
+SupplementaryData
+</text>
+
+<line x1="25.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="27.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" />
+<line x1="27.8em" y1="2em" x2="31em" y2="2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="28.3em" y="1.5em">1..1</text>
+<line x1="25.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="27.8em" y1="2em" x2="27.8em" y2="11.2em" stroke="black" />
+<line x1="27.8em" y1="11.2em" x2="31em" y2="11.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="28.3em" y="10.7em">0..1</text>
+<line x1="25.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="27.8em" y1="2em" x2="27.8em" y2="20.4em" stroke="black" />
+<line x1="27.8em" y1="20.4em" x2="31em" y2="20.4em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="28.3em" y="19.9em">0..1</text>
+<line x1="25.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="27.8em" y1="2em" x2="27.8em" y2="27em" stroke="black" />
+<line x1="27.8em" y1="27em" x2="31em" y2="27em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="28.3em" y="26.5em">1..1</text>
+<line x1="25.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="27.8em" y1="2em" x2="27.8em" y2="33.6em" stroke="black" />
+<line x1="27.8em" y1="33.6em" x2="31em" y2="33.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="28.3em" y="33.1em">0..1</text>
+<line x1="25.8em" y1="2em" x2="27.8em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="27.8em" y1="2em" x2="27.8em" y2="40.2em" stroke="black" />
+<line x1="27.8em" y1="40.2em" x2="31em" y2="40.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="28.3em" y="39.7em">0..1</text></svg>

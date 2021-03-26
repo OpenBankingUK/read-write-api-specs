@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-
 # install umldiagram from https://bitbucket.org/openbankingteam/uml-generator/src/master/
-umldiagram --src=./dist/swagger/account-info-swagger.yaml --dir=uml-diagrams\
+
+umldiagram --src=./dist/openapi/account-info-openapi.yaml --api-version=3 --dir=uml-diagrams\
 	--schema=OBReadConsent1\
 	--schema=OBReadConsentResponse1\
 	--schema=OBReadAccount6\
@@ -10,6 +10,7 @@ umldiagram --src=./dist/swagger/account-info-swagger.yaml --dir=uml-diagrams\
 	--schema=OBReadBeneficiary5\
 	--schema=OBReadDirectDebit2\
 	--schema=OBReadStandingOrder6\
+	--schema=OBReadStatement2\
 	--schema=OBReadProduct2\
 	--schema=OBBCAData1\
 	--schema=OBBCAData1\
@@ -19,13 +20,13 @@ umldiagram --src=./dist/swagger/account-info-swagger.yaml --dir=uml-diagrams\
 	--schema=OBReadParty2\
 	--schema=OBReadParty3\
 	--schema=OBReadScheduledPayment3\
-	--schema=OBBCAData1.properties.Overdraft\
-	# --schema=OBBCAData1.OtherFeesCharges\ # fix nested objects
-	# --schema=Overdraft.OverdraftTierBandSet\ # fix nested objects
-	# --schema=LoanInterest\
-	# --schema=Repayment\
+	--schema=OBBCAData1.properties.Overdraft:Overdraft\
+	--schema=OBBCAData1.properties.OtherFeesCharges:OtherFeesCharges\
+	--schema=OBBCAData1.properties.Overdraft.properties.OverdraftTierBandSet:OverdraftTierBandSet\
+	--schema=OBReadProduct2.properties.Data.properties.Product.items.properties.OtherProductType.properties.LoanInterest:LoanInterest\
+	--schema=OBReadProduct2.properties.Data.properties.Product.items.properties.OtherProductType.properties.Repayment:Repayment\
 
-umldiagram --src=./dist/swagger/payment-initiation-swagger.yaml --dir=uml-diagrams\
+umldiagram --src=./dist/openapi/payment-initiation-openapi.yaml --api-version=3 --dir=uml-diagrams\
 	--schema=OBRisk1\
 	--schema=OBSCASupportData1\
 	--schema=OBWriteFundsConfirmationResponse1\
@@ -66,22 +67,38 @@ umldiagram --src=./dist/swagger/payment-initiation-swagger.yaml --dir=uml-diagra
 	--schema=OBWriteFile2\
 	--schema=OBWriteFileResponse3\
 	--schema=OBWritePaymentDetailsResponse1\
-	# --schema=OBWritePaymentDetails1\
-	# --schema=OBDomesticRefundAccount1\
-	# --schema=OBInternationalRefundAccount1\
-	# --schema=OBDomesticScheduled2\
-	# --schema=OBDomesticStandingOrder3\
-	# --schema=OBInternational3\
-	# --schema=OBExchangeRate2\
-	# --schema=OBInternationalScheduled3\
-	# --schema=OBInternationalStandingOrder4\
-	# --schema=OBFile2\
-	# --schema=OBAuthorisation1\
-	# --schema=OBMultiAuthorisation1\
-	# --schema=OBDomestic2\
+	--schema=OBWriteDomesticConsent4.properties.Data.properties.Initiation:OBDomestic2\
+	--schema=OBWriteDomesticResponse5.properties.Data.properties.Refund:OBDomesticRefundAccount1\
+	--schema=OBWriteInternationalResponse5.properties.Data.properties.Refund:OBInternationalRefundAccount1\
+	--schema=OBWriteDomesticScheduledConsent4.properties.Data.properties.Initiation:OBDomesticScheduled2\
+	--schema=OBWriteDomesticStandingOrderConsent5.properties.Data.properties.Initiation:OBDomesticStandingOrder3\
+	--schema=OBWriteInternationalConsent5.properties.Data.properties.Initiation:OBInternational3\
+	--schema=OBWriteInternationalConsent5.properties.Data.properties.Initiation.properties.ExchangeRateInformation:OBExchangeRate2\
+	--schema=OBWriteInternationalScheduledConsent5.properties.Data.properties.Initiation:OBInternationalScheduled3\
+	--schema=OBWriteInternationalStandingOrderConsent6.properties.Data.properties.Initiation:OBInternationalStandingOrder4\
+	--schema=OBWriteFileConsent3.properties.Data.properties.Initiation:OBFile2\
+	--schema=OBWriteDomesticStandingOrderConsent5.properties.Data.properties.Authorisation:OBAuthorisation1\
+	--schema=OBWriteDomesticResponse5.properties.Data.properties.MultiAuthorisation:OBMultiAuthorisation1\
 
-umldiagram --src=./dist/swagger/confirmation-funds-swagger.yaml --dir=uml-diagrams\
+umldiagram --src=./dist/openapi/vrp-openapi.yaml --api-version=3 --dir=uml-diagrams \
+	--schema=OBCashAccountDebtorWithName \
+	--schema=OBCashAccountCreditor3 \
+	--schema=OBBranchAndFinancialInstitutionIdentification6 \
+	--schema=OBDomesticVRPInitiation \
+	--schema=OBDomesticVRPControlParameters \
+	--schema=OBRisk1 \
+	--schema=OBDomesticVRPConsentRequest \
+	--schema=OBDomesticVRPConsentResponse \
+	--schema=OBDomesticVRPInstruction \
+	--schema=OBDomesticVRPRequest \
+	--schema=OBDomesticVRPResponse \
+	--schema=OBDomesticVRPDetails \
+	--schema=OBVRPFundsConfirmationRequest \
+	--schema=OBVRPFundsConfirmationResponse \
+
+umldiagram --src=./dist/openapi/confirmation-funds-openapi.yaml --api-version=3 --dir=uml-diagrams\
 	--schema=OBFundsConfirmationConsent1\
 	--schema=OBFundsConfirmationConsentResponse1\
 	--schema=OBFundsConfirmation1\
 	--schema=OBFundsConfirmationResponse1\
+
