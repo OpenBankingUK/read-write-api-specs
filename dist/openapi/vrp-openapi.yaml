@@ -1,64 +1,709 @@
 openapi: 3.0.0
+
+servers:
+  - url: https://tbc.com
+    description: abstract server
+
 info:
   title: OBIE VRP Profile
   description: VRP OpenAPI Specification
   version: 3.1.8
+  contact: 
+    url: https://openbanking.org.uk
 tags:
-  - name: variable-recurring-payments
+  - name: "Domestic VRP Consents"
+  - name: "Domestic VRPs"
+
 paths:
   /domestic-vrp-consents:
     post:
+      operationId: domesticVrpConsentsPost
       tags:
-        - variable-recurring-payments
-      summary: create a domestic vrp
-      description: create a domestic vrp
+        - "Domestic VRP Consents"
+        
+      summary: create a domestic vrp consent
+      description: create a domestic vrp consent
+      parameters:
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-idempotency-key"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
       responses:
         '201':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OBDomesticVRPConsentResponse'
+          $ref: "#/components/responses/20xOBDomesticVRPConsentResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+          application/jose+jwe:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
 
   /domestic-vrp-consents/:consentId:
     get:
+      operationId: domesticVrpConsentsGet
       tags:
-        - variable-recurring-payments
-      summary: create a domestic vrp
-      description: create a domestic vrp
+        - "Domestic VRP Consents"
+
+      summary: retreieve a domestic vrp consent
+      description: retreieve a domestic vrp consent
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
       responses:
         '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OBDomesticVRPConsentResponse'
+          $ref: "#/components/responses/20xOBDomesticVRPConsentResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
 
     delete:
+      operationId: domesticVrpConsentsDelete
       tags:
-        - variable-recurring-payments
-      summary: create a domestic vrp
-      description: create a domestic vrp
+        - "Domestic VRP Consents"
+
+      summary: deletes a domestic vrp
+      description: deletes a domestic vrp
+      parameters:
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
       responses:
         '204':
-          description: 'all good'
+          description: 'delete successful'
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
 
   /domestic-vrp-consents/:consentId/funds-confirmation:
     post:
+      operationId: domesticVrpConsentsFundsConfirmation
+
       tags:
-        - variable-recurring-payments
+        - "Domestic VRP Consents"
+      summary: confirms availability of funds for a VRP
+      description: confirms availability of funds for a VRP
+
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/201OBDomesticVRPFundsConfirmationResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/OBVRPFundsConfirmationRequest"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OBVRPFundsConfirmationRequest"
+          application/jose+jwe:
+            schema:
+              $ref: "#/components/schemas/OBVRPFundsConfirmationRequest"
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
+
+  /domestic-vrps:
+    post:
+      operationId: domesticVrpPost
+      tags:
+        - "Domestic VRPs"
       summary: create a domestic vrp
       description: create a domestic vrp
+      parameters:
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/20xOBDomesticVRPResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPRequest"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPRequest"
+          application/jose+jwe:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPRequest"
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
+
+  /domestic-vrps/:consentId:
+    get:
+      operationId: domesticVrpGet
+      tags:
+        - "Domestic VRPs"
+      summary: retreieve a domestic vrp
+      description: retreieve a domestic vrp
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
       responses:
         '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/OBVRPFundsConfirmationResponse'
+          $ref: "#/components/responses/20xOBDomesticVRPResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
+
+  /domestic-vrps/:consentId/payment-details:
+    get:
+      operationId: domesticVrpGet
+      tags:
+        - "Domestic VRPs"
+      summary: retreieve a domestic vrp
+      description: retreieve a domestic vrp
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '200':
+          $ref: "#/components/responses/20xOBDomesticVRPRequestDetailResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
 
 components:
+  responses:
+    400Error:
+      description: "Bad request"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+    401Error:
+      description: "Unauthorized"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+    403Error:
+      description: "Forbidden"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+    404Error:
+      description: "Not found"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+    405Error:
+      description: "Method Not Allowed"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+    406Error:
+      description: "Not Acceptable"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+    415Error:
+      description: "Unsupported Media Type"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+    429Error:
+      description: "Too Many Requests"
+      headers:
+        Retry-After:
+          description: "Number in seconds to wait"
+          schema:
+            type: "integer"
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+            
+    InternalError:
+      description: "Internal Server Error"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBErrorResponse1"
+
+    20xOBDomesticVRPConsentResponse:
+      description: "Default response"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPConsentResponse"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPConsentResponse"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPConsentResponse"
+
+    201OBDomesticVRPFundsConfirmationResponse:
+      description: "Default response"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBVRPFundsConfirmationResponse"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBVRPFundsConfirmationResponse"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBVRPFundsConfirmationResponse"
+
+    20xOBDomesticVRPResponse:
+      description: "Default response"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPResponse"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPResponse"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPResponse"
+
+    20xOBDomesticVRPRequestDetailResponse:
+      description: "Default response"
+      headers:
+        x-fapi-interaction-id:
+          description: "An RFC4122 UID used as a correlation id."
+          required: true
+          schema:
+            type: "string"
+        x-jws-signature:
+          description: "Header containing a detached JWS signature of the body of the payload.\n"
+          required: true
+          schema:
+            type: "string"
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPDetails"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPDetails"
+        application/jose+jwe:
+          schema:
+            $ref: "#/components/schemas/OBDomesticVRPDetails"
+
+
+
+  parameters:
+    ConsentId:
+      name: "ConsentId"
+      in: "path"
+      description: "ConsentId"
+      required: true
+      schema:
+        type: "string"  
+    Authorization:
+      in: "header"
+      name: "Authorization"
+      required: true
+      description: "An Authorisation Token as per https://tools.ietf.org/html/rfc6750"
+      schema:
+        type: "string"
+    x-customer-user-agent:
+      in: "header"
+      name: "x-customer-user-agent"
+      description: "Indicates the user-agent that the PSU is using."
+      required: false
+      schema:
+        type: "string"
+    x-fapi-customer-ip-address:
+      in: "header"
+      name: "x-fapi-customer-ip-address"
+      required: false
+      description: "The PSU's IP address if the PSU is currently logged in with the TPP."
+      schema:
+        type: "string"
+    x-fapi-auth-date:
+      in: "header"
+      name: "x-fapi-auth-date"
+      required: false
+      description: "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC"
+      schema:
+        type: "string"
+        pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+    x-fapi-interaction-id:
+      in: "header"
+      name: "x-fapi-interaction-id"
+      required: false
+      description: "An RFC4122 UID used as a correlation id."
+      schema:
+        type: "string"
+    x-idempotency-key:
+      name: "x-idempotency-key"
+      in: "header"
+      description: "Every request will be processed only once per x-idempotency-key.  The\nIdempotency Key will be valid for 24 hours.\n"
+      required: true
+      schema:
+        type: "string"
+        maxLength: 40
+        pattern: "^(?!\\s)(.*)(\\S)$"
+    x-jws-signature:
+      in: "header"
+      name: "x-jws-signature"
+      required: true
+      description: "A detached JWS signature of the body of the payload."
+      schema:
+        type: "string"
+
   schemas:
+    OBError1:
+      type: "object"
+      additionalProperties: false
+      properties:
+        ErrorCode:
+          description: "Low level textual error code, e.g., UK.OBIE.Field.Missing"
+          type: "string"
+          x-namespaced-enum:
+            - "UK.OBIE.Field.Expected"
+            - "UK.OBIE.Field.Invalid"
+            - "UK.OBIE.Field.InvalidDate"
+            - "UK.OBIE.Field.Missing"
+            - "UK.OBIE.Field.Unexpected"
+            - "UK.OBIE.Header.Invalid"
+            - "UK.OBIE.Header.Missing"
+            - "UK.OBIE.Reauthenticate"
+            - "UK.OBIE.Resource.ConsentMismatch"
+            - "UK.OBIE.Resource.InvalidConsentStatus"
+            - "UK.OBIE.Resource.InvalidFormat"
+            - "UK.OBIE.Resource.NotFound"
+            - "UK.OBIE.Rules.AfterCutOffDateTime"
+            - "UK.OBIE.Rules.DuplicateReference"
+            - "UK.OBIE.Signature.Invalid"
+            - "UK.OBIE.Signature.InvalidClaim"
+            - "UK.OBIE.Signature.Malformed"
+            - "UK.OBIE.Signature.Missing"
+            - "UK.OBIE.Signature.MissingClaim"
+            - "UK.OBIE.Signature.Unexpected"
+            - "UK.OBIE.UnexpectedError"
+            - "UK.OBIE.Unsupported.AccountIdentifier"
+            - "UK.OBIE.Unsupported.AccountSecondaryIdentifier"
+            - "UK.OBIE.Unsupported.Currency"
+            - "UK.OBIE.Unsupported.Frequency"
+            - "UK.OBIE.Unsupported.LocalInstrument"
+            - "UK.OBIE.Unsupported.Scheme"
+        Message:
+          description: "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field"
+          type: "string"
+          minLength: 1
+          maxLength: 500
+        Path:
+          description: "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency"
+          type: "string"
+          minLength: 1
+          maxLength: 500
+        Url:
+          description: "URL to help remediate the problem, or provide more information, or to API Reference, or help etc"
+          type: "string"
+      required:
+        - "ErrorCode"
+        - "Message"
+      minProperties: 1
+      
+    OBErrorResponse1:
+      description: "An array of detail error codes, and messages, and URLs to documentation to help remediation."
+      type: "object"
+      additionalProperties: false
+      properties:
+        Code:
+          description: "High level textual error code, to help categorize the errors."
+          type: "string"
+          minLength: 1
+          maxLength: 40
+        Id:
+          description: "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors."
+          type: "string"
+          minLength: 1
+          maxLength: 40
+        Message:
+          description: "Brief Error message, e.g., 'There is something wrong with the request parameters provided'"
+          type: "string"
+          minLength: 1
+          maxLength: 500
+        Errors:
+          items:
+            $ref: "#/components/schemas/OBError1"
+          type: "array"
+          minItems: 1
+      required:
+        - "Code"
+        - "Message"
+        - "Errors"
+
+
     OBDomesticVRPConsentResponse:
       type: object
       required:
