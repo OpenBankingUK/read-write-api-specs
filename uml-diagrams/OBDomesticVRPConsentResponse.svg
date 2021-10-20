@@ -30,7 +30,9 @@ Data
 
 <text x="30.400000000000002em" y="4.3em" fill="darkslateblue">
 <title>Type: string
-Description: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.      | Max128Text
+MinLength: 1
+MaxLength: 128
+Description: Unique identification as assigned by the ASPSP to uniquely identify the consent resource.
 
 </title>
 ConsentId [1..1]
@@ -39,7 +41,7 @@ ConsentId [1..1]
 <text x="30.400000000000002em" y="5.6em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: Date and time at which the resource was created.|ISODateTime
+Description: Date and time at which the resource was created.
 
 </title>
 CreationDateTime [1..1]
@@ -58,8 +60,14 @@ ReadRefundAccount [0..1]
 
 <text x="30.400000000000002em" y="8.2em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the status of resource in code form.  |Authorised AwaitingAuthorisation Rejected Revoked Expired
+Description: Specifies the status of resource in code form.
 
+Values:
+ - Authorised
+ - AwaitingAuthorisation
+ - Rejected
+ - Revoked
+ - Expired
 </title>
 Status [1..1]
 </text>
@@ -67,7 +75,7 @@ Status [1..1]
 <text x="30.400000000000002em" y="9.5em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: Date and time at which the resource status was updated.  | ISODateTime  
+Description: Date and time at which the resource status was updated.
 
 </title>
 StatusUpdateDateTime [1..1]
@@ -81,12 +89,18 @@ ControlParameters
 
 <text x="58em" y="4.3em" fill="darkslateblue">
 <title>Type: string
+Values:
+ - UK.OBIE.SCA
+ - UK.OBIE.SCANotRequired
 </title>
 PSUAuthenticationMethods [0..1]
 </text>
 
 <text x="58em" y="5.6em" fill="darkslateblue">
 <title>Type: string
+Values:
+ - UK.OBIE.VRPType.Sweeping
+ - UK.OBIE.VRPType.Other
 </title>
 VRPType [0..1]
 </text>
@@ -94,7 +108,7 @@ VRPType [0..1]
 <text x="58em" y="6.9em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: ^ Start date time for which the consent remains valid. | ISODateTime
+Description: ^ Start date time for which the consent remains valid.
 </title>
 ValidFromDateTime [0..1]
 </text>
@@ -102,7 +116,7 @@ ValidFromDateTime [0..1]
 <text x="58em" y="8.2em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: ^ End date time for which the consent remains valid. | ISODateTime
+Description: ^ End date time for which the consent remains valid.
 </title>
 ValidToDateTime [0..1]
 </text>
@@ -115,14 +129,18 @@ MaximumIndividualAmount
 
 <text x="88.8em" y="4.3em" fill="darkslateblue">
 <title>Type: string
-Description: ^ A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 Amount [1..1]
 </text>
 
 <text x="88.8em" y="5.6em" fill="darkslateblue">
 <title>Type: string
-Description: ^ A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.   | ActiveOrHistoricCurrencyCode
+MinLength: 3
+MaxLength: 3
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
 </title>
 Currency [1..1]
 </text>
@@ -135,14 +153,18 @@ PeriodicLimits
 
 <text x="88.8em" y="10.9em" fill="darkslateblue">
 <title>Type: string
-Description: ^ A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 Amount [1..1]
 </text>
 
 <text x="88.8em" y="12.200000000000001em" fill="darkslateblue">
 <title>Type: string
-Description: ^ A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.   | ActiveOrHistoricCurrencyCode
+MinLength: 3
+MaxLength: 3
+Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
+Pattern: ^[A-Z]{3,3}$
 </title>
 Currency [1..1]
 </text>
@@ -179,19 +201,23 @@ SupplementaryData
 
 <rect x="57em" y="20.799999999999997em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="69em" y="22.099999999999998em" fill="black">
-<title>^ Only incuded in the response if `Data. ReadRefundAccount` is set to `Yes` in the consent.</title>
+<title></title>
 DebtorAccount
 </text>
 
 <text x="58em" y="24.099999999999998em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Identification assigned by an institution to identify an account. This identification is known by the account owner. | Max256Text
+MinLength: 1
+MaxLength: 256
+Description: ^ Identification assigned by an institution to identify an account. This identification is known by the account owner.
 </title>
 Identification [1..1]
 </text>
 
 <text x="58em" y="25.4em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 350
 Description: ^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.
 </title>
 Name [1..1]
@@ -199,14 +225,22 @@ Name [1..1]
 
 <text x="58em" y="26.7em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBExternalAccountIdentification4Code
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
 </title>
 SchemeName [1..1]
 </text>
 
 <text x="58em" y="28em" fill="darkslateblue">
 <title>Type: string
-Description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text
+MinLength: 1
+MaxLength: 34
+Description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)
 </title>
 SecondaryIdentification [0..1]
 </text>
@@ -225,28 +259,43 @@ CreditorAccount
 
 <text x="72em" y="33.3em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Identification assigned by an institution to identify an account. This identification is known by the account owner. | Max256Text
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
 </title>
 Identification [1..1]
 </text>
 
 <text x="72em" y="34.599999999999994em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.
+MinLength: 1
+MaxLength: 350
+Description: Name of the account, as assigned by the account servicing institution.
+Usage: the account name is the name or names of the account owner(s) represented at an account level.
+The account name is not the product name or the nickname of the account.
 </title>
 Name [1..1]
 </text>
 
 <text x="72em" y="35.9em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBExternalAccountIdentification4Code
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
 </title>
 SchemeName [1..1]
 </text>
 
 <text x="72em" y="37.199999999999996em" fill="darkslateblue">
 <title>Type: string
-Description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text
+MinLength: 1
+MaxLength: 34
+Description: This is secondary identification of the account, as assigned by the account servicing institution.
+This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)
 </title>
 SecondaryIdentification [0..1]
 </text>
@@ -259,115 +308,152 @@ CreditorAgent
 
 <text x="72em" y="42.49999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `Identification` |Unique and unambiguous identification of a financial institution or a branch of a financial institution.  | Max35Text
+MinLength: 1
+MaxLength: 35
+Description: ^ Unique and unambiguous identification of a financial institution or a branch of a financial institution.
 </title>
 Identification [0..1]
 </text>
 
 <text x="72em" y="43.79999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `Name` | Name by which an agent is known and which is usually used to identify that agent. | Max140Text
+MinLength: 1
+MaxLength: 140
+Description: ^ Name by which an agent is known and which is usually used to identify that agent.
 </title>
 Name [0..1]
 </text>
 
 <text x="72em" y="45.099999999999994em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `SchemeName` |Name of the identification scheme, in a coded form as published in an external list. |OBExternalFinancialInstitutionIdentification4Code
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BICFI
 </title>
 SchemeName [0..1]
 </text>
 
 <rect x="93.8em" y="39.199999999999996em" width="20em" height="16em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="103.8em" y="40.49999999999999em" fill="black">
-<title>^ 0..1) | `PostalAddress` |Information that locates and identifies a specific address, as defined by postal services.| OBPostalAddress6</title>
+<title>Information that locates and identifies a specific address, as defined by postal services.</title>
 PostalAddress
 </text>
 
 <text x="94.8em" y="42.49999999999999em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Information that locates and identifies a specific address, as defined by postal services, presented in free format text.
 </title>
 AddressLine [0..1]
 </text>
 
 <text x="94.8em" y="43.79999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. AddressType` |Identifies the nature of the postal address. |OBAddressTypeCode  |Business Correspondence DeliveryTo MailTo POBox Postal Residential Statement
+Description: Identifies the nature of the postal address.
+Values:
+ - Business
+ - Correspondence
+ - DeliveryTo
+ - MailTo
+ - POBox
+ - Postal
+ - Residential
+ - Statement
 </title>
 AddressType [0..1]
 </text>
 
 <text x="94.8em" y="45.099999999999994em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. BuildingNumber` |Number that identifies the position of a building on a street.   |Max16Text
+MinLength: 1
+MaxLength: 16
+Description: Number that identifies the position of a building on a street.
 </title>
 BuildingNumber [0..1]
 </text>
 
 <text x="94.8em" y="46.39999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. Country` | Nation with its own government.      |CountryCode
+Description: Nation with its own government.
+Pattern: ^[A-Z]{2,2}$
 </title>
 Country [0..1]
 </text>
 
 <text x="94.8em" y="47.699999999999996em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. CountrySubDivision` |Identifies a subdivision of a country such as state, region, county.      |Max35Text
+MinLength: 1
+MaxLength: 35
+Description: Identifies a subdivision of a country such as state, region, county.
 </title>
 CountrySubDivision [0..1]
 </text>
 
 <text x="94.8em" y="48.99999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. Department` |Identification of a division of a large organisation or building. | Max70Text
+MinLength: 1
+MaxLength: 70
+Description: Identification of a division of a large organisation or building.
 </title>
 Department [0..1]
 </text>
 
 <text x="94.8em" y="50.3em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. PostCode` |Identifier consisting of a group of letters and. or numbers that is added to a postal address to assist the sorting of mail.    |Max16Text
+MinLength: 1
+MaxLength: 16
+Description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
 </title>
 PostCode [0..1]
 </text>
 
 <text x="94.8em" y="51.599999999999994em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. StreetName`   |Name of a street or thoroughfare.    |Max70Text
+MinLength: 1
+MaxLength: 70
+Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
 </text>
 
 <text x="94.8em" y="52.89999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. SubDepartment` |Identification of a sub-division of a large organisation or building. |Max70Text
+MinLength: 1
+MaxLength: 70
+Description: Identification of a sub-division of a large organisation or building.
 </title>
 SubDepartment [0..1]
 </text>
 
 <text x="94.8em" y="54.199999999999996em" fill="darkslateblue">
 <title>Type: string
-Description: ^ 0..1) | `PostalAddress. TownName` |Name of a built-up area, with defined boundaries, and a local government. |Max35Text
+MinLength: 1
+MaxLength: 35
+Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
 </text>
 
 <rect x="71em" y="56.199999999999996em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="83em" y="57.49999999999999em" fill="black">
-<title>^ Only incuded in the response if `Data. ReadRefundAccount` is set to `Yes` in the consent.</title>
+<title></title>
 DebtorAccount
 </text>
 
 <text x="72em" y="59.49999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Identification assigned by an institution to identify an account. This identification is known by the account owner. | Max256Text
+MinLength: 1
+MaxLength: 256
+Description: ^ Identification assigned by an institution to identify an account. This identification is known by the account owner.
 </title>
 Identification [1..1]
 </text>
 
 <text x="72em" y="60.79999999999999em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 350
 Description: ^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.
 </title>
 Name [1..1]
@@ -375,14 +461,22 @@ Name [1..1]
 
 <text x="72em" y="62.099999999999994em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBExternalAccountIdentification4Code
+Description: Name of the identification scheme, in a coded form as published in an external list.
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
 </title>
 SchemeName [1..1]
 </text>
 
 <text x="72em" y="63.39999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text
+MinLength: 1
+MaxLength: 34
+Description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)
 </title>
 SecondaryIdentification [0..1]
 </text>
@@ -395,6 +489,7 @@ RemittanceInformation
 
 <text x="72em" y="68.69999999999999em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
 MaxLength: 35
 Description: ^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor&#39;s reference or payment remittance identification should be quoted in the end-to-end transaction identification.
 </title>
@@ -403,6 +498,7 @@ Reference [0..1]
 
 <text x="72em" y="69.99999999999999em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
 MaxLength: 140
 Description: ^ Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts&#39; receivable system, in an unstructured form.
 </title>
@@ -458,7 +554,8 @@ Meta
 
 <rect x="29.400000000000002em" y="86.5em" width="29.6em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="44.2em" y="87.8em" fill="black">
-<title>The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments.</title>
+<title>The Risk section is sent by the initiating party to the ASPSP.
+It is used to specify additional details for risk scoring for Payments.</title>
 Risk
 </text>
 
@@ -495,7 +592,8 @@ PaymentContextCode [0..1]
 
 <rect x="65em" y="86.5em" width="20em" height="12.1em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="75em" y="87.8em" fill="black">
-<title>Information that locates and identifies a specific address, as defined by postal services or in free format text.</title>
+<title>Information that locates and identifies a specific address,
+as defined by postal services or in free format text.</title>
 DeliveryAddress
 </text>
 
@@ -503,7 +601,9 @@ DeliveryAddress
 <title>Type: string
 MinLength: 1
 MaxLength: 70
-Description: Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text.
+Description: Information that locates and identifies a specific address,
+as defined by postal services, that is presented in free format
+text.
 </title>
 AddressLine [0..1]
 </text>
@@ -519,7 +619,7 @@ BuildingNumber [0..1]
 
 <text x="66em" y="92.39999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: Nation with its own government, occupying a particular territory.
+Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
 </title>
 Country [1..1]
@@ -584,7 +684,7 @@ TownName [1..1]
 <line x1="51em" y1="2em" x2="53em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
 <line x1="53em" y1="2em" x2="53em" y2="21.799999999999997em" stroke="black" />
 <line x1="53em" y1="21.799999999999997em" x2="56.2em" y2="21.799999999999997em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="53.5em" y="21.299999999999997em">1..1</text>
+<text x="53.5em" y="21.299999999999997em">0..1</text>
 <line x1="51em" y1="2em" x2="53em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
 <line x1="53em" y1="2em" x2="53em" y2="30.999999999999996em" stroke="black" />
 <line x1="53em" y1="30.999999999999996em" x2="56.2em" y2="30.999999999999996em" stroke="black" marker-end="url(#Triangle)"/>
