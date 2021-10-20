@@ -6,7 +6,8 @@ This is the Open Banking API specifications repository.
 
 ## Releases
 
-API specifications are tagged according to the revision they match e.g. the v3.1.8 revision be tagged as `v3.1.8`. This tag will form a Release. To retrieve the files for a given release be sure to use the appropriate URL, e.g.:
+API specifications are tagged according to the revision they match e.g. the v3.1.8 revision be tagged as `v3.1.8`. 
+This tag will form a Release. To retrieve the files for a given release be sure to use the appropriate URL, e.g.:
 
 ```https://github.com/OpenBankingUK/open-banking-specs/releases/tag/v3.1.8```
 
@@ -38,7 +39,6 @@ This space contains Read/Write Data API Specifications in [OpenAPI](https://gith
 
 - [OpenAPI 3.0 - YAML](./dist/openapi/events-openapi.yaml) 
 - [OpenAPI 3.0 - JSON](./dist/openapi/events-openapi.json)
-
 
 ### Event Notifications API (TPP Endpoint sample)
 

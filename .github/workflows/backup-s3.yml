@@ -1,0 +1,23 @@
+name: Backup Repo to S3 
+on:
+  push:
+    branches:
+      - master
+      - development
+
+jobs:
+  S3Backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get branch name
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+      - name: S3 Backup
+        uses: OpenBankingUK/s3-backup@v1
+        env:
+          ACCESS_KEY_ID: ${{ secrets.BACKUP_S3_ACCESS_KEY }}
+          SECRET_ACCESS_KEY: ${{ secrets.BACKUP_S3_SECRET_KEY }}
+          MIRROR_TARGET: ob-github-backups-eu-west-1/${{ github.event.repository.name }}/${{ env.BRANCH_NAME }}
+        with:
+          args: --overwrite --remove
