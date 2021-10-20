@@ -6,14 +6,15 @@ This is the Open Banking API specifications repository.
 
 ## Releases
 
-API specifications are tagged according to the revision they match e.g. the v3.1.8 revision be tagged as `v3.1.8`. 
+API specifications are tagged according to the revision they match e.g. the v3.1.9 revision be tagged as `v3.1.9`. 
 This tag will form a Release. To retrieve the files for a given release be sure to use the appropriate URL, e.g.:
 
-```https://github.com/OpenBankingUK/open-banking-specs/releases/tag/v3.1.8```
+```https://github.com/OpenBankingUK/open-banking-specs/releases/tag/v3.1.9```
 
 ## Specifications in OpenAPI formats
 
-This space contains Read/Write Data API Specifications in [OpenAPI](https://github.com/OAI/OpenAPI-Specification#the-openapi-specification) format.
+This space contains Read/Write Data API Specifications in 
+[OpenAPI](https://github.com/OAI/OpenAPI-Specification#the-openapi-specification) format.
 
 ### Account Information 
 
