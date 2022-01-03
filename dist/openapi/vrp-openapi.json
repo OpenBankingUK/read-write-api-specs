@@ -1405,8 +1405,7 @@
               "ConsentId",
               "PSUAuthenticationMethod",
               "Initiation",
-              "Instruction",
-              "Risk"
+              "Instruction"
             ],
             "properties": {
               "ConsentId": {
@@ -1416,8 +1415,14 @@
                 "description": "Identifier for the Domestic VRP Consent that this payment is made under."
               },
               "PSUAuthenticationMethod": {
-                "$ref": "#/components/schemas/OBVRPAuthenticationMethods",
-                "description": "The authentication method that was used to authenticate the PSU.\n"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBVRPAuthenticationMethods"
+                  },
+                  {
+                    "description": "The authentication method that was used to authenticate the PSU."
+                  }
+                ]
               },
               "Initiation": {
                 "$ref": "#/components/schemas/OBDomesticVRPInitiation"
@@ -1787,7 +1792,7 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 35,
-            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction. \nUsage: the instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction. \nIt can be included in several messages related to the instruction."
+            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction.\nIt can be included in several messages related to the instruction."
           },
           "EndToEndIdentification": {
             "type": "string",
@@ -1824,7 +1829,7 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 140,
-            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form. "
+            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form."
           },
           "Reference": {
             "type": "string",
