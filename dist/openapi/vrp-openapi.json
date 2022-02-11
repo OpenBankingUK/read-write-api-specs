@@ -1201,6 +1201,7 @@
         "required": [
           "VRPType",
           "PSUAuthenticationMethods",
+          "PSUInteractionTypes",
           "MaximumIndividualAmount",
           "PeriodicLimits"
         ],
@@ -1274,6 +1275,14 @@
             },
             "minItems": 1,
             "description": "^ Indicates that the PSU authentication methods supported."
+          },
+          "PSUInteractionTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBVRPInteractionTypes"
+            },
+            "minItems": 1,
+            "description": "^ Indicates interaction type, currently if customer is present or not present."
           },
           "SupplementaryData": {
             "type": "object",
@@ -1411,6 +1420,7 @@
             "required": [
               "ConsentId",
               "PSUAuthenticationMethod",
+              "PSUInteractionType",
               "Initiation",
               "Instruction"
             ],
@@ -1428,6 +1438,16 @@
                   },
                   {
                     "description": "The authentication method that was used to authenticate the PSU."
+                  }
+                ]
+              },
+              "PSUInteractionType": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBVRPInteractionTypes"
+                  },
+                  {
+                    "description": "The interaction style used."
                   }
                 ]
               },
@@ -2048,6 +2068,13 @@
         "x-namespaced-enum": [
           "UK.OBIE.SCA",
           "UK.OBIE.SCANotRequired"
+        ]
+      },
+      "OBVRPInteractionTypes": {
+        "type": "string",
+        "enum": [
+          "InSession",
+          "OffSession"
         ]
       },
       "OBRisk1": {
