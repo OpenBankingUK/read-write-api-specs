@@ -3105,6 +3105,12 @@ components:
       type: "string"
       x-namespaced-enum:
         - "UK.OBIE.BICFI"
+    OBExternalAccountType1Code:
+      description: "Specifies the type of account (personal or business)."
+      type: "string"
+      enum:
+        - "Business"
+        - "Personal"
     OBExternalLocalInstrument1Code:
       description: "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level."
       type: "string"
@@ -3159,46 +3165,61 @@ components:
           minItems: 0
           maxItems: 7
     OBRisk1:
-      type: "object"
+      type: object
       additionalProperties: false
       description: "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments."
       properties:
         PaymentContextCode:
-          description: "Specifies the payment context"
-          type: "string"
+          type: string
+          description: Specifies the payment context
           enum:
-            - "BillPayment"
-            - "EcommerceGoods"
-            - "EcommerceServices"
-            - "Other"
-            - "PartyToParty"
-        MerchantCategoryCode:
-          description: "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction."
-          type: "string"
-          minLength: 3
-          maxLength: 4
+            - BillPayment
+            - InvoicePayment
+            - PispPayee
+            - EcommerceMerchantInitiatedPayment
+            - FaceToFacePointOfSale
+            - TransferToSelf
+            - TransferToThirdParty
         MerchantCustomerIdentification:
-          description: "The unique customer identifier of the PSU with the merchant."
-          type: "string"
+          type: string
           minLength: 1
           maxLength: 70
+          description: The unique customer identifier of the PSU with the merchant.
+        ContractPresentInidicator:
+          type: boolean
+          description: Indicates if Payee has a contractual relationship with the PISP.
+        BeneficiaryPaymentDetailsPrepopulatedIndicator:
+          type: boolean
+          description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
+        PayeeAccountName:
+          type: string
+          minLength: 1
+          maxLength: 70
+          description: Name of the account, as assigned by the account servicing institution. to be provided when ContractPresentInidicator is true
+        PaymentPurposeCode:
+          type: string
+          minLength: 3
+          maxLength: 4
+          description: Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List
+        BeneficiaryAccountType:
+          $ref: '#/components/schemas/OBExternalAccountType1Code'
         DeliveryAddress:
-          type: "object"
+          type: object
           additionalProperties: false
           required:
-            - "TownName"
-            - "Country"
-          description: "Information that locates and identifies a specific address, as defined by postal services or in free format text."
+            - Country
+            - TownName
+          description: Information that locates and identifies a specific address, as defined by postal services or in free format text.
           properties:
             AddressLine:
-              type: "array"
-              items:
-                description: "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text."
-                type: "string"
-                minLength: 1
-                maxLength: 70
+              type: array
               minItems: 0
               maxItems: 2
+              items:
+                type: string
+                minLength: 1
+                maxLength: 70
+                description: "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text."
             StreetName:
               $ref: "#/components/schemas/StreetName"
             BuildingNumber:
@@ -3210,9 +3231,7 @@ components:
             CountrySubDivision:
               $ref: "#/components/schemas/CountrySubDivision"
             Country:
-              description: "Nation with its own government, occupying a particular territory."
-              type: "string"
-              pattern: "^[A-Z]{2,2}$"
+              $ref: "#/components/schemas/CountryCode"
     OBSCASupportData1:
       type: "object"
       properties:

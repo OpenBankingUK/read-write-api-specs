@@ -1400,6 +1400,13 @@ components:
       x-namespaced-enum:
         - "UK.OBIE.BICFI"
 
+    OBExternalAccountType1Code:
+      description: "Specifies the type of account (personal or business)."
+      type: "string"
+      enum:
+        - "Business"
+        - "Personal"
+
     OBExternalLocalInstrument1Code:
       type: string
       description: |-
@@ -1569,10 +1576,12 @@ components:
           description: Specifies the payment context
           enum:
             - BillPayment
-            - EcommerceGoods
-            - EcommerceServices
-            - Other
-            - PartyToParty
+            - InvoicePayment
+            - PispPayee
+            - EcommerceMerchantInitiatedPayment
+            - FaceToFacePointOfSale
+            - TransferToSelf
+            - TransferToThirdParty
         MerchantCategoryCode:
           type: string
           minLength: 3
@@ -1584,6 +1593,24 @@ components:
           minLength: 1
           maxLength: 70
           description: The unique customer identifier of the PSU with the merchant.
+        ContractPresentInidicator:
+          type: boolean
+          description: Indicates if Payee has a contractual relationship with the PISP.
+        BeneficiaryPaymentDetailsPrepopulatedIndicator:
+          type: boolean
+          description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
+        PayeeAccountName:
+          type: string
+          minLength: 1
+          maxLength: 70
+          description: Name of the account, as assigned by the account servicing institution. to be provided when ContractPresentInidicator is true
+        PaymentPurposeCode:
+          type: string
+          minLength: 3
+          maxLength: 4
+          description: Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List
+        BeneficiaryAccountType:
+          $ref: '#/components/schemas/OBExternalAccountType1Code'
         DeliveryAddress:
           required:
             - Country
