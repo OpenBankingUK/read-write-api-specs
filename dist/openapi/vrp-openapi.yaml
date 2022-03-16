@@ -1426,6 +1426,26 @@ components:
         - "Business"
         - "Personal"
 
+    OBExternalExtendedAccountType1Code:
+      description: "Specifies the extended type of account."
+      type: "string"
+      enum:
+        - Business
+        - BusinessSavingsAccount
+        - Charity
+        - Collection
+        - Corporate
+        - Ewallet
+        - Government
+        - Investment
+        - ISA
+        - JointPersonal
+        - Pension
+        - Personal
+        - PersonalSavingsAccount
+        - Premier
+        - Wealth
+
     OBExternalLocalInstrument1Code:
       type: string
       description: |-
@@ -1603,18 +1623,32 @@ components:
 
     OBRisk1:
       type: object
+      additionalProperties: false
       properties:
+        # OBExternalPaymentContext1Code
         PaymentContextCode:
           type: string
-          description: Specifies the payment context
+          description: |
+            Specifies the payment context
+            * BillPayment - @deprecated
+            * EcommerceGoods - @deprecated
+            * EcommerceServices - @deprecated
+            * Other - @deprecated
+            * PartyToParty - @deprecated
           enum:
-            - BillPayment
-            - InvoicePayment
+            - BillingGoodsAndServicesInAdvance
+            - BillingGoodsAndServicesInArrears
             - PispPayee
             - EcommerceMerchantInitiatedPayment
             - FaceToFacePointOfSale
             - TransferToSelf
             - TransferToThirdParty
+            # Deprecated values
+            - BillPayment
+            - EcommerceGoods
+            - EcommerceServices
+            - Other
+            - PartyToParty
         MerchantCategoryCode:
           type: string
           minLength: 3
@@ -1629,21 +1663,17 @@ components:
         ContractPresentInidicator:
           type: boolean
           description: Indicates if Payee has a contractual relationship with the PISP.
-        BeneficiaryPaymentDetailsPrepopulatedIndicator:
+        BeneficiaryPrepopulatedIndicator:
           type: boolean
           description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
-        PayeeAccountName:
-          type: string
-          minLength: 1
-          maxLength: 70
-          description: Name of the account, as assigned by the account servicing institution. to be provided when ContractPresentInidicator is true
         PaymentPurposeCode:
           type: string
           minLength: 3
           maxLength: 4
           description: Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List
         BeneficiaryAccountType:
-          $ref: '#/components/schemas/OBExternalAccountType1Code'
+          $ref: '#/components/schemas/OBExternalExtendedAccountType1Code'
+        # PostalAddress2Lines
         DeliveryAddress:
           required:
             - Country
