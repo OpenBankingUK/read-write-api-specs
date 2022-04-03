@@ -5294,20 +5294,30 @@
       "OBRisk1": {
         "type": "object",
         "additionalProperties": false,
-        "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Payments.",
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context",
+            "description": "Specifies the payment context\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* Other - @deprecated\n* PartyToParty - @deprecated\n",
             "enum": [
-              "BillPayment",
-              "InvoicePayment",
+              "BillingGoodsAndServicesInAdvance",
+              "BillingGoodsAndServicesInArrears",
               "PispPayee",
               "EcommerceMerchantInitiatedPayment",
               "FaceToFacePointOfSale",
               "TransferToSelf",
-              "TransferToThirdParty"
+              "TransferToThirdParty",
+              "BillPayment",
+              "EcommerceGoods",
+              "EcommerceServices",
+              "Other",
+              "PartyToParty"
             ]
+          },
+          "MerchantCategoryCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction."
           },
           "MerchantCustomerIdentification": {
             "type": "string",
@@ -5319,15 +5329,9 @@
             "type": "boolean",
             "description": "Indicates if Payee has a contractual relationship with the PISP."
           },
-          "BeneficiaryPaymentDetailsPrepopulatedIndicator": {
+          "BeneficiaryPrepopulatedIndicator": {
             "type": "boolean",
             "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
-          },
-          "PayeeAccountName": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 70,
-            "description": "Name of the account, as assigned by the account servicing institution. to be provided when ContractPresentInidicator is true"
           },
           "PaymentPurposeCode": {
             "type": "string",
@@ -5336,26 +5340,24 @@
             "description": "Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List"
           },
           "BeneficiaryAccountType": {
-            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+            "$ref": "#/components/schemas/OBExternalExtendedAccountType1Code"
           },
           "DeliveryAddress": {
-            "type": "object",
-            "additionalProperties": false,
             "required": [
               "Country",
               "TownName"
             ],
-            "description": "Information that locates and identifies a specific address, as defined by postal services or in free format text.",
+            "type": "object",
             "properties": {
               "AddressLine": {
-                "type": "array",
-                "minItems": 0,
                 "maxItems": 2,
+                "minItems": 0,
+                "type": "array",
                 "items": {
                   "type": "string",
                   "minLength": 1,
                   "maxLength": 70,
-                  "description": "Information that locates and identifies a specific address, as defined by postal services, that is presented in free format text."
+                  "description": "Information that locates and identifies a specific address,\nas defined by postal services, that is presented in free format\ntext."
                 }
               },
               "StreetName": {
@@ -5376,9 +5378,11 @@
               "Country": {
                 "$ref": "#/components/schemas/CountryCode"
               }
-            }
+            },
+            "description": "Information that locates and identifies a specific address,\nas defined by postal services or in free format text."
           }
-        }
+        },
+        "description": "The Risk section is sent by the initiating party to the ASPSP.\nIt is used to specify additional details for risk scoring for Payments."
       },
       "OBSCASupportData1": {
         "type": "object",
