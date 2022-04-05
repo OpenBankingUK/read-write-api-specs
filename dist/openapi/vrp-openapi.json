@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "/open-banking/v3.1/vrp"
+      "url": "/open-banking/v3.1/pisp"
     }
   ],
   "info": {
@@ -1124,9 +1124,7 @@
                 "enum": [
                   "Authorised",
                   "AwaitingAuthorisation",
-                  "Rejected",
-                  "Revoked",
-                  "Expired"
+                  "Rejected"
                 ]
               },
               "StatusUpdateDateTime": {
@@ -1141,8 +1139,14 @@
                 "$ref": "#/components/schemas/OBDomesticVRPInitiation"
               },
               "DebtorAccount": {
-                "description": "The value must be populated for GET responses once the consent is approved.",
-                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+                  },
+                  {
+                    "description": "The value must be populated for GET responses once the consent is approved."
+                  }
+                ]
               }
             }
           },
@@ -1196,7 +1200,9 @@
         "type": "object",
         "required": [
           "VRPType",
-          "PSUAuthenticationMethods"
+          "PSUAuthenticationMethods",
+          "MaximumIndividualAmount",
+          "PeriodicLimits"
         ],
         "properties": {
           "ValidFromDateTime": {
@@ -1214,6 +1220,7 @@
           },
           "PeriodicLimits": {
             "type": "array",
+            "minItems": 1,
             "items": {
               "type": "object",
               "required": [
@@ -1268,6 +1275,13 @@
             "minItems": 1,
             "description": "^ Indicates that the PSU authentication methods supported."
           },
+          "PSUInteractionTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBVRPInteractionTypes"
+            },
+            "description": "^ Indicates interaction type, currently if customer is present or not present."
+          },
           "SupplementaryData": {
             "type": "object",
             "description": "^ Additional information that can not be captured in the structured fields and/or any other specific block"
@@ -1280,11 +1294,11 @@
           "DebtorAccount": {
             "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
           },
-          "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6"
-          },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3"
+          },
+          "CreditorPostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "RemittanceInformation": {
             "type": "object",
@@ -1424,6 +1438,16 @@
                   }
                 ]
               },
+              "PSUInteractionType": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBVRPInteractionTypes"
+                  },
+                  {
+                    "description": "The interaction style used."
+                  }
+                ]
+              },
               "Initiation": {
                 "$ref": "#/components/schemas/OBDomesticVRPInitiation"
               },
@@ -1486,6 +1510,15 @@
                   "Pending",
                   "Rejected"
                 ]
+              },
+              "StatusReason": {
+                "$ref": "#/components/schemas/OBVRPStatusReasonCode"
+              },
+              "StatusReasonDescription": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "description": "Description related to provided Status/StatusReason\n"
               },
               "StatusUpdateDateTime": {
                 "type": "string",
@@ -1649,13 +1682,15 @@
       },
       "OBVRPFundsConfirmationRequest": {
         "type": "object",
+        "required": [
+          "Data"
+        ],
         "description": "The OBVRPFundsConfirmationRequest object must be used to request funds availability for a specific amount in the Debtor Account included in the VRP consents.",
         "properties": {
           "Data": {
             "type": "object",
             "required": [
               "ConsentId",
-              "Reference",
               "InstructedAmount"
             ],
             "properties": {
@@ -1680,6 +1715,9 @@
       },
       "OBVRPFundsConfirmationResponse": {
         "type": "object",
+        "required": [
+          "Data"
+        ],
         "description": "The confirmation of funds response contains the result of a funds availability check.",
         "properties": {
           "Data": {
@@ -1688,7 +1726,6 @@
               "FundsConfirmationId",
               "ConsentId",
               "CreationDateTime",
-              "Reference",
               "FundsAvailableResult",
               "InstructedAmount"
             ],
@@ -1785,6 +1822,7 @@
         "required": [
           "InstructionIdentification",
           "EndToEndIdentification",
+          "InstructedAmount",
           "CreditorAccount"
         ],
         "properties": {
@@ -1809,8 +1847,8 @@
           "InstructedAmount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
           },
-          "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6"
+          "CreditorPostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3"
@@ -1855,6 +1893,35 @@
         "type": "string",
         "x-namespaced-enum": [
           "UK.OBIE.BICFI"
+        ]
+      },
+      "OBExternalAccountType1Code": {
+        "description": "Specifies the type of account (personal or business).",
+        "type": "string",
+        "enum": [
+          "Business",
+          "Personal"
+        ]
+      },
+      "OBExternalExtendedAccountType1Code": {
+        "description": "Specifies the extended type of account.",
+        "type": "string",
+        "enum": [
+          "Business",
+          "BusinessSavingsAccount",
+          "Charity",
+          "Collection",
+          "Corporate",
+          "Ewallet",
+          "Government",
+          "Investment",
+          "ISA",
+          "JointPersonal",
+          "Pension",
+          "Personal",
+          "PersonalSavingsAccount",
+          "Premier",
+          "Wealth"
         ]
       },
       "OBExternalLocalInstrument1Code": {
@@ -2016,6 +2083,14 @@
         "pattern": "^[A-Z]{2,2}$",
         "description": "Nation with its own government."
       },
+      "OBVRPStatusReasonCode": {
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.ExemptionNotApplied",
+          "UK.OBIE.OtherReason"
+        ],
+        "description": "Reason Code provided for the status of a VRP. To be documented in the Developer Portal.\n"
+      },
       "OBVRPConsentType": {
         "type": "string",
         "x-namespaced-enum": [
@@ -2030,13 +2105,28 @@
           "UK.OBIE.SCANotRequired"
         ]
       },
+      "OBVRPInteractionTypes": {
+        "type": "string",
+        "enum": [
+          "InSession",
+          "OffSession"
+        ]
+      },
       "OBRisk1": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context",
+            "description": "Specifies the payment context\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* Other - @deprecated\n* PartyToParty - @deprecated\n",
             "enum": [
+              "BillingGoodsAndServicesInAdvance",
+              "BillingGoodsAndServicesInArrears",
+              "PispPayee",
+              "EcommerceMerchantInitiatedPayment",
+              "FaceToFacePointOfSale",
+              "TransferToSelf",
+              "TransferToThirdParty",
               "BillPayment",
               "EcommerceGoods",
               "EcommerceServices",
@@ -2055,6 +2145,23 @@
             "minLength": 1,
             "maxLength": 70,
             "description": "The unique customer identifier of the PSU with the merchant."
+          },
+          "ContractPresentInidicator": {
+            "type": "boolean",
+            "description": "Indicates if Payee has a contractual relationship with the PISP."
+          },
+          "BeneficiaryPrepopulatedIndicator": {
+            "type": "boolean",
+            "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
+          },
+          "PaymentPurposeCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "description": "Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List"
+          },
+          "BeneficiaryAccountType": {
+            "$ref": "#/components/schemas/OBExternalExtendedAccountType1Code"
           },
           "DeliveryAddress": {
             "required": [

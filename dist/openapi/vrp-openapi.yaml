@@ -1,7 +1,7 @@
 openapi: 3.0.0
 
 servers:
-  - url: "/open-banking/v3.1/vrp"
+  - url: "/open-banking/v3.1/pisp"
 
 info:
   title: OBIE VRP Profile
@@ -762,8 +762,6 @@ components:
                 - Authorised
                 - AwaitingAuthorisation
                 - Rejected
-                - Revoked
-                - Expired
             StatusUpdateDateTime:
               type: string
               format: date-time
@@ -774,8 +772,9 @@ components:
             Initiation:
               $ref: '#/components/schemas/OBDomesticVRPInitiation'
             DebtorAccount:
-              description: The value must be populated for GET responses once the consent is approved.
-              $ref: '#/components/schemas/OBCashAccountDebtorWithName'
+              allOf:
+                - $ref: '#/components/schemas/OBCashAccountDebtorWithName'
+                - description: The value must be populated for GET responses once the consent is approved.
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
@@ -815,7 +814,8 @@ components:
       required:
         - VRPType
         - PSUAuthenticationMethods
-
+        - MaximumIndividualAmount
+        - PeriodicLimits
       properties:
         ValidFromDateTime:
           type: string
@@ -831,6 +831,7 @@ components:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
         PeriodicLimits:
           type: array
+          minItems: 1
           items:
             type: object
             required:
@@ -875,6 +876,12 @@ components:
           minItems: 1
           description: ^
             Indicates that the PSU authentication methods supported.
+        PSUInteractionTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBVRPInteractionTypes'
+          description: ^
+            Indicates interaction type, currently if customer is present or not present.
         SupplementaryData:
           type: object
           description: ^
@@ -886,10 +893,10 @@ components:
       properties:
         DebtorAccount:
           $ref: '#/components/schemas/OBCashAccountDebtorWithName'
-        CreditorAgent:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6'
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccountCreditor3'
+        CreditorPostalAddress:
+          $ref: "#/components/schemas/OBPostalAddress6"
         RemittanceInformation:
           type: object
           description: ^
@@ -1015,6 +1022,10 @@ components:
               allOf:
               - $ref: '#/components/schemas/OBVRPAuthenticationMethods'
               - description: The authentication method that was used to authenticate the PSU.
+            PSUInteractionType:
+              allOf:
+              - $ref: '#/components/schemas/OBVRPInteractionTypes'
+              - description: The interaction style used.
             Initiation:
               $ref: '#/components/schemas/OBDomesticVRPInitiation'
             Instruction:
@@ -1068,6 +1079,14 @@ components:
                 - AcceptedSettlementInProcess
                 - Pending
                 - Rejected
+            StatusReason:
+              $ref: '#/components/schemas/OBVRPStatusReasonCode'
+            StatusReasonDescription:
+              type: string
+              minLength: 1
+              maxLength: 256
+              description: >
+                Description related to provided Status/StatusReason
             StatusUpdateDateTime:
               type: string
               format: date-time
@@ -1203,6 +1222,8 @@ components:
 
     OBVRPFundsConfirmationRequest:
       type: object
+      required:
+        - Data
       description: |-
         The OBVRPFundsConfirmationRequest object must be used to request funds availability for a specific amount in the Debtor Account included in the VRP consents.
       properties:
@@ -1210,7 +1231,6 @@ components:
           type: object
           required:
             - ConsentId
-            - Reference
             - InstructedAmount
           properties:
             ConsentId:
@@ -1230,6 +1250,8 @@ components:
 
     OBVRPFundsConfirmationResponse:
       type: object
+      required:
+        - Data
       description: |-
         The confirmation of funds response contains the result of a funds availability check.
       properties:
@@ -1239,7 +1261,6 @@ components:
             - FundsConfirmationId
             - ConsentId
             - CreationDateTime
-            - Reference
             - FundsAvailableResult
             - InstructedAmount
           properties:
@@ -1324,6 +1345,7 @@ components:
       required:
         - InstructionIdentification
         - EndToEndIdentification
+        - InstructedAmount
         - CreditorAccount
       properties:
         InstructionIdentification:
@@ -1350,8 +1372,8 @@ components:
           $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
         InstructedAmount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
-        CreditorAgent:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6'
+        CreditorPostalAddress:
+          $ref: "#/components/schemas/OBPostalAddress6"
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccountCreditor3'
         SupplementaryData:
@@ -1395,6 +1417,33 @@ components:
       type: string
       x-namespaced-enum:
         - "UK.OBIE.BICFI"
+
+    OBExternalAccountType1Code:
+      description: "Specifies the type of account (personal or business)."
+      type: "string"
+      enum:
+        - "Business"
+        - "Personal"
+
+    OBExternalExtendedAccountType1Code:
+      description: "Specifies the extended type of account."
+      type: "string"
+      enum:
+        - Business
+        - BusinessSavingsAccount
+        - Charity
+        - Collection
+        - Corporate
+        - Ewallet
+        - Government
+        - Investment
+        - ISA
+        - JointPersonal
+        - Pension
+        - Personal
+        - PersonalSavingsAccount
+        - Premier
+        - Wealth
 
     OBExternalLocalInstrument1Code:
       type: string
@@ -1545,6 +1594,14 @@ components:
       description: Nation with its own government.
 
 
+    OBVRPStatusReasonCode:
+      type: string
+      x-namespaced-enum:
+        - UK.OBIE.ExemptionNotApplied
+        - UK.OBIE.OtherReason
+      description: >
+        Reason Code provided for the status of a VRP. To be documented in the Developer Portal.
+
     OBVRPConsentType:
       type: string
       x-namespaced-enum:
@@ -1557,13 +1614,35 @@ components:
         - UK.OBIE.SCA
         - UK.OBIE.SCANotRequired
 
+    OBVRPInteractionTypes:
+      type: string
+      enum:
+        - InSession
+        - OffSession
+
     OBRisk1:
       type: object
+      additionalProperties: false
       properties:
+        # OBExternalPaymentContext1Code
         PaymentContextCode:
           type: string
-          description: Specifies the payment context
+          description: |
+            Specifies the payment context
+            * BillPayment - @deprecated
+            * EcommerceGoods - @deprecated
+            * EcommerceServices - @deprecated
+            * Other - @deprecated
+            * PartyToParty - @deprecated
           enum:
+            - BillingGoodsAndServicesInAdvance
+            - BillingGoodsAndServicesInArrears
+            - PispPayee
+            - EcommerceMerchantInitiatedPayment
+            - FaceToFacePointOfSale
+            - TransferToSelf
+            - TransferToThirdParty
+            # Deprecated values
             - BillPayment
             - EcommerceGoods
             - EcommerceServices
@@ -1580,6 +1659,20 @@ components:
           minLength: 1
           maxLength: 70
           description: The unique customer identifier of the PSU with the merchant.
+        ContractPresentInidicator:
+          type: boolean
+          description: Indicates if Payee has a contractual relationship with the PISP.
+        BeneficiaryPrepopulatedIndicator:
+          type: boolean
+          description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
+        PaymentPurposeCode:
+          type: string
+          minLength: 3
+          maxLength: 4
+          description: Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List
+        BeneficiaryAccountType:
+          $ref: '#/components/schemas/OBExternalExtendedAccountType1Code'
+        # PostalAddress2Lines
         DeliveryAddress:
           required:
             - Country
