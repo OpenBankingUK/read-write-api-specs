@@ -694,8 +694,33 @@
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
             }
           }
         }
@@ -1033,7 +1058,8 @@
               "UK.OBIE.Unsupported.Currency",
               "UK.OBIE.Unsupported.Frequency",
               "UK.OBIE.Unsupported.LocalInstrument",
-              "UK.OBIE.Unsupported.Scheme"
+              "UK.OBIE.Unsupported.Scheme",
+              "UK.OBIE.Rules.ResourceAlreadyExists"
             ]
           },
           "Message": {
