@@ -3709,6 +3709,9 @@
           },
           "Currency": {
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+          },
+          "SubType": {
+            "$ref": "#/components/schemas/OBExternalBalanceSubType1Code"
           }
         }
       },
@@ -6461,7 +6464,8 @@
           "UK.OBIE.IBAN",
           "UK.OBIE.PAN",
           "UK.OBIE.Paym",
-          "UK.OBIE.SortCodeAccountNumber"
+          "UK.OBIE.SortCodeAccountNumber",
+          "UK.OBIE.Wallet"
         ]
       },
       "OBExternalAccountRole1Code": {
@@ -6504,6 +6508,13 @@
         "enum": [
           "Business",
           "Personal"
+        ]
+      },
+      "OBExternalBalanceSubType1Code": {
+        "description": "Amount sub type, in a coded form.",
+        "enum": [
+          "BaseCurrency",
+          "LocalCurrency"
         ]
       },
       "OBExternalDirectDebitStatus1Code": {
@@ -9165,6 +9176,9 @@
                         },
                         "Currency": {
                           "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                        },
+                        "SubType": {
+                          "$ref": "#/components/schemas/OBExternalBalanceSubType1Code"
                         }
                       }
                     },
@@ -9210,10 +9224,45 @@
                           }
                         }
                       }
+                    },
+                    "LocalAmount": {
+                      "type": "object",
+                      "required": [
+                        "Amount",
+                        "Currency"
+                      ],
+                      "description": "Optional component providing the equivalent of Amount in local currency.",
+                      "properties": {
+                        "Amount": {
+                          "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                        },
+                        "Currency": {
+                          "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                        },
+                        "SubType": {
+                          "$ref": "#/components/schemas/OBExternalBalanceSubType1Code"
+                        }
+                      }
                     }
                   }
                 },
                 "minItems": 1
+              },
+              "TotalValue": {
+                "type": "object",
+                "description": "Combined sum of all Amounts in the accounts base currency.",
+                "required": [
+                  "Amount",
+                  "Currency"
+                ],
+                "properties": {
+                  "Amount": {
+                    "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                  },
+                  "Currency": {
+                    "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                  }
+                }
               }
             }
           },
@@ -12253,6 +12302,25 @@
                 "Amount": {
                   "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
                 }
+              },
+              "LocalAmount": {
+                "type": "object",
+                "required": [
+                  "Amount",
+                  "Currency"
+                ],
+                "description": "Optional component providing the equivalent of Amount in local currency.",
+                "properties": {
+                  "Amount": {
+                    "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                  },
+                  "Currency": {
+                    "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                  },
+                  "SubType": {
+                    "$ref": "#/components/schemas/OBExternalBalanceSubType1Code"
+                  }
+                }
               }
             }
           },
@@ -12310,6 +12378,22 @@
                 "Type": {
                   "$ref": "#/components/schemas/OBExternalStatementValueType1Code"
                 }
+              }
+            }
+          },
+          "TotalValue": {
+            "type": "object",
+            "description": "Combined sum of all Amounts in the accounts base currency.",
+            "required": [
+              "Amount",
+              "Currency"
+            ],
+            "properties": {
+              "Amount": {
+                "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+              },
+              "Currency": {
+                "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
               }
             }
           }

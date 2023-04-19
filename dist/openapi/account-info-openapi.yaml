@@ -2253,6 +2253,8 @@ components:
           $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
         Currency:
           $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+        SubType:
+          $ref: "#/components/schemas/OBExternalBalanceSubType1Code"
     OBActiveOrHistoricCurrencyAndAmount_9:
       type: "object"
       required:
@@ -4471,6 +4473,7 @@ components:
         - "UK.OBIE.PAN"
         - "UK.OBIE.Paym"
         - "UK.OBIE.SortCodeAccountNumber"
+        - "UK.OBIE.Wallet"
     OBExternalAccountRole1Code:
       description: "A party’s role with respect to the related account."
       type: "string"
@@ -4507,6 +4510,12 @@ components:
       enum:
         - "Business"
         - "Personal"
+    OBExternalBalanceSubType1Code:
+      description: "Amount sub type, in a coded form."
+      type: "string"
+      enum:
+        - "BaseCurrency"
+        - "LocalCurrency"
     OBExternalDirectDebitStatus1Code:
       description: "Specifies the status of the direct debit in code form."
       type: "string"
@@ -6675,6 +6684,8 @@ components:
                         $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
                       Currency:
                         $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                      SubType:
+                        $ref: "#/components/schemas/OBExternalBalanceSubType1Code"
                   CreditLine:
                     type: "array"
                     items:
@@ -6706,7 +6717,31 @@ components:
                               $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
                             Currency:
                               $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                  LocalAmount:
+                    type: "object"
+                    required:
+                      - "Amount"
+                      - "Currency"
+                    description: "Optional component providing the equivalent of Amount in local currency."
+                    properties:
+                      Amount:
+                        $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                      Currency:
+                        $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                      SubType:
+                        $ref: "#/components/schemas/OBExternalBalanceSubType1Code"
               minItems: 1
+            TotalValue:
+              type: "object"
+              required:
+                - "Amount"
+                - "Currency"
+              description: "Combined sum of all Amounts in the accounts base currency"
+              properties:
+                Amount:
+                  $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                Currency:
+                  $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
         Links:
           $ref: "#/components/schemas/Links"
         Meta:
@@ -8934,6 +8969,19 @@ components:
                 $ref: "#/components/schemas/OBExternalStatementAmountType1Code"
               Amount:
                 $ref: "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+              LocalAmount:
+                type: "object"
+                required:
+                  - "Amount"
+                  - "Currency"
+                description: "Optional component providing the equivalent of Amount in local currency."
+                properties:
+                  Amount:
+                    $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                  Currency:
+                    $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                  SubType:
+                    $ref: "#/components/schemas/OBExternalBalanceSubType1Code"
         StatementDateTime:
           type: "array"
           items:
@@ -8973,6 +9021,17 @@ components:
                 $ref: "#/components/schemas/Value"
               Type:
                 $ref: "#/components/schemas/OBExternalStatementValueType1Code"
+              TotalValue:
+                type: "object"
+                description: "Combined sum of all Amounts in the accounts base currency"
+                required:
+                  - "Amount"
+                  - "Currency"
+                properties:
+                  Amount:
+                    $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                  Currency:
+                    $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
       additionalProperties: false
     OBStatement2Basic:
       type: "object"
