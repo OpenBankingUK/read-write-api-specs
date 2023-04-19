@@ -6685,7 +6685,7 @@ components:
                       Currency:
                         $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
                       SubType:
-                        description: "The amount in the domestic or base accounting currency."
+                        description: "The amount in the domestic or base accounting currency. Default is Base Currency (BCUR) if not specified"
                         type: "string"
                         enum:
                           - "BaseCurrency"
@@ -6727,7 +6727,7 @@ components:
                     required:
                       - "Amount"
                       - "Currency"
-                    description: "Optional component providing the equivalent of Amount in local currency."
+                    description: "Optional component providing the equivalent of Amount in local currency. Default is Local Currency (LCUR) if not specified"
                     properties:
                       Amount:
                         $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -8978,20 +8978,41 @@ components:
               Type:
                 $ref: "#/components/schemas/OBExternalStatementAmountType1Code"
               Amount:
-                $ref: "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+                    type: "object"
+                    required:
+                      - "Amount"
+                      - "Currency"
+                    description: "Amount of money of the cash balance."
+                    properties:
+                      Amount:
+                        $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                      Currency:
+                        $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                      SubType:
+                        description: "The amount in the domestic or base accounting currency. Default is Base Currency (BCUR) if not specified"
+                        type: "string"
+                        enum:
+                          - "BaseCurrency"
+                          - "LocalCurrency"
+                        default: "BaseCurrency"
               LocalAmount:
-                type: "object"
-                required:
-                  - "Amount"
-                  - "Currency"
-                description: "Optional component providing the equivalent of Amount in local currency."
-                properties:
-                  Amount:
-                    $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
-                  Currency:
-                    $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
-                  SubType:
-                    $ref: "#/components/schemas/OBExternalBalanceSubType1Code"
+                    type: "object"
+                    required:
+                      - "Amount"
+                      - "Currency"
+                    description: "Optional component providing the equivalent of Amount in local currency."
+                    properties:
+                      Amount:
+                        $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                      Currency:
+                        $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                      SubType:
+                        description: "The amount in the local market currency for which the asset is held. Default is Local Currency (LCUR) if not specified"
+                        type: "string"
+                        enum:
+                          - "BaseCurrency"
+                          - "LocalCurrency"
+                        default: "LocalCurrency"
         StatementDateTime:
           type: "array"
           items:
@@ -9031,17 +9052,17 @@ components:
                 $ref: "#/components/schemas/Value"
               Type:
                 $ref: "#/components/schemas/OBExternalStatementValueType1Code"
-              TotalValue:
-                type: "object"
-                description: "Combined sum of all Amounts in the accounts base currency"
-                required:
-                  - "Amount"
-                  - "Currency"
-                properties:
-                  Amount:
-                    $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
-                  Currency:
-                    $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+        TotalValue:
+          type: "object"
+          description: "Combined sum of all Amounts in the accounts base currency"
+          required:
+            - "Amount"
+            - "Currency"
+          properties:
+            Amount:
+              $ref: "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+            Currency:
+              $ref: "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
       additionalProperties: false
     OBStatement2Basic:
       type: "object"
@@ -10080,4 +10101,5 @@ components:
         id:
           type: "integer"
           format: "int64"
+
 

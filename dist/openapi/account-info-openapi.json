@@ -3321,7 +3321,7 @@
         "maxLength": 35
       },
       "Number_0": {
-        "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it�s part of a government scheme, or whether the rate may vary dependent on the applicant�s circumstances.",
+        "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it\ufffds part of a government scheme, or whether the rate may vary dependent on the applicant\ufffds circumstances.",
         "type": "integer"
       },
       "Number_1": {
@@ -6512,6 +6512,7 @@
       },
       "OBExternalBalanceSubType1Code": {
         "description": "Amount sub type, in a coded form.",
+        "type": "string",
         "enum": [
           "BaseCurrency",
           "LocalCurrency"
@@ -9178,14 +9179,13 @@
                           "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
                         },
                         "SubType": {
-                          "SubType": {
-                            "description": "The amount in the domestic or base accounting currency.",
-                            "enum": [
-                              "BaseCurrency",
-                              "LocalCurrency"
-                            ],
+                          "description": "The amount in the domestic or base accounting currency. Default is Base Currency (BCUR) if not specified",
+                          "type": "string",
+                          "enum": [
+                            "BaseCurrency",
+                            "LocalCurrency"
+                          ],
                           "default": "BaseCurrency"
-                          }
                         }
                       }
                     },
@@ -9238,7 +9238,7 @@
                         "Amount",
                         "Currency"
                       ],
-                      "description": "Optional component providing the equivalent of Amount in local currency.",
+                      "description": "Optional component providing the equivalent of Amount in local currency. Default is Local Currency (LCUR) if not specified",
                       "properties": {
                         "Amount": {
                           "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -9248,11 +9248,12 @@
                         },
                         "SubType": {
                           "description": "The amount in the local market currency for which the asset is held.",
+                          "type": "string",
                           "enum": [
                             "BaseCurrency",
                             "LocalCurrency"
                           ],
-                        "default": "LocalCurrency"
+                          "default": "LocalCurrency"
                         }
                       }
                     }
@@ -9262,11 +9263,11 @@
               },
               "TotalValue": {
                 "type": "object",
-                "description": "Combined sum of all Amounts in the accounts base currency.",
                 "required": [
                   "Amount",
                   "Currency"
                 ],
+                "description": "Combined sum of all Amounts in the accounts base currency",
                 "properties": {
                   "Amount": {
                     "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -10205,7 +10206,7 @@
                                           ]
                                         },
                                         "OverdraftInterestChargingCoverage": {
-                                          "description": "Refers to which interest rate is applied when interests are tiered. For example, if an overdraft balance is �2k and the interest tiers are:- 0-�500 0.1%, 500-1000 0.2%, 1000-10000 0.5%, then the applicable interest rate could either be 0.5% of the entire balance (since the account balance sits in the top interest tier) or (0.1%*500)+(0.2%*500)+(0.5%*1000). In the 1st situation, we say the interest is applied to the �Whole� of the account balance,  and in the 2nd that it is �Tiered�.",
+                                          "description": "Refers to which interest rate is applied when interests are tiered. For example, if an overdraft balance is \ufffd2k and the interest tiers are:- 0-\ufffd500 0.1%, 500-1000 0.2%, 1000-10000 0.5%, then the applicable interest rate could either be 0.5% of the entire balance (since the account balance sits in the top interest tier) or (0.1%*500)+(0.2%*500)+(0.5%*1000). In the 1st situation, we say the interest is applied to the \ufffdWhole\ufffd of the account balance,  and in the 2nd that it is \ufffdTiered\ufffd.",
                                           "type": "string",
                                           "enum": [
                                             "INBA",
@@ -10214,7 +10215,7 @@
                                           ]
                                         },
                                         "BankGuaranteedIndicator": {
-                                          "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it�s part of a government scheme, or whether the rate may vary dependent on the applicant�s circumstances.",
+                                          "description": "Indicates whether the advertised overdraft rate is guaranteed to be offered to a borrower by the bank e.g. if it\ufffds part of a government scheme, or whether the rate may vary dependent on the applicant\ufffds circumstances.",
                                           "type": "boolean"
                                         },
                                         "Notes": {
@@ -12312,25 +12313,53 @@
                   "$ref": "#/components/schemas/OBExternalStatementAmountType1Code"
                 },
                 "Amount": {
-                  "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
-                }
-              },
-              "LocalAmount": {
-                "type": "object",
-                "required": [
-                  "Amount",
-                  "Currency"
-                ],
-                "description": "Optional component providing the equivalent of Amount in local currency.",
-                "properties": {
-                  "Amount": {
-                    "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
-                  },
-                  "Currency": {
-                    "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
-                  },
-                  "SubType": {
-                    "$ref": "#/components/schemas/OBExternalBalanceSubType1Code"
+                  "type": "object",
+                  "required": [
+                    "Amount",
+                    "Currency"
+                  ],
+                  "description": "Amount of money of the cash balance.",
+                  "properties": {
+                    "Amount": {
+                      "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                    },
+                    "Currency": {
+                      "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                    },
+                    "SubType": {
+                      "description": "The amount in the domestic or base accounting currency. Default is Base Currency (BCUR) if not specified",
+                      "type": "string",
+                      "enum": [
+                        "BaseCurrency",
+                        "LocalCurrency"
+                      ],
+                      "default": "BaseCurrency"
+                    }
+                  }
+                },
+                "LocalAmount": {
+                  "type": "object",
+                  "required": [
+                    "Amount",
+                    "Currency"
+                  ],
+                  "description": "Optional component providing the equivalent of Amount in local currency.",
+                  "properties": {
+                    "Amount": {
+                      "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                    },
+                    "Currency": {
+                      "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                    },
+                    "SubType": {
+                      "description": "The amount in the local market currency for which the asset is held. Default is Local Currency (LCUR) if not specified",
+                      "type": "string",
+                      "enum": [
+                        "BaseCurrency",
+                        "LocalCurrency"
+                      ],
+                      "default": "LocalCurrency"
+                    }
                   }
                 }
               }
@@ -12395,7 +12424,7 @@
           },
           "TotalValue": {
             "type": "object",
-            "description": "Combined sum of all Amounts in the accounts base currency.",
+            "description": "Combined sum of all Amounts in the accounts base currency",
             "required": [
               "Amount",
               "Currency"
