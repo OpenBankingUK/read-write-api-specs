@@ -6,7 +6,7 @@ servers:
 info:
   title: OBIE VRP Profile
   description: VRP OpenAPI Specification
-  version: 3.1.10
+  version: 3.1.11
   termsOfService: "https://www.openbanking.org.uk/terms"
   contact:
     name: "Service Desk"
@@ -175,9 +175,7 @@ paths:
 
       responses:
         '200':
-          $ref: "#/components/responses/201OBDomesticVRPFundsConfirmationResponse"
-        '201':
-          $ref: "#/components/responses/201OBDomesticVRPFundsConfirmationResponse"
+          $ref: "#/components/responses/200OBDomesticVRPFundsConfirmationResponse"
         '400':
           $ref: "#/components/responses/400Error"
         '401':
@@ -518,7 +516,7 @@ components:
           schema:
             $ref: "#/components/schemas/OBDomesticVRPConsentResponse"
 
-    201OBDomesticVRPFundsConfirmationResponse:
+    200OBDomesticVRPFundsConfirmationResponse:
       description: "Default response"
       headers:
         x-fapi-interaction-id:
@@ -1039,6 +1037,7 @@ components:
           required:
             - ConsentId
             - PSUAuthenticationMethod
+            - VRPType
             - Initiation
             - Instruction
           properties:
@@ -1056,6 +1055,8 @@ components:
               allOf:
               - $ref: '#/components/schemas/OBVRPInteractionTypes'
               - description: The interaction style used.
+            VRPType:
+              $ref: '#/components/schemas/OBVRPConsentType'
             Initiation:
               $ref: '#/components/schemas/OBDomesticVRPInitiation'
             Instruction:
