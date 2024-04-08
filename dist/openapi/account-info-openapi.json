@@ -3350,7 +3350,7 @@
           "AccountCategory": {
             "$ref": "#/components/schemas/OBInternalAccountType1Code"
           },
-          " AccountTypeCode": {
+          "AccountTypeCode": {
             "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
           },
           "Description": {
@@ -3393,6 +3393,9 @@
               }
             }
           },
+          "StatementFrequencyAndFormat": {
+            "$ref": "#/components/schemas/StatementFrequencyAndFormat"
+        },
           "Servicer": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
           }
@@ -3406,7 +3409,7 @@
           "AccountId",
           "Currency",
           "AccountCategory",
-          " AccountTypeCode"
+          "AccountTypeCode"
         ],
         "properties": {
           "AccountId": {
@@ -3424,7 +3427,7 @@
           "AccountCategory": {
             "$ref": "#/components/schemas/OBInternalAccountType1Code"
           },
-          " AccountTypeCode": {
+          "AccountTypeCode": {
             "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
           },
           "Description": {
@@ -3452,7 +3455,7 @@
           "AccountId",
           "Currency",
           "AccountCategory",
-          " AccountTypeCode",
+          "AccountTypeCode",
           "Account"
         ],
         "properties": {
@@ -3471,7 +3474,7 @@
           "AccountCategory": {
             "$ref": "#/components/schemas/OBInternalAccountType1Code"
           },
-          " AccountTypeCode": {
+          "AccountTypeCode": {
             "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
           },
           "Description": {
@@ -6261,6 +6264,11 @@
           }
         }
       },
+      "OBCommunicationMethod" : {
+        "description": "Individual Definitions:\nEMAL - Email\nFAXI - Fax\nFILE - File\nONLI - Online\nPOST - Postal Service",
+        "type": "string",
+        "enum" : ["EMAL","FAXI","FILE","ONLI","POST"]
+      },
       "OBCreditDebitCode_0": {
         "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount.",
         "type": "string",
@@ -6771,6 +6779,16 @@
           "UK.OBIE.RetailShoppingPoints",
           "UK.OBIE.RetailShoppingPointsBalance"
         ]
+      },
+      "OBFrequency2": {
+        "description": "Individual Definitions:\n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nMIAN - Semi Annual\nTEND - Ten Days\nMOVE - Triggered By Movement\nWEEK - Weekly ", 
+        "type": "string",
+        "enum": ["YEAR", "DAIL", "INDA", "MNTH", "QURT", "MIAN", "TEND", "MOVE", "WEEK"]
+      },
+      "OBFileFormat" : {
+        "description": "Individual Definitions:\nDPDF - Pdf \nDXML - XML \nSDSH - Spreadsheet \nWORD - Word \nXSLT - XSLT", 
+        "type": "string",
+        "enum": ["DPDF", "DXML", "SDHS", "WORD", "XSLT"]
       },
       "OBMerchantDetails1": {
         "type": "object",
@@ -13779,6 +13797,24 @@
         "type": "string",
         "format": "date-time"
       },
+      "StatementFrequencyAndFormat": {
+        "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Frequency and format of statments for an account",
+            "properties": {
+              "Frequency": {
+                "$ref": "#/components/schemas/OBFrequency2"
+              },
+              "CommunicationMethod" : {
+                "$ref": "#/components/schemas/OBCommunicationMethod"
+              },
+              "OBFileFormat" : {
+                "$ref": "#/components/schemas/OBFileFormat"
+              }
+            }
+          }
+        },
       "StatementId": {
         "description": "Unique identifier for the statement resource within an servicing institution. This identifier is both unique and immutable.",
         "type": "string",
