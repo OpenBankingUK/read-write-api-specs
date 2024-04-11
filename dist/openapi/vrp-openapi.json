@@ -8,7 +8,7 @@
   "info": {
     "title": "OBIE VRP Profile",
     "description": "VRP OpenAPI Specification",
-    "version": "3.1.11",
+    "version": "4.0-DRAFT1",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -1799,7 +1799,7 @@
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 35,
-                "description": "Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction."
+                "description": "Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction."
               },
               "FundsAvailableResult": {
                 "$ref": "#/components/schemas/OBPAFundsAvailableResult1"
@@ -1833,6 +1833,56 @@
             ]
           }
         }
+      },
+      "OBCategoryPurposeCode": {
+        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+        "type" : "string",
+        "enum" : [
+          "BONU",
+          "CASH",
+          "CBLK",
+          "CCRD",
+          "CGWV",
+          "CIPC",
+          "CONC",
+          "CORT",
+          "DCRD",
+          "DIVI",
+          "DVPM",
+          "EPAY",
+          "FCDT",
+          "FCIN",
+          "FCOL",
+          "GOVT",
+          "GP2P",
+          "HEDG",
+          "ICCP",
+          "IDCP",
+          "INTC",
+          "INTE",
+          "LBOX",
+          "LOAN",
+          "MP2B",
+          "MP2P",
+          "OTHR",
+          "PENS",
+          "RPRE",
+          "RRCT",
+          "RVPM",
+          "SALA",
+          "SECU",
+          "SSBE",
+          "SUPP",
+          "SWEP",
+          "TAXS",
+          "TOPG",
+          "TRAD",
+          "TREA",
+          "VATX",
+          "VOST",
+          "WHLD",
+          "ZABA"
+        ]
       },
       "OBCharge2": {
         "type": "object",
@@ -2208,6 +2258,9 @@
             "minLength": 3,
             "maxLength": 4,
             "description": "Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List"
+          },
+          "CategoryPurposeCode":{
+            "$ref": "#/components/schemas/OBCategoryPurposeCode"
           },
           "BeneficiaryAccountType": {
             "$ref": "#/components/schemas/OBExternalExtendedAccountType1Code"

@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "3.1.11"
+    "version": "4.0-DRAFT1"
   },
   "paths": {
     "/domestic-payment-consents": {
@@ -298,6 +298,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -517,6 +520,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -673,6 +679,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "415": {
             "$ref": "#/components/responses/415Error"
@@ -896,6 +905,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -1052,6 +1064,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "415": {
             "$ref": "#/components/responses/415Error"
@@ -1275,6 +1290,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -1435,6 +1453,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -1589,6 +1610,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "415": {
             "$ref": "#/components/responses/415Error"
@@ -1876,6 +1900,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "415": {
             "$ref": "#/components/responses/415Error"
@@ -2321,6 +2348,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -2542,6 +2572,9 @@
           },
           "406": {
             "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
           },
           "415": {
             "$ref": "#/components/responses/415Error"
@@ -2765,6 +2798,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -2922,6 +2958,9 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
           "415": {
             "$ref": "#/components/responses/415Error"
           },
@@ -3055,6 +3094,7 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
+          
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -4791,6 +4831,42 @@
           }
         }
       },
+      "409Error": {
+        "description": "Conflict",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
       "415Error": {
         "description": "Unsupported Media Type",
         "headers": {
@@ -4896,6 +4972,56 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 16
+      },
+      "OBCategoryPurposeCode": {
+        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+        "type" : "string",
+        "enum" : [
+          "BONU",
+          "CASH",
+          "CBLK",
+          "CCRD",
+          "CGWV",
+          "CIPC",
+          "CONC",
+          "CORT",
+          "DCRD",
+          "DIVI",
+          "DVPM",
+          "EPAY",
+          "FCDT",
+          "FCIN",
+          "FCOL",
+          "GOVT",
+          "GP2P",
+          "HEDG",
+          "ICCP",
+          "IDCP",
+          "INTC",
+          "INTE",
+          "LBOX",
+          "LOAN",
+          "MP2B",
+          "MP2P",
+          "OTHR",
+          "PENS",
+          "RPRE",
+          "RRCT",
+          "RVPM",
+          "SALA",
+          "SECU",
+          "SSBE",
+          "SUPP",
+          "SWEP",
+          "TAXS",
+          "TOPG",
+          "TRAD",
+          "TREA",
+          "VATX",
+          "VOST",
+          "WHLD",
+          "ZABA"
+        ]
       },
       "CountryCode": {
         "description": "Nation with its own government.",
@@ -5339,6 +5465,9 @@
             "minLength": 3,
             "maxLength": 4,
             "description": "Category code, related to the type of services or goods that corresponds to the underlying purpose of the payment that conforms to Recommended UK Purpose Code in ISO 20022 Payment Messaging List"
+          },
+          "CategoryPurposeCode":{
+            "$ref": "#/components/schemas/OBCategoryPurposeCode"
           },
           "BeneficiaryAccountType": {
             "$ref": "#/components/schemas/OBExternalExtendedAccountType1Code"

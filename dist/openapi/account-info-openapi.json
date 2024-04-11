@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "3.1.11"
+    "version": "4.0-DRAFT1"
   },
   "paths": {
     "/account-access-consents": {
@@ -3330,7 +3330,7 @@
       },
       "OBAccount6": {
         "type": "object",
-        "description": "Unambiguous identification of the account to which credit and debit entries are made. The following fields are optional only for accounts that are switched:\n\n  * Data.Currency  \n  * Data.AccountType  \n  * Data.AccountSubType\n\nFor all other accounts, the fields must be populated by the ASPSP.",
+        "description": "Unambiguous identification of the account to which credit and debit entries are made. The following fields are optional only for accounts that are switched:\n\n  * Data.Currency  \n  * Data.AccountCategory  \n  * Data. AccountTypeCode\n\nFor all other accounts, the fields must be populated by the ASPSP.",
         "required": [
           "AccountId"
         ],
@@ -3347,10 +3347,10 @@
           "Currency": {
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
           },
-          "AccountType": {
-            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          "AccountCategory": {
+            "$ref": "#/components/schemas/OBInternalAccountType1Code"
           },
-          "AccountSubType": {
+          "AccountTypeCode": {
             "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
           },
           "Description": {
@@ -3393,6 +3393,9 @@
               }
             }
           },
+          "StatementFrequencyAndFormat": {
+            "$ref": "#/components/schemas/StatementFrequencyAndFormat"
+        },
           "Servicer": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
           }
@@ -3405,8 +3408,8 @@
         "required": [
           "AccountId",
           "Currency",
-          "AccountType",
-          "AccountSubType"
+          "AccountCategory",
+          "AccountTypeCode"
         ],
         "properties": {
           "AccountId": {
@@ -3421,10 +3424,10 @@
           "Currency": {
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
           },
-          "AccountType": {
-            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          "AccountCategory": {
+            "$ref": "#/components/schemas/OBInternalAccountType1Code"
           },
-          "AccountSubType": {
+          "AccountTypeCode": {
             "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
           },
           "Description": {
@@ -3451,8 +3454,8 @@
         "required": [
           "AccountId",
           "Currency",
-          "AccountType",
-          "AccountSubType",
+          "AccountCategory",
+          "AccountTypeCode",
           "Account"
         ],
         "properties": {
@@ -3468,10 +3471,10 @@
           "Currency": {
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_0"
           },
-          "AccountType": {
-            "$ref": "#/components/schemas/OBExternalAccountType1Code"
+          "AccountCategory": {
+            "$ref": "#/components/schemas/OBInternalAccountType1Code"
           },
-          "AccountSubType": {
+          "AccountTypeCode": {
             "$ref": "#/components/schemas/OBExternalAccountSubType1Code"
           },
           "Description": {
@@ -5982,19 +5985,15 @@
         "description": "Balance type, in a coded form.",
         "type": "string",
         "enum": [
-          "ClosingAvailable",
-          "ClosingBooked",
-          "ClosingCleared",
-          "Expected",
-          "ForwardAvailable",
-          "Information",
-          "InterimAvailable",
-          "InterimBooked",
-          "InterimCleared",
-          "OpeningAvailable",
-          "OpeningBooked",
-          "OpeningCleared",
-          "PreviouslyClosedBooked"
+          "CLAV",
+          "XPCH",
+          "FWAV",
+          "INFO",
+          "ITAV", 
+          "ITBD", 
+          "OPAV",
+          "OPBD", 
+          "PRCD"
         ]
       },
       "OBBankTransactionCodeStructure1": {
@@ -6106,6 +6105,9 @@
           },
           "Identification": {
             "$ref": "#/components/schemas/Identification_1"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
           }
         }
       },
@@ -6262,6 +6264,61 @@
           }
         }
       },
+       "OBCategoryPurposeCode": {
+        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+        "type" : "string",
+        "enum" : [
+          "BONU",
+          "CASH",
+          "CBLK",
+          "CCRD",
+          "CGWV",
+          "CIPC",
+          "CONC",
+          "CORT",
+          "DCRD",
+          "DIVI",
+          "DVPM",
+          "EPAY",
+          "FCDT",
+          "FCIN",
+          "FCOL",
+          "GOVT",
+          "GP2P",
+          "HEDG",
+          "ICCP",
+          "IDCP",
+          "INTC",
+          "INTE",
+          "LBOX",
+          "LOAN",
+          "MP2B",
+          "MP2P",
+          "OTHR",
+          "PENS",
+          "RPRE",
+          "RRCT",
+          "RVPM",
+          "SALA",
+          "SECU",
+          "SSBE",
+          "SUPP",
+          "SWEP",
+          "TAXS",
+          "TOPG",
+          "TRAD",
+          "TREA",
+          "VATX",
+          "VOST",
+          "WHLD",
+          "ZABA"
+        ]
+      },
+      "OBCommunicationMethod" : {
+        "description": "Individual Definitions:\nEMAL - Email\nFAXI - Fax\nFILE - File\nONLI - Online\nPOST - Postal Service",
+        "type": "string",
+        "enum" : ["EMAL","FAXI","FILE","ONLI","POST"]
+      },
       "OBCreditDebitCode_0": {
         "description": "Indicates whether the amount is a credit or a debit. \nUsage: A zero amount is considered to be a credit amount.",
         "type": "string",
@@ -6346,9 +6403,10 @@
         "description": "Status of a transaction entry on the books of the account servicer.",
         "type": "string",
         "enum": [
-          "Booked",
-          "Pending",
-          "Rejected"
+          "BOOK",
+          "FUTR",
+          "INFO",
+          "PDNG"
         ]
       },
       "OBTransactionMutability1Code": {
@@ -6489,21 +6547,37 @@
         ]
       },
       "OBExternalAccountSubType1Code": {
-        "description": "Specifies the sub type of account (product family group).",
+        "description": "Specifies the sub type of account (product family group) using ISO 20022 values.",
         "type": "string",
         "enum": [
-          "ChargeCard",
-          "CreditCard",
-          "CurrentAccount",
-          "EMoney",
-          "Loan",
-          "Mortgage",
-          "PrePaidCard",
-          "Savings",
-          "Wallet"
+          "CACC",
+          "CARD", 
+          "CASH", 
+          "CHAR", 
+          "CISH", 
+          "COMM", 
+          "CPAC", 
+          "LLSV", 
+          "LOAN", 
+          "MGLD", 
+          "MOMA", 
+          "NFCA", 
+          "NREX", 
+          "ODFT", 
+          "ONDP", 
+          "OTHR", 
+          "SACC", 
+          "SLRY", 
+          "SVGS", 
+          "TAXE", 
+          "TRAN", 
+          "TRAS", 
+          "VACC", 
+          "MORT", 
+          "WALT"
         ]
       },
-      "OBExternalAccountType1Code": {
+      "OBInternalAccountType1Code": {
         "description": "Specifies the type of account (personal or business).",
         "type": "string",
         "enum": [
@@ -6755,6 +6829,16 @@
           "UK.OBIE.RetailShoppingPoints",
           "UK.OBIE.RetailShoppingPointsBalance"
         ]
+      },
+      "OBFrequency2": {
+        "description": "Individual Definitions:\n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nMIAN - Semi Annual\nTEND - Ten Days\nMOVE - Triggered By Movement\nWEEK - Weekly ", 
+        "type": "string",
+        "enum": ["YEAR", "DAIL", "INDA", "MNTH", "QURT", "MIAN", "TEND", "MOVE", "WEEK"]
+      },
+      "OBFileFormat" : {
+        "description": "Individual Definitions:\nDPDF - Pdf \nDXML - XML \nSDSH - Spreadsheet \nWORD - Word \nXSLT - XSLT", 
+        "type": "string",
+        "enum": ["DPDF", "DXML", "SDHS", "WORD", "XSLT"]
       },
       "OBMerchantDetails1": {
         "type": "object",
@@ -9037,7 +9121,7 @@
           }
         }
       },
-      "OBPostalAddress6": {
+    "OBPostalAddress6": {
         "type": "object",
         "description": "Information that locates and identifies a specific address, as defined by postal services.",
         "properties": {
@@ -12936,6 +13020,9 @@
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
+          },
+          "CategoryPurposeCode":{
+            "$ref": "#/components/schemas/OBCategoryPurposeCode"
           }
         },
         "additionalProperties": false
@@ -13763,6 +13850,27 @@
         "type": "string",
         "format": "date-time"
       },
+      "StatementFrequencyAndFormat": {
+        "type": "array",
+          "items": {
+            "type": "object",
+            "description": "Frequency and format of statments for an account",
+            "properties": {
+              "Frequency": {
+                "$ref": "#/components/schemas/OBFrequency2"
+              },
+              "CommunicationMethod" : {
+                "$ref": "#/components/schemas/OBCommunicationMethod"
+              },
+              "Format" : {
+                "$ref": "#/components/schemas/OBFileFormat"
+              },
+              "DeliveryAdress": {
+                "$ref": "#/components/schemas/OBPostalAddress6"
+              }
+            }
+          }
+        },
       "StatementId": {
         "description": "Unique identifier for the statement resource within an servicing institution. This identifier is both unique and immutable.",
         "type": "string",
