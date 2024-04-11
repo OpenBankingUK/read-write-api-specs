@@ -1861,11 +1861,24 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
+    BuildingName:
+      description: Name of a referenced building.
+      type: string
+      minLength: 1
+      maxLength: 70
     BuildingNumber:
       description: Number that identifies the position of a building on a street.
       type: string
       minLength: 1
       maxLength: 16
+    CareOf:
+      description: >-
+        The 'care of' address is used whenever sending mail to a person or
+        organisation who does not actually live or work at the address. They
+        will receive the mail for the individual.
+      type: string
+      minLength: 1
+      maxLength: 70
     CountryCode:
       description: Nation with its own government, occupying a particular territory.
       type: string
@@ -1931,6 +1944,13 @@ components:
       type: string
       minLength: 1
       maxLength: 40
+    DistrictName:
+      description: >-
+        Number that of the regional area, known as a district, which forms part
+        of an address
+      type: string
+      minLength: 1
+      maxLength: 70
     EmailAddress:
       description: Address for electronic mail (e-mail).
       type: string
@@ -1974,6 +1994,11 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
+    Floor:
+      description: Number that identifies the level within a building
+      type: string
+      minLength: 1
+      maxLength: 16
     Frequency_1:
       description: >-
         Individual Definitions:
@@ -2544,6 +2569,18 @@ components:
         - Postal
         - Residential
         - Statement
+    OBAddressType2Code:
+      description: Identifies the nature of the postal address.
+      type: string
+      enum:
+        - BIZZ
+        - DLVY
+        - MLTO
+        - PBOX
+        - ADDR
+        - HOME
+        - CORR
+        - STAT
     OBBCAData1:
       type: object
       title: BCA
@@ -7901,7 +7938,7 @@ components:
         by postal services.
       properties:
         AddressType:
-          $ref: '#/components/schemas/OBAddressTypeCode'
+          $ref: '#/components/schemas/OBAddressType2Code'
         Department:
           description: Identification of a division of a large organisation or building.
           type: string
@@ -7918,6 +7955,20 @@ components:
           $ref: '#/components/schemas/StreetName'
         BuildingNumber:
           $ref: '#/components/schemas/BuildingNumber'
+        BuildingName:
+          $ref: '#/components/schemas/BuildingName'
+        Floor:
+          $ref: '#/components/schemas/Floor'
+        UnitNumber:
+          $ref: '#/components/schemas/UnitNumber'
+        PostBox:
+          $ref: '#/components/schemas/PostBox'
+        TownLocationName:
+          $ref: '#/components/schemas/TownName'
+        DistrictName:
+          $ref: '#/components/schemas/DistrictName'
+        CareOf:
+          $ref: '#/components/schemas/CareOf'
         PostCode:
           $ref: '#/components/schemas/PostCode'
         TownName:
@@ -11956,6 +12007,13 @@ components:
         defined by telecom services.
       type: string
       pattern: \+[0-9]{1,3}-[0-9()+\-]{1,30}
+    PostBox:
+      description: >-
+        Information that locates and identifies a box in a post office assigned
+        to a person or organization, where letters for them are kept until
+        called for.
+      minLength: 1
+      maxLength: 70
     PostCode:
       description: >-
         Identifier consisting of a group of letters and/or numbers that is added
@@ -12016,6 +12074,12 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    Room:
+      description: >-
+        Information that locates and identifies a room to form part of an
+        address
+      minLength: 1
+      maxLength: 70
     OBBeneficiaryType1Code:
       description: Specifies the Beneficiary Type.
       type: string
@@ -12142,6 +12206,11 @@ components:
       type: string
       minLength: 1
       maxLength: 210
+    UnitNumber:
+      description: Number that identifies the unit of a specific address .
+      type: string
+      minLength: 1
+      maxLength: 16
     Value:
       description: Value associated with the statement value type.
       type: string
