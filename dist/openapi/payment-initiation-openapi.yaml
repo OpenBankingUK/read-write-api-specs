@@ -3042,6 +3042,11 @@ components:
         currencies and funds".
       type: string
       pattern: ^[A-Z]{3,3}$
+    BuildingName:
+      description: Name of a referenced building.
+      type: string
+      minLength: 1
+      maxLength: 70
     BuildingNumber:
       description: Number that identifies the position of a building on a street.
       type: string
@@ -3097,6 +3102,14 @@ components:
         - VOST
         - WHLD
         - ZABA
+    CareOf:
+      description: >-
+        The 'care of' address is used whenever sending mail to a person or
+        organisation who does not actually live or work at the address. They
+        will receive the mail for the individual.
+      type: string
+      minLength: 1
+      maxLength: 70
     CountryCode:
       description: Nation with its own government.
       type: string
@@ -3106,6 +3119,13 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    DistrictName:
+      description: >-
+        Number that of the regional area, known as a district, which forms part
+        of an address
+      type: string
+      minLength: 1
+      maxLength: 70
     Department:
       description: Identification of a division of a large organisation or building.
       type: string
@@ -3115,6 +3135,11 @@ components:
       type: object
       additionalProperties: false
       properties: {}
+    Floor:
+      description: Number that identifies the level within a building
+      type: string
+      minLength: 1
+      maxLength: 16
     ISODateTime:
       description: >-
         All dates in the JSON payloads are represented in ISO 8601 date-time
@@ -3212,6 +3237,18 @@ components:
         - Postal
         - Residential
         - Statement
+    OBAddressType2Code:
+      description: Identifies the nature of the postal address.
+      type: string
+      enum:
+        - BIZZ
+        - DLVY
+        - MLTO
+        - PBOX
+        - ADDR
+        - HOME
+        - CORR
+        - STAT
     OBChargeBearerType1Code:
       description: >-
         Specifies which party/parties will bear the charges associated with the
@@ -3449,7 +3486,7 @@ components:
         by postal services.
       properties:
         AddressType:
-          $ref: '#/components/schemas/OBAddressTypeCode'
+          $ref: '#/components/schemas/OBAddressType2Code'
         Department:
           $ref: '#/components/schemas/Department'
         SubDepartment:
@@ -3458,6 +3495,22 @@ components:
           $ref: '#/components/schemas/StreetName'
         BuildingNumber:
           $ref: '#/components/schemas/BuildingNumber'
+        BuildingName:
+          $ref: '#/components/schemas/BuildingName'
+        Floor:
+          $ref: '#/components/schemas/Floor'
+        UnitNumber:
+          $ref: '#/components/schemas/UnitNumber'
+        Room:
+          $ref: '#/components/schemas/Room'
+        PostBox:
+          $ref: '#/components/schemas/PostBox'
+        TownLocationName:
+          $ref: '#/components/schemas/TownName'
+        DistrictName:
+          $ref: '#/components/schemas/DistrictName'
+        CareOf:
+          $ref: '#/components/schemas/CareOf'
         PostCode:
           $ref: '#/components/schemas/PostCode'
         TownName:
@@ -13252,6 +13305,13 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    PostBox:
+      description: >-
+        Information that locates and identifies a box in a post office assigned
+        to a person or organization, where letters for them are kept until
+        called for.
+      minLength: 1
+      maxLength: 70
     PostCode:
       description: >-
         Identifier consisting of a group of letters and/or numbers that is added
@@ -13259,6 +13319,12 @@ components:
       type: string
       minLength: 1
       maxLength: 16
+    Room:
+      description: >-
+        Information that locates and identifies a room to form part of an
+        address
+      minLength: 1
+      maxLength: 70
     SecondaryIdentification:
       description: >-
         This is secondary identification of the account, as assigned by the
@@ -13287,3 +13353,8 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    UnitNumber:
+      description: Number that identifies the unit of a specific address .
+      type: string
+      minLength: 1
+      maxLength: 16

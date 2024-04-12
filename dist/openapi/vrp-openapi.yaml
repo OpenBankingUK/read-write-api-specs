@@ -1112,6 +1112,9 @@ components:
             - Initiation
             - Instruction
             - DebtorAccount
+          description: >
+            `Data.Refund` only included in the response if
+            `Data.ReadRefundAccount` is set to `Yes` in the consent.
           properties:
             DomesticVRPId:
               type: string
@@ -1167,9 +1170,6 @@ components:
                 Expected settlement date and time for the payment resource.
             Refund:
               $ref: '#/components/schemas/OBCashAccountDebtorWithName'
-              description: >
-                Only included in the response if `Data.ReadRefundAccount` is set
-                to `Yes` in the consent.
             Charges:
               type: array
               items:
@@ -1640,7 +1640,7 @@ components:
         by postal services.
       properties:
         AddressType:
-          $ref: '#/components/schemas/OBAddressTypeCode'
+          $ref: '#/components/schemas/OBAddressType2Code'
         Department:
           $ref: '#/components/schemas/Department'
         SubDepartment:
@@ -1649,6 +1649,22 @@ components:
           $ref: '#/components/schemas/StreetName'
         BuildingNumber:
           $ref: '#/components/schemas/BuildingNumber'
+        BuildingName:
+          $ref: '#/components/schemas/BuildingName'
+        Floor:
+          $ref: '#/components/schemas/Floor'
+        UnitNumber:
+          $ref: '#/components/schemas/UnitNumber'
+        Room:
+          $ref: '#/components/schemas/Room'
+        PostBox:
+          $ref: '#/components/schemas/PostBox'
+        TownLocationName:
+          $ref: '#/components/schemas/TownName'
+        DistrictName:
+          $ref: '#/components/schemas/DistrictName'
+        CareOf:
+          $ref: '#/components/schemas/CareOf'
         PostCode:
           $ref: '#/components/schemas/PostCode'
         TownName:
@@ -1680,6 +1696,18 @@ components:
         - Postal
         - Residential
         - Statement
+    OBAddressType2Code:
+      description: Identifies the nature of the postal address.
+      type: string
+      enum:
+        - BIZZ
+        - DLVY
+        - MLTO
+        - PBOX
+        - ADDR
+        - HOME
+        - CORR
+        - STAT
     Department:
       description: Identification of a division of a large organisation or building.
       type: string
@@ -1695,11 +1723,43 @@ components:
       minLength: 1
       maxLength: 70
       description: Name of a street or thoroughfare.
+    BuildingName:
+      description: Name of a referenced building.
+      type: string
+      minLength: 1
+      maxLength: 70
     BuildingNumber:
       type: string
       minLength: 1
       maxLength: 16
       description: Number that identifies the position of a building on a street.
+    CareOf:
+      description: >-
+        The 'care of' address is used whenever sending mail to a person or
+        organisation who does not actually live or work at the address. They
+        will receive the mail for the individual.
+      type: string
+      minLength: 1
+      maxLength: 70
+    DistrictName:
+      description: >-
+        Number that of the regional area, known as a district, which forms part
+        of an address
+      type: string
+      minLength: 1
+      maxLength: 70
+    Floor:
+      description: Number that identifies the level within a building
+      type: string
+      minLength: 1
+      maxLength: 16
+    PostBox:
+      description: >-
+        Information that locates and identifies a box in a post office assigned
+        to a person or organization, where letters for them are kept until
+        called for.
+      minLength: 1
+      maxLength: 70
     PostCode:
       type: string
       minLength: 1
@@ -1707,6 +1767,17 @@ components:
       description: >-
         Identifier consisting of a group of letters and/or numbers that is added
         to a postal address to assist the sorting of mail.
+    Room:
+      description: >-
+        Information that locates and identifies a room to form part of an
+        address
+      minLength: 1
+      maxLength: 70
+    UnitNumber:
+      description: Number that identifies the unit of a specific address .
+      type: string
+      minLength: 1
+      maxLength: 16
     TownName:
       type: string
       minLength: 1
