@@ -1136,7 +1136,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "ControlParameters",
               "Initiation"
@@ -1161,14 +1161,22 @@
                 "format": "date-time",
                 "description": "Date and time at which the resource was created.\n"
               },
-              "Status": {
+              "StatusCode": {
+                "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
-                "description": "Specifies the status of resource in code form.\n",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Rejected"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH",
+                  "COND"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
               },
               "StatusUpdateDateTime": {
                 "type": "string",
@@ -2556,6 +2564,24 @@
           "CORR",
           "STAT"
         ]
+      },
+      "OBStatusReason": {
+        "type":"object",
+        "properties": {
+          "StatusReasonCode": {
+            "type":"string",
+            "description" : "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription": {
+            "description": "Description supporting the StatusReasonCode.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
       },
       "Department": {
         "description": "Identification of a division of a large organisation or building.",
