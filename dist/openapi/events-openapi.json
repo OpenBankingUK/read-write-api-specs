@@ -862,37 +862,11 @@
         "type": "object",
         "properties": {
           "ErrorCode": {
-            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+            "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
             "type": "string",
-            "x-namespaced-enum": [
-              "UK.OBIE.Field.Expected",
-              "UK.OBIE.Field.Invalid",
-              "UK.OBIE.Field.InvalidDate",
-              "UK.OBIE.Field.Missing",
-              "UK.OBIE.Field.Unexpected",
-              "UK.OBIE.Header.Invalid",
-              "UK.OBIE.Header.Missing",
-              "UK.OBIE.Reauthenticate",
-              "UK.OBIE.Resource.ConsentMismatch",
-              "UK.OBIE.Resource.InvalidConsentStatus",
-              "UK.OBIE.Resource.InvalidFormat",
-              "UK.OBIE.Resource.NotFound",
-              "UK.OBIE.Rules.AfterCutOffDateTime",
-              "UK.OBIE.Rules.DuplicateReference",
-              "UK.OBIE.Signature.Invalid",
-              "UK.OBIE.Signature.InvalidClaim",
-              "UK.OBIE.Signature.Malformed",
-              "UK.OBIE.Signature.Missing",
-              "UK.OBIE.Signature.MissingClaim",
-              "UK.OBIE.Signature.Unexpected",
-              "UK.OBIE.UnexpectedError",
-              "UK.OBIE.Unsupported.AccountIdentifier",
-              "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
-              "UK.OBIE.Unsupported.Currency",
-              "UK.OBIE.Unsupported.Frequency",
-              "UK.OBIE.Unsupported.LocalInstrument",
-              "UK.OBIE.Unsupported.Scheme"
-            ]
+            "minLength": 4,
+            "maxLength": 4,
+            "example": "AC17"
           },
           "Message": {
             "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
@@ -912,8 +886,7 @@
           }
         },
         "required": [
-          "ErrorCode",
-          "Message"
+          "ErrorCode"
         ],
         "additionalProperties": false,
         "minProperties": 1
@@ -922,23 +895,11 @@
         "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
         "type": "object",
         "properties": {
-          "Code": {
-            "description": "High level textual error code, to help categorize the errors.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 40
-          },
           "Id": {
             "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
             "type": "string",
             "minLength": 1,
             "maxLength": 40
-          },
-          "Message": {
-            "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 500
           },
           "Errors": {
             "items": {
@@ -949,8 +910,6 @@
           }
         },
         "required": [
-          "Code",
-          "Message",
           "Errors"
         ],
         "additionalProperties": false
