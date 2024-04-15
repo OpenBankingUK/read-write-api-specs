@@ -13495,6 +13495,44 @@
                       "type": "string",
                       "format": "date-time",
                       "description": "Date and time at which the status was assigned to the transfer.\n"
+                    },
+                  "StatusDetail": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "Status"
+                    ],
+                    "description": "Payment status details as per underlying Payment Rail.",
+                    "properties": {
+                        "LocalInstrument": {
+                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
+                        },
+                        "Status": {
+                          "description": "Status of a transfer, as assigned by the transaction administrator.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "StatusReason": {
+                          "description": "Reason Code provided for the status of a transfer.",
+                          "type": "string",
+                          "enum": [
+                            "Cancelled",
+                            "PendingFailingSettlement",
+                            "PendingSettlement",
+                            "Proprietary",
+                            "ProprietaryRejection",
+                            "Suspended",
+                            "Unmatched"
+                          ]
+                        },
+                        "StatusReasonDescription": {
+                          "description": "Reason provided for the status of a transfer.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        }
+                      }
                     }
                   }
                 }
