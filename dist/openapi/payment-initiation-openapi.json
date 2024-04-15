@@ -5780,6 +5780,24 @@
           "BIID"
         ]
       },
+      "OBPaymentStatusReason" :{
+        "type":"object",
+        "properties":{
+          "StatusReasonCode":{
+            "type":"string",
+            "description" : "Specifies the status reason in a code form \n For more infromation and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets", 
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription" : {
+            "type" :"string",
+            "description": "Description supporting the StatusReasonCode.",
+            "minLength": 1, 
+            "maxLength": 500
+          }
+        }
+      },
       "OBPostalAddress6": {
         "type": "object",
         "additionalProperties": false,
@@ -13436,89 +13454,47 @@
               "PaymentStatus": {
                 "type": "array",
                 "items": {
-                  "type": "object",
-                  "additionalProperties": false,
-                  "description": "Payment status details.",
                   "required": [
                     "PaymentTransactionId",
-                    "Status",
+                    "StatusCode",
                     "StatusUpdateDateTime"
                   ],
+                  "type": "object",
                   "properties": {
                     "PaymentTransactionId": {
-                      "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
                       "type": "string",
                       "minLength": 1,
-                      "maxLength": 210
+                      "maxLength": 210,
+                      "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
                     },
-                    "Status": {
-                      "description": "Status of a transfe, as assigned by the transaction administrator.",
+                    "StatusCode": {
                       "type": "string",
+                      "description": "Status of a transfer, as assigned by the transaction administrator.",
                       "enum": [
-                        "Accepted",
-                        "AcceptedCancellationRequest",
-                        "AcceptedCreditSettlementCompleted",
-                        "AcceptedCustomerProfile",
-                        "AcceptedFundsChecked",
-                        "AcceptedSettlementCompleted",
-                        "AcceptedSettlementInProcess",
-                        "AcceptedTechnicalValidation",
-                        "AcceptedWithChange",
-                        "AcceptedWithoutPosting",
-                        "Cancelled",
-                        "NoCancellationProcess",
-                        "PartiallyAcceptedCancellationRequest",
-                        "PartiallyAcceptedTechnicalCorrect",
-                        "PaymentCancelled",
-                        "Pending",
-                        "PendingCancellationRequest",
-                        "Received",
-                        "Rejected",
-                        "RejectedCancellationRequest"
+                        "RCVD",
+                        "PDNG",
+                        "ACTC", 
+                        "ACFC",
+                        "ACSP", 
+                        "ACSC", 
+                        "ACWP", 
+                        "ACCC", 
+                        "BLCK", 
+                        "CANC", 
+                        "RJCT"
                       ]
                     },
-                    "StatusUpdateDateTime": {
-                      "description": "Date and time at which the status was assigned to the transfer.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "StatusDetail": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "required": [
-                        "Status"
-                      ],
-                      "description": "Payment status details as per underlying Payment Rail.",
-                      "properties": {
-                        "LocalInstrument": {
-                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
-                        },
-                        "Status": {
-                          "description": "Status of a transfer, as assigned by the transaction administrator.",
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 128
-                        },
-                        "StatusReason": {
-                          "description": "Reason Code provided for the status of a transfer.",
-                          "type": "string",
-                          "enum": [
-                            "Cancelled",
-                            "PendingFailingSettlement",
-                            "PendingSettlement",
-                            "Proprietary",
-                            "ProprietaryRejection",
-                            "Suspended",
-                            "Unmatched"
-                          ]
-                        },
-                        "StatusReasonDescription": {
-                          "description": "Reason provided for the status of a transfer.",
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 256
-                        }
+                    "StatusReason" :{
+                      "type": "array",
+                      "items" : { 
+                        "type": "object",
+                        "$ref": "#/components/schemas/OBPaymentStatusReason"
                       }
+                    }, 
+                    "StatusUpdateDateTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time at which the status was assigned to the transfer.\n"
                     }
                   }
                 }

@@ -1646,7 +1646,7 @@
                 "items": {
                   "required": [
                     "PaymentTransactionId",
-                    "Status",
+                    "StatusCode",
                     "StatusUpdateDateTime"
                   ],
                   "type": "object",
@@ -1657,72 +1657,34 @@
                       "maxLength": 210,
                       "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
                     },
-                    "Status": {
+                    "StatusCode": {
                       "type": "string",
                       "description": "Status of a transfer, as assigned by the transaction administrator.",
                       "enum": [
-                        "Accepted",
-                        "AcceptedCancellationRequest",
-                        "AcceptedCreditSettlementCompleted",
-                        "AcceptedCustomerProfile",
-                        "AcceptedFundsChecked",
-                        "AcceptedSettlementCompleted",
-                        "AcceptedSettlementInProcess",
-                        "AcceptedTechnicalValidation",
-                        "AcceptedWithChange",
-                        "AcceptedWithoutPosting",
-                        "Cancelled",
-                        "NoCancellationProcess",
-                        "PartiallyAcceptedCancellationRequest",
-                        "PartiallyAcceptedTechnicalCorrect",
-                        "PaymentCancelled",
-                        "Pending",
-                        "PendingCancellationRequest",
-                        "Received",
-                        "Rejected",
-                        "RejectedCancellationRequest"
+                        "RCVD",
+                        "PDNG",
+                        "ACTC", 
+                        "ACFC",
+                        "ACSP", 
+                        "ACSC", 
+                        "ACWP", 
+                        "ACCC", 
+                        "BLCK", 
+                        "CANC", 
+                        "RJCT"
                       ]
                     },
+                    "StatusReason" :{
+                      "type": "array",
+                      "items" : { 
+                        "type": "object",
+                        "$ref": "#/components/schemas/OBPaymentStatusReason"
+                      }
+                    }, 
                     "StatusUpdateDateTime": {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date and time at which the status was assigned to the transfer.\n"
-                    },
-                    "StatusDetail": {
-                      "type": "object",
-                      "required": [
-                        "Status"
-                      ],
-                      "properties": {
-                        "LocalInstrument": {
-                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
-                        },
-                        "Status": {
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 128,
-                          "description": "Status of a transfer, as assigned by the transaction administrator."
-                        },
-                        "StatusReason": {
-                          "type": "string",
-                          "description": "Reason Code provided for the status of a transfer.",
-                          "enum": [
-                            "Cancelled",
-                            "PendingFailingSettlement",
-                            "PendingSettlement",
-                            "Proprietary",
-                            "ProprietaryRejection",
-                            "Suspended",
-                            "Unmatched"
-                          ]
-                        },
-                        "StatusReasonDescription": {
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 128,
-                          "description": "Reason provided for the status of a transfer."
-                        }
-                      }
                     }
                   }
                 }
@@ -2441,6 +2403,24 @@
           "VIPN",
           "BIID"
         ]
+      },
+      "OBPaymentStatusReason" :{
+        "type":"object",
+        "properties":{
+          "StatusReasonCode":{
+            "type":"string",
+            "description" : "Specifies the status reason in a code form \n For more infromation and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets", 
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription" : {
+            "type" :"string",
+            "description": "Description supporting the StatusReasonCode.",
+            "minLength": 1, 
+            "maxLength": 500
+          }
+        }
       },
       "OBPostalAddress6": {
         "type": "object",
