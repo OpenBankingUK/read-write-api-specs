@@ -5257,40 +5257,13 @@
       },
       "OBError1": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "ErrorCode": {
-            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
+            "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
             "type": "string",
-            "x-namespaced-enum": [
-              "UK.OBIE.Field.Expected",
-              "UK.OBIE.Field.Invalid",
-              "UK.OBIE.Field.InvalidDate",
-              "UK.OBIE.Field.Missing",
-              "UK.OBIE.Field.Unexpected",
-              "UK.OBIE.Header.Invalid",
-              "UK.OBIE.Header.Missing",
-              "UK.OBIE.Reauthenticate",
-              "UK.OBIE.Resource.ConsentMismatch",
-              "UK.OBIE.Resource.InvalidConsentStatus",
-              "UK.OBIE.Resource.InvalidFormat",
-              "UK.OBIE.Resource.NotFound",
-              "UK.OBIE.Rules.AfterCutOffDateTime",
-              "UK.OBIE.Rules.DuplicateReference",
-              "UK.OBIE.Signature.Invalid",
-              "UK.OBIE.Signature.InvalidClaim",
-              "UK.OBIE.Signature.Malformed",
-              "UK.OBIE.Signature.Missing",
-              "UK.OBIE.Signature.MissingClaim",
-              "UK.OBIE.Signature.Unexpected",
-              "UK.OBIE.UnexpectedError",
-              "UK.OBIE.Unsupported.AccountIdentifier",
-              "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
-              "UK.OBIE.Unsupported.Currency",
-              "UK.OBIE.Unsupported.Frequency",
-              "UK.OBIE.Unsupported.LocalInstrument",
-              "UK.OBIE.Unsupported.Scheme"
-            ]
+            "minLength": 4,
+            "maxLength": 4,
+            "example": "AC17"
           },
           "Message": {
             "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
@@ -5310,9 +5283,9 @@
           }
         },
         "required": [
-          "ErrorCode",
-          "Message"
+          "ErrorCode"
         ],
+        "additionalProperties": false,
         "minProperties": 1
       },
       "OBErrorResponse1": {
@@ -5320,23 +5293,11 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "Code": {
-            "description": "High level textual error code, to help categorize the errors.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 40
-          },
           "Id": {
             "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
             "type": "string",
             "minLength": 1,
             "maxLength": 40
-          },
-          "Message": {
-            "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 500
           },
           "Errors": {
             "items": {
@@ -5347,8 +5308,6 @@
           }
         },
         "required": [
-          "Code",
-          "Message",
           "Errors"
         ]
       },
@@ -5969,6 +5928,24 @@
         },
         "description": "Supporting Data provided by TPP, when requesting SCA Exemption."
       },
+      "OBStatusReason": {
+        "type":"object",
+        "properties": {
+          "StatusReasonCode": {
+            "type":"string",
+            "description" : "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription": {
+            "description": "Description supporting the StatusReasonCode.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
       "OBSupplementaryData1": {
         "type": "object",
         "properties": {},
@@ -6320,7 +6297,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -6336,15 +6313,22 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Consumed",
-                  "Rejected"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH",
+                  "COND"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -9048,7 +9032,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -9064,16 +9048,22 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "AwaitingUpload",
-                  "Consumed",
-                  "Rejected"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH",
+                  "COND"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the consent resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -10043,7 +10033,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -10059,15 +10049,22 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Consumed",
-                  "Rejected"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH",
+                  "COND"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -11442,7 +11439,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Permission",
               "Initiation"
@@ -11459,15 +11456,22 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Consumed",
-                  "Rejected"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH",
+                  "COND"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -12753,7 +12757,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Permission",
               "Initiation"
@@ -12770,15 +12774,22 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
-                "description": "Specifies the status of resource in code form.",
+              "StatusCode": {
+                "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Consumed",
-                  "Rejected"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH",
+                  "COND"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
