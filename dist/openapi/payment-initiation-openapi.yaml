@@ -3052,15 +3052,7 @@ components:
       type: string
       minLength: 1
       maxLength: 16
-    Date:
-      description: >-
-        Date and time associated with the date time type.All dates in the JSON
-        payloads are represented in ISO 8601 date format. 
-         An example is below:
-        2017-04-05
-      type: string
-      format: date
-    OBCategoryPurpose1Code:
+    OBCategoryPurposeCode:
       description: >-
         Enumeration of codes that outlines the type of purpose behind a
         transaction, payment or risk.
@@ -3332,12 +3324,6 @@ components:
             addition to a sort code and account number combination) | Max34Text
         Proxy:
           $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
-    OBClassification1Code:
-      type: string
-      enum:
-        - FIXE
-        - USGB
-        - VARI
     OBError1:
       type: object
       properties:
@@ -3795,59 +3781,6 @@ components:
         - DEPD
         - RETL
         - DEBT
-    OBFrequencyPeriodType:
-      description: |-
-        Individual Definitions:
-         ADHO - Adhoc 
-         YEAR - Annual
-        DAIL - Daily
-        INDA - Intra Day
-        MNTH - Monthly
-        QURT - Quarterly
-        WEEK - Weekly 
-      type: string
-      enum:
-        - ADHO
-        - YEAR
-        - DAIL
-        - INDA
-        - MNTH
-        - QURT
-        - MIAN
-        - WEEK
-    OBMandateRelatedInformation:
-      type: object
-      required:
-        - PeriodType
-        - CountPerPeriod
-        - PointInTimeType
-        - PointInTime
-      properties:
-        MandateIdentification:
-          $ref: '#/components/schemas/Identification_1'
-        Classificatoin:
-          $ref: '#/components/schemas/OBClassification1Code'
-        CategoryPurposeCode:
-          $ref: '#/components/schemas/OBCategoryPurpose1Code'
-        FirstPaymentDate:
-          $ref: '#/components/schemas/Date'
-        LastPaymentDate:
-          $ref: '#/components/schemas/Date'
-        Frequency:
-          $ref: '#/components/schemas/OBFrequencyPeriodType'
-        PeriodType:
-          $ref: '#/components/schemas/OBFrequencyPeriodType'
-        CountPeriodPeriod:
-          type: integer
-          format: int32
-        PointInTimeType:
-          $ref: '#/components/schemas/OBFrequencyPeriodType'
-        PointInTime:
-          $ref: '#/components/schemas/Time'
-        Reason:
-          type: string
-          maxLength: 256
-          minLength: 1
     OBPaymentStatusReason:
       type: object
       properties:
@@ -4015,7 +3948,7 @@ components:
         PaymentPurposeCode:
           $ref: '#/components/schemas/OBExternalPurpose1Code'
         CategoryPurposeCode:
-          $ref: '#/components/schemas/OBCategoryPurpose1Code'
+          $ref: '#/components/schemas/OBCategoryPurposeCode'
         BeneficiaryAccountType:
           $ref: '#/components/schemas/OBExternalExtendedAccountType1Code'
         DeliveryAddress:
@@ -6921,8 +6854,6 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
-                MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -7299,8 +7230,6 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
-                MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -12625,8 +12554,6 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
-                MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -13041,8 +12968,6 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
-                MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -13696,27 +13621,6 @@ components:
       type: string
       minLength: 1
       maxLength: 70
-    Time:
-      description: >-
-        Time at which assets become available to the account owner in case of a
-        credit entry, or cease to be available to the account owner in case of a
-        debit transaction entry.
-
-        Usage: If transaction entry status is pending and value date is present,
-        then the value date refers to an expected/requested value date.
-
-        For transaction entries subject to availability/float and for which
-        availability information is provided, the value date must not be used.
-        In this case the availability component identifies the number of
-        availability days.All dates in the JSON payloads are represented in ISO
-        8601 date-time format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        T10:43:07+00:00
-      type: string
-      format: time
     TownName:
       description: >-
         Name of a built-up area, with defined boundaries, and a local
