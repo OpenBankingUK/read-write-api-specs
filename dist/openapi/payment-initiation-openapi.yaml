@@ -3394,6 +3394,50 @@ components:
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
         - UK.OBIE.Wallet
+    OBExternalCreditorReferenceType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
+      enum:
+        - DISP
+        - FXDR
+        - PUOR
+        - RPIN
+        - RADM
+        - SCOR
+    OBExternalDocumentType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: >-
+        Specifies the document type as published in an external document type
+        code list. For more information see `ExternalDocumentType1Code` here -
+        https://github.com/OpenBankingUK/External_Interal_CodeSets
+      enum:
+        - CINV
+        - CNFA
+        - CONT
+        - CREN
+        - DEBN
+        - DISP
+        - DNFA
+        - HIRI
+        - INVS
+        - MSIN
+        - PROF
+        - PUOR
+        - QUOT
+        - SBIN
+        - SPRR
+        - TISH
+        - USAR
+        - AROI
+        - BOLD
+        - CMCN
+        - SOAC
+        - TSUT
+        - VCHR
     OBExternalFinancialInstitutionIdentification4Code:
       description: >-
         Name of the identification scheme, in a coded form as published in an
@@ -3899,6 +3943,67 @@ components:
             maxLength: 70
           minItems: 0
           maxItems: 7
+    OBReferredDocumentInformation:
+      type: object
+      properties:
+        Code:
+          $ref: '#/components/schemas/OBExternalDocumentType1Code'
+        Issuer:
+          type: string
+          maxLength: 140
+          minLength: 1
+        Number:
+          type: string
+          maxLength: 140
+          minLength: 1
+        RelatedDate:
+          $ref: '#/components/schemas/ISODateTime'
+        LineDetails:
+          type: array
+          items:
+            type: string
+    OBRemittanceInformation1:
+      type: object
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system
+      properties:
+        Structured:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBRemittanceInformationStructured'
+        Unstructured:
+          type: array
+          items:
+            type: string
+            maxLength: 256
+            minLength: 1
+    OBRemittanceInformationStructured:
+      type: object
+      properties:
+        RemittanceDocumentInformation:
+          $ref: '#/components/schemas/OBReferredDocumentInformation'
+        ReferenceDocumentAmount:
+          type: integer
+          format: int32
+        CreditorReferenceInformation:
+          $ref: '#/components/schemas/OBExternalCreditorReferenceType1Code'
+        Invoicer:
+          $ref: '#/components/schemas/Identification_0'
+        Invoicee:
+          $ref: '#/components/schemas/Identification_0'
+        TaxRemittance:
+          type: string
+          maxLength: 140
+          minLength: 1
+        LineDetails:
+          type: array
+          items:
+            type: string
+            maxLength: 500
+            minLength: 1
+          maxItems: 3
     OBRisk1:
       type: object
       additionalProperties: false
@@ -4181,46 +4286,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -4373,46 +4439,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -4694,46 +4721,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -5047,46 +5035,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -5306,46 +5255,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -5519,46 +5429,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -5856,46 +5727,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -6222,46 +6054,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -7796,46 +7589,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
     OBWriteFileConsent3:
@@ -7937,46 +7691,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -8183,46 +7898,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -8425,46 +8101,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -8814,46 +8451,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -9110,46 +8708,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -9586,46 +9145,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -10124,46 +9644,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -10488,46 +9969,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -10806,46 +10248,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -11304,46 +10707,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -11856,46 +11220,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
