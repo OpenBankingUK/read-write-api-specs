@@ -1023,6 +1023,27 @@
       }
     },
     "schemas": {
+      "OBBranchAndFinancialInstitutionIdentification6_0": {
+        "type": "object",
+        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.\nThis is the servicer of the beneficiary account.",
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+          },
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_1"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          },
+          "LEI": { 
+            "$ref": "#/components/schemas/LEI"
+          }
+        }
+      },
       "OBError1": {
         "type": "object",
         "properties": {
@@ -1325,6 +1346,12 @@
                 "description": "^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification."
               }
             }
+          },
+          "UltimateCreditor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
+          "UltimateDebtor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           }
         }
       },
@@ -1922,6 +1949,12 @@
           "SupplementaryData": {
             "type": "object",
             "description": "Additional information that can not be captured in the structured fields and/or any other specific block.\n"
+          },
+          "UltimateCreditor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
+          "UltimateDebtor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           }
         }
       },
@@ -2386,6 +2419,12 @@
       "minLength": 1,
       "maxLength": 256
     },
+    "Identification_1": {
+      "description": "Unique and unambiguous identification of the servicing institution.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 35
+    },
     "OBProxyAccount": {
       "type" : "object",
       "required": [
@@ -2616,11 +2655,23 @@
         "minLength": 1,
         "maxLength": 70
       },
+      "LEI": { 
+      "description" : "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+        "type": "string",
+        "minLength" : 1, 
+        "maxLength": 20
+      },
       "Floor": {
         "description": "Number that identifies the level within a building",
         "type": "string",
         "minLength": 1,
         "maxLength": 16
+      },
+      "Name_1": {
+        "description": "Name by which an agent is known and which is usually used to identify that agent.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
       },
       "PostBox" : {
         "description": "Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.",
