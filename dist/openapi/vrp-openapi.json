@@ -1460,6 +1460,13 @@
                   }
                 ]
               },
+              "RegulatoryReporting": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                },
+                "maxItems": 10 
+              },
               "VRPType": {
                 "$ref": "#/components/schemas/OBVRPConsentType"
               },
@@ -2556,6 +2563,41 @@
           "STAT"
         ]
       },
+      "OBRegulatoryAuthority2": { 
+        "type": "object",
+        "description":"Entity requiring the regulatory reporting information. ",
+        "properties": { 
+          "Name": { 
+            "type": "string", 
+            "description": "Name of the entity requiring the regulatory reporting information.",
+            "minLength": 1,
+            "maxLength": 140 
+          },
+          "Country": { 
+            "$ref": "#/components/schemas/CountryCode"
+          }
+        }
+      },
+      "OBRegulatoryReporting3": { 
+        "type": "object",
+        "description":"Information needed due to regulatory and statutory requirements",
+        "properties": { 
+          "DebitCreditReportingIndicator": { 
+            "type": "string",
+            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. ",
+            "enum": ["CRED","DEBT", "BOTH"]
+          },
+          "Authority": { 
+            "$ref": "#/components/schemas/OBRegulatoryAuthority2"
+          },
+          "Detials": { 
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
+            }
+          }
+        }
+      },
       "OBStatusReason": {
         "type":"object",
         "properties": {
@@ -2571,6 +2613,36 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 500
+          }
+        }
+      },
+      "OBStructuredRegulatoryReporting3": { 
+        "type": "object",
+        "description": "Set of elements used to provide details on the regulatory reporting information.",
+        "properties": { 
+          "Type": { 
+            "type": "string",
+            "description": "Specifies the type of the information supplied in the regulatory reporting details",
+            "minLength": 1, 
+            "maxLength": 35
+          },
+          "Date": { 
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "Country":{
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          },
+          "Information": { 
+            "description": "Additional details that cater for specific domestic regulatory requirements. ",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
           }
         }
       },
@@ -2751,6 +2823,11 @@
           }
         },
         "description": "The Risk section is sent by the initiating party to the ASPSP.\nIt is used to specify additional details for risk scoring for Payments."
+      },
+      "ISODateTime": {
+        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
       },
       "Links": {
         "required": [

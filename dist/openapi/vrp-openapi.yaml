@@ -324,7 +324,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -355,7 +357,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -402,7 +406,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -445,7 +451,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -468,7 +476,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -491,7 +501,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -514,7 +526,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -537,7 +551,9 @@ components:
           schema:
             type: string
         x-jws-signature:
-          description: Header containing a detached JWS signature of the body of the payload.
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
           required: true
           schema:
             type: string
@@ -591,13 +607,19 @@ components:
       in: header
       name: x-fapi-auth-date
       required: false
-      description: |-
+      description: >-
         The time when the PSU last logged in with the TPP. 
-        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: 
+
+        All dates in the HTTP headers are represented as RFC 7231 Full Dates. An
+        example is below: 
+
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: >-
+          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
+          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
+          \d{2}:\d{2}:\d{2} (GMT|UTC)$
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -628,37 +650,50 @@ components:
       type: object
       properties:
         ErrorCode:
-          description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+          description: >-
+            Low level textual error code, for all enum values see
+            `ExternalReturnReason1Code` here -
+            https://github.com/OpenBankingUK/External_Interal_CodeSets/
           type: string
           minLength: 4
           maxLength: 4
           example: AC17
         Message:
-          description: |-
-            A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'
+          description: >-
+            A description of the error that occurred. e.g., 'A mandatory field
+            isn't supplied' or 'RequestedExecutionDateTime must be in future'
+
             OBIE doesn't standardise this field
           type: string
           minLength: 1
           maxLength: 500
         Path:
-          description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
+          description: >-
+            Recommended but optional reference to the JSON Path of the field
+            with error, e.g., Data.Initiation.InstructedAmount.Currency
           type: string
           minLength: 1
           maxLength: 500
         Url:
-          description: URL to help remediate the problem, or provide more information, or to API Reference, or help etc
+          description: >-
+            URL to help remediate the problem, or provide more information, or
+            to API Reference, or help etc
           type: string
       required:
         - ErrorCode
       additionalProperties: false
       minProperties: 1
     OBErrorResponse1:
-      description: An array of detail error codes, and messages, and URLs to documentation to help remediation.
+      description: >-
+        An array of detail error codes, and messages, and URLs to documentation
+        to help remediation.
       type: object
       additionalProperties: false
       properties:
         Id:
-          description: A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.
+          description: >-
+            A unique reference for the error instance, for audit purposes, in
+            case of unknown/unclassified errors.
           type: string
           minLength: 1
           maxLength: 40
@@ -692,14 +727,16 @@ components:
               enum:
                 - 'Yes'
                 - 'No'
-              description: |
-                Indicates whether information about RefundAccount should be included in the payment response.
+              description: >
+                Indicates whether information about RefundAccount should be
+                included in the payment response.
             ConsentId:
               type: string
               minLength: 1
               maxLength: 128
-              description: |
-                Unique identification as assigned by the ASPSP to uniquely identify the consent resource.
+              description: >
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the consent resource.
             CreationDateTime:
               type: string
               format: date-time
@@ -730,7 +767,9 @@ components:
             DebtorAccount:
               allOf:
                 - $ref: '#/components/schemas/OBCashAccountDebtorWithName'
-                - description: The value must be populated for GET responses once the consent is approved.
+                - description: >-
+                    The value must be populated for GET responses once the
+                    consent is approved.
         Risk:
           $ref: '#/components/schemas/OBRisk1'
         Links:
@@ -754,8 +793,9 @@ components:
               enum:
                 - 'Yes'
                 - 'No'
-              description: |
-                Indicates whether information about RefundAccount should be included in the payment response.
+              description: >
+                Indicates whether information about RefundAccount should be
+                included in the payment response.
             ControlParameters:
               $ref: '#/components/schemas/OBDomesticVRPControlParameters'
             Initiation:
@@ -806,7 +846,9 @@ components:
                 enum:
                   - Consent
                   - Calendar
-                description: ^ Specifies whether the period starts on the date of consent creation or lines up with a calendar
+                description: >-
+                  ^ Specifies whether the period starts on the date of consent
+                  creation or lines up with a calendar
               Amount:
                 $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
               Currency:
@@ -816,7 +858,10 @@ components:
           items:
             $ref: '#/components/schemas/OBVRPConsentType'
           minItems: 1
-          description: ^ The types of payments that can be made under this VRP consent. This can be used to indicate whether this include sweeping payment or other ecommerce payments.
+          description: >-
+            ^ The types of payments that can be made under this VRP consent.
+            This can be used to indicate whether this include sweeping payment
+            or other ecommerce payments.
         PSUAuthenticationMethods:
           type: array
           items:
@@ -827,10 +872,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OBVRPInteractionTypes'
-          description: ^ Indicates interaction type, currently if customer is present or not present.
+          description: >-
+            ^ Indicates interaction type, currently if customer is present or
+            not present.
         SupplementaryData:
           type: object
-          description: ^ Additional information that can not be captured in the structured fields and/or any other specific block
+          description: >-
+            ^ Additional information that can not be captured in the structured
+            fields and/or any other specific block
     OBDomesticVRPInitiation:
       type: object
       properties:
@@ -842,18 +891,35 @@ components:
           $ref: '#/components/schemas/OBPostalAddress6'
         RemittanceInformation:
           type: object
-          description: ^ Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
+          description: >-
+            ^ Information supplied to enable the matching of an entry with the
+            items that the transfer is intended to settle, such as commercial
+            invoices in an accounts' receivable system.
           properties:
             Unstructured:
               type: string
               minLength: 1
               maxLength: 140
-              description: ^ Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.
+              description: >-
+                ^ Information supplied to enable the matching/reconciliation of
+                an entry with the items that the payment is intended to settle,
+                such as commercial invoices in an accounts' receivable system,
+                in an unstructured form.
             Reference:
               type: string
               minLength: 1
               maxLength: 35
-              description: ^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
+              description: >-
+                ^ Unique reference, as assigned by the creditor, to
+                unambiguously refer to the payment transaction. Usage - If
+                available, the initiating party should provide this reference in
+                the structured remittance information, to enable reconciliation
+                by the creditor upon receipt of the amount of money. If the
+                business context requires the use of a creditor reference or a
+                payment remit identification, and only one identifier can be
+                passed through the end-to-end chain, the creditor's reference or
+                payment remittance identification should be quoted in the
+                end-to-end transaction identification.
     OBCashAccountDebtorWithName:
       type: object
       required:
@@ -867,17 +933,27 @@ components:
           type: string
           minLength: 1
           maxLength: 256
-          description: ^ Identification assigned by an institution to identify an account. This identification is known by the account owner.
+          description: >-
+            ^ Identification assigned by an institution to identify an account.
+            This identification is known by the account owner.
         Name:
           type: string
           minLength: 1
           maxLength: 350
-          description: ^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.
+          description: >-
+            ^ Name of the account, as assigned by the account servicing
+            institution.  Usage The account name is the name or names of the
+            account owner(s) represented at an account level. The account name
+            is not the product name or the nickname of the account.
         SecondaryIdentification:
           type: string
           minLength: 1
           maxLength: 34
-          description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)
+          description: >-
+            ^ This is secondary identification of the account, as assigned by
+            the account servicing institution.  This can be used by building
+            societies to additionally identify accounts with a roll number (in
+            addition to a sort code and account number combination)
     OBCashAccountCreditor3:
       type: object
       required:
@@ -887,44 +963,62 @@ components:
       properties:
         SchemeName:
           $ref: '#/components/schemas/OBExternalAccountIdentification4Code'
-          description: Name of the identification scheme, in a coded form as published in an external list.
+          description: >-
+            Name of the identification scheme, in a coded form as published in
+            an external list.
         Identification:
           type: string
           minLength: 1
           maxLength: 256
-          description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+          description: >-
+            Identification assigned by an institution to identify an account.
+            This identification is known by the account owner.
         Name:
           type: string
           minLength: 1
           maxLength: 350
-          description: |-
-            Name of the account, as assigned by the account servicing institution.
-            Usage: the account name is the name or names of the account owner(s) represented at an account level.
-            The account name is not the product name or the nickname of the account.
+          description: >-
+            Name of the account, as assigned by the account servicing
+            institution.
+
+            Usage: the account name is the name or names of the account owner(s)
+            represented at an account level.
+
+            The account name is not the product name or the nickname of the
+            account.
         SecondaryIdentification:
           type: string
           minLength: 1
           maxLength: 34
-          description: |-
-            This is secondary identification of the account, as assigned by the account servicing institution.
-            This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)
+          description: >-
+            This is secondary identification of the account, as assigned by the
+            account servicing institution.
+
+            This can be used by building societies to additionally identify
+            accounts with a roll number (in addition to a sort code and account
+            number combination)
         Proxy:
           $ref: '#/components/schemas/OBProxyAccount'
     OBBranchAndFinancialInstitutionIdentification6:
       type: object
       properties:
         SchemeName:
-          $ref: '#/components/schemas/OBExternalFinancialInstitutionIdentification4Code'
+          $ref: >-
+            #/components/schemas/OBExternalFinancialInstitutionIdentification4Code
         Identification:
           type: string
           minLength: 1
           maxLength: 35
-          description: ^ Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+          description: >-
+            ^ Unique and unambiguous identification of a financial institution
+            or a branch of a financial institution.
         Name:
           type: string
           minLength: 1
           maxLength: 140
-          description: ^ Name by which an agent is known and which is usually used to identify that agent.
+          description: >-
+            ^ Name by which an agent is known and which is usually used to
+            identify that agent.
         PostalAddress:
           $ref: '#/components/schemas/OBPostalAddress6'
     OBDomesticVRPRequest:
@@ -946,15 +1040,24 @@ components:
               type: string
               minLength: 1
               maxLength: 128
-              description: Identifier for the Domestic VRP Consent that this payment is made under.
+              description: >-
+                Identifier for the Domestic VRP Consent that this payment is
+                made under.
             PSUAuthenticationMethod:
               allOf:
                 - $ref: '#/components/schemas/OBVRPAuthenticationMethods'
-                - description: The authentication method that was used to authenticate the PSU.
+                - description: >-
+                    The authentication method that was used to authenticate the
+                    PSU.
             PSUInteractionType:
               allOf:
                 - $ref: '#/components/schemas/OBVRPInteractionTypes'
                 - description: The interaction style used.
+            RegulatoryReporting:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBRegulatoryReporting3'
+              maxItems: 10
             VRPType:
               $ref: '#/components/schemas/OBVRPConsentType'
             Initiation:
@@ -982,21 +1085,24 @@ components:
             - Initiation
             - Instruction
             - DebtorAccount
-          description: |
-            `Data.Refund` only included in the response if `Data.ReadRefundAccount` is set to `Yes` in the consent.
+          description: >
+            `Data.Refund` only included in the response if
+            `Data.ReadRefundAccount` is set to `Yes` in the consent.
           properties:
             DomesticVRPId:
               type: string
               minLength: 1
               maxLength: 40
-              description: |
-                Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.
+              description: >
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the domestic payment resource.
             ConsentId:
               type: string
               minLength: 1
               maxLength: 128
-              description: |
-                Identifier for the Domestic VRP Consent that this payment is made under.
+              description: >
+                Identifier for the Domestic VRP Consent that this payment is
+                made under.
             CreationDateTime:
               type: string
               format: date-time
@@ -1052,7 +1158,9 @@ components:
                     $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
-                description: Set of elements used to provide details of a charge for the payment initiation.
+                description: >-
+                  Set of elements used to provide details of a charge for the
+                  payment initiation.
             Initiation:
               $ref: '#/components/schemas/OBDomesticVRPInitiation'
             Instruction:
@@ -1084,10 +1192,14 @@ components:
                     type: string
                     minLength: 1
                     maxLength: 210
-                    description: Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.
+                    description: >-
+                      Unique identifier for the transaction within an servicing
+                      institution. This identifier is both unique and immutable.
                   StatusCode:
                     type: string
-                    description: Status of a transfer, as assigned by the transaction administrator.
+                    description: >-
+                      Status of a transfer, as assigned by the transaction
+                      administrator.
                     enum:
                       - RCVD
                       - PDNG
@@ -1115,7 +1227,9 @@ components:
                       LocalInstrument:
                         $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
                       Status:
-                        description: Status of a transfer, as assigned by the transaction administrator.
+                        description: >-
+                          Status of a transfer, as assigned by the transaction
+                          administrator.
                         type: string
                         minLength: 1
                         maxLength: 128
@@ -1138,13 +1252,17 @@ components:
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
-                    description: |
-                      Date and time at which the status was assigned to the transfer.
+                    description: >
+                      Date and time at which the status was assigned to the
+                      transfer.
     OBVRPFundsConfirmationRequest:
       type: object
       required:
         - Data
-      description: The OBVRPFundsConfirmationRequest object must be used to request funds availability for a specific amount in the Debtor Account included in the VRP consents.
+      description: >-
+        The OBVRPFundsConfirmationRequest object must be used to request funds
+        availability for a specific amount in the Debtor Account included in the
+        VRP consents.
       properties:
         Data:
           type: object
@@ -1156,19 +1274,25 @@ components:
               type: string
               minLength: 1
               maxLength: 128
-              description: Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.
+              description: >-
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the funds confirmation consent resource.
             Reference:
               type: string
               minLength: 1
               maxLength: 35
-              description: Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction.
+              description: >-
+                Unique reference, as assigned by the PISP, to unambiguously
+                refer to the request related to the payment transaction.
             InstructedAmount:
               $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
     OBVRPFundsConfirmationResponse:
       type: object
       required:
         - Data
-      description: The confirmation of funds response contains the result of a funds availability check.
+      description: >-
+        The confirmation of funds response contains the result of a funds
+        availability check.
       properties:
         Data:
           type: object
@@ -1183,12 +1307,16 @@ components:
               type: string
               minLength: 1
               maxLength: 40
-              description: Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation resource.
+              description: >-
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the funds confirmation resource.
             ConsentId:
               type: string
               minLength: 1
               maxLength: 128
-              description: Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.
+              description: >-
+                Unique identification as assigned by the ASPSP to uniquely
+                identify the funds confirmation consent resource.
             CreationDateTime:
               type: string
               format: date-time
@@ -1197,14 +1325,18 @@ components:
               type: string
               minLength: 1
               maxLength: 35
-              description: Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction.
+              description: >-
+                Unique reference, as assigned by the PISP, to unambiguously
+                refer to the request related to the payment transaction.
             FundsAvailableResult:
               $ref: '#/components/schemas/OBPAFundsAvailableResult1'
             InstructedAmount:
               $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
     OBPAFundsAvailableResult1:
       type: object
-      description: Availability result, clearly indicating the availability of funds given the Amount in the request.
+      description: >-
+        Availability result, clearly indicating the availability of funds given
+        the Amount in the request.
       required:
         - FundsAvailableDateTime
         - FundsAvailable
@@ -1215,12 +1347,16 @@ components:
           description: Date and time at which the funds availability check was generated.
         FundsAvailable:
           type: string
-          description: Availability result, clearly indicating the availability of funds given the Amount in the request.
+          description: >-
+            Availability result, clearly indicating the availability of funds
+            given the Amount in the request.
           enum:
             - Available
             - NotAvailable
     OBCategoryPurposeCode:
-      description: Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.
+      description: >-
+        Enumeration of codes that outlines the type of purpose behind a
+        transaction, payment or risk.
       type: string
       enum:
         - BONU
@@ -1284,7 +1420,9 @@ components:
         - Rejected
     OBChargeBearerType1Code:
       type: string
-      description: Specifies which party/parties will bear the charges associated with the processing of the payment transaction.
+      description: >-
+        Specifies which party/parties will bear the charges associated with the
+        processing of the payment transaction.
       enum:
         - BorneByCreditor
         - BorneByDebtor
@@ -1302,20 +1440,33 @@ components:
           type: string
           minLength: 1
           maxLength: 35
-          description: |-
-            Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.
-            Usage: the instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction.
+          description: >-
+            Unique identification as assigned by an instructing party for an
+            instructed party to unambiguously identify the instruction.
+
+            Usage: the instruction identification is a point to point reference
+            that can be used between the instructing party and the instructed
+            party to refer to the individual instruction.
+
             It can be included in several messages related to the instruction.
         EndToEndIdentification:
           type: string
           minLength: 1
           maxLength: 35
-          description: |-
-            Unique identification assigned by the initiating party to unambiguously identify the transaction.
-            This identification is passed on, unchanged, throughout the entire end-to-end chain.
-            Usage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction.
+          description: >-
+            Unique identification assigned by the initiating party to
+            unambiguously identify the transaction.
+
+            This identification is passed on, unchanged, throughout the entire
+            end-to-end chain.
+
+            Usage: The end-to-end identification can be used for reconciliation
+            or to link tasks relating to the transaction.
+
             It can be included in several messages related to the transaction.
-            OB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field
+
+            OB: The Faster Payments Scheme can only access 31 characters for the
+            EndToEndIdentification field
         RemittanceInformation:
           $ref: '#/components/schemas/OBVRPRemittanceInformation'
         LocalInstrument:
@@ -1328,25 +1479,39 @@ components:
           $ref: '#/components/schemas/OBCashAccountCreditor3'
         SupplementaryData:
           type: object
-          description: |
-            Additional information that can not be captured in the structured fields and/or any other specific block.
+          description: >
+            Additional information that can not be captured in the structured
+            fields and/or any other specific block.
     OBVRPRemittanceInformation:
       type: object
-      description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system.
       properties:
         Unstructured:
           type: string
           minLength: 1
           maxLength: 140
-          description: Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.
+          description: >-
+            Information supplied to enable the matching/reconciliation of an
+            entry with the items that the payment is intended to settle, such as
+            commercial invoices in an accounts' receivable system, in an
+            unstructured form.
         Reference:
           type: string
           minLength: 1
           maxLength: 35
-          description: Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP may populate this with different values from those specified in the `Data.Initiation.RemittanceInformation.Reference` of the consent.
+          description: >-
+            Unique reference, as assigned by the creditor, to unambiguously
+            refer to the payment transaction. The PISP may populate this with
+            different values from those specified in the
+            `Data.Initiation.RemittanceInformation.Reference` of the consent.
     OBExternalAccountIdentification4Code:
       type: string
-      description: Name of the identification scheme, in a coded form as published in an external list.
+      description: >-
+        Name of the identification scheme, in a coded form as published in an
+        external list.
       x-namespaced-enum:
         - UK.OBIE.BBAN
         - UK.OBIE.IBAN
@@ -1355,7 +1520,9 @@ components:
         - UK.OBIE.SortCodeAccountNumber
         - UK.OBIE.Wallet
     OBExternalFinancialInstitutionIdentification4Code:
-      description: Name of the identification scheme, in a coded form as published in an external list.
+      description: >-
+        Name of the identification scheme, in a coded form as published in an
+        external list.
       type: string
       x-namespaced-enum:
         - UK.OBIE.BICFI
@@ -1386,9 +1553,11 @@ components:
         - Wealth
     OBExternalLocalInstrument1Code:
       type: string
-      description: |-
+      description: >-
         User community specific instrument.
-        Usage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.
+
+        Usage: This element is used to specify a local instrument, local
+        clearing option and/or further qualify the service or service level.
       x-namespaced-enum:
         - UK.OBIE.BACS
         - UK.OBIE.BalanceTransfer
@@ -1417,11 +1586,17 @@ components:
       minLength: 3
       maxLength: 3
       pattern: ^[A-Z]{3,3}$
-      description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 "Codes for the representation of currencies and funds".
+      description: >-
+        A code allocated to a currency by a Maintenance Agency under an
+        international identification scheme, as described in the latest edition
+        of the international standard ISO 4217 "Codes for the representation of
+        currencies and funds".
     OBActiveCurrencyAndAmount_SimpleType:
       pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
       type: string
-      description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+      description: >-
+        A number of monetary units specified in an active currency where the
+        unit of currency is explicit and compliant with ISO 4217.
     OBExternalPaymentChargeType1Code:
       type: string
       enum:
@@ -1432,7 +1607,9 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: For a full description see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: >-
+        For a full description see `ExternalPurpose1Code` here
+        https://github.com/OpenBankingUK/External_Interal_CodeSets
       enum:
         - BKDF
         - BKFE
@@ -1763,7 +1940,9 @@ components:
         - RETL
         - DEBT
     Identification_0:
-      description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+      description: >-
+        Identification assigned by an institution to identify an account. This
+        identification is known by the account owner.
       type: string
       minLength: 1
       maxLength: 256
@@ -1789,7 +1968,11 @@ components:
           minLength: 1
           maxLength: 70
     OBExternalProxyAccountType1Code:
-      description: Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: >-
+        Specifies the external proxy account type code, as published in the
+        proxy account type external code set.<br> For more information see
+        `ExternalProxyAccountType1Code` here -
+        https://github.com/OpenBankingUK/External_Interal_CodeSets
       type: string
       enum:
         - TELE
@@ -1832,7 +2015,9 @@ components:
     OBPostalAddress6:
       type: object
       additionalProperties: false
-      description: Information that locates and identifies a specific address, as defined by postal services.
+      description: >-
+        Information that locates and identifies a specific address, as defined
+        by postal services.
       properties:
         AddressType:
           $ref: '#/components/schemas/OBAddressType2Code'
@@ -1871,7 +2056,9 @@ components:
         AddressLine:
           type: array
           items:
-            description: Information that locates and identifies a specific address, as defined by postal services, presented in free format text.
+            description: >-
+              Information that locates and identifies a specific address, as
+              defined by postal services, presented in free format text.
             type: string
             minLength: 1
             maxLength: 70
@@ -1901,6 +2088,37 @@ components:
         - HOME
         - CORR
         - STAT
+    OBRegulatoryAuthority2:
+      type: object
+      description: 'Name of the entity requiring the regulatory reporting information. '
+      properties:
+        Name:
+          type: string
+          description: Entity requiring the regulatory reporting information.
+          minLength: 1
+          maxLength: 140
+        Country:
+          $ref: '#/components/schemas/CountryCode'
+    OBRegulatoryReporting3:
+      type: object
+      description: Information needed due to regulatory and statutory requirements
+      properties:
+        DebitCreditReportingIndicator:
+          type: string
+          description: >-
+            Identifies whether the regulatory reporting information applies to
+            the debit side, to the credit side or to both debit and credit sides
+            of the transaction. 
+          enum:
+            - CRED
+            - DEBT
+            - BOTH
+        Authority:
+          $ref: '#/components/schemas/OBRegulatoryAuthority2'
+        Detials:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBStructuredRegulatoryReporting3'
     OBStatusReason:
       type: object
       properties:
@@ -1917,6 +2135,32 @@ components:
           type: string
           minLength: 1
           maxLength: 500
+    OBStructuredRegulatoryReporting3:
+      type: object
+      description: 'Set of elements used to provide details on the regulatory reporting information. '
+      properties:
+        Type:
+          type: string
+          description: >-
+            Specifies the type of the information supplied in the regulatory
+            reporting details
+          minLength: 1
+          maxLength: 35
+        Date:
+          $ref: '#/components/schemas/ISODateTime'
+        Country:
+          $ref: '#/components/schemas/CountryCode'
+        Amount:
+          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
+        Information:
+          description: >-
+            Additional details that cater for specific domestic regulatory
+            requirements. 
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 35
     Department:
       description: Identification of a division of a large organisation or building.
       type: string
@@ -1943,12 +2187,17 @@ components:
       maxLength: 16
       description: Number that identifies the position of a building on a street.
     CareOf:
-      description: The 'care of' address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
+      description: >-
+        The 'care of' address is used whenever sending mail to a person or
+        organisation who does not actually live or work at the address. They
+        will receive the mail for the individual.
       type: string
       minLength: 1
       maxLength: 70
     DistrictName:
-      description: Number that of the regional area, known as a district, which forms part of an address
+      description: >-
+        Number that of the regional area, known as a district, which forms part
+        of an address
       type: string
       minLength: 1
       maxLength: 70
@@ -1958,16 +2207,23 @@ components:
       minLength: 1
       maxLength: 16
     PostBox:
-      description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
+      description: >-
+        Information that locates and identifies a box in a post office assigned
+        to a person or organization, where letters for them are kept until
+        called for.
       minLength: 1
       maxLength: 70
     PostCode:
       type: string
       minLength: 1
       maxLength: 16
-      description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
+      description: >-
+        Identifier consisting of a group of letters and/or numbers that is added
+        to a postal address to assist the sorting of mail.
     Room:
-      description: Information that locates and identifies a room to form part of an address
+      description: >-
+        Information that locates and identifies a room to form part of an
+        address
       minLength: 1
       maxLength: 70
     UnitNumber:
@@ -1979,7 +2235,9 @@ components:
       type: string
       minLength: 1
       maxLength: 35
-      description: Name of a built-up area, with defined boundaries, and a local government.
+      description: >-
+        Name of a built-up area, with defined boundaries, and a local
+        government.
     CountrySubDivision:
       type: string
       minLength: 1
@@ -1994,8 +2252,9 @@ components:
       x-namespaced-enum:
         - UK.OBIE.ExemptionNotApplied
         - UK.OBIE.OtherReason
-      description: |
-        Reason Code provided for the status of a VRP. To be documented in the Developer Portal.
+      description: >
+        Reason Code provided for the status of a VRP. To be documented in the
+        Developer Portal.
     OBVRPConsentType:
       type: string
       x-namespaced-enum:
@@ -2041,7 +2300,9 @@ components:
           type: string
           minLength: 3
           maxLength: 4
-          description: Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction.
+          description: >-
+            Category code conform to ISO 18245, related to the type of services
+            or goods the merchant provides for the transaction.
         MerchantCustomerIdentification:
           type: string
           minLength: 1
@@ -2052,7 +2313,9 @@ components:
           description: Indicates if Payee has a contractual relationship with the PISP.
         BeneficiaryPrepopulatedIndicator:
           type: boolean
-          description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
+          description: >-
+            Indicates if PISP has immutably prepopulated payment details in for
+            the PSU.
         PaymentPurposeCode:
           $ref: '#/components/schemas/OBExternalPurpose1Code'
         CategoryPurposeCode:
@@ -2070,6 +2333,17 @@ components:
       description: |-
         The Risk section is sent by the initiating party to the ASPSP.
         It is used to specify additional details for risk scoring for Payments.
+    ISODateTime:
+      description: >-
+        All dates in the JSON payloads are represented in ISO 8601 date-time
+        format. 
+
+        All date-time fields in responses must include the timezone. An example
+        is below:
+
+        2017-04-05T10:43:07+00:00
+      type: string
+      format: date-time
     Links:
       required:
         - Self
@@ -2094,7 +2368,9 @@ components:
     Meta:
       title: MetaData
       type: object
-      description: Meta Data relevant to the payload. At present no fields are used for VRP.
+      description: >-
+        Meta Data relevant to the payload. At present no fields are used for
+        VRP.
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2
@@ -2106,7 +2382,9 @@ components:
             payments: Generic payment scope
     PSUOAuth2Security:
       type: oauth2
-      description: OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU
+      description: >-
+        OAuth flow, it is required when the PSU needs to perform SCA with the
+        ASPSP when a TPP wants to access an ASPSP resource owned by the PSU
       flows:
         authorizationCode:
           authorizationUrl: https://authserver.example/authorization
