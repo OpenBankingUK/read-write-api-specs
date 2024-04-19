@@ -139,6 +139,127 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
+            
+    put:
+      operationId: domesticVrpConsentsPut
+      tags:
+        - "Domestic VRP Consents"
+
+      summary: Update a domestic VRP consent - only to be used for version migrations
+      description: Update a domestic VRP consent by submitting a full consent resource body - only to be used for version migrations
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-idempotency-key"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/20xOBDomesticVRPConsentResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '409':
+          $ref: "#/components/responses/409Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+          application/jose+jwe:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
+                
+    patch:
+      operationId: domesticVrpConsentsPatch
+      tags:
+        - "Domestic VRP Consents"
+
+      summary: Update a domestic VRP consent - only to be used for version migrations
+      description: Update a domestic VRP consent by submitting a partial consent resource body - only to be used for version migrations
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-idempotency-key"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/20xOBDomesticVRPConsentResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '409':
+          $ref: "#/components/responses/409Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: string
+              format: partial values from OBVRPConsentRequest
+              example: {"Risk": {"ContractPresentIndicator": true}}
+          application/json:
+            schema:
+              type: string
+              format: partial values from OBVRPConsentRequest
+              example: {"Risk": {"ContractPresentIndicator": true}}
+          application/jose+jwe:
+            schema:
+              type: string
+              format: partial values from OBVRPConsentRequest
+              example: {"Risk": {"ContractPresentIndicator": true}}
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"        
+            
   /domestic-vrp-consents/{ConsentId}/funds-confirmation:
     post:
       operationId: domesticVrpConsentsFundsConfirmation
