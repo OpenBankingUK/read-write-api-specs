@@ -1010,6 +1010,7 @@ components:
         CreditorPostalAddress:
           $ref: '#/components/schemas/OBPostalAddress6'
         RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation1'
           type: object
           description: >-
             ^ Information supplied to enable the matching of an entry with the
@@ -1588,7 +1589,7 @@ components:
             OB: The Faster Payments Scheme can only access 31 characters for the
             EndToEndIdentification field
         RemittanceInformation:
-          $ref: '#/components/schemas/OBVRPRemittanceInformation'
+          $ref: '#/components/schemas/OBRemittanceInformation1'
         LocalInstrument:
           $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
         InstructedAmount:
@@ -1602,6 +1603,52 @@ components:
           description: >
             Additional information that can not be captured in the structured
             fields and/or any other specific block.
+    OBExternalCreditorReferenceType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
+      enum:
+        - DISP
+        - FXDR
+        - PUOR
+        - RPIN
+        - RADM
+        - SCOR
+    OBExternalDocumentType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: >-
+        Specifies the document type as published in an external document type
+        code list. For more information see `ExternalDocumentType1Code` here -
+        https://github.com/OpenBankingUK/External_Interal_CodeSets
+      enum:
+        - CINV
+        - CNFA
+        - CONT
+        - CREN
+        - DEBN
+        - DISP
+        - DNFA
+        - HIRI
+        - INVS
+        - MSIN
+        - PROF
+        - PUOR
+        - QUOT
+        - SBIN
+        - SPRR
+        - TISH
+        - USAR
+        - AROI
+        - BOLD
+        - CMCN
+        - SOAC
+        - TSUT
+        - VCHR
+    OBReferredDocumentInformation:
+      type: object
     OBVRPRemittanceInformation:
       type: object
       description: >-
@@ -1609,18 +1656,72 @@ components:
         that the transfer is intended to settle, such as commercial invoices in
         an accounts' receivable system.
       properties:
-        Unstructured:
+        Code:
+          $ref: '#/components/schemas/OBExternalDocumentType1Code'
+        Issuer:
           type: string
-          minLength: 1
           maxLength: 140
+          minLength: 1
+        Number:
+          type: string
+          maxLength: 140
+          minLength: 1
+        RelatedDate:
+          $ref: '#/components/schemas/ISODateTime'
+        LineDetails:
+          type: array
+          items:
+            type: string
+            maxLength: 256
+            minLength: 1
+    OBRemittanceInformation1:
+      type: object
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system
+      properties:
+        Structured:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBRemittanceInformationStructured'
+        Unstructured:
           description: >-
             Information supplied to enable the matching/reconciliation of an
             entry with the items that the payment is intended to settle, such as
             commercial invoices in an accounts' receivable system, in an
             unstructured form.
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 140
+    OBRemittanceInformationStructured:
+      type: object
+      properties:
+        RemittanceDocumentInformation:
+          $ref: '#/components/schemas/OBReferredDocumentInformation'
+        ReferenceDocumentAmount:
+          type: integer
+          format: int32
+        CreditorReferenceInformation:
+          $ref: '#/components/schemas/OBExternalCreditorReferenceType1Code'
+        Invoicer:
+          $ref: '#/components/schemas/Identification_0'
+        Invoicee:
+          $ref: '#/components/schemas/Identification_0'
+        TaxRemittance:
         Reference:
           type: string
+          maxLength: 140
           minLength: 1
+        LineDetails:
+          type: array
+          items:
+            type: string
+            maxLength: 500
+            minLength: 1
+          maxItems: 3
           maxLength: 35
           description: >-
             Unique reference, as assigned by the creditor, to unambiguously
@@ -2059,6 +2160,17 @@ components:
         - DEPD
         - RETL
         - DEBT
+    ISODateTime:
+      description: >-
+        All dates in the JSON payloads are represented in ISO 8601 date-time
+        format. 
+
+        All date-time fields in responses must include the timezone. An example
+        is below:
+
+        2017-04-05T10:43:07+00:00
+      type: string
+      format: date-time
     Identification_0:
       description: >-
         Identification assigned by an institution to identify an account. This

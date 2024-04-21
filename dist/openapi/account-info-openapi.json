@@ -3121,6 +3121,11 @@
         "type": "string",
         "format": "date-time"
       },
+      "Date" : { 
+        "description": "Date and time associated with the date time type.All dates in the JSON payloads are represented in ISO 8601 date format. \n An example is below:\n2017-04-05",
+        "type": "string",
+        "format": "date"
+      },
       "DateTime": {
         "description": "Date and time associated with the date time type.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
@@ -3237,6 +3242,13 @@
         "description": "The date on which the last (most recent) payment for a Standing Order schedule was made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
         "format": "date-time"
+      },
+      "LEI": { 
+      "description" : "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+        "type": "string",
+        "minLength" : 1, 
+        "maxLength": 20,
+        "pattern": "^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}"
       },
       "Links": {
         "type": "object",
@@ -3410,6 +3422,9 @@
                 },
                 "Name": {
                   "$ref": "#/components/schemas/Name_0"
+                },
+                "LEI": {
+                  "$ref" : "#/components/schemas/LEI"
                 },
                 "SecondaryIdentification": {
                   "$ref": "#/components/schemas/SecondaryIdentification"
@@ -6180,6 +6195,9 @@
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
+          },
+          "LEI": { 
+            "$ref": "#/components/schemas/LEI"
           }
         }
       },
@@ -6302,8 +6320,8 @@
           }
         }
       },
-       "OBCategoryPurposeCode": {
-        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+       "OBCategoryPurpose1Code": {
+        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. \n For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
         "type" : "string",
         "enum" : [
           "BONU",
@@ -6351,6 +6369,10 @@
           "WHLD",
           "ZABA"
         ]
+      },
+      "OBClassification1Code" : { 
+        "type" : "string",
+        "enum" : ["FIXE","USGB","VARI"]
       },
       "OBCommunicationMethod" : {
         "description": "Individual Definitions:\nEMAL - Email\nFAXI - Fax\nFILE - File\nONLI - Online\nPOST - Postal Service",
@@ -7168,10 +7190,64 @@
         "type": "string",
         "enum": ["YEAR", "DAIL", "INDA", "MNTH", "QURT", "MIAN", "TEND", "MOVE", "WEEK"]
       },
+      "OBFrequencyPeriodType": {
+        "description": "Individual Definitions:\n ADHO - Adhoc \n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nWEEK - Weekly ", 
+        "type": "string",
+        "enum": ["ADHO", "YEAR", "DAIL", "INDA", "MNTH", "QURT", "MIAN", "WEEK"]
+      },
       "OBFileFormat" : {
         "description": "Individual Definitions:\nDPDF - Pdf \nDXML - XML \nSDSH - Spreadsheet \nWORD - Word \nXSLT - XSLT", 
         "type": "string",
         "enum": ["DPDF", "DXML", "SDHS", "WORD", "XSLT"]
+      },
+      "OBMandateRelatedInformation" : { 
+        "description": "Provides further details of the mandate signed between the creditor and the debtor",
+        "type" : "object",
+        "required": [
+          "PeriodType", 
+          "CountPerPeriod",
+          "PointInTimeType",
+          "PointInTime"
+        ],
+        "properties": {
+          "MandateIdentification": { 
+            "$ref": "#/components/schemas/Identification_1"
+          },
+          "Classificatoin" : { 
+            "$ref": "#/components/schemas/OBClassification1Code"
+          },
+          "CategoryPurposeCode": {
+            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
+          },
+          "FirstPaymentDate":{ 
+            "$ref" : "#/components/schemas/Date"
+          },
+          "FinalPaymentDate":{ 
+            "$ref" : "#/components/schemas/Date"
+          },  
+          "Frequency": { 
+            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          }, 
+          "PeriodType": { 
+            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          }, 
+          "CountPerPeriod": { 
+            "type": "integer",
+            "format": "int32"
+          },
+          "PointInTimeType": { 
+            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          },
+          "PointInTime": { 
+            "$ref" : "#/components/schemas/Time"
+          },
+          "Reason": { 
+            "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.\n  For more information see `ExternalMandateSetupReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "type": "string",
+            "maxLength": 4, 
+            "minLength": 1
+          }
+        }
       },
       "OBMerchantDetails1": {
         "type": "object",
@@ -9362,6 +9438,9 @@
           "LegalStructure": {
             "$ref": "#/components/schemas/OBExternalLegalStructureType1Code"
           },
+          "LEI": { 
+            "$ref": "#/components/schemas/LEI"
+          },
           "BeneficialOwnership": {
             "type": "boolean"
           },
@@ -9946,6 +10025,9 @@
                     },
                     "DirectDebitStatusCode": {
                       "$ref": "#/components/schemas/OBExternalDirectDebitStatus1Code"
+                    },
+                    "MandateRelatedInformation": { 
+                      "$ref" : "#/components/schemas/OBMandateRelatedInformation"
                     },
                     "Name": {
                       "$ref": "#/components/schemas/Name_2"
@@ -12317,7 +12399,7 @@
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount5_1"
@@ -12390,7 +12472,7 @@
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount5_1"
@@ -12448,13 +12530,16 @@
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount5_1"
           },
           "SupplementaryData": {
             "$ref": "#/components/schemas/OBSupplementaryData1"
+          },
+          "MandateRelatedInformation": { 
+            "$ref": "#/components/schemas/OBMandateRelatedInformation"
           }
         },
         "additionalProperties": false
@@ -12565,7 +12650,7 @@
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount5_1"
@@ -13348,7 +13433,7 @@
             "$ref": "#/components/schemas/OBMerchantDetails1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount6_0"
@@ -13366,10 +13451,16 @@
             "$ref": "#/components/schemas/OBSupplementaryData1"
           },
           "CategoryPurposeCode":{
-            "$ref": "#/components/schemas/OBCategoryPurposeCode"
+            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
           },
           "PaymentPurposeCode": {
             "$ref" : "#/components/schemas/OBExternalPurpose1Code"
+          },
+          "ExtendedProprietaryBankTransactionCodes": { 
+            "type" : "array",
+            "items": {
+              "$ref": "#/components/schemas/OBExtendedProprietaryBankTransactionCode"
+            }
           }
         },
         "additionalProperties": false
@@ -13511,7 +13602,7 @@
             "$ref": "#/components/schemas/OBMerchantDetails1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount6_0"
@@ -14171,6 +14262,33 @@
         "minLength": 1,
         "maxLength": 70
       },
+      "OBExtendedProprietaryBankTransactionCode": { 
+        "type" : "object",
+        "description": "Additional proprietary bank transaction codes used by the ASPSP for the underlying transaction",
+        "required" : [
+          "Code"
+        ],
+        "properties": { 
+          "Code" : {
+            "type": "string",
+            "description": "Proprietary bank transaction code to identify the underlying transaction.",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "Issuer" : {
+            "type": "string",
+            "description": "Identification of the issuer of the proprietary bank transaction code.",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "Description" : {
+            "type": "string",
+            "description": "Description of the code and its usage on the ASPSP channel",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
       "OBBeneficiaryType1Code": {
         "description": "Specifies the Beneficiary Type.",
         "type": "string",
@@ -14250,6 +14368,11 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 70
+      },
+      "Time": { 
+        "description": "Time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.\nUsage: If transaction entry status is pending and value date is present, then the value date refers to an expected/requested value date.\nFor transaction entries subject to availability/float and for which availability information is provided, the value date must not be used. In this case the availability component identifies the number of availability days.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\nT10:43:07+00:00",
+        "type": "string",
+        "format": "time"
       },
       "TownName": {
         "description": "Name of a built-up area, with defined boundaries, and a local government.",

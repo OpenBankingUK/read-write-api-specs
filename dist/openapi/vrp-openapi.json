@@ -1515,22 +1515,7 @@
             "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "RemittanceInformation": {
-            "type": "object",
-            "description": "^ Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-            "properties": {
-              "Unstructured": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 140,
-                "description": "^ Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form."
-              },
-              "Reference": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 35,
-                "description": "^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification."
-              }
-            }
+            "$ref": "#/components/schemas/OBRemittanceInformation1"
           }
         }
       },
@@ -2118,7 +2103,7 @@
             "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction.\nThis identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction.\nIt can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBVRPRemittanceInformation"
+            "$ref": "#/components/schemas/OBRemittanceInformation1"
           },
           "LocalInstrument": {
             "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
@@ -2138,21 +2123,133 @@
           }
         }
       },
-      "OBVRPRemittanceInformation": {
+      "OBExternalCreditorReferenceType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction.",
+        "enum": [
+          "DISP",
+          "FXDR",
+          "PUOR",
+          "RPIN",
+          "RADM",
+          "SCOR"
+        ]
+      },
+      "OBExternalDocumentType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "enum": [
+            "CINV",
+            "CNFA",
+            "CONT",
+            "CREN",
+            "DEBN",
+            "DISP",
+            "DNFA",
+            "HIRI",
+            "INVS",
+            "MSIN",
+            "PROF",
+            "PUOR",
+            "QUOT",
+            "SBIN",
+            "SPRR",
+            "TISH",
+            "USAR",
+            "AROI",
+            "BOLD",
+            "CMCN",
+            "SOAC",
+            "TSUT",
+            "VCHR"
+          ]
+      },
+      "OBReferredDocumentInformation": { 
         "type": "object",
-        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-        "properties": {
-          "Unstructured": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 140,
-            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form."
+        "properties": { 
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalDocumentType1Code"
           },
-          "Reference": {
+          "Issuer": { 
             "type": "string",
-            "minLength": 1,
-            "maxLength": 35,
-            "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP may populate this with different values from those specified in the `Data.Initiation.RemittanceInformation.Reference` of the consent."
+            "maxLength": 140,
+            "minLength": 1 
+          },
+          "Number": {
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1
+          },
+          "RelatedDate": {
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "LineDetails": { 
+            "type": "array",
+            "items":  {
+                "type": "string", 
+                "maxLength": 256,
+                "minLength": 1
+            }
+          }
+        }
+      },
+      "OBRemittanceInformation1": {
+        "type": "object",
+        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system",
+        "properties":{
+          "Structured": { 
+            "type": "array",
+            "items": { 
+              "$ref":  "#/components/schemas/OBRemittanceInformationStructured"
+            }
+          },
+          "Unstructured": {
+            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+            "type": "array",
+            "items": { 
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 140
+            }
+          }
+        }
+      },
+      "OBRemittanceInformationStructured":{
+        "type": "object",
+        "properties": { 
+          "RemittanceDocumentInformation": { 
+            "$ref": "#/components/schemas/OBReferredDocumentInformation"
+          }, 
+          "ReferenceDocumentAmount": { 
+            "type": "integer",
+            "format": "int32"
+          },
+          "CreditorReferenceInformation": { 
+            "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+          },
+          "Invoicer": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "Invoicee": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "TaxRemittance" : { 
+            "type": "string",
+              "maxLength": 140,
+              "minLength": 1
+          },
+          "LineDetails": { 
+            "type": "array",
+            "items":  {
+                "type": "string", 
+                "maxLength": 500,
+                "minLength": 1
+            },
+            "maxItems": 3
           }
         }
       },
@@ -2592,21 +2689,26 @@
           "RETL",
           "DEBT"
         ]
-      },
-      "Identification_0": {
-        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 256
-      },
-      "OBProxyAccount": {
-        "type": "object",
-        "required": [
-          "Identification",
-          "Code",
-          "Proprietary"
-        ],
-        "properties": {
+    }, 
+    "ISODateTime": {
+      "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+      "type": "string",
+      "format": "date-time"
+    },
+    "Identification_0": {
+      "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "OBProxyAccount": {
+      "type" : "object",
+      "required": [
+        "Identification",
+        "Code",
+        "Proprietary"
+      ],
+      "properties": {
           "Identification": {
             "$ref": "#/components/schemas/Identification_0"
           },
