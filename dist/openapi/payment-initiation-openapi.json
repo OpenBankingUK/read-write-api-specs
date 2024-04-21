@@ -4979,8 +4979,13 @@
         "minLength": 1,
         "maxLength": 16
       },
-      "OBCategoryPurposeCode": {
-        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+      "Date" : { 
+        "description": "Date and time associated with the date time type.All dates in the JSON payloads are represented in ISO 8601 date format. \n An example is below:\n2017-04-05",
+        "type": "string",
+        "format": "date"
+      },
+      "OBCategoryPurpose1Code": {
+        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. \n For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
         "type" : "string",
         "enum" : [
           "BONU",
@@ -5085,6 +5090,13 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 35
+      },
+      "LEI": { 
+      "description" : "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+        "type": "string",
+        "minLength" : 1, 
+        "maxLength": 20,
+        "pattern": "^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}"
       },
       "Links": {
         "type": "object",
@@ -5246,6 +5258,9 @@
             "type": "string",
             "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
           },
+          "LEI": { 
+            "$ref":  "#/components/schemas/LEI" 
+          },
           "SecondaryIdentification": {
             "type": "string",
             "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text"
@@ -5254,6 +5269,10 @@
             "$ref":  "#/components/schemas/OBExternalProxyAccountType1Code" 
           }
         }
+      },
+      "OBClassification1Code" : { 
+        "type" : "string",
+        "enum" : ["FIXE","USGB","VARI"]
       },
       "OBError1": {
         "type": "object",
@@ -5311,19 +5330,64 @@
         "description": "Name of the identification scheme, in a coded form as published in an external list.",
         "type": "string",
         "x-namespaced-enum": [
-          "UK.OBIE.BBAN",
-          "UK.OBIE.IBAN",
-          "UK.OBIE.PAN",
-          "UK.OBIE.Paym",
-          "UK.OBIE.SortCodeAccountNumber",
-          "UK.OBIE.Wallet"
+          "UK.OB.BBAN",
+          "UK.OB.IBAN",
+          "UK.OB.PAN",
+          "UK.OB.Paym",
+          "UK.OB.SortCodeAccountNumber",
+          "UK.OB.Wallet"
         ]
+      },
+      "OBExternalCreditorReferenceType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction.",
+        "enum": [
+          "DISP",
+          "FXDR",
+          "PUOR",
+          "RPIN",
+          "RADM",
+          "SCOR"
+        ]
+      },
+      "OBExternalDocumentType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "enum": [
+            "CINV",
+            "CNFA",
+            "CONT",
+            "CREN",
+            "DEBN",
+            "DISP",
+            "DNFA",
+            "HIRI",
+            "INVS",
+            "MSIN",
+            "PROF",
+            "PUOR",
+            "QUOT",
+            "SBIN",
+            "SPRR",
+            "TISH",
+            "USAR",
+            "AROI",
+            "BOLD",
+            "CMCN",
+            "SOAC",
+            "TSUT",
+            "VCHR"
+          ]
       },
       "OBExternalFinancialInstitutionIdentification4Code": {
         "description": "Name of the identification scheme, in a coded form as published in an external list.",
         "type": "string",
         "x-namespaced-enum": [
-          "UK.OBIE.BICFI"
+          "UK.OB.BICFI"
         ]
       },
       "OBExternalExtendedAccountType1Code": {
@@ -5351,25 +5415,25 @@
         "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
         "type": "string",
         "x-namespaced-enum": [
-          "UK.OBIE.BACS",
-          "UK.OBIE.BalanceTransfer",
-          "UK.OBIE.CHAPS",
-          "UK.OBIE.Euro1",
-          "UK.OBIE.FPS",
-          "UK.OBIE.Link",
-          "UK.OBIE.MoneyTransfer",
-          "UK.OBIE.Paym",
-          "UK.OBIE.SEPACreditTransfer",
-          "UK.OBIE.SEPAInstantCreditTransfer",
-          "UK.OBIE.SWIFT",
-          "UK.OBIE.Target2"
+          "UK.OB.BACS",
+          "UK.OB.BalanceTransfer",
+          "UK.OB.CHAPS",
+          "UK.OB.Euro1",
+          "UK.OB.FPS",
+          "UK.OB.Link",
+          "UK.OB.MoneyTransfer",
+          "UK.OB.Paym",
+          "UK.OB.SEPACreditTransfer",
+          "UK.OB.SEPAInstantCreditTransfer",
+          "UK.OB.SWIFT",
+          "UK.OB.Target2"
         ]
       },
       "OBExternalPaymentChargeType1Code": {
         "description": "Charge type, in a coded form.",
         "type": "string",
         "x-namespaced-enum": [
-          "UK.OBIE.CHAPSOut"
+          "UK.OB.CHAPSOut"
         ]
       },
       "OBExternalPurpose1Code" :{
@@ -5715,6 +5779,59 @@
         "maxLength": 4,
         "example": "AC17"
     },
+    "OBFrequencyPeriodType": {
+      "description": "Individual Definitions:\n ADHO - Adhoc \n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nWEEK - Weekly ", 
+      "type": "string",
+      "enum": ["ADHO", "YEAR", "DAIL", "INDA", "MNTH", "QURT", "MIAN", "WEEK"]
+    },
+    "OBMandateRelatedInformation" : { 
+        "type" : "object",
+        "required": [
+          "PeriodType", 
+          "CountPerPeriod",
+          "PointInTimeType",
+          "PointInTime"
+        ],
+        "properties": {
+          "MandateIdentification": { 
+            "$ref": "#/components/schemas/Identification_1"
+          },
+          "Classificatoin" : { 
+            "$ref": "#/components/schemas/OBClassification1Code"
+          },
+          "CategoryPurposeCode": {
+            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
+          },
+          "FirstPaymentDate":{ 
+            "$ref" : "#/components/schemas/Date"
+          },
+          "FinalPaymentDate":{ 
+            "$ref" : "#/components/schemas/Date"
+          },  
+          "Frequency": { 
+            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          }, 
+          "PeriodType": { 
+            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          }, 
+          "CountPerPeriod": { 
+            "type": "integer",
+            "format": "int32"
+          },
+          "PointInTimeType": { 
+            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          },
+          "PointInTime": { 
+            "$ref" : "#/components/schemas/Time"
+          },
+          "Reason": { 
+            "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.\n  For more information see `ExternalMandateSetupReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "type": "string",
+            "maxLength": 4, 
+            "minLength": 1
+          }
+        }
+      },
     "OBPaymentStatusReason" :{
       "type":"object",
       "properties":{
@@ -5788,8 +5905,7 @@
         "BIID"
       ]
     },
-
-      "OBPostalAddress6": {
+    "OBPostalAddress6": {
         "type": "object",
         "additionalProperties": false,
         "description": "Information that locates and identifies a specific address, as defined by postal services.",
@@ -5858,6 +5974,85 @@
           }
         }
       },
+      "OBReferredDocumentInformation": { 
+        "type": "object",
+        "properties": { 
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalDocumentType1Code"
+          },
+          "Issuer": { 
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1 
+          },
+          "Number": {
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1
+          },
+          "RelatedDate": {
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "LineDetails": { 
+            "type": "array",
+            "items":  {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OBRemittanceInformation1": {
+        "type": "object",
+        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system",
+        "properties":{
+          "Structured": { 
+            "type": "array",
+            "items": { 
+              "$ref":  "#/components/schemas/OBRemittanceInformationStructured"
+            }
+          },
+          "Unstructured": {
+            "type": "array",
+            "items": { 
+              "type": "string", 
+              "maxLength": 256,
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "OBRemittanceInformationStructured":{
+        "type": "object",
+        "properties": { 
+          "RemittanceDocumentInformation": { 
+            "$ref": "#/components/schemas/OBReferredDocumentInformation"
+          }, 
+          "ReferenceDocumentAmount": { 
+            "type": "integer",
+            "format": "int32"
+          },
+          "CreditorReferenceInformation": { 
+            "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+          },
+          "Invoicer": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "Invoicee": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "TaxRemittance" : { 
+            "type": "string",
+              "maxLength": 140,
+              "minLength": 1
+          },
+          "LineDetails": { 
+            "type": "array",
+            "items":  {
+                "type": "string", 
+                "maxLength": 500,
+                "minLength": 1
+            },
+            "maxItems": 3
       "OBRegulatoryAuthority2": { 
         "type": "object",
         "description":"Entity requiring the regulatory reporting information. ",
@@ -5939,7 +6134,7 @@
            "$ref" : "#/components/schemas/OBExternalPurpose1Code"
           },
           "CategoryPurposeCode":{
-            "$ref": "#/components/schemas/OBCategoryPurposeCode"
+            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
           },
           "BeneficiaryAccountType": {
             "$ref": "#/components/schemas/OBExternalExtendedAccountType1Code"
@@ -6178,37 +6373,21 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
                   }
                 }
+              },
+              "RegulatoryReporting": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                },
+                "maxItems": 10 
               }
             }
-          },
-          "RegulatoryReporting": {
-            "type": "array",
-            "items":{
-              "$ref": "#/components/schemas/OBRegulatoryReporting3"
-            },
-            "maxItems": 10 
           },
           "Risk": {
             "$ref": "#/components/schemas/OBRisk1"
@@ -6345,23 +6524,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -6607,23 +6770,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -6896,23 +7043,7 @@
                     "$ref": "#/components/schemas/OBPostalAddress6"
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7096,23 +7227,7 @@
                     "$ref": "#/components/schemas/OBPostalAddress6"
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7269,23 +7384,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7537,23 +7636,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7836,23 +7919,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7947,11 +8014,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8137,11 +8201,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8267,6 +8328,9 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "MandateRelatedInformation": { 
+                    "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -8412,11 +8476,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8542,6 +8603,9 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "MandateRelatedInformation": { 
+                    "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -8718,11 +8782,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8938,8 +8999,8 @@
                     "description": "Specifies the payment file type.",
                     "type": "string",
                     "x-namespaced-enum": [
-                      "UK.OBIE.PaymentInitiation.3.1",
-                      "UK.OBIE.pain.001.001.08"
+                      "UK.OB.PaymentInitiation.3.1",
+                      "UK.OB.pain.001.001.08"
                     ]
                   },
                   "FileHash": {
@@ -8998,23 +9059,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9052,8 +9097,8 @@
                     "description": "Specifies the payment file type.",
                     "type": "string",
                     "x-namespaced-enum": [
-                      "UK.OBIE.PaymentInitiation.3.1",
-                      "UK.OBIE.pain.001.001.08"
+                      "UK.OB.PaymentInitiation.3.1",
+                      "UK.OB.pain.001.001.08"
                     ]
                   },
                   "FileHash": {
@@ -9112,23 +9157,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9258,8 +9287,8 @@
                     "description": "Specifies the payment file type.",
                     "type": "string",
                     "x-namespaced-enum": [
-                      "UK.OBIE.PaymentInitiation.3.1",
-                      "UK.OBIE.pain.001.001.08"
+                      "UK.OB.PaymentInitiation.3.1",
+                      "UK.OB.pain.001.001.08"
                     ]
                   },
                   "FileHash": {
@@ -9318,23 +9347,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9467,8 +9480,8 @@
                     "description": "Specifies the payment file type.",
                     "type": "string",
                     "x-namespaced-enum": [
-                      "UK.OBIE.PaymentInitiation.3.1",
-                      "UK.OBIE.pain.001.001.08"
+                      "UK.OB.PaymentInitiation.3.1",
+                      "UK.OB.pain.001.001.08"
                     ]
                   },
                   "FileHash": {
@@ -9527,23 +9540,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9803,6 +9800,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -9821,6 +9821,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -9855,23 +9858,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -10045,6 +10032,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -10063,6 +10053,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10104,23 +10097,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -10437,6 +10414,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -10455,6 +10435,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10496,23 +10479,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -10641,6 +10608,9 @@
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 140
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10897,6 +10867,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -10915,6 +10888,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10949,23 +10925,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11186,6 +11146,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -11204,6 +11167,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11238,23 +11204,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11441,6 +11391,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -11456,6 +11409,9 @@
                       },
                       "Identification": {
                         "$ref": "#/components/schemas/Identification_1"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
@@ -11500,23 +11456,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11846,6 +11786,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -11864,6 +11807,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11905,23 +11851,7 @@
                     "maxItems": 10 
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12048,6 +11978,9 @@
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 140
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12309,6 +12242,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -12327,6 +12263,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12361,23 +12300,7 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-                    "properties": {
-                      "Unstructured": {
-                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "Reference": {
-                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 35
-                      }
-                    }
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12473,11 +12396,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -12562,6 +12482,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -12583,6 +12506,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12683,11 +12609,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -12772,6 +12695,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -12793,6 +12719,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12825,6 +12754,9 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "MandateRelatedInformation": { 
+                    "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12978,11 +12910,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -13067,6 +12996,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -13088,6 +13020,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -13120,6 +13055,9 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "MandateRelatedInformation": { 
+                    "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -13237,6 +13175,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -13331,11 +13272,8 @@
                     "type": "string",
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
-                  "Reference": {
-                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 35
+                  "RemittanceInformation": {
+                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -13420,6 +13358,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -13441,6 +13382,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -13676,6 +13620,11 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 70
+      },
+      "Time": { 
+        "description": "Time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.\nUsage: If transaction entry status is pending and value date is present, then the value date refers to an expected/requested value date.\nFor transaction entries subject to availability/float and for which availability information is provided, the value date must not be used. In this case the availability component identifies the number of availability days.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\nT10:43:07+00:00",
+        "type": "string",
+        "format": "time"
       },
       "TownName": {
         "description": "Name of a built-up area, with defined boundaries, and a local government.",
