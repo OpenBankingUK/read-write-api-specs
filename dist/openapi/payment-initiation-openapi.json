@@ -3094,7 +3094,6 @@
           "406": {
             "$ref": "#/components/responses/406Error"
           },
-          
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -3114,7 +3113,7 @@
   },
   "servers": [
     {
-      "url": "/open-banking/v3.1/pisp"
+      "url": "/open-banking/v4.0/pisp"
     }
   ],
   "components": {
@@ -4979,15 +4978,15 @@
         "minLength": 1,
         "maxLength": 16
       },
-      "Date" : { 
+      "Date": {
         "description": "Date and time associated with the date time type.All dates in the JSON payloads are represented in ISO 8601 date format. \n An example is below:\n2017-04-05",
         "type": "string",
         "format": "date"
       },
       "OBCategoryPurpose1Code": {
-        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. \n For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
-        "type" : "string",
-        "enum" : [
+        "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. \n For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
+        "type": "string",
+        "enum": [
           "BONU",
           "CASH",
           "CBLK",
@@ -5091,10 +5090,10 @@
         "minLength": 1,
         "maxLength": 35
       },
-      "LEI": { 
-      "description" : "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+      "LEI": {
+        "description": "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
         "type": "string",
-        "minLength" : 1, 
+        "minLength": 1,
         "maxLength": 20,
         "pattern": "^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}"
       },
@@ -5232,8 +5231,8 @@
             "description": "Secondary identification of the account, as assigned by the account servicing institution. This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
             "maxLength": 34
           },
-          "Proxy" : {
-              "$ref":  "#/components/schemas/OBProxyAccount" 
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxyAccount"
           }
         },
         "required": [
@@ -5258,30 +5257,39 @@
             "type": "string",
             "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
           },
-          "LEI": { 
-            "$ref":  "#/components/schemas/LEI" 
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
           },
           "SecondaryIdentification": {
             "type": "string",
             "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text"
           },
-          "Proxy" : {
-            "$ref":  "#/components/schemas/OBExternalProxyAccountType1Code" 
+          "Proxy": {
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
           }
         }
       },
-      "OBClassification1Code" : { 
-        "type" : "string",
-        "enum" : ["FIXE","USGB","VARI"]
+      "OBClassification1Code": {
+        "type": "string",
+        "enum": [
+          "FIXE",
+          "USGB",
+          "VARI"
+        ]
       },
       "OBError1": {
         "type": "object",
         "properties": {
           "ErrorCode": {
-            "$ref": "#/components/schemas/OBInternalErrorResponseError1Code"
+            "$ref": "#/components/schemas/OBInternalErrorResponseError1Code",
+            "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 4,
+            "example": "AC17"
           },
           "Message": {
-            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBL doesn't standardise this field",
             "type": "string",
             "minLength": 1,
             "maxLength": 500
@@ -5358,30 +5366,30 @@
         "maxLength": 4,
         "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
         "enum": [
-            "CINV",
-            "CNFA",
-            "CONT",
-            "CREN",
-            "DEBN",
-            "DISP",
-            "DNFA",
-            "HIRI",
-            "INVS",
-            "MSIN",
-            "PROF",
-            "PUOR",
-            "QUOT",
-            "SBIN",
-            "SPRR",
-            "TISH",
-            "USAR",
-            "AROI",
-            "BOLD",
-            "CMCN",
-            "SOAC",
-            "TSUT",
-            "VCHR"
-          ]
+          "CINV",
+          "CNFA",
+          "CONT",
+          "CREN",
+          "DEBN",
+          "DISP",
+          "DNFA",
+          "HIRI",
+          "INVS",
+          "MSIN",
+          "PROF",
+          "PUOR",
+          "QUOT",
+          "SBIN",
+          "SPRR",
+          "TISH",
+          "USAR",
+          "AROI",
+          "BOLD",
+          "CMCN",
+          "SOAC",
+          "TSUT",
+          "VCHR"
+        ]
       },
       "OBExternalFinancialInstitutionIdentification4Code": {
         "description": "Name of the identification scheme, in a coded form as published in an external list.",
@@ -5436,7 +5444,7 @@
           "UK.OB.CHAPSOut"
         ]
       },
-      "OBExternalPurpose1Code" :{
+      "OBExternalPurpose1Code": {
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
@@ -5771,141 +5779,156 @@
           "RETL",
           "DEBT"
         ]
-    }, 
-    "OBInternalErrorResponseError1Code": {
-      "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
+      },
+      "OBInternalErrorResponseError1Code": {
+        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
         "example": "AC17"
-    },
-    "OBFrequencyPeriodType": {
-      "description": "Individual Definitions:\n ADHO - Adhoc \n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nWEEK - Weekly ", 
-      "type": "string",
-      "enum": ["ADHO", "YEAR", "DAIL", "INDA", "MNTH", "QURT", "MIAN", "WEEK"]
-    },
-    "OBMandateRelatedInformation" : { 
-        "type" : "object",
+      },
+      "OBFrequencyPeriodType": {
+        "description": "Individual Definitions:\n ADHO - Adhoc \n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nWEEK - Weekly ",
+        "type": "string",
+        "enum": [
+          "ADHO",
+          "YEAR",
+          "DAIL",
+          "INDA",
+          "MNTH",
+          "QURT",
+          "MIAN",
+          "WEEK"
+        ]
+      },
+      "OBMandateRelatedInformation": {
+        "type": "object",
         "required": [
-          "PeriodType", 
+          "PeriodType",
           "CountPerPeriod",
           "PointInTimeType",
           "PointInTime"
         ],
         "properties": {
-          "MandateIdentification": { 
+          "MandateIdentification": {
             "$ref": "#/components/schemas/Identification_1"
           },
-          "Classificatoin" : { 
+          "Classificatoin": {
             "$ref": "#/components/schemas/OBClassification1Code"
           },
           "CategoryPurposeCode": {
             "$ref": "#/components/schemas/OBCategoryPurpose1Code"
           },
-          "FirstPaymentDate":{ 
-            "$ref" : "#/components/schemas/Date"
+          "FirstPaymentDate": {
+            "$ref": "#/components/schemas/Date"
           },
-          "FinalPaymentDate":{ 
-            "$ref" : "#/components/schemas/Date"
-          },  
-          "Frequency": { 
-            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
-          }, 
-          "PeriodType": { 
-            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
-          }, 
-          "CountPerPeriod": { 
+          "FinalPaymentDate": {
+            "$ref": "#/components/schemas/Date"
+          },
+          "Frequency": {
+            "$ref": "#/components/schemas/OBFrequencyPeriodType"
+          },
+          "PeriodType": {
+            "$ref": "#/components/schemas/OBFrequencyPeriodType"
+          },
+          "CountPerPeriod": {
             "type": "integer",
             "format": "int32"
           },
-          "PointInTimeType": { 
-            "$ref" : "#/components/schemas/OBFrequencyPeriodType"
+          "PointInTimeType": {
+            "$ref": "#/components/schemas/OBFrequencyPeriodType"
           },
-          "PointInTime": { 
-            "$ref" : "#/components/schemas/Time"
+          "PointInTime": {
+            "$ref": "#/components/schemas/Time"
           },
-          "Reason": { 
+          "Reason": {
             "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.\n  For more information see `ExternalMandateSetupReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
             "type": "string",
-            "maxLength": 4, 
+            "maxLength": 4,
             "minLength": 1
           }
         }
       },
-    "OBPaymentStatusReason" :{
-      "type":"object",
-      "properties":{
-        "StatusReasonCode":{
-          "type":"string",
-          "description" : "Specifies the status reason in a code form \n For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets", 
-          "minLength": 1,
-          "maxLength": 4,
-          "example": "ERIN"
-        },
-        "StatusReasonDescription" : {
-          "type" :"string",
-          "description": "Description supporting the StatusReasonCode.",
-          "minLength": 1, 
-          "maxLength": 500
+      "OBPaymentStatusReason": {
+        "type": "object",
+        "properties": {
+          "StatusReasonCode": {
+            "type": "string",
+            "description": "Specifies the status reason in a code form \n For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription": {
+            "type": "string",
+            "description": "Description supporting the StatusReasonCode.",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "Path": {
+            "type": "string",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "minLength": 1,
+            "maxLength": 500
+          }
         }
-      }
-    },
-    "OBProxyAccount": {
-      "type" : "object",
-      "required": [
-        "Identification",
-        "Code",
-        "Proprietary"
-      ],
-      "properties": {
+      },
+      "OBProxyAccount": {
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code",
+          "Proprietary"
+        ],
+        "properties": {
           "Identification": {
             "$ref": "#/components/schemas/Identification_0"
           },
-          "Code":{
-            "$ref":"#/components/schemas/OBExternalProxyAccountType1Code"
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
           },
           "Proprietary": {
             "type": "string",
-            "description": "The owner of the proxy account", 
+            "description": "The owner of the proxy account",
             "minLength": 1,
             "maxLength": 70
           },
           "Type": {
             "type": "string",
-            "description": "Specifies the external proxy account type", 
+            "description": "Specifies the external proxy account type",
             "minLength": 1,
             "maxLength": 70
-          }        
-      }
-    }, 
-    "OBExternalProxyAccountType1Code" : {
-      "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
-      "type": "string",
-      "enum": [
-        "TELE",
-        "EMAL",
-        "DNAM",
-        "CINC",
-        "COTX",
-        "COID",
-        "CUST",
-        "DRLC",
-        "EIDN",
-        "EWAL",
-        "PVTX",
-        "LEIC",
-        "MBNO",
-        "NIDN",
-        "CCPT",
-        "SHID",
-        "SOSE",
-        "TOKN",
-        "UBIL",
-        "VIPN",
-        "BIID"
-      ]
-    },
-    "OBPostalAddress6": {
+          }
+        }
+      },
+      "OBExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "type": "string",
+        "enum": [
+          "TELE",
+          "EMAL",
+          "DNAM",
+          "CINC",
+          "COTX",
+          "COID",
+          "CUST",
+          "DRLC",
+          "EIDN",
+          "EWAL",
+          "PVTX",
+          "LEIC",
+          "MBNO",
+          "NIDN",
+          "CCPT",
+          "SHID",
+          "SOSE",
+          "TOKN",
+          "UBIL",
+          "VIPN",
+          "BIID"
+        ]
+      },
+      "OBPostalAddress6": {
         "type": "object",
         "additionalProperties": false,
         "description": "Information that locates and identifies a specific address, as defined by postal services.",
@@ -5928,25 +5951,25 @@
           "BuildingName": {
             "$ref": "#/components/schemas/BuildingName"
           },
-          "Floor":{
+          "Floor": {
             "$ref": "#/components/schemas/Floor"
           },
-          "UnitNumber":{
+          "UnitNumber": {
             "$ref": "#/components/schemas/UnitNumber"
           },
-          "Room" : {
+          "Room": {
             "$ref": "#/components/schemas/Room"
           },
-          "PostBox":{
+          "PostBox": {
             "$ref": "#/components/schemas/PostBox"
           },
-          "TownLocationName":{
+          "TownLocationName": {
             "$ref": "#/components/schemas/TownName"
           },
-          "DistrictName":{
+          "DistrictName": {
             "$ref": "#/components/schemas/DistrictName"
           },
-          "CareOf":{
+          "CareOf": {
             "$ref": "#/components/schemas/CareOf"
           },
           "PostCode": {
@@ -5974,16 +5997,16 @@
           }
         }
       },
-      "OBReferredDocumentInformation": { 
+      "OBReferredDocumentInformation": {
         "type": "object",
-        "properties": { 
+        "properties": {
           "Code": {
             "$ref": "#/components/schemas/OBExternalDocumentType1Code"
           },
-          "Issuer": { 
+          "Issuer": {
             "type": "string",
             "maxLength": 140,
-            "minLength": 1 
+            "minLength": 1
           },
           "Number": {
             "type": "string",
@@ -5993,9 +6016,9 @@
           "RelatedDate": {
             "$ref": "#/components/schemas/ISODateTime"
           },
-          "LineDetails": { 
+          "LineDetails": {
             "type": "array",
-            "items":  {
+            "items": {
               "type": "string"
             }
           }
@@ -6004,34 +6027,34 @@
       "OBRemittanceInformation1": {
         "type": "object",
         "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system",
-        "properties":{
-          "Structured": { 
+        "properties": {
+          "Structured": {
             "type": "array",
-            "items": { 
-              "$ref":  "#/components/schemas/OBRemittanceInformationStructured"
+            "items": {
+              "$ref": "#/components/schemas/OBRemittanceInformationStructured"
             }
           },
           "Unstructured": {
             "type": "array",
-            "items": { 
-              "type": "string", 
+            "items": {
+              "type": "string",
               "maxLength": 256,
               "minLength": 1
             }
           }
         }
       },
-      "OBRemittanceInformationStructured":{
+      "OBRemittanceInformationStructured": {
         "type": "object",
-        "properties": { 
-          "RemittanceDocumentInformation": { 
+        "properties": {
+          "RemittanceDocumentInformation": {
             "$ref": "#/components/schemas/OBReferredDocumentInformation"
-          }, 
-          "ReferenceDocumentAmount": { 
+          },
+          "ReferenceDocumentAmount": {
             "type": "integer",
             "format": "int32"
           },
-          "CreditorReferenceInformation": { 
+          "CreditorReferenceInformation": {
             "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
           },
           "Invoicer": {
@@ -6040,47 +6063,54 @@
           "Invoicee": {
             "$ref": "#/components/schemas/Identification_0"
           },
-          "TaxRemittance" : { 
+          "TaxRemittance": {
             "type": "string",
-              "maxLength": 140,
-              "minLength": 1
+            "maxLength": 140,
+            "minLength": 1
           },
-          "LineDetails": { 
+          "LineDetails": {
             "type": "array",
-            "items":  {
-                "type": "string", 
-                "maxLength": 500,
-                "minLength": 1
+            "items": {
+              "type": "string",
+              "maxLength": 500,
+              "minLength": 1
             },
             "maxItems": 3
-      "OBRegulatoryAuthority2": { 
+          }
+        }
+      },
+      "OBRegulatoryAuthority2": {
         "type": "object",
-        "description":"Entity requiring the regulatory reporting information. ",
-        "properties": { 
-          "Name": { 
-            "type": "string", 
+        "description": "Entity requiring the regulatory reporting information. ",
+        "properties": {
+          "Name": {
+            "type": "string",
             "description": "Name of the entity requiring the regulatory reporting information.",
             "minLength": 1,
-            "maxLength": 140 
+            "maxLength": 140
           },
-          "Country": { 
+          "Country": {
             "$ref": "#/components/schemas/CountryCode"
           }
         }
       },
-      "OBRegulatoryReporting3": { 
+      "OBRegulatoryReporting3": {
         "type": "object",
-        "description":"Information needed due to regulatory and statutory requirements",
-        "properties": { 
-          "DebitCreditReportingIndicator": { 
+        "description": "Information needed due to regulatory and statutory requirements",
+        "properties": {
+          "DebitCreditReportingIndicator": {
             "type": "string",
             "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. ",
-            "enum": ["CRED","DEBT", "BOTH"]
+            "enum": [
+              "CRED",
+              "DEBT",
+              "BOTH"
+            ]
           },
-          "Authority": { 
+          "Authority": {
             "$ref": "#/components/schemas/OBRegulatoryAuthority2"
           },
-          "Detials": { 
+          "Details": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
@@ -6131,9 +6161,9 @@
             "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
           },
           "PaymentPurposeCode": {
-           "$ref" : "#/components/schemas/OBExternalPurpose1Code"
+            "$ref": "#/components/schemas/OBExternalPurpose1Code"
           },
-          "CategoryPurposeCode":{
+          "CategoryPurposeCode": {
             "$ref": "#/components/schemas/OBCategoryPurpose1Code"
           },
           "BeneficiaryAccountType": {
@@ -6144,7 +6174,7 @@
               "Country",
               "TownName"
             ],
-            "$ref": "#/components/schemas/OBPostalAddress6", 
+            "$ref": "#/components/schemas/OBPostalAddress6",
             "description": "Information that locates and identifies a specific address,\nas defined by postal services or in free format text."
           },
           "ExtendedPurpose": {
@@ -6191,11 +6221,11 @@
         "description": "Supporting Data provided by TPP, when requesting SCA Exemption."
       },
       "OBStatusReason": {
-        "type":"object",
+        "type": "object",
         "properties": {
           "StatusReasonCode": {
-            "type":"string",
-            "description" : "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "type": "string",
+            "description": "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
@@ -6205,29 +6235,35 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 500
+          },
+          "Path": {
+            "type": "string",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "minLength": 1,
+            "maxLength": 500
           }
         }
       },
-      "OBStructuredRegulatoryReporting3": { 
+      "OBStructuredRegulatoryReporting3": {
         "type": "object",
         "description": "Set of elements used to provide details on the regulatory reporting information.",
-        "properties": { 
-          "Type": { 
+        "properties": {
+          "Type": {
             "type": "string",
             "description": "Specifies the type of the information supplied in the regulatory reporting details",
-            "minLength": 1, 
+            "minLength": 1,
             "maxLength": 35
           },
-          "Date": { 
+          "Date": {
             "$ref": "#/components/schemas/ISODateTime"
           },
-          "Country":{
+          "Country": {
             "$ref": "#/components/schemas/CountryCode"
           },
           "Amount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
           },
-          "Information": { 
+          "Information": {
             "description": "Additional details that cater for specific domestic regulatory requirements. ",
             "type": "array",
             "items": {
@@ -6367,25 +6403,35 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
                   }
                 }
-              },
-              "RegulatoryReporting": {
-                "type": "array",
-                "items":{
-                  "$ref": "#/components/schemas/OBRegulatoryReporting3"
-                },
-                "maxItems": 10 
               }
             }
           },
@@ -6518,13 +6564,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -6606,17 +6669,11 @@
               },
               "StatusReason": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBStatusReason",
-                  "description": "Specifies the status reason."
+                  "description": "Specifies the status reason"
                 }
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
@@ -6770,13 +6827,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -6861,22 +6935,35 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of the payment information group.",
                 "type": "string",
                 "enum": [
-                  "AcceptedCreditSettlementCompleted",
-                  "AcceptedSettlementCompleted",
-                  "AcceptedSettlementInProcess",
-                  "AcceptedWithoutPosting",
-                  "Pending",
-                  "Rejected"
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "ExpectedExecutionDateTime": {
                 "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -7049,7 +7136,24 @@
                     "$ref": "#/components/schemas/OBPostalAddress6"
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7068,9 +7172,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -7233,7 +7337,24 @@
                     "$ref": "#/components/schemas/OBPostalAddress6"
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7384,13 +7505,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7461,14 +7599,14 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Consumed",
-                  "Rejected"
+                  "AUTH",
+                  "AWAU",
+                  "COND",
+                  "RJCT"
                 ]
               },
               "StatusUpdateDateTime": {
@@ -7476,12 +7614,13 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason."
+                }
+              },
               "Permission": {
                 "description": "Specifies the Open Banking service request types.",
                 "type": "string",
@@ -7642,13 +7781,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7733,20 +7889,26 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of the payment order resource.",
                 "type": "string",
                 "enum": [
-                  "Cancelled",
-                  "InitiationCompleted",
-                  "InitiationFailed",
-                  "InitiationPending"
+                  "RCVD",
+                  "RJCT",
+                  "ACSP"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "ExpectedExecutionDateTime": {
                 "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -7925,13 +8087,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -7950,9 +8129,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -8014,20 +8193,13 @@
                 "type": "object",
                 "additionalProperties": false,
                 "required": [
-                  "Frequency",
-                  "FirstPaymentDateTime",
                   "FirstPaymentAmount",
                   "CreditorAccount"
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.",
                 "properties": {
-                  "Frequency": {
-                    "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "type": "string",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
-                  },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8035,18 +8207,8 @@
                     "minLength": 1,
                     "maxLength": 35
                   },
-                  "FirstPaymentDateTime": {
-                    "description": "The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
-                  },
                   "RecurringPaymentDateTime": {
                     "description": "The date on which the first recurring payment for a Standing Order schedule will be made. \nUsage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "FinalPaymentDateTime": {
-                    "description": "The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                     "type": "string",
                     "format": "date-time"
                   },
@@ -8153,6 +8315,9 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "MandateRelatedInformation": {
+                    "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -8208,13 +8373,8 @@
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.",
                 "properties": {
-                  "Frequency": {
-                    "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "type": "string",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
-                  },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8222,18 +8382,8 @@
                     "minLength": 1,
                     "maxLength": 35
                   },
-                  "FirstPaymentDateTime": {
-                    "description": "The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
-                  },
                   "RecurringPaymentDateTime": {
                     "description": "The date on which the first recurring payment for a Standing Order schedule will be made. \nUsage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "FinalPaymentDateTime": {
-                    "description": "The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                     "type": "string",
                     "format": "date-time"
                   },
@@ -8341,7 +8491,7 @@
                       }
                     }
                   },
-                  "MandateRelatedInformation": { 
+                  "MandateRelatedInformation": {
                     "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
@@ -8396,7 +8546,7 @@
             "required": [
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Permission",
               "Initiation"
@@ -8413,14 +8563,14 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Consumed",
-                  "Rejected"
+                  "AUTH",
+                  "AWAU",
+                  "COND",
+                  "RJCT"
                 ]
               },
               "StatusUpdateDateTime": {
@@ -8428,12 +8578,13 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
+              },
               "Permission": {
                 "description": "Specifies the Open Banking service request types.",
                 "type": "string",
@@ -8495,7 +8646,14 @@
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                  },
+                  "Reference": {
+                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 35
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8622,7 +8780,7 @@
                       }
                     }
                   },
-                  "MandateRelatedInformation": { 
+                  "MandateRelatedInformation": {
                     "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
@@ -8686,7 +8844,7 @@
               "DomesticStandingOrderId",
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -8708,20 +8866,26 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of the payment order resource.",
                 "type": "string",
                 "enum": [
-                  "Cancelled",
-                  "InitiationCompleted",
-                  "InitiationFailed",
-                  "InitiationPending"
+                  "RCVD",
+                  "RJCT",
+                  "CANC"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "Refund": {
                 "type": "object",
@@ -8801,7 +8965,14 @@
                     "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
+                  },
+                  "Reference": {
+                    "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 35
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -8945,9 +9116,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -9077,7 +9248,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9175,7 +9363,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9251,15 +9456,9 @@
                   "COND"
                 ]
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
               "StatusReason": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBStatusReason",
                   "description": "Specifies the status reason."
                 }
@@ -9371,7 +9570,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9431,7 +9647,7 @@
               "FilePaymentId",
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -9453,19 +9669,26 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of the payment order resource.",
                 "type": "string",
                 "enum": [
-                  "InitiationCompleted",
-                  "InitiationFailed",
-                  "InitiationPending"
+                  "RCVD",
+                  "RJCT",
+                  "ASCP"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "Charges": {
                 "type": "array",
@@ -9564,7 +9787,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9583,9 +9823,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -9722,6 +9962,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -9824,7 +10070,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -9846,7 +10092,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -9882,7 +10128,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -9954,6 +10217,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -10056,7 +10325,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10078,7 +10347,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10115,13 +10384,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -10203,17 +10489,11 @@
               },
               "StatusReason": {
                 "type": "array",
-                "items":{
-                  "$ref": "#/components/schemas/OBStatusReason",
-                  "description": "Specifies the status reason."
-                }
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
@@ -10342,6 +10622,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -10444,7 +10730,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10466,7 +10752,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10503,13 +10789,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -10572,7 +10875,7 @@
               "InternationalPaymentId",
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -10594,22 +10897,35 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of the payment information group.",
                 "type": "string",
                 "enum": [
-                  "AcceptedCreditSettlementCompleted",
-                  "AcceptedSettlementCompleted",
-                  "AcceptedSettlementInProcess",
-                  "AcceptedWithoutPosting",
-                  "Pending",
-                  "Rejected"
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "ExpectedExecutionDateTime": {
                 "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -10639,7 +10955,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10795,6 +11111,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -10897,7 +11219,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10919,7 +11241,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -10955,7 +11277,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -10974,9 +11313,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -11069,6 +11408,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -11176,7 +11521,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -11198,7 +11543,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -11234,7 +11579,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11314,6 +11676,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -11421,7 +11789,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -11440,7 +11808,7 @@
                       "Identification": {
                         "$ref": "#/components/schemas/Identification_1"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "Name": {
@@ -11480,13 +11848,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11569,7 +11954,7 @@
               },
               "StatusReason": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBStatusReason",
                   "description": "Specifies the status reason."
                 }
@@ -11579,12 +11964,12 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Path": { 
+              "Path": {
                 "type": "string",
                 "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
                 "minLength": 1,
-                "maxLength": 500  
-              }, 
+                "maxLength": 500
+              },
               "Permission": {
                 "description": "Specifies the Open Banking service request types.",
                 "type": "string",
@@ -11715,6 +12100,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -11822,7 +12213,7 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -11844,7 +12235,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -11881,13 +12272,30 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -11950,7 +12358,7 @@
               "InternationalScheduledPaymentId",
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -11972,20 +12380,35 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of the payment order resource.",
                 "type": "string",
                 "enum": [
-                  "Cancelled",
-                  "InitiationCompleted",
-                  "InitiationFailed",
-                  "InitiationPending"
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "ExpectedExecutionDateTime": {
                 "description": "Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -12015,7 +12438,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12171,6 +12594,12 @@
                       "Urgent"
                     ]
                   },
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4
+                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -12278,7 +12707,7 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12300,7 +12729,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12336,7 +12765,24 @@
                     }
                   },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+                    "properties": {
+                      "Unstructured": {
+                        "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 140
+                      },
+                      "Reference": {
+                        "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.\nUsage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.\nIf the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.\nOB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 35
+                      }
+                    }
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12355,9 +12801,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -12419,21 +12865,14 @@
                 "type": "object",
                 "additionalProperties": false,
                 "required": [
-                  "Frequency",
-                  "FirstPaymentDateTime",
                   "CurrencyOfTransfer",
                   "InstructedAmount",
                   "CreditorAccount"
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.",
                 "properties": {
-                  "Frequency": {
-                    "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "type": "string",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
-                  },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -12441,15 +12880,11 @@
                     "minLength": 1,
                     "maxLength": 35
                   },
-                  "FirstPaymentDateTime": {
-                    "description": "The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
                     "type": "string",
-                    "format": "date-time"
-                  },
-                  "FinalPaymentDateTime": {
-                    "description": "The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
+                    "minLength": 1,
+                    "maxLength": 4
                   },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
@@ -12518,7 +12953,7 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12543,7 +12978,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12580,10 +13015,10 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12632,21 +13067,14 @@
                 "type": "object",
                 "additionalProperties": false,
                 "required": [
-                  "Frequency",
-                  "FirstPaymentDateTime",
                   "CurrencyOfTransfer",
                   "InstructedAmount",
                   "CreditorAccount"
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.",
                 "properties": {
-                  "Frequency": {
-                    "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "type": "string",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
-                  },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -12654,15 +13082,11 @@
                     "minLength": 1,
                     "maxLength": 35
                   },
-                  "FirstPaymentDateTime": {
-                    "description": "The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
                     "type": "string",
-                    "format": "date-time"
-                  },
-                  "FinalPaymentDateTime": {
-                    "description": "The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
+                    "minLength": 1,
+                    "maxLength": 4
                   },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
@@ -12731,7 +13155,7 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12756,7 +13180,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -12791,7 +13215,7 @@
                       }
                     }
                   },
-                  "MandateRelatedInformation": { 
+                  "MandateRelatedInformation": {
                     "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
@@ -12875,7 +13299,7 @@
               },
               "StatusReason": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBStatusReason",
                   "description": "Specifies the status reason."
                 }
@@ -12885,12 +13309,6 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
               "Permission": {
                 "description": "Specifies the Open Banking service request types.",
                 "type": "string",
@@ -12939,21 +13357,14 @@
                 "type": "object",
                 "additionalProperties": false,
                 "required": [
-                  "Frequency",
-                  "FirstPaymentDateTime",
                   "CurrencyOfTransfer",
                   "InstructedAmount",
                   "CreditorAccount"
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.",
                 "properties": {
-                  "Frequency": {
-                    "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "type": "string",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
-                  },
                   "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
+                    "$ref": "#/components/schemas/OBRemittanceInformation1"
                   },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
@@ -12961,15 +13372,11 @@
                     "minLength": 1,
                     "maxLength": 35
                   },
-                  "FirstPaymentDateTime": {
-                    "description": "The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
                     "type": "string",
-                    "format": "date-time"
-                  },
-                  "FinalPaymentDateTime": {
-                    "description": "The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
+                    "minLength": 1,
+                    "maxLength": 4
                   },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
@@ -13038,7 +13445,7 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -13063,7 +13470,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -13098,7 +13505,7 @@
                       }
                     }
                   },
-                  "MandateRelatedInformation": { 
+                  "MandateRelatedInformation": {
                     "$ref": "#/components/schemas/OBMandateRelatedInformation"
                   },
                   "SupplementaryData": {
@@ -13162,7 +13569,7 @@
               "InternationalStandingOrderId",
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation"
             ],
@@ -13184,20 +13591,26 @@
                 "type": "string",
                 "format": "date-time"
               },
-              "Status": {
+              "StatusCode": {
                 "description": "Specifies the status of resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Cancelled",
-                  "InitiationCompleted",
-                  "InitiationFailed",
-                  "InitiationPending"
+                  "RCVD",
+                  "RJCT",
+                  "ACSP"
                 ]
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
                 "type": "string",
                 "format": "date-time"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                },
+                "description": "Specifies the status reason."
               },
               "Refund": {
                 "type": "object",
@@ -13217,7 +13630,7 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -13301,37 +13714,23 @@
                 "type": "object",
                 "additionalProperties": false,
                 "required": [
-                  "Frequency",
-                  "FirstPaymentDateTime",
                   "CurrencyOfTransfer",
                   "InstructedAmount",
                   "CreditorAccount"
                 ],
                 "description": "The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.",
                 "properties": {
-                  "Frequency": {
-                    "description": "Individual Definitions:\nEvryDay - Every day\nEvryWorkgDay - Every working day\nIntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)\nWkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)\nIntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)\nQtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). \nENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. \nSCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.\nRECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. \nIndividual Patterns:\nEvryDay (ScheduleCode)\nEvryWorkgDay (ScheduleCode)\nIntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)\nWkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)\nIntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)\nQtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay\nThe regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:\nEvryDay\nEvryWorkgDay\nIntrvlWkDay:0[1-9]:0[1-7]\nWkInMnthDay:0[1-5]:0[1-7]\nIntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])\nQtrDay:(ENGLISH|SCOTTISH|RECEIVED)\nFull Regular Expression:\n^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$",
-                    "type": "string",
-                    "pattern": "^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$"
-                  },
-                  "RemittanceInformation": {
-                    "$ref" : "#/components/schemas/OBRemittanceInformation1"
-                  },
                   "NumberOfPayments": {
                     "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 35
                   },
-                  "FirstPaymentDateTime": {
-                    "description": "The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+                  "Purpose": {
+                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
                     "type": "string",
-                    "format": "date-time"
-                  },
-                  "FinalPaymentDateTime": {
-                    "description": "The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                    "type": "string",
-                    "format": "date-time"
+                    "minLength": 1,
+                    "maxLength": 4
                   },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
@@ -13400,7 +13799,7 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -13425,7 +13824,7 @@
                       "Name": {
                         "$ref": "#/components/schemas/Name"
                       },
-                      "LEI": { 
+                      "LEI": {
                         "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
@@ -13462,10 +13861,10 @@
                   },
                   "RegulatoryReporting": {
                     "type": "array",
-                    "items":{
+                    "items": {
                       "$ref": "#/components/schemas/OBRegulatoryReporting3"
                     },
-                    "maxItems": 10 
+                    "maxItems": 10
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -13484,9 +13883,9 @@
                     "description": "Specifies the status of the authorisation flow in code form.",
                     "type": "string",
                     "enum": [
-                      "Authorised",
-                      "AwaitingFurtherAuthorisation",
-                      "Rejected"
+                      "AUTH",
+                      "AWAU",
+                      "RJCT"
                     ]
                   },
                   "NumberRequired": {
@@ -13555,64 +13954,55 @@
                       "enum": [
                         "RCVD",
                         "PDNG",
-                        "ACTC", 
+                        "ACTC",
                         "ACFC",
-                        "ACSP", 
-                        "ACSC", 
-                        "ACWP", 
-                        "ACCC", 
-                        "BLCK", 
-                        "CANC", 
+                        "ACSP",
+                        "ACSC",
+                        "ACWP",
+                        "ACCC",
+                        "BLCK",
+                        "CANC",
                         "RJCT"
                       ]
                     },
-                    "StatusReason" :{
-                      "type": "array",
-                      "items" : { 
-                        "type": "object",
-                        "$ref": "#/components/schemas/OBPaymentStatusReason"
-                      }
-                    }, 
                     "StatusUpdateDateTime": {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date and time at which the status was assigned to the transfer.\n"
                     },
-                  "StatusDetail": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "Status"
-                    ],
-                    "description": "Payment status details as per underlying Payment Rail.",
-                    "properties": {
-                        "LocalInstrument": {
-                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
-                        },
-                        "Status": {
+                    "LocalInstrument": {
+                      "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
+                    },
+                    "StatusDetail": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "StatusCode"
+                      ],
+                      "description": "Payment status details as per underlying Payment Rail.",
+                      "properties": {
+                        "StatusCode": {
                           "description": "Status of a transfer, as assigned by the transaction administrator.",
                           "type": "string",
                           "minLength": 1,
-                          "maxLength": 128
+                          "maxLength": 4
                         },
-                        "StatusReason": {
+                        "StatusReasonCode": {
                           "description": "Reason Code provided for the status of a transfer.",
                           "type": "string",
-                          "enum": [
-                            "Cancelled",
-                            "PendingFailingSettlement",
-                            "PendingSettlement",
-                            "Proprietary",
-                            "ProprietaryRejection",
-                            "Suspended",
-                            "Unmatched"
-                          ]
+                          "minLength": 1,
+                          "maxLength": 4
                         },
                         "StatusReasonDescription": {
                           "description": "Reason provided for the status of a transfer.",
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 256
+                        },
+                        "StatusUpdateDateTime": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Date and time at which the status was assigned to the transfer.\n"
                         }
                       }
                     }
@@ -13629,7 +14019,7 @@
           }
         }
       },
-      "PostBox" : {
+      "PostBox": {
         "description": "Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.",
         "minLength": 1,
         "maxLength": 70
@@ -13640,7 +14030,7 @@
         "minLength": 1,
         "maxLength": 16
       },
-      "Room":{
+      "Room": {
         "description": "Information that locates and identifies a room to form part of an address",
         "minLength": 1,
         "maxLength": 70
@@ -13663,7 +14053,7 @@
         "minLength": 1,
         "maxLength": 70
       },
-      "Time": { 
+      "Time": {
         "description": "Time at which assets become available to the account owner in case of a credit entry, or cease to be available to the account owner in case of a debit transaction entry.\nUsage: If transaction entry status is pending and value date is present, then the value date refers to an expected/requested value date.\nFor transaction entries subject to availability/float and for which availability information is provided, the value date must not be used. In this case the availability component identifies the number of availability days.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\nT10:43:07+00:00",
         "type": "string",
         "format": "time"

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "/open-banking/v3.1/pisp"
+      "url": "/open-banking/v4.0/pisp"
     }
   ],
   "info": {
@@ -1236,7 +1236,7 @@
             "$ref": "#/components/schemas/OBInternalErrorResponseError1Code"
           },
           "Message": {
-            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
+            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBL doesn't standardise this field",
             "type": "string",
             "minLength": 1,
             "maxLength": 500
@@ -1280,6 +1280,13 @@
         "required": [
           "Errors"
         ]
+      },
+      "OBInternalErrorResponseError1Code": {
+        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4,
+        "example": "AC17"
       },
       "OBDomesticVRPConsentResponse": {
         "type": "object",
@@ -1342,12 +1349,6 @@
                 "format": "date-time",
                 "description": "Date and time at which the resource status was updated.\n"
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
               "ControlParameters": {
                 "$ref": "#/components/schemas/OBDomesticVRPControlParameters"
               },
@@ -1517,7 +1518,23 @@
             "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1"
+            "$ref": "#/components/schemas/OBRemittanceInformation1",
+            "type": "object",
+            "description": "^ Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+            "properties": {
+              "Unstructured": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 140,
+                "description": "^ Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form."
+              },
+              "Reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35,
+                "description": "^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification."
+              }
+            }
           }
         }
       },
@@ -1655,10 +1672,10 @@
               },
               "RegulatoryReporting": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBRegulatoryReporting3"
                 },
-                "maxItems": 10 
+                "maxItems": 10
               },
               "VRPType": {
                 "$ref": "#/components/schemas/OBVRPConsentType"
@@ -1691,7 +1708,7 @@
               "DomesticVRPId",
               "ConsentId",
               "CreationDateTime",
-              "Status",
+              "StatusCode",
               "StatusUpdateDateTime",
               "Initiation",
               "Instruction",
@@ -1716,26 +1733,30 @@
                 "format": "date-time",
                 "description": "Date and time at which the resource was created.\n"
               },
-              "Status": {
+              "StatusCode": {
                 "type": "string",
                 "description": "Specifies the status of the payment information group.",
                 "enum": [
-                  "AcceptedCreditSettlementCompleted",
-                  "AcceptedWithoutPosting",
-                  "AcceptedSettlementCompleted",
-                  "AcceptedSettlementInProcess",
-                  "Pending",
-                  "Rejected"
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
                 ]
               },
               "StatusReason": {
-                "$ref": "#/components/schemas/OBVRPStatusReasonCode"
-              },
-              "StatusReasonDescription": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 256,
-                "description": "Description related to provided Status/StatusReason\n"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason",
+                  "description": "Specifies the status reason"
+                }
               },
               "StatusUpdateDateTime": {
                 "type": "string",
@@ -1839,55 +1860,46 @@
                         "RJCT"
                       ]
                     },
-                    "StatusReason": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "$ref": "#/components/schemas/OBPaymentStatusReason"
-                      }
+                    "StatusUpdateDateTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time at which the status was assigned to the transfer.\n"
+                    },
+                    "LocalInstrument": {
+                      "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
                     },
                     "StatusDetail": {
                       "type": "object",
                       "additionalProperties": false,
                       "required": [
-                        "Status"
+                        "StatusCode"
                       ],
                       "description": "Payment status details as per underlying Payment Rail.",
                       "properties": {
-                        "LocalInstrument": {
-                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
-                        },
-                        "Status": {
+                        "StatusCode": {
                           "description": "Status of a transfer, as assigned by the transaction administrator.",
                           "type": "string",
                           "minLength": 1,
-                          "maxLength": 128
+                          "maxLength": 4
                         },
-                        "StatusReason": {
+                        "StatusReasonCode": {
                           "description": "Reason Code provided for the status of a transfer.",
                           "type": "string",
-                          "enum": [
-                            "Cancelled",
-                            "PendingFailingSettlement",
-                            "PendingSettlement",
-                            "Proprietary",
-                            "ProprietaryRejection",
-                            "Suspended",
-                            "Unmatched"
-                          ]
+                          "minLength": 1,
+                          "maxLength": 4
                         },
                         "StatusReasonDescription": {
                           "description": "Reason provided for the status of a transfer.",
                           "type": "string",
                           "minLength": 1,
                           "maxLength": 256
+                        },
+                        "StatusUpdateDateTime": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Date and time at which the status was assigned to the transfer.\n"
                         }
                       }
-                    },
-                    "StatusUpdateDateTime": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Date and time at which the status was assigned to the transfer.\n"
                     }
                   }
                 }
@@ -2145,41 +2157,45 @@
         "maxLength": 4,
         "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
         "enum": [
-            "CINV",
-            "CNFA",
-            "CONT",
-            "CREN",
-            "DEBN",
-            "DISP",
-            "DNFA",
-            "HIRI",
-            "INVS",
-            "MSIN",
-            "PROF",
-            "PUOR",
-            "QUOT",
-            "SBIN",
-            "SPRR",
-            "TISH",
-            "USAR",
-            "AROI",
-            "BOLD",
-            "CMCN",
-            "SOAC",
-            "TSUT",
-            "VCHR"
-          ]
+          "CINV",
+          "CNFA",
+          "CONT",
+          "CREN",
+          "DEBN",
+          "DISP",
+          "DNFA",
+          "HIRI",
+          "INVS",
+          "MSIN",
+          "PROF",
+          "PUOR",
+          "QUOT",
+          "SBIN",
+          "SPRR",
+          "TISH",
+          "USAR",
+          "AROI",
+          "BOLD",
+          "CMCN",
+          "SOAC",
+          "TSUT",
+          "VCHR"
+        ]
       },
-      "OBReferredDocumentInformation": { 
+      "OBReferredDocumentInformation": {
+        "type": "object"
+      },
+      "OBVRPRemittanceInformation": {
         "type": "object",
-        "properties": { 
+        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+        "properties": {
           "Code": {
             "$ref": "#/components/schemas/OBExternalDocumentType1Code"
           },
-          "Issuer": { 
+          "Issuer": {
             "type": "string",
             "maxLength": 140,
-            "minLength": 1 
+            "minLength": 1
           },
           "Number": {
             "type": "string",
@@ -2189,12 +2205,12 @@
           "RelatedDate": {
             "$ref": "#/components/schemas/ISODateTime"
           },
-          "LineDetails": { 
+          "LineDetails": {
             "type": "array",
-            "items":  {
-                "type": "string", 
-                "maxLength": 256,
-                "minLength": 1
+            "items": {
+              "type": "string",
+              "maxLength": 256,
+              "minLength": 1
             }
           }
         }
@@ -2202,17 +2218,17 @@
       "OBRemittanceInformation1": {
         "type": "object",
         "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system",
-        "properties":{
-          "Structured": { 
+        "properties": {
+          "Structured": {
             "type": "array",
-            "items": { 
-              "$ref":  "#/components/schemas/OBRemittanceInformationStructured"
+            "items": {
+              "$ref": "#/components/schemas/OBRemittanceInformationStructured"
             }
           },
           "Unstructured": {
             "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
             "type": "array",
-            "items": { 
+            "items": {
               "type": "string",
               "minLength": 1,
               "maxLength": 140
@@ -2220,17 +2236,17 @@
           }
         }
       },
-      "OBRemittanceInformationStructured":{
+      "OBRemittanceInformationStructured": {
         "type": "object",
-        "properties": { 
-          "RemittanceDocumentInformation": { 
+        "properties": {
+          "RemittanceDocumentInformation": {
             "$ref": "#/components/schemas/OBReferredDocumentInformation"
-          }, 
-          "ReferenceDocumentAmount": { 
+          },
+          "ReferenceDocumentAmount": {
             "type": "integer",
             "format": "int32"
           },
-          "CreditorReferenceInformation": { 
+          "CreditorReferenceInformation": {
             "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
           },
           "Invoicer": {
@@ -2239,19 +2255,26 @@
           "Invoicee": {
             "$ref": "#/components/schemas/Identification_0"
           },
-          "TaxRemittance" : { 
+          "TaxRemittance": {
             "type": "string",
-              "maxLength": 140,
-              "minLength": 1
+            "maxLength": 140,
+            "minLength": 1
           },
-          "LineDetails": { 
+          "Reference": {
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1
+          },
+          "LineDetails": {
             "type": "array",
-            "items":  {
-                "type": "string", 
-                "maxLength": 500,
-                "minLength": 1
+            "items": {
+              "type": "string",
+              "maxLength": 500,
+              "minLength": 1
             },
-            "maxItems": 3
+            "maxItems": 3,
+            "maxLength": 35,
+            "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP may populate this with different values from those specified in the `Data.Initiation.RemittanceInformation.Reference` of the consent."
           }
         }
       },
@@ -2320,13 +2343,6 @@
           "UK.OB.SWIFT",
           "UK.OB.Target2"
         ]
-      },
-      "OBInternalErrorResponseError1Code": {
-        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
-          "type": "string",
-          "minLength": 4,
-          "maxLength": 4,
-          "example": "AC17"
       },
       "OBActiveOrHistoricCurrencyAndAmount": {
         "required": [
@@ -2698,26 +2714,26 @@
           "RETL",
           "DEBT"
         ]
-    }, 
-    "ISODateTime": {
-      "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-      "type": "string",
-      "format": "date-time"
-    },
-    "Identification_0": {
-      "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256
-    },
-    "OBProxyAccount": {
-      "type" : "object",
-      "required": [
-        "Identification",
-        "Code",
-        "Proprietary"
-      ],
-      "properties": {
+      },
+      "ISODateTime": {
+        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
+      },
+      "Identification_0": {
+        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "OBProxyAccount": {
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code",
+          "Proprietary"
+        ],
+        "properties": {
           "Identification": {
             "$ref": "#/components/schemas/Identification_0"
           },
@@ -2880,34 +2896,38 @@
           "STAT"
         ]
       },
-      "OBRegulatoryAuthority2": { 
+      "OBRegulatoryAuthority2": {
         "type": "object",
-        "description":"Entity requiring the regulatory reporting information. ",
-        "properties": { 
-          "Name": { 
-            "type": "string", 
+        "description": "Entity requiring the regulatory reporting information. ",
+        "properties": {
+          "Name": {
+            "type": "string",
             "description": "Name of the entity requiring the regulatory reporting information.",
             "minLength": 1,
-            "maxLength": 140 
+            "maxLength": 140
           },
-          "Country": { 
+          "Country": {
             "$ref": "#/components/schemas/CountryCode"
           }
         }
       },
-      "OBRegulatoryReporting3": { 
+      "OBRegulatoryReporting3": {
         "type": "object",
-        "description":"Information needed due to regulatory and statutory requirements",
-        "properties": { 
-          "DebitCreditReportingIndicator": { 
+        "description": "Information needed due to regulatory and statutory requirements",
+        "properties": {
+          "DebitCreditReportingIndicator": {
             "type": "string",
             "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. ",
-            "enum": ["CRED","DEBT", "BOTH"]
+            "enum": [
+              "CRED",
+              "DEBT",
+              "BOTH"
+            ]
           },
-          "Authority": { 
+          "Authority": {
             "$ref": "#/components/schemas/OBRegulatoryAuthority2"
           },
-          "Detials": { 
+          "Detials": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
@@ -2930,29 +2950,35 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 500
+          },
+          "Path": {
+            "type": "string",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "minLength": 1,
+            "maxLength": 500
           }
         }
       },
-      "OBStructuredRegulatoryReporting3": { 
+      "OBStructuredRegulatoryReporting3": {
         "type": "object",
         "description": "Set of elements used to provide details on the regulatory reporting information.",
-        "properties": { 
-          "Type": { 
+        "properties": {
+          "Type": {
             "type": "string",
             "description": "Specifies the type of the information supplied in the regulatory reporting details",
-            "minLength": 1, 
+            "minLength": 1,
             "maxLength": 35
           },
-          "Date": { 
+          "Date": {
             "$ref": "#/components/schemas/ISODateTime"
           },
-          "Country":{
+          "Country": {
             "$ref": "#/components/schemas/CountryCode"
           },
           "Amount": {
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
           },
-          "Information": { 
+          "Information": {
             "description": "Additional details that cater for specific domestic regulatory requirements. ",
             "type": "array",
             "items": {
@@ -3075,8 +3101,8 @@
       "OBVRPInteractionTypes": {
         "type": "string",
         "enum": [
-          "InSession",
-          "OffSession"
+          "UK.OB.InSession",
+          "UK.OB.OffSession"
         ]
       },
       "OBRisk1": {
@@ -3085,20 +3111,14 @@
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* Other - @deprecated\n* PartyToParty - @deprecated\n",
+            "description": "Specifies the payment context\n",
             "enum": [
               "BillingGoodsAndServicesInAdvance",
               "BillingGoodsAndServicesInArrears",
-              "PispPayee",
               "EcommerceMerchantInitiatedPayment",
               "FaceToFacePointOfSale",
               "TransferToSelf",
-              "TransferToThirdParty",
-              "BillPayment",
-              "EcommerceGoods",
-              "EcommerceServices",
-              "Other",
-              "PartyToParty"
+              "TransferToThirdParty"
             ]
           },
           "MerchantCategoryCode": {
@@ -3113,7 +3133,7 @@
             "maxLength": 70,
             "description": "The unique customer identifier of the PSU with the merchant."
           },
-          "ContractPresentInidicator": {
+          "ContractPresentIndicator": {
             "type": "boolean",
             "description": "Indicates if Payee has a contractual relationship with the PISP."
           },
@@ -3140,11 +3160,6 @@
           }
         },
         "description": "The Risk section is sent by the initiating party to the ASPSP.\nIt is used to specify additional details for risk scoring for Payments."
-      },
-      "ISODateTime": {
-        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-        "type": "string",
-        "format": "date-time"
       },
       "Links": {
         "required": [

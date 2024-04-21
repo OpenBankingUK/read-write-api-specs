@@ -1703,7 +1703,7 @@ paths:
         - TPPOAuth2Security:
             - payments
 servers:
-  - url: /open-banking/v3.1/pisp
+  - url: /open-banking/v4.0/pisp
 components:
   parameters:
     ConsentId:
@@ -3076,9 +3076,7 @@ components:
       minLength: 1
       maxLength: 35
     LEI:
-      description: >-
-        Legal Entity Identification by which a party is known and which is
-        usually used to identify that party.
+      description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
       type: string
       minLength: 1
       maxLength: 20
@@ -3291,10 +3289,7 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: >-
-        Specifies the document type as published in an external document type
-        code list. For more information see `ExternalDocumentType1Code` here -
-        https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
       enum:
         - CINV
         - CNFA
@@ -3701,10 +3696,7 @@ components:
         - RETL
         - DEBT
     OBInternalErrorResponseError1Code:
-      description: >-
-        Low level textual error code, for all enum values see
-        `ExternalReturnReason1Code` here -
-        https://github.com/OpenBankingUK/External_Interal_CodeSets/
+      description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
       type: string
       minLength: 4
       maxLength: 4
@@ -3779,6 +3771,11 @@ components:
         StatusReasonDescription:
           type: string
           description: Description supporting the StatusReasonCode.
+          minLength: 1
+          maxLength: 500
+        Path:
+          type: string
+          description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
           minLength: 1
           maxLength: 500
     OBProxyAccount:
@@ -3896,10 +3893,7 @@ components:
             type: string
     OBRemittanceInformation1:
       type: object
-      description: >-
-        Information supplied to enable the matching of an entry with the items
-        that the transfer is intended to settle, such as commercial invoices in
-        an accounts' receivable system
+      description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system
       properties:
         Structured:
           type: array
@@ -3953,17 +3947,14 @@ components:
       properties:
         DebitCreditReportingIndicator:
           type: string
-          description: >-
-            Identifies whether the regulatory reporting information applies to
-            the debit side, to the credit side or to both debit and credit sides
-            of the transaction. 
+          description: 'Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. '
           enum:
             - CRED
             - DEBT
             - BOTH
         Authority:
           $ref: '#/components/schemas/OBRegulatoryAuthority2'
-        Detials:
+        Details:
           type: array
           items:
             $ref: '#/components/schemas/OBStructuredRegulatoryReporting3'
@@ -4076,17 +4067,18 @@ components:
           type: string
           minLength: 1
           maxLength: 500
+        Path:
+          type: string
+          description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
+          minLength: 1
+          maxLength: 500
     OBStructuredRegulatoryReporting3:
       type: object
-      description: >-
-        Set of elements used to provide details on the regulatory reporting
-        information.
+      description: Set of elements used to provide details on the regulatory reporting information.
       properties:
         Type:
           type: string
-          description: >-
-            Specifies the type of the information supplied in the regulatory
-            reporting details
+          description: Specifies the type of the information supplied in the regulatory reporting details
           minLength: 1
           maxLength: 35
         Date:
@@ -4096,9 +4088,7 @@ components:
         Amount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
         Information:
-          description: >-
-            Additional details that cater for specific domestic regulatory
-            requirements. 
+          description: 'Additional details that cater for specific domestic regulatory requirements. '
           type: array
           items:
             type: string
@@ -4242,11 +4232,6 @@ components:
                       maxLength: 35
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
-            RegulatoryReporting:
-              type: array
-              items:
-                $ref: '#/components/schemas/OBRegulatoryReporting3'
-              maxItems: 10
         Risk:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticConsent4:
@@ -4447,14 +4432,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-                description: Specifies the status reason.
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
+                description: Specifies the status reason
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -4684,16 +4662,22 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of the payment information group.
               type: string
               enum:
-                - AcceptedCreditSettlementCompleted
-                - AcceptedSettlementCompleted
-                - AcceptedSettlementInProcess
-                - AcceptedWithoutPosting
-                - Pending
-                - Rejected
+                - PDNG
+                - ACTC
+                - PATC
+                - ACCP
+                - ACFC
+                - ACSP
+                - ACWC
+                - ACSC
+                - ACWP
+                - ACCC
+                - BLCK
+                - RJCT
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -4701,6 +4685,11 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: |-
                 Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -4882,9 +4871,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -5250,14 +5239,14 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of consent resource in code form.
               type: string
               enum:
-                - Authorised
-                - AwaitingAuthorisation
-                - Consumed
-                - Rejected
+                - AUTH
+                - AWAU
+                - COND
+                - RJCT
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the consent resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -5265,13 +5254,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+                description: Specifies the status reason.
+
             Permission:
               description: Specifies the Open Banking service request types.
               type: string
@@ -5507,14 +5495,13 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of the payment order resource.
               type: string
               enum:
-                - Cancelled
-                - InitiationCompleted
-                - InitiationFailed
-                - InitiationPending
+                - RCVD
+                - RJCT
+                - ACSP
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -5522,6 +5509,11 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: |-
                 Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -5716,9 +5708,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -5768,77 +5760,21 @@ components:
               type: object
               additionalProperties: false
               required:
-                - Frequency
-                - FirstPaymentDateTime
                 - FirstPaymentAmount
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.
               properties:
-                Frequency:
-                  description: |-
-                    Individual Definitions:
-                    EvryDay - Every day
-                    EvryWorkgDay - Every working day
-                    IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-                    WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-                    IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-                    QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-                    ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-                    SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-                    RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
-                    Individual Patterns:
-                    EvryDay (ScheduleCode)
-                    EvryWorkgDay (ScheduleCode)
-                    IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-                    WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-                    IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-                    QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-                    The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-                    EvryDay
-                    EvryWorkgDay
-                    IntrvlWkDay:0[1-9]:0[1-7]
-                    WkInMnthDay:0[1-5]:0[1-7]
-                    IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-                    QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
-                    Full Regular Expression:
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                  type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                Reference:
-                  description: |-
-                    Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-                    Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-                    If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 NumberOfPayments:
                   description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
                   type: string
                   minLength: 1
                   maxLength: 35
-                FirstPaymentDateTime:
-                  description: |-
-                    The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 RecurringPaymentDateTime:
                   description: |-
                     The date on which the first recurring payment for a Standing Order schedule will be made. 
                     Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
-                FinalPaymentDateTime:
-                  description: |-
-                    The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
                     All date-time fields in responses must include the timezone. An example is below:
                     2017-04-05T10:43:07+00:00
                   type: string
@@ -5923,6 +5859,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                MandateRelatedInformation:
+                  $ref: '#/components/schemas/OBMandateRelatedInformation' 
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -5962,71 +5900,17 @@ components:
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for a domestic standing order.
               properties:
-                Frequency:
-                  description: |-
-                    Individual Definitions:
-                    EvryDay - Every day
-                    EvryWorkgDay - Every working day
-                    IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-                    WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-                    IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-                    QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-                    ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-                    SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-                    RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
-                    Individual Patterns:
-                    EvryDay (ScheduleCode)
-                    EvryWorkgDay (ScheduleCode)
-                    IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-                    WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-                    IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-                    QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-                    The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-                    EvryDay
-                    EvryWorkgDay
-                    IntrvlWkDay:0[1-9]:0[1-7]
-                    WkInMnthDay:0[1-5]:0[1-7]
-                    IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-                    QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
-                    Full Regular Expression:
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                  type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                Reference:
-                  description: |-
-                    Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-                    Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-                    If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 NumberOfPayments:
                   description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
                   type: string
                   minLength: 1
                   maxLength: 35
-                FirstPaymentDateTime:
-                  description: |-
-                    The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 RecurringPaymentDateTime:
                   description: |-
                     The date on which the first recurring payment for a Standing Order schedule will be made. 
                     Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
-                FinalPaymentDateTime:
-                  description: |-
-                    The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
                     All date-time fields in responses must include the timezone. An example is below:
                     2017-04-05T10:43:07+00:00
                   type: string
@@ -6152,7 +6036,7 @@ components:
           required:
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Permission
             - Initiation
@@ -6169,14 +6053,14 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of consent resource in code form.
               type: string
               enum:
-                - Authorised
-                - AwaitingAuthorisation
-                - Consumed
-                - Rejected
+                - AUTH
+                - AWAU
+                - COND
+                - RJCT
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -6184,13 +6068,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
+
             Permission:
               description: Specifies the Open Banking service request types.
               type: string
@@ -6265,8 +6148,7 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
@@ -6432,7 +6314,7 @@ components:
             - DomesticStandingOrderId
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Initiation
           properties:
@@ -6453,14 +6335,13 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of the payment order resource.
               type: string
               enum:
-                - Cancelled
-                - InitiationCompleted
-                - InitiationFailed
-                - InitiationPending
+                - RCVD
+                - RJCT
+                - CANC
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -6468,6 +6349,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
+ 
             Refund:
               type: object
               additionalProperties: false
@@ -6554,8 +6441,7 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
@@ -6687,9 +6573,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -6972,13 +6858,6 @@ components:
                 - RJCT
                 - AUTH
                 - COND
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
             StatusReason:
               type: array
               items:
@@ -7140,7 +7019,7 @@ components:
             - FilePaymentId
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Initiation
           properties:
@@ -7161,13 +7040,13 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of the payment order resource.
               type: string
               enum:
-                - InitiationCompleted
-                - InitiationFailed
-                - InitiationPending
+                - RCVD
+                - RJCT
+                - ASCP
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -7175,6 +7054,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
+
             Charges:
               type: array
               items:
@@ -7287,9 +7172,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -7836,14 +7721,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-                description: Specifies the status reason.
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
+              description: Specifies the status reason.
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -8166,7 +8044,7 @@ components:
             - InternationalPaymentId
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Initiation
           properties:
@@ -8187,16 +8065,22 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of the payment information group.
               type: string
               enum:
-                - AcceptedCreditSettlementCompleted
-                - AcceptedSettlementCompleted
-                - AcceptedSettlementInProcess
-                - AcceptedWithoutPosting
-                - Pending
-                - Rejected
+                - PDNG
+                - ACTC
+                - PATC
+                - ACCP
+                - ACFC
+                - ACSP
+                - ACWC
+                - ACSC
+                - ACWP
+                - ACCC
+                - BLCK
+                - RJCT
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -8204,6 +8088,11 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: |-
                 Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -8525,9 +8414,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -9073,9 +8962,7 @@ components:
               format: date-time
             Path:
               type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
+              description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
               minLength: 1
               maxLength: 500
             Permission:
@@ -9406,7 +9293,7 @@ components:
             - InternationalScheduledPaymentId
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Initiation
           properties:
@@ -9427,14 +9314,22 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of the payment order resource.
               type: string
               enum:
-                - Cancelled
-                - InitiationCompleted
-                - InitiationFailed
-                - InitiationPending
+                - PDNG
+                - ACTC
+                - PATC
+                - ACCP
+                - ACFC
+                - ACSP
+                - ACWC
+                - ACSC
+                - ACWP
+                - ACCC
+                - BLCK
+                - RJCT
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -9442,6 +9337,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
+          
             ExpectedExecutionDateTime:
               description: |-
                 Expected execution date and time for the payment resource.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -9771,9 +9672,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -9823,74 +9724,18 @@ components:
               type: object
               additionalProperties: false
               required:
-                - Frequency
-                - FirstPaymentDateTime
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.
               properties:
-                Frequency:
-                  description: |-
-                    Individual Definitions:
-                    EvryDay - Every day
-                    EvryWorkgDay - Every working day
-                    IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-                    WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-                    IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-                    QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-                    ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-                    SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-                    RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
-                    Individual Patterns:
-                    EvryDay (ScheduleCode)
-                    EvryWorkgDay (ScheduleCode)
-                    IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-                    WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-                    IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-                    QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-                    The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-                    EvryDay
-                    EvryWorkgDay
-                    IntrvlWkDay:0[1-9]:0[1-7]
-                    WkInMnthDay:0[1-5]:0[1-7]
-                    IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-                    QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
-                    Full Regular Expression:
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                  type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                Reference:
-                  description: |-
-                    Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-                    Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-                    If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 NumberOfPayments:
                   description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
                   type: string
                   minLength: 1
                   maxLength: 35
-                FirstPaymentDateTime:
-                  description: |-
-                    The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
-                FinalPaymentDateTime:
-                  description: |-
-                    The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10039,74 +9884,18 @@ components:
               type: object
               additionalProperties: false
               required:
-                - Frequency
-                - FirstPaymentDateTime
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.
               properties:
-                Frequency:
-                  description: |-
-                    Individual Definitions:
-                    EvryDay - Every day
-                    EvryWorkgDay - Every working day
-                    IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-                    WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-                    IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-                    QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-                    ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-                    SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-                    RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
-                    Individual Patterns:
-                    EvryDay (ScheduleCode)
-                    EvryWorkgDay (ScheduleCode)
-                    IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-                    WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-                    IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-                    QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-                    The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-                    EvryDay
-                    EvryWorkgDay
-                    IntrvlWkDay:0[1-9]:0[1-7]
-                    WkInMnthDay:0[1-5]:0[1-7]
-                    IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-                    QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
-                    Full Regular Expression:
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                  type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                Reference:
-                  description: |-
-                    Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-                    Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-                    If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 NumberOfPayments:
                   description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
                   type: string
                   minLength: 1
                   maxLength: 35
-                FirstPaymentDateTime:
-                  description: |-
-                    The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
-                FinalPaymentDateTime:
-                  description: |-
-                    The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10295,13 +10084,6 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
             Permission:
               description: Specifies the Open Banking service request types.
               type: string
@@ -10341,74 +10123,18 @@ components:
               type: object
               additionalProperties: false
               required:
-                - Frequency
-                - FirstPaymentDateTime
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.
               properties:
-                Frequency:
-                  description: |-
-                    Individual Definitions:
-                    EvryDay - Every day
-                    EvryWorkgDay - Every working day
-                    IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-                    WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-                    IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-                    QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-                    ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-                    SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-                    RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
-                    Individual Patterns:
-                    EvryDay (ScheduleCode)
-                    EvryWorkgDay (ScheduleCode)
-                    IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-                    WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-                    IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-                    QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-                    The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-                    EvryDay
-                    EvryWorkgDay
-                    IntrvlWkDay:0[1-9]:0[1-7]
-                    WkInMnthDay:0[1-5]:0[1-7]
-                    IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-                    QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
-                    Full Regular Expression:
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                  type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                Reference:
-                  description: |-
-                    Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-                    Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-                    If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 NumberOfPayments:
                   description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
                   type: string
                   minLength: 1
                   maxLength: 35
-                FirstPaymentDateTime:
-                  description: |-
-                    The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
-                FinalPaymentDateTime:
-                  description: |-
-                    The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10566,7 +10292,7 @@ components:
             - InternationalStandingOrderId
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Initiation
           properties:
@@ -10587,14 +10313,13 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Status:
+            StatusCode:
               description: Specifies the status of resource in code form.
               type: string
               enum:
-                - Cancelled
-                - InitiationCompleted
-                - InitiationFailed
-                - InitiationPending
+                - RCVD
+                - RJCT
+                - ACSP
             StatusUpdateDateTime:
               description: |-
                 Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -10602,6 +10327,12 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+            StatusReason:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+              description: Specifies the status reason.
+
             Refund:
               type: object
               additionalProperties: false
@@ -10679,74 +10410,16 @@ components:
               type: object
               additionalProperties: false
               required:
-                - Frequency
-                - FirstPaymentDateTime
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.
               properties:
-                Frequency:
-                  description: |-
-                    Individual Definitions:
-                    EvryDay - Every day
-                    EvryWorkgDay - Every working day
-                    IntrvlWkDay - An interval specified in weeks (01 to 09), and the day within the week (01 to 07)
-                    WkInMnthDay - A monthly interval, specifying the week of the month (01 to 05) and day within the week (01 to 07)
-                    IntrvlMnthDay - An interval specified in months (between 01 to 06, 12, 24), specifying the day within the month (-5 to -1, 1 to 31)
-                    QtrDay - Quarterly (either ENGLISH, SCOTTISH, or RECEIVED). 
-                    ENGLISH = Paid on the 25th March, 24th June, 29th September and 25th December. 
-                    SCOTTISH = Paid on the 2nd February, 15th May, 1st August and 11th November.
-                    RECEIVED = Paid on the 20th March, 19th June, 24th September and 20th December. 
-                    Individual Patterns:
-                    EvryDay (ScheduleCode)
-                    EvryWorkgDay (ScheduleCode)
-                    IntrvlWkDay:IntervalInWeeks:DayInWeek (ScheduleCode + IntervalInWeeks + DayInWeek)
-                    WkInMnthDay:WeekInMonth:DayInWeek (ScheduleCode + WeekInMonth + DayInWeek)
-                    IntrvlMnthDay:IntervalInMonths:DayInMonth (ScheduleCode + IntervalInMonths + DayInMonth)
-                    QtrDay: + either (ENGLISH, SCOTTISH or RECEIVED) ScheduleCode + QuarterDay
-                    The regular expression for this element combines five smaller versions for each permitted pattern. To aid legibility - the components are presented individually here:
-                    EvryDay
-                    EvryWorkgDay
-                    IntrvlWkDay:0[1-9]:0[1-7]
-                    WkInMnthDay:0[1-5]:0[1-7]
-                    IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01])
-                    QtrDay:(ENGLISH|SCOTTISH|RECEIVED)
-                    Full Regular Expression:
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                  type: string
-                  pattern: >-
-                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
-                Reference:
-                  description: |-
-                    Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-                    Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-                    If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 NumberOfPayments:
                   description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
                   type: string
                   minLength: 1
                   maxLength: 35
-                FirstPaymentDateTime:
-                  description: |-
-                    The date on which the first payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
-                FinalPaymentDateTime:
-                  description: |-
-                    The date on which the final payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10875,9 +10548,9 @@ components:
                   description: Specifies the status of the authorisation flow in code form.
                   type: string
                   enum:
-                    - Authorised
-                    - AwaitingFurtherAuthorisation
-                    - Rejected
+                    - AUTH
+                    - AWAU
+                    - RJCT
                 NumberRequired:
                   description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
                   type: integer
@@ -10943,46 +10616,40 @@ components:
                       - BLCK
                       - CANC
                       - RJCT
-                  StatusReason:
-                    type: array
-                    items:
-                      type: object
-                      $ref: '#/components/schemas/OBPaymentStatusReason'
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
                     description: |
                       Date and time at which the status was assigned to the transfer.
+                  LocalInstrument:
+                    $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
                   StatusDetail:
                     type: object
                     additionalProperties: false
                     required:
-                      - Status
+                      - StatusCode
                     description: Payment status details as per underlying Payment Rail.
                     properties:
-                      LocalInstrument:
-                        $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
-                      Status:
+                      StatusCode:
                         description: Status of a transfer, as assigned by the transaction administrator.
                         type: string
                         minLength: 1
-                        maxLength: 128
-                      StatusReason:
+                        maxLength: 4
+                      StatusReasonCode:
                         description: Reason Code provided for the status of a transfer.
                         type: string
-                        enum:
-                          - Cancelled
-                          - PendingFailingSettlement
-                          - PendingSettlement
-                          - Proprietary
-                          - ProprietaryRejection
-                          - Suspended
-                          - Unmatched
+                        minLength: 1
+                        maxLength: 4
                       StatusReasonDescription:
                         description: Reason provided for the status of a transfer.
                         type: string
                         minLength: 1
                         maxLength: 256
+                      StatusUpdateDateTime:
+                        type: string
+                        format: date-time
+                        description: |
+                          Date and time at which the status was assigned to the transfer.
         Links:
           $ref: '#/components/schemas/Links'
         Meta:

@@ -286,7 +286,7 @@
   },
   "servers": [
     {
-      "url": "/open-banking/v3.1/cbpii"
+      "url": "/open-banking/v4.0/cbpii"
     }
   ],
   "components": {
@@ -915,15 +915,9 @@
                   "COND"
                 ]
               },
-              "Path": { 
-                "type": "string",
-                "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
-                "minLength": 1,
-                "maxLength": 500  
-              }, 
               "StatusReason": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBStatusReason",
                   "description": "Specifies the status reason."
                 }
@@ -1066,17 +1060,17 @@
       },
       "OBInternalErrorResponseError1Code": {
         "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
-          "type": "string",
-          "minLength": 4,
-          "maxLength": 4,
-          "example": "AC17"
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4,
+        "example": "AC17"
       },
       "OBStatusReason": {
-        "type":"object",
+        "type": "object",
         "properties": {
           "StatusReasonCode": {
-            "type":"string",
-            "description" : "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "type": "string",
+            "description": "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
@@ -1084,6 +1078,12 @@
           "StatusReasonDescription": {
             "description": "Description supporting the StatusReasonCode.",
             "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "Path": {
+            "type": "string",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
             "minLength": 1,
             "maxLength": 500
           }
