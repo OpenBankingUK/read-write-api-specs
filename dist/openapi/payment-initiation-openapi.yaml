@@ -3274,6 +3274,50 @@ components:
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
         - UK.OBIE.Wallet
+    OBExternalCreditorReferenceType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
+      enum:
+        - DISP
+        - FXDR
+        - PUOR
+        - RPIN
+        - RADM
+        - SCOR
+    OBExternalDocumentType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: >-
+        Specifies the document type as published in an external document type
+        code list. For more information see `ExternalDocumentType1Code` here -
+        https://github.com/OpenBankingUK/External_Interal_CodeSets
+      enum:
+        - CINV
+        - CNFA
+        - CONT
+        - CREN
+        - DEBN
+        - DISP
+        - DNFA
+        - HIRI
+        - INVS
+        - MSIN
+        - PROF
+        - PUOR
+        - QUOT
+        - SBIN
+        - SPRR
+        - TISH
+        - USAR
+        - AROI
+        - BOLD
+        - CMCN
+        - SOAC
+        - TSUT
+        - VCHR
     OBExternalFinancialInstitutionIdentification4Code:
       description: Name of the identification scheme, in a coded form as published in an external list.
       type: string
@@ -3821,6 +3865,67 @@ components:
             maxLength: 70
           minItems: 0
           maxItems: 7
+    OBReferredDocumentInformation:
+      type: object
+      properties:
+        Code:
+          $ref: '#/components/schemas/OBExternalDocumentType1Code'
+        Issuer:
+          type: string
+          maxLength: 140
+          minLength: 1
+        Number:
+          type: string
+          maxLength: 140
+          minLength: 1
+        RelatedDate:
+          $ref: '#/components/schemas/ISODateTime'
+        LineDetails:
+          type: array
+          items:
+            type: string
+    OBRemittanceInformation1:
+      type: object
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system
+      properties:
+        Structured:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBRemittanceInformationStructured'
+        Unstructured:
+          type: array
+          items:
+            type: string
+            maxLength: 256
+            minLength: 1
+    OBRemittanceInformationStructured:
+      type: object
+      properties:
+        RemittanceDocumentInformation:
+          $ref: '#/components/schemas/OBReferredDocumentInformation'
+        ReferenceDocumentAmount:
+          type: integer
+          format: int32
+        CreditorReferenceInformation:
+          $ref: '#/components/schemas/OBExternalCreditorReferenceType1Code'
+        Invoicer:
+          $ref: '#/components/schemas/Identification_0'
+        Invoicee:
+          $ref: '#/components/schemas/Identification_0'
+        TaxRemittance:
+          type: string
+          maxLength: 140
+          minLength: 1
+        LineDetails:
+          type: array
+          items:
+            type: string
+            maxLength: 500
+            minLength: 1
+          maxItems: 3
     OBRegulatoryAuthority2:
       type: object
       description: 'Name of the entity requiring the regulatory reporting information. '
@@ -4104,6 +4209,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -4243,6 +4349,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -4473,6 +4580,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -4723,6 +4831,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -4898,6 +5007,7 @@ components:
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -5046,6 +5156,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -5285,6 +5396,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -5546,6 +5658,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -5664,6 +5777,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -5848,6 +5965,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -6111,6 +6232,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -6396,6 +6521,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -6635,6 +6764,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -6730,6 +6860,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -6907,6 +7038,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -7083,6 +7215,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -7363,6 +7496,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -7576,6 +7710,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -7920,6 +8055,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -8310,6 +8446,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -8564,6 +8701,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -8791,6 +8929,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -9149,6 +9288,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting3'
                   maxItems: 10
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -9545,6 +9685,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   type: object
                   additionalProperties: false
                   description: Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.
@@ -9664,6 +9805,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -9876,6 +10021,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -10167,6 +10316,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
@@ -10501,6 +10654,10 @@ components:
                     Full Regular Expression:
                     ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                   type: string
+                  pattern: >-
+                    ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation1'
                   pattern: ^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
                 Reference:
                   description: |-
