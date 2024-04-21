@@ -249,6 +249,212 @@
             ]
           }
         ]
+      },
+      "put": {
+        "operationId": "domesticVrpConsentsPut",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Update a domestic VRP consent - only to be used for version migrations",
+        "description": "Update a domestic VRP consent by submitting a full consent resource body - only to be used for version migrations",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            }
+          },
+          "description": "Default",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "domesticVrpConsentsPatch",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Update a domestic VRP consent - only to be used for version migrations",
+        "description": "Update a domestic VRP consent by submitting a partial consent resource body - only to be used for version migrations",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "type": "string",
+                "format": "partial values from OBVRPConsentRequest",
+                "example": {
+                  "Risk": {
+                    "ContractPresentIndicator": true
+                  }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "partial values from OBVRPConsentRequest",
+                "example": {
+                  "Risk": {
+                    "ContractPresentIndicator": true
+                  }
+                }
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "type": "string",
+                "format": "partial values from OBVRPConsentRequest",
+                "example": {
+                  "Risk": {
+                    "ContractPresentIndicator": true
+                  }
+                }
+              }
+            }
+          },
+          "description": "Default",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
       }
     },
     "/domestic-vrp-consents/{ConsentId}/funds-confirmation": {
@@ -1130,7 +1336,7 @@
               },
               "StatusReason": {
                 "type": "array",
-                "items":{
+                "items": {
                   "$ref": "#/components/schemas/OBStatusReason",
                   "description": "Specifies the status reason."
                 }
@@ -1389,8 +1595,8 @@
             "maxLength": 34,
             "description": "This is secondary identification of the account, as assigned by the account servicing institution.\nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
           },
-          "Proxy" : {
-            "$ref":  "#/components/schemas/OBProxyAccount" 
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxyAccount"
           }
         }
       },
@@ -1460,6 +1666,13 @@
                   }
                 ]
               },
+              "RegulatoryReporting": {
+                "type": "array",
+                "items":{
+                  "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                },
+                "maxItems": 10 
+              },
               "VRPType": {
                 "$ref": "#/components/schemas/OBVRPConsentType"
               },
@@ -1497,7 +1710,7 @@
               "Instruction",
               "DebtorAccount"
             ],
-            "description" : "`Data.Refund` only included in the response if `Data.ReadRefundAccount` is set to `Yes` in the consent.\n",
+            "description": "`Data.Refund` only included in the response if `Data.ReadRefundAccount` is set to `Yes` in the consent.\n",
             "properties": {
               "DomesticVRPId": {
                 "type": "string",
@@ -1628,20 +1841,20 @@
                       "enum": [
                         "RCVD",
                         "PDNG",
-                        "ACTC", 
+                        "ACTC",
                         "ACFC",
-                        "ACSP", 
-                        "ACSC", 
-                        "ACWP", 
-                        "ACCC", 
-                        "BLCK", 
-                        "CANC", 
+                        "ACSP",
+                        "ACSC",
+                        "ACWP",
+                        "ACCC",
+                        "BLCK",
+                        "CANC",
                         "RJCT"
                       ]
                     },
-                    "StatusReason" :{
+                    "StatusReason": {
                       "type": "array",
-                      "items" : { 
+                      "items": {
                         "type": "object",
                         "$ref": "#/components/schemas/OBPaymentStatusReason"
                       }
@@ -1654,36 +1867,36 @@
                       ],
                       "description": "Payment status details as per underlying Payment Rail.",
                       "properties": {
-                          "LocalInstrument": {
-                            "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
-                          },
-                          "Status": {
-                            "description": "Status of a transfer, as assigned by the transaction administrator.",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 128
-                          },
-                          "StatusReason": {
-                            "description": "Reason Code provided for the status of a transfer.",
-                            "type": "string",
-                            "enum": [
-                              "Cancelled",
-                              "PendingFailingSettlement",
-                              "PendingSettlement",
-                              "Proprietary",
-                              "ProprietaryRejection",
-                              "Suspended",
-                              "Unmatched"
-                            ]
-                          },
-                          "StatusReasonDescription": {
-                            "description": "Reason provided for the status of a transfer.",
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 256
-                          }
+                        "LocalInstrument": {
+                          "$ref": "#/components/schemas/OBExternalLocalInstrument1Code"
+                        },
+                        "Status": {
+                          "description": "Status of a transfer, as assigned by the transaction administrator.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128
+                        },
+                        "StatusReason": {
+                          "description": "Reason Code provided for the status of a transfer.",
+                          "type": "string",
+                          "enum": [
+                            "Cancelled",
+                            "PendingFailingSettlement",
+                            "PendingSettlement",
+                            "Proprietary",
+                            "ProprietaryRejection",
+                            "Suspended",
+                            "Unmatched"
+                          ]
+                        },
+                        "StatusReasonDescription": {
+                          "description": "Reason provided for the status of a transfer.",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
                         }
-                      },
+                      }
+                    },
                     "StatusUpdateDateTime": {
                       "type": "string",
                       "format": "date-time",
@@ -1803,9 +2016,9 @@
         }
       },
       "OBCategoryPurposeCode": {
-        "description" : "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
-        "type" : "string",
-        "enum" : [
+        "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+        "type": "string",
+        "enum": [
           "BONU",
           "CASH",
           "CBLK",
@@ -1939,7 +2152,7 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 35,
-            "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP must populate this with the same value as specified in the `Data.Initiation.RemittanceInformation.Reference` of the consent."
+            "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP may populate this with different values from those specified in the `Data.Initiation.RemittanceInformation.Reference` of the consent."
           }
         }
       },
@@ -2044,7 +2257,7 @@
           "UK.OBIE.MoneyTransferOut"
         ]
       },
-      "OBExternalPurpose1Code" :{
+      "OBExternalPurpose1Code": {
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
@@ -2379,42 +2592,42 @@
           "RETL",
           "DEBT"
         ]
-    }, 
-    "Identification_0": {
-      "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256
-    },
-    "OBProxyAccount": {
-      "type" : "object",
-      "required": [
-        "Identification",
-        "Code",
-        "Proprietary"
-      ],
-      "properties": {
+      },
+      "Identification_0": {
+        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "OBProxyAccount": {
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code",
+          "Proprietary"
+        ],
+        "properties": {
           "Identification": {
             "$ref": "#/components/schemas/Identification_0"
           },
-          "Code":{
-            "$ref":"#/components/schemas/OBExternalProxyAccountType1Code"
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
           },
           "Proprietary": {
             "type": "string",
-            "description": "The owner of the proxy account", 
+            "description": "The owner of the proxy account",
             "minLength": 1,
             "maxLength": 70
           },
           "Type": {
             "type": "string",
-            "description": "Specifies the external proxy account type", 
+            "description": "Specifies the external proxy account type",
             "minLength": 1,
             "maxLength": 70
-          }        
-      }
-    }, 
-      "OBExternalProxyAccountType1Code" : {
+          }
+        }
+      },
+      "OBExternalProxyAccountType1Code": {
         "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
         "type": "string",
         "enum": [
@@ -2441,20 +2654,20 @@
           "BIID"
         ]
       },
-      "OBPaymentStatusReason" :{
-        "type":"object",
-        "properties":{
-          "StatusReasonCode":{
-            "type":"string",
-            "description" : "Specifies the status reason in a code form \n For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets", 
+      "OBPaymentStatusReason": {
+        "type": "object",
+        "properties": {
+          "StatusReasonCode": {
+            "type": "string",
+            "description": "Specifies the status reason in a code form \n For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
           },
-          "StatusReasonDescription" : {
-            "type" :"string",
+          "StatusReasonDescription": {
+            "type": "string",
             "description": "Description supporting the StatusReasonCode.",
-            "minLength": 1, 
+            "minLength": 1,
             "maxLength": 500
           }
         }
@@ -2482,25 +2695,25 @@
           "BuildingName": {
             "$ref": "#/components/schemas/BuildingName"
           },
-          "Floor":{
+          "Floor": {
             "$ref": "#/components/schemas/Floor"
           },
-          "UnitNumber":{
+          "UnitNumber": {
             "$ref": "#/components/schemas/UnitNumber"
           },
-          "Room" : {
+          "Room": {
             "$ref": "#/components/schemas/Room"
           },
-          "PostBox":{
+          "PostBox": {
             "$ref": "#/components/schemas/PostBox"
           },
-          "TownLocationName":{
+          "TownLocationName": {
             "$ref": "#/components/schemas/TownName"
           },
-          "DistrictName":{
+          "DistrictName": {
             "$ref": "#/components/schemas/DistrictName"
           },
-          "CareOf":{
+          "CareOf": {
             "$ref": "#/components/schemas/CareOf"
           },
           "PostCode": {
@@ -2556,12 +2769,47 @@
           "STAT"
         ]
       },
+      "OBRegulatoryAuthority2": { 
+        "type": "object",
+        "description":"Entity requiring the regulatory reporting information. ",
+        "properties": { 
+          "Name": { 
+            "type": "string", 
+            "description": "Name of the entity requiring the regulatory reporting information.",
+            "minLength": 1,
+            "maxLength": 140 
+          },
+          "Country": { 
+            "$ref": "#/components/schemas/CountryCode"
+          }
+        }
+      },
+      "OBRegulatoryReporting3": { 
+        "type": "object",
+        "description":"Information needed due to regulatory and statutory requirements",
+        "properties": { 
+          "DebitCreditReportingIndicator": { 
+            "type": "string",
+            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. ",
+            "enum": ["CRED","DEBT", "BOTH"]
+          },
+          "Authority": { 
+            "$ref": "#/components/schemas/OBRegulatoryAuthority2"
+          },
+          "Detials": { 
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
+            }
+          }
+        }
+      },
       "OBStatusReason": {
-        "type":"object",
+        "type": "object",
         "properties": {
           "StatusReasonCode": {
-            "type":"string",
-            "description" : "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "type": "string",
+            "description": "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
@@ -2571,6 +2819,36 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 500
+          }
+        }
+      },
+      "OBStructuredRegulatoryReporting3": { 
+        "type": "object",
+        "description": "Set of elements used to provide details on the regulatory reporting information.",
+        "properties": { 
+          "Type": { 
+            "type": "string",
+            "description": "Specifies the type of the information supplied in the regulatory reporting details",
+            "minLength": 1, 
+            "maxLength": 35
+          },
+          "Date": { 
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "Country":{
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          },
+          "Information": { 
+            "description": "Additional details that cater for specific domestic regulatory requirements. ",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
           }
         }
       },
@@ -2622,7 +2900,7 @@
         "minLength": 1,
         "maxLength": 16
       },
-      "PostBox" : {
+      "PostBox": {
         "description": "Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.",
         "minLength": 1,
         "maxLength": 70
@@ -2633,7 +2911,7 @@
         "maxLength": 16,
         "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail."
       },
-      "Room":{
+      "Room": {
         "description": "Information that locates and identifies a room to form part of an address",
         "minLength": 1,
         "maxLength": 70
@@ -2733,9 +3011,9 @@
             "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
           },
           "PaymentPurposeCode": {
-            "$ref" : "#/components/schemas/OBExternalPurpose1Code"
-           },
-          "CategoryPurposeCode":{
+            "$ref": "#/components/schemas/OBExternalPurpose1Code"
+          },
+          "CategoryPurposeCode": {
             "$ref": "#/components/schemas/OBCategoryPurposeCode"
           },
           "BeneficiaryAccountType": {
@@ -2746,11 +3024,16 @@
               "Country",
               "TownName"
             ],
-            "$ref": "#/components/schemas/OBPostalAddress6", 
+            "$ref": "#/components/schemas/OBPostalAddress6",
             "description": "Information that locates and identifies a specific address,\nas defined by postal services or in free format text."
           }
         },
         "description": "The Risk section is sent by the initiating party to the ASPSP.\nIt is used to specify additional details for risk scoring for Payments."
+      },
+      "ISODateTime": {
+        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
       },
       "Links": {
         "required": [

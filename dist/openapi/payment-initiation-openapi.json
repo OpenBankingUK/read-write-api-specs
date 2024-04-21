@@ -5091,6 +5091,13 @@
         "minLength": 1,
         "maxLength": 35
       },
+      "LEI": { 
+      "description" : "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+        "type": "string",
+        "minLength" : 1, 
+        "maxLength": 20,
+        "pattern": "^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}"
+      },
       "Links": {
         "type": "object",
         "additionalProperties": false,
@@ -5250,6 +5257,9 @@
           "Name": {
             "type": "string",
             "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
+          },
+          "LEI": { 
+            "$ref":  "#/components/schemas/LEI" 
           },
           "SecondaryIdentification": {
             "type": "string",
@@ -5917,6 +5927,41 @@
           }
         }
       },
+      "OBRegulatoryAuthority2": { 
+        "type": "object",
+        "description":"Entity requiring the regulatory reporting information. ",
+        "properties": { 
+          "Name": { 
+            "type": "string", 
+            "description": "Name of the entity requiring the regulatory reporting information.",
+            "minLength": 1,
+            "maxLength": 140 
+          },
+          "Country": { 
+            "$ref": "#/components/schemas/CountryCode"
+          }
+        }
+      },
+      "OBRegulatoryReporting3": { 
+        "type": "object",
+        "description":"Information needed due to regulatory and statutory requirements",
+        "properties": { 
+          "DebitCreditReportingIndicator": { 
+            "type": "string",
+            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. ",
+            "enum": ["CRED","DEBT", "BOTH"]
+          },
+          "Authority": { 
+            "$ref": "#/components/schemas/OBRegulatoryAuthority2"
+          },
+          "Detials": { 
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
+            }
+          }
+        }
+      },
       "OBRisk1": {
         "type": "object",
         "additionalProperties": false,
@@ -6034,6 +6079,36 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 500
+          }
+        }
+      },
+      "OBStructuredRegulatoryReporting3": { 
+        "type": "object",
+        "description": "Set of elements used to provide details on the regulatory reporting information.",
+        "properties": { 
+          "Type": { 
+            "type": "string",
+            "description": "Specifies the type of the information supplied in the regulatory reporting details",
+            "minLength": 1, 
+            "maxLength": 35
+          },
+          "Date": { 
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "Country":{
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          },
+          "Information": { 
+            "description": "Additional details that cater for specific domestic regulatory requirements. ",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
           }
         }
       },
@@ -6164,6 +6239,13 @@
                   "CreditorPostalAddress": {
                     "$ref": "#/components/schemas/OBPostalAddress6"
                   },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
+                  },
                   "RemittanceInformation": {
                     "type": "object",
                     "additionalProperties": false,
@@ -6189,6 +6271,13 @@
                 }
               }
             }
+          },
+          "RegulatoryReporting": {
+            "type": "array",
+            "items":{
+              "$ref": "#/components/schemas/OBRegulatoryReporting3"
+            },
+            "maxItems": 10 
           },
           "Risk": {
             "$ref": "#/components/schemas/OBRisk1"
@@ -6316,6 +6405,13 @@
                   },
                   "CreditorPostalAddress": {
                     "$ref": "#/components/schemas/OBPostalAddress6"
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -6571,6 +6667,13 @@
                   },
                   "CreditorPostalAddress": {
                     "$ref": "#/components/schemas/OBPostalAddress6"
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -7227,6 +7330,13 @@
                   "CreditorPostalAddress": {
                     "$ref": "#/components/schemas/OBPostalAddress6"
                   },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
+                  },
                   "RemittanceInformation": {
                     "type": "object",
                     "additionalProperties": false,
@@ -7487,6 +7597,13 @@
                   },
                   "CreditorPostalAddress": {
                     "$ref": "#/components/schemas/OBPostalAddress6"
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -7779,6 +7896,13 @@
                   },
                   "CreditorPostalAddress": {
                     "$ref": "#/components/schemas/OBPostalAddress6"
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -9652,12 +9776,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -9760,6 +9878,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -9778,6 +9899,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -9900,12 +10024,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -10008,6 +10126,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -10026,6 +10147,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10058,6 +10182,13 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -10291,12 +10422,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -10399,6 +10524,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -10417,6 +10545,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10449,6 +10580,13 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -10596,6 +10734,9 @@
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 140
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -10750,12 +10891,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -10858,6 +10993,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -10876,6 +11014,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11040,12 +11181,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -11153,6 +11288,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -11171,6 +11309,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11301,12 +11442,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -11414,6 +11549,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -11429,6 +11567,9 @@
                       },
                       "Identification": {
                         "$ref": "#/components/schemas/Identification_1"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
@@ -11464,6 +11605,13 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -11705,12 +11853,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -11818,6 +11960,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -11836,6 +11981,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -11868,6 +12016,13 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "RemittanceInformation": {
                     "type": "object",
@@ -12013,6 +12168,9 @@
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 140
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12167,12 +12325,6 @@
                       "Urgent"
                     ]
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -12280,6 +12432,9 @@
                         "minLength": 1,
                         "maxLength": 140
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -12298,6 +12453,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12466,12 +12624,6 @@
                     "type": "string",
                     "format": "date-time"
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -12539,6 +12691,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -12560,6 +12715,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12592,6 +12750,13 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
@@ -12675,12 +12840,6 @@
                     "type": "string",
                     "format": "date-time"
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -12748,6 +12907,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -12769,6 +12931,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -12979,12 +13144,6 @@
                     "type": "string",
                     "format": "date-time"
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -13052,6 +13211,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -13073,6 +13235,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -13225,6 +13390,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -13341,12 +13509,6 @@
                     "type": "string",
                     "format": "date-time"
                   },
-                  "Purpose": {
-                    "description": "Specifies the external purpose code in the format of character string with a maximum length of 4 characters.\nThe list of valid codes is an external code list published separately.\nExternal code sets can be downloaded from www.iso20022.org.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
                   "ChargeBearer": {
                     "$ref": "#/components/schemas/OBChargeBearerType1Code"
                   },
@@ -13414,6 +13576,9 @@
                         "minLength": 1,
                         "maxLength": 350
                       },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
+                      },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
                       }
@@ -13435,6 +13600,9 @@
                       },
                       "Name": {
                         "$ref": "#/components/schemas/Name"
+                      },
+                      "LEI": { 
+                        "$ref": "#/components/schemas/LEI"
                       },
                       "PostalAddress": {
                         "$ref": "#/components/schemas/OBPostalAddress6"
@@ -13467,6 +13635,13 @@
                         "$ref": "#/components/schemas/SecondaryIdentification"
                       }
                     }
+                  },
+                  "RegulatoryReporting": {
+                    "type": "array",
+                    "items":{
+                      "$ref": "#/components/schemas/OBRegulatoryReporting3"
+                    },
+                    "maxItems": 10 
                   },
                   "SupplementaryData": {
                     "$ref": "#/components/schemas/OBSupplementaryData1"
