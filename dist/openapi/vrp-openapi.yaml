@@ -1,6 +1,6 @@
 openapi: 3.0.0
 servers:
-  - url: /open-banking/v3.1/pisp
+  - url: /open-banking/v4.0/pisp
 info:
   title: OBIE VRP Profile
   description: VRP OpenAPI Specification
@@ -776,7 +776,7 @@ components:
             A description of the error that occurred. e.g., 'A mandatory field
             isn't supplied' or 'RequestedExecutionDateTime must be in future'
 
-            OBIE doesn't standardise this field
+            OBL doesn't standardise this field
           type: string
           minLength: 1
           maxLength: 500
@@ -817,6 +817,12 @@ components:
           minItems: 1
       required:
         - Errors
+    OBInternalErrorResponseError1Code:
+      description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+      type: string
+      minLength: 4
+      maxLength: 4
+      example: AC17
     OBDomesticVRPConsentResponse:
       type: object
       required:
@@ -873,13 +879,6 @@ components:
               format: date-time
               description: |
                 Date and time at which the resource status was updated.
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
             ControlParameters:
               $ref: '#/components/schemas/OBDomesticVRPControlParameters'
             Initiation:
@@ -1201,7 +1200,7 @@ components:
             - DomesticVRPId
             - ConsentId
             - CreationDateTime
-            - Status
+            - StatusCode
             - StatusUpdateDateTime
             - Initiation
             - Instruction
@@ -1229,24 +1228,27 @@ components:
               format: date-time
               description: |
                 Date and time at which the resource was created.
-            Status:
+            StatusCode:
               type: string
               description: Specifies the status of the payment information group.
               enum:
-                - AcceptedCreditSettlementCompleted
-                - AcceptedWithoutPosting
-                - AcceptedSettlementCompleted
-                - AcceptedSettlementInProcess
-                - Pending
-                - Rejected
+                - PDNG
+                - ACTC
+                - PATC
+                - ACCP
+                - ACFC
+                - ACSP
+                - ACWC
+                - ACSC
+                - ACWP
+                - ACCC
+                - BLCK
+                - RJCT
             StatusReason:
-              $ref: '#/components/schemas/OBVRPStatusReasonCode'
-            StatusReasonDescription:
-              type: string
-              minLength: 1
-              maxLength: 256
-              description: |
-                Description related to provided Status/StatusReason
+              type: array
+              items:
+                $ref: '#/components/schemas/OBStatusReason'
+                description: Specifies the status reason
             StatusUpdateDateTime:
               type: string
               format: date-time
@@ -1333,49 +1335,43 @@ components:
                       - BLCK
                       - CANC
                       - RJCT
-                  StatusReason:
-                    type: array
-                    items:
-                      type: object
-                      $ref: '#/components/schemas/OBPaymentStatusReason'
-                  StatusDetail:
-                    type: object
-                    additionalProperties: false
-                    required:
-                      - Status
-                    description: Payment status details as per underlying Payment Rail.
-                    properties:
-                      LocalInstrument:
-                        $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
-                      Status:
-                        description: >-
-                          Status of a transfer, as assigned by the transaction
-                          administrator.
-                        type: string
-                        minLength: 1
-                        maxLength: 128
-                      StatusReason:
-                        description: Reason Code provided for the status of a transfer.
-                        type: string
-                        enum:
-                          - Cancelled
-                          - PendingFailingSettlement
-                          - PendingSettlement
-                          - Proprietary
-                          - ProprietaryRejection
-                          - Suspended
-                          - Unmatched
-                      StatusReasonDescription:
-                        description: Reason provided for the status of a transfer.
-                        type: string
-                        minLength: 1
-                        maxLength: 256
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
                     description: >
                       Date and time at which the status was assigned to the
                       transfer.
+                  LocalInstrument:
+                        $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  StatusDetail:
+                    type: object
+                    additionalProperties: false
+                    required:
+                      - StatusCode
+                    description: Payment status details as per underlying Payment Rail.
+                    properties:
+                      StatusCode:
+                        description: >-
+                          Status of a transfer, as assigned by the transaction
+                          administrator.
+                        type: string
+                        minLength: 1
+                        maxLength: 4
+                      StatusReasonCode:
+                        description: Reason Code provided for the status of a transfer.
+                        type: string
+                        minLength: 1
+                        maxLength: 4
+                      StatusReasonDescription:
+                        description: Reason provided for the status of a transfer.
+                        type: string
+                        minLength: 1
+                        maxLength: 256
+                      StatusUpdateDateTime:
+                        type: string
+                        format: date-time
+                        description: |
+                          Date and time at which the status was assigned to the transfer.
     OBVRPFundsConfirmationRequest:
       type: object
       required:
@@ -1711,6 +1707,9 @@ components:
         Invoicee:
           $ref: '#/components/schemas/Identification_0'
         TaxRemittance:
+          type: string
+          maxLength: 140
+          minLength: 1
         Reference:
           type: string
           maxLength: 140
@@ -2367,6 +2366,11 @@ components:
           type: string
           minLength: 1
           maxLength: 500
+        Path:
+          type: string
+          description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
+          minLength: 1
+          maxLength: 500
     OBStructuredRegulatoryReporting3:
       type: object
       description: >-
@@ -2502,8 +2506,8 @@ components:
     OBVRPInteractionTypes:
       type: string
       enum:
-        - InSession
-        - OffSession
+        - UK.OB.InSession
+        - UK.OB.OffSession
     OBRisk1:
       type: object
       additionalProperties: false
@@ -2512,24 +2516,13 @@ components:
           type: string
           description: |
             Specifies the payment context
-            * BillPayment - @deprecated
-            * EcommerceGoods - @deprecated
-            * EcommerceServices - @deprecated
-            * Other - @deprecated
-            * PartyToParty - @deprecated
           enum:
             - BillingGoodsAndServicesInAdvance
             - BillingGoodsAndServicesInArrears
-            - PispPayee
             - EcommerceMerchantInitiatedPayment
             - FaceToFacePointOfSale
             - TransferToSelf
             - TransferToThirdParty
-            - BillPayment
-            - EcommerceGoods
-            - EcommerceServices
-            - Other
-            - PartyToParty
         MerchantCategoryCode:
           type: string
           minLength: 3
@@ -2542,7 +2535,7 @@ components:
           minLength: 1
           maxLength: 70
           description: The unique customer identifier of the PSU with the merchant.
-        ContractPresentInidicator:
+        ContractPresentIndicator:
           type: boolean
           description: Indicates if Payee has a contractual relationship with the PISP.
         BeneficiaryPrepopulatedIndicator:
@@ -2567,17 +2560,7 @@ components:
       description: |-
         The Risk section is sent by the initiating party to the ASPSP.
         It is used to specify additional details for risk scoring for Payments.
-    ISODateTime:
-      description: >-
-        All dates in the JSON payloads are represented in ISO 8601 date-time
-        format. 
 
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        2017-04-05T10:43:07+00:00
-      type: string
-      format: date-time
     Links:
       required:
         - Self
