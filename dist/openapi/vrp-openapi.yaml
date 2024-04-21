@@ -139,6 +139,127 @@ paths:
       security:
         - TPPOAuth2Security:
             - payments
+            
+    put:
+      operationId: domesticVrpConsentsPut
+      tags:
+        - "Domestic VRP Consents"
+
+      summary: Update a domestic VRP consent - only to be used for version migrations
+      description: Update a domestic VRP consent by submitting a full consent resource body - only to be used for version migrations
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-idempotency-key"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/20xOBDomesticVRPConsentResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '409':
+          $ref: "#/components/responses/409Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+          application/jose+jwe:
+            schema:
+              $ref: "#/components/schemas/OBDomesticVRPConsentRequest"
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"
+                
+    patch:
+      operationId: domesticVrpConsentsPatch
+      tags:
+        - "Domestic VRP Consents"
+
+      summary: Update a domestic VRP consent - only to be used for version migrations
+      description: Update a domestic VRP consent by submitting a partial consent resource body - only to be used for version migrations
+      parameters:
+        - $ref: "#/components/parameters/ConsentId"
+        - $ref: "#/components/parameters/x-fapi-auth-date"
+        - $ref: "#/components/parameters/x-fapi-customer-ip-address"
+        - $ref: "#/components/parameters/x-fapi-interaction-id"
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/x-idempotency-key"
+        - $ref: "#/components/parameters/x-jws-signature"
+        - $ref: "#/components/parameters/x-customer-user-agent"
+
+      responses:
+        '201':
+          $ref: "#/components/responses/20xOBDomesticVRPConsentResponse"
+        '400':
+          $ref: "#/components/responses/400Error"
+        '401':
+          $ref: "#/components/responses/401Error"
+        '403':
+          $ref: "#/components/responses/403Error"
+        '405':
+          $ref: "#/components/responses/405Error"
+        '406':
+          $ref: "#/components/responses/406Error"
+        '409':
+          $ref: "#/components/responses/409Error"
+        '415':
+          $ref: "#/components/responses/415Error"
+        '429':
+          $ref: "#/components/responses/429Error"
+        '500':
+          $ref: "#/components/responses/InternalError"
+
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: string
+              format: partial values from OBVRPConsentRequest
+              example: {"Risk": {"ContractPresentIndicator": true}}
+          application/json:
+            schema:
+              type: string
+              format: partial values from OBVRPConsentRequest
+              example: {"Risk": {"ContractPresentIndicator": true}}
+          application/jose+jwe:
+            schema:
+              type: string
+              format: partial values from OBVRPConsentRequest
+              example: {"Risk": {"ContractPresentIndicator": true}}
+        description: "Default"
+        required: true
+
+      security:
+        - TPPOAuth2Security:
+            - "payments"        
+            
   /domestic-vrp-consents/{ConsentId}/funds-confirmation:
     post:
       operationId: domesticVrpConsentsFundsConfirmation
@@ -942,11 +1063,9 @@ components:
                 payment remittance identification should be quoted in the
                 end-to-end transaction identification.
         UltimateCreditor:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
         UltimateDebtor:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
     OBCashAccountDebtorWithName:
       type: object
       required:
@@ -1080,6 +1199,11 @@ components:
               allOf:
                 - $ref: '#/components/schemas/OBVRPInteractionTypes'
                 - description: The interaction style used.
+            RegulatoryReporting:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBRegulatoryReporting3'
+              maxItems: 10
             VRPType:
               $ref: '#/components/schemas/OBVRPConsentType'
             Initiation:
@@ -1505,11 +1629,9 @@ components:
             Additional information that can not be captured in the structured
             fields and/or any other specific block.
         UltimateCreditor:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
+          $ref:'#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
         UltimateDebtor:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
     OBVRPRemittanceInformation:
       type: object
       description: >-
@@ -1532,8 +1654,8 @@ components:
           maxLength: 35
           description: >-
             Unique reference, as assigned by the creditor, to unambiguously
-            refer to the payment transaction. The PISP must populate this with
-            the same value as specified in the
+            refer to the payment transaction. The PISP may populate this with
+            different values from those specified in the
             `Data.Initiation.RemittanceInformation.Reference` of the consent.
     OBExternalAccountIdentification4Code:
       type: string
@@ -2121,6 +2243,37 @@ components:
         - HOME
         - CORR
         - STAT
+    OBRegulatoryAuthority2:
+      type: object
+      description: 'Name of the entity requiring the regulatory reporting information. '
+      properties:
+        Name:
+          type: string
+          description: Entity requiring the regulatory reporting information.
+          minLength: 1
+          maxLength: 140
+        Country:
+          $ref: '#/components/schemas/CountryCode'
+    OBRegulatoryReporting3:
+      type: object
+      description: Information needed due to regulatory and statutory requirements
+      properties:
+        DebitCreditReportingIndicator:
+          type: string
+          description: >-
+            Identifies whether the regulatory reporting information applies to
+            the debit side, to the credit side or to both debit and credit sides
+            of the transaction. 
+          enum:
+            - CRED
+            - DEBT
+            - BOTH
+        Authority:
+          $ref: '#/components/schemas/OBRegulatoryAuthority2'
+        Detials:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBStructuredRegulatoryReporting3'
     OBStatusReason:
       type: object
       properties:
@@ -2137,6 +2290,32 @@ components:
           type: string
           minLength: 1
           maxLength: 500
+    OBStructuredRegulatoryReporting3:
+      type: object
+      description: 'Set of elements used to provide details on the regulatory reporting information. '
+      properties:
+        Type:
+          type: string
+          description: >-
+            Specifies the type of the information supplied in the regulatory
+            reporting details
+          minLength: 1
+          maxLength: 35
+        Date:
+          $ref: '#/components/schemas/ISODateTime'
+        Country:
+          $ref: '#/components/schemas/CountryCode'
+        Amount:
+          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
+        Information:
+          description: >-
+            Additional details that cater for specific domestic regulatory
+            requirements. 
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 35
     Department:
       description: Identification of a division of a large organisation or building.
       type: string
@@ -2323,6 +2502,17 @@ components:
       description: |-
         The Risk section is sent by the initiating party to the ASPSP.
         It is used to specify additional details for risk scoring for Payments.
+    ISODateTime:
+      description: >-
+        All dates in the JSON payloads are represented in ISO 8601 date-time
+        format. 
+
+        All date-time fields in responses must include the timezone. An example
+        is below:
+
+        2017-04-05T10:43:07+00:00
+      type: string
+      format: date-time
     Links:
       required:
         - Self

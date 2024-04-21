@@ -3172,6 +3172,7 @@ components:
       type: string
       minLength: 1
       maxLength: 20
+      pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
     Links:
       type: object
       additionalProperties: false
@@ -3929,6 +3930,37 @@ components:
             maxLength: 70
           minItems: 0
           maxItems: 7
+    OBRegulatoryAuthority2:
+      type: object
+      description: 'Name of the entity requiring the regulatory reporting information. '
+      properties:
+        Name:
+          type: string
+          description: Entity requiring the regulatory reporting information.
+          minLength: 1
+          maxLength: 140
+        Country:
+          $ref: '#/components/schemas/CountryCode'
+    OBRegulatoryReporting3:
+      type: object
+      description: Information needed due to regulatory and statutory requirements
+      properties:
+        DebitCreditReportingIndicator:
+          type: string
+          description: >-
+            Identifies whether the regulatory reporting information applies to
+            the debit side, to the credit side or to both debit and credit sides
+            of the transaction. 
+          enum:
+            - CRED
+            - DEBT
+            - BOTH
+        Authority:
+          $ref: '#/components/schemas/OBRegulatoryAuthority2'
+        Detials:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBStructuredRegulatoryReporting3'
     OBRisk1:
       type: object
       additionalProperties: false
@@ -4054,6 +4086,32 @@ components:
           type: string
           minLength: 1
           maxLength: 500
+    OBStructuredRegulatoryReporting3:
+      type: object
+      description: 'Entity requiring the regulatory reporting information. '
+      properties:
+        Type:
+          type: string
+          description: >-
+            Specifies the type of the information supplied in the regulatory
+            reporting details
+          minLength: 1
+          maxLength: 35
+        Date:
+          $ref: '#/components/schemas/ISODateTime'
+        Country:
+          $ref: '#/components/schemas/CountryCode'
+        Amount:
+          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
+        Information:
+          description: >-
+            Additional details that cater for specific domestic regulatory
+            requirements. 
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 35
     OBSupplementaryData1:
       type: object
       properties: {}
@@ -4210,6 +4268,11 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -4253,6 +4316,11 @@ components:
                       maxLength: 35
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
+        RegulatoryReporting:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBRegulatoryReporting3'
+          maxItems: 10
         Risk:
           $ref: '#/components/schemas/OBRisk1'
     OBWriteDomesticConsent4:
@@ -4402,6 +4470,11 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -4729,6 +4802,11 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -5560,6 +5638,11 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -5903,6 +5986,11 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -6275,6 +6363,11 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -8703,18 +8796,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -9003,18 +9084,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -9183,6 +9252,11 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -9489,18 +9563,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -9670,11 +9732,14 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     UltimateCreditor:
-                      $ref: >-
-                        #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
+                      $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
                     UltimateDebtor:
-                      $ref: >-
-                        #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
+                      $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -10039,18 +10104,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -10392,18 +10445,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -10714,18 +10755,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -10909,6 +10938,11 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -11222,18 +11256,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -11417,6 +11439,11 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 RemittanceInformation:
                   type: object
                   additionalProperties: false
@@ -11786,18 +11813,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 RequestedExecutionDateTime:
@@ -12231,18 +12246,6 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -12378,6 +12381,11 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -12541,18 +12549,6 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -12962,18 +12958,6 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -13442,18 +13426,6 @@ components:
                     2017-04-05T10:43:07+00:00
                   type: string
                   format: date-time
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ChargeBearer:
                   $ref: '#/components/schemas/OBChargeBearerType1Code'
                 CurrencyOfTransfer:
@@ -13592,6 +13564,11 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                RegulatoryReporting:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                  maxItems: 10
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
