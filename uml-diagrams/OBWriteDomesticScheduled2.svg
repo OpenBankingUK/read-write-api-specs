@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="105.2em" height="91.4em" style="background-color:white"><defs>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="163.2em" height="96.60000000000001em" style="background-color:white"><defs>
 	<marker id="Triangle"
 		viewBox="0 0 10 10" refX="0" refY="5" 
 		markerUnits="strokeWidth"
@@ -390,47 +390,175 @@ Pattern: ^[A-Z]{3,3}$
 Currency [1..1]
 </text>
 
-<rect x="78.2em" y="53.4em" width="16.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<rect x="78.2em" y="53.4em" width="16.8em" height="4.3em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="86.60000000000001em" y="54.699999999999996em" fill="black">
-<title>Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts&#39; receivable system.</title>
+<title>Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts&#39; receivable system</title>
 RemittanceInformation
 </text>
 
 <text x="79.2em" y="56.699999999999996em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
-Description: Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
-Usage: If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money.
-If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor&#39;s reference or payment remittance identification should be quoted in the end-to-end transaction identification.
-OB: The Faster Payments Scheme can only accept 18 characters for the ReferenceInformation field - which is where this ISO field will be mapped.
+MaxLength: 256
 </title>
-Reference [0..1]
+Unstructured [0..*]
 </text>
 
-<text x="79.2em" y="57.99999999999999em" fill="darkslateblue">
+<rect x="101em" y="53.4em" width="28em" height="10.8em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="115em" y="54.699999999999996em" fill="black">
+<title></title>
+Structured
+</text>
+
+<text x="102em" y="56.699999999999996em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 4
+Description: Specifies the type of creditor reference as published in an external creditor reference type code set.
+External code sets can be downloaded from www.iso20022.org.
+*`DISP`-Document is a dispatch advice.
+*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.
+*`PUOR`-Document is a purchase order.
+*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.
+*`RADM`-Document is a remittance advice sent separately from the current transaction.
+*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction.
+Values:
+ - DISP
+ - FXDR
+ - PUOR
+ - RPIN
+ - RADM
+ - SCOR
+</title>
+CreditorReferenceInformation [0..1]
+</text>
+
+<text x="102em" y="57.99999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+</title>
+Invoicee [0..1]
+</text>
+
+<text x="102em" y="59.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+</title>
+Invoicer [0..1]
+</text>
+
+<text x="102em" y="60.599999999999994em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 500
+</title>
+LineDetails [0..3]
+</text>
+
+<text x="102em" y="61.9em" fill="darkslateblue">
+<title>Type: integer
+Format: int32
+</title>
+ReferenceDocumentAmount [0..1]
+</text>
+
+<text x="102em" y="63.199999999999996em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
-Description: Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts&#39; receivable system, in an unstructured form.
 </title>
-Unstructured [0..1]
+TaxRemittance [0..1]
 </text>
 
-<rect x="78.2em" y="60em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="85em" y="61.3em" fill="black">
+<rect x="135em" y="53.4em" width="23.200000000000003em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="146.6em" y="54.699999999999996em" fill="black">
+<title></title>
+RemittanceDocumentInformation
+</text>
+
+<text x="136em" y="56.699999999999996em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 4
+Description: Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+Values:
+ - CINV
+ - CNFA
+ - CONT
+ - CREN
+ - DEBN
+ - DISP
+ - DNFA
+ - HIRI
+ - INVS
+ - MSIN
+ - PROF
+ - PUOR
+ - QUOT
+ - SBIN
+ - SPRR
+ - TISH
+ - USAR
+ - AROI
+ - BOLD
+ - CMCN
+ - SOAC
+ - TSUT
+ - VCHR
+</title>
+Code [0..1]
+</text>
+
+<text x="136em" y="57.99999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+</title>
+Issuer [0..1]
+</text>
+
+<text x="136em" y="59.3em" fill="darkslateblue">
+<title>Type: string
+</title>
+LineDetails [0..*]
+</text>
+
+<text x="136em" y="60.599999999999994em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+</title>
+Number [0..1]
+</text>
+
+<text x="136em" y="61.9em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+RelatedDate [0..1]
+</text>
+
+<rect x="78.2em" y="65.2em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="85em" y="66.5em" fill="black">
 <title>Additional information that can not be captured in the structured fields and/or any other specific block.</title>
 SupplementaryData
 </text>
 
-<rect x="27em" y="64em" width="31.200000000000003em" height="14.700000000000001em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="42.6em" y="65.3em" fill="black">
+<rect x="27em" y="69.2em" width="31.200000000000003em" height="14.700000000000001em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="42.6em" y="70.5em" fill="black">
 <title>The Risk section is sent by the initiating party to the ASPSP.
 It is used to specify additional details for risk scoring for Payments.</title>
 Risk
 </text>
 
-<text x="28em" y="67.3em" fill="darkslateblue">
+<text x="28em" y="72.5em" fill="darkslateblue">
 <title>Type: string
 Description: Specifies the extended type of account.
 Values:
@@ -453,14 +581,14 @@ Values:
 BeneficiaryAccountType [0..1]
 </text>
 
-<text x="28em" y="68.6em" fill="darkslateblue">
+<text x="28em" y="73.8em" fill="darkslateblue">
 <title>Type: boolean
 Description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
 </title>
 BeneficiaryPrepopulatedIndicator [0..1]
 </text>
 
-<text x="28em" y="69.89999999999999em" fill="darkslateblue">
+<text x="28em" y="75.1em" fill="darkslateblue">
 <title>Type: string
 Description: Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
  For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
@@ -513,14 +641,14 @@ Values:
 CategoryPurposeCode [0..1]
 </text>
 
-<text x="28em" y="71.2em" fill="darkslateblue">
+<text x="28em" y="76.4em" fill="darkslateblue">
 <title>Type: boolean
 Description: Indicates if Payee has a contractual relationship with the PISP.
 </title>
 ContractPresentInidicator [0..1]
 </text>
 
-<text x="28em" y="72.5em" fill="darkslateblue">
+<text x="28em" y="77.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -529,7 +657,7 @@ Description: Specifies the purpose of an international payment, when there is no
 ExtendedPurpose [0..1]
 </text>
 
-<text x="28em" y="73.8em" fill="darkslateblue">
+<text x="28em" y="79em" fill="darkslateblue">
 <title>Type: string
 MinLength: 3
 MaxLength: 4
@@ -538,7 +666,7 @@ Description: Category code conform to ISO 18245, related to the type of services
 MerchantCategoryCode [0..1]
 </text>
 
-<text x="28em" y="75.1em" fill="darkslateblue">
+<text x="28em" y="80.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -547,7 +675,7 @@ Description: The unique customer identifier of the PSU with the merchant.
 MerchantCustomerIdentification [0..1]
 </text>
 
-<text x="28em" y="76.39999999999999em" fill="darkslateblue">
+<text x="28em" y="81.6em" fill="darkslateblue">
 <title>Type: string
 Description: Specifies the payment context
 * BillPayment - @deprecated
@@ -573,7 +701,7 @@ Values:
 PaymentContextCode [0..1]
 </text>
 
-<text x="28em" y="77.7em" fill="darkslateblue">
+<text x="28em" y="82.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 4
@@ -911,13 +1039,13 @@ Values:
 PaymentPurposeCode [0..1]
 </text>
 
-<rect x="64.2em" y="64em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="74.2em" y="65.3em" fill="black">
+<rect x="64.2em" y="69.2em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="74.2em" y="70.5em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 DeliveryAddress
 </text>
 
-<text x="65.2em" y="67.3em" fill="darkslateblue">
+<text x="65.2em" y="72.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -926,7 +1054,7 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="65.2em" y="68.6em" fill="darkslateblue">
+<text x="65.2em" y="73.8em" fill="darkslateblue">
 <title>Type: string
 Description: Identifies the nature of the postal address.
 Values:
@@ -942,7 +1070,7 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="65.2em" y="69.89999999999999em" fill="darkslateblue">
+<text x="65.2em" y="75.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -951,7 +1079,7 @@ Description: Name of a referenced building.
 BuildingName [0..1]
 </text>
 
-<text x="65.2em" y="71.2em" fill="darkslateblue">
+<text x="65.2em" y="76.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -960,7 +1088,7 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="65.2em" y="72.5em" fill="darkslateblue">
+<text x="65.2em" y="77.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -969,7 +1097,7 @@ Description: The &#39;care of&#39; address is used whenever sending mail to a pe
 CareOf [0..1]
 </text>
 
-<text x="65.2em" y="73.8em" fill="darkslateblue">
+<text x="65.2em" y="79em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -977,7 +1105,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="65.2em" y="75.1em" fill="darkslateblue">
+<text x="65.2em" y="80.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -986,7 +1114,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="65.2em" y="76.39999999999999em" fill="darkslateblue">
+<text x="65.2em" y="81.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -995,7 +1123,7 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="65.2em" y="77.7em" fill="darkslateblue">
+<text x="65.2em" y="82.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1004,7 +1132,7 @@ Description: Number that of the regional area, known as a district, which forms 
 DistrictName [0..1]
 </text>
 
-<text x="65.2em" y="79em" fill="darkslateblue">
+<text x="65.2em" y="84.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1013,7 +1141,7 @@ Description: Number that identifies the level within a building
 Floor [0..1]
 </text>
 
-<text x="65.2em" y="80.3em" fill="darkslateblue">
+<text x="65.2em" y="85.5em" fill="darkslateblue">
 <title>MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
@@ -1021,7 +1149,7 @@ Description: Information that locates and identifies a box in a post office assi
 PostBox [0..1]
 </text>
 
-<text x="65.2em" y="81.6em" fill="darkslateblue">
+<text x="65.2em" y="86.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1030,7 +1158,7 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="65.2em" y="82.9em" fill="darkslateblue">
+<text x="65.2em" y="88.1em" fill="darkslateblue">
 <title>MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
@@ -1038,7 +1166,7 @@ Description: Information that locates and identifies a room to form part of an a
 Room [0..1]
 </text>
 
-<text x="65.2em" y="84.2em" fill="darkslateblue">
+<text x="65.2em" y="89.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1047,7 +1175,7 @@ Description: Name of a street or thoroughfare.
 StreetName [0..1]
 </text>
 
-<text x="65.2em" y="85.5em" fill="darkslateblue">
+<text x="65.2em" y="90.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1056,7 +1184,7 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="65.2em" y="86.8em" fill="darkslateblue">
+<text x="65.2em" y="92em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -1065,7 +1193,7 @@ Description: Name of a built-up area, with defined boundaries, and a local gover
 TownLocationName [0..1]
 </text>
 
-<text x="65.2em" y="88.1em" fill="darkslateblue">
+<text x="65.2em" y="93.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -1074,7 +1202,7 @@ Description: Name of a built-up area, with defined boundaries, and a local gover
 TownName [0..1]
 </text>
 
-<text x="65.2em" y="89.4em" fill="darkslateblue">
+<text x="65.2em" y="94.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1111,15 +1239,23 @@ UnitNumber [0..1]
 <line x1="74.2em" y1="2em" x2="74.2em" y2="54.4em" stroke="black" />
 <line x1="74.2em" y1="54.4em" x2="77.4em" y2="54.4em" stroke="black" marker-end="url(#Triangle)"/>
 <text x="74.7em" y="53.9em">0..1</text>
+<line x1="95em" y1="54.4em" x2="97em" y2="54.4em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="97em" y1="54.4em" x2="97em" y2="54.4em" stroke="black" />
+<line x1="97em" y1="54.4em" x2="100.2em" y2="54.4em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="97.5em" y="53.9em">0..*</text>
+<line x1="129em" y1="54.4em" x2="131em" y2="54.4em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="131em" y1="54.4em" x2="131em" y2="54.4em" stroke="black" />
+<line x1="131em" y1="54.4em" x2="134.2em" y2="54.4em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="131.5em" y="53.9em">0..1</text>
 <line x1="72.2em" y1="2em" x2="74.2em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="74.2em" y1="2em" x2="74.2em" y2="61em" stroke="black" />
-<line x1="74.2em" y1="61em" x2="77.4em" y2="61em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="74.7em" y="60.5em">0..1</text>
+<line x1="74.2em" y1="2em" x2="74.2em" y2="66.2em" stroke="black" />
+<line x1="74.2em" y1="66.2em" x2="77.4em" y2="66.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="74.7em" y="65.7em">0..1</text>
 <line x1="21em" y1="2em" x2="23em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="23em" y1="2em" x2="23em" y2="65em" stroke="black" />
-<line x1="23em" y1="65em" x2="26.2em" y2="65em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="23.5em" y="64.5em">1..1</text>
-<line x1="58.2em" y1="65em" x2="60.2em" y2="65em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="60.2em" y1="65em" x2="60.2em" y2="65em" stroke="black" />
-<line x1="60.2em" y1="65em" x2="63.400000000000006em" y2="65em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="60.7em" y="64.5em">0..1</text></svg>
+<line x1="23em" y1="2em" x2="23em" y2="70.2em" stroke="black" />
+<line x1="23em" y1="70.2em" x2="26.2em" y2="70.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="23.5em" y="69.7em">1..1</text>
+<line x1="58.2em" y1="70.2em" x2="60.2em" y2="70.2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="60.2em" y1="70.2em" x2="60.2em" y2="70.2em" stroke="black" />
+<line x1="60.2em" y1="70.2em" x2="63.400000000000006em" y2="70.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="60.7em" y="69.7em">0..1</text></svg>
