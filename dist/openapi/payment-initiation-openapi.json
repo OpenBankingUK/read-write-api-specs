@@ -5402,14 +5402,7 @@
           "QUOT",
           "SBIN",
           "SPRR",
-          "TISH",
-          "USAR",
-          "AROI",
-          "BOLD",
-          "CMCN",
-          "SOAC",
-          "TSUT",
-          "VCHR"
+          "TISH"
         ]
       },
       "OBExternalFinancialInstitutionIdentification4Code": {
@@ -6061,15 +6054,33 @@
       "OBRemittanceInformationStructured": {
         "type": "object",
         "properties": {
-          "RemittanceDocumentInformation": {
-            "$ref": "#/components/schemas/OBReferredDocumentInformation"
+          "ReferredDocumentInformation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBReferredDocumentInformation"
+            }
           },
-          "ReferenceDocumentAmount": {
+          "ReferredDocumentAmount": {
             "type": "integer",
             "format": "int32"
           },
           "CreditorReferenceInformation": {
-            "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+            "type": "object",
+            "properties": {
+              "Code": {
+                "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+              },
+              "Issuer": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35
+              },
+              "Reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35
+              }
+            }
           },
           "Invoicer": {
             "$ref": "#/components/schemas/Identification_0"
@@ -6082,7 +6093,7 @@
             "maxLength": 140,
             "minLength": 1
           },
-          "LineDetails": {
+          "AdditionalRemittanceInformation": {
             "type": "array",
             "items": {
               "type": "string",
@@ -6166,7 +6177,7 @@
             "maxLength": 70,
             "description": "The unique customer identifier of the PSU with the merchant."
           },
-          "ContractPresentInidicator": {
+          "ContractPresentIndicator": {
             "type": "boolean",
             "description": "Indicates if Payee has a contractual relationship with the PISP."
           },

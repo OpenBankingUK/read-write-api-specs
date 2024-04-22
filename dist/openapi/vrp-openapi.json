@@ -1617,23 +1617,7 @@
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "RemittanceInformation": {
-            "$ref": "#/components/schemas/OBRemittanceInformation1",
-            "type": "object",
-            "description": "^ Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
-            "properties": {
-              "Unstructured": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 140,
-                "description": "^ Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form."
-              },
-              "Reference": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 35,
-                "description": "^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification."
-              }
-            }
+            "$ref": "#/components/schemas/OBRemittanceInformation1"
           },
           "RegulatoryReporting": {
             "type": "array",
@@ -2324,12 +2308,11 @@
             }
           },
           "Unstructured": {
-            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
             "type": "array",
             "items": {
               "type": "string",
-              "minLength": 1,
-              "maxLength": 140
+              "maxLength": 256,
+              "minLength": 1
             }
           }
         }
@@ -2337,15 +2320,33 @@
       "OBRemittanceInformationStructured": {
         "type": "object",
         "properties": {
-          "RemittanceDocumentInformation": {
-            "$ref": "#/components/schemas/OBReferredDocumentInformation"
+          "ReferredDocumentInformation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBReferredDocumentInformation"
+            }
           },
-          "ReferenceDocumentAmount": {
+          "ReferredDocumentAmount": {
             "type": "integer",
             "format": "int32"
           },
           "CreditorReferenceInformation": {
-            "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+            "type": "object",
+            "properties": {
+              "Code": {
+                "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+              },
+              "Issuer": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35
+              },
+              "Reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35
+              }
+            }
           },
           "Invoicer": {
             "$ref": "#/components/schemas/Identification_0"
@@ -2358,21 +2359,14 @@
             "maxLength": 140,
             "minLength": 1
           },
-          "Reference": {
-            "type": "string",
-            "maxLength": 140,
-            "minLength": 1
-          },
-          "LineDetails": {
+          "AdditionalRemittanceInformation": {
             "type": "array",
             "items": {
               "type": "string",
               "maxLength": 500,
               "minLength": 1
             },
-            "maxItems": 3,
-            "maxLength": 35,
-            "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. The PISP may populate this with different values from those specified in the `Data.Initiation.RemittanceInformation.Reference` of the consent."
+            "maxItems": 3
           }
         }
       },
