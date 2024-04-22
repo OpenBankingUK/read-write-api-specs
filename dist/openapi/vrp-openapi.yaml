@@ -1398,80 +1398,77 @@ components:
           $ref: '#/components/schemas/Meta'
     OBDomesticVRPDetails:
       type: object
+      required:
+        - Data
       properties:
         Data:
           type: object
+          required:
+            - PaymentTransactionId
+            - StatusCode
+            - StatusUpdateDateTime
           properties:
-            PaymentStatus:
+            PaymentTransactionId:
+              type: string
+              minLength: 1
+              maxLength: 210
+              description: >-
+                Unique identifier for the transaction within an servicing
+                      institution. This identifier is both unique and immutable.
+            StatusCode:
+              type: string
+              description: >-
+                Status of a transfer, as assigned by the transaction
+                      administrator.
+              enum:
+                - RCVD
+                - PDNG
+                - ACTC
+                - ACFC
+                - ACSP
+                - ACSC
+                - ACWP
+                - ACCC
+                - BLCK
+                - CANC
+                - RJCT
+            StatusUpdateDateTime:
+              type: string
+              format: date-time
+              description: >
+                Date and time at which the status was assigned to the
+                      transfer.
+            LocalInstrument:
+                        $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+            StausDetail:
               type: array
               items:
-                required:
-                  - PaymentTransactionId
-                  - StatusCode
-                  - StatusUpdateDateTime
                 type: object
+                required:
+                  - StatusCode
                 properties:
-                  PaymentTransactionId:
-                    type: string
-                    minLength: 1
-                    maxLength: 210
-                    description: >-
-                      Unique identifier for the transaction within an servicing
-                      institution. This identifier is both unique and immutable.
                   StatusCode:
-                    type: string
                     description: >-
                       Status of a transfer, as assigned by the transaction
-                      administrator.
-                    enum:
-                      - RCVD
-                      - PDNG
-                      - ACTC
-                      - ACFC
-                      - ACSP
-                      - ACSC
-                      - ACWP
-                      - ACCC
-                      - BLCK
-                      - CANC
-                      - RJCT
+                          administrator.
+                    type: string
+                    minLength: 1
+                    maxLength: 4
+                  StatusReasonCode:
+                    description: Reason Code provided for the status of a transfer.
+                    type: string
+                    minLength: 1
+                    maxLength: 4
+                  StatusReasonDescription:
+                    description: Reason provided for the status of a transfer.
+                    type: string
+                    minLength: 1
+                    maxLength: 256
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
-                    description: >
-                      Date and time at which the status was assigned to the
-                      transfer.
-                  LocalInstrument:
-                        $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
-                  StatusDetail:
-                    type: object
-                    additionalProperties: false
-                    required:
-                      - StatusCode
-                    description: Payment status details as per underlying Payment Rail.
-                    properties:
-                      StatusCode:
-                        description: >-
-                          Status of a transfer, as assigned by the transaction
-                          administrator.
-                        type: string
-                        minLength: 1
-                        maxLength: 4
-                      StatusReasonCode:
-                        description: Reason Code provided for the status of a transfer.
-                        type: string
-                        minLength: 1
-                        maxLength: 4
-                      StatusReasonDescription:
-                        description: Reason provided for the status of a transfer.
-                        type: string
-                        minLength: 1
-                        maxLength: 256
-                      StatusUpdateDateTime:
-                        type: string
-                        format: date-time
-                        description: |
-                          Date and time at which the status was assigned to the transfer.
+                    description: |
+                      Date and time at which the status was assigned to the transfer.
     OBVRPFundsConfirmationRequest:
       type: object
       required:
