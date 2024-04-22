@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install umldiagram from https://bitbucket.org/openbankingteam/uml-generator/src/master/
 
-umldiagram --src=./dist/openapi/account-info-openapi.yaml --api-version=3 --dir=uml-diagrams\
+./umldiagram --src=./dist/openapi/account-info-openapi.yaml --api-version=3 --dir=uml-diagrams\
 	--schema=OBReadConsent1\
 	--schema=OBReadConsentResponse1\
 	--schema=OBReadAccount6\
@@ -26,7 +26,7 @@ umldiagram --src=./dist/openapi/account-info-openapi.yaml --api-version=3 --dir=
 	--schema=OBReadProduct2.properties.Data.properties.Product.items.properties.OtherProductType.properties.LoanInterest:LoanInterest\
 	--schema=OBReadProduct2.properties.Data.properties.Product.items.properties.OtherProductType.properties.Repayment:Repayment\
 
-umldiagram --src=./dist/openapi/payment-initiation-openapi.yaml --api-version=3 --dir=uml-diagrams\
+./umldiagram --src=./dist/openapi/payment-initiation-openapi.yaml --api-version=3 --dir=uml-diagrams\
 	--schema=OBRisk1\
 	--schema=OBSCASupportData1\
 	--schema=OBWriteFundsConfirmationResponse1\
@@ -80,7 +80,7 @@ umldiagram --src=./dist/openapi/payment-initiation-openapi.yaml --api-version=3 
 	--schema=OBWriteDomesticStandingOrderConsent5.properties.Data.properties.Authorisation:OBAuthorisation1\
 	--schema=OBWriteDomesticResponse5.properties.Data.properties.MultiAuthorisation:OBMultiAuthorisation1\
 
-umldiagram --src=./dist/openapi/vrp-openapi.yaml --api-version=3 --dir=uml-diagrams \
+./umldiagram --src=./dist/openapi/vrp-openapi.yaml --api-version=3 --dir=uml-diagrams \
 	--schema=OBCashAccountDebtorWithName \
 	--schema=OBCashAccountCreditor3 \
 	--schema=OBBranchAndFinancialInstitutionIdentification6 \
@@ -96,7 +96,7 @@ umldiagram --src=./dist/openapi/vrp-openapi.yaml --api-version=3 --dir=uml-diagr
 	--schema=OBVRPFundsConfirmationRequest \
 	--schema=OBVRPFundsConfirmationResponse \
 
-umldiagram --src=./dist/openapi/confirmation-funds-openapi.yaml --api-version=3 --dir=uml-diagrams\
+./umldiagram --src=./dist/openapi/confirmation-funds-openapi.yaml --api-version=3 --dir=uml-diagrams\
 	--schema=OBFundsConfirmationConsent1\
 	--schema=OBFundsConfirmationConsentResponse1\
 	--schema=OBFundsConfirmation1\
