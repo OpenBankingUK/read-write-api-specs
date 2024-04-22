@@ -1229,6 +1229,106 @@
       }
     },
     "schemas": {
+      "OBBranchAndFinancialInstitutionIdentification6_0": {
+        "type": "object",
+        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account. This is the servicer of the beneficiary account.",
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBExternalFinancialInstitutionIdentification4Code"
+          },
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_1"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          }
+        }
+      },
+      "LEI": {
+        "description": "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "Name_1": {
+        "description": "Name by which an agent is known and which is usually used to identify that agent.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
+      },
+      "Identification_0": {
+        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "Identification_1": {
+        "description": "Unique and unambiguous identification of the servicing institution.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35
+      },
+      "OBProxyAccount": {
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code",
+          "Proprietary"
+        ],
+        "properties": {
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
+          },
+          "Proprietary": {
+            "type": "string",
+            "description": "The owner of the proxy account",
+            "minLength": 1,
+            "maxLength": 70
+          },
+          "Type": {
+            "type": "string",
+            "description": "Specifies the external proxy account type",
+            "minLength": 1,
+            "maxLength": 70
+          }
+        }
+      },
+      "OBExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "type": "string",
+        "enum": [
+          "TELE",
+          "EMAL",
+          "DNAM",
+          "CINC",
+          "COTX",
+          "COID",
+          "CUST",
+          "DRLC",
+          "EIDN",
+          "EWAL",
+          "PVTX",
+          "LEIC",
+          "MBNO",
+          "NIDN",
+          "CCPT",
+          "SHID",
+          "SOSE",
+          "TOKN",
+          "UBIL",
+          "VIPN",
+          "BIID"
+        ]
+      },
       "OBError1": {
         "type": "object",
         "properties": {
@@ -1517,6 +1617,12 @@
           "CreditorPostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
           },
+          "UltimateCreditor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
+          "UltimateDebtor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+          },
           "RemittanceInformation": {
             "$ref": "#/components/schemas/OBRemittanceInformation1",
             "type": "object",
@@ -1535,6 +1641,13 @@
                 "description": "^ Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction. Usage - If available, the initiating party should provide this reference in the structured remittance information, to enable reconciliation by the creditor upon receipt of the amount of money. If the business context requires the use of a creditor reference or a payment remit identification, and only one identifier can be passed through the end-to-end chain, the creditor's reference or payment remittance identification should be quoted in the end-to-end transaction identification."
               }
             }
+          },
+          "RegulatoryReporting": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBRegulatoryReporting3"
+            },
+            "maxItems": 10
           }
         }
       },
@@ -1669,13 +1782,6 @@
                     "description": "The interaction style used."
                   }
                 ]
-              },
-              "RegulatoryReporting": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/OBRegulatoryReporting3"
-                },
-                "maxItems": 10
               },
               "VRPType": {
                 "$ref": "#/components/schemas/OBVRPConsentType"
@@ -2080,9 +2186,9 @@
       "OBExternalStatus2Code": {
         "type": "string",
         "enum": [
-          "Authorised",
-          "AwaitingFurtherAuthorisation",
-          "Rejected"
+          "AUTH",
+          "AWAU",
+          "RJCT"
         ]
       },
       "OBChargeBearerType1Code": {
@@ -2130,6 +2236,9 @@
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3"
+          },
+          "UltimateCreditor": {
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "SupplementaryData": {
             "type": "object",
@@ -2719,67 +2828,6 @@
         "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
         "format": "date-time"
-      },
-      "Identification_0": {
-        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 256
-      },
-      "OBProxyAccount": {
-        "type": "object",
-        "required": [
-          "Identification",
-          "Code",
-          "Proprietary"
-        ],
-        "properties": {
-          "Identification": {
-            "$ref": "#/components/schemas/Identification_0"
-          },
-          "Code": {
-            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
-          },
-          "Proprietary": {
-            "type": "string",
-            "description": "The owner of the proxy account",
-            "minLength": 1,
-            "maxLength": 70
-          },
-          "Type": {
-            "type": "string",
-            "description": "Specifies the external proxy account type",
-            "minLength": 1,
-            "maxLength": 70
-          }
-        }
-      },
-      "OBExternalProxyAccountType1Code": {
-        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
-        "type": "string",
-        "enum": [
-          "TELE",
-          "EMAL",
-          "DNAM",
-          "CINC",
-          "COTX",
-          "COID",
-          "CUST",
-          "DRLC",
-          "EIDN",
-          "EWAL",
-          "PVTX",
-          "LEIC",
-          "MBNO",
-          "NIDN",
-          "CCPT",
-          "SHID",
-          "SOSE",
-          "TOKN",
-          "UBIL",
-          "VIPN",
-          "BIID"
-        ]
       },
       "OBPaymentStatusReason": {
         "type": "object",
