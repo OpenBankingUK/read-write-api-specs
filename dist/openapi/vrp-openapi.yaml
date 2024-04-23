@@ -821,13 +821,13 @@ components:
         Identification:
           $ref: '#/components/schemas/Identification_0'
         Code:
-          $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
+          $ref: '#/components/schemas/ExternalProxyAccountType1Code'
         Type:
           type: string
           description: Specifies the external proxy account type
           minLength: 1
           maxLength: 70
-    OBExternalProxyAccountType1Code:
+    ExternalProxyAccountType1Code:
       description: >-
         Specifies the external proxy account type code, as published in the
         proxy account type external code set.<br> For more information see
@@ -952,7 +952,7 @@ components:
               description: |
                 Date and time at which the resource was created.
             StatusCode:
-              description: Specifies the status of consent resource in code form.
+              description: Specifies the status of consent resource in code form. AWAU and RJCT only can returned on initial submission
               type: string
               enum:
                 - AWAU
@@ -1143,6 +1143,8 @@ components:
             the account servicing institution.  This can be used by building
             societies to additionally identify accounts with a roll number (in
             addition to a sort code and account number combination)
+        Proxy:
+          $ref: '#/components/schemas/OBProxyAccount'
     OBCashAccountCreditor3:
       type: object
       required:
@@ -1436,7 +1438,7 @@ components:
                       - ACCC
                       - BLCK
                   StatusReasonCode:
-                    description: Reason Code provided for the status of a transfer.
+                    description: Reason Code provided for the status of a transfer. For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
                     type: string
                     minLength: 1
                     maxLength: 4
@@ -1444,7 +1446,7 @@ components:
                     description: Reason provided for the status of a transfer.
                     type: string
                     minLength: 1
-                    maxLength: 256
+                    maxLength: 500
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
@@ -1691,7 +1693,7 @@ components:
         - RPIN
         - RADM
         - SCOR
-    OBExternalDocumentType1Code:
+    ExternalDocumentType1Code:
       type: string
       minLength: 1
       maxLength: 4
@@ -1725,6 +1727,23 @@ components:
         - VCHR
     OBReferredDocumentInformation:
       type: object
+      properties:
+        Code:
+          $ref: '#/components/schemas/ExternalDocumentType1Code'
+        Issuer:
+          type: string
+          maxLength: 140
+          minLength: 1
+        Number:
+          type: string
+          maxLength: 140
+          minLength: 1
+        RelatedDate:
+          $ref: '#/components/schemas/ISODateTime'
+        LineDetails:
+          type: array
+          items:
+            type: string
     OBVRPRemittanceInformation:
       type: object
       description: >-
@@ -1733,7 +1752,7 @@ components:
         an accounts' receivable system.
       properties:
         Code:
-          $ref: '#/components/schemas/OBExternalDocumentType1Code'
+          $ref: '#/components/schemas/ExternalDocumentType1Code'
         Issuer:
           type: string
           maxLength: 140
@@ -1778,7 +1797,7 @@ components:
           type: object
           properties:
             Code: 
-              $ref: '#/components/schemas/OBExternalCreditorReferenceType1Code'
+              $ref: '#/components/schemas/ExternalCreditorReferenceType1Code'
             Issuer:
               type: string
               minLength: 1
@@ -1802,6 +1821,18 @@ components:
             maxLength: 500
             minLength: 1
           maxItems: 3
+    ExternalCreditorReferenceType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
+      enum:
+        - DISP
+        - FXDR
+        - PUOR
+        - RPIN
+        - RADM
+        - SCOR
     OBExternalAccountIdentification4Code:
       type: string
       description: >-
@@ -2533,7 +2564,7 @@ components:
         PaymentContextCode:
           type: string
           description: |
-            Specifies the payment context
+            Specifies the payment context, `OBInternalPaymentContext1Code`
           enum:
             - BillingGoodsAndServicesInAdvance
             - BillingGoodsAndServicesInArrears
