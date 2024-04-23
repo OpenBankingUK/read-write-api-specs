@@ -2954,6 +2954,24 @@ components:
           scopes:
             payments: Generic payment scope
   schemas:
+    OBFrequency6:
+      description: Regularity with which credit transfer instructions are to be created and processed
+      type: object
+      required:
+        - Type
+      properties:
+        Type:
+          $ref: '#/components/schemas/OBFrequency6Code'
+        CountPerPeriod:
+          type: integer
+          format: int32
+        PointInTime:
+          $ref: '#/components/schemas/PointInTime'
+        
+    PointInTime:
+      description: Exact2NumericText - Further information on the exact point in time the event should take place
+      type: string
+      maxLength: 2
     ActiveOrHistoricCurrencyCode:
       description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 "Codes for the representation of currencies and funds".
       type: string
@@ -2975,7 +2993,7 @@ components:
         2017-04-05
       type: string
       format: date
-    OBCategoryPurpose1Code:
+    ExternalCategoryPurpose1Code:
       description: |-
         Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
          For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
@@ -3225,13 +3243,9 @@ components:
         Name:
           type: string
           description: ^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.
-        LEI:
-          $ref: '#/components/schemas/LEI'
         SecondaryIdentification:
           type: string
           description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text
-        Proxy:
-          $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
     OBClassification1Code:
       type: string
       enum:
@@ -3294,7 +3308,7 @@ components:
         - UK.OB.Paym
         - UK.OB.SortCodeAccountNumber
         - UK.OB.Wallet
-    OBExternalCreditorReferenceType1Code:
+    ExternalCreditorReferenceType1Code:
       type: string
       minLength: 1
       maxLength: 4
@@ -3306,7 +3320,7 @@ components:
         - RPIN
         - RADM
         - SCOR
-    OBExternalDocumentType1Code:
+    ExternalDocumentType1Code:
       type: string
       minLength: 1
       maxLength: 4
@@ -3375,11 +3389,11 @@ components:
       type: string
       x-namespaced-enum:
         - UK.OB.CHAPSOut
-    OBExternalPurpose1Code:
+    ExternalPurpose1Code:
       type: string
       minLength: 1
       maxLength: 4
-      description: For a full description see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: This is a partial list, For a full list see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
       enum:
         - BKDF
         - BKFE
@@ -3715,21 +3729,15 @@ components:
       minLength: 4
       maxLength: 4
       example: AC17
-    OBFrequencyPeriodType:
+    OBFrequency6Code:
       description: |-
-        Individual Definitions:
-        ADHO - Adhoc 
-        YEAR - Annual
-        DAIL - Daily
-        INDA - Intra Day
-        MNTH - Monthly
-        QURT - Quarterly
-        WEEK - Weekly 
+        `OBFrequency6Code` on External Codset Repo
       type: string
       enum:
         - ADHO
         - YEAR
         - DAIL
+        - FRTN
         - INDA
         - MNTH
         - QURT
@@ -3737,39 +3745,24 @@ components:
         - WEEK
     OBMandateRelatedInformation:
       type: object
-      required:
-        - PeriodType
-        - CountPerPeriod
-        - PointInTimeType
-        - PointInTime
       properties:
         MandateIdentification:
           $ref: '#/components/schemas/Identification_1'
         Classificatoin:
           $ref: '#/components/schemas/OBClassification1Code'
         CategoryPurposeCode:
-          $ref: '#/components/schemas/OBCategoryPurpose1Code'
+          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
         FirstPaymentDate:
           $ref: '#/components/schemas/Date'
         FinalPaymentDate:
           $ref: '#/components/schemas/Date'
         Frequency:
-          $ref: '#/components/schemas/OBFrequencyPeriodType'
-        PeriodType:
-          $ref: '#/components/schemas/OBFrequencyPeriodType'
-        CountPerPeriod:
-          type: integer
-          format: int32
-        PointInTimeType:
-          $ref: '#/components/schemas/OBFrequencyPeriodType'
-        PointInTime:
-          $ref: '#/components/schemas/Time'
+          $ref: '#/components/schemas/OBFrequency6'
         Reason:
           description: |-
             Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.
-              For more information see `ExternalMandateSetupReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
           type: string
-          maxLength: 4
+          maxLength: 256
           minLength: 1
     OBPaymentStatusReason:
       type: object
@@ -3884,7 +3877,7 @@ components:
       type: object
       properties:
         Code:
-          $ref: '#/components/schemas/OBExternalDocumentType1Code'
+          $ref: '#/components/schemas/ExternalDocumentType1Code'
         Issuer:
           type: string
           maxLength: 140
@@ -3927,7 +3920,7 @@ components:
           type: object
           properties:
             Code: 
-              $ref: '#/components/schemas/OBExternalCreditorReferenceType1Code'
+              $ref: '#/components/schemas/ExternalCreditorReferenceType1Code'
             Issuer:
               type: string
               minLength: 1
@@ -3960,7 +3953,7 @@ components:
           description: Name of the entity requiring the regulatory reporting information.
           minLength: 1
           maxLength: 140
-        Country:
+        CountryCode:
           $ref: '#/components/schemas/CountryCode'
     OBRegulatoryReporting3:
       type: object
@@ -3986,25 +3979,14 @@ components:
         PaymentContextCode:
           type: string
           description: |
-            Specifies the payment context
-            * BillPayment - @deprecated
-            * EcommerceGoods - @deprecated
-            * EcommerceServices - @deprecated
-            * Other - @deprecated
-            * PartyToParty - @deprecated
+            Specifies the payment context, `OBInternalPaymentContext1Code`
           enum:
             - BillingGoodsAndServicesInAdvance
             - BillingGoodsAndServicesInArrears
-            - PispPayee
             - EcommerceMerchantInitiatedPayment
             - FaceToFacePointOfSale
             - TransferToSelf
             - TransferToThirdParty
-            - BillPayment
-            - EcommerceGoods
-            - EcommerceServices
-            - Other
-            - PartyToParty
         MerchantCategoryCode:
           type: string
           minLength: 3
@@ -4022,9 +4004,9 @@ components:
           type: boolean
           description: Indicates if PISP has immutably prepopulated payment details in for the PSU.
         PaymentPurposeCode:
-          $ref: '#/components/schemas/OBExternalPurpose1Code'
+          $ref: '#/components/schemas/ExternalPurpose1Code'
         CategoryPurposeCode:
-          $ref: '#/components/schemas/OBCategoryPurpose1Code'
+          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
         BeneficiaryAccountType:
           $ref: '#/components/schemas/OBExternalExtendedAccountType1Code'
         DeliveryAddress:
@@ -4201,6 +4183,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4344,6 +4328,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4583,6 +4569,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4858,6 +4846,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5047,6 +5037,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5199,6 +5191,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5453,6 +5447,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5727,6 +5723,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5926,6 +5924,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6074,6 +6074,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6305,6 +6307,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6557,6 +6561,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6715,6 +6721,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6814,6 +6822,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6995,6 +7005,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -7181,6 +7193,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -7413,6 +7427,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -7635,6 +7651,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -7988,6 +8006,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8403,6 +8423,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8671,6 +8693,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8907,6 +8931,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -9279,6 +9305,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -9703,6 +9731,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -9918,6 +9948,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -10086,6 +10118,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -10338,6 +10372,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -10636,6 +10672,8 @@ components:
                       maxLength: 350
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
+                    Proxy:
+                      $ref: '#/components/schemas/OBProxyAccount'
                 Creditor:
                   type: object
                   additionalProperties: false

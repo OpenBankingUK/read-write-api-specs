@@ -4961,6 +4961,30 @@
       }
     },
     "schemas": {
+      "OBFrequency6": {
+        "description": "Regularity with which credit transfer instructions are to be created and processed",
+        "type": "object",
+        "required": [
+          "Type"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/OBFrequency6Code"
+          },
+          "CountPerPeriod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "PointInTime": {
+            "$ref": "#/components/schemas/PointInTime"
+          }
+        }
+      },
+      "PointInTime": {
+        "description": "Exact2NumericText - Further information on the exact point in time the event should take place",
+        "type": "string",
+        "maxLength": 2
+      },
       "ActiveOrHistoricCurrencyCode": {
         "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
         "type": "string",
@@ -4983,7 +5007,7 @@
         "type": "string",
         "format": "date"
       },
-      "OBCategoryPurpose1Code": {
+      "ExternalCategoryPurpose1Code": {
         "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. \n For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
         "type": "string",
         "enum": [
@@ -5278,15 +5302,9 @@
             "type": "string",
             "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
           },
-          "LEI": {
-            "$ref": "#/components/schemas/LEI"
-          },
           "SecondaryIdentification": {
             "type": "string",
             "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text"
-          },
-          "Proxy": {
-            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
           }
         }
       },
@@ -5367,7 +5385,7 @@
           "UK.OB.Wallet"
         ]
       },
-      "OBExternalCreditorReferenceType1Code": {
+      "ExternalCreditorReferenceType1Code": {
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
@@ -5381,7 +5399,7 @@
           "SCOR"
         ]
       },
-      "OBExternalDocumentType1Code": {
+      "ExternalDocumentType1Code": {
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
@@ -5458,11 +5476,11 @@
           "UK.OB.CHAPSOut"
         ]
       },
-      "OBExternalPurpose1Code": {
+      "ExternalPurpose1Code": {
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "For a full description see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "description": "This is a partial list, For a full list see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
         "enum": [
           "BKDF",
           "BKFE",
@@ -5801,13 +5819,14 @@
         "maxLength": 4,
         "example": "AC17"
       },
-      "OBFrequencyPeriodType": {
-        "description": "Individual Definitions:\nADHO - Adhoc \nYEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nWEEK - Weekly ",
+      "OBFrequency6Code": {
+        "description": "`OBFrequency6Code` on External Codset Repo",
         "type": "string",
         "enum": [
           "ADHO",
           "YEAR",
           "DAIL",
+          "FRTN",
           "INDA",
           "MNTH",
           "QURT",
@@ -5817,12 +5836,6 @@
       },
       "OBMandateRelatedInformation": {
         "type": "object",
-        "required": [
-          "PeriodType",
-          "CountPerPeriod",
-          "PointInTimeType",
-          "PointInTime"
-        ],
         "properties": {
           "MandateIdentification": {
             "$ref": "#/components/schemas/Identification_1"
@@ -5831,7 +5844,7 @@
             "$ref": "#/components/schemas/OBClassification1Code"
           },
           "CategoryPurposeCode": {
-            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
+            "$ref": "#/components/schemas/ExternalCategoryPurpose1Code"
           },
           "FirstPaymentDate": {
             "$ref": "#/components/schemas/Date"
@@ -5840,25 +5853,12 @@
             "$ref": "#/components/schemas/Date"
           },
           "Frequency": {
-            "$ref": "#/components/schemas/OBFrequencyPeriodType"
-          },
-          "PeriodType": {
-            "$ref": "#/components/schemas/OBFrequencyPeriodType"
-          },
-          "CountPerPeriod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "PointInTimeType": {
-            "$ref": "#/components/schemas/OBFrequencyPeriodType"
-          },
-          "PointInTime": {
-            "$ref": "#/components/schemas/Time"
+            "$ref": "#/components/schemas/OBFrequency6"
           },
           "Reason": {
-            "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.\n  For more information see `ExternalMandateSetupReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.",
             "type": "string",
-            "maxLength": 4,
+            "maxLength": 256,
             "minLength": 1
           }
         }
@@ -6008,7 +6008,7 @@
         "type": "object",
         "properties": {
           "Code": {
-            "$ref": "#/components/schemas/OBExternalDocumentType1Code"
+            "$ref": "#/components/schemas/ExternalDocumentType1Code"
           },
           "Issuer": {
             "type": "string",
@@ -6068,7 +6068,7 @@
             "type": "object",
             "properties": {
               "Code": {
-                "$ref": "#/components/schemas/OBExternalCreditorReferenceType1Code"
+                "$ref": "#/components/schemas/ExternalCreditorReferenceType1Code"
               },
               "Issuer": {
                 "type": "string",
@@ -6114,7 +6114,7 @@
             "minLength": 1,
             "maxLength": 140
           },
-          "Country": {
+          "CountryCode": {
             "$ref": "#/components/schemas/CountryCode"
           }
         }
@@ -6149,20 +6149,14 @@
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* Other - @deprecated\n* PartyToParty - @deprecated\n",
+            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`\n",
             "enum": [
               "BillingGoodsAndServicesInAdvance",
               "BillingGoodsAndServicesInArrears",
-              "PispPayee",
               "EcommerceMerchantInitiatedPayment",
               "FaceToFacePointOfSale",
               "TransferToSelf",
-              "TransferToThirdParty",
-              "BillPayment",
-              "EcommerceGoods",
-              "EcommerceServices",
-              "Other",
-              "PartyToParty"
+              "TransferToThirdParty"
             ]
           },
           "MerchantCategoryCode": {
@@ -6186,10 +6180,10 @@
             "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
           },
           "PaymentPurposeCode": {
-            "$ref": "#/components/schemas/OBExternalPurpose1Code"
+            "$ref": "#/components/schemas/ExternalPurpose1Code"
           },
           "CategoryPurposeCode": {
-            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
+            "$ref": "#/components/schemas/ExternalCategoryPurpose1Code"
           },
           "BeneficiaryAccountType": {
             "$ref": "#/components/schemas/OBExternalExtendedAccountType1Code"
@@ -6393,6 +6387,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -6563,6 +6560,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -6835,6 +6835,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -7154,6 +7157,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -7371,6 +7377,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -7547,6 +7556,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -7832,6 +7844,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -8147,6 +8162,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -8390,6 +8408,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -8580,6 +8601,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -8862,6 +8886,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -9174,6 +9201,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -9365,6 +9395,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -9483,6 +9516,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -9693,6 +9729,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -9913,6 +9952,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -10189,6 +10231,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -10460,6 +10505,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -10874,6 +10922,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -11372,6 +11423,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -11690,6 +11744,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -11974,6 +12031,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -12407,6 +12467,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -12910,6 +12973,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -13172,6 +13238,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -13383,6 +13452,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -13689,6 +13761,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
@@ -14059,6 +14134,9 @@
                       },
                       "SecondaryIdentification": {
                         "$ref": "#/components/schemas/SecondaryIdentification"
+                      },
+                      "Proxy": {
+                        "$ref": "#/components/schemas/OBProxyAccount"
                       }
                     }
                   },
