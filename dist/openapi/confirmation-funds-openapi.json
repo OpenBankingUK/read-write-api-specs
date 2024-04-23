@@ -660,6 +660,60 @@
       }
     },
     "schemas": {
+      "Identification_0": {
+        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "OBProxyAccount": {
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code"
+        ],
+        "properties": {
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
+          },
+          "Type": {
+            "type": "string",
+            "description": "Specifies the external proxy account type",
+            "minLength": 1,
+            "maxLength": 70
+          }
+        }
+      },
+      "OBExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "type": "string",
+        "enum": [
+          "TELE",
+          "EMAL",
+          "DNAM",
+          "CINC",
+          "COTX",
+          "COID",
+          "CUST",
+          "DRLC",
+          "EIDN",
+          "EWAL",
+          "PVTX",
+          "LEIC",
+          "MBNO",
+          "NIDN",
+          "CCPT",
+          "SHID",
+          "SOSE",
+          "TOKN",
+          "UBIL",
+          "VIPN",
+          "BIID"
+        ]
+      },
       "ISODateTime": {
         "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
@@ -870,6 +924,9 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 34
+                  },
+                  "Proxy": {
+                    "$ref": "#/components/schemas/OBProxyAccount"
                   }
                 }
               }
@@ -911,8 +968,7 @@
                 "enum": [
                   "AWAU",
                   "RJCT",
-                  "AUTH",
-                  "COND"
+                  "AUTH"
                 ]
               },
               "StatusReason": {
@@ -969,6 +1025,9 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 34
+                  },
+                  "Proxy": {
+                    "$ref": "#/components/schemas/OBProxyAccount"
                   }
                 }
               }

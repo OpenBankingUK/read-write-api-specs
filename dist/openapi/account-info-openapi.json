@@ -3054,6 +3054,143 @@
       }
     },
     "schemas": {
+      "OBFrequency6": {
+        "description": "Regularity with which credit transfer instructions are to be created and processed",
+        "type": "object",
+        "required": [
+          "Type"
+        ],
+        "properties": {
+          "Type": {
+            "$ref": "#/components/schemas/OBFrequency6Code"
+          },
+          "CountPerPeriod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "PointInTime": {
+            "$ref": "#/components/schemas/PointInTime"
+          }
+        }
+      },
+      "PointInTime": {
+        "description": "Exact2NumericText - Further information on the exact point in time the event should take place",
+        "type": "string",
+        "maxLength": 2
+      },
+      "OBFrequency6Code": {
+        "description": "`OBFrequency6Code` on External Codeset Repo",
+        "type": "string",
+        "enum": [
+          "ADHO",
+          "YEAR",
+          "DAIL",
+          "FRTN",
+          "INDA",
+          "MNTH",
+          "QURT",
+          "MIAN",
+          "WEEK"
+        ]
+      },
+      "ExternalCategoryPurpose1Code": {
+        "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. \n For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
+        "type": "string",
+        "enum": [
+          "BONU",
+          "CASH",
+          "CBLK",
+          "CCRD",
+          "CGWV",
+          "CIPC",
+          "CONC",
+          "CORT",
+          "DCRD",
+          "DIVI",
+          "DVPM",
+          "EPAY",
+          "FCDT",
+          "FCIN",
+          "FCOL",
+          "GOVT",
+          "GP2P",
+          "HEDG",
+          "ICCP",
+          "IDCP",
+          "INTC",
+          "INTE",
+          "LBOX",
+          "LOAN",
+          "MP2B",
+          "MP2P",
+          "OTHR",
+          "PENS",
+          "RPRE",
+          "RRCT",
+          "RVPM",
+          "SALA",
+          "SECU",
+          "SSBE",
+          "SUPP",
+          "SWEP",
+          "TAXS",
+          "TOPG",
+          "TRAD",
+          "TREA",
+          "VATX",
+          "VOST",
+          "WHLD",
+          "ZABA"
+        ]
+      },
+      "OBProxyAccount": {
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code"
+        ],
+        "properties": {
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_0"
+          },
+          "Code": {
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
+          },
+          "Type": {
+            "type": "string",
+            "description": "Specifies the external proxy account type",
+            "minLength": 1,
+            "maxLength": 70
+          }
+        }
+      },
+      "OBExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "type": "string",
+        "enum": [
+          "TELE",
+          "EMAL",
+          "DNAM",
+          "CINC",
+          "COTX",
+          "COID",
+          "CUST",
+          "DRLC",
+          "EIDN",
+          "EWAL",
+          "PVTX",
+          "LEIC",
+          "MBNO",
+          "NIDN",
+          "CCPT",
+          "SHID",
+          "SOSE",
+          "TOKN",
+          "UBIL",
+          "VIPN",
+          "BIID"
+        ]
+      },
       "AccountId": {
         "description": "A unique and immutable identifier used to identify the account resource. This identifier has no meaning to the account owner.",
         "type": "string",
@@ -6232,6 +6369,9 @@
           "Name": {
             "$ref": "#/components/schemas/Name_1"
           },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress6"
           }
@@ -6256,6 +6396,9 @@
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxyAccount"
           }
         }
       },
@@ -6281,6 +6424,9 @@
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxyAccount"
           }
         }
       },
@@ -6299,6 +6445,9 @@
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxyAccount"
           }
         }
       },
@@ -6317,6 +6466,9 @@
           },
           "SecondaryIdentification": {
             "$ref": "#/components/schemas/SecondaryIdentification"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxyAccount"
           }
         }
       },
@@ -7197,12 +7349,13 @@
         ]
       },
       "OBFrequency2": {
-        "description": "Individual Definitions:\n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nMNTH - Monthly\nQURT - Quarterly\nMIAN - Semi Annual\nTEND - Ten Days\nMOVE - Triggered By Movement\nWEEK - Weekly ",
+        "description": "Individual Definitions:\n YEAR - Annual\nDAIL - Daily\nINDA - Intra Day\nFORTN - Fortnightly\nMNTH - Monthly\nQURT - Quarterly\nMIAN - Semi Annual\nTEND - Ten Days\nMOVE - Triggered By Movement\nWEEK - Weekly ",
         "type": "string",
         "enum": [
           "YEAR",
           "DAIL",
           "INDA",
+          "FRTN",
           "MNTH",
           "QURT",
           "MIAN",
@@ -7244,50 +7397,37 @@
         "example": "AC17"
       },
       "OBMandateRelatedInformation": {
-        "description": "Provides further details of the mandate signed between the creditor and the debtor",
         "type": "object",
-        "required": [
-          "PeriodType",
-          "CountPerPeriod",
-          "PointInTimeType",
-          "PointInTime"
-        ],
         "properties": {
           "MandateIdentification": {
             "$ref": "#/components/schemas/Identification_1"
           },
-          "Classificatoin": {
+          "Classification": {
             "$ref": "#/components/schemas/OBClassification1Code"
           },
           "CategoryPurposeCode": {
-            "$ref": "#/components/schemas/OBCategoryPurpose1Code"
+            "$ref": "#/components/schemas/ExternalCategoryPurpose1Code"
           },
-          "FirstPaymentDate": {
-            "$ref": "#/components/schemas/Date"
+          "FirstPaymentDateTime": {
+            "type": "string",
+            "format": "date-time"
           },
-          "FinalPaymentDate": {
-            "$ref": "#/components/schemas/Date"
+          "RecurringPaymentDateTime": {
+            "description": "The date on which the first recurring payment for a Standing Order schedule will be made. \nUsage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+            "type": "string",
+            "format": "date-time"
+          },
+          "FinalPaymentDateTime": {
+            "type": "string",
+            "format": "date-time"
           },
           "Frequency": {
-            "$ref": "#/components/schemas/OBFrequencyPeriodType"
-          },
-          "PeriodType": {
-            "$ref": "#/components/schemas/OBFrequencyPeriodType"
-          },
-          "CountPerPeriod": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "PointInTimeType": {
-            "$ref": "#/components/schemas/OBFrequencyPeriodType"
-          },
-          "PointInTime": {
-            "$ref": "#/components/schemas/Time"
+            "$ref": "#/components/schemas/OBFrequency6"
           },
           "Reason": {
-            "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.\n  For more information see `ExternalMandateSetupReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "description": "Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.",
             "type": "string",
-            "maxLength": 4,
+            "maxLength": 256,
             "minLength": 1
           }
         }
@@ -9843,8 +9983,7 @@
       "OBReadConsent1": {
         "type": "object",
         "required": [
-          "Data",
-          "Risk"
+          "Data"
         ],
         "properties": {
           "Data": {
@@ -9900,9 +10039,6 @@
                 "format": "date-time"
               }
             }
-          },
-          "Risk": {
-            "$ref": "#/components/schemas/OBRisk2"
           }
         },
         "additionalProperties": false
@@ -9910,8 +10046,7 @@
       "OBReadConsentResponse1": {
         "type": "object",
         "required": [
-          "Data",
-          "Risk"
+          "Data"
         ],
         "properties": {
           "Data": {
@@ -9940,7 +10075,8 @@
                   "AWAU",
                   "RJCT",
                   "AUTH",
-                  "COND"
+                  "EXPD",
+                  "CANC"
                 ]
               },
               "StatusReason": {
@@ -10000,9 +10136,6 @@
                 "format": "date-time"
               }
             }
-          },
-          "Risk": {
-            "$ref": "#/components/schemas/OBRisk2"
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -12391,12 +12524,6 @@
         },
         "additionalProperties": false
       },
-      "OBRisk2": {
-        "description": "The Risk section is sent by the initiating party to the ASPSP. It is used to specify additional details for risk scoring for Account Info.",
-        "type": "object",
-        "properties": {},
-        "additionalProperties": false
-      },
       "OBScheduledPayment3": {
         "type": "object",
         "required": [
@@ -12528,9 +12655,6 @@
           "LastPaymentDateTime": {
             "$ref": "#/components/schemas/LastPaymentDateTime"
           },
-          "NumberOfPayments": {
-            "$ref": "#/components/schemas/NumberOfPayments"
-          },
           "StandingOrderStatusCode": {
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
           },
@@ -12592,9 +12716,6 @@
           "FinalPaymentDateTime": {
             "$ref": "#/components/schemas/FinalPaymentDateTime"
           },
-          "NumberOfPayments": {
-            "$ref": "#/components/schemas/NumberOfPayments"
-          },
           "StandingOrderStatusCode": {
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
           },
@@ -12647,9 +12768,6 @@
           },
           "FinalPaymentDateTime": {
             "$ref": "#/components/schemas/FinalPaymentDateTime"
-          },
-          "NumberOfPayments": {
-            "$ref": "#/components/schemas/NumberOfPayments"
           },
           "StandingOrderStatusCode": {
             "$ref": "#/components/schemas/OBExternalStandingOrderStatus1Code"
