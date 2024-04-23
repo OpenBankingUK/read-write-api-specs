@@ -79,6 +79,7 @@
 	--schema=OBWriteFileConsent3.properties.Data.properties.Initiation:OBFile2\
 	--schema=OBWriteDomesticStandingOrderConsent5.properties.Data.properties.Authorisation:OBAuthorisation1\
 	--schema=OBWriteDomesticResponse5.properties.Data.properties.MultiAuthorisation:OBMultiAuthorisation1\
+	--schema=OBRisk1 \
 
 ./umldiagram --src=./dist/openapi/vrp-openapi.yaml --api-version=3 --dir=uml-diagrams \
 	--schema=OBCashAccountDebtorWithName \
@@ -86,7 +87,7 @@
 	--schema=OBBranchAndFinancialInstitutionIdentification6 \
 	--schema=OBDomesticVRPInitiation \
 	--schema=OBDomesticVRPControlParameters \
-	--schema=OBRisk1 \
+	--schema=OBRisk2 \
 	--schema=OBDomesticVRPConsentRequest \
 	--schema=OBDomesticVRPConsentResponse \
 	--schema=OBDomesticVRPInstruction \

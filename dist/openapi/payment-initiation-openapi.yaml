@@ -3748,14 +3748,24 @@ components:
       properties:
         MandateIdentification:
           $ref: '#/components/schemas/Identification_1'
-        Classificatoin:
+        Classification:
           $ref: '#/components/schemas/OBClassification1Code'
         CategoryPurposeCode:
           $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
-        FirstPaymentDate:
-          $ref: '#/components/schemas/Date'
-        FinalPaymentDate:
-          $ref: '#/components/schemas/Date'
+        FirstPaymentDateTime:
+          type: string
+          format: date-time
+        RecurringPaymentDateTime:
+                  description: |-
+                    The date on which the first recurring payment for a Standing Order schedule will be made. 
+                    Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+                    All date-time fields in responses must include the timezone. An example is below:
+                    2017-04-05T10:43:07+00:00
+                  type: string
+                  format: date-time
+        FinalPaymentDateTime:
+          type: string
+          format: date-time
         Frequency:
           $ref: '#/components/schemas/OBFrequency6'
         Reason:
@@ -5854,19 +5864,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
-                RecurringPaymentDateTime:
-                  description: |-
-                    The date on which the first recurring payment for a Standing Order schedule will be made. 
-                    Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -6004,19 +6001,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
-                RecurringPaymentDateTime:
-                  description: |-
-                    The date on which the first recurring payment for a Standing Order schedule will be made. 
-                    Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -6237,19 +6221,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
-                RecurringPaymentDateTime:
-                  description: |-
-                    The date on which the first recurring payment for a Standing Order schedule will be made. 
-                    Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -6491,19 +6462,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
-                RecurringPaymentDateTime:
-                  description: |-
-                    The date on which the first recurring payment for a Standing Order schedule will be made. 
-                    Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
-                    All date-time fields in responses must include the timezone. An example is below:
-                    2017-04-05T10:43:07+00:00
-                  type: string
-                  format: date-time
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -9890,11 +9848,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10060,11 +10013,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10314,11 +10262,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10614,11 +10557,6 @@ components:
                 - CreditorAccount
               description: The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.
               properties:
-                NumberOfPayments:
-                  description: Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.
-                  type: string
-                  minLength: 1
-                  maxLength: 35
                 Purpose:
                   description: |-
                     Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
@@ -10809,16 +10747,17 @@ components:
               type: string
               description: Status of a transfer, as assigned by the transaction administrator.
               enum:
-                - RCVD
                 - PDNG
                 - ACTC
+                - PATC
+                - ACCP
                 - ACFC
                 - ACSP
+                - ACWC
                 - ACSC
                 - ACWP
                 - ACCC
                 - BLCK
-                - CANC
                 - RJCT
             StatusUpdateDateTime:
               type: string
