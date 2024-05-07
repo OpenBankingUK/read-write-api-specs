@@ -2996,7 +2996,7 @@ components:
     ExternalCategoryPurpose1Code:
       description: |-
         Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
-         For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+         For all enum values see `ExternalCategoryPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BONU
@@ -3094,7 +3094,7 @@ components:
       minLength: 1
       maxLength: 35
     LEI:
-      description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
+      description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 "Financial Services - Legal Entity Identifier (LEI)".
       type: string
       minLength: 1
       maxLength: 20
@@ -3225,7 +3225,7 @@ components:
           description: Secondary identification of the account, as assigned by the account servicing institution. This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).
           maxLength: 34
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'
+          $ref: '#/components/schemas/OBProxy1'
       required:
         - SchemeName
         - Identification
@@ -3259,7 +3259,7 @@ components:
       properties:
         ErrorCode:
           $ref: '#/components/schemas/OBInternalErrorResponseError1Code'
-          description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+          description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           type: string
           minLength: 4
           maxLength: 4
@@ -3326,7 +3326,7 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - CINV
         - CNFA
@@ -3395,7 +3395,7 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: This is a partial list, For a full list see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: This is a partial list, For a full list see `ExternalPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - BKDF
         - BKFE
@@ -3726,7 +3726,7 @@ components:
         - RETL
         - DEBT
     OBInternalErrorResponseError1Code:
-      description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+      description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       minLength: 4
       maxLength: 4
@@ -3745,7 +3745,7 @@ components:
         - QURT
         - MIAN
         - WEEK
-    OBMandateRelatedInformation:
+    OBMandateRelatedInformation1:
       type: object
       properties:
         MandateIdentification:
@@ -3783,7 +3783,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form 
-             For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+             For more information and enum values see `ExternalStatusReason1Code [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: ERIN
@@ -3797,23 +3797,27 @@ components:
           description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
           minLength: 1
           maxLength: 500
-    OBProxyAccount:
+    OBProxy1:
+      description: Specifies an alternate assumed name for the identification of the account.
       type: object
       required:
         - Identification
         - Code
       properties:
         Identification:
-          $ref: '#/components/schemas/Identification_0'
+          description: Identification used to indicate the account identification under another specified name.
+          type: string
+          minLength: 1
+          maxLength: 2048
         Code:
           $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
         Type:
           type: string
-          description: Specifies the external proxy account type
+          description: Type of the proxy identification.
           minLength: 1
-          maxLength: 70
+          maxLength: 35
     OBExternalProxyAccountType1Code:
-      description: Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information and a full list of values see `ExternalProxyAccountType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - TELE
@@ -3967,7 +3971,7 @@ components:
           maxLength: 140
         CountryCode:
           $ref: '#/components/schemas/CountryCode'
-    OBRegulatoryReporting3:
+    OBRegulatoryReporting1:
       type: object
       description: Information needed due to regulatory and statutory requirements
       properties:
@@ -4073,7 +4077,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form. 
-             For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+             For a full description see `ExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: ERIN
@@ -4196,7 +4200,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4221,7 +4225,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -4233,7 +4237,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -4341,7 +4345,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4366,7 +4370,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -4378,7 +4382,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -4582,7 +4586,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4607,7 +4611,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -4619,7 +4623,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -4859,7 +4863,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -4884,7 +4888,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -4896,7 +4900,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -5050,7 +5054,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5075,7 +5079,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -5204,7 +5208,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5229,7 +5233,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -5241,7 +5245,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -5460,7 +5464,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5485,7 +5489,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -5497,7 +5501,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -5736,7 +5740,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5761,7 +5765,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
                   $ref: '#/components/schemas/OBPostalAddress6'
                 UltimateCreditor:
@@ -5773,7 +5777,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -5924,7 +5928,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -5949,7 +5953,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -5959,10 +5963,10 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation' 
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1' 
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -6061,7 +6065,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6086,7 +6090,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6096,10 +6100,10 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -6281,7 +6285,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6306,7 +6310,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6316,10 +6320,10 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -6522,7 +6526,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -6547,7 +6551,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6557,7 +6561,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
@@ -6682,7 +6686,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6783,7 +6787,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -6966,7 +6970,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -7154,7 +7158,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateDebtor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -7388,7 +7392,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -7442,7 +7446,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -7452,7 +7456,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -7612,7 +7616,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -7666,7 +7670,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -7676,7 +7680,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -7967,7 +7971,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8021,7 +8025,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -8031,7 +8035,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -8384,7 +8388,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8438,7 +8442,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -8448,7 +8452,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -8654,7 +8658,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8708,7 +8712,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -8718,7 +8722,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -8892,7 +8896,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -8946,7 +8950,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -8956,7 +8960,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -9266,7 +9270,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -9320,7 +9324,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -9330,7 +9334,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -9692,7 +9696,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -9746,7 +9750,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -9756,7 +9760,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation1'
@@ -9904,7 +9908,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -9963,7 +9967,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -9973,7 +9977,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
@@ -10069,7 +10073,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -10128,7 +10132,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -10138,10 +10142,10 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -10318,7 +10322,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -10377,7 +10381,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -10387,10 +10391,10 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation'
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -10613,7 +10617,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 Creditor:
                   type: object
                   additionalProperties: false
@@ -10672,7 +10676,7 @@ components:
                     SecondaryIdentification:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
-                      $ref: '#/components/schemas/OBProxyAccount'
+                      $ref: '#/components/schemas/OBProxy1'
                 UltimateCreditor:
                   $ref: >-
                     #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
@@ -10682,7 +10686,7 @@ components:
                 RegulatoryReporting:
                   type: array
                   items:
-                    $ref: '#/components/schemas/OBRegulatoryReporting3'
+                    $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'

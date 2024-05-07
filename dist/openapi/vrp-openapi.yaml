@@ -324,6 +324,7 @@ paths:
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
         - $ref: '#/components/parameters/x-idempotency-key'
+        - $ref: '#/components/parameters/payload-version'
       responses:
         '201':
           $ref: '#/components/responses/20xOBDomesticVRPResponse'
@@ -602,6 +603,11 @@ components:
           required: true
           schema:
             type: string
+        payload-version:
+          description: Optional header to aid migration across API versions.  Indicates the version of JSON schema being sent/received
+          schema:
+            type: string
+            example: 3.1.11
       content:
         application/json; charset=utf-8:
           schema:
@@ -765,6 +771,13 @@ components:
       description: A detached JWS signature of the body of the payload.
       schema:
         type: string
+    payload-version:
+      in: header
+      name: payload-version
+      description: Optional header to aid migration across API versions.  Indicates the version of JSON schema being sent/received
+      schema:
+        type: string
+        example: 3.1.11
   schemas:
     OBBranchAndFinancialInstitutionIdentification6_0:
       type: object
@@ -787,9 +800,7 @@ components:
         LEI:
           $ref: '#/components/schemas/LEI'
     LEI:
-      description: >-
-        Legal Entity Identification by which a party is known and which is
-        usually used to identify that party.
+      description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 "Financial Services - Legal Entity Identifier (LEI)".
       type: string
       minLength: 1
       maxLength: 20
@@ -812,27 +823,27 @@ components:
       type: string
       minLength: 1
       maxLength: 35
-    OBProxyAccount:
+    OBProxy1:
+      description: Specifies an alternate assumed name for the identification of the account.
       type: object
       required:
         - Identification
         - Code
       properties:
         Identification:
-          $ref: '#/components/schemas/Identification_0'
+          description: Identification used to indicate the account identification under another specified name.
+          type: string
+          minLength: 1
+          maxLength: 2048
         Code:
-          $ref: '#/components/schemas/ExternalProxyAccountType1Code'
+          $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
         Type:
           type: string
-          description: Specifies the external proxy account type
+          description: Type of the proxy identification.
           minLength: 1
-          maxLength: 70
-    ExternalProxyAccountType1Code:
-      description: >-
-        Specifies the external proxy account type code, as published in the
-        proxy account type external code set.<br> For more information see
-        `ExternalProxyAccountType1Code` here -
-        https://github.com/OpenBankingUK/External_Interal_CodeSets
+          maxLength: 35
+    OBExternalProxyAccountType1Code:
+      description: Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information and a full list of values see `ExternalProxyAccountType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - TELE
@@ -908,7 +919,7 @@ components:
       required:
         - Errors
     OBInternalErrorResponseError1Code:
-      description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+      description: Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       minLength: 4
       maxLength: 4
@@ -1107,7 +1118,7 @@ components:
         RegulatoryReporting:
           type: array
           items:
-            $ref: '#/components/schemas/OBRegulatoryReporting3'
+            $ref: '#/components/schemas/OBRegulatoryReporting1'
           maxItems: 10
     OBCashAccountDebtorWithName:
       type: object
@@ -1144,7 +1155,7 @@ components:
             societies to additionally identify accounts with a roll number (in
             addition to a sort code and account number combination)
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'
+          $ref: '#/components/schemas/OBProxy1'
     OBCashAccountCreditor3:
       type: object
       required:
@@ -1189,7 +1200,7 @@ components:
             accounts with a roll number (in addition to a sort code and account
             number combination)
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'
+          $ref: '#/components/schemas/OBProxy1'
     OBBranchAndFinancialInstitutionIdentification6:
       type: object
       properties:
@@ -1438,7 +1449,7 @@ components:
                       - ACCC
                       - BLCK
                   StatusReasonCode:
-                    description: Reason Code provided for the status of a transfer. For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+                    description: Reason Code provided for the status of a transfer. For a full description see `ExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                     type: string
                     minLength: 1
                     maxLength: 4
@@ -1699,8 +1710,7 @@ components:
       maxLength: 4
       description: >-
         Specifies the document type as published in an external document type
-        code list. For more information see `ExternalDocumentType1Code` here -
-        https://github.com/OpenBankingUK/External_Interal_CodeSets
+        code list. For more information see `ExternalDocumentType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - CINV
         - CNFA
@@ -1934,8 +1944,7 @@ components:
       minLength: 1
       maxLength: 4
       description: >-
-        For a full description see `ExternalPurpose1Code` here
-        https://github.com/OpenBankingUK/External_Interal_CodeSets
+        For a full description see `ExternalPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - BKDF
         - BKFE
@@ -2283,7 +2292,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form 
-             For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+             For more information and enum values see `ExternalStatusReason1Code [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: ERIN
@@ -2379,7 +2388,7 @@ components:
           maxLength: 140
         Country:
           $ref: '#/components/schemas/CountryCode'
-    OBRegulatoryReporting3:
+    OBRegulatoryReporting1:
       type: object
       description: Information needed due to regulatory and statutory requirements
       properties:
@@ -2406,7 +2415,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form. 
-             For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+             For a full description see `ExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: ERIN
