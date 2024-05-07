@@ -1784,6 +1784,46 @@ components:
           scopes:
             accounts: Ability to read Accounts information
   schemas:
+    OBUltimateCreditor1:
+      description: Ultimate party to which an amount of money is due.
+      type: object
+      properties:
+        Name:
+          description: Name by which a party is known and which is usually used to identify that party.
+          type: string
+          minLength: 1
+          maxLength: 140
+        Identification:
+          description: Identification assigned by an institution.
+          type: string
+          minLength: 1
+          maxLength: 256
+        LEI:
+          $ref: '#/components/schemas/LEI'
+        SchemeName:
+          $ref: '#/components/schemas/OBExternalAccountIdentification4Code'
+        PostalAddress:
+          $ref: '#/components/schemas/OBPostalAddress6'
+    OBUltimateDebtor1:
+      description: Ultimate party that owes an amount of money to the (ultimate) creditor.
+      type: object
+      properties:
+        Name: 
+          description: Name by which a party is known and which is usually used to identify that party.
+          type: string
+          minLength: 1
+          maxLength: 140
+        Identification:
+          description: Identification assigned by an institution.
+          type: string
+          minLength: 1
+          maxLength: 256
+        LEI:
+          $ref: '#/components/schemas/LEI'
+        SchemeName:
+          $ref: '#/components/schemas/OBExternalAccountIdentification4Code'
+        PostalAddress:
+          $ref: '#/components/schemas/OBPostalAddress6'
     OBFrequency6:
       description: Regularity with which credit transfer instructions are to be created and processed
       type: object
@@ -1793,6 +1833,7 @@ components:
         Type:
           $ref: '#/components/schemas/OBFrequency6Code'
         CountPerPeriod:
+          description: Number of instructions to be created and processed during the specified period.
           type: integer
           format: int32
         PointInTime:
@@ -1818,7 +1859,7 @@ components:
     ExternalCategoryPurpose1Code:
       description: |-
         Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
-         For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+         For all enum values see `ExternalCategoryPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BONU
@@ -1865,23 +1906,27 @@ components:
         - VOST
         - WHLD
         - ZABA
-    OBProxyAccount:
+    OBProxy1:
+      description: Specifies an alternate assumed name for the identification of the account.
       type: object
       required:
         - Identification
         - Code
       properties:
         Identification:
-          $ref: '#/components/schemas/Identification_0'
+          description: Identification used to indicate the account identification under another specified name.
+          type: string
+          minLength: 1
+          maxLength: 2048
         Code:
           $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
         Type:
           type: string
-          description: Specifies the external proxy account type
+          description: Type of the proxy identification.
           minLength: 1
-          maxLength: 70
+          maxLength: 35
     OBExternalProxyAccountType1Code:
-      description: Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information and a full list of values see `ExternalProxyAccountType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - TELE
@@ -2124,7 +2169,7 @@ components:
       type: string
       format: date-time
     LEI:
-      description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
+      description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 "Financial Services - Legal Entity Identifier (LEI)".
       type: string
       minLength: 1
       maxLength: 20
@@ -4563,7 +4608,7 @@ components:
         SecondaryIdentification:
           $ref: '#/components/schemas/SecondaryIdentification'
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'
+          $ref: '#/components/schemas/OBProxy1'
     OBCashAccount5_1:
       type: object
       required:
@@ -4583,7 +4628,7 @@ components:
         SecondaryIdentification:
           $ref: '#/components/schemas/SecondaryIdentification'
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'  
+          $ref: '#/components/schemas/OBProxy1'  
     OBCashAccount6_0:
       type: object
       description: Unambiguous identification of the account of the creditor, in the case of a debit transaction.
@@ -4597,7 +4642,7 @@ components:
         SecondaryIdentification:
           $ref: '#/components/schemas/SecondaryIdentification'
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'
+          $ref: '#/components/schemas/OBProxy1'
     OBCashAccount6_1:
       type: object
       description: Unambiguous identification of the account of the debtor, in the case of a crebit transaction.
@@ -4611,11 +4656,11 @@ components:
         SecondaryIdentification:
           $ref: '#/components/schemas/SecondaryIdentification'
         Proxy:
-          $ref: '#/components/schemas/OBProxyAccount'
+          $ref: '#/components/schemas/OBProxy1'
     OBCategoryPurpose1Code:
       description: |-
         Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
-         For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+         For all enum values see `ExternalCategoryPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BONU
@@ -4663,6 +4708,7 @@ components:
         - WHLD
         - ZABA
     OBClassification1Code:
+      description: Type of mandate instruction.
       type: string
       enum:
         - FIXE
@@ -4771,7 +4817,7 @@ components:
       properties:
         ErrorCode:
           $ref: '#/components/schemas/OBInternalErrorResponseError1Code'
-          description: Low level textual error code, for all enum values see `ExternalReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+          description: Low level textual error code, for all enum values see `ExternalReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           type: string
           minLength: 4
           maxLength: 4
@@ -4925,7 +4971,7 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: For a full description see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+      description: For a full description see `ExternalPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - BKDF
         - BKFE
@@ -5475,21 +5521,26 @@ components:
         - WORD
         - XSLT
     OBInternalErrorResponseError1Code:
-      description: Low level textual error code, for all enum values see `ExternalReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+      description: Low level textual error code, for all enum values see `ExternalReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       minLength: 4
       maxLength: 4
       example: AC17
-    OBMandateRelatedInformation:
+    OBMandateRelatedInformation1:
       type: object
+      description: Provides further details of the mandate signed between the creditor and the debtor.
       properties:
         MandateIdentification:
-          $ref: '#/components/schemas/Identification_1'
+          description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
+          type: string
+          minLength: 1
+          maxLength: 35
         Classification:
           $ref: '#/components/schemas/OBClassification1Code'
         CategoryPurposeCode:
           $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
         FirstPaymentDateTime:
+          description: The date on which the first payment for a recurrent credit transfer will be made.
           type: string
           format: date-time
         RecurringPaymentDateTime:
@@ -5501,13 +5552,13 @@ components:
                   type: string
                   format: date-time
         FinalPaymentDateTime:
+          description: The date on which the final payment for a recurrent credit transfer will be made.
           type: string
           format: date-time
         Frequency:
           $ref: '#/components/schemas/OBFrequency6'
         Reason:
-          description: |-
-            Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.
+          description: Reason for the setup of the credit transfer mandate.
           type: string
           maxLength: 256
           minLength: 1
@@ -7787,7 +7838,7 @@ components:
                   DirectDebitStatusCode:
                     $ref: '#/components/schemas/OBExternalDirectDebitStatus1Code'
                   MandateRelatedInformation:
-                    $ref: '#/components/schemas/OBMandateRelatedInformation'
+                    $ref: '#/components/schemas/OBMandateRelatedInformation1'
                   Name:
                     $ref: '#/components/schemas/Name_2'
                   PreviousPaymentDateTime:
@@ -9636,7 +9687,7 @@ components:
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
         MandateRelatedInformation:
-          $ref: '#/components/schemas/OBMandateRelatedInformation'
+          $ref: '#/components/schemas/OBMandateRelatedInformation1'
       additionalProperties: false
     OBStandingOrder6Basic:
       type: object
@@ -10193,7 +10244,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form. 
-             For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+             For a full description see `ExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: U004
@@ -10283,9 +10334,9 @@ components:
         PaymentPurposeCode:
           $ref: '#/components/schemas/OBExternalPurpose1Code'
         UltimateCreditor:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
+          $ref: '#/components/schemas/OBUltimateCreditor1'
         UltimateDebtor:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0'
+          $ref: '#/components/schemas/OBUltimateDebtor1'
       additionalProperties: false
     OBTransaction6Basic:
       type: object

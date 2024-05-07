@@ -576,6 +576,9 @@
           },
           {
             "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/payload-version"
           }
         ],
         "responses": {
@@ -1013,6 +1016,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          "payload-version": {
+            "description": "Optional header to aid migration across API versions.  Indicates the version of JSON schema being sent/received",
+            "schema": {
+              "type": "string",
+              "example": "3.1.11"
+            }
           }
         },
         "content": {
@@ -1226,6 +1236,15 @@
         "schema": {
           "type": "string"
         }
+      },
+      "payload-version": {
+        "in": "header",
+        "name": "payload-version",
+        "description": "Optional header to aid migration across API versions.  Indicates the version of JSON schema being sent/received",
+        "schema": {
+          "type": "string",
+          "example": "3.1.11"
+        }
       }
     },
     "schemas": {
@@ -1251,7 +1270,7 @@
         }
       },
       "LEI": {
-        "description": "Legal Entity Identification by which a party is known and which is usually used to identify that party.",
+        "description": "Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 \"Financial Services - Legal Entity Identifier (LEI)\".",
         "type": "string",
         "minLength": 1,
         "maxLength": 20
@@ -1274,7 +1293,8 @@
         "minLength": 1,
         "maxLength": 35
       },
-      "OBProxyAccount": {
+      "OBProxy1": {
+        "description": "Specifies an alternate assumed name for the identification of the account.",
         "type": "object",
         "required": [
           "Identification",
@@ -1282,21 +1302,24 @@
         ],
         "properties": {
           "Identification": {
-            "$ref": "#/components/schemas/Identification_0"
+            "description": "Identification used to indicate the account identification under another specified name.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
           },
           "Code": {
-            "$ref": "#/components/schemas/ExternalProxyAccountType1Code"
+            "$ref": "#/components/schemas/OBExternalProxyAccountType1Code"
           },
           "Type": {
             "type": "string",
-            "description": "Specifies the external proxy account type",
+            "description": "Type of the proxy identification.",
             "minLength": 1,
-            "maxLength": 70
+            "maxLength": 35
           }
         }
       },
-      "ExternalProxyAccountType1Code": {
-        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+      "OBExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information and a full list of values see `ExternalProxyAccountType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "enum": [
           "TELE",
@@ -1375,7 +1398,7 @@
         ]
       },
       "OBInternalErrorResponseError1Code": {
-        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/",
+        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
@@ -1622,7 +1645,7 @@
           "RegulatoryReporting": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OBRegulatoryReporting3"
+              "$ref": "#/components/schemas/OBRegulatoryReporting1"
             },
             "maxItems": 10
           }
@@ -1658,7 +1681,7 @@
             "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
           },
           "Proxy": {
-            "$ref": "#/components/schemas/OBProxyAccount"
+            "$ref": "#/components/schemas/OBProxy1"
           }
         }
       },
@@ -1693,7 +1716,7 @@
             "description": "This is secondary identification of the account, as assigned by the account servicing institution.\nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
           },
           "Proxy": {
-            "$ref": "#/components/schemas/OBProxyAccount"
+            "$ref": "#/components/schemas/OBProxy1"
           }
         }
       },
@@ -1985,7 +2008,7 @@
                       ]
                     },
                     "StatusReasonCode": {
-                      "description": "Reason Code provided for the status of a transfer. For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+                      "description": "Reason Code provided for the status of a transfer. For a full description see `ExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 4
@@ -2258,7 +2281,7 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
           "CINV",
           "CNFA",
@@ -2534,7 +2557,7 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "For a full description see `ExternalPurpose1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+        "description": "For a full description see `ExternalPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
           "BKDF",
           "BKFE",
@@ -2876,7 +2899,7 @@
         "properties": {
           "StatusReasonCode": {
             "type": "string",
-            "description": "Specifies the status reason in a code form \n For more information and enum values see `ExternalStatusReason1Code here - https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "description": "Specifies the status reason in a code form \n For more information and enum values see `ExternalStatusReason1Code [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
@@ -3001,7 +3024,7 @@
           }
         }
       },
-      "OBRegulatoryReporting3": {
+      "OBRegulatoryReporting1": {
         "type": "object",
         "description": "Information needed due to regulatory and statutory requirements",
         "properties": {
@@ -3030,7 +3053,7 @@
         "properties": {
           "StatusReasonCode": {
             "type": "string",
-            "description": "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets",
+            "description": "Specifies the status reason in a code form. \n For a full description see `ExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
