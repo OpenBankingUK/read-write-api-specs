@@ -6,7 +6,7 @@
     }
   ],
   "info": {
-    "title": "OBIE VRP Profile",
+    "title": "OBL VRP Profile",
     "description": "VRP OpenAPI Specification",
     "version": "4.0-DRAFT1",
     "termsOfService": "https://www.openbanking.org.uk/terms",
@@ -1248,6 +1248,60 @@
       }
     },
     "schemas": {
+      "OBUltimateCreditor1": {
+        "description": "Ultimate party to which an amount of money is due.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name by which a party is known and which is usually used to identify that party.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "Identification": {
+            "description": "Identification assigned by an institution.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          }
+        }
+      },
+      "OBUltimateDebtor1": {
+        "description": "Ultimate party that owes an amount of money to the (ultimate) creditor.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name by which a party is known and which is usually used to identify that party.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "Identification": {
+            "description": "Identification assigned by an institution.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBExternalAccountIdentification4Code"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          }
+        }
+      },
       "OBBranchAndFinancialInstitutionIdentification6_0": {
         "type": "object",
         "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account. This is the servicer of the beneficiary account.",
@@ -1402,7 +1456,7 @@
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
-        "example": "AC17"
+        "example": "U001"
       },
       "OBDomesticVRPConsentResponse": {
         "type": "object",
@@ -1634,10 +1688,10 @@
             "$ref": "#/components/schemas/OBPostalAddress6"
           },
           "UltimateCreditor": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/components/schemas/OBUltimateCreditor1"
           },
           "UltimateDebtor": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/components/schemas/OBUltimateDebtor1"
           },
           "RemittanceInformation": {
             "$ref": "#/components/schemas/OBRemittanceInformation1"
@@ -2255,7 +2309,7 @@
             "$ref": "#/components/schemas/OBCashAccountCreditor3"
           },
           "UltimateCreditor": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
+            "$ref": "#/components/schemas/OBUltimateCreditor1"
           },
           "SupplementaryData": {
             "type": "object",
