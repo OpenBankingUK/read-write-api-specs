@@ -8745,7 +8745,6 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-      additionalProperties: false
     OBReadConsent1:
       type: object
       required:
@@ -8831,7 +8830,8 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-      additionalProperties: false
+        Risk:
+          $ref: '#/components/schemas/OBRisk2'
     OBReadConsentResponse1:
       type: object
       required:
@@ -8946,6 +8946,8 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
+        Risk:
+          $ref: '#/components/schemas/OBRisk2'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
@@ -8998,6 +9000,8 @@ components:
                     $ref: '#/components/schemas/PreviousPaymentDateTime'
                   PreviousPaymentAmount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_0'
+        Risk:
+          $ref: '#/components/schemas/OBRisk2'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
@@ -9118,6 +9122,8 @@ components:
                           #/components/schemas/OBActiveCurrencyAndAmount_SimpleType
                       Currency:
                         $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
+        Risk:
+          $ref: '#/components/schemas/OBRisk2'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
@@ -12150,6 +12156,58 @@ components:
             Currency:
               $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
       additionalProperties: false
+    OBRisk2:
+      type: object
+      additionalProperties: false
+      properties:
+        PaymentContextCode:
+          type: string
+          description: |
+            Specifies the payment context, `OBInternalPaymentContext1Code`
+          enum:
+            - BillingGoodsAndServicesInAdvance
+            - BillingGoodsAndServicesInArrears
+            - EcommerceMerchantInitiatedPayment
+            - FaceToFacePointOfSale
+            - TransferToSelf
+            - TransferToThirdParty
+        MerchantCategoryCode:
+          type: string
+          minLength: 3
+          maxLength: 4
+          description: >-
+            Category code conform to ISO 18245, related to the type of services
+            or goods the merchant provides for the transaction.
+        MerchantCustomerIdentification:
+          type: string
+          minLength: 1
+          maxLength: 70
+          description: The unique customer identifier of the PSU with the merchant.
+        ContractPresentIndicator:
+          type: boolean
+          description: Indicates if Payee has a contractual relationship with the PISP.
+        BeneficiaryPrepopulatedIndicator:
+          type: boolean
+          description: >-
+            Indicates if PISP has immutably prepopulated payment details in for
+            the PSU.
+        PaymentPurposeCode:
+          $ref: '#/components/schemas/OBExternalPurpose1Code'
+        CategoryPurposeCode:
+          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
+        BeneficiaryAccountType:
+          $ref: '#/components/schemas/OBInternalAccountType1Code'
+        DeliveryAddress:
+          required:
+            - Country
+            - TownName
+          $ref: '#/components/schemas/OBPostalAddress6'
+          description: |-
+            Information that locates and identifies a specific address,
+            as defined by postal services or in free format text.
+      description: |-
+        The Risk section is sent by the initiating party to the ASPSP.
+        It is used to specify additional details for risk scoring for Payments.
     OB_Amount1_0:
       description: Cap amount charged for a fee/charge
       type: string
