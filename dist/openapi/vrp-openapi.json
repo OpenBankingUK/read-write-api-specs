@@ -1510,8 +1510,7 @@
               "StatusReason": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/OBStatusReason",
-                  "description": "Specifies the status reason."
+                  "$ref": "#/components/schemas/OBStatusReason"
                 }
               },
               "StatusUpdateDateTime": {
@@ -1742,8 +1741,7 @@
         ],
         "properties": {
           "SchemeName": {
-            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code",
-            "description": "Name of the identification scheme, in a coded form as published in an external list."
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
           },
           "Identification": {
             "type": "string",
@@ -1909,8 +1907,7 @@
               "StatusReason": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/OBStatusReason",
-                  "description": "Specifies the status reason"
+                  "$ref": "#/components/schemas/OBStatusReason"
                 }
               },
               "StatusUpdateDateTime": {
@@ -3263,6 +3260,57 @@
           "OffSession"
         ],
         "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `'OffSession'` (customer is not present) when the individual VRP payment is made. "
+      },
+      "OBRisk2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "PaymentContextCode": {
+            "type": "string",
+            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`\n",
+            "enum": [
+              "BillingGoodsAndServicesInAdvance",
+              "BillingGoodsAndServicesInArrears",
+              "EcommerceMerchantInitiatedPayment",
+              "FaceToFacePointOfSale",
+              "TransferToSelf",
+              "TransferToThirdParty"
+            ]
+          },
+          "MerchantCategoryCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction."
+          },
+          "MerchantCustomerIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70,
+            "description": "The unique customer identifier of the PSU with the merchant."
+          },
+          "ContractPresentIndicator": {
+            "type": "boolean",
+            "description": "Indicates if Payee has a contractual relationship with the PISP."
+          },
+          "BeneficiaryPrepopulatedIndicator": {
+            "type": "boolean",
+            "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
+          },
+          "PaymentPurposeCode": {
+            "$ref": "#/components/schemas/OBExternalPurpose1Code"
+          },
+          "CategoryPurposeCode": {
+            "$ref": "#/components/schemas/ExternalCategoryPurpose1Code"
+          },
+          "BeneficiaryAccountType": {
+            "$ref": "#/components/schemas/OBInternalExtendedAccountType1Code"
+          },
+          "DeliveryAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress6"
+          }
+        },
+        "description": "The Risk section is sent by the initiating party to the ASPSP.\nIt is used to specify additional details for risk scoring for Payments."
       },
       "Links": {
         "required": [
