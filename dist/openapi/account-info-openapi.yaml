@@ -5460,14 +5460,6 @@ components:
       properties:
         ErrorCode:
           $ref: '#/components/schemas/OBExternalStatusReason1Code'
-          description: >-
-            Low level textual error code, for all enum values see
-            `ExternalReason1Code`
-            [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-          type: string
-          minLength: 4
-          maxLength: 4
-          example: U001
         Message:
           description: >-
             A description of the error that occurred. e.g., 'A mandatory field
@@ -8745,7 +8737,6 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
-      additionalProperties: false
     OBReadConsent1:
       type: object
       required:
@@ -12150,6 +12141,52 @@ components:
             Currency:
               $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
       additionalProperties: false
+    OBRisk2:
+      type: object
+      additionalProperties: false
+      properties:
+        PaymentContextCode:
+          type: string
+          description: |
+            Specifies the payment context, `OBInternalPaymentContext1Code`
+          enum:
+            - BillingGoodsAndServicesInAdvance
+            - BillingGoodsAndServicesInArrears
+            - EcommerceMerchantInitiatedPayment
+            - FaceToFacePointOfSale
+            - TransferToSelf
+            - TransferToThirdParty
+        MerchantCategoryCode:
+          type: string
+          minLength: 3
+          maxLength: 4
+          description: >-
+            Category code conform to ISO 18245, related to the type of services
+            or goods the merchant provides for the transaction.
+        MerchantCustomerIdentification:
+          type: string
+          minLength: 1
+          maxLength: 70
+          description: The unique customer identifier of the PSU with the merchant.
+        ContractPresentIndicator:
+          type: boolean
+          description: Indicates if Payee has a contractual relationship with the PISP.
+        BeneficiaryPrepopulatedIndicator:
+          type: boolean
+          description: >-
+            Indicates if PISP has immutably prepopulated payment details in for
+            the PSU.
+        PaymentPurposeCode:
+          $ref: '#/components/schemas/OBExternalPurpose1Code'
+        CategoryPurposeCode:
+          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
+        BeneficiaryAccountType:
+          $ref: '#/components/schemas/OBInternalAccountType1Code'
+        DeliveryAddress:
+          $ref: '#/components/schemas/OBPostalAddress6'
+      description: |-
+        The Risk section is sent by the initiating party to the ASPSP.
+        It is used to specify additional details for risk scoring for Payments.
     OB_Amount1_0:
       description: Cap amount charged for a fee/charge
       type: string
