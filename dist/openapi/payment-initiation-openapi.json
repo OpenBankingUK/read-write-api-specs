@@ -13930,14 +13930,86 @@
       },
       "OBWritePaymentDetailsResponse1": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "Data"
         ],
         "properties": {
           "Data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OBWritePaymentDetails1"
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "PaymentTransactionId",
+              "StatusCode",
+              "StatusUpdateDateTime"
+            ],
+            "properties": {
+              "PaymentTransactionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 210,
+                "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
+              },
+              "StatusCode": {
+                "type": "string",
+                "description": "Status of a transfer, as assigned by the transaction administrator.",
+                "enum": [
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
+                ]
+              },
+              "StatusUpdateDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the status was assigned to the transfer.\n"
+              },
+              "LocalInstrument": {
+                "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
+              },
+              "StatusDetail": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "StatusCode"
+                  ],
+                  "properties": {
+                    "StatusCode": {
+                      "description": "Status of a transfer, as assigned by the transaction administrator.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4
+                    },
+                    "StatusReasonCode": {
+                      "description": "Reason Code provided for the status of a transfer.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 4
+                    },
+                    "StatusReasonDescription": {
+                      "description": "Reason provided for the status of a transfer.",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 256
+                    },
+                    "StatusUpdateDateTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time at which the status was assigned to the transfer.\n"
+                    }
+                  }
+                }
+              }
             }
           },
           "Links": {
@@ -13947,75 +14019,6 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
-      },
-      "OBWritePaymentDetails1":{
-        "type": "object",
-        "properties": {
-        "PaymentStatus": {
-          "type": "object",
-          "required": [
-            "PaymentTransactionId",
-            "Status",
-            "StatusUpdateDateTime"
-          ],
-          "properties": {
-            "PaymentTransactionId": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 210,
-              "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
-            },
-            "Status": {
-              "type": "string",
-              "description": "Status of a transfer, as assigned by the transaction administrator.",
-              "enum": [
-                "PDNG",
-                "ACTC",
-                "PATC",
-                "ACCP",
-                "ACFC",
-                "ACSP",
-                "ACWC",
-                "ACSC",
-                "ACWP",
-                "ACCC",
-                "BLCK",
-                "RJCT"
-              ]
-            },
-            "StatusUpdateDateTime": {
-              "type": "string",
-              "format": "date-time",
-              "description": "Date and time at which the status was assigned to the transfer.\n"
-            },
-            "StatusDetail": {
-              "type": "object",
-                "properties": {
-                  "Status": {
-                    "description": "Status of a transfer, as assigned by the transaction administrator.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
-                  "StatusReason": {
-                    "description": "Reason Code provided for the status of a transfer.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 4
-                  },
-                  "StatusReasonDescription": {
-                    "description": "Reason provided for the status of a transfer.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 256
-                  },
-                  "LocalInstrument": {
-                        "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
-                  }
-                }
-              } 
-            }
-          }}
       },
       "PostBox": {
         "description": "Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.",
