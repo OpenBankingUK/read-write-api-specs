@@ -12482,16 +12482,25 @@ components:
           $ref: '#/components/schemas/Meta'
     OBWritePaymentDetailsResponse1:
       type: object
-      additionalProperties: false
       required:
         - Data
       properties:
         Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBWritePaymentDetails1'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+    OBWritePaymentDetails1:
+      type: object
+      properties:
+        PaymentStatus:
           type: object
-          additionalProperties: false
           required:
             - PaymentTransactionId
-            - StatusCode
+            - Status
             - StatusUpdateDateTime
           properties:
             PaymentTransactionId:
@@ -12501,7 +12510,7 @@ components:
               description: >-
                 Unique identifier for the transaction within an servicing
                 institution. This identifier is both unique and immutable.
-            StatusCode:
+            Status:
               type: string
               description: >-
                 Status of a transfer, as assigned by the transaction
@@ -12524,42 +12533,28 @@ components:
               format: date-time
               description: |
                 Date and time at which the status was assigned to the transfer.
-            LocalInstrument:
-              $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
             StatusDetail:
-              type: array
-              items:
-                type: object
-                required:
-                  - StatusCode
-                properties:
-                  StatusCode:
-                    description: >-
-                      Status of a transfer, as assigned by the transaction
-                      administrator.
-                    type: string
-                    minLength: 1
-                    maxLength: 4
-                  StatusReasonCode:
-                    description: Reason Code provided for the status of a transfer.
-                    type: string
-                    minLength: 1
-                    maxLength: 4
-                  StatusReasonDescription:
-                    description: Reason provided for the status of a transfer.
-                    type: string
-                    minLength: 1
-                    maxLength: 256
-                  StatusUpdateDateTime:
-                    type: string
-                    format: date-time
-                    description: >
-                      Date and time at which the status was assigned to the
-                      transfer.
-        Links:
-          $ref: '#/components/schemas/Links'
-        Meta:
-          $ref: '#/components/schemas/Meta'
+              type: object
+              properties:
+                Status:
+                  description: >-
+                    Status of a transfer, as assigned by the transaction
+                    administrator.
+                  type: string
+                  minLength: 1
+                  maxLength: 4
+                StatusReason:
+                  description: Reason Code provided for the status of a transfer.
+                  type: string
+                  minLength: 1
+                  maxLength: 4
+                StatusReasonDescription:
+                  description: Reason provided for the status of a transfer.
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+                LocalInstrument:
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
     PostBox:
       description: >-
         Information that locates and identifies a box in a post office assigned
