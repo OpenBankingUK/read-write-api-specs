@@ -3055,7 +3055,7 @@ components:
         SchemeName:
           $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
         PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress6'
+          $ref: '#/components/schemas/OBPostalAddress7'
     OBUltimateDebtor1:
       description: Ultimate party that owes an amount of money to the (ultimate) creditor.
       type: object
@@ -3077,7 +3077,7 @@ components:
         SchemeName:
           $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
         PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress6'
+          $ref: '#/components/schemas/OBPostalAddress7'
     OBFrequency6:
       description: >-
         Regularity with which credit transfer instructions are to be created and
@@ -3353,10 +3353,10 @@ components:
         Name:
           $ref: '#/components/schemas/Name'
         PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress6'
+          $ref: '#/components/schemas/OBPostalAddress7'
         LEI:
           $ref: '#/components/schemas/LEI'
-    OBChargeBearerType1Code:
+    OBInternalChargeBearerType1Code:
       description: >-
         Specifies which party/parties will bear the charges associated with the
         processing of the payment transaction.
@@ -3444,14 +3444,6 @@ components:
       properties:
         ErrorCode:
           $ref: '#/components/schemas/OBInternalErrorResponseError1Code'
-          description: >-
-            Low level textual error code, for all enum values see
-            `ExternalReturnReason1Code`
-            [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-          type: string
-          minLength: 4
-          maxLength: 4
-          example: AC17
         Message:
           description: >-
             A description of the error that occurred. e.g., 'A mandatory field
@@ -3568,7 +3560,7 @@ components:
       type: string
       x-namespaced-enum:
         - UK.OBIE.BICFI
-    OBExternalExtendedAccountType1Code:
+    OBInternalExtendedAccountType1Code:
       description: Specifies the extended type of account.
       type: string
       enum:
@@ -3587,7 +3579,7 @@ components:
         - PersonalSavingsAccount
         - Premier
         - Wealth
-    OBExternalLocalInstrument1Code:
+    OBInternalLocalInstrument1Code:
       description: >-
         User community specific instrument.
 
@@ -3607,7 +3599,7 @@ components:
         - UK.OBIE.SEPAInstantCreditTransfer
         - UK.OBIE.SWIFT
         - UK.OBIE.Target2
-    OBExternalPaymentChargeType1Code:
+    OBInternalPaymentChargeType1Code:
       description: Charge type, in a coded form.
       type: string
       x-namespaced-enum:
@@ -4051,13 +4043,13 @@ components:
           minLength: 1
           maxLength: 2048
         Code:
-          $ref: '#/components/schemas/OBExternalProxyAccountType1Code'
+          $ref: '#/components/schemas/ExternalProxyAccountType1Code'
         Type:
           type: string
           description: Type of the proxy identification.
           minLength: 1
           maxLength: 35
-    OBExternalProxyAccountType1Code:
+    ExternalProxyAccountType1Code:
       description: >-
         Specifies the external proxy account type code, as published in the
         proxy account type external code set.<br> For more information and a
@@ -4086,7 +4078,7 @@ components:
         - UBIL
         - VIPN
         - BIID
-    OBPostalAddress6:
+    OBPostalAddress7:
       type: object
       additionalProperties: false
       description: >-
@@ -4157,7 +4149,7 @@ components:
           type: array
           items:
             type: string
-    OBRemittanceInformation1:
+    OBRemittanceInformation2:
       type: object
       description: >-
         Information supplied to enable the matching of an entry with the items
@@ -4288,15 +4280,9 @@ components:
         CategoryPurposeCode:
           $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
         BeneficiaryAccountType:
-          $ref: '#/components/schemas/OBExternalExtendedAccountType1Code'
+          $ref: '#/components/schemas/OBInternalExtendedAccountType1Code'
         DeliveryAddress:
-          required:
-            - Country
-            - TownName
-          $ref: '#/components/schemas/OBPostalAddress6'
-          description: |-
-            Information that locates and identifies a specific address,
-            as defined by postal services or in free format text.
+          $ref: '#/components/schemas/OBPostalAddress7'
         ExtendedPurpose:
           description: >-
             Specifies the purpose of an international payment, when there is no
@@ -4470,7 +4456,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -4556,7 +4542,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -4567,47 +4553,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -4676,7 +4622,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -4762,7 +4708,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -4773,47 +4719,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -4892,7 +4798,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-                description: Specifies the status reason
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the resource status was updated.All dates
@@ -4961,9 +4866,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -5011,7 +4916,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -5097,7 +5002,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -5108,47 +5013,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -5260,7 +5125,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: >-
                 Expected execution date and time for the payment resource.All
@@ -5339,9 +5203,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -5389,7 +5253,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -5475,7 +5339,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -5486,47 +5350,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -5647,7 +5471,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -5748,53 +5572,13 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
                   $ref: '#/components/schemas/OBUltimateDebtor1'
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -5869,7 +5653,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -5970,7 +5754,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -5981,47 +5765,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -6113,7 +5857,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             Permission:
               description: Specifies the Open Banking service request types.
               type: string
@@ -6175,9 +5918,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -6225,7 +5968,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -6326,7 +6069,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -6337,47 +6080,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -6480,7 +6183,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: >-
                 Expected execution date and time for the payment resource.All
@@ -6559,9 +6261,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -6609,7 +6311,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -6710,7 +6412,7 @@ components:
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
                 CreditorPostalAddress:
-                  $ref: '#/components/schemas/OBPostalAddress6'
+                  $ref: '#/components/schemas/OBPostalAddress7'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -6721,47 +6423,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -6849,7 +6511,7 @@ components:
                 account to a creditor for a domestic standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -7003,7 +6665,7 @@ components:
                 account to a creditor for a domestic standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -7206,7 +6868,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             Permission:
               description: Specifies the Open Banking service request types.
               type: string
@@ -7244,9 +6905,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -7262,7 +6923,7 @@ components:
                 account to a creditor for a domestic standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -7479,7 +7140,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             Refund:
               type: object
               additionalProperties: false
@@ -7534,9 +7194,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -7552,7 +7212,7 @@ components:
                 account to a creditor for a domestic standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 FirstPaymentAmount:
                   type: object
                   additionalProperties: false
@@ -7797,7 +7457,7 @@ components:
                   type: string
                   format: date-time
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 DebtorAccount:
                   type: object
                   additionalProperties: false
@@ -7832,47 +7492,7 @@ components:
                 UltimateDebtor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
     OBWriteFileConsent3:
@@ -7943,7 +7563,7 @@ components:
                   type: string
                   format: date-time
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 DebtorAccount:
                   type: object
                   additionalProperties: false
@@ -7978,47 +7598,7 @@ components:
                 UltimateDebtor:
                   $ref: '#/components/schemas/OBUltimateDebtor1'
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -8094,7 +7674,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-                description: Specifies the status reason.
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the consent resource status was
@@ -8133,9 +7712,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -8194,7 +7773,7 @@ components:
                   type: string
                   format: date-time
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 DebtorAccount:
                   type: object
                   additionalProperties: false
@@ -8229,47 +7808,7 @@ components:
                 UltimateDebtor:
                   $ref: '#/components/schemas/OBUltimateDebtor1'
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -8370,7 +7909,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             Charges:
               type: array
               items:
@@ -8385,9 +7923,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -8446,7 +7984,7 @@ components:
                   type: string
                   format: date-time
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 DebtorAccount:
                   type: object
                   additionalProperties: false
@@ -8481,47 +8019,7 @@ components:
                 UltimateDebtor:
                   $ref: '#/components/schemas/OBUltimateDebtor1'
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -8684,7 +8182,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -8707,7 +8205,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -8827,7 +8325,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -8843,7 +8341,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -8888,47 +8386,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -8998,7 +8456,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -9021,7 +8479,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -9141,7 +8599,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -9157,7 +8615,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -9202,47 +8660,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -9321,7 +8739,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the resource status was updated.All dates
@@ -9390,9 +8807,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             ExchangeRateInformation:
@@ -9492,7 +8909,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -9515,7 +8932,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -9635,7 +9052,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -9651,7 +9068,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -9696,47 +9113,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -9848,7 +9225,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: >-
                 Expected execution date and time for the payment resource.All
@@ -9896,7 +9272,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 Agent:
                   type: object
                   additionalProperties: false
@@ -9913,7 +9289,7 @@ components:
                     Name:
                       $ref: '#/components/schemas/Name'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 Account:
                   type: object
                   additionalProperties: false
@@ -9959,9 +9335,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             ExchangeRateInformation:
@@ -10061,7 +9437,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -10084,7 +9460,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -10204,7 +9580,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -10220,7 +9596,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -10265,47 +9641,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -10428,7 +9764,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -10451,7 +9787,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -10586,7 +9922,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -10602,7 +9938,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -10647,47 +9983,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -10764,7 +10060,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -10787,7 +10083,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -10922,7 +10218,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -10938,7 +10234,7 @@ components:
                     Name:
                       $ref: '#/components/schemas/Name'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -10983,47 +10279,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -11103,7 +10359,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-                description: Specifies the status reason.
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the resource status was updated.All dates
@@ -11184,9 +10439,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             ExchangeRateInformation:
@@ -11287,7 +10542,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -11310,7 +10565,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -11445,7 +10700,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -11461,7 +10716,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -11506,47 +10761,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             Authorisation:
@@ -11658,7 +10873,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             ExpectedExecutionDateTime:
               description: >-
                 Expected execution date and time for the payment resource.All
@@ -11706,7 +10920,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 Agent:
                   type: object
                   additionalProperties: false
@@ -11723,7 +10937,7 @@ components:
                     Name:
                       $ref: '#/components/schemas/Name'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 Account:
                   type: object
                   additionalProperties: false
@@ -11769,9 +10983,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             ExchangeRateInformation:
@@ -11872,7 +11086,7 @@ components:
                   minLength: 1
                   maxLength: 35
                 LocalInstrument:
-                  $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                 InstructionPriority:
                   description: >-
                     Indicator of the urgency or order of importance that the
@@ -11895,7 +11109,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 RequestedExecutionDateTime:
                   description: >-
                     Date at which the initiating party requests the clearing
@@ -12030,7 +11244,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -12046,7 +11260,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -12091,47 +11305,7 @@ components:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Information supplied to enable the matching of an entry with
-                    the items that the transfer is intended to settle, such as
-                    commercial invoices in an accounts' receivable system.
-                  properties:
-                    Unstructured:
-                      description: >-
-                        Information supplied to enable the
-                        matching/reconciliation of an entry with the items that
-                        the payment is intended to settle, such as commercial
-                        invoices in an accounts' receivable system, in an
-                        unstructured form.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    Reference:
-                      description: >-
-                        Unique reference, as assigned by the creditor, to
-                        unambiguously refer to the payment transaction.
-
-                        Usage: If available, the initiating party should provide
-                        this reference in the structured remittance information,
-                        to enable reconciliation by the creditor upon receipt of
-                        the amount of money.
-
-                        If the business context requires the use of a creditor
-                        reference or a payment remit identification, and only
-                        one identifier can be passed through the end-to-end
-                        chain, the creditor's reference or payment remittance
-                        identification should be quoted in the end-to-end
-                        transaction identification.
-
-                        OB: The Faster Payments Scheme can only accept 18
-                        characters for the ReferenceInformation field - which is
-                        where this ISO field will be mapped.
-                      type: string
-                      minLength: 1
-                      maxLength: 35
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -12220,7 +11394,7 @@ components:
                 account to a creditor for an international standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 Purpose:
                   description: >-
                     Specifies the external purpose code in the format of
@@ -12234,7 +11408,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -12313,7 +11487,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -12340,7 +11514,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -12423,7 +11597,7 @@ components:
                 account to a creditor for an international standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 Purpose:
                   description: >-
                     Specifies the external purpose code in the format of
@@ -12437,7 +11611,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -12516,7 +11690,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -12543,7 +11717,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -12665,7 +11839,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-                description: Specifies the status reason.
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the resource status was updated.All dates
@@ -12715,9 +11888,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -12733,7 +11906,7 @@ components:
                 account to a creditor for an international standing order.
               properties:
                 RemittanceInformation:
-                  $ref: '#/components/schemas/OBRemittanceInformation1'
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 Purpose:
                   description: >-
                     Specifies the external purpose code in the format of
@@ -12747,7 +11920,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -12829,7 +12002,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -12856,7 +12029,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -13001,7 +12174,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/OBStatusReason'
-              description: Specifies the status reason.
             Refund:
               type: object
               additionalProperties: false
@@ -13025,7 +12197,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 Agent:
                   type: object
                   additionalProperties: false
@@ -13042,7 +12214,7 @@ components:
                     Name:
                       $ref: '#/components/schemas/Name'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 Account:
                   type: object
                   additionalProperties: false
@@ -13088,9 +12260,9 @@ components:
                   - Amount
                 properties:
                   ChargeBearer:
-                    $ref: '#/components/schemas/OBChargeBearerType1Code'
+                    $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                   Type:
-                    $ref: '#/components/schemas/OBExternalPaymentChargeType1Code'
+                    $ref: '#/components/schemas/OBInternalPaymentChargeType1Code'
                   Amount:
                     $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
             Initiation:
@@ -13118,7 +12290,7 @@ components:
                   minLength: 1
                   maxLength: 4
                 ChargeBearer:
-                  $ref: '#/components/schemas/OBChargeBearerType1Code'
+                  $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
                 CurrencyOfTransfer:
                   description: >-
                     Specifies the currency of the to be transferred amount,
@@ -13200,7 +12372,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAgent:
                   type: object
                   additionalProperties: false
@@ -13227,7 +12399,7 @@ components:
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress6'
+                      $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
                   type: object
                   additionalProperties: false
@@ -13324,16 +12496,25 @@ components:
           $ref: '#/components/schemas/Meta'
     OBWritePaymentDetailsResponse1:
       type: object
-      additionalProperties: false
       required:
         - Data
       properties:
         Data:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBWritePaymentDetails1'
+        Links:
+          $ref: '#/components/schemas/Links'
+        Meta:
+          $ref: '#/components/schemas/Meta'
+    OBWritePaymentDetails1:
+      type: object
+      properties:
+        PaymentStatus:
           type: object
-          additionalProperties: false
           required:
             - PaymentTransactionId
-            - StatusCode
+            - Status
             - StatusUpdateDateTime
           properties:
             PaymentTransactionId:
@@ -13343,7 +12524,7 @@ components:
               description: >-
                 Unique identifier for the transaction within an servicing
                 institution. This identifier is both unique and immutable.
-            StatusCode:
+            Status:
               type: string
               description: >-
                 Status of a transfer, as assigned by the transaction
@@ -13366,42 +12547,28 @@ components:
               format: date-time
               description: |
                 Date and time at which the status was assigned to the transfer.
-            LocalInstrument:
-              $ref: '#/components/schemas/OBExternalLocalInstrument1Code'
             StatusDetail:
-              type: array
-              items:
-                type: object
-                required:
-                  - StatusCode
-                properties:
-                  StatusCode:
-                    description: >-
-                      Status of a transfer, as assigned by the transaction
-                      administrator.
-                    type: string
-                    minLength: 1
-                    maxLength: 4
-                  StatusReasonCode:
-                    description: Reason Code provided for the status of a transfer.
-                    type: string
-                    minLength: 1
-                    maxLength: 4
-                  StatusReasonDescription:
-                    description: Reason provided for the status of a transfer.
-                    type: string
-                    minLength: 1
-                    maxLength: 256
-                  StatusUpdateDateTime:
-                    type: string
-                    format: date-time
-                    description: >
-                      Date and time at which the status was assigned to the
-                      transfer.
-        Links:
-          $ref: '#/components/schemas/Links'
-        Meta:
-          $ref: '#/components/schemas/Meta'
+              type: object
+              properties:
+                Status:
+                  description: >-
+                    Status of a transfer, as assigned by the transaction
+                    administrator.
+                  type: string
+                  minLength: 1
+                  maxLength: 4
+                StatusReason:
+                  description: Reason Code provided for the status of a transfer.
+                  type: string
+                  minLength: 1
+                  maxLength: 4
+                StatusReasonDescription:
+                  description: Reason provided for the status of a transfer.
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+                LocalInstrument:
+                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
     PostBox:
       description: >-
         Information that locates and identifies a box in a post office assigned
