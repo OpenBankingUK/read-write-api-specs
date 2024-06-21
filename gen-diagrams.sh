@@ -87,7 +87,7 @@
 	--schema=OBBranchAndFinancialInstitutionIdentification6 \
 	--schema=OBDomesticVRPInitiation \
 	--schema=OBDomesticVRPControlParameters \
-	--schema=OBRisk2 \
+	--schema=OBRisk1 \
 	--schema=OBDomesticVRPConsentRequest \
 	--schema=OBDomesticVRPConsentResponse \
 	--schema=OBDomesticVRPInstruction \
