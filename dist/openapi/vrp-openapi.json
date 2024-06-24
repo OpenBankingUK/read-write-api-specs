@@ -284,7 +284,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
           },
           "400": {
@@ -350,7 +350,7 @@
           "Domestic VRP Consents"
         ],
         "summary": "Update a domestic VRP consent - only to be used for version migrations",
-        "description": "Update a domestic VRP consent by submitting a partial consent resource body - only to be used for version migrations",
+        "description": "Update a domestic VRP consent by submitting a JSON Patch payload - only to be used for version migrations",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -378,7 +378,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
           },
           "400": {
@@ -411,37 +411,10 @@
         },
         "requestBody": {
           "content": {
-            "application/json; charset=utf-8": {
+            "application/json-patch+json": {
               "schema": {
                 "type": "string",
-                "format": "partial values from OBVRPConsentRequest",
-                "example": {
-                  "Risk": {
-                    "ContractPresentIndicator": true
-                  }
-                }
-              }
-            },
-            "application/json": {
-              "schema": {
-                "type": "string",
-                "format": "partial values from OBVRPConsentRequest",
-                "example": {
-                  "Risk": {
-                    "ContractPresentIndicator": true
-                  }
-                }
-              }
-            },
-            "application/jose+jwe": {
-              "schema": {
-                "type": "string",
-                "format": "partial values from OBVRPConsentRequest",
-                "example": {
-                  "Risk": {
-                    "ContractPresentIndicator": true
-                  }
-                }
+                "format": "Array of patch operations"
               }
             }
           },
@@ -2315,9 +2288,6 @@
           },
           "CreditorPostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress7"
-          },
-          "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3"

@@ -157,7 +157,7 @@ paths:
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/20xOBDomesticVRPConsentResponse'
         '400':
           $ref: '#/components/responses/400Error'
@@ -199,8 +199,7 @@ paths:
         - Domestic VRP Consents
       summary: Update a domestic VRP consent - only to be used for version migrations
       description: >-
-        Update a domestic VRP consent by submitting a partial consent resource
-        body - only to be used for version migrations
+        Update a domestic VRP consent by submitting a JSON Patch payload - only to be used for version migrations
       parameters:
         - $ref: '#/components/parameters/ConsentId'
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -211,7 +210,7 @@ paths:
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
       responses:
-        '201':
+        '200':
           $ref: '#/components/responses/20xOBDomesticVRPConsentResponse'
         '400':
           $ref: '#/components/responses/400Error'
@@ -233,27 +232,10 @@ paths:
           $ref: '#/components/responses/InternalError'
       requestBody:
         content:
-          application/json; charset=utf-8:
+          application/json-patch+json:
             schema:
               type: string
-              format: partial values from OBVRPConsentRequest
-              example:
-                Risk:
-                  ContractPresentIndicator: true
-          application/json:
-            schema:
-              type: string
-              format: partial values from OBVRPConsentRequest
-              example:
-                Risk:
-                  ContractPresentIndicator: true
-          application/jose+jwe:
-            schema:
-              type: string
-              format: partial values from OBVRPConsentRequest
-              example:
-                Risk:
-                  ContractPresentIndicator: true
+              format: Array of patch operations
         description: Default
         required: true
       security:
