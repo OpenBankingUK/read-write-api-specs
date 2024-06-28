@@ -12,7 +12,7 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "3.1.11"
+    "version": "4.0.0"
   },
   "paths": {
     "/funds-confirmation-consents": {
@@ -286,7 +286,7 @@
   },
   "servers": [
     {
-      "url": "/open-banking/v3.1/cbpii"
+      "url": "/open-banking/v4.0/cbpii"
     }
   ],
   "components": {
@@ -660,6 +660,64 @@
       }
     },
     "schemas": {
+      "Identification_0": {
+        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "OBProxy1": {
+        "description": "Specifies an alternate assumed name for the identification of the account.",
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code"
+        ],
+        "properties": {
+          "Identification": {
+            "description": "Identification used to indicate the account identification under another specified name.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "Code": {
+            "$ref": "#/components/schemas/ExternalProxyAccountType1Code"
+          },
+          "Type": {
+            "type": "string",
+            "description": "Type of the proxy identification.",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        }
+      },
+      "ExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information see `ExternalProxyAccountType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "TELE",
+          "EMAL",
+          "DNAM",
+          "CINC",
+          "COTX",
+          "COID",
+          "CUST",
+          "DRLC",
+          "EIDN",
+          "EWAL",
+          "PVTX",
+          "LEIC",
+          "MBNO",
+          "NIDN",
+          "CCPT",
+          "SHID",
+          "SOSE",
+          "TOKN",
+          "UBIL",
+          "VIPN",
+          "BIID"
+        ]
+      },
       "ISODateTime": {
         "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
         "type": "string",
@@ -717,37 +775,7 @@
         "type": "object",
         "properties": {
           "ErrorCode": {
-            "description": "Low level textual error code, e.g., UK.OBIE.Field.Missing",
-            "type": "string",
-            "x-namespaced-enum": [
-              "UK.OBIE.Field.Expected",
-              "UK.OBIE.Field.Invalid",
-              "UK.OBIE.Field.InvalidDate",
-              "UK.OBIE.Field.Missing",
-              "UK.OBIE.Field.Unexpected",
-              "UK.OBIE.Header.Invalid",
-              "UK.OBIE.Header.Missing",
-              "UK.OBIE.Reauthenticate",
-              "UK.OBIE.Resource.ConsentMismatch",
-              "UK.OBIE.Resource.InvalidConsentStatus",
-              "UK.OBIE.Resource.InvalidFormat",
-              "UK.OBIE.Resource.NotFound",
-              "UK.OBIE.Rules.AfterCutOffDateTime",
-              "UK.OBIE.Rules.DuplicateReference",
-              "UK.OBIE.Signature.Invalid",
-              "UK.OBIE.Signature.InvalidClaim",
-              "UK.OBIE.Signature.Malformed",
-              "UK.OBIE.Signature.Missing",
-              "UK.OBIE.Signature.MissingClaim",
-              "UK.OBIE.Signature.Unexpected",
-              "UK.OBIE.UnexpectedError",
-              "UK.OBIE.Unsupported.AccountIdentifier",
-              "UK.OBIE.Unsupported.AccountSecondaryIdentifier",
-              "UK.OBIE.Unsupported.Currency",
-              "UK.OBIE.Unsupported.Frequency",
-              "UK.OBIE.Unsupported.LocalInstrument",
-              "UK.OBIE.Unsupported.Scheme"
-            ]
+            "$ref": "#/components/schemas/OBExternalStatusReason1Code"
           },
           "Message": {
             "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBIE doesn't standardise this field",
@@ -767,8 +795,7 @@
           }
         },
         "required": [
-          "ErrorCode",
-          "Message"
+          "ErrorCode"
         ],
         "additionalProperties": false,
         "minProperties": 1
@@ -777,22 +804,24 @@
         "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
         "type": "object",
         "properties": {
-          "Code": {
-            "description": "High level textual error code, to help categorize the errors.",
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 40
-          },
           "Id": {
             "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
             "type": "string",
             "minLength": 1,
             "maxLength": 40
           },
-          "Message": {
-            "description": "Brief Error message, e.g., 'There is something wrong with the request parameters provided'",
+          "Code": {
+            "description": "Deprecated <br>High level textual error code, to help categorise the errors.",
             "type": "string",
             "minLength": 1,
+            "example": "400 BadRequest",
+            "maxLength": 40
+          },
+          "Message": {
+            "description": "Deprecated <br>Brief Error message",
+            "type": "string",
+            "minLength": 1,
+            "example": "There is something wrong with the request parameters provided",
             "maxLength": 500
           },
           "Errors": {
@@ -804,8 +833,6 @@
           }
         },
         "required": [
-          "Code",
-          "Message",
           "Errors"
         ],
         "additionalProperties": false
@@ -915,6 +942,9 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 34
+                  },
+                  "Proxy": {
+                    "$ref": "#/components/schemas/OBProxy1"
                   }
                 }
               }
@@ -954,11 +984,16 @@
                 "description": "Specifies the status of consent resource in code form.",
                 "type": "string",
                 "enum": [
-                  "Authorised",
-                  "AwaitingAuthorisation",
-                  "Rejected",
-                  "Revoked"
+                  "AWAU",
+                  "RJCT",
+                  "AUTH"
                 ]
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                }
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -1007,6 +1042,9 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 34
+                  },
+                  "Proxy": {
+                    "$ref": "#/components/schemas/OBProxy1"
                   }
                 }
               }
@@ -1095,6 +1133,37 @@
           }
         },
         "additionalProperties": false
+      },
+      "OBExternalStatusReason1Code": {
+        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4,
+        "example": "U001"
+      },
+      "OBStatusReason": {
+        "type": "object",
+        "properties": {
+          "StatusReasonCode": {
+            "type": "string",
+            "description": "Specifies the status reason in a code form. \n For a full description see `OBExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription": {
+            "description": "Description supporting the StatusReasonCode.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "Path": {
+            "type": "string",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
       }
     }
   }
