@@ -1515,7 +1515,7 @@
               "DebtorAccount": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+                    "$ref": "#/components/schemas/OBCashAccountDebtor3"
                   },
                   {
                     "description": "The value must be populated for GET responses once the consent is approved."
@@ -1666,7 +1666,7 @@
         "type": "object",
         "properties": {
           "DebtorAccount": {
-            "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+            "$ref": "#/components/schemas/OBCashAccountDebtor3"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccountCreditor3"
@@ -1726,6 +1726,40 @@
           },
           "LEI": {
             "$ref": "#/components/schemas/LEI"
+          }
+        }
+      },
+      "OBCashAccountDebtor3": {
+        "type": "object",
+        "required": [
+          "SchemeName",
+          "Identification",
+          "Name"
+        ],
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner."
+          },
+          "Name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350,
+            "description": "Name of the account, as assigned by the account servicing institution.\nUsage: the account name is the name or names of the account owner(s) represented at an account level.\nThe account name is not the product name or the nickname of the account."
+          },
+          "SecondaryIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 34,
+            "description": "This is secondary identification of the account, as assigned by the account servicing institution.\nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxy1"
           }
         }
       },
@@ -1957,7 +1991,7 @@
                 "$ref": "#/components/schemas/OBDomesticVRPInstruction"
               },
               "DebtorAccount": {
-                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+                "$ref": "#/components/schemas/OBCashAccountDebtor3"
               }
             }
           },
