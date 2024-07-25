@@ -3248,6 +3248,20 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    Identification_3:
+      description: >-
+        Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
+    Identification_4:
+      description: >-
+        dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
     LEI:
       description: >-
         Legal entity identification as an alternate identification for a party.
@@ -3529,7 +3543,7 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set. For more information see `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
       enum:
         - DISP
         - FXDR
@@ -3543,7 +3557,7 @@ components:
       maxLength: 4
       description: >-
         Specifies the document type as published in an external document type
-        code list. For more information see `ExternalDocumentType1Code`
+        code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet*
         [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - CINV
@@ -4145,16 +4159,21 @@ components:
         Code:
           $ref: '#/components/schemas/ExternalDocumentType1Code'
         Issuer:
+          description: 'dentification of the issuer of the reference document type.'
           type: string
           maxLength: 140
           minLength: 1
         Number:
+          description: 'Identification of the type specified for the referred document line.'
           type: string
-          maxLength: 140
+          maxLength: 35
           minLength: 1
         RelatedDate:
-          $ref: '#/components/schemas/ISODateTime'
+          description: 'Date associated with the referred document line.'
+          type: string
+          format: date-time
         LineDetails:
+          description: 'Set of elements used to provide the content of the referred document line.'
           type: array
           items:
             type: string
@@ -4188,30 +4207,36 @@ components:
           items:
             $ref: '#/components/schemas/OBReferredDocumentInformation'
         ReferredDocumentAmount:
+          description: 'Provides details on the amounts of the referred document.'
           type: integer
           format: int32
         CreditorReferenceInformation:
+          description: 'Reference information provided by the creditor to allow the identification of the underlying documents.'
           type: object
           properties:
             Code:
               $ref: '#/components/schemas/ExternalCreditorReferenceType1Code'
             Issuer:
+              description: 'Entity that assigns the identification.'
               type: string
               minLength: 1
               maxLength: 35
             Reference:
+              description: 'Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.'
               type: string
               minLength: 1
               maxLength: 35
         Invoicer:
-          $ref: '#/components/schemas/Identification_0'
+          $ref: '#/components/schemas/Identification_3'
         Invoicee:
-          $ref: '#/components/schemas/Identification_0'
+          $ref: '#/components/schemas/Identification_4'
         TaxRemittance:
+          description: 'Provides remittance information about a payment made for tax-related purposes.'
           type: string
           maxLength: 140
           minLength: 1
         AdditionalRemittanceInformation:
+          description: 'Additional information, in free text form, to complement the structured remittance information.'
           type: array
           items:
             type: string

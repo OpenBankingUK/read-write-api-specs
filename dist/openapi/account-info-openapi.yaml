@@ -1806,6 +1806,133 @@ components:
           scopes:
             accounts: Ability to read Accounts information
   schemas:
+    ExternalCreditorReferenceType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set. For more information see `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
+      enum:
+        - DISP
+        - FXDR
+        - PUOR
+        - RPIN
+        - RADM
+        - SCOR
+    ExternalDocumentType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: >-
+        Specifies the document type as published in an external document type
+        code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet*
+        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      enum:
+        - CINV
+        - CNFA
+        - CONT
+        - CREN
+        - DEBN
+        - DISP
+        - DNFA
+        - HIRI
+        - INVS
+        - MSIN
+        - PROF
+        - PUOR
+        - QUOT
+        - SBIN
+        - SPRR
+        - TISH
+    OBReferredDocumentInformation:
+      type: object
+      properties:
+        Code:
+          $ref: '#/components/schemas/ExternalDocumentType1Code'
+        Issuer:
+          description: 'dentification of the issuer of the reference document type.'
+          type: string
+          maxLength: 140
+          minLength: 1
+        Number:
+          description: 'Identification of the type specified for the referred document line.'
+          type: string
+          maxLength: 35
+          minLength: 1
+        RelatedDate:
+          description: 'Date associated with the referred document line.'
+          type: string
+          format: date-time
+        LineDetails:
+          description: 'Set of elements used to provide the content of the referred document line.'
+          type: array
+          items:
+            type: string
+    OBRemittanceInformation2:
+      type: object
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system
+      properties:
+        Structured:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBRemittanceInformationStructured'
+        Unstructured:
+          type: array
+          description: >-
+            Information supplied to enable the matching/reconciliation of an
+            entry with the items that the payment is intended to settle, such as
+            commercial invoices in an accounts' receivable system, in an
+            unstructured form.
+          items:
+            type: string
+            maxLength: 140
+            minLength: 1
+    OBRemittanceInformationStructured:
+      type: object
+      properties:
+        ReferredDocumentInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBReferredDocumentInformation'
+        ReferredDocumentAmount:
+          description: 'Provides details on the amounts of the referred document.'
+          type: integer
+          format: int32
+        CreditorReferenceInformation:
+          description: 'Reference information provided by the creditor to allow the identification of the underlying documents.'
+          type: object
+          properties:
+            Code:
+              $ref: '#/components/schemas/ExternalCreditorReferenceType1Code'
+            Issuer:
+              description: 'Entity that assigns the identification.'
+              type: string
+              minLength: 1
+              maxLength: 35
+            Reference:
+              description: 'Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.'
+              type: string
+              minLength: 1
+              maxLength: 35
+        Invoicer:
+          $ref: '#/components/schemas/Identification_3'
+        Invoicee:
+          $ref: '#/components/schemas/Identification_4'
+        TaxRemittance:
+          description: 'Provides remittance information about a payment made for tax-related purposes.'
+          type: string
+          maxLength: 140
+          minLength: 1
+        AdditionalRemittanceInformation:
+          description: 'Additional information, in free text form, to complement the structured remittance information.'
+          type: array
+          items:
+            type: string
+            maxLength: 140
+            minLength: 1
+          maxItems: 3
     OBUltimateCreditor1:
       description: Ultimate party to which an amount of money is due.
       type: object
@@ -2281,6 +2408,20 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    Identification_3:
+      description: >-
+        Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
+    Identification_4:
+      description: >-
+        dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
     LastPaymentDateTime:
       description: >-
         The date on which the last (most recent) payment for a Standing Order
@@ -11301,6 +11442,8 @@ components:
           $ref: '#/components/schemas/OBSupplementaryData1'
         MandateRelatedInformation:
           $ref: '#/components/schemas/OBMandateRelatedInformation1'
+        RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation2'
       additionalProperties: false
     OBStandingOrder6Basic:
       type: object
@@ -11334,6 +11477,8 @@ components:
           $ref: '#/components/schemas/OBSupplementaryData1'
         MandateRelatedInformation:
           $ref: '#/components/schemas/OBMandateRelatedInformation1'
+        RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation2'
       additionalProperties: false
     OBStandingOrder6Detail:
       type: object
@@ -11372,6 +11517,8 @@ components:
           $ref: '#/components/schemas/OBSupplementaryData1'
         MandateRelatedInformation:
           $ref: '#/components/schemas/OBMandateRelatedInformation1'
+        RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation2'
       additionalProperties: false
     OBStatement2:
       type: object
