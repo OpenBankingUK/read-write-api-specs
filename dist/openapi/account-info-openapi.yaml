@@ -9211,7 +9211,7 @@ components:
                     minLength: 1
                     maxLength: 40
                   OfferType:
-                    description: Offer type, in a coded form.
+                    description: Offer type, in a coded form. For a full list of values refer to `OBExternalOfferType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                     type: string
                     example: LimitIncrease
                     enum:
@@ -9341,7 +9341,7 @@ components:
       required:
         - Data
       description: >-
-        Product details of Other Product which is not avaiable in the standard
+        Product details of Other Product which is not available in the standard
         list
       properties:
         Data:
@@ -9368,10 +9368,7 @@ components:
                     maxLength: 350
                   ProductId:
                     description: >-
-                      The unique ID that has been internally assigned by the
-                      financial institution to each of the current account
-                      banking products they market to their retail and/or small
-                      to medium enterprise (SME) customers.
+                      Identifier within the parent organisation for the product. Must be unique in the organisation
                     type: string
                     example: 51B
                     minLength: 1
@@ -9380,7 +9377,7 @@ components:
                     $ref: '#/components/schemas/AccountId'
                   SecondaryProductId:
                     description: >-
-                      Any secondary Identification which  supports Product
+                      Any secondary Identification which supports Product
                       Identifier to uniquely identify the current account
                       banking products.
                     type: string
@@ -9389,8 +9386,9 @@ components:
                     maxLength: 70
                   ProductType:
                     description: >-
-                      Product type : Personal Current Account, Business Current
-                      Account
+                      Descriptive code for the product category. 
+                      For a full list refer to `OBInternalProductType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br /><br />
+                      If ProductType - "Other" is chosen, the object OtherProductType must be populated with name, and description.
                     type: string
                     example: PersonalCurrentAccount
                     enum:
@@ -9401,7 +9399,7 @@ components:
                       - SMELoan
                   MarketingStateId:
                     description: >-
-                      Unique and unambiguous identification of a  Product
+                      Unique and unambiguous identification of a Product
                       Marketing State.
                     type: string
                     example: '22878123'
@@ -9412,16 +9410,16 @@ components:
                     required:
                       - Name
                       - Description
-                    description: Other product type details associated with the account.
+                    description: 'This field provides extension to the ProductType enumeration. If ProductType - "Other" is chosen, this field must be populated with name, and description for ASPSP specific product type.'
                     properties:
                       Name:
-                        description: Long name associated with the product
+                        description: Name of "Other" product type.
                         type: string
                         example: e-Wallet
                         minLength: 1
                         maxLength: 350
                       Description:
-                        description: Description of the Product associated with the account
+                        description: Description of "Other" product type
                         type: string
                         example: Virtual wallet
                         minLength: 1
