@@ -3257,7 +3257,7 @@ components:
       maxLength: 256
     Identification_4:
       description: >-
-        dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+        Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
       type: string
       example: '80200112344562'
       minLength: 1
@@ -3383,6 +3383,7 @@ components:
       description: >-
         Specifies which party/parties will bear the charges associated with the
         processing of the payment transaction.
+        For a full list of values refer to `OBInternalChargeBearerType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BorneByCreditor
@@ -3531,6 +3532,7 @@ components:
       description: >-
         Name of the identification scheme, in a coded form as published in an
         external list.
+        For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.BBAN
@@ -3608,6 +3610,7 @@ components:
 
         Usage: This element is used to specify a local instrument, local
         clearing option and/or further qualify the service or service level.
+        For a full list of values refer to `OBInternalLocalInstrument1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.BACS
@@ -3623,7 +3626,7 @@ components:
         - UK.OBIE.SWIFT
         - UK.OBIE.Target2
     OBInternalPaymentChargeType1Code:
-      description: Charge type, in a coded form.
+      description: Charge type, in a coded form. For a full list of values refer to `OBInternalPaymentChargeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.CHAPSOut
@@ -4075,9 +4078,7 @@ components:
     ExternalProxyAccountType1Code:
       description: >-
         Specifies the external proxy account type code, as published in the
-        proxy account type external code set.<br> For more information and a
-        full list of values see `ExternalProxyAccountType1Code`
-        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+        proxy account type external code set.<br /> For a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - TELE
@@ -4159,9 +4160,9 @@ components:
         Code:
           $ref: '#/components/schemas/ExternalDocumentType1Code'
         Issuer:
-          description: 'dentification of the issuer of the reference document type.'
+          description: 'Identification of the issuer of the reference document type.'
           type: string
-          maxLength: 140
+          maxLength: 35
           minLength: 1
         Number:
           description: 'Identification of the type specified for the referred document line.'
@@ -4264,6 +4265,7 @@ components:
             Identifies whether the regulatory reporting information applies to
             the debit side, to the credit side or to both debit and credit sides
             of the transaction. 
+            For a full list of values reefer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           enum:
             - CRED
             - DEBT
@@ -4327,7 +4329,7 @@ components:
           type: string
           description: >-
             This field allows a PISP to request specific SCA Exemption for a
-            Payment Initiation
+            Payment Initiation. For a full list of values reefer to `OBInternalSCAExemptionType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           enum:
             - BillPayment
             - ContactlessTravel
@@ -4344,6 +4346,8 @@ components:
 
             Usage: This field indicates whether the PSU was subject to SCA
             performed by the TPP
+
+            For a full list of values refer to `OBInternalAppliedAuthenticationApproach1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           enum:
             - CA
             - SCA
@@ -4365,7 +4369,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form. 
-             For a full description see `OBExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+            For a full list of values refer to `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: ERIN
@@ -4377,8 +4381,7 @@ components:
         Path:
           type: string
           description: >-
-            Recommended but optional reference to the JSON Path of the field
-            with error, e.g., Data.Initiation.InstructedAmount.Currency
+            Path is optional but relevant when the status reason refers to an object/field and hence conditional to provide JSON path.
           minLength: 1
           maxLength: 500
     OBStructuredRegulatoryReporting3:
@@ -4845,7 +4848,9 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of consent resource in code form.
+              description: >- 
+                Specifies the status of consent resource in code form.
+                For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - AWAU
@@ -4869,7 +4874,9 @@ components:
               type: string
               format: date-time
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: >- 
+                Specifies to share the refund account details with PISP.
+                For a full list of values refer to `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
@@ -5098,7 +5105,7 @@ components:
               description: The authorisation type request from the TPP.
               properties:
                 AuthorisationType:
-                  description: Type of authorisation flow requested.
+                  description: Type of authorisation flow requested. For a full list of values refer to `OBInternalAuthorisation1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - Any
@@ -12789,8 +12796,6 @@ components:
               minLength: 1
               maxLength: 4
             StatusReason:
-            *****TODO**** 
-            *****Add enums and link to codeset repo when ready****
               description: Reason Code provided for the status of a transfer.
               type: string
               minLength: 1
