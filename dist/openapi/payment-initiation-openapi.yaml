@@ -7225,7 +7225,7 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of the payment order resource. 
+              description: Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - RCVD
@@ -12664,19 +12664,22 @@ components:
             Date and time at which the status was assigned to the transfer.
         StatusDetail:
           type: object
+          description: "Payment status details as per underlying Payment Rail."
           required:
             - Status
           properties:
+            LocalInstrument:
+              $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
             Status:
-              description: >-
-                Status of a transfer, as assigned by the transaction
-                administrator.
+              description: "Status of a transfer, as assigned by the transaction administrator."
               type: string
               minLength: 1
               maxLength: 4
             StatusReason:
-              description: Reason Code provided for the status of a transfer. For a full list of values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+              description: "Reason Code provided for the status of a transfer."
               type: string
+              enum:
+                - CANC
               minLength: 1
               maxLength: 4
             StatusReasonDescription:
@@ -12684,8 +12687,7 @@ components:
               type: string
               minLength: 1
               maxLength: 256
-            LocalInstrument:
-              $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
+            
     PostBox:
       description: >-
         Information that locates and identifies a box in a post office assigned
