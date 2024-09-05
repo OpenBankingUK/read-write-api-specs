@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="176em" height="272em" style="background-color:white"><defs>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="190.4em" height="304.79999999999995em" style="background-color:white"><defs>
 	<marker id="Triangle"
 		viewBox="0 0 10 10" refX="0" refY="5" 
 		markerUnits="strokeWidth"
@@ -40,7 +40,7 @@ ConsentId [1..1]
 <text x="41.6em" y="5.6em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: Date and time at which the resource was created.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Description: Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
@@ -61,16 +61,21 @@ InternationalStandingOrderId [1..1]
 Description: Specifies the status of resource in code form.
 Values:
  - RCVD
+ - CANC
+ - ACTC
+ - PATC
+ - PDNG
+ - INFA
+ - INCO
  - RJCT
- - ACSP
 </title>
-StatusCode [1..1]
+Status [1..1]
 </text>
 
 <text x="41.6em" y="9.5em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: Date and time at which the resource status was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Description: Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
@@ -85,7 +90,7 @@ Charges
 
 <text x="75.6em" y="4.3em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies which party/parties will bear the charges associated with the processing of the payment transaction.
+Description: Specifies which party/parties will bear the charges associated with the processing of the payment transaction. For a full list of values refer to `OBInternalChargeBearerType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - BorneByCreditor
  - BorneByDebtor
@@ -97,9 +102,9 @@ ChargeBearer [1..1]
 
 <text x="75.6em" y="5.6em" fill="darkslateblue">
 <title>Type: string
-Description: Charge type, in a coded form.
+Description: Charge type, in a coded form. For a full list of values refer to `OBInternalPaymentChargeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.CHAPSOut
+ - UK.OBIE.CHAPSOut
 </title>
 Type [1..1]
 </text>
@@ -126,9 +131,9 @@ Pattern: ^[A-Z]{3,3}$
 Currency [1..1]
 </text>
 
-<rect x="74.6em" y="7.6em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<rect x="74.6em" y="7.6em" width="24em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="86.6em" y="8.9em" fill="black">
-<title>^ Only incuded in the response if `Data. ReadRefundAccount` is set to `Yes` in the consent.</title>
+<title>^ Only included in the response if `Data. ReadRefundAccount` is set to `Yes` in the consent.</title>
 Debtor
 </text>
 
@@ -141,34 +146,44 @@ Identification [0..1]
 
 <text x="75.6em" y="12.200000000000001em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 20
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
+Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+</title>
+LEI [0..1]
+</text>
+
+<text x="75.6em" y="13.5em" fill="darkslateblue">
+<title>Type: string
 Description: ^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.
 </title>
 Name [0..1]
 </text>
 
-<text x="75.6em" y="13.5em" fill="darkslateblue">
+<text x="75.6em" y="14.8em" fill="darkslateblue">
 <title>Type: string
-Description: ^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBExternalAccountIdentification4Code
+Description: ^ Name of the identification scheme, in a coded form as published in an external list. | Namespaced Enumeration OBInternalAccountIdentification4Code
 </title>
 SchemeName [0..1]
 </text>
 
-<text x="75.6em" y="14.8em" fill="darkslateblue">
+<text x="75.6em" y="16.1em" fill="darkslateblue">
 <title>Type: string
 Description: ^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination) | Max34Text
 </title>
 SecondaryIdentification [0..1]
 </text>
 
-<rect x="74.6em" y="16.799999999999997em" width="23.200000000000003em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="86.19999999999999em" y="18.099999999999998em" fill="black">
+<rect x="74.6em" y="18.1em" width="23.200000000000003em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="86.19999999999999em" y="19.400000000000002em" fill="black">
 <title>The Initiation payload is sent by the initiating party to the ASPSP. It is used to request movement of funds from the debtor account to a creditor for an international standing order.</title>
 Initiation
 </text>
 
-<text x="75.6em" y="20.099999999999998em" fill="darkslateblue">
+<text x="75.6em" y="21.400000000000002em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies which party/parties will bear the charges associated with the processing of the payment transaction.
+Description: Specifies which party/parties will bear the charges associated with the processing of the payment transaction. For a full list of values refer to `OBInternalChargeBearerType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - BorneByCreditor
  - BorneByDebtor
@@ -178,7 +193,7 @@ Values:
 ChargeBearer [0..1]
 </text>
 
-<text x="75.6em" y="21.4em" fill="darkslateblue">
+<text x="75.6em" y="22.700000000000003em" fill="darkslateblue">
 <title>Type: string
 Description: Specifies the currency of the to be transferred amount, which is different from the currency of the debtor&#39;s account.
 Pattern: ^[A-Z]{3,3}$
@@ -186,7 +201,7 @@ Pattern: ^[A-Z]{3,3}$
 CurrencyOfTransfer [1..1]
 </text>
 
-<text x="75.6em" y="22.7em" fill="darkslateblue">
+<text x="75.6em" y="24.000000000000004em" fill="darkslateblue">
 <title>Type: string
 Description: Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).
 Pattern: [A-Z]{2,2}
@@ -194,34 +209,32 @@ Pattern: [A-Z]{2,2}
 DestinationCountryCode [0..1]
 </text>
 
-<text x="75.6em" y="24em" fill="darkslateblue">
+<text x="75.6em" y="25.300000000000004em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 4
-Description: Specifies the external purpose code in the format of character string with a maximum length of 4 characters.
-The list of valid codes is an external code list published separately.
-External code sets can be downloaded from www.iso20022.org.
+MaxLength: 140
+Description: Specifies the purpose of an international payment, when there is no corresponding 4 character code available in the ISO20022 list of Purpose Codes.
 </title>
-Purpose [0..1]
+ExtendedPurpose [0..1]
 </text>
 
-<rect x="103.8em" y="16.799999999999997em" width="8.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="108.2em" y="18.099999999999998em" fill="black">
+<rect x="103.8em" y="18.1em" width="8.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="108.2em" y="19.400000000000002em" fill="black">
 <title>Party to which an amount of money is due.</title>
 Creditor
 </text>
 
-<text x="104.8em" y="20.099999999999998em" fill="darkslateblue">
+<text x="104.8em" y="21.400000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 20
-Description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
 Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
 </title>
 LEI [0..1]
 </text>
 
-<text x="104.8em" y="21.4em" fill="darkslateblue">
+<text x="104.8em" y="22.700000000000003em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 350
@@ -230,13 +243,13 @@ Description: Name by which a party is known and which is usually used to identif
 Name [0..1]
 </text>
 
-<rect x="118.6em" y="16.799999999999997em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="128.6em" y="18.099999999999998em" fill="black">
+<rect x="118.6em" y="18.1em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="128.6em" y="19.400000000000002em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 PostalAddress
 </text>
 
-<text x="119.6em" y="20.099999999999998em" fill="darkslateblue">
+<text x="119.6em" y="21.400000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -245,9 +258,9 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="119.6em" y="21.4em" fill="darkslateblue">
+<text x="119.6em" y="22.700000000000003em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies the nature of the postal address.
+Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
  - BIZZ
  - DLVY
@@ -261,16 +274,16 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="119.6em" y="22.7em" fill="darkslateblue">
+<text x="119.6em" y="24.000000000000004em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a referenced building.
 </title>
 BuildingName [0..1]
 </text>
 
-<text x="119.6em" y="24em" fill="darkslateblue">
+<text x="119.6em" y="25.300000000000004em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -279,16 +292,16 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="119.6em" y="25.299999999999997em" fill="darkslateblue">
+<text x="119.6em" y="26.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
 </title>
 CareOf [0..1]
 </text>
 
-<text x="119.6em" y="26.599999999999998em" fill="darkslateblue">
+<text x="119.6em" y="27.900000000000002em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -296,7 +309,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="119.6em" y="27.9em" fill="darkslateblue">
+<text x="119.6em" y="29.200000000000003em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -305,7 +318,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="119.6em" y="29.199999999999996em" fill="darkslateblue">
+<text x="119.6em" y="30.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -314,33 +327,34 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="119.6em" y="30.5em" fill="darkslateblue">
+<text x="119.6em" y="31.800000000000004em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Number that of the regional area, known as a district, which forms part of an address
 </title>
 DistrictName [0..1]
 </text>
 
-<text x="119.6em" y="31.799999999999997em" fill="darkslateblue">
+<text x="119.6em" y="33.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
+MaxLength: 70
 Description: Number that identifies the level within a building
 </title>
 Floor [0..1]
 </text>
 
-<text x="119.6em" y="33.099999999999994em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
+<text x="119.6em" y="34.400000000000006em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
 </title>
 PostBox [0..1]
 </text>
 
-<text x="119.6em" y="34.4em" fill="darkslateblue">
+<text x="119.6em" y="35.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -349,24 +363,25 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="119.6em" y="35.7em" fill="darkslateblue">
-<title>MinLength: 1
+<text x="119.6em" y="37em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
 </title>
 Room [0..1]
 </text>
 
-<text x="119.6em" y="37em" fill="darkslateblue">
+<text x="119.6em" y="38.300000000000004em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
 </text>
 
-<text x="119.6em" y="38.3em" fill="darkslateblue">
+<text x="119.6em" y="39.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -375,25 +390,25 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="119.6em" y="39.599999999999994em" fill="darkslateblue">
+<text x="119.6em" y="40.900000000000006em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownLocationName [0..1]
 </text>
 
-<text x="119.6em" y="40.9em" fill="darkslateblue">
+<text x="119.6em" y="42.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
 </text>
 
-<text x="119.6em" y="42.2em" fill="darkslateblue">
+<text x="119.6em" y="43.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -402,13 +417,13 @@ Description: Number that identifies the unit of a specific address .
 UnitNumber [0..1]
 </text>
 
-<rect x="103.8em" y="44.2em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="115.8em" y="45.5em" fill="black">
+<rect x="103.8em" y="45.5em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="115.8em" y="46.8em" fill="black">
 <title>Provides the details to identify the beneficiary account.</title>
 CreditorAccount
 </text>
 
-<text x="104.8em" y="47.5em" fill="darkslateblue">
+<text x="104.8em" y="48.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 256
@@ -417,7 +432,7 @@ Description: Identification assigned by an institution to identify an account. T
 Identification [1..1]
 </text>
 
-<text x="104.8em" y="48.8em" fill="darkslateblue">
+<text x="104.8em" y="50.099999999999994em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 350
@@ -428,21 +443,21 @@ OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is no
 Name [1..1]
 </text>
 
-<text x="104.8em" y="50.1em" fill="darkslateblue">
+<text x="104.8em" y="51.4em" fill="darkslateblue">
 <title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
+Description: Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.BBAN
- - UK.OB.IBAN
- - UK.OB.PAN
- - UK.OB.Paym
- - UK.OB.SortCodeAccountNumber
- - UK.OB.Wallet
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+ - UK.OBIE.Wallet
 </title>
 SchemeName [1..1]
 </text>
 
-<text x="104.8em" y="51.4em" fill="darkslateblue">
+<text x="104.8em" y="52.699999999999996em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 34
@@ -452,15 +467,15 @@ This can be used by building societies to additionally identify accounts with a 
 SecondaryIdentification [0..1]
 </text>
 
-<rect x="133.8em" y="44.2em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="142.20000000000002em" y="45.5em" fill="black">
-<title></title>
+<rect x="133.8em" y="45.5em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="142.20000000000002em" y="46.8em" fill="black">
+<title>Specifies an alternate assumed name for the identification of the account.</title>
 Proxy
 </text>
 
-<text x="134.8em" y="47.5em" fill="darkslateblue">
+<text x="134.8em" y="48.8em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the external proxy account type code, as published in the proxy account type external code set.&lt;br&gt; For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+Description: Specifies the external proxy account type code, as published in the proxy account type external code set.&lt;br /&gt; For a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - TELE
  - EMAL
@@ -487,32 +502,32 @@ Values:
 Code [1..1]
 </text>
 
-<text x="134.8em" y="48.8em" fill="darkslateblue">
+<text x="134.8em" y="50.099999999999994em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 256
-Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+MaxLength: 2048
+Description: Identification used to indicate the account identification under another specified name.
 </title>
 Identification [1..1]
 </text>
 
-<text x="134.8em" y="50.1em" fill="darkslateblue">
+<text x="134.8em" y="51.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
-Description: Specifies the external proxy account type
+MaxLength: 35
+Description: Type of the proxy identification.
 </title>
 Type [0..1]
 </text>
 
-<rect x="103.8em" y="53.400000000000006em" width="16.8em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="54.7em" fill="black">
+<rect x="103.8em" y="54.7em" width="16.8em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="56em" fill="black">
 <title>Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
 This is the servicer of the beneficiary account.</title>
 CreditorAgent
 </text>
 
-<text x="104.8em" y="56.7em" fill="darkslateblue">
+<text x="104.8em" y="58em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -521,17 +536,17 @@ Description: Unique and unambiguous identification of the servicing institution.
 Identification [0..1]
 </text>
 
-<text x="104.8em" y="58em" fill="darkslateblue">
+<text x="104.8em" y="59.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 20
-Description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
 Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
 </title>
 LEI [0..1]
 </text>
 
-<text x="104.8em" y="59.300000000000004em" fill="darkslateblue">
+<text x="104.8em" y="60.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -540,22 +555,22 @@ Description: Name by which an agent is known and which is usually used to identi
 Name [0..1]
 </text>
 
-<text x="104.8em" y="60.6em" fill="darkslateblue">
+<text x="104.8em" y="61.9em" fill="darkslateblue">
 <title>Type: string
 Description: Name of the identification scheme, in a coded form as published in an external list.
 Values:
- - UK.OB.BICFI
+ - UK.OBIE.BICFI
 </title>
 SchemeName [0..1]
 </text>
 
-<rect x="126.6em" y="53.400000000000006em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="136.6em" y="54.7em" fill="black">
+<rect x="126.6em" y="54.7em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="136.6em" y="56em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 PostalAddress
 </text>
 
-<text x="127.6em" y="56.7em" fill="darkslateblue">
+<text x="127.6em" y="58em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -564,9 +579,9 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="127.6em" y="58em" fill="darkslateblue">
+<text x="127.6em" y="59.3em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies the nature of the postal address.
+Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
  - BIZZ
  - DLVY
@@ -580,16 +595,16 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="127.6em" y="59.300000000000004em" fill="darkslateblue">
+<text x="127.6em" y="60.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a referenced building.
 </title>
 BuildingName [0..1]
 </text>
 
-<text x="127.6em" y="60.6em" fill="darkslateblue">
+<text x="127.6em" y="61.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -598,16 +613,16 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="127.6em" y="61.900000000000006em" fill="darkslateblue">
+<text x="127.6em" y="63.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
 </title>
 CareOf [0..1]
 </text>
 
-<text x="127.6em" y="63.2em" fill="darkslateblue">
+<text x="127.6em" y="64.5em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -615,7 +630,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="127.6em" y="64.5em" fill="darkslateblue">
+<text x="127.6em" y="65.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -624,7 +639,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="127.6em" y="65.8em" fill="darkslateblue">
+<text x="127.6em" y="67.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -633,33 +648,34 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="127.6em" y="67.10000000000001em" fill="darkslateblue">
+<text x="127.6em" y="68.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Number that of the regional area, known as a district, which forms part of an address
 </title>
 DistrictName [0..1]
 </text>
 
-<text x="127.6em" y="68.4em" fill="darkslateblue">
+<text x="127.6em" y="69.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
+MaxLength: 70
 Description: Number that identifies the level within a building
 </title>
 Floor [0..1]
 </text>
 
-<text x="127.6em" y="69.7em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
+<text x="127.6em" y="71em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
 </title>
 PostBox [0..1]
 </text>
 
-<text x="127.6em" y="71em" fill="darkslateblue">
+<text x="127.6em" y="72.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -668,24 +684,25 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="127.6em" y="72.30000000000001em" fill="darkslateblue">
-<title>MinLength: 1
+<text x="127.6em" y="73.6em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
 </title>
 Room [0..1]
 </text>
 
-<text x="127.6em" y="73.60000000000001em" fill="darkslateblue">
+<text x="127.6em" y="74.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
 </text>
 
-<text x="127.6em" y="74.9em" fill="darkslateblue">
+<text x="127.6em" y="76.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -694,25 +711,25 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="127.6em" y="76.2em" fill="darkslateblue">
+<text x="127.6em" y="77.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownLocationName [0..1]
 </text>
 
-<text x="127.6em" y="77.5em" fill="darkslateblue">
+<text x="127.6em" y="78.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
 </text>
 
-<text x="127.6em" y="78.80000000000001em" fill="darkslateblue">
+<text x="127.6em" y="80.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -721,13 +738,13 @@ Description: Number that identifies the unit of a specific address .
 UnitNumber [0..1]
 </text>
 
-<rect x="103.8em" y="80.80000000000001em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="115.8em" y="82.10000000000001em" fill="black">
-<title>Unambiguous identification of the account of the debtor to which a debit entry will be made as a result of the transaction.</title>
+<rect x="103.8em" y="82.10000000000001em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="115.8em" y="83.4em" fill="black">
+<title>Provides the details to identify the debtor account.</title>
 DebtorAccount
 </text>
 
-<text x="104.8em" y="84.10000000000001em" fill="darkslateblue">
+<text x="104.8em" y="85.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 256
@@ -736,7 +753,7 @@ Description: Identification assigned by an institution to identify an account. T
 Identification [1..1]
 </text>
 
-<text x="104.8em" y="85.4em" fill="darkslateblue">
+<text x="104.8em" y="86.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 350
@@ -746,21 +763,21 @@ Note, the account name is not the product name or the nickname of the account.
 Name [0..1]
 </text>
 
-<text x="104.8em" y="86.7em" fill="darkslateblue">
+<text x="104.8em" y="88em" fill="darkslateblue">
 <title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
+Description: Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.BBAN
- - UK.OB.IBAN
- - UK.OB.PAN
- - UK.OB.Paym
- - UK.OB.SortCodeAccountNumber
- - UK.OB.Wallet
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+ - UK.OBIE.Wallet
 </title>
 SchemeName [1..1]
 </text>
 
-<text x="104.8em" y="88.00000000000001em" fill="darkslateblue">
+<text x="104.8em" y="89.30000000000001em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 34
@@ -770,15 +787,15 @@ This can be used by building societies to additionally identify accounts with a 
 SecondaryIdentification [0..1]
 </text>
 
-<rect x="133.8em" y="80.80000000000001em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="142.20000000000002em" y="82.10000000000001em" fill="black">
-<title></title>
+<rect x="133.8em" y="82.10000000000001em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="142.20000000000002em" y="83.4em" fill="black">
+<title>Specifies an alternate assumed name for the identification of the account.</title>
 Proxy
 </text>
 
-<text x="134.8em" y="84.10000000000001em" fill="darkslateblue">
+<text x="134.8em" y="85.4em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the external proxy account type code, as published in the proxy account type external code set.&lt;br&gt; For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+Description: Specifies the external proxy account type code, as published in the proxy account type external code set.&lt;br /&gt; For a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - TELE
  - EMAL
@@ -805,32 +822,32 @@ Values:
 Code [1..1]
 </text>
 
-<text x="134.8em" y="85.4em" fill="darkslateblue">
+<text x="134.8em" y="86.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 256
-Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+MaxLength: 2048
+Description: Identification used to indicate the account identification under another specified name.
 </title>
 Identification [1..1]
 </text>
 
-<text x="134.8em" y="86.7em" fill="darkslateblue">
+<text x="134.8em" y="88em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
-Description: Specifies the external proxy account type
+MaxLength: 35
+Description: Type of the proxy identification.
 </title>
 Type [0..1]
 </text>
 
-<rect x="103.8em" y="90.00000000000001em" width="12.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="110.2em" y="91.30000000000001em" fill="black">
+<rect x="103.8em" y="91.30000000000001em" width="12.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="110.2em" y="92.60000000000001em" fill="black">
 <title>Amount of money to be moved between the debtor and creditor, before deduction of charges, expressed in the currency as ordered by the initiating party.
 Usage: This amount has to be transported unchanged through the transaction chain.</title>
 InstructedAmount
 </text>
 
-<text x="104.8em" y="93.30000000000001em" fill="darkslateblue">
+<text x="104.8em" y="94.60000000000001em" fill="darkslateblue">
 <title>Type: string
 Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
 Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
@@ -838,7 +855,7 @@ Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 Amount [1..1]
 </text>
 
-<text x="104.8em" y="94.60000000000001em" fill="darkslateblue">
+<text x="104.8em" y="95.9em" fill="darkslateblue">
 <title>Type: string
 Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
 Pattern: ^[A-Z]{3,3}$
@@ -846,15 +863,166 @@ Pattern: ^[A-Z]{3,3}$
 Currency [1..1]
 </text>
 
-<rect x="103.8em" y="96.60000000000001em" width="28.8em" height="4.3em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="118.2em" y="97.9em" fill="black">
+<rect x="103.8em" y="97.9em" width="24.8em" height="12.1em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="116.2em" y="99.2em" fill="black">
+<title></title>
+MandateRelatedInformation
+</text>
+
+<text x="104.8em" y="101.2em" fill="darkslateblue">
+<title>Type: string
+Description: Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
+ For all enum values see `ExternalCategoryPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Values:
+ - BONU
+ - CASH
+ - CBLK
+ - CCRD
+ - CGWV
+ - CIPC
+ - CONC
+ - CORT
+ - DCRD
+ - DIVI
+ - DVPM
+ - EPAY
+ - FCDT
+ - FCIN
+ - FCOL
+ - GOVT
+ - GP2P
+ - HEDG
+ - ICCP
+ - IDCP
+ - INTC
+ - INTE
+ - LBOX
+ - LOAN
+ - MP2B
+ - MP2P
+ - OTHR
+ - PENS
+ - RPRE
+ - RRCT
+ - RVPM
+ - SALA
+ - SECU
+ - SSBE
+ - SUPP
+ - SWEP
+ - TAXS
+ - TOPG
+ - TRAD
+ - TREA
+ - VATX
+ - VOST
+ - WHLD
+ - ZABA
+</title>
+CategoryPurposeCode [0..1]
+</text>
+
+<text x="104.8em" y="102.5em" fill="darkslateblue">
+<title>Type: string
+Values:
+ - FIXE
+ - USGB
+ - VARI
+</title>
+Classification [0..1]
+</text>
+
+<text x="104.8em" y="103.8em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+</title>
+FinalPaymentDateTime [0..1]
+</text>
+
+<text x="104.8em" y="105.10000000000001em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+</title>
+FirstPaymentDateTime [0..1]
+</text>
+
+<text x="104.8em" y="106.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+</title>
+MandateIdentification [0..1]
+</text>
+
+<text x="104.8em" y="107.7em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.
+</title>
+Reason [0..1]
+</text>
+
+<text x="104.8em" y="109em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: The date on which the first recurring payment for a Standing Order schedule will be made. 
+Usage: This must be populated only if the first recurring date is different to the first payment date. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+All date-time fields in responses must include the timezone. An example is below:
+2017-04-05T10:43:07&#43;00:00
+</title>
+RecurringPaymentDateTime [0..1]
+</text>
+
+<rect x="134.6em" y="97.9em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="143em" y="99.2em" fill="black">
+<title>Regularity with which credit transfer instructions are to be created and processed</title>
+Frequency
+</text>
+
+<text x="135.6em" y="101.2em" fill="darkslateblue">
+<title>Type: integer
+Format: int32
+Description: Number of instructions to be created and processed during the specified period .Specifies a frequency in terms of a count per period within a specified frequency type. Note: should not be used alongside `PointInTime`
+</title>
+CountPerPeriod [0..1]
+</text>
+
+<text x="135.6em" y="102.5em" fill="darkslateblue">
+<title>Type: string
+MaxLength: 2
+Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerSide`
+</title>
+PointInTime [0..1]
+</text>
+
+<text x="135.6em" y="103.8em" fill="darkslateblue">
+<title>Type: string
+Description: `OBFrequency6Code` on External Codset Repo
+Values:
+ - ADHO
+ - YEAR
+ - DAIL
+ - FRTN
+ - INDA
+ - MNTH
+ - QURT
+ - MIAN
+ - WEEK
+</title>
+Type [1..1]
+</text>
+
+<rect x="103.8em" y="111em" width="28.8em" height="4.3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="118.2em" y="112.3em" fill="black">
 <title>Information needed due to regulatory and statutory requirements</title>
 RegulatoryReporting
 </text>
 
-<text x="104.8em" y="99.9em" fill="darkslateblue">
+<text x="104.8em" y="114.3em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. 
+Description: Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values reefer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - CRED
  - DEBT
@@ -863,13 +1031,13 @@ Values:
 DebitCreditReportingIndicator [0..1]
 </text>
 
-<rect x="138.6em" y="96.60000000000001em" width="14.4em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="145.79999999999998em" y="97.9em" fill="black">
+<rect x="138.6em" y="111em" width="14.4em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="145.79999999999998em" y="112.3em" fill="black">
 <title>Entity requiring the regulatory reporting information. </title>
 Authority
 </text>
 
-<text x="139.6em" y="99.9em" fill="darkslateblue">
+<text x="139.6em" y="114.3em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -877,7 +1045,7 @@ Pattern: ^[A-Z]{2,2}$
 CountryCode [0..1]
 </text>
 
-<text x="139.6em" y="101.2em" fill="darkslateblue">
+<text x="139.6em" y="115.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -886,13 +1054,13 @@ Description: Name of the entity requiring the regulatory reporting information.
 Name [0..1]
 </text>
 
-<rect x="138.6em" y="103.2em" width="14.4em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="145.79999999999998em" y="104.5em" fill="black">
+<rect x="138.6em" y="117.6em" width="14.4em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="145.79999999999998em" y="118.89999999999999em" fill="black">
 <title>Set of elements used to provide details on the regulatory reporting information.</title>
 Details
 </text>
 
-<text x="139.6em" y="106.5em" fill="darkslateblue">
+<text x="139.6em" y="120.89999999999999em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -900,7 +1068,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="139.6em" y="107.8em" fill="darkslateblue">
+<text x="139.6em" y="122.19999999999999em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
 Description: All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -910,7 +1078,7 @@ All date-time fields in responses must include the timezone. An example is below
 Date [0..1]
 </text>
 
-<text x="139.6em" y="109.1em" fill="darkslateblue">
+<text x="139.6em" y="123.49999999999999em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -918,7 +1086,7 @@ MaxLength: 35
 Information [0..*]
 </text>
 
-<text x="139.6em" y="110.4em" fill="darkslateblue">
+<text x="139.6em" y="124.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -927,13 +1095,13 @@ Description: Specifies the type of the information supplied in the regulatory re
 Type [0..1]
 </text>
 
-<rect x="159em" y="103.2em" width="12em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="165em" y="104.5em" fill="black">
+<rect x="159em" y="117.6em" width="12em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="165em" y="118.89999999999999em" fill="black">
 <title>Amount of money associated with the charge type.</title>
 Amount
 </text>
 
-<text x="160em" y="106.5em" fill="darkslateblue">
+<text x="160em" y="120.89999999999999em" fill="darkslateblue">
 <title>Type: string
 Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
 Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
@@ -941,7 +1109,7 @@ Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 Amount [1..1]
 </text>
 
-<text x="160em" y="107.8em" fill="darkslateblue">
+<text x="160em" y="122.19999999999999em" fill="darkslateblue">
 <title>Type: string
 Description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 &#34;Codes for the representation of currencies and funds&#34;.
 Pattern: ^[A-Z]{3,3}$
@@ -949,279 +1117,234 @@ Pattern: ^[A-Z]{3,3}$
 Currency [1..1]
 </text>
 
-<rect x="103.8em" y="112.4em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="110.6em" y="113.7em" fill="black">
-<title>Additional information that can not be captured in the structured fields and/or any other specific block.</title>
-SupplementaryData
+<rect x="103.8em" y="126.8em" width="16.8em" height="4.3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="128.1em" fill="black">
+<title>Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts&#39; receivable system</title>
+RemittanceInformation
 </text>
 
-<rect x="103.8em" y="116.4em" width="16.8em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="117.7em" fill="black">
-<title>Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
-This is the servicer of the beneficiary account.</title>
-UltimateCreditor
-</text>
-
-<text x="104.8em" y="119.7em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
-</title>
-Identification [0..1]
-</text>
-
-<text x="104.8em" y="121em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 20
-Description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
-</title>
-LEI [0..1]
-</text>
-
-<text x="104.8em" y="122.3em" fill="darkslateblue">
+<text x="104.8em" y="130.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
-Description: Name by which an agent is known and which is usually used to identify that agent.
 </title>
-Name [0..1]
+Unstructured [0..*]
 </text>
 
-<text x="104.8em" y="123.60000000000001em" fill="darkslateblue">
-<title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
-Values:
- - UK.OB.BICFI
-</title>
-SchemeName [0..1]
-</text>
-
-<rect x="126.6em" y="116.4em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="136.6em" y="117.7em" fill="black">
-<title>Information that locates and identifies a specific address, as defined by postal services.</title>
-PostalAddress
-</text>
-
-<text x="127.6em" y="119.7em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 70
-Description: Information that locates and identifies a specific address, as defined by postal services, presented in free format text.
-</title>
-AddressLine [0..7]
-</text>
-
-<text x="127.6em" y="121em" fill="darkslateblue">
-<title>Type: string
-Description: Identifies the nature of the postal address.
-Values:
- - BIZZ
- - DLVY
- - MLTO
- - PBOX
- - ADDR
- - HOME
- - CORR
- - STAT
-</title>
-AddressType [0..1]
-</text>
-
-<text x="127.6em" y="122.3em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 70
-Description: Name of a referenced building.
-</title>
-BuildingName [0..1]
-</text>
-
-<text x="127.6em" y="123.60000000000001em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 16
-Description: Number that identifies the position of a building on a street.
-</title>
-BuildingNumber [0..1]
-</text>
-
-<text x="127.6em" y="124.9em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 70
-Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
-</title>
-CareOf [0..1]
-</text>
-
-<text x="127.6em" y="126.2em" fill="darkslateblue">
-<title>Type: string
-Description: Nation with its own government.
-Pattern: ^[A-Z]{2,2}$
-</title>
-Country [0..1]
-</text>
-
-<text x="127.6em" y="127.5em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 35
-Description: Identifies a subdivision of a country such as state, region, county.
-</title>
-CountrySubDivision [0..1]
-</text>
-
-<text x="127.6em" y="128.8em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 70
-Description: Identification of a division of a large organisation or building.
-</title>
-Department [0..1]
+<rect x="126.6em" y="126.8em" width="30.400000000000002em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="141.79999999999998em" y="128.1em" fill="black">
+<title></title>
+Structured
 </text>
 
 <text x="127.6em" y="130.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
-Description: Number that of the regional area, known as a district, which forms part of an address
+MaxLength: 140
 </title>
-DistrictName [0..1]
+AdditionalRemittanceInformation [0..3]
 </text>
 
 <text x="127.6em" y="131.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
-Description: Number that identifies the level within a building
+MaxLength: 256
+Description: Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
 </title>
-Floor [0..1]
+Invoicee [0..1]
 </text>
 
 <text x="127.6em" y="132.7em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
-Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor
 </title>
-PostBox [0..1]
+Invoicer [0..1]
 </text>
 
 <text x="127.6em" y="134em" fill="darkslateblue">
+<title>Type: integer
+Format: int32
+Description: Provides details on the amounts of the referred document.
+</title>
+ReferredDocumentAmount [0..1]
+</text>
+
+<text x="127.6em" y="135.29999999999998em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
-Description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
+MaxLength: 140
+Description: Provides remittance information about a payment made for tax-related purposes.
 </title>
-PostCode [0..1]
+TaxRemittance [0..1]
 </text>
 
-<text x="127.6em" y="135.3em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
-Description: Information that locates and identifies a room to form part of an address
-</title>
-Room [0..1]
+<rect x="163em" y="126.8em" width="22.400000000000002em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="174.2em" y="128.1em" fill="black">
+<title>Reference information provided by the creditor to allow the identification of the underlying documents.</title>
+CreditorReferenceInformation
 </text>
 
-<text x="127.6em" y="136.6em" fill="darkslateblue">
+<text x="164em" y="130.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
-Description: Name of a street or thoroughfare.
+MaxLength: 4
+Description: Specifies the type of creditor reference as published in an external creditor reference type code set. For more information see `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Values:
+ - DISP
+ - FXDR
+ - PUOR
+ - RPIN
+ - RADM
+ - SCOR
 </title>
-StreetName [0..1]
+Code [0..1]
 </text>
 
-<text x="127.6em" y="137.9em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 70
-Description: Identification of a sub-division of a large organisation or building.
-</title>
-SubDepartment [0..1]
-</text>
-
-<text x="127.6em" y="139.2em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 35
-Description: Name of a built-up area, with defined boundaries, and a local government.
-</title>
-TownLocationName [0..1]
-</text>
-
-<text x="127.6em" y="140.5em" fill="darkslateblue">
+<text x="164em" y="131.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Name of a built-up area, with defined boundaries, and a local government.
+Description: Entity that assigns the identification.
 </title>
-TownName [0..1]
+Issuer [0..1]
 </text>
 
-<text x="127.6em" y="141.8em" fill="darkslateblue">
-<title>Type: string
-MinLength: 1
-MaxLength: 16
-Description: Number that identifies the unit of a specific address .
-</title>
-UnitNumber [0..1]
-</text>
-
-<rect x="103.8em" y="143.8em" width="16.8em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="145.10000000000002em" fill="black">
-<title>Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account.
-This is the servicer of the beneficiary account.</title>
-UltimateDebtor
-</text>
-
-<text x="104.8em" y="147.10000000000002em" fill="darkslateblue">
+<text x="164em" y="132.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
+</title>
+Reference [0..1]
+</text>
+
+<rect x="163em" y="134.7em" width="21.6em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="173.8em" y="136em" fill="black">
+<title></title>
+ReferredDocumentInformation
+</text>
+
+<text x="164em" y="138em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 4
+Description: Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Values:
+ - CINV
+ - CNFA
+ - CONT
+ - CREN
+ - DEBN
+ - DISP
+ - DNFA
+ - HIRI
+ - INVS
+ - MSIN
+ - PROF
+ - PUOR
+ - QUOT
+ - SBIN
+ - SPRR
+ - TISH
+</title>
+Code [0..1]
+</text>
+
+<text x="164em" y="139.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Identification of the issuer of the reference document type.
+</title>
+Issuer [0..1]
+</text>
+
+<text x="164em" y="140.6em" fill="darkslateblue">
+<title>Type: string
+</title>
+LineDetails [0..*]
+</text>
+
+<text x="164em" y="141.9em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Identification of the type specified for the referred document line.
+</title>
+Number [0..1]
+</text>
+
+<text x="164em" y="143.2em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: Date associated with the referred document line.
+</title>
+RelatedDate [0..1]
+</text>
+
+<rect x="103.8em" y="145.2em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="110.6em" y="146.5em" fill="black">
+<title>Additional information that can not be captured in the structured fields and/or any other specific block.</title>
+SupplementaryData
+</text>
+
+<rect x="103.8em" y="149.2em" width="16.8em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="150.5em" fill="black">
+<title>Ultimate party to which an amount of money is due.</title>
+UltimateCreditor
+</text>
+
+<text x="104.8em" y="152.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution.
 </title>
 Identification [0..1]
 </text>
 
-<text x="104.8em" y="148.40000000000003em" fill="darkslateblue">
+<text x="104.8em" y="153.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 20
-Description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
 Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
 </title>
 LEI [0..1]
 </text>
 
-<text x="104.8em" y="149.70000000000002em" fill="darkslateblue">
+<text x="104.8em" y="155.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
-Description: Name by which an agent is known and which is usually used to identify that agent.
+Description: Name by which a party is known and which is usually used to identify that party.
 </title>
 Name [0..1]
 </text>
 
-<text x="104.8em" y="151.00000000000003em" fill="darkslateblue">
+<text x="104.8em" y="156.4em" fill="darkslateblue">
 <title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
+Description: Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.BICFI
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+ - UK.OBIE.Wallet
 </title>
 SchemeName [0..1]
 </text>
 
-<rect x="126.6em" y="143.8em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="136.6em" y="145.10000000000002em" fill="black">
+<rect x="126.6em" y="149.2em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="136.6em" y="150.5em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 PostalAddress
 </text>
 
-<text x="127.6em" y="147.10000000000002em" fill="darkslateblue">
+<text x="127.6em" y="152.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1230,9 +1353,9 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="127.6em" y="148.40000000000003em" fill="darkslateblue">
+<text x="127.6em" y="153.8em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies the nature of the postal address.
+Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
  - BIZZ
  - DLVY
@@ -1246,16 +1369,16 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="127.6em" y="149.70000000000002em" fill="darkslateblue">
+<text x="127.6em" y="155.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a referenced building.
 </title>
 BuildingName [0..1]
 </text>
 
-<text x="127.6em" y="151.00000000000003em" fill="darkslateblue">
+<text x="127.6em" y="156.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1264,16 +1387,16 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="127.6em" y="152.3em" fill="darkslateblue">
+<text x="127.6em" y="157.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
 </title>
 CareOf [0..1]
 </text>
 
-<text x="127.6em" y="153.60000000000002em" fill="darkslateblue">
+<text x="127.6em" y="159em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -1281,7 +1404,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="127.6em" y="154.90000000000003em" fill="darkslateblue">
+<text x="127.6em" y="160.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -1290,7 +1413,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="127.6em" y="156.20000000000002em" fill="darkslateblue">
+<text x="127.6em" y="161.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1299,33 +1422,34 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="127.6em" y="157.50000000000003em" fill="darkslateblue">
+<text x="127.6em" y="162.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Number that of the regional area, known as a district, which forms part of an address
 </title>
 DistrictName [0..1]
 </text>
 
-<text x="127.6em" y="158.8em" fill="darkslateblue">
+<text x="127.6em" y="164.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
+MaxLength: 70
 Description: Number that identifies the level within a building
 </title>
 Floor [0..1]
 </text>
 
-<text x="127.6em" y="160.10000000000002em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
+<text x="127.6em" y="165.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
 </title>
 PostBox [0..1]
 </text>
 
-<text x="127.6em" y="161.40000000000003em" fill="darkslateblue">
+<text x="127.6em" y="166.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1334,24 +1458,25 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="127.6em" y="162.70000000000002em" fill="darkslateblue">
-<title>MinLength: 1
+<text x="127.6em" y="168.1em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
 </title>
 Room [0..1]
 </text>
 
-<text x="127.6em" y="164.00000000000003em" fill="darkslateblue">
+<text x="127.6em" y="169.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
 </text>
 
-<text x="127.6em" y="165.3em" fill="darkslateblue">
+<text x="127.6em" y="170.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1360,25 +1485,25 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="127.6em" y="166.60000000000002em" fill="darkslateblue">
+<text x="127.6em" y="172em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownLocationName [0..1]
 </text>
 
-<text x="127.6em" y="167.90000000000003em" fill="darkslateblue">
+<text x="127.6em" y="173.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
 </text>
 
-<text x="127.6em" y="169.20000000000002em" fill="darkslateblue">
+<text x="127.6em" y="174.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1387,47 +1512,269 @@ Description: Number that identifies the unit of a specific address .
 UnitNumber [0..1]
 </text>
 
-<rect x="74.6em" y="171.2em" width="20em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="84.6em" y="172.5em" fill="black">
+<rect x="103.8em" y="176.6em" width="16.8em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="112.2em" y="177.9em" fill="black">
+<title>Ultimate party that owes an amount of money to the (ultimate) creditor.</title>
+UltimateDebtor
+</text>
+
+<text x="104.8em" y="179.9em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification assigned by an institution.
+</title>
+Identification [0..1]
+</text>
+
+<text x="104.8em" y="181.20000000000002em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 20
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
+Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+</title>
+LEI [0..1]
+</text>
+
+<text x="104.8em" y="182.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Name by which a party is known and which is usually used to identify that party.
+</title>
+Name [0..1]
+</text>
+
+<text x="104.8em" y="183.8em" fill="darkslateblue">
+<title>Type: string
+Description: Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Values:
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+ - UK.OBIE.Wallet
+</title>
+SchemeName [0..1]
+</text>
+
+<rect x="126.6em" y="176.6em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="136.6em" y="177.9em" fill="black">
+<title>Information that locates and identifies a specific address, as defined by postal services.</title>
+PostalAddress
+</text>
+
+<text x="127.6em" y="179.9em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Information that locates and identifies a specific address, as defined by postal services, presented in free format text.
+</title>
+AddressLine [0..7]
+</text>
+
+<text x="127.6em" y="181.20000000000002em" fill="darkslateblue">
+<title>Type: string
+Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
+Values:
+ - BIZZ
+ - DLVY
+ - MLTO
+ - PBOX
+ - ADDR
+ - HOME
+ - CORR
+ - STAT
+</title>
+AddressType [0..1]
+</text>
+
+<text x="127.6em" y="182.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Name of a referenced building.
+</title>
+BuildingName [0..1]
+</text>
+
+<text x="127.6em" y="183.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
+Description: Number that identifies the position of a building on a street.
+</title>
+BuildingNumber [0..1]
+</text>
+
+<text x="127.6em" y="185.1em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
+</title>
+CareOf [0..1]
+</text>
+
+<text x="127.6em" y="186.4em" fill="darkslateblue">
+<title>Type: string
+Description: Nation with its own government.
+Pattern: ^[A-Z]{2,2}$
+</title>
+Country [0..1]
+</text>
+
+<text x="127.6em" y="187.70000000000002em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Identifies a subdivision of a country such as state, region, county.
+</title>
+CountrySubDivision [0..1]
+</text>
+
+<text x="127.6em" y="189em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Identification of a division of a large organisation or building.
+</title>
+Department [0..1]
+</text>
+
+<text x="127.6em" y="190.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Number that of the regional area, known as a district, which forms part of an address
+</title>
+DistrictName [0..1]
+</text>
+
+<text x="127.6em" y="191.6em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Number that identifies the level within a building
+</title>
+Floor [0..1]
+</text>
+
+<text x="127.6em" y="192.9em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
+Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
+</title>
+PostBox [0..1]
+</text>
+
+<text x="127.6em" y="194.20000000000002em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
+Description: Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail.
+</title>
+PostCode [0..1]
+</text>
+
+<text x="127.6em" y="195.5em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Information that locates and identifies a room to form part of an address
+</title>
+Room [0..1]
+</text>
+
+<text x="127.6em" y="196.8em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Name of a street or thoroughfare.
+</title>
+StreetName [0..1]
+</text>
+
+<text x="127.6em" y="198.1em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 70
+Description: Identification of a sub-division of a large organisation or building.
+</title>
+SubDepartment [0..1]
+</text>
+
+<text x="127.6em" y="199.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Name of a built-up area, with defined boundaries, and a local government.
+</title>
+TownLocationName [0..1]
+</text>
+
+<text x="127.6em" y="200.70000000000002em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Name of a built-up area, with defined boundaries, and a local government.
+</title>
+TownName [0..1]
+</text>
+
+<text x="127.6em" y="202em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
+Description: Number that identifies the unit of a specific address .
+</title>
+UnitNumber [0..1]
+</text>
+
+<rect x="74.6em" y="204em" width="20em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="84.6em" y="205.3em" fill="black">
 <title>The multiple authorisation flow response from the ASPSP.</title>
 MultiAuthorisation
 </text>
 
-<text x="75.6em" y="174.5em" fill="darkslateblue">
+<text x="75.6em" y="207.3em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: Date and time at which the requested authorisation flow must be completed.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Description: Date and time at which the requested authorisation flow must be completed. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
 ExpirationDateTime [0..1]
 </text>
 
-<text x="75.6em" y="175.8em" fill="darkslateblue">
+<text x="75.6em" y="208.60000000000002em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: Last date and time at the authorisation flow was updated.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Description: Last date and time at the authorisation flow was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
 LastUpdateDateTime [0..1]
 </text>
 
-<text x="75.6em" y="177.1em" fill="darkslateblue">
+<text x="75.6em" y="209.9em" fill="darkslateblue">
 <title>Type: integer
 Description: Number of authorisations received.
 </title>
 NumberReceived [0..1]
 </text>
 
-<text x="75.6em" y="178.4em" fill="darkslateblue">
+<text x="75.6em" y="211.20000000000002em" fill="darkslateblue">
 <title>Type: integer
 Description: Number of authorisations required for payment order (total required at the start of the multi authorisation journey).
 </title>
 NumberRequired [0..1]
 </text>
 
-<text x="75.6em" y="179.7em" fill="darkslateblue">
+<text x="75.6em" y="212.5em" fill="darkslateblue">
 <title>Type: string
 Description: Specifies the status of the authorisation flow in code form.
 Values:
@@ -1438,19 +1785,19 @@ Values:
 Status [1..1]
 </text>
 
-<rect x="74.6em" y="181.7em" width="4.800000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="77em" y="183em" fill="black">
+<rect x="74.6em" y="214.5em" width="4.800000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="77em" y="215.8em" fill="black">
 <title></title>
 Refund
 </text>
 
-<rect x="85.39999999999999em" y="181.7em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="97.39999999999999em" y="183em" fill="black">
+<rect x="85.39999999999999em" y="214.5em" width="24em" height="8.2em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="97.39999999999999em" y="215.8em" fill="black">
 <title>Provides the details to identify an account.</title>
 Account
 </text>
 
-<text x="86.39999999999999em" y="185em" fill="darkslateblue">
+<text x="86.39999999999999em" y="217.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 256
@@ -1459,7 +1806,7 @@ Description: Identification assigned by an institution to identify an account. T
 Identification [1..1]
 </text>
 
-<text x="86.39999999999999em" y="186.3em" fill="darkslateblue">
+<text x="86.39999999999999em" y="219.10000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 350
@@ -1470,21 +1817,21 @@ OB: ASPSPs may carry out name validation for Confirmation of Payee, but it is no
 Name [1..1]
 </text>
 
-<text x="86.39999999999999em" y="187.6em" fill="darkslateblue">
+<text x="86.39999999999999em" y="220.4em" fill="darkslateblue">
 <title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
+Description: Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.BBAN
- - UK.OB.IBAN
- - UK.OB.PAN
- - UK.OB.Paym
- - UK.OB.SortCodeAccountNumber
- - UK.OB.Wallet
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+ - UK.OBIE.Wallet
 </title>
 SchemeName [1..1]
 </text>
 
-<text x="86.39999999999999em" y="188.9em" fill="darkslateblue">
+<text x="86.39999999999999em" y="221.70000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 34
@@ -1494,13 +1841,13 @@ This can be used by building societies to additionally identify accounts with a 
 SecondaryIdentification [0..1]
 </text>
 
-<rect x="85.39999999999999em" y="190.89999999999998em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="93.8em" y="192.2em" fill="black">
+<rect x="85.39999999999999em" y="223.7em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="93.8em" y="225em" fill="black">
 <title>Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.</title>
 Agent
 </text>
 
-<text x="86.39999999999999em" y="194.2em" fill="darkslateblue">
+<text x="86.39999999999999em" y="227em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -1509,7 +1856,7 @@ Description: Unique and unambiguous identification of a financial institution or
 Identification [0..1]
 </text>
 
-<text x="86.39999999999999em" y="195.5em" fill="darkslateblue">
+<text x="86.39999999999999em" y="228.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -1518,22 +1865,22 @@ Description: Name by which an agent is known and which is usually used to identi
 Name [0..1]
 </text>
 
-<text x="86.39999999999999em" y="196.79999999999998em" fill="darkslateblue">
+<text x="86.39999999999999em" y="229.6em" fill="darkslateblue">
 <title>Type: string
 Description: Name of the identification scheme, in a coded form as published in an external list.
 Values:
- - UK.OB.BICFI
+ - UK.OBIE.BICFI
 </title>
 SchemeName [0..1]
 </text>
 
-<rect x="108.19999999999999em" y="190.89999999999998em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="118.19999999999999em" y="192.2em" fill="black">
+<rect x="108.19999999999999em" y="223.7em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="118.19999999999999em" y="225em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 PostalAddress
 </text>
 
-<text x="109.19999999999999em" y="194.2em" fill="darkslateblue">
+<text x="109.19999999999999em" y="227em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1542,9 +1889,9 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="109.19999999999999em" y="195.5em" fill="darkslateblue">
+<text x="109.19999999999999em" y="228.3em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies the nature of the postal address.
+Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
  - BIZZ
  - DLVY
@@ -1558,16 +1905,16 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="109.19999999999999em" y="196.79999999999998em" fill="darkslateblue">
+<text x="109.19999999999999em" y="229.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a referenced building.
 </title>
 BuildingName [0..1]
 </text>
 
-<text x="109.19999999999999em" y="198.1em" fill="darkslateblue">
+<text x="109.19999999999999em" y="230.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1576,16 +1923,16 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="109.19999999999999em" y="199.39999999999998em" fill="darkslateblue">
+<text x="109.19999999999999em" y="232.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
 </title>
 CareOf [0..1]
 </text>
 
-<text x="109.19999999999999em" y="200.7em" fill="darkslateblue">
+<text x="109.19999999999999em" y="233.5em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -1593,7 +1940,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="109.19999999999999em" y="202em" fill="darkslateblue">
+<text x="109.19999999999999em" y="234.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -1602,7 +1949,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="109.19999999999999em" y="203.29999999999998em" fill="darkslateblue">
+<text x="109.19999999999999em" y="236.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1611,33 +1958,34 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="109.19999999999999em" y="204.6em" fill="darkslateblue">
+<text x="109.19999999999999em" y="237.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Number that of the regional area, known as a district, which forms part of an address
 </title>
 DistrictName [0..1]
 </text>
 
-<text x="109.19999999999999em" y="205.89999999999998em" fill="darkslateblue">
+<text x="109.19999999999999em" y="238.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
+MaxLength: 70
 Description: Number that identifies the level within a building
 </title>
 Floor [0..1]
 </text>
 
-<text x="109.19999999999999em" y="207.2em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
+<text x="109.19999999999999em" y="240em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
 </title>
 PostBox [0..1]
 </text>
 
-<text x="109.19999999999999em" y="208.5em" fill="darkslateblue">
+<text x="109.19999999999999em" y="241.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1646,24 +1994,25 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="109.19999999999999em" y="209.79999999999998em" fill="darkslateblue">
-<title>MinLength: 1
+<text x="109.19999999999999em" y="242.6em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
 </title>
 Room [0..1]
 </text>
 
-<text x="109.19999999999999em" y="211.1em" fill="darkslateblue">
+<text x="109.19999999999999em" y="243.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
 </text>
 
-<text x="109.19999999999999em" y="212.39999999999998em" fill="darkslateblue">
+<text x="109.19999999999999em" y="245.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1672,25 +2021,25 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="109.19999999999999em" y="213.7em" fill="darkslateblue">
+<text x="109.19999999999999em" y="246.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownLocationName [0..1]
 </text>
 
-<text x="109.19999999999999em" y="215em" fill="darkslateblue">
+<text x="109.19999999999999em" y="247.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
 </text>
 
-<text x="109.19999999999999em" y="216.29999999999998em" fill="darkslateblue">
+<text x="109.19999999999999em" y="249.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1699,23 +2048,23 @@ Description: Number that identifies the unit of a specific address .
 UnitNumber [0..1]
 </text>
 
-<rect x="85.39999999999999em" y="218.29999999999998em" width="8.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="89.8em" y="219.6em" fill="black">
+<rect x="85.39999999999999em" y="251.1em" width="8.8em" height="5.6em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="89.8em" y="252.4em" fill="black">
 <title>Set of elements used to identify a person or an organisation.</title>
 Creditor
 </text>
 
-<text x="86.39999999999999em" y="221.6em" fill="darkslateblue">
+<text x="86.39999999999999em" y="254.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 20
-Description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
 Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
 </title>
 LEI [0..1]
 </text>
 
-<text x="86.39999999999999em" y="222.9em" fill="darkslateblue">
+<text x="86.39999999999999em" y="255.70000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 350
@@ -1724,13 +2073,13 @@ Description: Name by which a party is known and which is usually used to identif
 Name [0..1]
 </text>
 
-<rect x="100.19999999999999em" y="218.29999999999998em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="110.19999999999999em" y="219.6em" fill="black">
+<rect x="100.19999999999999em" y="251.1em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="110.19999999999999em" y="252.4em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 PostalAddress
 </text>
 
-<text x="101.19999999999999em" y="221.6em" fill="darkslateblue">
+<text x="101.19999999999999em" y="254.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1739,9 +2088,9 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="101.19999999999999em" y="222.9em" fill="darkslateblue">
+<text x="101.19999999999999em" y="255.70000000000002em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies the nature of the postal address.
+Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
  - BIZZ
  - DLVY
@@ -1755,16 +2104,16 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="101.19999999999999em" y="224.2em" fill="darkslateblue">
+<text x="101.19999999999999em" y="257em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a referenced building.
 </title>
 BuildingName [0..1]
 </text>
 
-<text x="101.19999999999999em" y="225.5em" fill="darkslateblue">
+<text x="101.19999999999999em" y="258.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1773,16 +2122,16 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="101.19999999999999em" y="226.79999999999998em" fill="darkslateblue">
+<text x="101.19999999999999em" y="259.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
 </title>
 CareOf [0..1]
 </text>
 
-<text x="101.19999999999999em" y="228.1em" fill="darkslateblue">
+<text x="101.19999999999999em" y="260.9em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -1790,7 +2139,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="101.19999999999999em" y="229.4em" fill="darkslateblue">
+<text x="101.19999999999999em" y="262.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -1799,7 +2148,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="101.19999999999999em" y="230.7em" fill="darkslateblue">
+<text x="101.19999999999999em" y="263.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1808,33 +2157,34 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="101.19999999999999em" y="232em" fill="darkslateblue">
+<text x="101.19999999999999em" y="264.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Number that of the regional area, known as a district, which forms part of an address
 </title>
 DistrictName [0..1]
 </text>
 
-<text x="101.19999999999999em" y="233.29999999999998em" fill="darkslateblue">
+<text x="101.19999999999999em" y="266.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
+MaxLength: 70
 Description: Number that identifies the level within a building
 </title>
 Floor [0..1]
 </text>
 
-<text x="101.19999999999999em" y="234.6em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
+<text x="101.19999999999999em" y="267.4em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 16
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
 </title>
 PostBox [0..1]
 </text>
 
-<text x="101.19999999999999em" y="235.9em" fill="darkslateblue">
+<text x="101.19999999999999em" y="268.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1843,24 +2193,25 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="101.19999999999999em" y="237.2em" fill="darkslateblue">
-<title>MinLength: 1
+<text x="101.19999999999999em" y="270em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
 </title>
 Room [0..1]
 </text>
 
-<text x="101.19999999999999em" y="238.5em" fill="darkslateblue">
+<text x="101.19999999999999em" y="271.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
 </text>
 
-<text x="101.19999999999999em" y="239.79999999999998em" fill="darkslateblue">
+<text x="101.19999999999999em" y="272.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1869,25 +2220,25 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="101.19999999999999em" y="241.1em" fill="darkslateblue">
+<text x="101.19999999999999em" y="273.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownLocationName [0..1]
 </text>
 
-<text x="101.19999999999999em" y="242.4em" fill="darkslateblue">
+<text x="101.19999999999999em" y="275.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
 </text>
 
-<text x="101.19999999999999em" y="243.7em" fill="darkslateblue">
+<text x="101.19999999999999em" y="276.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -1896,32 +2247,32 @@ Description: Number that identifies the unit of a specific address .
 UnitNumber [0..1]
 </text>
 
-<rect x="74.6em" y="245.7em" width="24em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="86.6em" y="247em" fill="black">
+<rect x="74.6em" y="278.5em" width="24em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="86.6em" y="279.8em" fill="black">
 <title></title>
 StatusReason
 </text>
 
-<text x="75.6em" y="249em" fill="darkslateblue">
+<text x="75.6em" y="281.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 500
-Description: Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency
+Description: Path is optional but relevant when the status reason refers to an object/field and hence conditional to provide JSON path.
 </title>
 Path [0..1]
 </text>
 
-<text x="75.6em" y="250.3em" fill="darkslateblue">
+<text x="75.6em" y="283.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 4
 Description: Specifies the status reason in a code form. 
- For a full description see `ExternalStatusReason1Code` here https://github.com/OpenBankingUK/External_Interal_CodeSets
+For a full list of values refer to `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 </title>
 StatusReasonCode [0..1]
 </text>
 
-<text x="75.6em" y="251.6em" fill="darkslateblue">
+<text x="75.6em" y="284.40000000000003em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 500
@@ -1930,54 +2281,54 @@ Description: Description supporting the StatusReasonCode.
 StatusReasonDescription [0..1]
 </text>
 
-<rect x="40.6em" y="253.60000000000002em" width="9.600000000000001em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="45.400000000000006em" y="254.90000000000003em" fill="black">
+<rect x="40.6em" y="286.4em" width="9.600000000000001em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="45.400000000000006em" y="287.7em" fill="black">
 <title>Links relevant to the payload</title>
 Links
 </text>
 
-<text x="41.6em" y="256.90000000000003em" fill="darkslateblue">
+<text x="41.6em" y="289.7em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 First [0..1]
 </text>
 
-<text x="41.6em" y="258.20000000000005em" fill="darkslateblue">
+<text x="41.6em" y="291em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Last [0..1]
 </text>
 
-<text x="41.6em" y="259.50000000000006em" fill="darkslateblue">
+<text x="41.6em" y="292.3em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Next [0..1]
 </text>
 
-<text x="41.6em" y="260.8em" fill="darkslateblue">
+<text x="41.6em" y="293.59999999999997em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Prev [0..1]
 </text>
 
-<text x="41.6em" y="262.1em" fill="darkslateblue">
+<text x="41.6em" y="294.9em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Self [1..1]
 </text>
 
-<rect x="40.6em" y="264.1em" width="23.200000000000003em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="52.2em" y="265.40000000000003em" fill="black">
+<rect x="40.6em" y="296.9em" width="23.200000000000003em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="52.2em" y="298.2em" fill="black">
 <title>Meta Data relevant to the payload</title>
 Meta
 </text>
 
-<text x="41.6em" y="267.40000000000003em" fill="darkslateblue">
+<text x="41.6em" y="300.2em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
 Description: All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -1987,7 +2338,7 @@ All date-time fields in responses must include the timezone. An example is below
 FirstAvailableDateTime [0..1]
 </text>
 
-<text x="41.6em" y="268.70000000000005em" fill="darkslateblue">
+<text x="41.6em" y="301.5em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
 Description: All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -1997,7 +2348,7 @@ All date-time fields in responses must include the timezone. An example is below
 LastAvailableDateTime [0..1]
 </text>
 
-<text x="41.6em" y="270.00000000000006em" fill="darkslateblue">
+<text x="41.6em" y="302.8em" fill="darkslateblue">
 <title>Type: integer
 Format: int32
 </title>
@@ -2021,118 +2372,142 @@ TotalPages [0..1]
 <line x1="70.6em" y1="8.6em" x2="73.8em" y2="8.6em" stroke="black" marker-end="url(#Triangle)"/>
 <text x="71.1em" y="8.1em">0..1</text>
 <line x1="68.6em" y1="2em" x2="70.6em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="70.6em" y1="2em" x2="70.6em" y2="17.799999999999997em" stroke="black" />
-<line x1="70.6em" y1="17.799999999999997em" x2="73.8em" y2="17.799999999999997em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="71.1em" y="17.299999999999997em">1..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" />
-<line x1="99.8em" y1="17.799999999999997em" x2="103em" y2="17.799999999999997em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="17.299999999999997em">0..1</text>
-<line x1="112.6em" y1="17.799999999999997em" x2="114.6em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="114.6em" y1="17.799999999999997em" x2="114.6em" y2="17.799999999999997em" stroke="black" />
-<line x1="114.6em" y1="17.799999999999997em" x2="117.8em" y2="17.799999999999997em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="115.1em" y="17.299999999999997em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="45.2em" stroke="black" />
-<line x1="99.8em" y1="45.2em" x2="103em" y2="45.2em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="44.7em">1..1</text>
-<line x1="127.8em" y1="45.2em" x2="129.8em" y2="45.2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="129.8em" y1="45.2em" x2="129.8em" y2="45.2em" stroke="black" />
-<line x1="129.8em" y1="45.2em" x2="133em" y2="45.2em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="130.3em" y="44.7em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="54.400000000000006em" stroke="black" />
-<line x1="99.8em" y1="54.400000000000006em" x2="103em" y2="54.400000000000006em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="53.900000000000006em">0..1</text>
-<line x1="120.6em" y1="54.400000000000006em" x2="122.6em" y2="54.400000000000006em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="122.6em" y1="54.400000000000006em" x2="122.6em" y2="54.400000000000006em" stroke="black" />
-<line x1="122.6em" y1="54.400000000000006em" x2="125.8em" y2="54.400000000000006em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="123.1em" y="53.900000000000006em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="81.80000000000001em" stroke="black" />
-<line x1="99.8em" y1="81.80000000000001em" x2="103em" y2="81.80000000000001em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="81.30000000000001em">0..1</text>
-<line x1="127.8em" y1="81.80000000000001em" x2="129.8em" y2="81.80000000000001em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="129.8em" y1="81.80000000000001em" x2="129.8em" y2="81.80000000000001em" stroke="black" />
-<line x1="129.8em" y1="81.80000000000001em" x2="133em" y2="81.80000000000001em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="130.3em" y="81.30000000000001em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="91.00000000000001em" stroke="black" />
-<line x1="99.8em" y1="91.00000000000001em" x2="103em" y2="91.00000000000001em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="90.50000000000001em">1..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="97.60000000000001em" stroke="black" />
-<line x1="99.8em" y1="97.60000000000001em" x2="103em" y2="97.60000000000001em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="97.10000000000001em">0..10</text>
-<line x1="132.6em" y1="97.60000000000001em" x2="134.6em" y2="97.60000000000001em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="134.6em" y1="97.60000000000001em" x2="134.6em" y2="97.60000000000001em" stroke="black" />
-<line x1="134.6em" y1="97.60000000000001em" x2="137.79999999999998em" y2="97.60000000000001em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="135.1em" y="97.10000000000001em">0..1</text>
-<line x1="132.6em" y1="97.60000000000001em" x2="134.6em" y2="97.60000000000001em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="134.6em" y1="97.60000000000001em" x2="134.6em" y2="104.2em" stroke="black" />
-<line x1="134.6em" y1="104.2em" x2="137.79999999999998em" y2="104.2em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="135.1em" y="103.7em">0..*</text>
-<line x1="153em" y1="104.2em" x2="155em" y2="104.2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="155em" y1="104.2em" x2="155em" y2="104.2em" stroke="black" />
-<line x1="155em" y1="104.2em" x2="158.2em" y2="104.2em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="155.5em" y="103.7em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="113.4em" stroke="black" />
-<line x1="99.8em" y1="113.4em" x2="103em" y2="113.4em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="112.9em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="117.4em" stroke="black" />
-<line x1="99.8em" y1="117.4em" x2="103em" y2="117.4em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="116.9em">0..1</text>
-<line x1="120.6em" y1="117.4em" x2="122.6em" y2="117.4em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="122.6em" y1="117.4em" x2="122.6em" y2="117.4em" stroke="black" />
-<line x1="122.6em" y1="117.4em" x2="125.8em" y2="117.4em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="123.1em" y="116.9em">0..1</text>
-<line x1="97.8em" y1="17.799999999999997em" x2="99.8em" y2="17.799999999999997em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="99.8em" y1="17.799999999999997em" x2="99.8em" y2="144.8em" stroke="black" />
-<line x1="99.8em" y1="144.8em" x2="103em" y2="144.8em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="100.3em" y="144.3em">0..1</text>
-<line x1="120.6em" y1="144.8em" x2="122.6em" y2="144.8em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="122.6em" y1="144.8em" x2="122.6em" y2="144.8em" stroke="black" />
-<line x1="122.6em" y1="144.8em" x2="125.8em" y2="144.8em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="123.1em" y="144.3em">0..1</text>
+<line x1="70.6em" y1="2em" x2="70.6em" y2="19.1em" stroke="black" />
+<line x1="70.6em" y1="19.1em" x2="73.8em" y2="19.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="71.1em" y="18.6em">1..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" />
+<line x1="99.8em" y1="19.1em" x2="103em" y2="19.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="18.6em">0..1</text>
+<line x1="112.6em" y1="19.1em" x2="114.6em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="114.6em" y1="19.1em" x2="114.6em" y2="19.1em" stroke="black" />
+<line x1="114.6em" y1="19.1em" x2="117.8em" y2="19.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="115.1em" y="18.6em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="46.5em" stroke="black" />
+<line x1="99.8em" y1="46.5em" x2="103em" y2="46.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="46em">1..1</text>
+<line x1="127.8em" y1="46.5em" x2="129.8em" y2="46.5em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="129.8em" y1="46.5em" x2="129.8em" y2="46.5em" stroke="black" />
+<line x1="129.8em" y1="46.5em" x2="133em" y2="46.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="130.3em" y="46em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="55.7em" stroke="black" />
+<line x1="99.8em" y1="55.7em" x2="103em" y2="55.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="55.2em">0..1</text>
+<line x1="120.6em" y1="55.7em" x2="122.6em" y2="55.7em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="122.6em" y1="55.7em" x2="122.6em" y2="55.7em" stroke="black" />
+<line x1="122.6em" y1="55.7em" x2="125.8em" y2="55.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="123.1em" y="55.2em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="83.10000000000001em" stroke="black" />
+<line x1="99.8em" y1="83.10000000000001em" x2="103em" y2="83.10000000000001em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="82.60000000000001em">0..1</text>
+<line x1="127.8em" y1="83.10000000000001em" x2="129.8em" y2="83.10000000000001em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="129.8em" y1="83.10000000000001em" x2="129.8em" y2="83.10000000000001em" stroke="black" />
+<line x1="129.8em" y1="83.10000000000001em" x2="133em" y2="83.10000000000001em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="130.3em" y="82.60000000000001em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="92.30000000000001em" stroke="black" />
+<line x1="99.8em" y1="92.30000000000001em" x2="103em" y2="92.30000000000001em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="91.80000000000001em">1..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="98.9em" stroke="black" />
+<line x1="99.8em" y1="98.9em" x2="103em" y2="98.9em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="98.4em">1..1</text>
+<line x1="128.6em" y1="98.9em" x2="130.6em" y2="98.9em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="130.6em" y1="98.9em" x2="130.6em" y2="98.9em" stroke="black" />
+<line x1="130.6em" y1="98.9em" x2="133.79999999999998em" y2="98.9em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="131.1em" y="98.4em">1..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="112em" stroke="black" />
+<line x1="99.8em" y1="112em" x2="103em" y2="112em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="111.5em">0..10</text>
+<line x1="132.6em" y1="112em" x2="134.6em" y2="112em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="134.6em" y1="112em" x2="134.6em" y2="112em" stroke="black" />
+<line x1="134.6em" y1="112em" x2="137.79999999999998em" y2="112em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="135.1em" y="111.5em">0..1</text>
+<line x1="132.6em" y1="112em" x2="134.6em" y2="112em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="134.6em" y1="112em" x2="134.6em" y2="118.6em" stroke="black" />
+<line x1="134.6em" y1="118.6em" x2="137.79999999999998em" y2="118.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="135.1em" y="118.1em">0..*</text>
+<line x1="153em" y1="118.6em" x2="155em" y2="118.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="155em" y1="118.6em" x2="155em" y2="118.6em" stroke="black" />
+<line x1="155em" y1="118.6em" x2="158.2em" y2="118.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="155.5em" y="118.1em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="127.8em" stroke="black" />
+<line x1="99.8em" y1="127.8em" x2="103em" y2="127.8em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="127.3em">0..1</text>
+<line x1="120.6em" y1="127.8em" x2="122.6em" y2="127.8em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="122.6em" y1="127.8em" x2="122.6em" y2="127.8em" stroke="black" />
+<line x1="122.6em" y1="127.8em" x2="125.8em" y2="127.8em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="123.1em" y="127.3em">0..*</text>
+<line x1="157em" y1="127.8em" x2="159em" y2="127.8em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="159em" y1="127.8em" x2="159em" y2="127.8em" stroke="black" />
+<line x1="159em" y1="127.8em" x2="162.2em" y2="127.8em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="159.5em" y="127.3em">0..1</text>
+<line x1="157em" y1="127.8em" x2="159em" y2="127.8em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="159em" y1="127.8em" x2="159em" y2="135.7em" stroke="black" />
+<line x1="159em" y1="135.7em" x2="162.2em" y2="135.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="159.5em" y="135.2em">0..*</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="146.2em" stroke="black" />
+<line x1="99.8em" y1="146.2em" x2="103em" y2="146.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="145.7em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="150.2em" stroke="black" />
+<line x1="99.8em" y1="150.2em" x2="103em" y2="150.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="149.7em">0..1</text>
+<line x1="120.6em" y1="150.2em" x2="122.6em" y2="150.2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="122.6em" y1="150.2em" x2="122.6em" y2="150.2em" stroke="black" />
+<line x1="122.6em" y1="150.2em" x2="125.8em" y2="150.2em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="123.1em" y="149.7em">0..1</text>
+<line x1="97.8em" y1="19.1em" x2="99.8em" y2="19.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="99.8em" y1="19.1em" x2="99.8em" y2="177.6em" stroke="black" />
+<line x1="99.8em" y1="177.6em" x2="103em" y2="177.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="100.3em" y="177.1em">0..1</text>
+<line x1="120.6em" y1="177.6em" x2="122.6em" y2="177.6em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="122.6em" y1="177.6em" x2="122.6em" y2="177.6em" stroke="black" />
+<line x1="122.6em" y1="177.6em" x2="125.8em" y2="177.6em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="123.1em" y="177.1em">0..1</text>
 <line x1="68.6em" y1="2em" x2="70.6em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="70.6em" y1="2em" x2="70.6em" y2="172.2em" stroke="black" />
-<line x1="70.6em" y1="172.2em" x2="73.8em" y2="172.2em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="71.1em" y="171.7em">0..1</text>
+<line x1="70.6em" y1="2em" x2="70.6em" y2="205em" stroke="black" />
+<line x1="70.6em" y1="205em" x2="73.8em" y2="205em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="71.1em" y="204.5em">0..1</text>
 <line x1="68.6em" y1="2em" x2="70.6em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="70.6em" y1="2em" x2="70.6em" y2="182.7em" stroke="black" />
-<line x1="70.6em" y1="182.7em" x2="73.8em" y2="182.7em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="71.1em" y="182.2em">0..1</text>
-<line x1="79.39999999999999em" y1="182.7em" x2="81.39999999999999em" y2="182.7em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="81.39999999999999em" y1="182.7em" x2="81.39999999999999em" y2="182.7em" stroke="black" />
-<line x1="81.39999999999999em" y1="182.7em" x2="84.6em" y2="182.7em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="81.89999999999999em" y="182.2em">1..1</text>
-<line x1="79.39999999999999em" y1="182.7em" x2="81.39999999999999em" y2="182.7em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="81.39999999999999em" y1="182.7em" x2="81.39999999999999em" y2="191.89999999999998em" stroke="black" />
-<line x1="81.39999999999999em" y1="191.89999999999998em" x2="84.6em" y2="191.89999999999998em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="81.89999999999999em" y="191.39999999999998em">0..1</text>
-<line x1="102.19999999999999em" y1="191.89999999999998em" x2="104.19999999999999em" y2="191.89999999999998em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="104.19999999999999em" y1="191.89999999999998em" x2="104.19999999999999em" y2="191.89999999999998em" stroke="black" />
-<line x1="104.19999999999999em" y1="191.89999999999998em" x2="107.39999999999999em" y2="191.89999999999998em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="104.69999999999999em" y="191.39999999999998em">0..1</text>
-<line x1="79.39999999999999em" y1="182.7em" x2="81.39999999999999em" y2="182.7em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="81.39999999999999em" y1="182.7em" x2="81.39999999999999em" y2="219.29999999999998em" stroke="black" />
-<line x1="81.39999999999999em" y1="219.29999999999998em" x2="84.6em" y2="219.29999999999998em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="81.89999999999999em" y="218.79999999999998em">0..1</text>
-<line x1="94.19999999999999em" y1="219.29999999999998em" x2="96.19999999999999em" y2="219.29999999999998em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="96.19999999999999em" y1="219.29999999999998em" x2="96.19999999999999em" y2="219.29999999999998em" stroke="black" />
-<line x1="96.19999999999999em" y1="219.29999999999998em" x2="99.39999999999999em" y2="219.29999999999998em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="96.69999999999999em" y="218.79999999999998em">0..1</text>
+<line x1="70.6em" y1="2em" x2="70.6em" y2="215.5em" stroke="black" />
+<line x1="70.6em" y1="215.5em" x2="73.8em" y2="215.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="71.1em" y="215em">0..1</text>
+<line x1="79.39999999999999em" y1="215.5em" x2="81.39999999999999em" y2="215.5em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="81.39999999999999em" y1="215.5em" x2="81.39999999999999em" y2="215.5em" stroke="black" />
+<line x1="81.39999999999999em" y1="215.5em" x2="84.6em" y2="215.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="81.89999999999999em" y="215em">1..1</text>
+<line x1="79.39999999999999em" y1="215.5em" x2="81.39999999999999em" y2="215.5em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="81.39999999999999em" y1="215.5em" x2="81.39999999999999em" y2="224.7em" stroke="black" />
+<line x1="81.39999999999999em" y1="224.7em" x2="84.6em" y2="224.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="81.89999999999999em" y="224.2em">0..1</text>
+<line x1="102.19999999999999em" y1="224.7em" x2="104.19999999999999em" y2="224.7em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="104.19999999999999em" y1="224.7em" x2="104.19999999999999em" y2="224.7em" stroke="black" />
+<line x1="104.19999999999999em" y1="224.7em" x2="107.39999999999999em" y2="224.7em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="104.69999999999999em" y="224.2em">0..1</text>
+<line x1="79.39999999999999em" y1="215.5em" x2="81.39999999999999em" y2="215.5em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="81.39999999999999em" y1="215.5em" x2="81.39999999999999em" y2="252.1em" stroke="black" />
+<line x1="81.39999999999999em" y1="252.1em" x2="84.6em" y2="252.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="81.89999999999999em" y="251.6em">0..1</text>
+<line x1="94.19999999999999em" y1="252.1em" x2="96.19999999999999em" y2="252.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="96.19999999999999em" y1="252.1em" x2="96.19999999999999em" y2="252.1em" stroke="black" />
+<line x1="96.19999999999999em" y1="252.1em" x2="99.39999999999999em" y2="252.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="96.69999999999999em" y="251.6em">0..1</text>
 <line x1="68.6em" y1="2em" x2="70.6em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="70.6em" y1="2em" x2="70.6em" y2="246.7em" stroke="black" />
-<line x1="70.6em" y1="246.7em" x2="73.8em" y2="246.7em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="71.1em" y="246.2em">0..*</text>
+<line x1="70.6em" y1="2em" x2="70.6em" y2="279.5em" stroke="black" />
+<line x1="70.6em" y1="279.5em" x2="73.8em" y2="279.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="71.1em" y="279em">0..*</text>
 <line x1="34.6em" y1="2em" x2="36.6em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="36.6em" y1="2em" x2="36.6em" y2="254.60000000000002em" stroke="black" />
-<line x1="36.6em" y1="254.60000000000002em" x2="39.800000000000004em" y2="254.60000000000002em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="37.1em" y="254.10000000000002em">0..1</text>
+<line x1="36.6em" y1="2em" x2="36.6em" y2="287.4em" stroke="black" />
+<line x1="36.6em" y1="287.4em" x2="39.800000000000004em" y2="287.4em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="37.1em" y="286.9em">0..1</text>
 <line x1="34.6em" y1="2em" x2="36.6em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="36.6em" y1="2em" x2="36.6em" y2="265.1em" stroke="black" />
-<line x1="36.6em" y1="265.1em" x2="39.800000000000004em" y2="265.1em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="37.1em" y="264.6em">0..1</text></svg>
+<line x1="36.6em" y1="2em" x2="36.6em" y2="297.9em" stroke="black" />
+<line x1="36.6em" y1="297.9em" x2="39.800000000000004em" y2="297.9em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="37.1em" y="297.4em">0..1</text></svg>

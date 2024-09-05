@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="113.8em" height="99.5em" style="background-color:white"><defs>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="monospace" width="148.8em" height="117.9em" style="background-color:white"><defs>
 	<marker id="Triangle"
 		viewBox="0 0 10 10" refX="0" refY="5" 
 		markerUnits="strokeWidth"
@@ -46,7 +46,7 @@ AccountId [1..1]
 <text x="33.2em" y="5.6em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: The date on which the last (most recent) payment for a Standing Order schedule was made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Description: The date on which the last (most recent) payment for a Standing Order schedule was made. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
@@ -56,7 +56,7 @@ LastPaymentDateTime [0..1]
 <text x="33.2em" y="6.9em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
-Description: The date on which the next payment for a Standing Order schedule will be made.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Description: The date on which the next payment for a Standing Order schedule will be made. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
@@ -74,10 +74,12 @@ StandingOrderId [0..1]
 
 <text x="33.2em" y="9.5em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the status of the standing order in code form.
+Description: Specifies the status of the standing order in code form. For a full list of enumeration values refer to &#39;ExternalMandateStatus1Code&#39; in *ISO_External_Codeset* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - Active
- - Inactive
+ - ACTV
+ - CANC
+ - EXPI
+ - SUSP
 </title>
 StandingOrderStatusCode [0..1]
 </text>
@@ -109,14 +111,14 @@ Name [0..1]
 
 <text x="63.2em" y="6.9em" fill="darkslateblue">
 <title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
+Description: Name of the identification scheme, in a coded form as published in an external list. &lt;br /&gt; For a full list of enumeration values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.BBAN
- - UK.OB.IBAN
- - UK.OB.PAN
- - UK.OB.Paym
- - UK.OB.SortCodeAccountNumber
- - UK.OB.Wallet
+ - UK.OBIE.BBAN
+ - UK.OBIE.IBAN
+ - UK.OBIE.PAN
+ - UK.OBIE.Paym
+ - UK.OBIE.SortCodeAccountNumber
+ - UK.OBIE.Wallet
 </title>
 SchemeName [1..1]
 </text>
@@ -133,13 +135,13 @@ SecondaryIdentification [0..1]
 
 <rect x="92.2em" y="1em" width="16.8em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="100.60000000000001em" y="2.3em" fill="black">
-<title></title>
+<title>Specifies an alternate assumed name for the identification of the account.</title>
 Proxy
 </text>
 
 <text x="93.2em" y="4.3em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the external proxy account type code, as published in the proxy account type external code set.&lt;br&gt; For more information see `ExternalProxyAccountType1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets
+Description: Specifies the external proxy account type code, as published in the proxy account type external code set.&lt;br /&gt; For more information and a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - TELE
  - EMAL
@@ -169,8 +171,8 @@ Code [1..1]
 <text x="93.2em" y="5.6em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 256
-Description: Identification assigned by an institution to identify an account. This identification is known by the account owner.
+MaxLength: 2048
+Description: Identification used to indicate the account identification under another specified name.
 </title>
 Identification [1..1]
 </text>
@@ -178,8 +180,8 @@ Identification [1..1]
 <text x="93.2em" y="6.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
-Description: Specifies the external proxy account type
+MaxLength: 35
+Description: Type of the proxy identification.
 </title>
 Type [0..1]
 </text>
@@ -197,15 +199,15 @@ MinLength: 1
 MaxLength: 35
 Description: Unique and unambiguous identification of the servicing institution.
 </title>
-Identification [0..1]
+Identification [1..1]
 </text>
 
 <text x="63.2em" y="14.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 20
-Description: Legal Entity Identification by which a party is known and which is usually used to identify that party.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -221,11 +223,11 @@ Name [0..1]
 
 <text x="63.2em" y="17.4em" fill="darkslateblue">
 <title>Type: string
-Description: Name of the identification scheme, in a coded form as published in an external list.
+Description: Name of the identification scheme, in a coded form as published in an external list.&lt;br/&gt; For a full list of enumeration values refer to `OBInternalFinancialInstitutionIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
- - UK.OB.BICFI
+ - UK.OBIE.BICFI
 </title>
-SchemeName [0..1]
+SchemeName [1..1]
 </text>
 
 <rect x="85em" y="10.2em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
@@ -245,7 +247,7 @@ AddressLine [0..7]
 
 <text x="86em" y="14.8em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies the nature of the postal address.
+Description: Identifies the nature of the postal address. &lt;br /&gt; For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
  - BIZZ
  - DLVY
@@ -262,7 +264,7 @@ AddressType [0..1]
 <text x="86em" y="16.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a referenced building.
 </title>
 BuildingName [0..1]
@@ -280,7 +282,7 @@ BuildingNumber [0..1]
 <text x="86em" y="18.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: The &#39;care of&#39; address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.
 </title>
 CareOf [0..1]
@@ -315,7 +317,7 @@ Department [0..1]
 <text x="86em" y="23.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Number that of the regional area, known as a district, which forms part of an address
 </title>
 DistrictName [0..1]
@@ -324,15 +326,16 @@ DistrictName [0..1]
 <text x="86em" y="25.200000000000003em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 16
+MaxLength: 70
 Description: Number that identifies the level within a building
 </title>
 Floor [0..1]
 </text>
 
 <text x="86em" y="26.5em" fill="darkslateblue">
-<title>MinLength: 1
-MaxLength: 70
+<title>Type: string
+MinLength: 1
+MaxLength: 16
 Description: Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.
 </title>
 PostBox [0..1]
@@ -348,7 +351,8 @@ PostCode [0..1]
 </text>
 
 <text x="86em" y="29.1em" fill="darkslateblue">
-<title>MinLength: 1
+<title>Type: string
+MinLength: 1
 MaxLength: 70
 Description: Information that locates and identifies a room to form part of an address
 </title>
@@ -358,7 +362,7 @@ Room [0..1]
 <text x="86em" y="30.400000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 70
+MaxLength: 140
 Description: Name of a street or thoroughfare.
 </title>
 StreetName [0..1]
@@ -376,7 +380,7 @@ SubDepartment [0..1]
 <text x="86em" y="33em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownLocationName [0..1]
@@ -385,7 +389,7 @@ TownLocationName [0..1]
 <text x="86em" y="34.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
-MaxLength: 35
+MaxLength: 140
 Description: Name of a built-up area, with defined boundaries, and a local government.
 </title>
 TownName [0..1]
@@ -468,14 +472,13 @@ Currency [1..1]
 
 <rect x="62.2em" y="57.400000000000006em" width="24.8em" height="12.1em" fill="beige" stroke="black" stroke-width="2"/>
 <text style="font-weight:bold" text-anchor="middle" x="74.60000000000001em" y="58.7em" fill="black">
-<title></title>
+<title>Provides further details of the mandate signed between the creditor and the debtor.</title>
 MandateRelatedInformation
 </text>
 
 <text x="63.2em" y="60.7em" fill="darkslateblue">
 <title>Type: string
-Description: Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. 
- For all enum values see `ExternalCategoryPurpose1Code` here - https://github.com/OpenBankingUK/External_Interal_CodeSets/
+Description: Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.  For all enum values see `ExternalCategoryPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - BONU
  - CASH
@@ -527,6 +530,7 @@ CategoryPurposeCode [0..1]
 
 <text x="63.2em" y="62em" fill="darkslateblue">
 <title>Type: string
+Description: Type of mandate instruction. For a full list of values see `OBExternalClassification1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - FIXE
  - USGB
@@ -538,6 +542,7 @@ Classification [0..1]
 <text x="63.2em" y="63.300000000000004em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
+Description: The date on which the final payment for a recurrent credit transfer will be made.
 </title>
 FinalPaymentDateTime [0..1]
 </text>
@@ -545,6 +550,7 @@ FinalPaymentDateTime [0..1]
 <text x="63.2em" y="64.60000000000001em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
+Description: The date on which the first payment for a recurrent credit transfer will be made.
 </title>
 FirstPaymentDateTime [0..1]
 </text>
@@ -553,7 +559,7 @@ FirstPaymentDateTime [0..1]
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of the servicing institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 MandateIdentification [0..1]
 </text>
@@ -562,7 +568,7 @@ MandateIdentification [0..1]
 <title>Type: string
 MinLength: 1
 MaxLength: 256
-Description: Reason for the direct debit mandate to allow the user to distinguish between different mandates for the same creditor.
+Description: Reason for the setup of the credit transfer mandate.
 </title>
 Reason [0..1]
 </text>
@@ -571,7 +577,7 @@ Reason [0..1]
 <title>Type: string
 Format: date-time
 Description: The date on which the first recurring payment for a Standing Order schedule will be made. 
-Usage: This must be populated only if the first recurring date is different to the first payment date.All dates in the JSON payloads are represented in ISO 8601 date-time format. 
+Usage: This must be populated only if the first recurring date is different to the first payment date. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
 All date-time fields in responses must include the timezone. An example is below:
 2017-04-05T10:43:07&#43;00:00
 </title>
@@ -587,6 +593,7 @@ Frequency
 <text x="94em" y="60.7em" fill="darkslateblue">
 <title>Type: integer
 Format: int32
+Description: Number of instructions to be created and processed during the specified period. Specifies a frequency in terms of a count per period within a specified frequency type. Note: should not be used alongside `PointInTime`
 </title>
 CountPerPeriod [0..1]
 </text>
@@ -594,14 +601,14 @@ CountPerPeriod [0..1]
 <text x="94em" y="62em" fill="darkslateblue">
 <title>Type: string
 MaxLength: 2
-Description: Exact2NumericText - Further information on the exact point in time the event should take place
+Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerPeriod`.
 </title>
 PointInTime [0..1]
 </text>
 
 <text x="94em" y="63.300000000000004em" fill="darkslateblue">
 <title>Type: string
-Description: `OBFrequency6Code` on External Codeset Repo
+Description: For a full list of values see `OBFrequency6Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - ADHO
  - YEAR
@@ -638,60 +645,227 @@ Pattern: ^[A-Z]{3,3}$
 Currency [1..1]
 </text>
 
-<rect x="62.2em" y="77.1em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="69em" y="78.39999999999999em" fill="black">
+<rect x="62.2em" y="77.1em" width="16.8em" height="4.3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="70.60000000000001em" y="78.39999999999999em" fill="black">
+<title>Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts&#39; receivable system</title>
+RemittanceInformation
+</text>
+
+<text x="63.2em" y="80.39999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+</title>
+Unstructured [0..*]
+</text>
+
+<rect x="85em" y="77.1em" width="30.400000000000002em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="100.2em" y="78.39999999999999em" fill="black">
+<title></title>
+Structured
+</text>
+
+<text x="86em" y="80.39999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+</title>
+AdditionalRemittanceInformation [0..3]
+</text>
+
+<text x="86em" y="81.69999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+</title>
+Invoicee [0..1]
+</text>
+
+<text x="86em" y="82.99999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 256
+Description: Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor
+</title>
+Invoicer [0..1]
+</text>
+
+<text x="86em" y="84.3em" fill="darkslateblue">
+<title>Type: integer
+Format: int32
+Description: Provides details on the amounts of the referred document.
+</title>
+ReferredDocumentAmount [0..1]
+</text>
+
+<text x="86em" y="85.6em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: Provides remittance information about a payment made for tax-related purposes.
+</title>
+TaxRemittance [0..1]
+</text>
+
+<rect x="121.4em" y="77.1em" width="22.400000000000002em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="132.6em" y="78.39999999999999em" fill="black">
+<title>Reference information provided by the creditor to allow the identification of the underlying documents.</title>
+CreditorReferenceInformation
+</text>
+
+<text x="122.4em" y="80.39999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 4
+Description: Specifies the type of creditor reference as published in an external creditor reference type code set. For more information see `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Values:
+ - DISP
+ - FXDR
+ - PUOR
+ - RPIN
+ - RADM
+ - SCOR
+</title>
+Code [0..1]
+</text>
+
+<text x="122.4em" y="81.69999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Entity that assigns the identification.
+</title>
+Issuer [0..1]
+</text>
+
+<text x="122.4em" y="82.99999999999999em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.
+</title>
+Reference [0..1]
+</text>
+
+<rect x="121.4em" y="85em" width="21.6em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="132.20000000000002em" y="86.3em" fill="black">
+<title></title>
+ReferredDocumentInformation
+</text>
+
+<text x="122.4em" y="88.3em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 4
+Description: Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Values:
+ - CINV
+ - CNFA
+ - CONT
+ - CREN
+ - DEBN
+ - DISP
+ - DNFA
+ - HIRI
+ - INVS
+ - MSIN
+ - PROF
+ - PUOR
+ - QUOT
+ - SBIN
+ - SPRR
+ - TISH
+</title>
+Code [0..1]
+</text>
+
+<text x="122.4em" y="89.6em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 140
+Description: dentification of the issuer of the reference document type.
+</title>
+Issuer [0..1]
+</text>
+
+<text x="122.4em" y="90.89999999999999em" fill="darkslateblue">
+<title>Type: string
+</title>
+LineDetails [0..*]
+</text>
+
+<text x="122.4em" y="92.2em" fill="darkslateblue">
+<title>Type: string
+MinLength: 1
+MaxLength: 35
+Description: Identification of the type specified for the referred document line.
+</title>
+Number [0..1]
+</text>
+
+<text x="122.4em" y="93.5em" fill="darkslateblue">
+<title>Type: string
+Format: date-time
+Description: Date associated with the referred document line.
+</title>
+RelatedDate [0..1]
+</text>
+
+<rect x="62.2em" y="95.5em" width="13.600000000000001em" height="3em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="69em" y="96.8em" fill="black">
 <title>Additional information that can not be captured in the structured fields and/or any other specific block.</title>
 SupplementaryData
 </text>
 
-<rect x="23em" y="81.1em" width="9.600000000000001em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="27.8em" y="82.39999999999999em" fill="black">
+<rect x="23em" y="99.5em" width="9.600000000000001em" height="9.5em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="27.8em" y="100.8em" fill="black">
 <title>Links relevant to the payload</title>
 Links
 </text>
 
-<text x="24em" y="84.39999999999999em" fill="darkslateblue">
+<text x="24em" y="102.8em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 First [0..1]
 </text>
 
-<text x="24em" y="85.69999999999999em" fill="darkslateblue">
+<text x="24em" y="104.1em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Last [0..1]
 </text>
 
-<text x="24em" y="86.99999999999999em" fill="darkslateblue">
+<text x="24em" y="105.39999999999999em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Next [0..1]
 </text>
 
-<text x="24em" y="88.3em" fill="darkslateblue">
+<text x="24em" y="106.7em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Prev [0..1]
 </text>
 
-<text x="24em" y="89.6em" fill="darkslateblue">
+<text x="24em" y="108em" fill="darkslateblue">
 <title>Type: string
 Format: uri
 </title>
 Self [1..1]
 </text>
 
-<rect x="23em" y="91.6em" width="23.200000000000003em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="34.6em" y="92.89999999999999em" fill="black">
+<rect x="23em" y="110em" width="23.200000000000003em" height="6.9em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="34.6em" y="111.3em" fill="black">
 <title>Meta Data relevant to the payload</title>
 Meta
 </text>
 
-<text x="24em" y="94.89999999999999em" fill="darkslateblue">
+<text x="24em" y="113.3em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
 Description: All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -701,7 +875,7 @@ All date-time fields in responses must include the timezone. An example is below
 FirstAvailableDateTime [0..1]
 </text>
 
-<text x="24em" y="96.19999999999999em" fill="darkslateblue">
+<text x="24em" y="114.6em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
 Description: All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -711,7 +885,7 @@ All date-time fields in responses must include the timezone. An example is below
 LastAvailableDateTime [0..1]
 </text>
 
-<text x="24em" y="97.49999999999999em" fill="darkslateblue">
+<text x="24em" y="115.89999999999999em" fill="darkslateblue">
 <title>Type: integer
 Format: int32
 </title>
@@ -761,7 +935,7 @@ TotalPages [0..1]
 <line x1="87em" y1="58.400000000000006em" x2="89em" y2="58.400000000000006em" stroke="black" marker-start="url(#Diamond)"/>
 <line x1="89em" y1="58.400000000000006em" x2="89em" y2="58.400000000000006em" stroke="black" />
 <line x1="89em" y1="58.400000000000006em" x2="92.2em" y2="58.400000000000006em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="89.5em" y="57.900000000000006em">0..1</text>
+<text x="89.5em" y="57.900000000000006em">1..1</text>
 <line x1="56.2em" y1="2em" x2="58.2em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
 <line x1="58.2em" y1="2em" x2="58.2em" y2="71.5em" stroke="black" />
 <line x1="58.2em" y1="71.5em" x2="61.400000000000006em" y2="71.5em" stroke="black" marker-end="url(#Triangle)"/>
@@ -770,11 +944,27 @@ TotalPages [0..1]
 <line x1="58.2em" y1="2em" x2="58.2em" y2="78.1em" stroke="black" />
 <line x1="58.2em" y1="78.1em" x2="61.400000000000006em" y2="78.1em" stroke="black" marker-end="url(#Triangle)"/>
 <text x="58.7em" y="77.6em">0..1</text>
+<line x1="79em" y1="78.1em" x2="81em" y2="78.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="81em" y1="78.1em" x2="81em" y2="78.1em" stroke="black" />
+<line x1="81em" y1="78.1em" x2="84.2em" y2="78.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="81.5em" y="77.6em">0..*</text>
+<line x1="115.4em" y1="78.1em" x2="117.4em" y2="78.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="117.4em" y1="78.1em" x2="117.4em" y2="78.1em" stroke="black" />
+<line x1="117.4em" y1="78.1em" x2="120.60000000000001em" y2="78.1em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="117.9em" y="77.6em">0..1</text>
+<line x1="115.4em" y1="78.1em" x2="117.4em" y2="78.1em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="117.4em" y1="78.1em" x2="117.4em" y2="86em" stroke="black" />
+<line x1="117.4em" y1="86em" x2="120.60000000000001em" y2="86em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="117.9em" y="85.5em">0..*</text>
+<line x1="56.2em" y1="2em" x2="58.2em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="58.2em" y1="2em" x2="58.2em" y2="96.5em" stroke="black" />
+<line x1="58.2em" y1="96.5em" x2="61.400000000000006em" y2="96.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="58.7em" y="96em">0..1</text>
 <line x1="17em" y1="2em" x2="19em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="19em" y1="2em" x2="19em" y2="82.1em" stroke="black" />
-<line x1="19em" y1="82.1em" x2="22.2em" y2="82.1em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="19.5em" y="81.6em">0..1</text>
+<line x1="19em" y1="2em" x2="19em" y2="100.5em" stroke="black" />
+<line x1="19em" y1="100.5em" x2="22.2em" y2="100.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="19.5em" y="100em">0..1</text>
 <line x1="17em" y1="2em" x2="19em" y2="2em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="19em" y1="2em" x2="19em" y2="92.6em" stroke="black" />
-<line x1="19em" y1="92.6em" x2="22.2em" y2="92.6em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="19.5em" y="92.1em">0..1</text></svg>
+<line x1="19em" y1="2em" x2="19em" y2="111em" stroke="black" />
+<line x1="19em" y1="111em" x2="22.2em" y2="111em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="19.5em" y="110.5em">0..1</text></svg>
