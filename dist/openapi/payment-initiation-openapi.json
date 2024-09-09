@@ -4083,17 +4083,17 @@
         "content": {
           "application/json; charset=utf-8": {
             "schema": {
-              "$ref": "#/components/schemas/OBWritePaymentDetailsResponse1"
+              "$ref": "#/components/schemas/OBWriteFilePaymentDetailsResponse1"
             }
           },
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/OBWritePaymentDetailsResponse1"
+              "$ref": "#/components/schemas/OBWriteFilePaymentDetailsResponse1"
             }
           },
           "application/jose+jwe": {
             "schema": {
-              "$ref": "#/components/schemas/OBWritePaymentDetailsResponse1"
+              "$ref": "#/components/schemas/OBWriteFilePaymentDetailsResponse1"
             }
           }
         }
@@ -14191,6 +14191,32 @@
           }
         }
       },
+      "OBWriteFilePaymentDetailsResponse1": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "PaymentStatus": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBWriteFilePaymentDetails1"
+                }
+              }
+            }
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
       "OBWritePaymentDetails1": {
         "type": "object",
         "required": [
@@ -14239,25 +14265,143 @@
                 "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
               },
               "Status": {
-                "description": "Status of a transfer, as assigned by the transaction administrator.",
+                "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
                 "type": "string",
                 "minLength": 1,
-                "maxLength": 4
+                "maxLength": 4,
+                "enum": [
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
+                ]
               },
               "StatusReason": {
-                "description": "Reason Code provided for the status of a transfer.",
+                "description": "Reason Code provided for the status of a transfer. For a full list of values see code values for `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
                 "type": "string",
                 "enum": [
-                  "CANC",
-                  "PENF",
-                  "PEND",
-                  "NMAT"
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
                 ],
                 "minLength": 1,
                 "maxLength": 4
               },
               "StatusReasonDescription": {
-                "description": "Reason provided for the status of a transfer.",
+                "description": "Reason provided for the status of a transfer. For a full list of values see the code name entries for `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              }
+            }
+          }
+        }
+      },
+      "OBWriteFilePaymentDetails1": {
+        "type": "object",
+        "required": [
+          "PaymentTransactionId",
+          "Status",
+          "StatusUpdateDateTime"
+        ],
+        "properties": {
+          "PaymentTransactionId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 210,
+            "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
+          },
+          "Status": {
+            "type": "string",
+            "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentGroupStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "enum": [
+              "RCVD",
+              "PDNG",
+              "ACTC",
+              "PART",
+              "ACCP",
+              "ACFC",
+              "ACSP",
+              "ACWC",
+              "ACSC",
+              "ACCC",
+              "RJCT"
+            ]
+          },
+          "StatusUpdateDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time at which the status was assigned to the transfer.\n"
+          },
+          "StatusDetail": {
+            "type": "object",
+            "description": "Payment status details as per underlying Payment Rail.",
+            "required": [
+              "Status"
+            ],
+            "properties": {
+              "LocalInstrument": {
+                "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
+              },
+              "Status": {
+                "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4,
+                "enum": [
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
+                ]
+              },
+              "StatusReason": {
+                "description": "Reason Code provided for the status of a transfer. For a full list of values see code values for `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+                "type": "string",
+                "enum": [
+                  "PDNG",
+                  "ACTC",
+                  "PATC",
+                  "ACCP",
+                  "ACFC",
+                  "ACSP",
+                  "ACWC",
+                  "ACSC",
+                  "ACWP",
+                  "ACCC",
+                  "BLCK",
+                  "RJCT"
+                ],
+                "minLength": 1,
+                "maxLength": 4
+              },
+              "StatusReasonDescription": {
+                "description": "Reason provided for the status of a transfer. For a full list of values see the code name entries for `ExternalPaymentTransactionStatus1Code` in *ISO_External_CodeSet.csv* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 256
