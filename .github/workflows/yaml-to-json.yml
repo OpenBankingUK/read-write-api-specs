@@ -1,0 +1,38 @@
+name: Convert OpenAPI Swagger YAML to JSON
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  convert-yaml-to-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod a+x /usr/local/bin/yq
+
+      - name: Convert YAML to JSON
+        run: |
+          yq eval -o=json 'dist/openapi/account=info-openapi.yaml' > dist/openapi/account=info-openapi.json
+          yq eval -o=json 'dist/openapi/confirmation-funds-openapi.yaml' > dist/openapi/confirmation-funds-openapi.json
+          yq eval -o=json 'dist/openapi/event-notifications-openapi.yaml' > dist/openapi/event-notifications-openapi.json
+          yq eval -o=json 'dist/openapi/events-openapi.yaml' > dist/openapi/events-openapi.json
+          yq eval -o=json 'dist/openapi/payment-initiation-openapi.yaml' > dist/openapi/payment-initiation-openapi.json
+          yq eval -o=json 'dist/openapi/vrp-openapi.yaml' > dist/openapi/vrp-openapi.json
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add dist/openapi/account=info-openapi.json
+          git add dist/openapi/confirmation-funds-openapi.json
+          git add dist/openapi/event-notifications-openapi.json
+          git add dist/openapi/events-openapi.json
+          git add dist/openapi/payment-initiation-openapi.json
+          git add dist/openapi/vrp-openapi.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Convert YAML to JSON" && git push)
