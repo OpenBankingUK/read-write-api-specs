@@ -28,8 +28,8 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add dist/openapi/account-info-openapi.json
           git add dist/openapi/confirmation-funds-openapi.json
           git add dist/openapi/event-notifications-openapi.json
@@ -42,5 +42,14 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Convert YAML to JSON"
-            git push origin HEAD
+            
+            # Fetch the current branch name
+            BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+            if [ "$BRANCH_NAME" = "HEAD" ]; then
+              # We're in detached HEAD state, so we need to use the GITHUB_HEAD_REF
+              BRANCH_NAME=$GITHUB_HEAD_REF
+            fi
+            
+            # Push changes
+            git push origin HEAD:refs/heads/$BRANCH_NAME
           fi
