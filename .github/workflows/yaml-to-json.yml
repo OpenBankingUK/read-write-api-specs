@@ -36,4 +36,11 @@ jobs:
           git add dist/openapi/events-openapi.json
           git add dist/openapi/payment-initiation-openapi.json
           git add dist/openapi/vrp-openapi.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Convert YAML to JSON" && git push)
+          git status
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Convert YAML to JSON"
+            git push origin HEAD
+          fi
