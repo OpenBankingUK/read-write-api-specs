@@ -37,33 +37,12 @@ jobs:
           git add dist/openapi/payment-initiation-openapi.json
           git add dist/openapi/vrp-openapi.json
           git status
-          # Fetch the current branch name
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          if [ "$BRANCH_NAME" = "HEAD" ]; then
-            # We're in detached HEAD state, so we need to use the GITHUB_HEAD_REF
-            BRANCH_NAME=$GITHUB_HEAD_REF
-          fi
-          
-          # Fetch the latest changes from the remote branch
-          git fetch origin $BRANCH_NAME
-          
-          # Attempt to merge the remote changes
-          if git merge origin/$BRANCH_NAME; then
-            echo "Successfully merged latest changes"
-          else
-            echo "Merge conflict occurred. Aborting."
-            git merge --abort
-            exit 1
-          fi
-          
-          git add openapi-schema.json
-          
-          # Check if there are changes to commit
+           # Check if there are changes to commit
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
             git commit -m "Convert YAML to JSON"
             
-            # Push changes
-            git push origin HEAD:refs/heads/$BRANCH_NAME
+            # Force push changes
+            git push --force origin HEAD:${{ github.event.pull_request.head.ref }}
           fi
