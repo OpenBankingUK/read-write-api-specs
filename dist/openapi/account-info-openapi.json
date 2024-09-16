@@ -3783,10 +3783,7 @@
         "type": "object",
         "description": "Unambiguous identification of the account to which credit and debit entries are made.",
         "required": [
-          "AccountId",
-          "Currency",
-          "AccountCategory",
-          "AccountTypeCode"
+          "AccountId"
         ],
         "properties": {
           "AccountId": {
@@ -3830,9 +3827,6 @@
         "description": "Unambiguous identification of the account to which credit and debit entries are made.",
         "required": [
           "AccountId",
-          "Currency",
-          "AccountCategory",
-          "AccountTypeCode",
           "Account"
         ],
         "properties": {
@@ -3888,11 +3882,17 @@
                 "Name": {
                   "$ref": "#/components/schemas/Name_0"
                 },
+                "LEI": {
+                  "$ref": "#/components/schemas/LEI"
+                },
                 "SecondaryIdentification": {
                   "$ref": "#/components/schemas/SecondaryIdentification"
                 }
               }
             }
+          },
+          "StatementFrequencyAndFormat": {
+            "$ref": "#/components/schemas/StatementFrequencyAndFormat"
           },
           "Servicer": {
             "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0"
@@ -12970,8 +12970,7 @@
       "OBStandingOrder6Basic": {
         "type": "object",
         "required": [
-          "AccountId",
-          "Frequency"
+          "AccountId"
         ],
         "properties": {
           "AccountId": {
@@ -12980,17 +12979,11 @@
           "StandingOrderId": {
             "$ref": "#/components/schemas/StandingOrderId"
           },
-          "FirstPaymentDateTime": {
-            "$ref": "#/components/schemas/FirstPaymentDateTime"
-          },
           "NextPaymentDateTime": {
             "$ref": "#/components/schemas/NextPaymentDateTime"
           },
           "LastPaymentDateTime": {
             "$ref": "#/components/schemas/LastPaymentDateTime"
-          },
-          "FinalPaymentDateTime": {
-            "$ref": "#/components/schemas/FinalPaymentDateTime"
           },
           "StandingOrderStatusCode": {
             "$ref": "#/components/schemas/ExternalMandateStatus1Code"
@@ -13023,7 +13016,6 @@
         "type": "object",
         "required": [
           "AccountId",
-          "Frequency",
           "CreditorAccount"
         ],
         "properties": {
@@ -13033,17 +13025,11 @@
           "StandingOrderId": {
             "$ref": "#/components/schemas/StandingOrderId"
           },
-          "FirstPaymentDateTime": {
-            "$ref": "#/components/schemas/FirstPaymentDateTime"
-          },
           "NextPaymentDateTime": {
             "$ref": "#/components/schemas/NextPaymentDateTime"
           },
           "LastPaymentDateTime": {
             "$ref": "#/components/schemas/LastPaymentDateTime"
-          },
-          "FinalPaymentDateTime": {
-            "$ref": "#/components/schemas/FinalPaymentDateTime"
           },
           "StandingOrderStatusCode": {
             "$ref": "#/components/schemas/ExternalMandateStatus1Code"
@@ -13710,6 +13696,31 @@
                 },
                 "Amount": {
                   "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8"
+                },
+                "LocalAmount": {
+                  "type": "object",
+                  "required": [
+                    "Amount",
+                    "Currency"
+                  ],
+                  "description": "Optional component providing the equivalent of Amount in local currency.",
+                  "properties": {
+                    "Amount": {
+                      "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                    },
+                    "Currency": {
+                      "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
+                    },
+                    "SubType": {
+                      "description": "The amount in the local market currency for which the asset is held. Default is Local Currency (LCUR) if not specified",
+                      "type": "string",
+                      "enum": [
+                        "BCUR",
+                        "LCUR"
+                      ],
+                      "default": "LCUR"
+                    }
+                  }
                 }
               }
             }
@@ -14084,7 +14095,7 @@
             "$ref": "#/components/schemas/OBMerchantDetails1"
           },
           "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1"
+            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1"
           },
           "CreditorAccount": {
             "$ref": "#/components/schemas/OBCashAccount6_0"
