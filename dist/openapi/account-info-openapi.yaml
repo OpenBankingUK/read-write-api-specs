@@ -1806,6 +1806,133 @@ components:
           scopes:
             accounts: Ability to read Accounts information
   schemas:
+    ExternalCreditorReferenceType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set. For more information see `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
+      enum:
+        - DISP
+        - FXDR
+        - PUOR
+        - RPIN
+        - RADM
+        - SCOR
+    ExternalDocumentType1Code:
+      type: string
+      minLength: 1
+      maxLength: 4
+      description: >-
+        Specifies the document type as published in an external document type
+        code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet*
+        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      enum:
+        - CINV
+        - CNFA
+        - CONT
+        - CREN
+        - DEBN
+        - DISP
+        - DNFA
+        - HIRI
+        - INVS
+        - MSIN
+        - PROF
+        - PUOR
+        - QUOT
+        - SBIN
+        - SPRR
+        - TISH
+    OBReferredDocumentInformation:
+      type: object
+      properties:
+        Code:
+          $ref: '#/components/schemas/ExternalDocumentType1Code'
+        Issuer:
+          description: 'dentification of the issuer of the reference document type.'
+          type: string
+          maxLength: 140
+          minLength: 1
+        Number:
+          description: 'Identification of the type specified for the referred document line.'
+          type: string
+          maxLength: 35
+          minLength: 1
+        RelatedDate:
+          description: 'Date associated with the referred document line.'
+          type: string
+          format: date-time
+        LineDetails:
+          description: 'Set of elements used to provide the content of the referred document line.'
+          type: array
+          items:
+            type: string
+    OBRemittanceInformation2:
+      type: object
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system
+      properties:
+        Structured:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBRemittanceInformationStructured'
+        Unstructured:
+          type: array
+          description: >-
+            Information supplied to enable the matching/reconciliation of an
+            entry with the items that the payment is intended to settle, such as
+            commercial invoices in an accounts' receivable system, in an
+            unstructured form.
+          items:
+            type: string
+            maxLength: 140
+            minLength: 1
+    OBRemittanceInformationStructured:
+      type: object
+      properties:
+        ReferredDocumentInformation:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBReferredDocumentInformation'
+        ReferredDocumentAmount:
+          description: 'Provides details on the amounts of the referred document.'
+          type: integer
+          format: int32
+        CreditorReferenceInformation:
+          description: 'Reference information provided by the creditor to allow the identification of the underlying documents.'
+          type: object
+          properties:
+            Code:
+              $ref: '#/components/schemas/ExternalCreditorReferenceType1Code'
+            Issuer:
+              description: 'Entity that assigns the identification.'
+              type: string
+              minLength: 1
+              maxLength: 35
+            Reference:
+              description: 'Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.'
+              type: string
+              minLength: 1
+              maxLength: 35
+        Invoicer:
+          $ref: '#/components/schemas/Identification_3'
+        Invoicee:
+          $ref: '#/components/schemas/Identification_4'
+        TaxRemittance:
+          description: 'Provides remittance information about a payment made for tax-related purposes.'
+          type: string
+          maxLength: 140
+          minLength: 1
+        AdditionalRemittanceInformation:
+          description: 'Additional information, in free text form, to complement the structured remittance information.'
+          type: array
+          items:
+            type: string
+            maxLength: 140
+            minLength: 1
+          maxItems: 3
     OBUltimateCreditor1:
       description: Ultimate party to which an amount of money is due.
       type: object
@@ -1863,7 +1990,7 @@ components:
         CountPerPeriod:
           description: >-
             Number of instructions to be created and processed during the
-            specified period .Specifies a frequency in terms of a count per
+            specified period. Specifies a frequency in terms of a count per
             period within a specified frequency type. Note: should not be used
             alongside `PointInTime`
           type: integer
@@ -1876,12 +2003,12 @@ components:
         Exact2NumericText - Further information on the exact point in time the
         event should take place. Specifies a frequency in terms of an exact
         point in time or moment within a specified frequency type. Note: should
-        not be used alongside `CountPerSide`
+        not be used alongside `CountPerPeriod`.
       type: string
       example: '00'
       maxLength: 2
     OBFrequency6Code:
-      description: '`OBFrequency6Code` on External Codeset Repo'
+      description: 'For a full list of values see `OBFrequency6Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)'
       type: string
       example: MNTH
       enum:
@@ -1921,8 +2048,8 @@ components:
     ExternalProxyAccountType1Code:
       description: >-
         Specifies the external proxy account type code, as published in the
-        proxy account type external code set.<br> For more information and a
-        full list of values see `ExternalProxyAccountType1Code`
+        proxy account type external code set.<br /> For more information and a
+        full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet*
         [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: TELE
@@ -1997,7 +2124,7 @@ components:
         account servicer's books.
 
         Usage: Booking date is the expected booking date, unless the status is
-        booked, in which case it is the actual booking date.All dates in the
+        booked, in which case it is the actual booking date. All dates in the
         JSON payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2037,7 +2164,7 @@ components:
       maxLength: 35
     CreationDateTime:
       description: >-
-        Date and time at which the resource was created.All dates in the JSON
+        Date and time at which the resource was created. All dates in the JSON
         payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2057,7 +2184,7 @@ components:
       format: date
     DateTime:
       description: >-
-        Date and time associated with the date time type.All dates in the JSON
+        Date and time associated with the date time type. All dates in the JSON
         payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2120,7 +2247,7 @@ components:
       maxLength: 256
     EndDateTime:
       description: >-
-        Date and time at which the statement period ends.All dates in the JSON
+        Date and time at which the statement period ends. All dates in the JSON
         payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2136,7 +2263,7 @@ components:
     FinalPaymentDateTime:
       description: >-
         The date on which the final payment for a Standing Order schedule will
-        be made.All dates in the JSON payloads are represented in ISO 8601
+        be made. All dates in the JSON payloads are represented in ISO 8601
         date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2148,7 +2275,7 @@ components:
     FirstPaymentDateTime:
       description: >-
         The date on which the first payment for a Standing Order schedule will
-        be made.All dates in the JSON payloads are represented in ISO 8601
+        be made. All dates in the JSON payloads are represented in ISO 8601
         date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2244,7 +2371,7 @@ components:
       pattern: >-
         ^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
     FullLegalName:
-      description: Specifies a character string with a maximum length of 350 characters.
+      description: The full legal name of the party.
       type: string
       example: Jane Smith
       minLength: 1
@@ -2281,10 +2408,24 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    Identification_3:
+      description: >-
+        Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
+    Identification_4:
+      description: >-
+        dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
     LastPaymentDateTime:
       description: >-
         The date on which the last (most recent) payment for a Standing Order
-        schedule was made.All dates in the JSON payloads are represented in ISO
+        schedule was made. All dates in the JSON payloads are represented in ISO
         8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2303,7 +2444,7 @@ components:
       example: IZ9Q00LZEVUKWCQY6X15
       minLength: 1
       maxLength: 20
-      pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+      pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
     Links:
       type: object
       description: Links relevant to the payload
@@ -2336,7 +2477,7 @@ components:
       maxLength: 35
     MaturityDate:
       description: >-
-        Maturity date of the account.All dates in the JSON payloads are
+        Maturity date of the account. All dates in the JSON payloads are
         represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2382,7 +2523,7 @@ components:
       description: Name of Service User.
       type: string
       minLength: 1
-      maxLength: 140
+      maxLength: 70
     Name_3:
       description: >-
         Name by which a party is known and which is usually used to identify
@@ -2399,7 +2540,7 @@ components:
     NextPaymentDateTime:
       description: >-
         The date on which the next payment for a Standing Order schedule will be
-        made.All dates in the JSON payloads are represented in ISO 8601
+        made. All dates in the JSON payloads are represented in ISO 8601
         date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -2444,7 +2585,7 @@ components:
 
           * Data.Currency  
           * Data.AccountCategory  
-          * Data. AccountTypeCode
+          * Data.AccountTypeCode
 
         For all other accounts, the fields must be populated by the ASPSP.
       required:
@@ -2504,9 +2645,6 @@ components:
         entries are made.
       required:
         - AccountId
-        - Currency
-        - AccountCategory
-        - AccountTypeCode
       properties:
         AccountId:
           $ref: '#/components/schemas/AccountId'
@@ -2538,9 +2676,6 @@ components:
         entries are made.
       required:
         - AccountId
-        - Currency
-        - AccountCategory
-        - AccountTypeCode
         - Account
       properties:
         AccountId:
@@ -2580,14 +2715,20 @@ components:
                 $ref: '#/components/schemas/Identification_0'
               Name:
                 $ref: '#/components/schemas/Name_0'
+              LEI:
+                $ref: '#/components/schemas/LEI'
               SecondaryIdentification:
                 $ref: '#/components/schemas/SecondaryIdentification'
+        StatementFrequencyAndFormat:
+          $ref: '#/components/schemas/StatementFrequencyAndFormat'
         Servicer:
           $ref: >-
             #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0
       additionalProperties: false
     OBInternalAccountStatus1Code:
-      description: Specifies the status of account resource in code form.
+      description: |-
+        Specifies the status of account resource in code form. <br />
+        For a full list of enumeration values refer to `OBInternalAccountStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: Enabled
       enum:
@@ -2757,9 +2898,8 @@ components:
         - Statement
     OBAddressType2Code:
       description: >-
-        Identifies the nature of the postal address. For a full set of codes see
-        `OBAddressType2Code`
-        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
+        Identifies the nature of the postal address. <br />
+        For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
       type: string
       example: BIZZ
       enum:
@@ -5049,13 +5189,15 @@ components:
             required:
               - FeeChargeDetail
       additionalProperties: false
-    OBInternalAccountIdentification4Code:
-      description: Balance type, in a coded form.
+    OBBalanceType1Code:
+      description: >-
+        Balance type, in a coded form. <br />
+        For a full list of enumeration values refer to `ExternalBalanceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
       type: string
       example: CLAV
       enum:
         - CLAV
-        - XPCH
+        - CLBD
         - FWAV
         - INFO
         - ITAV
@@ -5063,6 +5205,7 @@ components:
         - OPAV
         - OPBD
         - PRCD
+        - XPCD
     OBBankTransactionCodeStructure1:
       type: object
       required:
@@ -5206,6 +5349,8 @@ components:
           $ref: '#/components/schemas/Identification_2'
         Name:
           $ref: '#/components/schemas/Name_1'
+        LEI:
+          $ref: '#/components/schemas/LEI'
         PostalAddress:
           $ref: '#/components/schemas/OBPostalAddress7'
     OBBranchAndFinancialInstitutionIdentification6_2:
@@ -5296,7 +5441,7 @@ components:
       description: >-
         Enumeration of codes that outlines the type of purpose behind a
         transaction, payment or risk. 
-         For all enum values see `ExternalCategoryPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+        For all enum values see `ExternalCategoryPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BONU
@@ -5344,7 +5489,7 @@ components:
         - WHLD
         - ZABA
     OBExternalMandateClassification1Code:
-      description: Type of mandate instruction.
+      description: Type of mandate instruction. For a full list of values see `OBExternalClassification1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: FIXE
       enum:
@@ -5353,8 +5498,7 @@ components:
         - VARI
     OBCommunicationMethod:
       description: >-
-        For a full description see `ExternalCommunicationFormat1Code`
-        [here](https://github.com/OpenBankingUK/External_internal_CodeSets) 
+        For a full list of enumeration values see `OBExternalCommunicationMethod2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets) 
       type: string
       enum:
         - EMAL
@@ -5364,7 +5508,7 @@ components:
         - POST
     OBCreditDebitCode_0:
       description: |-
-        Indicates whether the amount is a credit or a debit. 
+        Indicates whether the amount is a credit or a debit. For a full list of values see `OBInternalCreditDebitCode` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br />
         Usage: A zero amount is considered to be a credit amount.
       type: string
       example: Credit
@@ -5372,7 +5516,10 @@ components:
         - Credit
         - Debit
     OBCreditDebitCode_1:
-      description: Indicates whether the transaction is a credit or a debit entry.
+      description: |- 
+        Indicates whether the transaction is a credit or a debit entry. <br />
+        <br />
+        For a full list of enumeration values refer to `OBInternalCreditDebitCode` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - Credit
@@ -5381,7 +5528,10 @@ components:
       description: |-
         Indicates whether the balance is a credit or a debit balance. 
         Usage: A zero balance is considered to be a credit balance.
+        <br />
+        For a full list of enumeration values refer to `OBInternalCreditDebitCode` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
+      example: Credit
       enum:
         - Credit
         - Debit
@@ -5428,7 +5578,7 @@ components:
           maxLength: 35
         QuotationDate:
           description: >-
-            Date and time at which an exchange rate is quoted.All dates in the
+            Date and time at which an exchange rate is quoted. All dates in the
             JSON payloads are represented in ISO 8601 date-time format. 
 
             All date-time fields in responses must include the timezone. An
@@ -5452,7 +5602,9 @@ components:
             Currency:
               $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
     ExternalEntryStatus1Code:
-      description: Status of a transaction entry on the books of the account servicer.
+      description: |-
+        Status of a transaction entry on the books of the account servicer. <br />
+        For a full list of enumeration values refer to `ExternalEntryStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BOOK
@@ -5460,7 +5612,9 @@ components:
         - INFO
         - PDNG
     OBInternalTransactionMutability1Code:
-      description: Specifies the Mutability of the Transaction record.
+      description: |-
+        Specifies the Mutability of the Transaction record. <br />
+        For a full list of enumeration values refer to `OBInternalTransactionMutability1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - Mutable
@@ -5510,14 +5664,14 @@ components:
           maxLength: 40
         Code:
           description: >-
-            Deprecated <br>High level textual error code, to help categorise the
+            Deprecated <br />High level textual error code, to help categorise the
             errors.
           type: string
           minLength: 1
           example: 400 BadRequest
           maxLength: 40
         Message:
-          description: Deprecated <br>Brief Error message
+          description: Deprecated <br />Brief Error message
           type: string
           minLength: 1
           example: There is something wrong with the request parameters provided
@@ -5530,10 +5684,11 @@ components:
       required:
         - Errors
       additionalProperties: false
-    OBExternalAccountIdentification4Code:
+    OBInternalAccountIdentification4Code:
       description: >-
         Name of the identification scheme, in a coded form as published in an
-        external list.
+        external list. <br />
+        For a full list of enumeration values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.BBAN
@@ -5543,7 +5698,7 @@ components:
         - UK.OBIE.SortCodeAccountNumber
         - UK.OBIE.Wallet
     OBInternalAccountRole1Code:
-      description: A party’s role with respect to the related account.
+      description: A party’s role with respect to the related account. For a full list refer to `OBInternalAccountRole1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.Administrator
@@ -5562,8 +5717,8 @@ components:
         - UK.OBIE.SuccessorOnDeath
     OBExternalAccountSubType1Code:
       description: >-
-        Specifies the sub type of account (product family group) using ISO 20022
-        values.
+        Specifies the sub type of account (product family group) <br />
+        For a full list of enumeration values refer to `OBExternalCashAccountType1Code` *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - CACC
@@ -5577,7 +5732,6 @@ components:
         - LOAN
         - MGLD
         - MOMA
-        - NFCA
         - NREX
         - ODFT
         - ONDP
@@ -5589,16 +5743,19 @@ components:
         - TRAN
         - TRAS
         - VACC
+        - NFCA
         - MORT
         - WALT
     OBInternalAccountType1Code:
-      description: Specifies the type of account (personal or business).
+      description: >-
+        Specifies the type of account (personal or business). <br />
+        For a full list of enumeration values refer to 'OBInternalAccountType1Code' in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - Business
         - Personal
     OBExternalBalanceSubType1Code:
-      description: Amount sub type, in a coded form.
+      description: Amount sub type, in a coded form. Default if not specified is BCUR of the account.
       type: string
       enum:
         - BCUR
@@ -5606,19 +5763,22 @@ components:
     OBInternalFinancialInstitutionIdentification4Code:
       description: >-
         Name of the identification scheme, in a coded form as published in an
-        external list.
+        external list.<br/>
+        For a full list of enumeration values refer to `OBInternalFinancialInstitutionIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
-      example: UK.OBIE.SortCodeAccountNumber
+      example: UK.OBIE.BICFI
       x-namespaced-enum:
         - UK.OBIE.BICFI
     OBInternalSwitchStatusCode:
-      description: Specifies the switch status for the account, in a coded form.
+      description: >- 
+        Specifies the switch status for the account, in a coded form. <br />
+        For a full list of enumeration values refer to `OBInternalSwitchStatusCode` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.CASS.NotSwitched
         - UK.CASS.SwitchCompleted
     OBInternalLegalStructureType1Code:
-      description: Legal standing of the party.
+      description: Legal standing of the party. For a full list refer to `OBInternalLegalStructureType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.Individual
       x-namespaced-enum:
@@ -5635,7 +5795,7 @@ components:
         - UK.OBIE.ScottishLimitedPartnership
         - UK.OBIE.Sole
     OBInternalPartyType1Code:
-      description: Party type, in a coded form.
+      description: Party type, in a coded form. For a full list see `OBInternalPartyType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: Joint
       enum:
@@ -5647,8 +5807,7 @@ components:
       minLength: 1
       maxLength: 4
       description: >-
-        For a full description see `ExternalPurpose1Code`
-        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+        For a full list of enumeration values refer to `ExternalPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - BKDF
         - BKFE
@@ -5979,7 +6138,7 @@ components:
         - RETL
         - DEBT
     OBInternalScheduleType1Code:
-      description: Specifies the scheduled payment date type requested
+      description: Specifies the scheduled payment date type requested. For a full list of enumeration values refer to `OBInternalScheduleType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: Arrival
       enum:
@@ -5987,11 +6146,14 @@ components:
         - Execution
     ExternalMandateStatus1Code:
       description: >-
-        Specifies the status of the standing order in code form. See or a full
-        list of enumeration values refer to `External_CodeSet` here -
-        https://github.com/OpenBankingUK/External_Internal_CodeSets 
+        Specifies the status of the standing order in code form. For a full
+        list of enumeration values refer to 'ExternalMandateStatus1Code' in *ISO_External_Codeset* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
-      maxLength: 4
+      enum:
+        - ACTV
+        - CANC
+        - EXPI
+        - SUSP
       example: ACTV
     OBInternalStatementAmountType1Code:
       description: Amount type, in a coded form.
@@ -6023,7 +6185,7 @@ components:
         - UK.OBIE.TotalDebits
         - UK.OBIE.TotalPurchases
     OBInternalStatementBenefitType1Code:
-      description: Benefit type, in a coded form.
+      description: Benefit type, in a coded form. For a full list of values see `OBInternalStatementBenefitType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.Cashback
       x-namespaced-enum:
@@ -6032,7 +6194,7 @@ components:
         - UK.OBIE.TravelDiscount
         - UK.OBIE.TravelInsurance
     OBInternalStatementDateTimeType1Code:
-      description: Date time type, in a coded form.
+      description: Date time type, in a coded form. For a full list of values see `OBInternalStatementDateTimeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.NextStatement
       x-namespaced-enum:
@@ -6045,7 +6207,7 @@ components:
         - UK.OBIE.PurchasePromoEnd
         - UK.OBIE.StatementAvailable
     OBInternalStatementFeeFrequency1Code:
-      description: How frequently the fee is applied to the Account.
+      description: How frequently the fee is applied to the Account. For a full list of values see `OBInternalStatementFeeFrequency1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.StatementMonthly
       x-namespaced-enum:
@@ -6056,14 +6218,14 @@ components:
         - UK.OBIE.StatementMonthly
         - UK.OBIE.Weekly
     OBInternalStatementFeeRateType1Code:
-      description: Description that may be available for the statement fee rate type.
+      description: Description that may be available for the statement fee rate type. For a full list of values see `OBInternalStatementFeeRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.AER
       x-namespaced-enum:
         - UK.OBIE.AER
         - UK.OBIE.EAR
     OBInternalStatementFeeType1Code:
-      description: Fee type, in a coded form.
+      description: Fee type, in a coded form. For a full list of values see `OBInternalStatementFeeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.Annual
       x-namespaced-enum:
@@ -6083,7 +6245,7 @@ components:
         - UK.OBIE.StatementCopy
         - UK.OBIE.Total
     OBInternalStatementInterestFrequency1Code:
-      description: Specifies the statement fee type requested
+      description: Specifies the statement fee type requested. For a full list of values see `OBInternalStatementInterestFrequency1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.Monthly
       x-namespaced-enum:
@@ -6105,7 +6267,7 @@ components:
         - UK.OBIE.LoanProviderBaseRate
         - UK.OBIE.Net
     OBInternalStatementInterestType1Code:
-      description: Interest amount type, in a coded form.
+      description: Interest amount type, in a coded form. For a full list of values see `OBInternalStatementInterestType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.Total
       x-namespaced-enum:
@@ -6115,7 +6277,7 @@ components:
         - UK.OBIE.Purchase
         - UK.OBIE.Total
     OBInternalStatementRateType1Code:
-      description: Statement rate type, in a coded form.
+      description: Statement rate type, in a coded form. For a full list of values see `OBInternalStatementRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.AnnualCash
       x-namespaced-enum:
@@ -6130,7 +6292,7 @@ components:
         - UK.OBIE.MonthlyCash
         - UK.OBIE.MonthlyPurchase
     OBInternalStatementType1Code:
-      description: Statement type, in a coded form.
+      description: Statement type, in a coded form. For a full list of values see `OBInternalStatementType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: RegularPeriodic
       enum:
@@ -6140,7 +6302,7 @@ components:
         - Interim
         - RegularPeriodic
     OBInternalStatementValueType1Code:
-      description: Statement value type, in a coded form.
+      description: Statement value type, in a coded form. For a full list of values see `OBInternalStatementValueType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.Credit
       x-namespaced-enum:
@@ -6154,14 +6316,12 @@ components:
         - UK.OBIE.RetailShoppingPointsBalance
     OBFrequency2:
       description: >-
-        For a full description see `OBFrequency2Code`
-        [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
+        For a full list of enumeration values refer to `OBFrequency2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
       type: string
       enum:
         - YEAR
         - DAIL
         - INDA
-        - FRTN
         - MNTH
         - QURT
         - MIAN
@@ -6190,13 +6350,12 @@ components:
         - WEEK
     OBFileFormat:
       description: >-
-        For a full description see `ExternalDocumentFormat1Code`
-        [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
+        For a full list of enumeration values refer to `ExternalDocumentFormat1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
       type: string
       enum:
         - DPDF
         - DXML
-        - SDHS
+        - SDSH
         - WORD
         - XSLT
     OBExternalStatusReason1Code:
@@ -6241,7 +6400,7 @@ components:
             schedule will be made. 
 
             Usage: This must be populated only if the first recurring date is
-            different to the first payment date.All dates in the JSON payloads
+            different to the first payment date. All dates in the JSON payloads
             are represented in ISO 8601 date-time format. 
 
             All date-time fields in responses must include the timezone. An
@@ -8468,6 +8627,7 @@ components:
         LEI:
           $ref: '#/components/schemas/LEI'
         BeneficialOwnership:
+          description: A flag to indicate a party's beneficial ownership of the related account
           type: boolean
         AccountRole:
           $ref: '#/components/schemas/OBInternalAccountRole1Code'
@@ -8576,14 +8736,12 @@ components:
           maxItems: 7
     OBRate1_0:
       description: >-
-        Rate charged for Statement Fee (where it is charged in terms of a rate
-        rather than an amount)
+        Rate charged for Statement Fee (where it is charged in terms of a rate rather than an amount)
       example: 0.05
       type: number
     OBRate1_1:
       description: >-
-        field representing a percentage (e.g. 0.05 represents 5% and 0.9525
-        represents 95.25%). Note the number of decimal places may vary.
+        Rate for Statement Interest (where it is applicable in terms of a rate rather than an amount)
       example: 0.05
       type: number
     OBReadAccount6:
@@ -8630,10 +8788,10 @@ components:
                   CreditDebitIndicator:
                     $ref: '#/components/schemas/OBCreditDebitCode_2'
                   Type:
-                    $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
+                    $ref: '#/components/schemas/OBBalanceType1Code'
                   DateTime:
                     description: >-
-                      Indicates the date (and time) of the balance.All dates in
+                      Indicates the date (and time) of the balance. All dates in
                       the JSON payloads are represented in ISO 8601 date-time
                       format. 
 
@@ -8657,9 +8815,7 @@ components:
                         $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
                       SubType:
                         description: >-
-                          The amount in the domestic or base accounting
-                          currency. Default is Base Currency (BCUR) if not
-                          specified
+                          Balance sub type, in a coded form. Default if not specified is BCUR of the account
                         type: string
                         enum:
                           - BCUR
@@ -8684,7 +8840,9 @@ components:
                             in the balance amount of the account.
                           type: boolean
                         Type:
-                          description: Limit type, in a coded form.
+                          description: >-
+                            Limit type, in a coded form. <br />
+                            For a full list of enumeration values refer to `OBInternalLimitType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                           type: string
                           enum:
                             - Available
@@ -8722,8 +8880,7 @@ components:
                         $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
                       SubType:
                         description: >-
-                          The amount in the local market currency for which the
-                          asset is held.
+                          Balance sub type, in a coded form. Default if not specified is LCUR of the account
                         type: string
                         enum:
                           - BCUR
@@ -8777,9 +8934,9 @@ components:
               type: array
               items:
                 description: >-
-                  Specifies the Open Banking account access data types. This is
-                  a list of the data clusters being consented by the PSU, and
-                  requested for authorisation with the ASPSP.
+                  Specifies the Open Banking account access data types. <br />
+                  This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP. <br />
+                  For a full list of enumeration values refer to `OBInternalPermissions1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
                 type: string
                 enum:
                   - ReadAccountsBasic
@@ -8808,7 +8965,7 @@ components:
               description: >-
                 Specified date and time the permissions will expire.
 
-                If this is not populated, the permissions will be open ended.All
+                If this is not populated, the permissions will be open ended. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8824,7 +8981,7 @@ components:
 
                 If this is not populated, the start date will be open ended, and
                 data will be returned from the earliest available
-                transaction.All dates in the JSON payloads are represented in
+                transaction. All dates in the JSON payloads are represented in
                 ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -8838,7 +8995,7 @@ components:
                 Specified end date and time for the transaction query period.
 
                 If this is not populated, the end date will be open ended, and
-                data will be returned to the latest available transaction.All
+                data will be returned to the latest available transaction. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8894,9 +9051,9 @@ components:
               type: array
               items:
                 description: >-
-                  Specifies the Open Banking account access data types. This is
-                  a list of the data clusters being consented by the PSU, and
-                  requested for authorisation with the ASPSP.
+                  Specifies the Open Banking account access data types. <br />
+                  This is a list of the data clusters being consented by the PSU, and requested for authorisation with the ASPSP. <br />
+                  For a full list of enumeration values refer to `OBInternalPermissions1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
                 type: string
                 enum:
                   - ReadAccountsBasic
@@ -8925,7 +9082,7 @@ components:
               description: >-
                 Specified date and time the permissions will expire.
 
-                If this is not populated, the permissions will be open ended.All
+                If this is not populated, the permissions will be open ended. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8941,7 +9098,7 @@ components:
 
                 If this is not populated, the start date will be open ended, and
                 data will be returned from the earliest available
-                transaction.All dates in the JSON payloads are represented in
+                transaction. All dates in the JSON payloads are represented in
                 ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -8955,7 +9112,7 @@ components:
                 Specified end date and time for the transaction query period.
 
                 If this is not populated, the end date will be open ended, and
-                data will be returned to the latest available transaction.All
+                data will be returned to the latest available transaction. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -9051,7 +9208,7 @@ components:
                     minLength: 1
                     maxLength: 40
                   OfferType:
-                    description: Offer type, in a coded form.
+                    description: Offer type, in a coded form. For a full list of values refer to `OBExternalOfferType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                     type: string
                     example: LimitIncrease
                     enum:
@@ -9068,7 +9225,7 @@ components:
                     maxLength: 500
                   StartDateTime:
                     description: >-
-                      Date and time at which the offer starts.All dates in the
+                      Date and time at which the offer starts. All dates in the
                       JSON payloads are represented in ISO 8601 date-time
                       format. 
 
@@ -9081,7 +9238,7 @@ components:
                     format: date-time
                   EndDateTime:
                     description: >-
-                      Date and time at which the offer ends.All dates in the
+                      Date and time at which the offer ends. All dates in the
                       JSON payloads are represented in ISO 8601 date-time
                       format. 
 
@@ -9181,7 +9338,7 @@ components:
       required:
         - Data
       description: >-
-        Product details of Other Product which is not avaiable in the standard
+        Product details of Other Product which is not available in the standard
         list
       properties:
         Data:
@@ -9208,10 +9365,7 @@ components:
                     maxLength: 350
                   ProductId:
                     description: >-
-                      The unique ID that has been internally assigned by the
-                      financial institution to each of the current account
-                      banking products they market to their retail and/or small
-                      to medium enterprise (SME) customers.
+                      Identifier within the parent organisation for the product. Must be unique in the organisation
                     type: string
                     example: 51B
                     minLength: 1
@@ -9220,7 +9374,7 @@ components:
                     $ref: '#/components/schemas/AccountId'
                   SecondaryProductId:
                     description: >-
-                      Any secondary Identification which  supports Product
+                      Any secondary Identification which supports Product
                       Identifier to uniquely identify the current account
                       banking products.
                     type: string
@@ -9229,8 +9383,9 @@ components:
                     maxLength: 70
                   ProductType:
                     description: >-
-                      Product type : Personal Current Account, Business Current
-                      Account
+                      Descriptive code for the product category. 
+                      For a full list refer to `OBInternalProductType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br /><br />
+                      If ProductType - "Other" is chosen, the object OtherProductType must be populated with name, and description.
                     type: string
                     example: PersonalCurrentAccount
                     enum:
@@ -9241,7 +9396,7 @@ components:
                       - SMELoan
                   MarketingStateId:
                     description: >-
-                      Unique and unambiguous identification of a  Product
+                      Unique and unambiguous identification of a Product
                       Marketing State.
                     type: string
                     example: '22878123'
@@ -9252,16 +9407,16 @@ components:
                     required:
                       - Name
                       - Description
-                    description: Other product type details associated with the account.
+                    description: 'This field provides extension to the ProductType enumeration. If ProductType - "Other" is chosen, this field must be populated with name, and description for ASPSP specific product type.'
                     properties:
                       Name:
-                        description: Long name associated with the product
+                        description: Name of "Other" product type.
                         type: string
                         example: e-Wallet
                         minLength: 1
                         maxLength: 350
                       Description:
-                        description: Description of the Product associated with the account
+                        description: Description of "Other" product type
                         type: string
                         example: Virtual wallet
                         minLength: 1
@@ -11255,7 +11410,6 @@ components:
       type: object
       required:
         - AccountId
-        - Frequency
       properties:
         AccountId:
           $ref: '#/components/schemas/AccountId'
@@ -11276,37 +11430,29 @@ components:
         FinalPaymentAmount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4'
         CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1'
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount5_1'
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
         MandateRelatedInformation:
           $ref: '#/components/schemas/OBMandateRelatedInformation1'
+        RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation2'
       additionalProperties: false
     OBStandingOrder6Basic:
       type: object
       required:
         - AccountId
-        - Frequency
       properties:
         AccountId:
           $ref: '#/components/schemas/AccountId'
         StandingOrderId:
           $ref: '#/components/schemas/StandingOrderId'
-        Frequency:
-          $ref: '#/components/schemas/Frequency_1'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        FirstPaymentDateTime:
-          $ref: '#/components/schemas/FirstPaymentDateTime'
         NextPaymentDateTime:
           $ref: '#/components/schemas/NextPaymentDateTime'
         LastPaymentDateTime:
           $ref: '#/components/schemas/LastPaymentDateTime'
-        FinalPaymentDateTime:
-          $ref: '#/components/schemas/FinalPaymentDateTime'
         StandingOrderStatusCode:
           $ref: '#/components/schemas/ExternalMandateStatus1Code'
         FirstPaymentAmount:
@@ -11319,30 +11465,25 @@ components:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4'
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
+        MandateRelatedInformation:
+          $ref: '#/components/schemas/OBMandateRelatedInformation1'
+        RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation2'
       additionalProperties: false
     OBStandingOrder6Detail:
       type: object
       required:
         - AccountId
-        - Frequency
         - CreditorAccount
       properties:
         AccountId:
           $ref: '#/components/schemas/AccountId'
         StandingOrderId:
           $ref: '#/components/schemas/StandingOrderId'
-        Frequency:
-          $ref: '#/components/schemas/Frequency_1'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        FirstPaymentDateTime:
-          $ref: '#/components/schemas/FirstPaymentDateTime'
         NextPaymentDateTime:
           $ref: '#/components/schemas/NextPaymentDateTime'
         LastPaymentDateTime:
           $ref: '#/components/schemas/LastPaymentDateTime'
-        FinalPaymentDateTime:
-          $ref: '#/components/schemas/FinalPaymentDateTime'
         StandingOrderStatusCode:
           $ref: '#/components/schemas/ExternalMandateStatus1Code'
         FirstPaymentAmount:
@@ -11354,12 +11495,15 @@ components:
         FinalPaymentAmount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4'
         CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1'
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount5_1'
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
+        MandateRelatedInformation:
+          $ref: '#/components/schemas/OBMandateRelatedInformation1'
+        RemittanceInformation:
+          $ref: '#/components/schemas/OBRemittanceInformation2'
       additionalProperties: false
     OBStatement2:
       type: object
@@ -11723,6 +11867,17 @@ components:
                 $ref: '#/components/schemas/Value'
               Type:
                 $ref: '#/components/schemas/OBInternalStatementValueType1Code'
+        TotalValue:
+          type: object
+          description: Combined sum of all Amounts in the accounts base currency
+          required:
+            - Amount
+            - Currency
+          properties:
+            Amount:
+              $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
+            Currency:
+              $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
       additionalProperties: false
     OBStatement2Detail:
       type: object
@@ -11842,6 +11997,29 @@ components:
                 $ref: '#/components/schemas/OBInternalStatementAmountType1Code'
               Amount:
                 $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8'
+              LocalAmount:
+                type: object
+                required:
+                  - Amount
+                  - Currency
+                description: >-
+                  Optional component providing the equivalent of Amount in local
+                  currency.
+                properties:
+                  Amount:
+                    $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
+                  Currency:
+                    $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
+                  SubType:
+                    description: >-
+                      The amount in the local market currency for which the
+                      asset is held. Default is Local Currency (LCUR) if not
+                      specified
+                    type: string
+                    enum:
+                      - BCUR
+                      - LCUR
+                    default: LCUR
         StatementDateTime:
           type: array
           items:
@@ -11887,6 +12065,17 @@ components:
                 $ref: '#/components/schemas/Value'
               Type:
                 $ref: '#/components/schemas/OBInternalStatementValueType1Code'
+        TotalValue:
+          type: object
+          description: Combined sum of all Amounts in the accounts base currency
+          required:
+            - Amount
+            - Currency
+          properties:
+            Amount:
+              $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
+            Currency:
+              $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
       additionalProperties: false
     OBStatusReason:
       type: object
@@ -11973,13 +12162,11 @@ components:
         MerchantDetails:
           $ref: '#/components/schemas/OBMerchantDetails1'
         CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1'
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount6_0'
         DebtorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2'
         DebtorAccount:
           $ref: '#/components/schemas/OBCashAccount6_1'
         CardInstrument:
@@ -12037,10 +12224,18 @@ components:
           $ref: '#/components/schemas/OBBankTransactionCodeStructure1'
         ProprietaryBankTransactionCode:
           $ref: '#/components/schemas/ProprietaryBankTransactionCodeStructure1'
+        ExtendedProprietaryBankTransactionCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBExtendedProprietaryBankTransactionCode'
         CardInstrument:
           $ref: '#/components/schemas/OBTransactionCardInstrument1'
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
+        CategoryPurposeCode:
+          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
+        PaymentPurposeCode:
+          $ref: '#/components/schemas/OBExternalPurpose1Code'
       additionalProperties: false
     OBTransaction6Detail:
       type: object
@@ -12086,33 +12281,47 @@ components:
           $ref: '#/components/schemas/OBBankTransactionCodeStructure1'
         ProprietaryBankTransactionCode:
           $ref: '#/components/schemas/ProprietaryBankTransactionCodeStructure1'
+        ExtendedProprietaryBankTransactionCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OBExtendedProprietaryBankTransactionCode'
         Balance:
           $ref: '#/components/schemas/OBTransactionCashBalance'
         MerchantDetails:
           $ref: '#/components/schemas/OBMerchantDetails1'
         CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1'
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount6_0'
         DebtorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2
+          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2'
         DebtorAccount:
           $ref: '#/components/schemas/OBCashAccount6_1'
         CardInstrument:
           $ref: '#/components/schemas/OBTransactionCardInstrument1'
         SupplementaryData:
           $ref: '#/components/schemas/OBSupplementaryData1'
+        CategoryPurposeCode:
+          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
+        PaymentPurposeCode:
+          $ref: '#/components/schemas/OBExternalPurpose1Code'
+        UltimateCreditor:
+          $ref: '#/components/schemas/OBUltimateCreditor1'
+        UltimateDebtor:
+          $ref: '#/components/schemas/OBUltimateDebtor1'
       additionalProperties: false
     OBTransactionCardInstrument1:
       type: object
       required:
         - CardSchemeName
-      description: Set of elements to describe the card instrument used in the transaction.
+      description: |-
+        Set of elements to describe the card instrument used in the transaction. <br />
+        For a full list of enumeration values refer to `OBInternalCardSchemeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       properties:
         CardSchemeName:
-          description: Name of the card scheme.
+          description: |-
+            Name of the card scheme. <br />
+            For a full list of enumeration values refer to `OBInternalCardSchemeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           type: string
           enum:
             - AmericanExpress
@@ -12121,7 +12330,9 @@ components:
             - MasterCard
             - VISA
         AuthorisationType:
-          description: The card authorisation type.
+          description: |- 
+            The card authorisation type. <br />
+            For a full list of enumeration values refer to `OBInternalCardAuthorisationType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           type: string
           enum:
             - ConsumerDevice
@@ -12156,7 +12367,7 @@ components:
         CreditDebitIndicator:
           $ref: '#/components/schemas/OBCreditDebitCode_2'
         Type:
-          $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
+          $ref: '#/components/schemas/OBBalanceType1Code'
         Amount:
           type: object
           required:
@@ -12176,8 +12387,8 @@ components:
       additionalProperties: false
       properties: {}
       description: |-
-        The Risk section is sent by the initiating party to the ASPSP.
-        It is used to specify additional details for risk scoring for Payments.
+        The Risk section is sent by the initiating party to the ASPSP. <br />
+        It is used to specify additional details for risk scoring for Account Info.
     OB_Amount1_0:
       description: Cap amount charged for a fee/charge
       type: string
@@ -12586,7 +12797,7 @@ components:
     OpeningDate:
       description: >-
         Date on which the account and related basic services are effectively
-        operational for the account owner.All dates in the JSON payloads are
+        operational for the account owner. All dates in the JSON payloads are
         represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -12642,7 +12853,7 @@ components:
       maxLength: 16
     PreviousPaymentDateTime:
       description: >-
-        Date of most recent direct debit collection.All dates in the JSON
+        Date of most recent direct debit collection. All dates in the JSON
         payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -12676,6 +12887,7 @@ components:
       description: Rate associated with the statement rate type.
       type: string
       example: '0.224'
+      maxLength: 40
       pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
     Reference:
       description: >-
@@ -12739,7 +12951,7 @@ components:
         - Ordinary
     ScheduledPaymentDateTime:
       description: >-
-        The date on which the scheduled payment will be made.All dates in the
+        The date on which the scheduled payment will be made. All dates in the
         JSON payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -12779,7 +12991,7 @@ components:
       maxLength: 40
     StartDateTime:
       description: >-
-        Date and time at which the statement period starts.All dates in the JSON
+        Date and time at which the statement period starts. All dates in the JSON
         payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -12821,7 +13033,7 @@ components:
       maxLength: 35
     StatusUpdateDateTime:
       description: >-
-        Date and time at which the resource status was updated.All dates in the
+        Date and time at which the resource status was updated. All dates in the
         JSON payloads are represented in ISO 8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -12848,7 +13060,7 @@ components:
         For transaction entries subject to availability/float and for which
         availability information is provided, the value date must not be used.
         In this case the availability component identifies the number of
-        availability days.All dates in the JSON payloads are represented in ISO
+        availability days. All dates in the JSON payloads are represented in ISO
         8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example
@@ -12910,7 +13122,7 @@ components:
         For transaction entries subject to availability/float and for which
         availability information is provided, the value date must not be used.
         In this case the availability component identifies the number of
-        availability days.All dates in the JSON payloads are represented in ISO
+        availability days. All dates in the JSON payloads are represented in ISO
         8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example

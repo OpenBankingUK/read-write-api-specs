@@ -3128,7 +3128,7 @@ components:
       maxLength: 16
     Date:
       description: >-
-        Date and time associated with the date time type.All dates in the JSON
+        Date and time associated with the date time type. All dates in the JSON
         payloads are represented in ISO 8601 date format. 
          An example is below:
         2017-04-05
@@ -3248,6 +3248,20 @@ components:
       type: string
       minLength: 1
       maxLength: 35
+    Identification_3:
+      description: >-
+        Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
+    Identification_4:
+      description: >-
+        Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+      type: string
+      example: '80200112344562'
+      minLength: 1
+      maxLength: 256
     LEI:
       description: >-
         Legal entity identification as an alternate identification for a party.
@@ -3369,6 +3383,7 @@ components:
       description: >-
         Specifies which party/parties will bear the charges associated with the
         processing of the payment transaction.
+        For a full list of values refer to `OBInternalChargeBearerType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - BorneByCreditor
@@ -3517,6 +3532,7 @@ components:
       description: >-
         Name of the identification scheme, in a coded form as published in an
         external list.
+        For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.BBAN
@@ -3529,7 +3545,7 @@ components:
       type: string
       minLength: 1
       maxLength: 4
-      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
+      description: "Specifies the type of creditor reference as published in an external creditor reference type code set. For more information see `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
       enum:
         - DISP
         - FXDR
@@ -3543,7 +3559,7 @@ components:
       maxLength: 4
       description: >-
         Specifies the document type as published in an external document type
-        code list. For more information see `ExternalDocumentType1Code`
+        code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet*
         [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
         - CINV
@@ -3594,6 +3610,7 @@ components:
 
         Usage: This element is used to specify a local instrument, local
         clearing option and/or further qualify the service or service level.
+        For a full list of values refer to `OBInternalLocalInstrument1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.BACS
@@ -3609,7 +3626,7 @@ components:
         - UK.OBIE.SWIFT
         - UK.OBIE.Target2
     OBInternalPaymentChargeType1Code:
-      description: Charge type, in a coded form.
+      description: Charge type, in a coded form. For a full list of values refer to `OBInternalPaymentChargeType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       x-namespaced-enum:
         - UK.OBIE.CHAPSOut
@@ -3991,7 +4008,7 @@ components:
             schedule will be made. 
 
             Usage: This must be populated only if the first recurring date is
-            different to the first payment date.All dates in the JSON payloads
+            different to the first payment date. All dates in the JSON payloads
             are represented in ISO 8601 date-time format. 
 
             All date-time fields in responses must include the timezone. An
@@ -4061,9 +4078,7 @@ components:
     ExternalProxyAccountType1Code:
       description: >-
         Specifies the external proxy account type code, as published in the
-        proxy account type external code set.<br> For more information and a
-        full list of values see `ExternalProxyAccountType1Code`
-        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+        proxy account type external code set.<br /> For a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       enum:
         - TELE
@@ -4145,16 +4160,21 @@ components:
         Code:
           $ref: '#/components/schemas/ExternalDocumentType1Code'
         Issuer:
+          description: 'Identification of the issuer of the reference document type.'
           type: string
-          maxLength: 140
+          maxLength: 35
           minLength: 1
         Number:
+          description: 'Identification of the type specified for the referred document line.'
           type: string
-          maxLength: 140
+          maxLength: 35
           minLength: 1
         RelatedDate:
-          $ref: '#/components/schemas/ISODateTime'
+          description: 'Date associated with the referred document line.'
+          type: string
+          format: date-time
         LineDetails:
+          description: 'Set of elements used to provide the content of the referred document line.'
           type: array
           items:
             type: string
@@ -4178,7 +4198,7 @@ components:
             unstructured form.
           items:
             type: string
-            maxLength: 256
+            maxLength: 140
             minLength: 1
     OBRemittanceInformationStructured:
       type: object
@@ -4188,30 +4208,36 @@ components:
           items:
             $ref: '#/components/schemas/OBReferredDocumentInformation'
         ReferredDocumentAmount:
+          description: 'Provides details on the amounts of the referred document.'
           type: integer
           format: int32
         CreditorReferenceInformation:
+          description: 'Reference information provided by the creditor to allow the identification of the underlying documents.'
           type: object
           properties:
             Code:
               $ref: '#/components/schemas/ExternalCreditorReferenceType1Code'
             Issuer:
+              description: 'Entity that assigns the identification.'
               type: string
               minLength: 1
               maxLength: 35
             Reference:
+              description: 'Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.'
               type: string
               minLength: 1
               maxLength: 35
         Invoicer:
-          $ref: '#/components/schemas/Identification_0'
+          $ref: '#/components/schemas/Identification_3'
         Invoicee:
-          $ref: '#/components/schemas/Identification_0'
+          $ref: '#/components/schemas/Identification_4'
         TaxRemittance:
+          description: 'Provides remittance information about a payment made for tax-related purposes.'
           type: string
           maxLength: 140
           minLength: 1
         AdditionalRemittanceInformation:
+          description: 'Additional information, in free text form, to complement the structured remittance information.'
           type: array
           items:
             type: string
@@ -4239,6 +4265,7 @@ components:
             Identifies whether the regulatory reporting information applies to
             the debit side, to the credit side or to both debit and credit sides
             of the transaction. 
+            For a full list of values reefer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           enum:
             - CRED
             - DEBT
@@ -4302,7 +4329,7 @@ components:
           type: string
           description: >-
             This field allows a PISP to request specific SCA Exemption for a
-            Payment Initiation
+            Payment Initiation. For a full list of values reefer to `OBInternalSCAExemptionType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           enum:
             - BillPayment
             - ContactlessTravel
@@ -4319,6 +4346,8 @@ components:
 
             Usage: This field indicates whether the PSU was subject to SCA
             performed by the TPP
+
+            For a full list of values refer to `OBInternalAppliedAuthenticationApproach1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           enum:
             - CA
             - SCA
@@ -4340,7 +4369,7 @@ components:
           type: string
           description: |-
             Specifies the status reason in a code form. 
-             For a full description see `OBExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+            For a full list of values refer to `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
           example: ERIN
@@ -4352,8 +4381,7 @@ components:
         Path:
           type: string
           description: >-
-            Recommended but optional reference to the JSON Path of the field
-            with error, e.g., Data.Initiation.InstructedAmount.Currency
+            Path is optional but relevant when the status reason refers to an object/field and hence conditional to provide JSON path.
           minLength: 1
           maxLength: 500
     OBStructuredRegulatoryReporting3:
@@ -4589,7 +4617,7 @@ components:
             - Initiation
           properties:
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: Specifies to share the refund account details with PISP. For a full set of values refer to `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
@@ -4763,7 +4791,7 @@ components:
               description: The authorisation type request from the TPP.
               properties:
                 AuthorisationType:
-                  description: Type of authorisation flow requested.
+                  description: Type of authorisation flow requested. For a full set of values refer to `OBInternalAuthorisation1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - Any
@@ -4771,7 +4799,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -4810,7 +4838,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -4820,7 +4848,9 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of consent resource in code form.
+              description: >- 
+                Specifies the status of consent resource in code form.
+                For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - AWAU
@@ -4833,7 +4863,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -4844,14 +4874,16 @@ components:
               type: string
               format: date-time
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: >- 
+                Specifies to share the refund account details with PISP.
+                For a full list of values refer to `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
                 - 'Yes'
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -4863,7 +4895,7 @@ components:
               format: date-time
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -4875,7 +4907,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -5073,7 +5105,7 @@ components:
               description: The authorisation type request from the TPP.
               properties:
                 AuthorisationType:
-                  description: Type of authorisation flow requested.
+                  description: Type of authorisation flow requested. For a full list of values refer to `OBInternalAuthorisation1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - Any
@@ -5081,7 +5113,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -5133,7 +5165,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the message was created.All dates in the
+                Date and time at which the message was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -5143,7 +5175,9 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of the payment information group.
+              description: >- 
+                Specifies the status of the payment information group.
+                For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - PDNG
@@ -5160,7 +5194,7 @@ components:
                 - RJCT
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -5176,7 +5210,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -5188,7 +5222,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -5426,7 +5460,7 @@ components:
               description: The multiple authorisation flow response from the ASPSP.
               properties:
                 Status:
-                  description: Specifies the status of the authorisation flow in code form.
+                  description: Specifies the status of the authorisation flow in code form. For a full list of values refer to `OBInternalStatus2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - AUTH
@@ -5442,7 +5476,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -5455,7 +5489,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -5543,7 +5577,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -5668,12 +5702,12 @@ components:
             - Initiation
           properties:
             Permission:
-              description: Specifies the Open Banking service request types.
+              description: Specifies the Open Banking service request types. For a full list of values see `OBInternalPermissions2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - Create
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: Specifies to share the refund account details with PISP. For a full list of values see `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
@@ -5730,7 +5764,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -5846,7 +5880,7 @@ components:
               description: The authorisation type request from the TPP.
               properties:
                 AuthorisationType:
-                  description: Type of authorisation flow requested.
+                  description: Type of authorisation flow requested. For a full list of values refer to `OBInternalAuthorisation1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - Any
@@ -5854,7 +5888,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -5894,7 +5928,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -5904,7 +5938,7 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of consent resource in code form.
+              description: Specifies the status of consent resource in code form. For a full list of values see `OBInternalConsentStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - AUTH
@@ -5914,7 +5948,7 @@ components:
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the consent resource status was
-                updated.All dates in the JSON payloads are represented in ISO
+                updated. All dates in the JSON payloads are represented in ISO
                 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -5928,19 +5962,19 @@ components:
               items:
                 $ref: '#/components/schemas/OBStatusReason'
             Permission:
-              description: Specifies the Open Banking service request types.
+              description: Specifies the Open Banking service request types. For a full list of values see `OBInternalPermissions2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - Create
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: Specifies to share the refund account details with PISP. For a full list of values see `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
                 - 'Yes'
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -5952,7 +5986,7 @@ components:
               format: date-time
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -5964,7 +5998,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -6045,7 +6079,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -6161,7 +6195,7 @@ components:
               description: The authorisation type request from the TPP.
               properties:
                 AuthorisationType:
-                  description: Type of authorisation flow requested.
+                  description: Type of authorisation flow requested. For a full list of values refer to `OBInternalAuthorisation1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - Any
@@ -6169,7 +6203,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -6221,7 +6255,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the message was created.All dates in the
+                Date and time at which the message was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -6231,15 +6265,25 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of the payment order resource.
+              description: Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - RCVD
-                - RJCT
+                - CANC
+                - PDNG 
+                - ACTC 
+                - PATC
+                - ACCP
+                - ACFC
                 - ACSP
+                - ACWC
+                - ACSC
+                - ACWP
+                - BLCK
+                - RJCT
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -6255,7 +6299,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -6267,7 +6311,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -6388,7 +6432,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -6520,7 +6564,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -6533,7 +6577,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -6573,6 +6617,7 @@ components:
               type: object
               additionalProperties: false
               required:
+                - MandateRelatedInformation
                 - FirstPaymentAmount
                 - CreditorAccount
               description: >-
@@ -6712,12 +6757,12 @@ components:
             - Initiation
           properties:
             Permission:
-              description: Specifies the Open Banking service request types.
+              description: Specifies the Open Banking service request types. For a full list of values see `OBInternalPermissions2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - Create
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: Specifies to share the refund account details with PISP. For a full list of values see `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
@@ -6726,7 +6771,7 @@ components:
               type: object
               additionalProperties: false
               required:
-                - FirstPaymentDateTime
+                - MandateRelatedInformation
                 - FirstPaymentAmount
                 - CreditorAccount
               description: >-
@@ -6857,7 +6902,7 @@ components:
               description: The authorisation type request from the TPP.
               properties:
                 AuthorisationType:
-                  description: Type of authorisation flow requested.
+                  description: Type of authorisation flow requested. For a full list of values refer to `OBInternalAuthorisation1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
                   type: string
                   enum:
                     - Any
@@ -6865,7 +6910,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -6905,7 +6950,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -6915,7 +6960,7 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of consent resource in code form.
+              description: Specifies the status of consent resource in code form. For a full list of values see `OBInternalConsentStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - AUTH
@@ -6924,7 +6969,7 @@ components:
                 - RJCT
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -6939,19 +6984,19 @@ components:
               items:
                 $ref: '#/components/schemas/OBStatusReason'
             Permission:
-              description: Specifies the Open Banking service request types.
+              description: Specifies the Open Banking service request types. For a full list of values see `OBInternalPermissions2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - Create
             ReadRefundAccount:
-              description: Specifies to share the refund account details with PISP
+              description: Specifies to share the refund account details with PISP.  For a full list of values see `OBInternalReadRefundAccount1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - 'No'
                 - 'Yes'
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -6984,7 +7029,7 @@ components:
               type: object
               additionalProperties: false
               required:
-                - FirstPaymentDateTime
+                - MandateRelatedInformation
                 - FirstPaymentAmount
                 - CreditorAccount
               description: >-
@@ -7126,7 +7171,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7178,7 +7223,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -7188,15 +7233,20 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of the payment order resource.
+              description: Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - RCVD
-                - RJCT
                 - CANC
+                - ACTC
+                - PATC 
+                - PDNG 
+                - INFA 
+                - INCO
+                - RJCT 
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -7273,6 +7323,7 @@ components:
               type: object
               additionalProperties: false
               required:
+                - MandateRelatedInformation
                 - FirstPaymentAmount
                 - CreditorAccount
               description: >-
@@ -7327,10 +7378,7 @@ components:
                   required:
                     - SchemeName
                     - Identification
-                  description: >-
-                    Unambiguous identification of the account of the debtor to
-                    which a debit entry will be made as a result of the
-                    transaction.
+                  description: Provides the details to identify the debtor account.
                   properties:
                     SchemeName:
                       $ref: >-
@@ -7385,8 +7433,6 @@ components:
                       $ref: '#/components/schemas/SecondaryIdentification'
                     Proxy:
                       $ref: '#/components/schemas/OBProxy1'
-                MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 UltimateCreditor:
                   $ref: '#/components/schemas/OBUltimateCreditor1'
                 UltimateDebtor:
@@ -7396,6 +7442,8 @@ components:
                   items:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
+                MandateRelatedInformation:
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -7422,7 +7470,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -7435,7 +7483,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7516,7 +7564,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7622,7 +7670,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7702,7 +7750,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7738,7 +7786,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -7752,6 +7800,7 @@ components:
               type: string
               enum:
                 - AWAU
+                - AWUP
                 - RJCT
                 - AUTH
                 - COND
@@ -7762,7 +7811,7 @@ components:
             StatusUpdateDateTime:
               description: >-
                 Date and time at which the consent resource status was
-                updated.All dates in the JSON payloads are represented in ISO
+                updated. All dates in the JSON payloads are represented in ISO
                 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -7773,7 +7822,7 @@ components:
               format: date-time
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -7848,7 +7897,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7928,7 +7977,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -7978,7 +8027,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the message was created.All dates in the
+                Date and time at which the message was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -7988,15 +8037,15 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of the payment order resource.
+              description: Specifies the status of the payment order resource. See `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets) for more information.
               type: string
               enum:
-                - RCVD
-                - RJCT
-                - ASCP
+                - INFA
+                - INCO 
+                - PDNG 
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8075,7 +8124,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -8163,7 +8212,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -8176,7 +8225,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -8212,7 +8261,7 @@ components:
                 FundsAvailableDateTime:
                   description: >-
                     Date and time at which the funds availability check was
-                    generated.All dates in the JSON payloads are represented in
+                    generated. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -8309,18 +8358,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -8716,7 +8753,7 @@ components:
                         to identify that party.
                       type: string
                       minLength: 1
-                      maxLength: 140
+                      maxLength: 350
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
@@ -8800,7 +8837,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -8839,7 +8876,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -8862,7 +8899,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8880,7 +8917,7 @@ components:
                 - 'Yes'
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8892,7 +8929,7 @@ components:
               format: date-time
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8904,7 +8941,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -8975,7 +9012,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Specified date and time the exchange rate agreement will
-                    expire.All dates in the JSON payloads are represented in ISO
+                    expire. All dates in the JSON payloads are represented in ISO
                     8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -9040,18 +9077,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -9177,7 +9202,7 @@ components:
                         to identify that party.
                       type: string
                       minLength: 1
-                      maxLength: 140
+                      maxLength: 350
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
@@ -9261,7 +9286,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -9313,7 +9338,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the message was created.All dates in the
+                Date and time at which the message was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -9340,7 +9365,7 @@ components:
                 - RJCT
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -9356,7 +9381,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -9368,7 +9393,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -9513,7 +9538,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Specified date and time the exchange rate agreement will
-                    expire.All dates in the JSON payloads are represented in ISO
+                    expire. All dates in the JSON payloads are represented in ISO
                     8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -9578,18 +9603,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -9715,7 +9728,7 @@ components:
                         to identify that party.
                       type: string
                       minLength: 1
-                      maxLength: 140
+                      maxLength: 350
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
@@ -9807,7 +9820,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -9820,7 +9833,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -9913,18 +9926,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -9941,7 +9942,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -10065,7 +10066,7 @@ components:
                         to identify that party.
                       type: string
                       minLength: 1
-                      maxLength: 140
+                      maxLength: 350
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
@@ -10080,10 +10081,10 @@ components:
                         #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
                     Identification:
                       $ref: '#/components/schemas/Identification_1'
-                    Name:
-                      $ref: '#/components/schemas/Name'
                     LEI:
                       $ref: '#/components/schemas/LEI'
+                    Name:
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
@@ -10217,18 +10218,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -10245,7 +10234,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -10369,7 +10358,7 @@ components:
                         to identify that party.
                       type: string
                       minLength: 1
-                      maxLength: 140
+                      maxLength: 350
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
@@ -10453,7 +10442,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -10493,7 +10482,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -10516,7 +10505,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -10526,13 +10515,6 @@ components:
                 2017-04-05T10:43:07+00:00
               type: string
               format: date-time
-            Path:
-              type: string
-              description: >-
-                Recommended but optional reference to the JSON Path of the field
-                with error, e.g., Data.Initiation.InstructedAmount.Currency
-              minLength: 1
-              maxLength: 500
             Permission:
               description: Specifies the Open Banking service request types.
               type: string
@@ -10546,7 +10528,7 @@ components:
                 - 'Yes'
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -10558,7 +10540,7 @@ components:
               format: date-time
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -10570,7 +10552,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -10641,7 +10623,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Specified date and time the exchange rate agreement will
-                    expire.All dates in the JSON payloads are represented in ISO
+                    expire. All dates in the JSON payloads are represented in ISO
                     8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -10707,18 +10689,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -10735,7 +10705,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -10874,10 +10844,10 @@ components:
                         #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
                     Identification:
                       $ref: '#/components/schemas/Identification_1'
-                    Name:
-                      $ref: '#/components/schemas/Name'
                     LEI:
                       $ref: '#/components/schemas/LEI'
+                    Name:
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
@@ -10943,7 +10913,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -10995,7 +10965,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the message was created.All dates in the
+                Date and time at which the message was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -11022,7 +10992,7 @@ components:
                 - RJCT
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -11038,7 +11008,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             ExpectedExecutionDateTime:
               description: >-
-                Expected execution date and time for the payment resource.All
+                Expected execution date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -11050,7 +11020,7 @@ components:
               format: date-time
             ExpectedSettlementDateTime:
               description: >-
-                Expected settlement date and time for the payment resource.All
+                Expected settlement date and time for the payment resource. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -11193,7 +11163,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Specified date and time the exchange rate agreement will
-                    expire.All dates in the JSON payloads are represented in ISO
+                    expire. All dates in the JSON payloads are represented in ISO
                     8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -11259,18 +11229,6 @@ components:
                   enum:
                     - Normal
                     - Urgent
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -11287,7 +11245,7 @@ components:
                     agent to process the payment. 
 
                     Usage: This is the date on which the debtor's account is to
-                    be debited.All dates in the JSON payloads are represented in
+                    be debited. All dates in the JSON payloads are represented in
                     ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -11411,7 +11369,7 @@ components:
                         to identify that party.
                       type: string
                       minLength: 1
-                      maxLength: 140
+                      maxLength: 350
                     LEI:
                       $ref: '#/components/schemas/LEI'
                     PostalAddress:
@@ -11426,10 +11384,10 @@ components:
                         #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
                     Identification:
                       $ref: '#/components/schemas/Identification_1'
-                    Name:
-                      $ref: '#/components/schemas/Name'
                     LEI:
                       $ref: '#/components/schemas/LEI'
+                    Name:
+                      $ref: '#/components/schemas/Name'
                     PostalAddress:
                       $ref: '#/components/schemas/OBPostalAddress7'
                 CreditorAccount:
@@ -11503,7 +11461,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -11516,7 +11474,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -11559,6 +11517,7 @@ components:
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
+                - MandateRelatedInformation
               description: >-
                 The Initiation payload is sent by the initiating party to the
                 ASPSP. It is used to request movement of funds from the debtor
@@ -11566,18 +11525,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation2'
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -11623,8 +11570,6 @@ components:
                         #/components/schemas/OBActiveCurrencyAndAmount_SimpleType
                     Currency:
                       $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode'
-                MandateRelatedInformation:
-                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 DebtorAccount:
                   type: object
                   additionalProperties: false
@@ -11736,6 +11681,8 @@ components:
                   items:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
+                MandateRelatedInformation:
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
         Risk:
@@ -11772,6 +11719,7 @@ components:
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
+                - MandateRelatedInformation
               description: >-
                 The Initiation payload is sent by the initiating party to the
                 ASPSP. It is used to request movement of funds from the debtor
@@ -11779,18 +11727,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation2'
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -11967,7 +11903,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -12007,7 +11943,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -12030,7 +11966,7 @@ components:
                 $ref: '#/components/schemas/OBStatusReason'
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -12053,7 +11989,7 @@ components:
                 - 'Yes'
             CutOffDateTime:
               description: >-
-                Specified cut-off date and time for the payment consent.All
+                Specified cut-off date and time for the payment consent. All
                 dates in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -12089,6 +12025,7 @@ components:
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
+                - MandateRelatedInformation
               description: >-
                 The Initiation payload is sent by the initiating party to the
                 ASPSP. It is used to request movement of funds from the debtor
@@ -12096,18 +12033,6 @@ components:
               properties:
                 RemittanceInformation:
                   $ref: '#/components/schemas/OBRemittanceInformation2'
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -12159,10 +12084,7 @@ components:
                   required:
                     - SchemeName
                     - Identification
-                  description: >-
-                    Unambiguous identification of the account of the debtor to
-                    which a debit entry will be made as a result of the
-                    transaction.
+                  description: Provides the details to identify the debtor account.
                   properties:
                     SchemeName:
                       $ref: >-
@@ -12287,7 +12209,7 @@ components:
                 CompletionDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -12339,7 +12261,7 @@ components:
               maxLength: 128
             CreationDateTime:
               description: >-
-                Date and time at which the resource was created.All dates in the
+                Date and time at which the resource was created. All dates in the
                 JSON payloads are represented in ISO 8601 date-time format. 
 
                 All date-time fields in responses must include the timezone. An
@@ -12349,15 +12271,20 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of resource in code form.
+              description: Specifies the status of resource in code form. For a list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
               type: string
               enum:
                 - RCVD
+                - CANC
+                - ACTC 
+                - PATC
+                - PDNG
+                - INFA 
+                - INCO
                 - RJCT
-                - ACSP
             StatusUpdateDateTime:
               description: >-
-                Date and time at which the resource status was updated.All dates
+                Date and time at which the resource status was updated. All dates
                 in the JSON payloads are represented in ISO 8601 date-time
                 format. 
 
@@ -12469,23 +12396,14 @@ components:
                 - CurrencyOfTransfer
                 - InstructedAmount
                 - CreditorAccount
+                - MandateRelatedInformation
               description: >-
                 The Initiation payload is sent by the initiating party to the
                 ASPSP. It is used to request movement of funds from the debtor
                 account to a creditor for an international standing order.
               properties:
-                Purpose:
-                  description: >-
-                    Specifies the external purpose code in the format of
-                    character string with a maximum length of 4 characters.
-
-                    The list of valid codes is an external code list published
-                    separately.
-
-                    External code sets can be downloaded from www.iso20022.org.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
+                RemittanceInformation:
+                  $ref: '#/components/schemas/OBRemittanceInformation2'
                 ExtendedPurpose:
                   description: >-
                     Specifies the purpose of an international payment, when
@@ -12537,10 +12455,7 @@ components:
                   required:
                     - SchemeName
                     - Identification
-                  description: >-
-                    Unambiguous identification of the account of the debtor to
-                    which a debit entry will be made as a result of the
-                    transaction.
+                  description: Provides the details to identify the debtor account.
                   properties:
                     SchemeName:
                       $ref: >-
@@ -12645,6 +12560,8 @@ components:
                   items:
                     $ref: '#/components/schemas/OBRegulatoryReporting1'
                   maxItems: 10
+                MandateRelatedInformation:
+                  $ref: '#/components/schemas/OBMandateRelatedInformation1'
                 SupplementaryData:
                   $ref: '#/components/schemas/OBSupplementaryData1'
             MultiAuthorisation:
@@ -12671,7 +12588,7 @@ components:
                   type: integer
                 LastUpdateDateTime:
                   description: >-
-                    Last date and time at the authorisation flow was updated.All
+                    Last date and time at the authorisation flow was updated. All
                     dates in the JSON payloads are represented in ISO 8601
                     date-time format. 
 
@@ -12684,7 +12601,7 @@ components:
                 ExpirationDateTime:
                   description: >-
                     Date and time at which the requested authorisation flow must
-                    be completed.All dates in the JSON payloads are represented
+                    be completed. All dates in the JSON payloads are represented
                     in ISO 8601 date-time format. 
 
                     All date-time fields in responses must include the timezone.
@@ -12705,35 +12622,67 @@ components:
         - Data
       properties:
         Data:
-          type: array
-          items:
-            $ref: '#/components/schemas/OBWritePaymentDetails1'
+          type: "object"
+          additionalProperties: false
+          properties:
+            PaymentStatus:
+              type: array
+              items:
+                $ref: '#/components/schemas/OBWritePaymentDetails1'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
     OBWritePaymentDetails1:
       type: object
+      required:
+        - PaymentTransactionId
+        - Status
+        - StatusUpdateDateTime
       properties:
-        PaymentStatus:
+        PaymentTransactionId:
+          type: string
+          minLength: 1
+          maxLength: 210
+          description: >-
+            Unique identifier for the transaction within an servicing
+            institution. This identifier is both unique and immutable.
+        Status:
+          type: string
+          description: >-
+            Status of a transfer, as assigned by the transaction
+            administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+          enum:
+            - PDNG
+            - ACTC
+            - PATC
+            - ACCP
+            - ACFC
+            - ACSP
+            - ACWC
+            - ACSC
+            - ACWP
+            - ACCC
+            - BLCK
+            - RJCT
+        StatusUpdateDateTime:
+          type: string
+          format: date-time
+          description: |
+            Date and time at which the status was assigned to the transfer.
+        StatusDetail:
           type: object
+          description: "Payment status details as per underlying Payment Rail."
           required:
-            - PaymentTransactionId
             - Status
-            - StatusUpdateDateTime
           properties:
-            PaymentTransactionId:
+            LocalInstrument:
+              $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
+            Status:
+              description: "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
               type: string
               minLength: 1
-              maxLength: 210
-              description: >-
-                Unique identifier for the transaction within an servicing
-                institution. This identifier is both unique and immutable.
-            Status:
-              type: string
-              description: >-
-                Status of a transfer, as assigned by the transaction
-                administrator.
+              maxLength: 4
               enum:
                 - PDNG
                 - ACTC
@@ -12747,33 +12696,16 @@ components:
                 - ACCC
                 - BLCK
                 - RJCT
-            StatusUpdateDateTime:
+            StatusReason:
+              description: "Reason Code provided for the status of a transfer. For a full list of values see code values for `OBExternalStatusReason1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
               type: string
-              format: date-time
-              description: |
-                Date and time at which the status was assigned to the transfer.
-            StatusDetail:
-              type: object
-              properties:
-                Status:
-                  description: >-
-                    Status of a transfer, as assigned by the transaction
-                    administrator.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
-                StatusReason:
-                  description: Reason Code provided for the status of a transfer.
-                  type: string
-                  minLength: 1
-                  maxLength: 4
-                StatusReasonDescription:
-                  description: Reason provided for the status of a transfer.
-                  type: string
-                  minLength: 1
-                  maxLength: 256
-                LocalInstrument:
-                  $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
+              minLength: 1
+              maxLength: 4
+            StatusReasonDescription:
+              description: Reason provided for the status of a transfer. For a full list of values see the code name entries for `OBExternalStatusReason1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
+              type: string
+              minLength: 1
+              maxLength: 256     
     PostBox:
       description: >-
         Information that locates and identifies a box in a post office assigned
@@ -12829,7 +12761,7 @@ components:
         For transaction entries subject to availability/float and for which
         availability information is provided, the value date must not be used.
         In this case the availability component identifies the number of
-        availability days.All dates in the JSON payloads are represented in ISO
+        availability days. All dates in the JSON payloads are represented in ISO
         8601 date-time format. 
 
         All date-time fields in responses must include the timezone. An example

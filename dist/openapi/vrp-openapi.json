@@ -1346,7 +1346,7 @@
         }
       },
       "ExternalProxyAccountType1Code": {
-        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br> For more information and a full list of values see `ExternalProxyAccountType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br /> For a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "enum": [
           "TELE",
@@ -1485,7 +1485,7 @@
                 "description": "Date and time at which the resource was created.\n"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. AWAU and RJCT only can returned on initial submission",
+                "description": "Specifies the status of consent resource in code form. AWAU and RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
                 "type": "string",
                 "enum": [
                   "AWAU",
@@ -1518,7 +1518,7 @@
                     "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
                   },
                   {
-                    "description": "The value must be populated for GET responses once the consent is approved."
+                    "description": "The DebtorAccount details as specified by the PSU when account selection happens at the ASPSP. *Note:* The details must be provided in the consent response (OBDomesticVRPConsentResponse) by the ASPSP to enable the PISP to associate it with future VRP payments that are made using the VRP Consent."
                   }
                 ]
               }
@@ -1555,7 +1555,7 @@
                   "Yes",
                   "No"
                 ],
-                "description": "Indicates whether information about RefundAccount should be included in the payment response.\n"
+                "description": "Indicates whether the `RefundAccount` object should be included in the response\n"
               },
               "ControlParameters": {
                 "$ref": "#/components/schemas/OBDomesticVRPControlParameters"
@@ -1622,7 +1622,7 @@
                     "Consent",
                     "Calendar"
                   ],
-                  "description": "^ Specifies whether the period starts on the date of consent creation or lines up with a calendar"
+                  "description": "Specifies whether the period starts on the date of consent creation or lines up with a calendar. As the ISO calendar does not support or provide any guidance on when a fortnight should start, a `PeriodType` of `Fortnight` the `PeriodAlignment` must be `Consent`."
                 },
                 "Amount": {
                   "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -1654,7 +1654,7 @@
             "items": {
               "$ref": "#/components/schemas/OBVRPInteractionTypes"
             },
-            "description": "^ Indicates interaction type, currently if customer is present or not present."
+            "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `OffSession` (the customer is not present) when the individual VRP payment is made."
           },
           "SupplementaryData": {
             "type": "object",
@@ -1676,9 +1676,6 @@
           },
           "UltimateCreditor": {
             "$ref": "#/components/schemas/OBUltimateCreditor1"
-          },
-          "CreditorAgent": {
-            "$ref": "#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0"
           },
           "UltimateDebtor": {
             "$ref": "#/components/schemas/OBUltimateDebtor1"
@@ -1715,7 +1712,7 @@
           "Name": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 350,
+            "maxLength": 70,
             "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
           },
           "SecondaryIdentification": {
@@ -1724,8 +1721,8 @@
             "maxLength": 34,
             "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
           },
-          "LEI": {
-            "$ref": "#/components/schemas/LEI"
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxy1"
           }
         }
       },
@@ -1749,7 +1746,7 @@
           "Name": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 350,
+            "maxLength": 70,
             "description": "Name of the account, as assigned by the account servicing institution.\nUsage: the account name is the name or names of the account owner(s) represented at an account level.\nThe account name is not the product name or the nickname of the account."
           },
           "SecondaryIdentification": {
@@ -1780,6 +1777,9 @@
             "minLength": 1,
             "maxLength": 140,
             "description": "^ Name by which an agent is known and which is usually used to identify that agent."
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
           },
           "PostalAddress": {
             "$ref": "#/components/schemas/OBPostalAddress7"
@@ -1825,7 +1825,7 @@
                     "$ref": "#/components/schemas/OBVRPInteractionTypes"
                   },
                   {
-                    "description": "The interaction style used."
+                    "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `OffSession` (customer is not present) when the individual VRP payment is made."
                   }
                 ]
               },
@@ -1886,7 +1886,7 @@
               },
               "Status": {
                 "type": "string",
-                "description": "Specifies the status of the payment information group.",
+                "description": "Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
                 "enum": [
                   "RCVD",
                   "RJCT",
@@ -1980,58 +1980,26 @@
         "properties": {
           "Data": {
             "type": "object",
-            "required": [
-              "PaymentTransactionId",
-              "Status",
-              "StatusUpdateDateTime"
-            ],
             "properties": {
-              "PaymentTransactionId": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 210,
-                "description": "Unique identifier for the transaction within an servicing\n      institution. This identifier is both unique and immutable."
-              },
-              "Status": {
-                "type": "string",
-                "description": "Status of a transfer, as assigned by the transaction\n      administrator.",
-                "enum": [
-                  "RCVD",
-                  "RJCT",
-                  "CANC",
-                  "PDNG",
-                  "ACTC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK"
-                ]
-              },
-              "StatusUpdateDateTime": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Date and time at which the status was assigned to the\n      transfer.\n"
-              },
-              "LocalInstrument": {
-                "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
-              },
-              "StausDetail": {
+              "PaymentStatus": {
                 "type": "array",
                 "items": {
-                  "type": "object",
                   "required": [
-                    "Status"
+                    "PaymentTransactionId",
+                    "Status",
+                    "StatusUpdateDateTime"
                   ],
+                  "type": "object",
                   "properties": {
-                    "Status": {
-                      "description": "Status of a transfer, as assigned by the transaction\n    administrator.",
+                    "PaymentTransactionId": {
                       "type": "string",
                       "minLength": 1,
-                      "maxLength": 4,
+                      "maxLength": 210,
+                      "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
+                    },
+                    "Status": {
+                      "type": "string",
+                      "description": "Status of a transfer, as assigned by the transaction administrator.",
                       "enum": [
                         "RCVD",
                         "RJCT",
@@ -2048,22 +2016,37 @@
                         "BLCK"
                       ]
                     },
-                    "StatusReasonCode": {
-                      "description": "Reason Code provided for the status of a transfer. For a full description see `OBExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 4
-                    },
-                    "StatusReasonDescription": {
-                      "description": "Reason provided for the status of a transfer.",
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 500
-                    },
                     "StatusUpdateDateTime": {
                       "type": "string",
                       "format": "date-time",
                       "description": "Date and time at which the status was assigned to the transfer.\n"
+                    },
+                    "StatusDetail": {
+                      "type": "object",
+                      "required": [
+                        "Status"
+                      ],
+                      "properties": {
+                        "LocalInstrument": {
+                          "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
+                        },
+                        "Status": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128,
+                          "description": "Status of a transfer, as assigned by the transaction administrator."
+                        },
+                        "StatusReason": {
+                          "type": "string",
+                          "description": "Reason Code provided for the status of a transfer."
+                        },
+                        "StatusReasonDescription": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256,
+                          "description": "Reason provided for the status of a transfer."
+                        }
+                      }
                     }
                   }
                 }
@@ -2096,7 +2079,7 @@
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 35,
-                "description": "Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction."
+                "description": "Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction. This must be the same value as the `Reference` field in the consent."
               },
               "InstructedAmount": {
                 "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
@@ -2179,7 +2162,7 @@
         }
       },
       "ExternalCategoryPurpose1Code": {
-        "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk.",
+        "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. For a full list of values refer to `ExternalCategoryPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "enum": [
           "BONU",
@@ -2322,7 +2305,7 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Specifies the document type as published in an external document type code list. For a full list of values refer to `ExternalDocumentType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
           "CINV",
           "CNFA",
@@ -2356,19 +2339,23 @@
             "$ref": "#/components/schemas/ExternalDocumentType1Code"
           },
           "Issuer": {
+            "description": "Identification of the issuer of the reference document type.",
             "type": "string",
-            "maxLength": 140,
+            "maxLength": 35,
             "minLength": 1
           },
           "Number": {
+            "description": "Identification of the type specified for the referred document line.",
             "type": "string",
-            "maxLength": 140,
+            "maxLength": 35,
             "minLength": 1
           },
           "RelatedDate": {
+            "description": "Date associated with the referred document line.",
             "$ref": "#/components/schemas/ISODateTime"
           },
           "LineDetails": {
+            "description": "Set of elements used to provide the content of the referred document line.",
             "type": "array",
             "items": {
               "type": "string"
@@ -2421,7 +2408,7 @@
             "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
             "items": {
               "type": "string",
-              "maxLength": 256,
+              "maxLength": 140,
               "minLength": 1
             }
           }
@@ -2431,6 +2418,7 @@
         "type": "object",
         "properties": {
           "ReferredDocumentInformation": {
+            "description": "Provides the identification and the content of the referred document.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OBReferredDocumentInformation"
@@ -2441,17 +2429,20 @@
             "format": "int32"
           },
           "CreditorReferenceInformation": {
+            "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
             "type": "object",
             "properties": {
               "Code": {
                 "$ref": "#/components/schemas/ExternalCreditorReferenceType1Code"
               },
               "Issuer": {
+                "description": "Entity that assigns the identification.",
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 35
               },
               "Reference": {
+                "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.",
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 35
@@ -2459,10 +2450,14 @@
             }
           },
           "Invoicer": {
-            "$ref": "#/components/schemas/Identification_0"
+            "description": "Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor",
+            "type": "string",
+            "maxLength": 256
           },
           "Invoicee": {
-            "$ref": "#/components/schemas/Identification_0"
+            "description": "Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.",
+            "type": "string",
+            "maxLength": 256
           },
           "TaxRemittance": {
             "type": "string",
@@ -2484,7 +2479,7 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction.",
+        "description": "Specifies the amount type, as published in an external referred amount code set. For a full lust of values refer to `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
           "DISP",
           "FXDR",
@@ -2496,7 +2491,7 @@
       },
       "OBInternalAccountIdentification4Code": {
         "type": "string",
-        "description": "Name of the identification scheme, in a coded form as published in an external list.",
+        "description": "Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "x-namespaced-enum": [
           "UK.OBIE.BBAN",
           "UK.OBIE.IBAN",
@@ -2522,7 +2517,7 @@
         ]
       },
       "OBInternalExtendedAccountType1Code": {
-        "description": "Specifies the extended type of account.",
+        "description": "Specifies the extended type of account if known. For a full set of values refer to `OBInternalExtendedAccountType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "enum": [
           "Business",
@@ -2544,7 +2539,7 @@
       },
       "OBInternalLocalInstrument1Code": {
         "type": "string",
-        "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.",
+        "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.\nFor a full list of values refer to `OBInternalLocalInstrument1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "x-namespaced-enum": [
           "UK.OBIE.BACS",
           "UK.OBIE.BalanceTransfer",
@@ -2599,7 +2594,7 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "For a full description see `ExternalPurpose1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "For a full set of values refer to `ExternalPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
           "BKDF",
           "BKFE",
@@ -3038,7 +3033,7 @@
         ]
       },
       "OBAddressType2Code": {
-        "description": "Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
+        "description": "Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
         "type": "string",
         "enum": [
           "BIZZ",
@@ -3061,7 +3056,8 @@
             "minLength": 1,
             "maxLength": 140
           },
-          "Country": {
+          "CountryCode": {
+            "description": "Country of the entity that requires the regulatory reporting information.",
             "$ref": "#/components/schemas/CountryCode"
           }
         }
@@ -3072,7 +3068,7 @@
         "properties": {
           "DebitCreditReportingIndicator": {
             "type": "string",
-            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. ",
+            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. For a full list of values refer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "enum": [
               "CRED",
               "DEBT",
@@ -3083,6 +3079,7 @@
             "$ref": "#/components/schemas/OBRegulatoryAuthority2"
           },
           "Details": {
+            "description": "Set of elements used to provide details on the regulatory reporting information.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
@@ -3095,7 +3092,7 @@
         "properties": {
           "StatusReasonCode": {
             "type": "string",
-            "description": "Specifies the status reason in a code form. \n For a full description see `OBExternalStatusReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "description": "Specifies the status reason in a code form. \nFor a full list of values refer to `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "minLength": 1,
             "maxLength": 4,
             "example": "ERIN"
@@ -3125,12 +3122,15 @@
             "maxLength": 35
           },
           "Date": {
+            "description": "Date related to the specified type of regulatory reporting details.",
             "$ref": "#/components/schemas/ISODateTime"
           },
           "Country": {
+            "description": "Country related to the specified type of regulatory reporting details.",
             "$ref": "#/components/schemas/CountryCode"
           },
           "Amount": {
+            "description": "Amount of money to be reported for regulatory and statutory requirements.",
             "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
           },
           "Information": {
@@ -3261,7 +3261,7 @@
           "InSession",
           "OffSession"
         ],
-        "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `'OffSession'` (customer is not present) when the individual VRP payment is made. "
+        "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `OffSession` (customer is not present) when the individual VRP payment is made. "
       },
       "OBRisk1": {
         "type": "object",
@@ -3269,7 +3269,7 @@
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`\n",
+            "description": "Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
             "enum": [
               "BillingGoodsAndServicesInAdvance",
               "BillingGoodsAndServicesInArrears",
