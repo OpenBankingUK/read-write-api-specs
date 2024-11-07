@@ -10,3 +10,5 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
     + Addresses Known Issue v40_KI18 where RCVD was missing from OBWriteDomesticResponse5 Status enum.
 3. v40_KI19 - Adds missing dash in phone number examples
     + Addresses Known Issue v40_KI19 where the dash "-" is missing from the example phone numbers.
+4. v40_KI22 - Update File Payment FileType enum
+    + Addresses Known Issue v40_KI22 where `UK.OBIE.PaymentInitiation.4.0` was missing from File Payments `FileType` enumeration.  This replaces `UK.OBIE.PaymentInitiation.3.1`
