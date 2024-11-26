@@ -12,3 +12,5 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
     + Addresses Known Issue v40_KI19 where the dash "-" is missing from the example phone numbers.
 4. v40_KI22 - Update File Payment FileType enum
     + Addresses Known Issue v40_KI22 where `UK.OBIE.PaymentInitiation.4.0` was missing from File Payments `FileType` enumeration.  This replaces `UK.OBIE.PaymentInitiation.3.1`
+5. v40_KI24 - Update File Payments OBWriteFile2 object
+    + Addresses Known Issue v40_KI24 where `OBWriteFile2` was missing `CredtorAgent` from the `Initiation` object and `UltimateDebtor` referenced the `UltimateCreditor` schema.
