@@ -17,3 +17,8 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
         * FIMH
         * ALMH
         * NONE
+3. v40_KI29 - Restore `NumberOfPayments` to Standing Orders  
+    Addresses Known Issue v40_KI29 which restores `NumberOfPayments` to the folloiwng areas:
+    * `OBReadStandingOrder6/Data/StandingOrder/NumberOfPayments`
+    * `OBDomesticStandingOrder3/NumberOfPayments`
+    * `OBInternationalStandingOrder4/NumberOfPayments`
