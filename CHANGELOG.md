@@ -22,5 +22,5 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
     * `OBReadStandingOrder6/Data/StandingOrder/NumberOfPayments`
     * `OBDomesticStandingOrder3/NumberOfPayments`
     * `OBInternationalStandingOrder4/NumberOfPayments`
-4. v40_KI32 - MultiAuthorisation status codes aligned to Spec pages
+4. v40_KI32 - MultiAuthorisation status codes aligned to Spec pages.  
     Addresses Known Issue v40_KI32 where `AWAU` was present in the MultiAuthorisation enum list.  This value has been updated to `AWAF`
