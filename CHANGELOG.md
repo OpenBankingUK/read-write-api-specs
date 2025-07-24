@@ -10,3 +10,4 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
     Some payment status codes were present on the Spec pages but not in the swagger.
 3. Fixed VRP PATCH operation description
     The description was appearing in the `format` field and has been moved to the correct `description` field.
+4. PR [#189](https://github.com/OpenBankingUK/read-write-api-specs/pull/189/) - Corrected a regex typo in AIS `OB_CodeMnemonic`. Related to v40_KI30.
