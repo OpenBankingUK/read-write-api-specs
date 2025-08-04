@@ -235,8 +235,32 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              type: string
-        description: Array of Patch Operations
+              type: array
+              items:
+                type: object
+                required:
+                  - op
+                  - path
+                properties:
+                  op:
+                    type: string
+                    description: The operation to perform
+                    enum:
+                      - add
+                      - remove
+                      - replace
+                      - move
+                      - copy
+                      - test
+                  path:
+                    type: string
+                    description: The path to the element to operate on as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  from:
+                    type: string
+                    description: The path to move or copy from as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  value:
+                    description: The value to add, replace, or test against. This may be a single string or an array of strings
+        description: Array of Patch Operations as defined in [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902)
         required: true
       security:
         - TPPOAuth2Security:
