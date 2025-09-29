@@ -46,3 +46,7 @@ This space contains Read/Write Data API Specifications in
 
 - [OpenAPI 3.0 - YAML](./dist/openapi/event-notifications-openapi.yaml) 
 - [OpenAPI 3.0 - JSON](./dist/openapi/event-notifications-openapi.json)
+
+## License
+
+Please refer to our [Open License](https://www.openbanking.org.uk/open-licence/).
