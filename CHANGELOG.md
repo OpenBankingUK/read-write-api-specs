@@ -7,6 +7,7 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
 ### Added
 
 - Added reference to Open License in README.md (#191).
+- Added DCSV to OBFileFormat schema in account-info-openapi. This address v40_KI42
 
 ### Changed
 
