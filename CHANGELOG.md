@@ -21,3 +21,4 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
 - Fixed VRP PATCH operation description and schema.
   - The description was appearing in the `format` field and has been moved to the correct `description` field. Additonally the request body schemea has been updated to fully reflect [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902).
 - Corrected a regex typo in AIS `OB_CodeMnemonic` (#189). Related to v40_KI30.
+- Restored `Multiple` to instances of `OBInternalAuthorisation1Code`.  Addresses Known Issue v40_KI44
