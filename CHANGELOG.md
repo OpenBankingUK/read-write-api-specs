@@ -7,12 +7,12 @@ Please refer to the [Known Issues](https://openbanking.atlassian.net/wiki/spaces
 ### Added
 
 - Added reference to Open License in README.md (#191).
-- Added DCSV to OBFileFormat schema in account-info-openapi. This address v40_KI42
+- Added `DCSV` to `OBFileFormat` schema in account-info-openapi. This addresses v40_KI42
 
 ### Changed
 
-- v40_KI34 - Update regex for LEI in PIS & VRP  
-  - Addresses v40_KI34 which aligns the PIS regex for LEI to the spec pages and updates the VRP swagger to include the regex & example.
+- v40_KI34 - Update regex for `LEI` in PIS & VRP  
+  - Addresses v40_KI34 which aligns the PIS regex for `LEI` to the spec pages and updates the VRP swagger to include the regex & example.
 - Updated Payment Status enums to match Spec pages.
   - Some payment status codes were present on the Spec pages but not in the swagger.
  
