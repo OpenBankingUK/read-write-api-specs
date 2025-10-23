@@ -1360,7 +1360,9 @@ components:
               description: |
                 Date and time at which the resource was created.
             Status:
-              $ref: '#/components/schemas/ExternalPaymentTransactionStatus1Code'
+              allOf:
+                - $ref: '#/components/schemas/ExternalPaymentTransactionStatus1Code'
+                - description: Specifies the status of the payment information group.
             StatusReason:
               type: array
               items:
@@ -1457,23 +1459,9 @@ components:
                     description: |-
                       Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.
                   Status:
-                    type: string
-                    description: |-
-                      Status of a transfer, as assigned by the transaction administrator.
-                    enum:
-                      - RCVD
-                      - RJCT
-                      - CANC
-                      - PDNG
-                      - ACTC
-                      - ACCP
-                      - ACFC
-                      - ACSP
-                      - ACWC
-                      - ACSC
-                      - ACWP
-                      - ACCC
-                      - BLCK
+                    allOf:
+                      - $ref: '#/components/schemas/OBInternalConsentStatus1Code'
+                      - description: Status of a transfer, as assigned by the transaction administrator.
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
