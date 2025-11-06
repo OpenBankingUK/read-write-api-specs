@@ -2162,15 +2162,6 @@ components:
       example: Jane Smith
       minLength: 1
       maxLength: 140
-    CountryCode:
-      description: Nation with its own government, occupying a particular territory.
-      type: string
-      pattern: ^[A-Z]{2,2}$
-    CountrySubDivision:
-      description: Identifies a subdivision of a country eg, state, region, county.
-      type: string
-      minLength: 1
-      maxLength: 35
     CreationDateTime:
       description: >-
         Date and time at which the resource was created. All dates in the JSON
@@ -2183,14 +2174,6 @@ components:
       type: string
       example: '2024-05-29T00:00:00Z'
       format: date-time
-    Date:
-      description: >-
-        Date and time associated with the date time type. All dates in the JSON
-        payloads are represented in ISO 8601 date format. 
-         An example is below:
-        2017-04-05
-      type: string
-      format: date
     DateTime:
       description: >-
         Date and time associated with the date time type. All dates in the JSON
@@ -2269,30 +2252,6 @@ components:
     File:
       type: object
       properties: {}
-    FinalPaymentDateTime:
-      description: >-
-        The date on which the final payment for a Standing Order schedule will
-        be made. All dates in the JSON payloads are represented in ISO 8601
-        date-time format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        2017-04-05T10:43:07+00:00
-      type: string
-      format: date-time
-    FirstPaymentDateTime:
-      description: >-
-        The date on which the first payment for a Standing Order schedule will
-        be made. All dates in the JSON payloads are represented in ISO 8601
-        date-time format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        2017-04-05T10:43:07+00:00
-      type: string
-      format: date-time
     Floor:
       description: Number that identifies the level within a building
       type: string
@@ -2476,14 +2435,6 @@ components:
       additionalProperties: false
       required:
         - Self
-    MandateIdentification:
-      description: >-
-        Direct Debit reference. For AUDDIS service users provide Core Reference.
-        For non AUDDIS service users provide Core reference if possible or last
-        used reference.
-      type: string
-      minLength: 1
-      maxLength: 35
     MaturityDate:
       description: >-
         Maturity date of the account. All dates in the JSON payloads are
@@ -2599,93 +2550,6 @@ components:
         For all other accounts, the fields must be populated by the ASPSP.
       required:
         - AccountId
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        Status:
-          $ref: '#/components/schemas/OBInternalAccountStatus1Code'
-        StatusUpdateDateTime:
-          $ref: '#/components/schemas/StatusUpdateDateTime'
-        Currency:
-          $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_0'
-        AccountCategory:
-          $ref: '#/components/schemas/OBInternalAccountType1Code'
-        AccountTypeCode:
-          $ref: '#/components/schemas/OBExternalAccountSubType1Code'
-        Description:
-          $ref: '#/components/schemas/Description_0'
-        Nickname:
-          $ref: '#/components/schemas/Nickname'
-        OpeningDate:
-          $ref: '#/components/schemas/OpeningDate'
-        MaturityDate:
-          $ref: '#/components/schemas/MaturityDate'
-        SwitchStatus:
-          $ref: '#/components/schemas/OBInternalSwitchStatusCode'
-        Account:
-          type: array
-          items:
-            type: object
-            description: Provides the details to identify an account.
-            required:
-              - SchemeName
-              - Identification
-            properties:
-              SchemeName:
-                $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
-              Identification:
-                $ref: '#/components/schemas/Identification_0'
-              Name:
-                $ref: '#/components/schemas/Name_0'
-              LEI:
-                $ref: '#/components/schemas/LEI'
-              SecondaryIdentification:
-                $ref: '#/components/schemas/SecondaryIdentification'
-        StatementFrequencyAndFormat:
-          $ref: '#/components/schemas/StatementFrequencyAndFormat'
-        Servicer:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_0
-      additionalProperties: false
-    OBAccount6Basic:
-      type: object
-      description: >-
-        Unambiguous identification of the account to which credit and debit
-        entries are made.
-      required:
-        - AccountId
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        Status:
-          $ref: '#/components/schemas/OBInternalAccountStatus1Code'
-        StatusUpdateDateTime:
-          $ref: '#/components/schemas/StatusUpdateDateTime'
-        Currency:
-          $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_0'
-        AccountCategory:
-          $ref: '#/components/schemas/OBInternalAccountType1Code'
-        AccountTypeCode:
-          $ref: '#/components/schemas/OBExternalAccountSubType1Code'
-        Description:
-          $ref: '#/components/schemas/Description_0'
-        Nickname:
-          $ref: '#/components/schemas/Nickname'
-        OpeningDate:
-          $ref: '#/components/schemas/OpeningDate'
-        MaturityDate:
-          $ref: '#/components/schemas/MaturityDate'
-        SwitchStatus:
-          $ref: '#/components/schemas/OBInternalSwitchStatusCode'
-      additionalProperties: false
-    OBAccount6Detail:
-      type: object
-      description: >-
-        Unambiguous identification of the account to which credit and debit
-        entries are made.
-      required:
-        - AccountId
-        - Account
       properties:
         AccountId:
           $ref: '#/components/schemas/AccountId'
@@ -2869,19 +2733,6 @@ components:
           $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         Currency:
           $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-    OBActiveOrHistoricCurrencyAndAmount_8:
-      type: object
-      required:
-        - Amount
-        - Currency
-      description: Amount of money associated with the amount type.
-      properties:
-        Amount:
-          $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
-        Currency:
-          $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-        SubType:
-          $ref: '#/components/schemas/OBExternalBalanceSubType1Code'
     OBActiveOrHistoricCurrencyAndAmount_9:
       type: object
       required:
@@ -2893,18 +2744,6 @@ components:
           $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         Currency:
           $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-    OBAddressTypeCode:
-      description: Identifies the nature of the postal address.
-      type: string
-      enum:
-        - Business
-        - Correspondence
-        - DeliveryTo
-        - MailTo
-        - POBox
-        - Postal
-        - Residential
-        - Statement
     OBAddressType2Code:
       description: >-
         Identifies the nature of the postal address. <br />
@@ -5249,41 +5088,6 @@ components:
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount5_0'
       additionalProperties: false
-    OBBeneficiary5Basic:
-      type: object
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        BeneficiaryId:
-          $ref: '#/components/schemas/BeneficiaryId'
-        BeneficiaryType:
-          $ref: '#/components/schemas/OBInternalBeneficiaryType1Code'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-      additionalProperties: false
-    OBBeneficiary5Detail:
-      type: object
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        BeneficiaryId:
-          $ref: '#/components/schemas/BeneficiaryId'
-        BeneficiaryType:
-          $ref: '#/components/schemas/OBInternalBeneficiaryType1Code'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-        CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification6_0
-        CreditorAccount:
-          $ref: '#/components/schemas/OBCashAccount5_0'
-      additionalProperties: false
-      required:
-        - CreditorAccount
     OBBranchAndFinancialInstitutionIdentification5_0:
       type: object
       required:
@@ -5764,12 +5568,6 @@ components:
       enum:
         - Business
         - Personal
-    OBExternalBalanceSubType1Code:
-      description: Amount sub type, in a coded form. Default if not specified is BCUR of the account.
-      type: string
-      enum:
-        - BCUR
-        - LCUR
     OBInternalFinancialInstitutionIdentification4Code:
       description: >-
         Name of the identification scheme, in a coded form as published in an
@@ -6266,16 +6064,6 @@ components:
         - UK.OBIE.Quarterly
         - UK.OBIE.Weekly
         - UK.OBIE.Yearly
-    OBExternalStatementInterestRateType1Code:
-      description: Description that may be available for the statement Interest rate type.
-      type: string
-      example: UK.OBIE.FixedRate
-      x-namespaced-enum:
-        - UK.OBIE.BOEBaseRate
-        - UK.OBIE.FixedRate
-        - UK.OBIE.Gross
-        - UK.OBIE.LoanProviderBaseRate
-        - UK.OBIE.Net
     OBInternalStatementInterestType1Code:
       description: Interest amount type, in a coded form. For a full list of values see `OBInternalStatementInterestType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
@@ -6337,26 +6125,6 @@ components:
         - MIAN
         - TEND
         - MOVE
-        - WEEK
-    OBFrequencyPeriodType:
-      description: |-
-        Individual Definitions:
-         ADHO - Adhoc 
-         YEAR - Annual
-        DAIL - Daily
-        INDA - Intra Day
-        MNTH - Monthly
-        QURT - Quarterly
-        WEEK - Weekly 
-      type: string
-      enum:
-        - ADHO
-        - YEAR
-        - DAIL
-        - INDA
-        - MNTH
-        - QURT
-        - MIAN
         - WEEK
     OBFileFormat:
       description: >-
@@ -11364,131 +11132,10 @@ components:
         CreditorAccount:
           $ref: '#/components/schemas/OBCashAccount5_1'
       additionalProperties: false
-    OBScheduledPayment3Basic:
-      type: object
-      required:
-        - AccountId
-        - ScheduledPaymentDateTime
-        - ScheduledType
-        - InstructedAmount
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        ScheduledPaymentId:
-          $ref: '#/components/schemas/ScheduledPaymentId'
-        ScheduledPaymentDateTime:
-          $ref: '#/components/schemas/ScheduledPaymentDateTime'
-        ScheduledType:
-          $ref: '#/components/schemas/OBInternalScheduleType1Code'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        DebtorReference:
-          $ref: '#/components/schemas/DebtorReference'
-        InstructedAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1'
-      additionalProperties: false
-    OBScheduledPayment3Detail:
-      type: object
-      required:
-        - AccountId
-        - ScheduledPaymentDateTime
-        - ScheduledType
-        - InstructedAmount
-        - CreditorAccount
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        ScheduledPaymentId:
-          $ref: '#/components/schemas/ScheduledPaymentId'
-        ScheduledPaymentDateTime:
-          $ref: '#/components/schemas/ScheduledPaymentDateTime'
-        ScheduledType:
-          $ref: '#/components/schemas/OBInternalScheduleType1Code'
-        Reference:
-          $ref: '#/components/schemas/Reference'
-        DebtorReference:
-          $ref: '#/components/schemas/DebtorReference'
-        InstructedAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_1'
-        CreditorAgent:
-          $ref: >-
-            #/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1
-        CreditorAccount:
-          $ref: '#/components/schemas/OBCashAccount5_1'
-      additionalProperties: false
     OBStandingOrder6:
       type: object
       required:
         - AccountId
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        StandingOrderId:
-          $ref: '#/components/schemas/StandingOrderId'
-        NextPaymentDateTime:
-          $ref: '#/components/schemas/NextPaymentDateTime'
-        LastPaymentDateTime:
-          $ref: '#/components/schemas/LastPaymentDateTime'
-        NumberOfPayments:
-          $ref: "#/components/schemas/NumberOfPayments"
-        StandingOrderStatusCode:
-          $ref: '#/components/schemas/ExternalMandateStatus1Code'
-        FirstPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2'
-        NextPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3'
-        LastPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_11'
-        FinalPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4'
-        CreditorAgent:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification5_1'
-        CreditorAccount:
-          $ref: '#/components/schemas/OBCashAccount5_1'
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-        MandateRelatedInformation:
-          $ref: '#/components/schemas/OBMandateRelatedInformation1'
-        RemittanceInformation:
-          $ref: '#/components/schemas/OBRemittanceInformation2'
-      additionalProperties: false
-    OBStandingOrder6Basic:
-      type: object
-      required:
-        - AccountId
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        StandingOrderId:
-          $ref: '#/components/schemas/StandingOrderId'
-        NextPaymentDateTime:
-          $ref: '#/components/schemas/NextPaymentDateTime'
-        LastPaymentDateTime:
-          $ref: '#/components/schemas/LastPaymentDateTime'
-        NumberOfPayments:
-          $ref: "#/components/schemas/NumberOfPayments"
-        StandingOrderStatusCode:
-          $ref: '#/components/schemas/ExternalMandateStatus1Code'
-        FirstPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_2'
-        NextPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_3'
-        LastPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_11'
-        FinalPaymentAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_4'
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-        MandateRelatedInformation:
-          $ref: '#/components/schemas/OBMandateRelatedInformation1'
-        RemittanceInformation:
-          $ref: '#/components/schemas/OBRemittanceInformation2'
-      additionalProperties: false
-    OBStandingOrder6Detail:
-      type: object
-      required:
-        - AccountId
-        - CreditorAccount
       properties:
         AccountId:
           $ref: '#/components/schemas/AccountId'
@@ -11738,361 +11385,6 @@ components:
             Currency:
               $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
       additionalProperties: false
-    OBStatement2Basic:
-      type: object
-      description: Provides further details on a statement resource.
-      required:
-        - AccountId
-        - Type
-        - StartDateTime
-        - EndDateTime
-        - CreationDateTime
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        StatementId:
-          $ref: '#/components/schemas/StatementId'
-        StatementReference:
-          $ref: '#/components/schemas/StatementReference'
-        Type:
-          $ref: '#/components/schemas/OBInternalStatementType1Code'
-        StartDateTime:
-          $ref: '#/components/schemas/StartDateTime'
-        EndDateTime:
-          $ref: '#/components/schemas/EndDateTime'
-        CreationDateTime:
-          $ref: '#/components/schemas/CreationDateTime'
-        StatementDescription:
-          type: array
-          items:
-            description: >-
-              Other descriptions that may be available for the statement
-              resource.
-            type: string
-            minLength: 1
-            maxLength: 500
-        StatementBenefit:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a benefit or reward
-              amount for the statement resource.
-            required:
-              - Type
-              - Amount
-            properties:
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementBenefitType1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5'
-        StatementFee:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a fee for the statement
-              resource.
-            required:
-              - CreditDebitIndicator
-              - Type
-              - Amount
-            properties:
-              Description:
-                $ref: '#/components/schemas/Description_1'
-              CreditDebitIndicator:
-                $ref: '#/components/schemas/OBCreditDebitCode_0'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementFeeType1Code'
-              Rate:
-                $ref: '#/components/schemas/OBRate1_0'
-              RateType:
-                $ref: '#/components/schemas/OBInternalStatementFeeRateType1Code'
-              Frequency:
-                $ref: '#/components/schemas/OBInternalStatementFeeFrequency1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6'
-        StatementInterest:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic interest
-              amount related to the statement resource.
-            required:
-              - CreditDebitIndicator
-              - Type
-              - Amount
-            properties:
-              Description:
-                $ref: '#/components/schemas/Description_2'
-              CreditDebitIndicator:
-                $ref: '#/components/schemas/OBCreditDebitCode_0'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
-              Rate:
-                $ref: '#/components/schemas/OBRate1_1'
-              RateType:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
-              Frequency:
-                $ref: '#/components/schemas/OBInternalStatementInterestFrequency1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7'
-        StatementDateTime:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic date time for
-              the statement resource.
-            required:
-              - DateTime
-              - Type
-            properties:
-              DateTime:
-                $ref: '#/components/schemas/DateTime'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementDateTimeType1Code'
-        StatementRate:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic rate related
-              to the statement resource.
-            required:
-              - Rate
-              - Type
-            properties:
-              Rate:
-                $ref: '#/components/schemas/Rate'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementRateType1Code'
-        StatementValue:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic number value
-              related to the statement resource.
-            required:
-              - Value
-              - Type
-            properties:
-              Value:
-                $ref: '#/components/schemas/Value'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementValueType1Code'
-        TotalValue:
-          type: object
-          description: Combined sum of all Amounts in the accounts base currency
-          required:
-            - Amount
-            - Currency
-          properties:
-            Amount:
-              $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
-            Currency:
-              $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-      additionalProperties: false
-    OBStatement2Detail:
-      type: object
-      description: Provides further details on a statement resource.
-      required:
-        - AccountId
-        - Type
-        - StartDateTime
-        - EndDateTime
-        - CreationDateTime
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        StatementId:
-          $ref: '#/components/schemas/StatementId'
-        StatementReference:
-          $ref: '#/components/schemas/StatementReference'
-        Type:
-          $ref: '#/components/schemas/OBInternalStatementType1Code'
-        StartDateTime:
-          $ref: '#/components/schemas/StartDateTime'
-        EndDateTime:
-          $ref: '#/components/schemas/EndDateTime'
-        CreationDateTime:
-          $ref: '#/components/schemas/CreationDateTime'
-        StatementDescription:
-          type: array
-          items:
-            description: >-
-              Other descriptions that may be available for the statement
-              resource.
-            type: string
-            minLength: 1
-            maxLength: 500
-        StatementBenefit:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a benefit or reward
-              amount for the statement resource.
-            required:
-              - Type
-              - Amount
-            properties:
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementBenefitType1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_5'
-        StatementFee:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a fee for the statement
-              resource.
-            required:
-              - CreditDebitIndicator
-              - Type
-              - Amount
-            properties:
-              Description:
-                $ref: '#/components/schemas/Description_1'
-              CreditDebitIndicator:
-                $ref: '#/components/schemas/OBCreditDebitCode_0'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementFeeType1Code'
-              Rate:
-                $ref: '#/components/schemas/OBRate1_0'
-              RateType:
-                $ref: '#/components/schemas/OBInternalStatementFeeRateType1Code'
-              Frequency:
-                $ref: '#/components/schemas/OBInternalStatementFeeFrequency1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_6'
-        StatementInterest:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic interest
-              amount related to the statement resource.
-            required:
-              - CreditDebitIndicator
-              - Type
-              - Amount
-            properties:
-              Description:
-                $ref: '#/components/schemas/Description_2'
-              CreditDebitIndicator:
-                $ref: '#/components/schemas/OBCreditDebitCode_0'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
-              Rate:
-                $ref: '#/components/schemas/OBRate1_1'
-              RateType:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
-              Frequency:
-                $ref: '#/components/schemas/OBInternalStatementInterestFrequency1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_7'
-        StatementAmount:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic amount for
-              the statement resource.
-            required:
-              - CreditDebitIndicator
-              - Type
-              - Amount
-            properties:
-              CreditDebitIndicator:
-                $ref: '#/components/schemas/OBCreditDebitCode_0'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementAmountType1Code'
-              Amount:
-                $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_8'
-              LocalAmount:
-                type: object
-                required:
-                  - Amount
-                  - Currency
-                description: >-
-                  Optional component providing the equivalent of Amount in local
-                  currency.
-                properties:
-                  Amount:
-                    $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
-                  Currency:
-                    $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-                  SubType:
-                    description: >-
-                      The amount in the local market currency for which the
-                      asset is held. Default is Local Currency (LCUR) if not
-                      specified
-                    type: string
-                    enum:
-                      - BCUR
-                      - LCUR
-                    default: LCUR
-        StatementDateTime:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic date time for
-              the statement resource.
-            required:
-              - DateTime
-              - Type
-            properties:
-              DateTime:
-                $ref: '#/components/schemas/DateTime'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementDateTimeType1Code'
-        StatementRate:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic rate related
-              to the statement resource.
-            required:
-              - Rate
-              - Type
-            properties:
-              Rate:
-                $ref: '#/components/schemas/Rate'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementRateType1Code'
-        StatementValue:
-          type: array
-          items:
-            type: object
-            description: >-
-              Set of elements used to provide details of a generic number value
-              related to the statement resource.
-            required:
-              - Value
-              - Type
-            properties:
-              Value:
-                $ref: '#/components/schemas/Value'
-              Type:
-                $ref: '#/components/schemas/OBInternalStatementValueType1Code'
-        TotalValue:
-          type: object
-          description: Combined sum of all Amounts in the accounts base currency
-          required:
-            - Amount
-            - Currency
-          properties:
-            Amount:
-              $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
-            Currency:
-              $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-      additionalProperties: false
     OBStatusReason:
       type: object
       properties:
@@ -12126,134 +11418,6 @@ components:
         Additional information that can not be captured in the structured fields
         and/or any other specific block.
     OBTransaction6:
-      type: object
-      description: Provides further details on an entry in the report.
-      required:
-        - AccountId
-        - CreditDebitIndicator
-        - Status
-        - BookingDateTime
-        - Amount
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        TransactionId:
-          $ref: '#/components/schemas/TransactionId'
-        TransactionReference:
-          $ref: '#/components/schemas/TransactionReference'
-        StatementReference:
-          type: array
-          items:
-            $ref: '#/components/schemas/StatementReference'
-        CreditDebitIndicator:
-          $ref: '#/components/schemas/OBCreditDebitCode_1'
-        Status:
-          $ref: '#/components/schemas/ExternalEntryStatus1Code'
-        TransactionMutability:
-          $ref: '#/components/schemas/OBInternalTransactionMutability1Code'
-        BookingDateTime:
-          $ref: '#/components/schemas/BookingDateTime'
-        ValueDateTime:
-          $ref: '#/components/schemas/ValueDateTime'
-        TransactionInformation:
-          $ref: '#/components/schemas/TransactionInformation'
-        AddressLine:
-          $ref: '#/components/schemas/AddressLine'
-        Amount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9'
-        ChargeAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_10'
-        CurrencyExchange:
-          $ref: '#/components/schemas/OBCurrencyExchange5'
-        BankTransactionCode:
-          $ref: '#/components/schemas/OBBankTransactionCodeStructure1'
-        ProprietaryBankTransactionCode:
-          $ref: '#/components/schemas/ProprietaryBankTransactionCodeStructure1'
-        ExtendedProprietaryBankTransactionCodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/OBExtendedProprietaryBankTransactionCode'
-        Balance:
-          $ref: '#/components/schemas/OBTransactionCashBalance'
-        MerchantDetails:
-          $ref: '#/components/schemas/OBMerchantDetails1'
-        CreditorAgent:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_1'
-        CreditorAccount:
-          $ref: '#/components/schemas/OBCashAccount6_0'
-        DebtorAgent:
-          $ref: '#/components/schemas/OBBranchAndFinancialInstitutionIdentification6_2'
-        DebtorAccount:
-          $ref: '#/components/schemas/OBCashAccount6_1'
-        CardInstrument:
-          $ref: '#/components/schemas/OBTransactionCardInstrument1'
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-        CategoryPurposeCode:
-          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
-        PaymentPurposeCode:
-          $ref: '#/components/schemas/OBExternalPurpose1Code'
-        UltimateCreditor:
-          $ref: '#/components/schemas/OBUltimateCreditor1'
-        UltimateDebtor:
-          $ref: '#/components/schemas/OBUltimateDebtor1'
-      additionalProperties: false
-    OBTransaction6Basic:
-      type: object
-      description: Provides further details on an entry in the report.
-      required:
-        - AccountId
-        - CreditDebitIndicator
-        - Status
-        - BookingDateTime
-        - Amount
-      properties:
-        AccountId:
-          $ref: '#/components/schemas/AccountId'
-        TransactionId:
-          $ref: '#/components/schemas/TransactionId'
-        TransactionReference:
-          $ref: '#/components/schemas/TransactionReference'
-        StatementReference:
-          type: array
-          items:
-            $ref: '#/components/schemas/StatementReference'
-        CreditDebitIndicator:
-          $ref: '#/components/schemas/OBCreditDebitCode_1'
-        Status:
-          $ref: '#/components/schemas/ExternalEntryStatus1Code'
-        TransactionMutability:
-          $ref: '#/components/schemas/OBInternalTransactionMutability1Code'
-        BookingDateTime:
-          $ref: '#/components/schemas/BookingDateTime'
-        ValueDateTime:
-          $ref: '#/components/schemas/ValueDateTime'
-        AddressLine:
-          $ref: '#/components/schemas/AddressLine'
-        Amount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_9'
-        ChargeAmount:
-          $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount_10'
-        CurrencyExchange:
-          $ref: '#/components/schemas/OBCurrencyExchange5'
-        BankTransactionCode:
-          $ref: '#/components/schemas/OBBankTransactionCodeStructure1'
-        ProprietaryBankTransactionCode:
-          $ref: '#/components/schemas/ProprietaryBankTransactionCodeStructure1'
-        ExtendedProprietaryBankTransactionCodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/OBExtendedProprietaryBankTransactionCode'
-        CardInstrument:
-          $ref: '#/components/schemas/OBTransactionCardInstrument1'
-        SupplementaryData:
-          $ref: '#/components/schemas/OBSupplementaryData1'
-        CategoryPurposeCode:
-          $ref: '#/components/schemas/ExternalCategoryPurpose1Code'
-        PaymentPurposeCode:
-          $ref: '#/components/schemas/OBExternalPurpose1Code'
-      additionalProperties: false
-    OBTransaction6Detail:
       type: object
       description: Provides further details on an entry in the report.
       required:
@@ -13064,27 +12228,6 @@ components:
       example: Bank Street
       minLength: 1
       maxLength: 140
-    Time:
-      description: >-
-        Time at which assets become available to the account owner in case of a
-        credit entry, or cease to be available to the account owner in case of a
-        debit transaction entry.
-
-        Usage: If transaction entry status is pending and value date is present,
-        then the value date refers to an expected/requested value date.
-
-        For transaction entries subject to availability/float and for which
-        availability information is provided, the value date must not be used.
-        In this case the availability component identifies the number of
-        availability days. All dates in the JSON payloads are represented in ISO
-        8601 date-time format. 
-
-        All date-time fields in responses must include the timezone. An example
-        is below:
-
-        T10:43:07+00:00
-      type: string
-      format: time
     TownName:
       description: >-
         Name of a built-up area, with defined boundaries, and a local
@@ -13147,9 +12290,3 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
-    Model:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
