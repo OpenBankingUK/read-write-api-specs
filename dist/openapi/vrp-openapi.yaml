@@ -477,14 +477,6 @@ components:
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-    404Error:
-      description: Not found
-      headers:
-        x-fapi-interaction-id:
-          description: An RFC4122 UID used as a correlation id.
-          required: true
-          schema:
-            type: string
     405Error:
       description: Method Not Allowed
       headers:
@@ -810,25 +802,6 @@ components:
           $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
         PostalAddress:
           $ref: '#/components/schemas/OBPostalAddress7'
-    OBBranchAndFinancialInstitutionIdentification6_0:
-      type: object
-      description: >-
-        Party that manages the account on behalf of the account owner, that is
-        manages the registration and booking of entries on the account,
-        calculates balances on the account and provides information about the
-        account. This is the servicer of the beneficiary account.
-      properties:
-        SchemeName:
-          $ref: >-
-            #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
-        Identification:
-          $ref: '#/components/schemas/Identification_1'
-        Name:
-          $ref: '#/components/schemas/Name_1'
-        PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress7'
-        LEI:
-          $ref: '#/components/schemas/LEI'
     LEI:
       description: >-
         Legal entity identification as an alternate identification for a party.
@@ -844,13 +817,6 @@ components:
       type: string
       minLength: 1
       maxLength: 140
-    Identification_0:
-      description: >-
-        Identification assigned by an institution to identify an account. This
-        identification is known by the account owner.
-      type: string
-      minLength: 1
-      maxLength: 256
     Identification_1:
       description: Unique and unambiguous identification of the servicing institution.
       type: string
@@ -1254,30 +1220,6 @@ components:
             number combination)
         Proxy:
           $ref: '#/components/schemas/OBProxy1'
-    OBBranchAndFinancialInstitutionIdentification6:
-      type: object
-      properties:
-        SchemeName:
-          $ref: >-
-            #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
-        Identification:
-          type: string
-          minLength: 1
-          maxLength: 35
-          description: >-
-            ^ Unique and unambiguous identification of a financial institution
-            or a branch of a financial institution.
-        Name:
-          type: string
-          minLength: 1
-          maxLength: 140
-          description: >-
-            ^ Name by which an agent is known and which is usually used to
-            identify that agent.
-        LEI:
-          $ref: '#/components/schemas/LEI'
-        PostalAddress:
-          $ref: '#/components/schemas/OBPostalAddress7'
     OBDomesticVRPRequest:
       type: object
       required:
@@ -1643,21 +1585,6 @@ components:
         - VOST
         - WHLD
         - ZABA
-    OBCharge2:
-      type: object
-      required:
-        - ChargeBearer
-        - Type
-        - Amount
-      properties:
-        ChargeBearer:
-          $ref: '#/components/schemas/OBInternalChargeBearerType1Code'
-    OBExternalStatus2Code:
-      type: string
-      enum:
-        - AUTH
-        - AWAU
-        - RJCT
     OBInternalChargeBearerType1Code:
       type: string
       description: >-
@@ -1724,18 +1651,6 @@ components:
           description: >
             Additional information that can not be captured in the structured
             fields and/or any other specific block.
-    OBExternalCreditorReferenceType1Code:
-      type: string
-      minLength: 1
-      maxLength: 4
-      description: "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction."
-      enum:
-        - DISP
-        - FXDR
-        - PUOR
-        - RPIN
-        - RADM
-        - SCOR
     ExternalDocumentType1Code:
       type: string
       minLength: 1
@@ -1791,31 +1706,6 @@ components:
           type: array
           items:
             type: string
-    OBVRPRemittanceInformation:
-      type: object
-      description: >-
-        Information supplied to enable the matching of an entry with the items
-        that the transfer is intended to settle, such as commercial invoices in
-        an accounts' receivable system.
-      properties:
-        Code:
-          $ref: '#/components/schemas/ExternalDocumentType1Code'
-        Issuer:
-          type: string
-          maxLength: 140
-          minLength: 1
-        Number:
-          type: string
-          maxLength: 140
-          minLength: 1
-        RelatedDate:
-          $ref: '#/components/schemas/ISODateTime'
-        LineDetails:
-          type: array
-          items:
-            type: string
-            maxLength: 256
-            minLength: 1
     OBRemittanceInformation2:
       type: object
       description: >-
@@ -1915,12 +1805,6 @@ components:
       type: string
       x-namespaced-enum:
         - UK.OBIE.BICFI
-    OBExternalAccountType1Code:
-      description: Specifies the type of account (personal or business).
-      type: string
-      enum:
-        - Business
-        - Personal
     OBInternalExtendedAccountType1Code:
       description: Specifies the extended type of account if known. For a full set of values refer to `OBInternalExtendedAccountType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
@@ -2340,22 +2224,6 @@ components:
         2017-04-05T10:43:07+00:00
       type: string
       format: date-time
-    OBPaymentStatusReason:
-      type: object
-      properties:
-        StatusReasonCode:
-          type: string
-          description: |-
-            Specifies the status reason in a code form 
-             For more information and enum values see `OBExternalStatusReason1Code [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-          minLength: 1
-          maxLength: 4
-          example: ERIN
-        StatusReasonDescription:
-          type: string
-          description: Description supporting the StatusReasonCode.
-          minLength: 1
-          maxLength: 500
     OBPostalAddress7:
       type: object
       additionalProperties: false
@@ -2408,18 +2276,6 @@ components:
             maxLength: 70
           minItems: 0
           maxItems: 7
-    OBAddressTypeCode:
-      description: Identifies the nature of the postal address.
-      type: string
-      enum:
-        - Business
-        - Correspondence
-        - DeliveryTo
-        - MailTo
-        - POBox
-        - Postal
-        - Residential
-        - Statement
     OBAddressType2Code:
       description: >-
         Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
@@ -2608,14 +2464,6 @@ components:
       type: string
       pattern: ^[A-Z]{2,2}$
       description: Nation with its own government.
-    OBVRPStatusReasonCode:
-      type: string
-      x-namespaced-enum:
-        - UK.OBIE.ExemptionNotApplied
-        - UK.OBIE.OtherReason
-      description: >
-        Reason Code provided for the status of a VRP. To be documented in the
-        Developer Portal.
     OBVRPConsentType:
       type: string
       x-namespaced-enum:
