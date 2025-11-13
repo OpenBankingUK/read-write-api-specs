@@ -235,9 +235,33 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              type: string
-              format: Array of patch operations
-        description: Default
+              type: array
+              items:
+                type: object
+                required:
+                  - op
+                  - path
+                properties:
+                  op:
+                    type: string
+                    description: The operation to perform
+                    enum:
+                      - add
+                      - remove
+                      - replace
+                      - move
+                      - copy
+                      - test
+                  path:
+                    type: string
+                    description: The path to the element to operate on as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  from:
+                    type: string
+                    description: The path to move or copy from as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  value:
+                    description: The value to add, replace, or test against. This may be a single string or an array of strings
+                additionalProperties: false
+        description: Array of Patch Operations as defined in [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902)
         required: true
       security:
         - TPPOAuth2Security:
@@ -835,8 +859,10 @@ components:
         Legal Entity Identifier is a code allocated to a party as described in
         ISO 17442 "Financial Services - Legal Entity Identifier (LEI)".
       type: string
+      example: IZ9Q00LZEVUKWCQY6X15
       minLength: 1
       maxLength: 20
+      pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
     Name_1:
       description: >-
         Name by which an agent is known and which is usually used to identify
