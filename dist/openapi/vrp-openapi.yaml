@@ -235,9 +235,33 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              type: string
-              format: Array of patch operations
-        description: Default
+              type: array
+              items:
+                type: object
+                required:
+                  - op
+                  - path
+                properties:
+                  op:
+                    type: string
+                    description: The operation to perform
+                    enum:
+                      - add
+                      - remove
+                      - replace
+                      - move
+                      - copy
+                      - test
+                  path:
+                    type: string
+                    description: The path to the element to operate on as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  from:
+                    type: string
+                    description: The path to move or copy from as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  value:
+                    description: The value to add, replace, or test against. This may be a single string or an array of strings
+                additionalProperties: false
+        description: Array of Patch Operations as defined in [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902)
         required: true
       security:
         - TPPOAuth2Security:
@@ -763,6 +787,55 @@ components:
         type: string
         example: 3.1.11
   schemas:
+    OBDomesticRefundAccount1:
+      description: "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction."
+      type: object
+      additionalProperties: false
+      required:
+        - Account
+      properties:
+        Account:
+          type: object
+          additionalProperties: false
+          required:
+            - SchemeName
+            - Identification
+            - Name
+          description: Provides the details to identify an account.
+          properties:
+            SchemeName:
+              $ref: >-
+                #/components/schemas/OBInternalAccountIdentification4Code
+            Identification:
+              $ref: '#/components/schemas/Identification_0'
+            Name:
+              description: >-
+                Name of the account, as assigned by the account
+                servicing institution.
+
+                Usage: The account name is the name or names of the
+                account owner(s) represented at an account level. The
+                account name is not the product name or the nickname of
+                the account.
+
+                OB: ASPSPs may carry out name validation for
+                Confirmation of Payee, but it is not mandatory.
+              type: string
+              minLength: 1
+              maxLength: 350
+            SecondaryIdentification:
+              $ref: '#/components/schemas/SecondaryIdentification'
+    SecondaryIdentification:
+      description: >-
+        This is secondary identification of the account, as assigned by the
+        account servicing institution. 
+
+        This can be used by building societies to additionally identify accounts
+        with a roll number (in addition to a sort code and account number
+        combination).
+      type: string
+      minLength: 1
+      maxLength: 34
     OBUltimateCreditor1:
       description: Ultimate party to which an amount of money is due.
       type: object
@@ -832,8 +905,10 @@ components:
         Legal Entity Identifier is a code allocated to a party as described in
         ISO 17442 "Financial Services - Legal Entity Identifier (LEI)".
       type: string
+      example: IZ9Q00LZEVUKWCQY6X15
       minLength: 1
       maxLength: 20
+      pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
     Name_1:
       description: >-
         Name by which an agent is known and which is usually used to identify
@@ -984,8 +1059,6 @@ components:
       required:
         - Data
         - Risk
-        - Links
-        - Meta
       properties:
         Data:
           type: object
@@ -1320,8 +1393,6 @@ components:
       required:
         - Data
         - Risk
-        - Links
-        - Meta
       properties:
         Data:
           type: object
@@ -1362,7 +1433,6 @@ components:
               enum:
                 - RCVD
                 - RJCT
-                - CANC
                 - PDNG
                 - ACTC
                 - ACCP
@@ -1393,7 +1463,7 @@ components:
               description: |
                 Expected settlement date and time for the payment resource.
             Refund:
-              $ref: '#/components/schemas/OBCashAccountDebtorWithName'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -1454,7 +1524,6 @@ components:
                     enum:
                       - RCVD
                       - RJCT
-                      - CANC
                       - PDNG
                       - ACTC
                       - ACCP
@@ -1788,6 +1857,8 @@ components:
           type: array
           items:
             type: string
+            minLength: 1
+            maxLength: 2048
     OBVRPRemittanceInformation:
       type: object
       description: >-
@@ -2639,7 +2710,13 @@ components:
         PaymentContextCode:
           type: string
           description: |
-            Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+            Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br>
+            The following values are deprecated and can only be used to make a payment on an existing v3 consent which used one of the deprecated values and has been migrated to v4. They <u>**must not**</u> be used in a new consent. They may optionally be returned for a historical payment/consent migrated to v4:<br>
+            * BillPayment - @deprecated
+            * EcommerceGoods - @deprecated
+            * EcommerceServices - @deprecated
+            * PartyToParty - @deprecated
+            * PispPayee - @deprecated
           enum:
             - BillingGoodsAndServicesInAdvance
             - BillingGoodsAndServicesInArrears
@@ -2647,6 +2724,12 @@ components:
             - FaceToFacePointOfSale
             - TransferToSelf
             - TransferToThirdParty
+            # deprecated values
+            - BillPayment
+            - EcommerceGoods
+            - EcommerceServices
+            - PartyToParty
+            - PispPayee
         MerchantCategoryCode:
           type: string
           minLength: 3
