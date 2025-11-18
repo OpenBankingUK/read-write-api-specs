@@ -2717,7 +2717,7 @@
         }
       },
       "200AccountsAccountIdStatementsStatementIdFileRead": {
-        "description": "Statements Read",
+        "description": "Statements Read\n\nASPSP will specify all available content types\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3054,6 +3054,46 @@
       }
     },
     "schemas": {
+      "OBIntermediaryAgent1": {
+        "description": "The intermediary agent associated with this transaction.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name by which an agent is known and which is usually used to identify that agent.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          },
+          "ProcessingStatus": {
+            "description": "Status of the payment at the Intermediary Agent. For a full list of enumeration values refer to `OBIntermediaryAgentStatus1Code` in `OB_Internal_CodeSet` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "type": "string",
+            "enum": [
+              "PDNG",
+              "RCVD",
+              "ACSP",
+              "ACSC",
+              "RJCT",
+              "UNKN",
+              "CANC"
+            ]
+          }
+        }
+      },
       "ExternalCreditorReferenceType1Code": {
         "type": "string",
         "minLength": 1,
@@ -3119,7 +3159,9 @@
             "description": "Set of elements used to provide the content of the referred document line.",
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
             }
           }
         }
@@ -4126,20 +4168,6 @@
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
           }
         }
-      },
-      "OBAddressTypeCode": {
-        "description": "Identifies the nature of the postal address.",
-        "type": "string",
-        "enum": [
-          "Business",
-          "Correspondence",
-          "DeliveryTo",
-          "MailTo",
-          "POBox",
-          "Postal",
-          "Residential",
-          "Statement"
-        ]
       },
       "OBAddressType2Code": {
         "description": "Identifies the nature of the postal address. <br /> For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
@@ -13961,6 +13989,15 @@
           },
           "UltimateDebtor": {
             "$ref": "#/components/schemas/OBUltimateDebtor1"
+          },
+          "IntermediaryAgent1": {
+            "$ref": "#/components/schemas/OBIntermediaryAgent1"
+          },
+          "IntermediaryAgent2": {
+            "$ref": "#/components/schemas/OBIntermediaryAgent1"
+          },
+          "IntermediaryAgent3": {
+            "$ref": "#/components/schemas/OBIntermediaryAgent1"
           }
         },
         "additionalProperties": false

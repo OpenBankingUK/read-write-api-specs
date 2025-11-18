@@ -3919,7 +3919,7 @@
         }
       },
       "200FilePaymentConsentsConsentIdFileRead": {
-        "description": "File Payment Consents Read",
+        "description": "File Payment Consents Read\n\nASPSP will specify all available content types.\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -4027,7 +4027,7 @@
         }
       },
       "200FilePaymentsFilePaymentIdReportFileRead": {
-        "description": "File Payments Read",
+        "description": "File Payments Read\n\nASPSP will specify all available content types\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -4961,6 +4961,43 @@
       }
     },
     "schemas": {
+      "OBDomesticRefundAccount1": {
+        "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Account"
+        ],
+        "properties": {
+          "Account": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "SchemeName",
+              "Identification",
+              "Name"
+            ],
+            "description": "Provides the details to identify an account.",
+            "properties": {
+              "SchemeName": {
+                "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+              },
+              "Identification": {
+                "$ref": "#/components/schemas/Identification_0"
+              },
+              "Name": {
+                "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 350
+              },
+              "SecondaryIdentification": {
+                "$ref": "#/components/schemas/SecondaryIdentification"
+              }
+            }
+          }
+        }
+      },
       "NumberOfPayments": {
         "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
         "type": "string",
@@ -6158,7 +6195,9 @@
             "description": "Set of elements used to provide the content of the referred document line.",
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
             }
           }
         }
@@ -6288,14 +6327,19 @@
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`\n",
+            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`<br>\nThe following values are deprecated and <u>**must not**</u> be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:<br>\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* PartyToParty - @deprecated\n* PispPayee - @deprecated\n",
             "enum": [
               "BillingGoodsAndServicesInAdvance",
               "BillingGoodsAndServicesInArrears",
               "EcommerceMerchantInitiatedPayment",
               "FaceToFacePointOfSale",
               "TransferToSelf",
-              "TransferToThirdParty"
+              "TransferToThirdParty",
+              "BillPayment",
+              "EcommerceGoods",
+              "EcommerceServices",
+              "PartyToParty",
+              "PispPayee"
             ]
           },
           "MerchantCategoryCode": {
@@ -7175,41 +7219,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
-                "properties": {
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -8147,41 +8157,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
-                "properties": {
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -9123,41 +9099,7 @@
                 }
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
-                "properties": {
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -10248,7 +10190,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -10505,7 +10447,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -10904,7 +10846,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11198,81 +11140,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "properties": {
-                  "Creditor": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to identify a person or an organisation.",
-                    "properties": {
-                      "Name": {
-                        "description": "Name by which a party is known and which is usually used to identify that party.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "LEI": {
-                        "$ref": "#/components/schemas/LEI"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Agent": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_1"
-                      },
-                      "Name": {
-                        "$ref": "#/components/schemas/Name"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      },
-                      "Proxy": {
-                        "$ref": "#/components/schemas/OBProxy1"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -11391,7 +11259,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11695,7 +11563,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11965,7 +11833,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12377,7 +12245,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12672,78 +12540,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "properties": {
-                  "Creditor": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to identify a person or an organisation.",
-                    "properties": {
-                      "Name": {
-                        "description": "Name by which a party is known and which is usually used to identify that party.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "LEI": {
-                        "$ref": "#/components/schemas/LEI"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Agent": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_1"
-                      },
-                      "Name": {
-                        "$ref": "#/components/schemas/Name"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -12867,7 +12664,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13148,7 +12945,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13363,7 +13160,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13669,7 +13466,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13916,78 +13713,7 @@
                 }
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "properties": {
-                  "Creditor": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to identify a person or an organisation.",
-                    "properties": {
-                      "Name": {
-                        "description": "Name by which a party is known and which is usually used to identify that party.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "LEI": {
-                        "$ref": "#/components/schemas/LEI"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Agent": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_1"
-                      },
-                      "Name": {
-                        "$ref": "#/components/schemas/Name"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -14047,7 +13773,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
