@@ -1817,10 +1817,7 @@ components:
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -1838,7 +1835,7 @@ components:
       schema:
         type: string
         maxLength: 40
-        pattern: ^(?!\s)(.*)(\S)$
+        pattern: '^(?!\s)(.*)(\S)$'
     x-jws-signature:
       in: header
       name: x-jws-signature
@@ -2306,7 +2303,10 @@ components:
           schema:
             $ref: '#/components/schemas/OBWriteFileConsentResponse4'
     200FilePaymentConsentsConsentIdFileRead:
-      description: File Payment Consents Read
+      description: |
+        File Payment Consents Read
+        
+        ASPSP will specify all available content types.
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -2381,7 +2381,10 @@ components:
           schema:
             $ref: '#/components/schemas/OBWriteFileResponse3'
     200FilePaymentsFilePaymentIdReportFileRead:
-      description: File Payments Read
+      description: |
+        File Payments Read
+        
+        ASPSP will specify all available content types
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
@@ -3034,6 +3037,44 @@ components:
           scopes:
             payments: Generic payment scope
   schemas:
+    OBDomesticRefundAccount1:
+      description: "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction."
+      type: object
+      additionalProperties: false
+      required:
+        - Account
+      properties:
+        Account:
+          type: object
+          additionalProperties: false
+          required:
+            - SchemeName
+            - Identification
+            - Name
+          description: Provides the details to identify an account.
+          properties:
+            SchemeName:
+              $ref: >-
+                #/components/schemas/OBInternalAccountIdentification4Code
+            Identification:
+              $ref: '#/components/schemas/Identification_0'
+            Name:
+              description: >-
+                Name of the account, as assigned by the account
+                servicing institution.
+
+                Usage: The account name is the name or names of the
+                account owner(s) represented at an account level. The
+                account name is not the product name or the nickname of
+                the account.
+
+                OB: ASPSPs may carry out name validation for
+                Confirmation of Payee, but it is not mandatory.
+              type: string
+              minLength: 1
+              maxLength: 350
+            SecondaryIdentification:
+              $ref: '#/components/schemas/SecondaryIdentification'
     NumberOfPayments:
       description: "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date."
       type: "string"
@@ -3117,8 +3158,7 @@ components:
 
         ^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
       type: string
-      pattern: >-
-        ^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+      pattern: '^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$'
     OBUltimateCreditor1:
       description: Ultimate party to which an amount of money is due.
       type: object
@@ -3202,7 +3242,7 @@ components:
         of the international standard ISO 4217 "Codes for the representation of
         currencies and funds".
       type: string
-      pattern: ^[A-Z]{3,3}$
+      pattern: '^[A-Z]{3,3}$'
     BuildingName:
       description: Name of a referenced building.
       type: string
@@ -3283,7 +3323,7 @@ components:
     CountryCode:
       description: Nation with its own government.
       type: string
-      pattern: ^[A-Z]{2,2}$
+      pattern: '^[A-Z]{2,2}$'
     CountrySubDivision:
       description: Identifies a subdivision of a country such as state, region, county.
       type: string
@@ -3330,8 +3370,7 @@ components:
       maxLength: 256
     Identification_1:
       description: >-
-        Unique and unambiguous identification of a financial institution or a
-        branch of a financial institution.
+        Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
       type: string
       minLength: 1
       maxLength: 35
@@ -3358,7 +3397,7 @@ components:
       example: IZ9Q00LZEVUKWCQY6X15
       minLength: 1
       maxLength: 20
-      pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
+      pattern: '^[A-Z0-9]{18,18}[0-9]{2,2}$'
     Links:
       type: object
       additionalProperties: false
@@ -3406,7 +3445,7 @@ components:
         A number of monetary units specified in an active currency where the
         unit of currency is explicit and compliant with ISO 4217.
       type: string
-      pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+      pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
     OBActiveOrHistoricCurrencyAndAmount:
       type: object
       additionalProperties: false
@@ -4274,6 +4313,8 @@ components:
           type: array
           items:
             type: string
+            minLength: 1
+            maxLength: 2048
     OBRemittanceInformation2:
       type: object
       description: >-
@@ -4377,7 +4418,13 @@ components:
         PaymentContextCode:
           type: string
           description: |
-            Specifies the payment context, `OBInternalPaymentContext1Code`
+            Specifies the payment context, `OBInternalPaymentContext1Code`<br>
+            The following values are deprecated and <u>**must not**</u> be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:<br>
+            * BillPayment - @deprecated
+            * EcommerceGoods - @deprecated
+            * EcommerceServices - @deprecated
+            * PartyToParty - @deprecated
+            * PispPayee - @deprecated
           enum:
             - BillingGoodsAndServicesInAdvance
             - BillingGoodsAndServicesInArrears
@@ -4385,6 +4432,12 @@ components:
             - FaceToFacePointOfSale
             - TransferToSelf
             - TransferToThirdParty
+            # deprecated values
+            - BillPayment
+            - EcommerceGoods
+            - EcommerceServices
+            - PartyToParty
+            - PispPayee
         MerchantCategoryCode:
           type: string
           minLength: 3
@@ -5330,45 +5383,7 @@ components:
               type: string
               format: date-time
             Refund:
-              type: object
-              additionalProperties: false
-              required:
-                - Account
-              description: >-
-                Unambiguous identification of the refund account to which a
-                refund will be made as a result of the transaction.
-              properties:
-                Account:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - SchemeName
-                    - Identification
-                    - Name
-                  description: Provides the details to identify an account.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalAccountIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_0'
-                    Name:
-                      description: >-
-                        Name of the account, as assigned by the account
-                        servicing institution.
-
-                        Usage: The account name is the name or names of the
-                        account owner(s) represented at an account level. The
-                        account name is not the product name or the nickname of
-                        the account.
-
-                        OB: ASPSPs may carry out name validation for
-                        Confirmation of Payee, but it is not mandatory.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    SecondaryIdentification:
-                      $ref: '#/components/schemas/SecondaryIdentification'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -6422,45 +6437,7 @@ components:
               type: string
               format: date-time
             Refund:
-              type: object
-              additionalProperties: false
-              required:
-                - Account
-              description: >-
-                Unambiguous identification of the refund account to which a
-                refund will be made as a result of the transaction.
-              properties:
-                Account:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - SchemeName
-                    - Identification
-                    - Name
-                  description: Provides the details to identify an account.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalAccountIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_0'
-                    Name:
-                      description: >-
-                        Name of the account, as assigned by the account
-                        servicing institution.
-
-                        Usage: The account name is the name or names of the
-                        account owner(s) represented at an account level. The
-                        account name is not the product name or the nickname of
-                        the account.
-
-                        OB: ASPSPs may carry out name validation for
-                        Confirmation of Payee, but it is not mandatory.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    SecondaryIdentification:
-                      $ref: '#/components/schemas/SecondaryIdentification'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -7368,45 +7345,7 @@ components:
               items:
                 $ref: '#/components/schemas/OBStatusReason'
             Refund:
-              type: object
-              additionalProperties: false
-              required:
-                - Account
-              description: >-
-                Unambiguous identification of the refund account to which a
-                refund will be made as a result of the transaction.
-              properties:
-                Account:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - SchemeName
-                    - Identification
-                    - Name
-                  description: Provides the details to identify an account.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalAccountIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_0'
-                    Name:
-                      description: >-
-                        Name of the account, as assigned by the account
-                        servicing institution.
-
-                        Usage: The account name is the name or names of the
-                        account owner(s) represented at an account level. The
-                        account name is not the product name or the nickname of
-                        the account.
-
-                        OB: ASPSPs may carry out name validation for
-                        Confirmation of Payee, but it is not mandatory.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    SecondaryIdentification:
-                      $ref: '#/components/schemas/SecondaryIdentification'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -8499,7 +8438,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -8508,7 +8447,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -8542,7 +8481,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -8769,7 +8708,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -8778,7 +8717,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -8812,7 +8751,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -9112,7 +9051,7 @@ components:
                     currency exchange. In the example 1GBP = xxxCUR, the unit
                     currency is GBP.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 ExchangeRate:
                   description: >-
                     The factor used for conversion of an amount from one
@@ -9218,7 +9157,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -9227,7 +9166,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -9261,7 +9200,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -9530,79 +9469,7 @@ components:
               type: string
               format: date-time
             Refund:
-              type: object
-              additionalProperties: false
-              required:
-                - Account
-              properties:
-                Creditor:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Set of elements used to identify a person or an
-                    organisation.
-                  properties:
-                    Name:
-                      description: >-
-                        Name by which a party is known and which is usually used
-                        to identify that party.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    LEI:
-                      $ref: '#/components/schemas/LEI'
-                    PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress7'
-                Agent:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Set of elements used to uniquely and unambiguously identify
-                    a financial institution or a branch of a financial
-                    institution.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_1'
-                    Name:
-                      $ref: '#/components/schemas/Name'
-                    PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress7'
-                Account:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - SchemeName
-                    - Identification
-                    - Name
-                  description: Provides the details to identify an account.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalAccountIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_0'
-                    Name:
-                      description: >-
-                        Name of the account, as assigned by the account
-                        servicing institution.
-
-                        Usage: The account name is the name or names of the
-                        account owner(s) represented at an account level. The
-                        account name is not the product name or the nickname of
-                        the account.
-
-                        OB: ASPSPs may carry out name validation for
-                        Confirmation of Payee, but it is not mandatory.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    SecondaryIdentification:
-                      $ref: '#/components/schemas/SecondaryIdentification'
-                    Proxy:
-                      $ref: '#/components/schemas/OBProxy1'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -9639,7 +9506,7 @@ components:
                     currency exchange. In the example 1GBP = xxxCUR, the unit
                     currency is GBP.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 ExchangeRate:
                   description: >-
                     The factor used for conversion of an amount from one
@@ -9745,7 +9612,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -9754,7 +9621,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -9788,7 +9655,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -10083,7 +9950,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -10092,7 +9959,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -10126,7 +9993,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -10375,7 +10242,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -10384,7 +10251,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -10418,7 +10285,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -10724,7 +10591,7 @@ components:
                     currency exchange. In the example 1GBP = xxxCUR, the unit
                     currency is GBP.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 ExchangeRate:
                   description: >-
                     The factor used for conversion of an amount from one
@@ -10846,7 +10713,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -10855,7 +10722,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -10889,7 +10756,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -11159,77 +11026,7 @@ components:
               type: string
               format: date-time
             Refund:
-              type: object
-              additionalProperties: false
-              required:
-                - Account
-              properties:
-                Creditor:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Set of elements used to identify a person or an
-                    organisation.
-                  properties:
-                    Name:
-                      description: >-
-                        Name by which a party is known and which is usually used
-                        to identify that party.
-                      type: string
-                      minLength: 1
-                      maxLength: 140
-                    LEI:
-                      $ref: '#/components/schemas/LEI'
-                    PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress7'
-                Agent:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Set of elements used to uniquely and unambiguously identify
-                    a financial institution or a branch of a financial
-                    institution.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_1'
-                    Name:
-                      $ref: '#/components/schemas/Name'
-                    PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress7'
-                Account:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - SchemeName
-                    - Identification
-                    - Name
-                  description: Provides the details to identify an account.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalAccountIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_0'
-                    Name:
-                      description: >-
-                        Name of the account, as assigned by the account
-                        servicing institution.
-
-                        Usage: The account name is the name or names of the
-                        account owner(s) represented at an account level. The
-                        account name is not the product name or the nickname of
-                        the account.
-
-                        OB: ASPSPs may carry out name validation for
-                        Confirmation of Payee, but it is not mandatory.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    SecondaryIdentification:
-                      $ref: '#/components/schemas/SecondaryIdentification'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -11266,7 +11063,7 @@ components:
                     currency exchange. In the example 1GBP = xxxCUR, the unit
                     currency is GBP.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 ExchangeRate:
                   description: >-
                     The factor used for conversion of an amount from one
@@ -11388,7 +11185,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -11397,7 +11194,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -11431,7 +11228,7 @@ components:
                         currency exchange. In the example 1GBP = xxxCUR, the
                         unit currency is GBP.
                       type: string
-                      pattern: ^[A-Z]{3,3}$
+                      pattern: '^[A-Z]{3,3}$'
                     ExchangeRate:
                       description: >-
                         The factor used for conversion of an amount from one
@@ -11671,7 +11468,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -11680,7 +11477,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -11875,7 +11672,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -11884,7 +11681,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -12183,7 +11980,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -12192,7 +11989,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
@@ -12433,77 +12230,7 @@ components:
               items:
                 $ref: '#/components/schemas/OBStatusReason'
             Refund:
-              type: object
-              additionalProperties: false
-              required:
-                - Account
-              properties:
-                Creditor:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Set of elements used to identify a person or an
-                    organisation.
-                  properties:
-                    Name:
-                      description: >-
-                        Name by which a party is known and which is usually used
-                        to identify that party.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    LEI:
-                      $ref: '#/components/schemas/LEI'
-                    PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress7'
-                Agent:
-                  type: object
-                  additionalProperties: false
-                  description: >-
-                    Set of elements used to uniquely and unambiguously identify
-                    a financial institution or a branch of a financial
-                    institution.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalFinancialInstitutionIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_1'
-                    Name:
-                      $ref: '#/components/schemas/Name'
-                    PostalAddress:
-                      $ref: '#/components/schemas/OBPostalAddress7'
-                Account:
-                  type: object
-                  additionalProperties: false
-                  required:
-                    - SchemeName
-                    - Identification
-                    - Name
-                  description: Provides the details to identify an account.
-                  properties:
-                    SchemeName:
-                      $ref: >-
-                        #/components/schemas/OBInternalAccountIdentification4Code
-                    Identification:
-                      $ref: '#/components/schemas/Identification_0'
-                    Name:
-                      description: >-
-                        Name of the account, as assigned by the account
-                        servicing institution.
-
-                        Usage: The account name is the name or names of the
-                        account owner(s) represented at an account level. The
-                        account name is not the product name or the nickname of
-                        the account.
-
-                        OB: ASPSPs may carry out name validation for
-                        Confirmation of Payee, but it is not mandatory.
-                      type: string
-                      minLength: 1
-                      maxLength: 350
-                    SecondaryIdentification:
-                      $ref: '#/components/schemas/SecondaryIdentification'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -12556,7 +12283,7 @@ components:
                     which is different from the currency of the debtor's
                     account.
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
                 DestinationCountryCode:
                   description: >-
                     Country in which Credit Account is domiciled. Code to
@@ -12565,7 +12292,7 @@ components:
                     names obtained from the United Nations (ISO 3166, Alpha-2
                     code).
                   type: string
-                  pattern: '[A-Z]{2,2}'
+                  pattern: '^[A-Z]{2,2}$'
                 InstructedAmount:
                   type: object
                   additionalProperties: false
