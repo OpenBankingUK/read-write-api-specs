@@ -84,6 +84,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -308,6 +311,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -401,6 +407,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -610,6 +619,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -947,6 +959,42 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        }
+      },
+      "422Error": {
+        "description": "Duplicate Idempotency key",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
             }
           }
         }
@@ -1560,15 +1608,7 @@
                 "description": "Date and time at which the resource was created.\n"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. AWAU and RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "CANC",
-                  "EXPD"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -1609,6 +1649,17 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
+      },
+      "OBInternalConsentStatus1Code": {
+        "description": "Specifies the status of consent resource in code form. AWAU and RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "CANC",
+          "EXPD"
+        ]
       },
       "OBDomesticVRPConsentRequest": {
         "type": "object",
@@ -1958,22 +2009,7 @@
                 "description": "Date and time at which the resource was created.\n"
               },
               "Status": {
-                "type": "string",
-                "description": "Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "enum": [
-                  "RCVD",
-                  "RJCT",
-                  "PDNG",
-                  "ACTC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus5Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -2070,22 +2106,7 @@
                       "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
                     },
                     "Status": {
-                      "type": "string",
-                      "description": "Status of a transfer, as assigned by the transaction administrator.",
-                      "enum": [
-                        "RCVD",
-                        "RJCT",
-                        "PDNG",
-                        "ACTC",
-                        "ACCP",
-                        "ACFC",
-                        "ACSP",
-                        "ACWC",
-                        "ACSC",
-                        "ACWP",
-                        "ACCC",
-                        "BLCK"
-                      ]
+                      "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
                     },
                     "StatusUpdateDateTime": {
                       "type": "string",
@@ -2102,10 +2123,7 @@
                           "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
                         },
                         "Status": {
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 128,
-                          "description": "Status of a transfer, as assigned by the transaction administrator."
+                          "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
                         },
                         "StatusReason": {
                           "type": "string",
@@ -2498,8 +2516,7 @@
             }
           },
           "ReferredDocumentAmount": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
           },
           "CreditorReferenceInformation": {
             "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
@@ -3425,6 +3442,46 @@
         "title": "MetaData",
         "type": "object",
         "description": "Meta Data relevant to the payload. At present no fields are used for VRP."
+      },
+      "ExternalPaymentTransactionStatus1Code": {
+        "description": "The current status of the payment resource.\n\nFor a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "ACTC",
+          "PATC",
+          "PDNG",
+          "RJCT",
+          "INFA",
+          "INCO",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP"
+        ]
+      },
+      "ExternalPaymentTransactionStatus5Code": {
+        "type": "string",
+        "description": "Specifies the status of the payment information group. \n\nFor a full list of values refer to `ExternalPaymentTransactionStatus5Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets).\n",
+        "enum": [
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
       }
     },
     "securitySchemes": {
