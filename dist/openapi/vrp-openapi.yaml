@@ -48,6 +48,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -173,6 +175,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -227,6 +231,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -349,6 +355,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -558,6 +566,31 @@ components:
           required: true
           schema:
             type: string
+    422Error:
+      description: Duplicate Idempotency key 
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+        x-jws-signature:
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
+          required: true
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
     429Error:
       description: Too Many Requests
       headers:
@@ -751,10 +784,7 @@ components:
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -772,7 +802,7 @@ components:
       schema:
         type: string
         maxLength: 40
-        pattern: ^(?!\s)(.*)(\S)$
+        pattern: '^(?!\s)(.*)(\S)$'
     x-jws-signature:
       in: header
       name: x-jws-signature
@@ -1094,16 +1124,7 @@ components:
               description: |
                 Date and time at which the resource was created.
             Status:
-              description: >-
-                Specifies the status of consent resource in code form. AWAU and
-                RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-              type: string
-              enum:
-                - AWAU
-                - RJCT
-                - AUTH
-                - CANC
-                - EXPD
+              $ref: '#/components/schemas/OBInternalConsentStatus1Code'
             StatusReason:
               type: array
               items:
@@ -1128,6 +1149,17 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBInternalConsentStatus1Code:
+      description: >-
+        Specifies the status of consent resource in code form. AWAU and
+        RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      type: string
+      enum:
+        - AWAU
+        - RJCT
+        - AUTH
+        - CANC
+        - EXPD
     OBDomesticVRPConsentRequest:
       type: object
       required:
@@ -1885,8 +1917,7 @@ components:
           items:
             $ref: '#/components/schemas/OBReferredDocumentInformation'
         ReferredDocumentAmount:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         CreditorReferenceInformation:
           description: Reference information provided by the creditor to allow the identification of the underlying documents.
           type: object
@@ -2014,14 +2045,14 @@ components:
       type: string
       minLength: 3
       maxLength: 3
-      pattern: ^[A-Z]{3,3}$
+      pattern: '^[A-Z]{3,3}$'
       description: >-
         A code allocated to a currency by a Maintenance Agency under an
         international identification scheme, as described in the latest edition
         of the international standard ISO 4217 "Codes for the representation of
         currencies and funds".
     OBActiveCurrencyAndAmount_SimpleType:
-      pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+      pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
       type: string
       description: >-
         A number of monetary units specified in an active currency where the
@@ -2644,7 +2675,7 @@ components:
       description: Identifies a subdivision of a country such as state, region, county.
     CountryCode:
       type: string
-      pattern: ^[A-Z]{2,2}$
+      pattern: '^[A-Z]{2,2}$'
       description: Nation with its own government.
     OBVRPStatusReasonCode:
       type: string

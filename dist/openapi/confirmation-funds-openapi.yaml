@@ -203,10 +203,7 @@ components:
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -224,7 +221,7 @@ components:
       schema:
         type: string
         maxLength: 40
-        pattern: ^(?!\s)(.*)(\S)$
+        pattern: '^(?!\s)(.*)(\S)$'
     x-jws-signature:
       in: header
       name: x-jws-signature
@@ -631,7 +628,7 @@ components:
                     where the unit of currency is explicit and compliant with
                     ISO 4217.
                   type: string
-                  pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+                  pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
                 Currency:
                   description: >-
                     A code allocated to a currency by a Maintenance Agency under
@@ -639,7 +636,7 @@ components:
                     latest edition of the international standard ISO 4217 "Codes
                     for the representation of currencies and funds".
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
       additionalProperties: false
     OBFundsConfirmationConsent1:
       type: object
@@ -748,14 +745,7 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-              type: string
-              enum:
-                - AWAU
-                - RJCT
-                - AUTH
-                - CANC
-                - EXPD
+              $ref: '#/components/schemas/OBInternalConsentStatus1Code'
             StatusReason:
               type: array
               items:
@@ -844,6 +834,15 @@ components:
         Meta:
           $ref: '#/components/schemas/Meta'
       additionalProperties: false
+    OBInternalConsentStatus1Code:
+      description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      type: string
+      enum:
+        - AWAU
+        - RJCT
+        - AUTH
+        - CANC
+        - EXPD
     OBFundsConfirmationResponse1:
       type: object
       required:
@@ -909,7 +908,7 @@ components:
                     where the unit of currency is explicit and compliant with
                     ISO 4217.
                   type: string
-                  pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+                  pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
                 Currency:
                   description: >-
                     A code allocated to a currency by a Maintenance Agency under
@@ -917,7 +916,7 @@ components:
                     latest edition of the international standard ISO 4217 "Codes
                     for the representation of currencies and funds".
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
