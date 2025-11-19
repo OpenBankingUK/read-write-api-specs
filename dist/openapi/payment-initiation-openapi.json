@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Payment Initiation API",
-    "description": "Swagger for Payment Initiation API Specification",
+    "description": "Swagger for Payment Initiation API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as as “Required” it is a Conditional field.\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -87,6 +87,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -303,6 +306,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -526,6 +532,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -685,6 +694,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -911,6 +923,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1070,6 +1085,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -1296,6 +1314,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1459,6 +1480,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1616,6 +1640,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -1907,6 +1934,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2128,6 +2158,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -2354,6 +2387,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2578,6 +2614,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -2804,6 +2843,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2963,6 +3005,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -3919,7 +3964,7 @@
         }
       },
       "200FilePaymentConsentsConsentIdFileRead": {
-        "description": "File Payment Consents Read",
+        "description": "File Payment Consents Read\n\nASPSP will specify all available content types.\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -4027,7 +4072,7 @@
         }
       },
       "200FilePaymentsFilePaymentIdReportFileRead": {
-        "description": "File Payments Read",
+        "description": "File Payments Read\n\nASPSP will specify all available content types\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -4878,6 +4923,42 @@
           }
         }
       },
+      "422Error": {
+        "description": "Duplicate Idempotency key",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
       "429Error": {
         "description": "Too Many Requests",
         "headers": {
@@ -5221,7 +5302,7 @@
         "maxLength": 256
       },
       "Identification_1": {
-        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+        "description": "Unique identification, as assigned by the creditor, to unambiguously identify the mandate.",
         "type": "string",
         "minLength": 1,
         "maxLength": 35
@@ -6233,9 +6314,7 @@
             }
           },
           "ReferredDocumentAmount": {
-            "description": "Provides details on the amounts of the referred document.",
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
           },
           "CreditorReferenceInformation": {
             "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
@@ -6884,14 +6963,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -7142,6 +7214,16 @@
           }
         }
       },
+      "OBInternalConsentStatus2Code": {
+        "type": "string",
+        "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "COND"
+        ]
+      },
       "OBWriteDomesticResponse5": {
         "type": "object",
         "additionalProperties": false,
@@ -7179,23 +7261,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus3Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -7831,14 +7897,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values see `OBInternalConsentStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AUTH",
-                  "AWAU",
-                  "COND",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the consent resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -8116,24 +8175,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -8784,14 +8826,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values see `OBInternalConsentStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AUTH",
-                  "AWAU",
-                  "COND",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -9074,18 +9109,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "ACTC",
-                  "PATC",
-                  "PDNG",
-                  "INFA",
-                  "INCO",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -9637,15 +9661,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "AWUP",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus3Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -9834,6 +9850,17 @@
           }
         }
       },
+      "OBInternalConsentStatus3Code": {
+        "description": "Specifies the status of consent resource in code form.",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "AWUP",
+          "RJCT",
+          "AUTH",
+          "COND"
+        ]
+      },
       "OBWriteFileResponse3": {
         "type": "object",
         "additionalProperties": false,
@@ -9871,13 +9898,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource. See `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets) for more information.",
-                "type": "string",
-                "enum": [
-                  "INFA",
-                  "INCO",
-                  "PDNG"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus4Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -10190,7 +10211,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -10447,7 +10468,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -10686,14 +10707,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -10846,7 +10860,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11100,23 +11114,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment information group.",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus3Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -11259,7 +11257,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11563,7 +11561,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11833,7 +11831,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12073,14 +12071,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -12245,7 +12236,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12499,24 +12490,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource.",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -12664,7 +12638,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12945,7 +12919,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13160,7 +13134,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13368,14 +13342,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -13466,7 +13433,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13688,18 +13655,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of resource in code form. For a list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "ACTC",
-                  "PATC",
-                  "PDNG",
-                  "INFA",
-                  "INCO",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -13773,7 +13729,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -14007,23 +13963,7 @@
             "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
           },
           "Status": {
-            "type": "string",
-            "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-            "enum": [
-              "RCVD",
-              "PDNG",
-              "ACTC",
-              "PATC",
-              "ACCP",
-              "ACFC",
-              "ACSP",
-              "ACWC",
-              "ACSC",
-              "ACWP",
-              "ACCC",
-              "BLCK",
-              "RJCT"
-            ]
+            "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
           },
           "StatusUpdateDateTime": {
             "type": "string",
@@ -14041,24 +13981,7 @@
                 "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
               },
               "Status": {
-                "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 4,
-                "enum": [
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
               },
               "StatusReason": {
                 "description": "Reason Code provided for the status of a transfer. For a full list of values see code values for `OBExternalStatusReason1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
@@ -14128,6 +14051,76 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 16
+      },
+      "ExternalPaymentTransactionStatus1Code": {
+        "description": "The current status of the payment resource.\n\nFor a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "ACTC",
+          "PATC",
+          "PDNG",
+          "RJCT",
+          "INFA",
+          "INCO",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP"
+        ]
+      },
+      "ExternalPaymentTransactionStatus2Code": {
+        "description": "Specifies the status of the payment order resource. \n\nFor a full list of values see `ExternalPaymentTransactionStatus2Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "PATC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
+      },
+      "ExternalPaymentTransactionStatus3Code": {
+        "description": "Specifies the status of the payment information group.\n\nFor a full list of values refer to `ExternalPaymentTransactionStatus3Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "PATC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
+      },
+      "ExternalPaymentTransactionStatus4Code": {
+        "description": "Specifies the status of the payment order resource.\n\nSee `ExternalPaymentTransactionStatus4Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets) for more information.\n",
+        "type": "string",
+        "enum": [
+          "PDNG",
+          "INFA",
+          "INCO"
+        ]
       }
     }
   }

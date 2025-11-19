@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Account and Transaction API Specification",
-    "description": "Swagger for Account and Transaction API Specification",
+    "description": "Swagger for Account and Transaction API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as as “Required” it is a Conditional field.\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -2717,7 +2717,7 @@
         }
       },
       "200AccountsAccountIdStatementsStatementIdFileRead": {
-        "description": "Statements Read",
+        "description": "Statements Read\n\nASPSP will specify all available content types\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3197,9 +3197,7 @@
             }
           },
           "ReferredDocumentAmount": {
-            "description": "Provides details on the amounts of the referred document.",
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
           },
           "CreditorReferenceInformation": {
             "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
@@ -4168,20 +4166,6 @@
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
           }
         }
-      },
-      "OBAddressTypeCode": {
-        "description": "Identifies the nature of the postal address.",
-        "type": "string",
-        "enum": [
-          "Business",
-          "Correspondence",
-          "DeliveryTo",
-          "MailTo",
-          "POBox",
-          "Postal",
-          "Residential",
-          "Statement"
-        ]
       },
       "OBAddressType2Code": {
         "description": "Identifies the nature of the postal address. <br /> For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
@@ -10392,15 +10376,7 @@
                 "$ref": "#/components/schemas/CreationDateTime"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "EXPD",
-                  "CANC"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -10471,6 +10447,17 @@
           }
         },
         "additionalProperties": false
+      },
+      "OBInternalConsentStatus1Code": {
+        "description": "Specifies the status of consent resource in code form.",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "CANC",
+          "EXPD"
+        ]
       },
       "OBReadDataStatement2": {
         "type": "object",
