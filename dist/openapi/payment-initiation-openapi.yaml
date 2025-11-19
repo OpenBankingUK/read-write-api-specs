@@ -53,6 +53,8 @@ paths:
           $ref: '#/components/responses/406Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -171,6 +173,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -293,6 +297,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -382,6 +388,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -507,6 +515,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -595,6 +605,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -720,6 +732,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -809,6 +823,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -896,6 +912,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -1055,6 +1073,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -1177,6 +1197,8 @@ paths:
           $ref: '#/components/responses/406Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -1303,6 +1325,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -1428,6 +1452,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -1554,6 +1580,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -1643,6 +1671,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -2979,6 +3009,31 @@ components:
           required: true
           schema:
             type: string
+    422Error:
+      description: Duplicate Idempotency key 
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+        x-jws-signature:
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
+          required: true
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
     429Error:
       description: Too Many Requests
       headers:
@@ -4345,9 +4400,7 @@ components:
           items:
             $ref: '#/components/schemas/OBReferredDocumentInformation'
         ReferredDocumentAmount:
-          description: 'Provides details on the amounts of the referred document.'
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         CreditorReferenceInformation:
           description: 'Reference information provided by the creditor to allow the identification of the underlying documents.'
           type: object
