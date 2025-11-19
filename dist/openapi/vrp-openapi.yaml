@@ -1463,21 +1463,7 @@ components:
               description: |
                 Date and time at which the resource was created.
             Status:
-              type: string
-              description: Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-              enum:
-                - RCVD
-                - RJCT
-                - PDNG
-                - ACTC
-                - ACCP
-                - ACFC
-                - ACSP
-                - ACWC
-                - ACSC
-                - ACWP
-                - ACCC
-                - BLCK
+              $ref: '#/components/schemas/ExternalPaymentTransactionStatus5Code'
             StatusReason:
               type: array
               items:
@@ -1553,22 +1539,7 @@ components:
                     description: |-
                       Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.
                   Status:
-                    type: string
-                    description: |-
-                      Status of a transfer, as assigned by the transaction administrator.
-                    enum:
-                      - RCVD
-                      - RJCT
-                      - PDNG
-                      - ACTC
-                      - ACCP
-                      - ACFC
-                      - ACSP
-                      - ACWC
-                      - ACSC
-                      - ACWP
-                      - ACCC
-                      - BLCK
+                    $ref: '#/components/schemas/ExternalPaymentTransactionStatus1Code'
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
@@ -1582,11 +1553,7 @@ components:
                       LocalInstrument:
                         $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                       Status:
-                        type: string
-                        minLength: 1
-                        maxLength: 128
-                        description: |-
-                          Status of a transfer, as assigned by the transaction administrator.
+                        $ref: '#/components/schemas/ExternalPaymentTransactionStatus1Code'
                       StatusReason:
                         type: string
                         description: |-
@@ -2822,6 +2789,50 @@ components:
       description: >-
         Meta Data relevant to the payload. At present no fields are used for
         VRP.
+    ExternalPaymentTransactionStatus1Code:
+      description: |
+        The current status of the payment resource.
+
+        For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* 
+        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      type: string
+      enum:
+        - CANC
+        - RCVD
+        - ACTC
+        - PATC
+        - PDNG
+        - RJCT
+        - INFA
+        - INCO
+        - ACCP
+        - ACFC
+        - ACSP
+        - ACWC
+        - ACSC
+        - BLCK
+        - ACCC
+        - ACWP
+    ExternalPaymentTransactionStatus5Code:
+      type: string
+      description: |
+        Specifies the status of the payment information group. 
+        
+        For a full list of values refer to `ExternalPaymentTransactionStatus5Code` in *OB_Internal_CodeSet* 
+        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
+      enum:
+        - RCVD
+        - PDNG
+        - ACTC
+        - ACCP
+        - ACFC
+        - ACSP
+        - ACWC
+        - ACSC
+        - BLCK
+        - ACCC
+        - ACWP
+        - RJCT
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2
