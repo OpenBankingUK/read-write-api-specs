@@ -26,6 +26,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
           application/json:
@@ -68,6 +69,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200FundsConfirmationConsentsConsentIdRead'
@@ -100,6 +102,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '204':
           $ref: '#/components/responses/204FundsConfirmationConsentsConsentIdDeleted'
@@ -132,6 +135,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
           application/json:
@@ -232,6 +236,52 @@ components:
       description: A detached JWS signature of the body of the payload.
       schema:
         type: string
+    x-client-id:
+      in: header
+      name: x-client-id
+      required: false
+      description: |
+                    Only used if an ASPSP requires the client ID in order to return rate limit headers. 
+                    
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    This header __must not__ be used for client authentication
+      schema:
+        type: string
+    RateLimit-Policy:
+      in: header
+      name: RateLimit-Policy
+      required: false
+      description: |
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.
+
+                    Example:
+                    RateLimit-Policy: "default";q=100;w=10
+
+                    The REQUIRED "q" parameter indicates the quota allocated by this policy measured in quota units.
+
+                    The OPTIONAL "w" parameter value conveys a time window.
+      schema:
+        type: string
+    RateLimit:
+      in: header
+      name: RateLimit
+      required: false
+      description: | 
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    A server uses the "RateLimit" response header field to communicate the current service limit for a quota policy for a particular partition key.
+
+                    Example:
+                    RateLimit: "default";r=50;t=30
+
+                    The REQUIRED “r” parameter value conveys the remaining quota units for the identified policy.
+
+                    The OPTIONAL “t” parameter value conveys the time window reset time for the identified policy.
+      schema:
+        type: string
   responses:
     201FundsConfirmationConsentsCreated:
       description: Funds Confirmation Consent Created
@@ -241,6 +291,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -259,6 +313,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -277,6 +335,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
     201FundsConfirmationsCreated:
       description: Funds Confirmation Created
       headers:
@@ -285,6 +347,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
