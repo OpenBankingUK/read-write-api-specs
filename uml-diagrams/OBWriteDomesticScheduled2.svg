@@ -648,9 +648,9 @@ Invoicer [0..1]
 </text>
 
 <text x="102em" y="76.4em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -747,6 +747,8 @@ Issuer [0..1]
 
 <text x="138.4em" y="83em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>
@@ -1335,7 +1337,13 @@ MerchantCustomerIdentification [0..1]
 
 <text x="28em" y="157.50000000000003em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the payment context, `OBInternalPaymentContext1Code`
+Description: Specifies the payment context, `OBInternalPaymentContext1Code`&lt;br&gt;
+The following values are deprecated and &lt;u&gt;**must not**&lt;/u&gt; be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:&lt;br&gt;
+* BillPayment - @deprecated
+* EcommerceGoods - @deprecated
+* EcommerceServices - @deprecated
+* PartyToParty - @deprecated
+* PispPayee - @deprecated
 
 Values:
  - BillingGoodsAndServicesInAdvance
@@ -1344,6 +1352,11 @@ Values:
  - FaceToFacePointOfSale
  - TransferToSelf
  - TransferToThirdParty
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - PartyToParty
+ - PispPayee
 </title>
 PaymentContextCode [0..1]
 </text>
@@ -1682,6 +1695,7 @@ Values:
  - DEPD
  - RETL
  - DEBT
+ - CRYP
 </title>
 PaymentPurposeCode [0..1]
 </text>

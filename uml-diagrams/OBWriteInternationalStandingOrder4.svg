@@ -66,7 +66,7 @@ CurrencyOfTransfer [1..1]
 <text x="54em" y="6.9em" fill="darkslateblue">
 <title>Type: string
 Description: Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).
-Pattern: [A-Z]{2,2}
+Pattern: ^[A-Z]{2,2}$
 </title>
 DestinationCountryCode [0..1]
 </text>
@@ -821,7 +821,7 @@ FirstPaymentDateTime [0..1]
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 MandateIdentification [0..1]
 </text>
@@ -863,7 +863,7 @@ CountPerPeriod [0..1]
 <text x="114em" y="85.39999999999999em" fill="darkslateblue">
 <title>Type: string
 MaxLength: 2
-Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerSide`
+Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerPeriod`.
 </title>
 PointInTime [0..1]
 </text>
@@ -1023,9 +1023,9 @@ Invoicer [0..1]
 </text>
 
 <text x="106em" y="116.89999999999999em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -1122,6 +1122,8 @@ Issuer [0..1]
 
 <text x="142.4em" y="123.49999999999999em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>
@@ -1710,7 +1712,13 @@ MerchantCustomerIdentification [0..1]
 
 <text x="35.2em" y="198.00000000000003em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the payment context, `OBInternalPaymentContext1Code`
+Description: Specifies the payment context, `OBInternalPaymentContext1Code`&lt;br&gt;
+The following values are deprecated and &lt;u&gt;**must not**&lt;/u&gt; be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:&lt;br&gt;
+* BillPayment - @deprecated
+* EcommerceGoods - @deprecated
+* EcommerceServices - @deprecated
+* PartyToParty - @deprecated
+* PispPayee - @deprecated
 
 Values:
  - BillingGoodsAndServicesInAdvance
@@ -1719,6 +1727,11 @@ Values:
  - FaceToFacePointOfSale
  - TransferToSelf
  - TransferToThirdParty
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - PartyToParty
+ - PispPayee
 </title>
 PaymentContextCode [0..1]
 </text>
@@ -2057,6 +2070,7 @@ Values:
  - DEPD
  - RETL
  - DEBT
+ - CRYP
 </title>
 PaymentPurposeCode [0..1]
 </text>
