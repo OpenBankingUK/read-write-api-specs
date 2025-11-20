@@ -10,7 +10,8 @@
 
 ### Changed
 
-- Standardized all regex patterns in YAML files to be surrounded by single quotes for robustness and consistency (#192)
+- Standardized all regex patterns in YAML files to be surrounded by single quotes and on a single line, for robustness,
+  reliability and consistency (#192)
 
 ### Removed
 
