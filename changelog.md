@@ -7,6 +7,7 @@
 - Added clarity to file endpoint descriptions regarding ASPSPs specifying available content types. Affects
   `200AccountsAccountIdStatementsStatementIdFileRead`, `200FilePaymentConsentsConsentIdFileRead`, and
   `200FilePaymentsFilePaymentIdReportFileRead` (#195)
+- Added a note to the top-level description of all swagger files about _conditional_ and _required_ fields.
 
 ### Changed
 
