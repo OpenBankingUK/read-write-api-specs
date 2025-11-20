@@ -8,6 +8,10 @@
   AIS `200AccountsAccountIdStatementsStatementIdFileRead`, `200FilePaymentConsentsConsentIdFileRead`, and
   `200FilePaymentsFilePaymentIdReportFileRead` (#195)
 
+### Removed
+
+- Remove legacy v3 artefact `OBAddressTypeCode` from Account Information (#202)
+
 ### Fixed
 
 - Fixed typo in `PointInTime` description from `CountPerSide` to `CountPerPeriod` in PIS (#194)
