@@ -16,6 +16,7 @@
   consent status code objects have been abstracted into re-usable referencable components. Changed codes are below:
   - Changed to `OBInternalConsentStatus2Code` in all PIS consents except File Payments
   - Changed to `OBInternalConsentStatus3Code` in only PIS File Payments consents
+- Remap `ReferredDocumentAmount` from `Int32` to `OBActiveCurrencyAndAmount_SimpleType` in AIS, PIS, & VRP (#205)
 
 ### Removed
 
