@@ -15,3 +15,4 @@
 ### Fixed
 
 - Fixed typo in `PointInTime` description from `CountPerSide` to `CountPerPeriod` in PIS (#194)
+- Corrected description wording for `OBMandateRelatedInformation1/MandateIdentification` in PIS (#203)
