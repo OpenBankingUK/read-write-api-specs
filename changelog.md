@@ -12,6 +12,10 @@
 
 - Standardized all regex patterns in YAML files to be surrounded by single quotes and on a single line, for robustness,
   reliability and consistency (#192)
+- Updated usages of `OBInternalConsentStatus1Code` in PIS to use domain-specific consent status codes (#204). Also, all 
+  consent status code objects have been abstracted into re-usable referencable components. Changed codes are below:
+  - Changed to `OBInternalConsentStatus2Code` in all PIS consents except File Payments
+  - Changed to `OBInternalConsentStatus3Code` in only PIS File Payments consents
 
 ### Removed
 
