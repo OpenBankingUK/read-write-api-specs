@@ -17,6 +17,13 @@
   - Changed to `OBInternalConsentStatus2Code` in all PIS consents except File Payments
   - Changed to `OBInternalConsentStatus3Code` in only PIS File Payments consents
 - Remap `ReferredDocumentAmount` from `Int32` to `OBActiveCurrencyAndAmount_SimpleType` in AIS, PIS, & VRP (#205)
+- Updated usages of `ExternalPaymentTransactionStatus1Code` for PIS and VRP to use re-usable endpoint-specific payment
+  status codes (#208). Codes changed:
+  - `ExternalPaymentTransactionStatus1Code` used in Domestic Standing Orders and International Standing Orders
+  - `ExternalPaymentTransactionStatus2Code` used in Domestic Scheduled Payments and International Scheduled Payments
+  - `ExternalPaymentTransactionStatus3Code` used in Domestic Payments and International Payments
+  - `ExternalPaymentTransactionStatus4Code` used in File Payments
+  - `ExternalPaymentTransactionStatus5Code` used in Domestic VRP
 
 ### Removed
 
