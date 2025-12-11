@@ -102,7 +102,7 @@ CurrencyOfTransfer [1..1]
 <text x="62.800000000000004em" y="13.5em" fill="darkslateblue">
 <title>Type: string
 Description: Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).
-Pattern: [A-Z]{2,2}
+Pattern: ^[A-Z]{2,2}$
 </title>
 DestinationCountryCode [0..1]
 </text>
@@ -127,7 +127,7 @@ Description: Specifies the purpose of an international payment, when there is no
 ExtendedPurpose [0..1]
 </text>
 
-<text x="62.800000000000004em" y="17.4em" fill="darkslateblue">
+<text x="62.800000000000004em" y="17.400000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -137,7 +137,7 @@ Usage: the  instruction identification is a point to point reference that can be
 InstructionIdentification [1..1]
 </text>
 
-<text x="62.800000000000004em" y="18.700000000000003em" fill="darkslateblue">
+<text x="62.800000000000004em" y="18.7em" fill="darkslateblue">
 <title>Type: string
 Description: Indicator of the urgency or order of importance that the instructing party would like the instructed party to apply to the processing of the instruction.
 Values:
@@ -190,7 +190,7 @@ Creditor
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -262,7 +262,7 @@ Description: The &#39;care of&#39; address is used whenever sending mail to a pe
 CareOf [0..1]
 </text>
 
-<text x="110em" y="17.4em" fill="darkslateblue">
+<text x="110em" y="17.400000000000002em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -270,7 +270,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="110em" y="18.700000000000003em" fill="darkslateblue">
+<text x="110em" y="18.7em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -306,7 +306,7 @@ Description: Number that identifies the level within a building
 Floor [0..1]
 </text>
 
-<text x="110em" y="23.9em" fill="darkslateblue">
+<text x="110em" y="23.900000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -315,7 +315,7 @@ Description: Information that locates and identifies a box in a post office assi
 PostBox [0..1]
 </text>
 
-<text x="110em" y="25.200000000000003em" fill="darkslateblue">
+<text x="110em" y="25.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -333,7 +333,7 @@ Description: Information that locates and identifies a room to form part of an a
 Room [0..1]
 </text>
 
-<text x="110em" y="27.800000000000004em" fill="darkslateblue">
+<text x="110em" y="27.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -351,7 +351,7 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="110em" y="30.4em" fill="darkslateblue">
+<text x="110em" y="30.400000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -491,7 +491,7 @@ CreditorAgent
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 Identification [0..1]
 </text>
@@ -501,7 +501,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1014,9 +1014,9 @@ Invoicer [0..1]
 </text>
 
 <text x="118em" y="119.60000000000001em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -1113,6 +1113,8 @@ Issuer [0..1]
 
 <text x="154.4em" y="126.2em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>
@@ -1160,7 +1162,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1382,7 +1384,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1744,7 +1746,13 @@ MerchantCustomerIdentification [0..1]
 
 <text x="37.6em" y="208.60000000000002em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the payment context, `OBInternalPaymentContext1Code`
+Description: Specifies the payment context, `OBInternalPaymentContext1Code`&lt;br&gt;
+The following values are deprecated and &lt;u&gt;**must not**&lt;/u&gt; be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:&lt;br&gt;
+* BillPayment - @deprecated
+* EcommerceGoods - @deprecated
+* EcommerceServices - @deprecated
+* PartyToParty - @deprecated
+* PispPayee - @deprecated
 
 Values:
  - BillingGoodsAndServicesInAdvance
@@ -1753,6 +1761,11 @@ Values:
  - FaceToFacePointOfSale
  - TransferToSelf
  - TransferToThirdParty
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - PartyToParty
+ - PispPayee
 </title>
 PaymentContextCode [0..1]
 </text>
@@ -2091,17 +2104,18 @@ Values:
  - DEPD
  - RETL
  - DEBT
+ - CRYP
 </title>
 PaymentPurposeCode [0..1]
 </text>
 
-<rect x="73.80000000000001em" y="197.5em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
-<text style="font-weight:bold" text-anchor="middle" x="83.80000000000001em" y="198.8em" fill="black">
+<rect x="73.8em" y="197.5em" width="20em" height="26.400000000000002em" fill="beige" stroke="black" stroke-width="2"/>
+<text style="font-weight:bold" text-anchor="middle" x="83.8em" y="198.8em" fill="black">
 <title>Information that locates and identifies a specific address, as defined by postal services.</title>
 DeliveryAddress
 </text>
 
-<text x="74.80000000000001em" y="200.8em" fill="darkslateblue">
+<text x="74.8em" y="200.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -2110,7 +2124,7 @@ Description: Information that locates and identifies a specific address, as defi
 AddressLine [0..7]
 </text>
 
-<text x="74.80000000000001em" y="202.10000000000002em" fill="darkslateblue">
+<text x="74.8em" y="202.10000000000002em" fill="darkslateblue">
 <title>Type: string
 Description: Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
 Values:
@@ -2126,7 +2140,7 @@ Values:
 AddressType [0..1]
 </text>
 
-<text x="74.80000000000001em" y="203.4em" fill="darkslateblue">
+<text x="74.8em" y="203.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -2135,7 +2149,7 @@ Description: Name of a referenced building.
 BuildingName [0..1]
 </text>
 
-<text x="74.80000000000001em" y="204.70000000000002em" fill="darkslateblue">
+<text x="74.8em" y="204.70000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -2144,7 +2158,7 @@ Description: Number that identifies the position of a building on a street.
 BuildingNumber [0..1]
 </text>
 
-<text x="74.80000000000001em" y="206em" fill="darkslateblue">
+<text x="74.8em" y="206em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -2153,7 +2167,7 @@ Description: The &#39;care of&#39; address is used whenever sending mail to a pe
 CareOf [0..1]
 </text>
 
-<text x="74.80000000000001em" y="207.3em" fill="darkslateblue">
+<text x="74.8em" y="207.3em" fill="darkslateblue">
 <title>Type: string
 Description: Nation with its own government.
 Pattern: ^[A-Z]{2,2}$
@@ -2161,7 +2175,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="74.80000000000001em" y="208.60000000000002em" fill="darkslateblue">
+<text x="74.8em" y="208.60000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -2170,7 +2184,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="74.80000000000001em" y="209.9em" fill="darkslateblue">
+<text x="74.8em" y="209.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -2179,7 +2193,7 @@ Description: Identification of a division of a large organisation or building.
 Department [0..1]
 </text>
 
-<text x="74.80000000000001em" y="211.20000000000002em" fill="darkslateblue">
+<text x="74.8em" y="211.20000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -2188,7 +2202,7 @@ Description: Number that of the regional area, known as a district, which forms 
 DistrictName [0..1]
 </text>
 
-<text x="74.80000000000001em" y="212.5em" fill="darkslateblue">
+<text x="74.8em" y="212.5em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -2197,7 +2211,7 @@ Description: Number that identifies the level within a building
 Floor [0..1]
 </text>
 
-<text x="74.80000000000001em" y="213.8em" fill="darkslateblue">
+<text x="74.8em" y="213.8em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -2206,7 +2220,7 @@ Description: Information that locates and identifies a box in a post office assi
 PostBox [0..1]
 </text>
 
-<text x="74.80000000000001em" y="215.10000000000002em" fill="darkslateblue">
+<text x="74.8em" y="215.10000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -2215,7 +2229,7 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="74.80000000000001em" y="216.4em" fill="darkslateblue">
+<text x="74.8em" y="216.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -2224,7 +2238,7 @@ Description: Information that locates and identifies a room to form part of an a
 Room [0..1]
 </text>
 
-<text x="74.80000000000001em" y="217.70000000000002em" fill="darkslateblue">
+<text x="74.8em" y="217.70000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -2233,7 +2247,7 @@ Description: Name of a street or thoroughfare.
 StreetName [0..1]
 </text>
 
-<text x="74.80000000000001em" y="219em" fill="darkslateblue">
+<text x="74.8em" y="219em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -2242,7 +2256,7 @@ Description: Identification of a sub-division of a large organisation or buildin
 SubDepartment [0..1]
 </text>
 
-<text x="74.80000000000001em" y="220.3em" fill="darkslateblue">
+<text x="74.8em" y="220.3em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -2251,7 +2265,7 @@ Description: Name of a built-up area, with defined boundaries, and a local gover
 TownLocationName [0..1]
 </text>
 
-<text x="74.80000000000001em" y="221.60000000000002em" fill="darkslateblue">
+<text x="74.8em" y="221.60000000000002em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -2260,7 +2274,7 @@ Description: Name of a built-up area, with defined boundaries, and a local gover
 TownName [0..1]
 </text>
 
-<text x="74.80000000000001em" y="222.9em" fill="darkslateblue">
+<text x="74.8em" y="222.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -2381,7 +2395,7 @@ UnitNumber [0..1]
 <line x1="32.6em" y1="2em" x2="32.6em" y2="198.5em" stroke="black" />
 <line x1="32.6em" y1="198.5em" x2="35.800000000000004em" y2="198.5em" stroke="black" marker-end="url(#Triangle)"/>
 <text x="33.1em" y="198em">1..1</text>
-<line x1="67.80000000000001em" y1="198.5em" x2="69.80000000000001em" y2="198.5em" stroke="black" marker-start="url(#Diamond)"/>
-<line x1="69.80000000000001em" y1="198.5em" x2="69.80000000000001em" y2="198.5em" stroke="black" />
-<line x1="69.80000000000001em" y1="198.5em" x2="73.00000000000001em" y2="198.5em" stroke="black" marker-end="url(#Triangle)"/>
-<text x="70.30000000000001em" y="198em">0..1</text></svg>
+<line x1="67.8em" y1="198.5em" x2="69.8em" y2="198.5em" stroke="black" marker-start="url(#Diamond)"/>
+<line x1="69.8em" y1="198.5em" x2="69.8em" y2="198.5em" stroke="black" />
+<line x1="69.8em" y1="198.5em" x2="73em" y2="198.5em" stroke="black" marker-end="url(#Triangle)"/>
+<text x="70.3em" y="198em">0..1</text></svg>

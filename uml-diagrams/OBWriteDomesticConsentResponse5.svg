@@ -87,9 +87,9 @@ Values:
 ReadRefundAccount [0..1]
 </text>
 
-<text x="32.8em" y="12.100000000000001em" fill="darkslateblue">
+<text x="32.8em" y="12.1em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - AWAU
  - RJCT
@@ -99,7 +99,7 @@ Values:
 Status [1..1]
 </text>
 
-<text x="32.8em" y="13.399999999999999em" fill="darkslateblue">
+<text x="32.8em" y="13.4em" fill="darkslateblue">
 <title>Type: string
 Format: date-time
 Description: Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. 
@@ -121,6 +121,7 @@ Description: Type of authorisation flow requested. For a full list of values ref
 Values:
  - Any
  - Single
+ - Multiple
 </title>
 AuthorisationType [1..1]
 </text>
@@ -202,7 +203,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -389,7 +390,7 @@ CreditorAgent
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 Identification [0..1]
 </text>
@@ -399,7 +400,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -488,7 +489,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="119.60000000000001em" y="45em" fill="darkslateblue">
+<text x="119.60000000000001em" y="44.99999999999999em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -533,7 +534,7 @@ Description: Information that locates and identifies a box in a post office assi
 PostBox [0..1]
 </text>
 
-<text x="119.60000000000001em" y="51.5em" fill="darkslateblue">
+<text x="119.60000000000001em" y="51.49999999999999em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -560,7 +561,7 @@ Description: Name of a street or thoroughfare.
 StreetName [0..1]
 </text>
 
-<text x="119.60000000000001em" y="55.39999999999999em" fill="darkslateblue">
+<text x="119.60000000000001em" y="55.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -1045,9 +1046,9 @@ Invoicer [0..1]
 </text>
 
 <text x="119.60000000000001em" y="127.5em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -1144,6 +1145,8 @@ Issuer [0..1]
 
 <text x="156em" y="134.1em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>
@@ -1191,7 +1194,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1413,7 +1416,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1883,7 +1886,13 @@ MerchantCustomerIdentification [0..1]
 
 <text x="32.8em" y="242.80000000000004em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the payment context, `OBInternalPaymentContext1Code`
+Description: Specifies the payment context, `OBInternalPaymentContext1Code`&lt;br&gt;
+The following values are deprecated and &lt;u&gt;**must not**&lt;/u&gt; be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:&lt;br&gt;
+* BillPayment - @deprecated
+* EcommerceGoods - @deprecated
+* EcommerceServices - @deprecated
+* PartyToParty - @deprecated
+* PispPayee - @deprecated
 
 Values:
  - BillingGoodsAndServicesInAdvance
@@ -1892,6 +1901,11 @@ Values:
  - FaceToFacePointOfSale
  - TransferToSelf
  - TransferToThirdParty
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - PartyToParty
+ - PispPayee
 </title>
 PaymentContextCode [0..1]
 </text>
@@ -2230,6 +2244,7 @@ Values:
  - DEPD
  - RETL
  - DEBT
+ - CRYP
 </title>
 PaymentPurposeCode [0..1]
 </text>
