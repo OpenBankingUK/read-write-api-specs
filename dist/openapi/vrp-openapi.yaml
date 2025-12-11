@@ -472,9 +472,9 @@ components:
           schema:
             type: string
         RateLimit-Policy:
-          $ref: '#/components/parameters/RateLimit-Policy'
+          $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
-          $ref: '#/components/parameters/RateLimit'
+          $ref: '#/components/headers/RateLimit'
     400Error:
       description: Bad request
       headers:
@@ -675,9 +675,9 @@ components:
             type: string
             example: 3.1.11
         RateLimit-Policy:
-          $ref: '#/components/parameters/RateLimit-Policy'
+          $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
-          $ref: '#/components/parameters/RateLimit'
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -704,9 +704,9 @@ components:
           schema:
             type: string
         RateLimit-Policy:
-          $ref: '#/components/parameters/RateLimit-Policy'
+          $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
-          $ref: '#/components/parameters/RateLimit'
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -733,9 +733,9 @@ components:
           schema:
             type: string
         RateLimit-Policy:
-          $ref: '#/components/parameters/RateLimit-Policy'
+          $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
-          $ref: '#/components/parameters/RateLimit'
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -762,9 +762,9 @@ components:
           schema:
             type: string
         RateLimit-Policy:
-          $ref: '#/components/parameters/RateLimit-Policy'
+          $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
-          $ref: '#/components/parameters/RateLimit'
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -871,38 +871,35 @@ components:
                     This header __must not__ be used for client authentication
       schema:
         type: string
+  headers:
     RateLimit-Policy:
-      in: header
-      name: RateLimit-Policy
       required: false
       description: |
-                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
-
-                    A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.
-
-                    Example:
-                    RateLimit-Policy: "default";q=100;w=10
-
-                    The REQUIRED "q" parameter indicates the quota allocated by this policy measured in quota units.
-
-                    The OPTIONAL "w" parameter value conveys a time window.
+        TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+        
+        A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.
+        
+        Example:
+        RateLimit-Policy: "default";q=100;w=10
+        
+        The REQUIRED "q" parameter indicates the quota allocated by this policy measured in quota units.
+        
+        The OPTIONAL "w" parameter value conveys a time window.
       schema:
         type: string
     RateLimit:
-      in: header
-      name: RateLimit
       required: false
-      description: | 
-                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
-
-                    A server uses the "RateLimit" response header field to communicate the current service limit for a quota policy for a particular partition key.
-
-                    Example:
-                    RateLimit: "default";r=50;t=30
-
-                    The REQUIRED “r” parameter value conveys the remaining quota units for the identified policy.
-
-                    The OPTIONAL “t” parameter value conveys the time window reset time for the identified policy.
+      description: |
+        TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+        
+        A server uses the "RateLimit" response header field to communicate the current service limit for a quota policy for a particular partition key.
+        
+        Example:
+        RateLimit: "default";r=50;t=30
+        
+        The REQUIRED “r” parameter value conveys the remaining quota units for the identified policy.
+        
+        The OPTIONAL “t” parameter value conveys the time window reset time for the identified policy.
       schema:
         type: string
   schemas:
@@ -2938,4 +2935,5 @@ components:
           authorizationUrl: https://authserver.example/authorization
           tokenUrl: https://authserver.example/token
           scopes:
+
             payments: Generic payment scope
