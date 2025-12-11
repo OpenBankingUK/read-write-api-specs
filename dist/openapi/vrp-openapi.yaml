@@ -3,8 +3,11 @@ servers:
   - url: /open-banking/v4.0/pisp
 info:
   title: OBL VRP Profile
-  description: VRP OpenAPI Specification
-  version: 4.0.0
+  description: |
+    VRP OpenAPI Specification.
+    
+    **Please Note**: There are no optional fields, if a field is not marked as as “Required” it is a Conditional field.
+  version: 4.0.1
   termsOfService: https://www.openbanking.org.uk/terms
   contact:
     name: Service Desk
@@ -31,6 +34,7 @@ paths:
         - $ref: '#/components/parameters/x-idempotency-key'
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '201':
           $ref: '#/components/responses/20xOBDomesticVRPConsentResponse'
@@ -48,6 +52,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -82,6 +88,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/20xOBDomesticVRPConsentResponse'
@@ -117,9 +124,15 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '204':
           description: delete successful
+          headers:
+            RateLimit-Policy:
+              $ref: '#/components/parameters/RateLimit-Policy'
+            RateLimit:
+              $ref: '#/components/parameters/RateLimit'
         '400':
           $ref: '#/components/responses/400Error'
         '401':
@@ -156,6 +169,7 @@ paths:
         - $ref: '#/components/parameters/x-idempotency-key'
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/20xOBDomesticVRPConsentResponse'
@@ -173,6 +187,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -210,6 +226,7 @@ paths:
         - $ref: '#/components/parameters/x-idempotency-key'
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/20xOBDomesticVRPConsentResponse'
@@ -227,6 +244,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -235,9 +254,33 @@ paths:
         content:
           application/json-patch+json:
             schema:
-              type: string
-              format: Array of patch operations
-        description: Default
+              type: array
+              items:
+                type: object
+                required:
+                  - op
+                  - path
+                properties:
+                  op:
+                    type: string
+                    description: The operation to perform
+                    enum:
+                      - add
+                      - remove
+                      - replace
+                      - move
+                      - copy
+                      - test
+                  path:
+                    type: string
+                    description: The path to the element to operate on as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  from:
+                    type: string
+                    description: The path to move or copy from as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)
+                  value:
+                    description: The value to add, replace, or test against. This may be a single string or an array of strings
+                additionalProperties: false
+        description: Array of Patch Operations as defined in [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902)
         required: true
       security:
         - TPPOAuth2Security:
@@ -257,6 +300,7 @@ paths:
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '201':
           $ref: '#/components/responses/201OBDomesticVRPFundsConfirmationResponse'
@@ -308,6 +352,7 @@ paths:
         - $ref: '#/components/parameters/x-customer-user-agent'
         - $ref: '#/components/parameters/x-idempotency-key'
         - $ref: '#/components/parameters/payload-version'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '201':
           $ref: '#/components/responses/20xOBDomesticVRPResponse'
@@ -325,6 +370,8 @@ paths:
           $ref: '#/components/responses/409Error'
         '415':
           $ref: '#/components/responses/415Error'
+        '422':
+          $ref: '#/components/responses/422Error'
         '429':
           $ref: '#/components/responses/429Error'
         '500':
@@ -359,6 +406,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/20xOBDomesticVRPResponse'
@@ -395,6 +443,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/20xOBDomesticVRPRequestDetailResponse'
@@ -526,6 +575,31 @@ components:
           required: true
           schema:
             type: string
+    422Error:
+      description: Duplicate Idempotency key
+      headers:
+        x-fapi-interaction-id:
+          description: An RFC4122 UID used as a correlation id.
+          required: true
+          schema:
+            type: string
+        x-jws-signature:
+          description: >-
+            Header containing a detached JWS signature of the body of the
+            payload.
+          required: true
+          schema:
+            type: string
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
+        application/jose+jwe:
+          schema:
+            $ref: '#/components/schemas/OBErrorResponse1'
     429Error:
       description: Too Many Requests
       headers:
@@ -585,6 +659,10 @@ components:
           schema:
             type: string
             example: 3.1.11
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -610,6 +688,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -635,6 +717,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -660,6 +746,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -719,10 +809,7 @@ components:
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -740,7 +827,7 @@ components:
       schema:
         type: string
         maxLength: 40
-        pattern: ^(?!\s)(.*)(\S)$
+        pattern: '^(?!\s)(.*)(\S)$'
     x-jws-signature:
       in: header
       name: x-jws-signature
@@ -757,7 +844,102 @@ components:
       schema:
         type: string
         example: 3.1.11
+    x-client-id:
+      in: header
+      name: x-client-id
+      required: false
+      description: |
+                    Only used if an ASPSP requires the client ID in order to return rate limit headers. 
+                    
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    This header __must not__ be used for client authentication
+      schema:
+        type: string
+    RateLimit-Policy:
+      in: header
+      name: RateLimit-Policy
+      required: false
+      description: |
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.
+
+                    Example:
+                    RateLimit-Policy: "default";q=100;w=10
+
+                    The REQUIRED "q" parameter indicates the quota allocated by this policy measured in quota units.
+
+                    The OPTIONAL "w" parameter value conveys a time window.
+      schema:
+        type: string
+    RateLimit:
+      in: header
+      name: RateLimit
+      required: false
+      description: | 
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    A server uses the "RateLimit" response header field to communicate the current service limit for a quota policy for a particular partition key.
+
+                    Example:
+                    RateLimit: "default";r=50;t=30
+
+                    The REQUIRED “r” parameter value conveys the remaining quota units for the identified policy.
+
+                    The OPTIONAL “t” parameter value conveys the time window reset time for the identified policy.
+      schema:
+        type: string
   schemas:
+    OBDomesticRefundAccount1:
+      description: "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction."
+      type: object
+      additionalProperties: false
+      required:
+        - Account
+      properties:
+        Account:
+          type: object
+          additionalProperties: false
+          required:
+            - SchemeName
+            - Identification
+            - Name
+          description: Provides the details to identify an account.
+          properties:
+            SchemeName:
+              $ref: >-
+                #/components/schemas/OBInternalAccountIdentification4Code
+            Identification:
+              $ref: '#/components/schemas/Identification_0'
+            Name:
+              description: >-
+                Name of the account, as assigned by the account
+                servicing institution.
+
+                Usage: The account name is the name or names of the
+                account owner(s) represented at an account level. The
+                account name is not the product name or the nickname of
+                the account.
+
+                OB: ASPSPs may carry out name validation for
+                Confirmation of Payee, but it is not mandatory.
+              type: string
+              minLength: 1
+              maxLength: 350
+            SecondaryIdentification:
+              $ref: '#/components/schemas/SecondaryIdentification'
+    SecondaryIdentification:
+      description: >-
+        This is secondary identification of the account, as assigned by the
+        account servicing institution. 
+
+        This can be used by building societies to additionally identify accounts
+        with a roll number (in addition to a sort code and account number
+        combination).
+      type: string
+      minLength: 1
+      maxLength: 34
     OBUltimateCreditor1:
       description: Ultimate party to which an amount of money is due.
       type: object
@@ -808,8 +990,10 @@ components:
         Legal Entity Identifier is a code allocated to a party as described in
         ISO 17442 "Financial Services - Legal Entity Identifier (LEI)".
       type: string
+      example: IZ9Q00LZEVUKWCQY6X15
       minLength: 1
       maxLength: 20
+      pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
     Name_1:
       description: >-
         Name by which an agent is known and which is usually used to identify
@@ -953,8 +1137,6 @@ components:
       required:
         - Data
         - Risk
-        - Links
-        - Meta
       properties:
         Data:
           type: object
@@ -987,16 +1169,7 @@ components:
               description: |
                 Date and time at which the resource was created.
             Status:
-              description: >-
-                Specifies the status of consent resource in code form. AWAU and
-                RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-              type: string
-              enum:
-                - AWAU
-                - RJCT
-                - AUTH
-                - CANC
-                - EXPD
+              $ref: '#/components/schemas/OBInternalConsentStatus1Code'
             StatusReason:
               type: array
               items:
@@ -1021,6 +1194,17 @@ components:
           $ref: '#/components/schemas/Links'
         Meta:
           $ref: '#/components/schemas/Meta'
+    OBInternalConsentStatus1Code:
+      description: >-
+        Specifies the status of consent resource in code form. AWAU and
+        RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      type: string
+      enum:
+        - AWAU
+        - RJCT
+        - AUTH
+        - CANC
+        - EXPD
     OBDomesticVRPConsentRequest:
       type: object
       required:
@@ -1147,7 +1331,6 @@ components:
       required:
         - SchemeName
         - Identification
-        - Name
       properties:
         SchemeName:
           $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
@@ -1161,7 +1344,7 @@ components:
         Name:
           type: string
           minLength: 1
-          maxLength: 70
+          maxLength: 350
           description: >-
             ^ Name of the account, as assigned by the account servicing
             institution.  Usage The account name is the name or names of the
@@ -1265,8 +1448,6 @@ components:
       required:
         - Data
         - Risk
-        - Links
-        - Meta
       properties:
         Data:
           type: object
@@ -1302,22 +1483,7 @@ components:
               description: |
                 Date and time at which the resource was created.
             Status:
-              type: string
-              description: Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-              enum:
-                - RCVD
-                - RJCT
-                - CANC
-                - PDNG
-                - ACTC
-                - ACCP
-                - ACFC
-                - ACSP
-                - ACWC
-                - ACSC
-                - ACWP
-                - ACCC
-                - BLCK
+              $ref: '#/components/schemas/ExternalPaymentTransactionStatus5Code'
             StatusReason:
               type: array
               items:
@@ -1338,7 +1504,7 @@ components:
               description: |
                 Expected settlement date and time for the payment resource.
             Refund:
-              $ref: '#/components/schemas/OBCashAccountDebtorWithName'
+              $ref: '#/components/schemas/OBDomesticRefundAccount1'
             Charges:
               type: array
               items:
@@ -1393,23 +1559,7 @@ components:
                     description: |-
                       Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.
                   Status:
-                    type: string
-                    description: |-
-                      Status of a transfer, as assigned by the transaction administrator.
-                    enum:
-                      - RCVD
-                      - RJCT
-                      - CANC
-                      - PDNG
-                      - ACTC
-                      - ACCP
-                      - ACFC
-                      - ACSP
-                      - ACWC
-                      - ACSC
-                      - ACWP
-                      - ACCC
-                      - BLCK
+                    $ref: '#/components/schemas/ExternalPaymentTransactionStatus1Code'
                   StatusUpdateDateTime:
                     type: string
                     format: date-time
@@ -1423,11 +1573,7 @@ components:
                       LocalInstrument:
                         $ref: '#/components/schemas/OBInternalLocalInstrument1Code'
                       Status:
-                        type: string
-                        minLength: 1
-                        maxLength: 128
-                        description: |-
-                          Status of a transfer, as assigned by the transaction administrator.
+                        $ref: '#/components/schemas/ExternalPaymentTransactionStatus1Code'
                       StatusReason:
                         type: string
                         description: |-
@@ -1706,6 +1852,33 @@ components:
           type: array
           items:
             type: string
+            minLength: 1
+            maxLength: 2048
+    OBVRPRemittanceInformation:
+      type: object
+      description: >-
+        Information supplied to enable the matching of an entry with the items
+        that the transfer is intended to settle, such as commercial invoices in
+        an accounts' receivable system.
+      properties:
+        Code:
+          $ref: '#/components/schemas/ExternalDocumentType1Code'
+        Issuer:
+          type: string
+          maxLength: 140
+          minLength: 1
+        Number:
+          type: string
+          maxLength: 140
+          minLength: 1
+        RelatedDate:
+          $ref: '#/components/schemas/ISODateTime'
+        LineDetails:
+          type: array
+          items:
+            type: string
+            maxLength: 256
+            minLength: 1
     OBRemittanceInformation2:
       type: object
       description: >-
@@ -1737,8 +1910,7 @@ components:
           items:
             $ref: '#/components/schemas/OBReferredDocumentInformation'
         ReferredDocumentAmount:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         CreditorReferenceInformation:
           description: Reference information provided by the creditor to allow the identification of the underlying documents.
           type: object
@@ -1860,14 +2032,14 @@ components:
       type: string
       minLength: 3
       maxLength: 3
-      pattern: ^[A-Z]{3,3}$
+      pattern: '^[A-Z]{3,3}$'
       description: >-
         A code allocated to a currency by a Maintenance Agency under an
         international identification scheme, as described in the latest edition
         of the international standard ISO 4217 "Codes for the representation of
         currencies and funds".
     OBActiveCurrencyAndAmount_SimpleType:
-      pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+      pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
       type: string
       description: >-
         A number of monetary units specified in an active currency where the
@@ -2213,6 +2385,7 @@ components:
         - DEPD
         - RETL
         - DEBT
+        - CRYP
     ISODateTime:
       description: >-
         All dates in the JSON payloads are represented in ISO 8601 date-time
@@ -2462,7 +2635,7 @@ components:
       description: Identifies a subdivision of a country such as state, region, county.
     CountryCode:
       type: string
-      pattern: ^[A-Z]{2,2}$
+      pattern: '^[A-Z]{2,2}$'
       description: Nation with its own government.
     OBVRPConsentType:
       type: string
@@ -2490,7 +2663,13 @@ components:
         PaymentContextCode:
           type: string
           description: |
-            Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+            Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br>
+            The following values are deprecated and can only be used to make a payment on an existing v3 consent which used one of the deprecated values and has been migrated to v4. They <u>**must not**</u> be used in a new consent. They may optionally be returned for a historical payment/consent migrated to v4:<br>
+            * BillPayment - @deprecated
+            * EcommerceGoods - @deprecated
+            * EcommerceServices - @deprecated
+            * PartyToParty - @deprecated
+            * PispPayee - @deprecated
           enum:
             - BillingGoodsAndServicesInAdvance
             - BillingGoodsAndServicesInArrears
@@ -2498,6 +2677,12 @@ components:
             - FaceToFacePointOfSale
             - TransferToSelf
             - TransferToThirdParty
+            # deprecated values
+            - BillPayment
+            - EcommerceGoods
+            - EcommerceServices
+            - PartyToParty
+            - PispPayee
         MerchantCategoryCode:
           type: string
           minLength: 3
@@ -2556,6 +2741,50 @@ components:
       description: >-
         Meta Data relevant to the payload. At present no fields are used for
         VRP.
+    ExternalPaymentTransactionStatus1Code:
+      description: |
+        The current status of the payment resource.
+
+        For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* 
+        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      type: string
+      enum:
+        - CANC
+        - RCVD
+        - ACTC
+        - PATC
+        - PDNG
+        - RJCT
+        - INFA
+        - INCO
+        - ACCP
+        - ACFC
+        - ACSP
+        - ACWC
+        - ACSC
+        - BLCK
+        - ACCC
+        - ACWP
+    ExternalPaymentTransactionStatus5Code:
+      type: string
+      description: |
+        Specifies the status of the payment information group. 
+        
+        For a full list of values refer to `ExternalPaymentTransactionStatus5Code` in *OB_Internal_CodeSet* 
+        [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).
+      enum:
+        - RCVD
+        - PDNG
+        - ACTC
+        - ACCP
+        - ACFC
+        - ACSP
+        - ACWC
+        - ACSC
+        - BLCK
+        - ACCC
+        - ACWP
+        - RJCT
   securitySchemes:
     TPPOAuth2Security:
       type: oauth2

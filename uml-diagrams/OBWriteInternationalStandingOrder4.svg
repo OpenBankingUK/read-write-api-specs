@@ -66,7 +66,7 @@ CurrencyOfTransfer [1..1]
 <text x="54em" y="6.9em" fill="darkslateblue">
 <title>Type: string
 Description: Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).
-Pattern: [A-Z]{2,2}
+Pattern: ^[A-Z]{2,2}$
 </title>
 DestinationCountryCode [0..1]
 </text>
@@ -100,7 +100,7 @@ Creditor
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -180,7 +180,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="98em" y="12.100000000000001em" fill="darkslateblue">
+<text x="98em" y="12.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -189,7 +189,7 @@ Description: Identifies a subdivision of a country such as state, region, county
 CountrySubDivision [0..1]
 </text>
 
-<text x="98em" y="13.399999999999999em" fill="darkslateblue">
+<text x="98em" y="13.4em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -234,7 +234,7 @@ Description: Identifier consisting of a group of letters and/or numbers that is 
 PostCode [0..1]
 </text>
 
-<text x="98em" y="19.900000000000002em" fill="darkslateblue">
+<text x="98em" y="19.9em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -243,7 +243,7 @@ Description: Information that locates and identifies a room to form part of an a
 Room [0..1]
 </text>
 
-<text x="98em" y="21.200000000000003em" fill="darkslateblue">
+<text x="98em" y="21.2em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 140
@@ -412,7 +412,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -501,7 +501,7 @@ Pattern: ^[A-Z]{2,2}$
 Country [0..1]
 </text>
 
-<text x="106em" y="48.7em" fill="darkslateblue">
+<text x="106em" y="48.699999999999996em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 35
@@ -546,7 +546,7 @@ Description: Information that locates and identifies a box in a post office assi
 PostBox [0..1]
 </text>
 
-<text x="106em" y="55.2em" fill="darkslateblue">
+<text x="106em" y="55.199999999999996em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 16
@@ -573,7 +573,7 @@ Description: Name of a street or thoroughfare.
 StreetName [0..1]
 </text>
 
-<text x="106em" y="59.099999999999994em" fill="darkslateblue">
+<text x="106em" y="59.1em" fill="darkslateblue">
 <title>Type: string
 MinLength: 1
 MaxLength: 70
@@ -821,7 +821,7 @@ FirstPaymentDateTime [0..1]
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 MandateIdentification [0..1]
 </text>
@@ -863,7 +863,7 @@ CountPerPeriod [0..1]
 <text x="114em" y="85.39999999999999em" fill="darkslateblue">
 <title>Type: string
 MaxLength: 2
-Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerSide`
+Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerPeriod`.
 </title>
 PointInTime [0..1]
 </text>
@@ -1023,9 +1023,9 @@ Invoicer [0..1]
 </text>
 
 <text x="106em" y="116.89999999999999em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -1122,6 +1122,8 @@ Issuer [0..1]
 
 <text x="142.4em" y="123.49999999999999em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>
@@ -1169,7 +1171,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1391,7 +1393,7 @@ Identification [0..1]
 MinLength: 1
 MaxLength: 20
 Description: Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 &#34;Financial Services - Legal Entity Identifier (LEI)&#34;.
-Pattern: ^[0-9]{4}[0]{2}[A-Z0-9]{12}[0-9]{2}
+Pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
 </title>
 LEI [0..1]
 </text>
@@ -1710,7 +1712,13 @@ MerchantCustomerIdentification [0..1]
 
 <text x="35.2em" y="198.00000000000003em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the payment context, `OBInternalPaymentContext1Code`
+Description: Specifies the payment context, `OBInternalPaymentContext1Code`&lt;br&gt;
+The following values are deprecated and &lt;u&gt;**must not**&lt;/u&gt; be used in a new consent or payment. They may optionally be returned for a hstorical payment/consent migrated to v4:&lt;br&gt;
+* BillPayment - @deprecated
+* EcommerceGoods - @deprecated
+* EcommerceServices - @deprecated
+* PartyToParty - @deprecated
+* PispPayee - @deprecated
 
 Values:
  - BillingGoodsAndServicesInAdvance
@@ -1719,6 +1727,11 @@ Values:
  - FaceToFacePointOfSale
  - TransferToSelf
  - TransferToThirdParty
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - PartyToParty
+ - PispPayee
 </title>
 PaymentContextCode [0..1]
 </text>
@@ -2057,6 +2070,7 @@ Values:
  - DEPD
  - RETL
  - DEBT
+ - CRYP
 </title>
 PaymentPurposeCode [0..1]
 </text>

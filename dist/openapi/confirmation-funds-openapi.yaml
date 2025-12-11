@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   title: Confirmation of Funds API Specification
-  description: Swagger for Confirmation of Funds API Specification
+  description: |
+    Swagger for Confirmation of Funds API Specification.
+    
+    **Please Note**: There are no optional fields, if a field is not marked as as “Required” it is a Conditional field.
   termsOfService: https://www.openbanking.org.uk/terms
   contact:
     name: Service Desk
@@ -9,7 +12,7 @@ info:
   license:
     name: open-licence
     url: https://www.openbanking.org.uk/open-licence
-  version: 4.0.0
+  version: 4.0.1
 paths:
   /funds-confirmation-consents:
     post:
@@ -23,6 +26,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
           application/json:
@@ -65,6 +69,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200FundsConfirmationConsentsConsentIdRead'
@@ -97,6 +102,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '204':
           $ref: '#/components/responses/204FundsConfirmationConsentsConsentIdDeleted'
@@ -129,6 +135,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
           application/json:
@@ -203,10 +210,7 @@ components:
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -224,12 +228,58 @@ components:
       schema:
         type: string
         maxLength: 40
-        pattern: ^(?!\s)(.*)(\S)$
+        pattern: '^(?!\s)(.*)(\S)$'
     x-jws-signature:
       in: header
       name: x-jws-signature
       required: true
       description: A detached JWS signature of the body of the payload.
+      schema:
+        type: string
+    x-client-id:
+      in: header
+      name: x-client-id
+      required: false
+      description: |
+                    Only used if an ASPSP requires the client ID in order to return rate limit headers. 
+                    
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    This header __must not__ be used for client authentication
+      schema:
+        type: string
+    RateLimit-Policy:
+      in: header
+      name: RateLimit-Policy
+      required: false
+      description: |
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.
+
+                    Example:
+                    RateLimit-Policy: "default";q=100;w=10
+
+                    The REQUIRED "q" parameter indicates the quota allocated by this policy measured in quota units.
+
+                    The OPTIONAL "w" parameter value conveys a time window.
+      schema:
+        type: string
+    RateLimit:
+      in: header
+      name: RateLimit
+      required: false
+      description: | 
+                    TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+                    A server uses the "RateLimit" response header field to communicate the current service limit for a quota policy for a particular partition key.
+
+                    Example:
+                    RateLimit: "default";r=50;t=30
+
+                    The REQUIRED “r” parameter value conveys the remaining quota units for the identified policy.
+
+                    The OPTIONAL “t” parameter value conveys the time window reset time for the identified policy.
       schema:
         type: string
   responses:
@@ -241,6 +291,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -259,6 +313,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -277,6 +335,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
     201FundsConfirmationsCreated:
       description: Funds Confirmation Created
       headers:
@@ -285,6 +347,10 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/parameters/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/parameters/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -616,7 +682,7 @@ components:
                     where the unit of currency is explicit and compliant with
                     ISO 4217.
                   type: string
-                  pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+                  pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
                 Currency:
                   description: >-
                     A code allocated to a currency by a Maintenance Agency under
@@ -624,7 +690,7 @@ components:
                     latest edition of the international standard ISO 4217 "Codes
                     for the representation of currencies and funds".
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
       additionalProperties: false
     OBFundsConfirmationConsent1:
       type: object
@@ -733,14 +799,7 @@ components:
               type: string
               format: date-time
             Status:
-              description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
-              type: string
-              enum:
-                - AWAU
-                - RJCT
-                - AUTH
-                - CANC
-                - EXPD
+              $ref: '#/components/schemas/OBInternalConsentStatus1Code'
             StatusReason:
               type: array
               items:
@@ -829,6 +888,15 @@ components:
         Meta:
           $ref: '#/components/schemas/Meta'
       additionalProperties: false
+    OBInternalConsentStatus1Code:
+      description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      type: string
+      enum:
+        - AWAU
+        - RJCT
+        - AUTH
+        - CANC
+        - EXPD
     OBFundsConfirmationResponse1:
       type: object
       required:
@@ -894,7 +962,7 @@ components:
                     where the unit of currency is explicit and compliant with
                     ISO 4217.
                   type: string
-                  pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+                  pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
                 Currency:
                   description: >-
                     A code allocated to a currency by a Maintenance Agency under
@@ -902,7 +970,7 @@ components:
                     latest edition of the international standard ISO 4217 "Codes
                     for the representation of currencies and funds".
                   type: string
-                  pattern: ^[A-Z]{3,3}$
+                  pattern: '^[A-Z]{3,3}$'
         Links:
           $ref: '#/components/schemas/Links'
         Meta:
