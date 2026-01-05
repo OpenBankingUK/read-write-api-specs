@@ -1,6 +1,16 @@
 # Changelog
 
-## v4.0.1 - 2025-11-20
+## v4.0.1 Release Candidate 1 - 2026-01-05
+
+### Added
+
+- Added `NONE` to `OBFrequency2` in AIS
+
+### Removed
+
+- Removed duplicate `WEEK` from `OBFrequency6Code` in PIS
+
+## v4.0.1 Draft 1 - 2025-11-20
 
 ### Added
 
@@ -26,7 +36,6 @@
   - They may optionally be returned for a historical payment or consent migrated to v4 when using a `GET` request.
 - `OBDomesticRefundAccount1` class definition added to the Payment Initiation and VRP OpenAPI files.
 - `HTTP 422` has been added as a response code - this should be used when a duplicate Idempotency code is submitted.
-- Added `NONE` to `OBFrequency2` in AIS
 
 ### Changed
 
@@ -55,7 +64,6 @@
 - Remove legacy v3 artefact `OBAddressTypeCode` from Account Information (#202)
 - Removed `x-fapi-financial-id` from the Event Notifications OpenAPI file.
 - `CANC` removed from VRP payment status enum list
-- Removed duplicate `WEEK` from `OBFrequency6Code` in PIS
 
 ### Fixed
 
