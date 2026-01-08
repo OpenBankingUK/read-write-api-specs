@@ -1,6 +1,6 @@
 # Changelog
 
-## v4.0.1 Release Candidate 2 - 
+## v4.0.1 Release Candidate 2 - Date TBC
 
 - Added `LWMH`, `LXMH`, & `TWYR` to `OBFrequency6Code` in AIS and PIS
 - Added `SLCT` to `OBFrequency2` in AIS
