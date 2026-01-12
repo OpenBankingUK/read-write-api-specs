@@ -2,8 +2,14 @@
 
 ## v4.0.1 Release Candidate 2 - Date TBC
 
+### Added
+
 - Added `LWMH`, `LXMH`, & `TWYR` to `OBFrequency6Code` in AIS and PIS
 - Added `SLCT` to `OBFrequency2` in AIS
+
+### Changed
+
+- Updated example value in Error responses from `AC17` to `U001` in AIS and Events
 
 ## v4.0.1 Release Candidate 1 - 2026-01-05
 
