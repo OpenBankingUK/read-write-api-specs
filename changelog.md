@@ -10,6 +10,11 @@
 ### Changed
 
 - Updated example value in Error responses from `AC17` to `U001` in AIS and Events
+- `OBExternalStatementInterestRateType1Code` updated to `OBInternalStatementInterestRateType1Code`
+
+### Fixed
+
+- `StatementInterest/RateType` updated from `OBInternalStatementInterestType1Code` to `OBInternalStatementInterestRateType1Code`
 
 ## v4.0.1 Release Candidate 1 - 2026-01-05
 
