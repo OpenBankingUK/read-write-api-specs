@@ -1,6 +1,6 @@
 # Changelog
 
-## v4.0.1 Release Candidate 2 - Date TBC
+## v4.0.1 Release Candidate 2 - 2026-02-04
 
 ### Added
 
