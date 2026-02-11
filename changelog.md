@@ -1,5 +1,16 @@
 # Changelog
 
+
+## Unreleased
+
+### Fixed
+
+- [CDRW-4136] Updated description of `OBExternalStatusReason1Code` to point to correct codeset name in AIS, PIS, CBPII, Events and VRP.
+
+### Changed
+
+- [CDRW-4136] Updated `ErrorCode` $ref in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
+
 ## v4.0.1 Release Candidate 2 - 2026-02-04
 
 ### Added
