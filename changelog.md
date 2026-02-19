@@ -10,6 +10,7 @@
 ### Changed
 
 - [CDRW-4136] Updated `ErrorCode` $ref in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
+- [CDRW-4960] Updated endpoint summary descriptions to align to usage
 
 ## v4.0.1 Release Candidate 2 - 2026-02-04
 
