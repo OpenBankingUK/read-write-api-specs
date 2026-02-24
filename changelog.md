@@ -10,6 +10,7 @@
 
 - [CDRW-4136] Updated `ErrorCode` $ref in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
 - [CDRW-4960] Updated endpoint summary descriptions and tags to align to usage.  This has resulted in `Payment Details` endpoints now being categorised and listed with their payment type.
+- Improved description formatting for `RateLimit-Policy`, `RateLimit`, and `x-client-id`
 
 ## v4.0.1 Release Candidate 2 - 2026-02-04
 
@@ -17,7 +18,7 @@
 
 - Added `LWMH`, `LXMH`, & `TWYR` to `OBFrequency6Code` in AIS and PIS
 - Added `SLCT` to `OBFrequency2` in AIS
-- Added example values to `fromBookingDateTime`, `toBookingDateTime`, `fromStatementDateTime` and `toStatementDateTime`.
+- Added example values to `fromBookingDateTime`, `toBookingDateTime`, `fromStatementDateTime` and `toStatementDateTime`, to match spec pages formatting.
 
 ### Changed
 
