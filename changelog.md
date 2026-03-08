@@ -67,8 +67,7 @@
   - This is used in `OBReadTransaction6/Data/Transaction`
   - Returning these fields requires use of the `ReadTransactionDetail` permission
 - [v40_KI25] Deprecated `PaymentContextCode` values have been reintroduced to VRP and PIS OpenAPI files.
-  - For the avoidance of doubt - these values __must not__ be accepted in a new consent and may only be accepted for 
-    payment against a v3 VRP consent migrated to v4.
+  - For the avoidance of doubt - these values **must not** be accepted in a new consent and may only be accepted for payment against a v3 VRP consent migrated to v4.
   - They may optionally be returned for a historical payment or consent migrated to v4 when using a `GET` request.
 - [v40_KI7] `OBDomesticRefundAccount1` class definition added to the Payment Initiation and VRP OpenAPI files.
 - [CDRW-5013] `HTTP 422` has been added as a response code - this should be used when a duplicate Idempotency code is submitted.
