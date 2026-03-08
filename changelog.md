@@ -5,6 +5,15 @@
 ### Fixed
 
 - [CDRW-4136] Updated description of `OBExternalStatusReason1Code` to point to correct codeset name in AIS, PIS, CBPII, Events and VRP.
+- [CDRW-5043] Corrected typos and improved description clarity across all OpenAPI specification files:
+  - Fixed double word "as as" to "as" in top-level description
+  - Corrected "dentification" to "Identification" in multiple field descriptions
+  - Fixed article usage: "an rate" to "a rate", "an servicing" to "a servicing", "an Callback" to "a Callback"
+  - Fixed spelling errors: "crebit" to "credit", "memebership" to "membership", "statments" to "statements", "reefer" to "refer", "lust" to "list"
+  - Corrected GitHub URL typo: "External_Interal_CodeSets" to "External_Internal_CodeSets"
+  - Fixed whitespace artifacts in descriptions (removed escaped underscores)
+  - Improved grammar: "AWAU and RJCT only can returned" to "Only AWAU and RJCT can be returned"
+  - Clarified wording: "can not" to "cannot", "this include" to "this includes"
 
 ### Changed
 
