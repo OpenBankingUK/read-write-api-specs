@@ -5,6 +5,15 @@
 ### Fixed
 
 - [CDRW-4136] Updated description of `OBExternalStatusReason1Code` to point to correct codeset name in AIS, PIS, CBPII, Events and VRP.
+- [CDRW-5043] Corrected typos and improved description clarity across all OpenAPI specification files:
+  - Fixed double word "as as" to "as" in top-level description (AIS, CBPII, Events, PIS, VRP)
+  - Corrected "dentification" to "Identification" in multiple field descriptions (AIS)
+  - Fixed article usage: "an rate" to "a rate" (AIS), "an servicing" to "a servicing" (AIS, PIS, VRP), and "an Callback" to "a Callback" (Events)
+  - Fixed spelling errors: "crebit" to "credit" (AIS), "memebership" to "membership" (AIS), "statments" to "statements" (AIS), "reefer" to "refer" (PIS), "lust" to "list" (VRP)
+  - Corrected GitHub URL typo: "External_Interal_CodeSets" to "External_Internal_CodeSets" (Events)
+  - Fixed whitespace artifacts in descriptions (removed escaped underscores) (Events)
+  - Improved grammar: "AWAU and RJCT only can returned" to "Only AWAU and RJCT can be returned" (VRP)
+  - Clarified wording: "can not" to "cannot" (VRP), "this include" to "this includes" (VRP)
 
 ### Changed
 
@@ -58,8 +67,7 @@
   - This is used in `OBReadTransaction6/Data/Transaction`
   - Returning these fields requires use of the `ReadTransactionDetail` permission
 - [v40_KI25] Deprecated `PaymentContextCode` values have been reintroduced to VRP and PIS OpenAPI files.
-  - For the avoidance of doubt - these values __must not__ be accepted in a new consent and may only be accepted for 
-    payment against a v3 VRP consent migrated to v4.
+  - For the avoidance of doubt - these values **must not** be accepted in a new consent and may only be accepted for payment against a v3 VRP consent migrated to v4.
   - They may optionally be returned for a historical payment or consent migrated to v4 when using a `GET` request.
 - [v40_KI7] `OBDomesticRefundAccount1` class definition added to the Payment Initiation and VRP OpenAPI files.
 - [CDRW-5013] `HTTP 422` has been added as a response code - this should be used when a duplicate Idempotency code is submitted.
