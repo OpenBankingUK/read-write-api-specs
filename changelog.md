@@ -17,6 +17,7 @@
 
 ### Changed
 
+- [CDRW-5046] Added missing enum values to `ExternalDocumentType1Code` in AIS: `AROI`, `BOLD`, `CMCN`, `SOAC`, `TSUT`, `USAR`, `VCHR`
 - [CDRW-4136] Updated `ErrorCode` $ref in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
 - [CDRW-4960] Updated endpoint summary descriptions and tags to align to usage.  This has resulted in `Payment Details` endpoints now being categorised and listed with their payment type.
 - [CDRW-4909] Improved description formatting for `RateLimit-Policy`, `RateLimit`, and `x-client-id`, to match spec pages formatting.
