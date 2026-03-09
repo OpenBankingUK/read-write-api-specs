@@ -1,6 +1,20 @@
 # Changelog
 
-## Unreleased
+For v4.0.1 the following approach has been adopted for identifying changes:
+
+- [Known Issues](https://openbanking.atlassian.net/wiki/spaces/DZ/pages/47546479/Known+Specification+Issues) - these are tagged with the KI identifier, e.g. [v40_KI45]
+- [Change Requests](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/3872948225/2025-09-11+EAG+for+v4.x.x+Standards+release+Workshop+4#Discussion-material) - these are tagged with the CR number used in the consultations, e.g. [CR4a]
+- EAG/Consultation items - Items included in the consultations are tagged with an identifier representing the consultation period they were introduced, e.g. [v4.0.1 RC 1]
+- Feedback remediation - Technical errata and other minor corrections identified by participants or OBL during the Advanced Information period for Release Candidates 1 and 2 with an appropriate identifier for internal OBL traceability e.g. [CDRW-5006]
+
+**Consultations:**
+
+- [v4.x.x Consultation 1](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/3880550401/Feedback+-+V4.x.x+Consultation+1)
+- [v4.0.1 Draft 1](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4096950276/Feedback+-+v4.0.1+Draft+1)
+- [v4.0.1 Release Candidate 1](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4203282434/Feedback+-+v4.0.1+Release+Candidate+1)
+- [v4.0.1 Release Candidate 2](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4309942273/Feedback+-+v4.0.1+Release+Candidate+2)
+
+## v4.0.1 - Unreleased
 
 ### Fixed
 
@@ -18,7 +32,7 @@
 ### Changed
 
 - [CDRW-5046] Added missing enum values to `ExternalDocumentType1Code` in AIS: `AROI`, `BOLD`, `CMCN`, `SOAC`, `TSUT`, `USAR`, `VCHR`
-- [CDRW-4136] Updated `ErrorCode` $ref in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
+- [CDRW-4136] Updated `ErrorCode` $ref name in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
 - [CDRW-4960] Updated endpoint summary descriptions and tags to align to usage.  This has resulted in `Payment Details` endpoints now being categorised and listed with their payment type.
 - [CDRW-4909] Improved description formatting for `RateLimit-Policy`, `RateLimit`, and `x-client-id`, to match spec pages formatting.
 
@@ -62,7 +76,7 @@
 - [CR1] Added the following codes to `OBInternalStatementInterestType1Code`:
   - `UK.OBIE.InstalmentPlan`
   - `UK.OBIE.MoneyTransfer`
-- [CDRW-4878] Added rate limit headers to all OpenAPI files
+- [v4.x.x Consultation 1] Added rate limit headers to all OpenAPI files
 - [CR2] Introduced a new `OBIntermediaryAgent` class which can appear up to 3 times in payload as `IntermediaryAgent1`,
   `IntermediaryAgent2` and `IntermediaryAgent3`.
   - This is used in `OBReadTransaction6/Data/Transaction`
@@ -71,26 +85,26 @@
   - For the avoidance of doubt - these values **must not** be accepted in a new consent and may only be accepted for payment against a v3 VRP consent migrated to v4.
   - They may optionally be returned for a historical payment or consent migrated to v4 when using a `GET` request.
 - [v40_KI7] `OBDomesticRefundAccount1` class definition added to the Payment Initiation and VRP OpenAPI files.
-- [CDRW-5013] `HTTP 422` has been added as a response code - this should be used when a duplicate Idempotency code is submitted.
+- [v4.0.1 Draft 1] `HTTP 422` has been added as a response code - this should be used when a duplicate Idempotency code is submitted.
 
 ### Changed
 
 - [v40_KI30] Standardized all regex patterns in YAML files to be surrounded by single quotes and on a single line, for robustness, reliability and consistency (#192)
-- [CDRW-4764] Updated usages of `OBInternalConsentStatus1Code` in to use re-usable domain-specific consent status codes (#204).
+- [v4.0.1 Draft 1] Updated usages of `OBInternalConsentStatus1Code` in to use re-usable domain-specific consent status codes (#204).
   Changed codes:
   - Changed to `OBInternalConsentStatus2Code` in all PIS consents except File Payments
   - Changed to `OBInternalConsentStatus3Code` in only PIS File Payments consents
 - [v40_KI36] Remap `ReferredDocumentAmount` from `Int32` to `OBActiveCurrencyAndAmount_SimpleType` in AIS, PIS, & VRP (#205)
-- [CDRW-4764] Updated usages of `ExternalPaymentTransactionStatus1Code` for PIS and VRP to use re-usable endpoint-specific payment
+- [v4.0.1 Draft 1] Updated usages of `ExternalPaymentTransactionStatus1Code` for PIS and VRP to use re-usable endpoint-specific payment
   status codes (#208). Codes changed:
   - `ExternalPaymentTransactionStatus1Code` used in Domestic Standing Orders and International Standing Orders
   - `ExternalPaymentTransactionStatus2Code` used in Domestic Scheduled Payments and International Scheduled Payments
   - `ExternalPaymentTransactionStatus3Code` used in Domestic Payments and International Payments
   - `ExternalPaymentTransactionStatus4Code` used in File Payments
   - `ExternalPaymentTransactionStatus5Code` used in Domestic VRP
-- [CDRW-4892] `Meta` and `Links` have been made conditional in the VRP OpenAPI file.
+- [v4.0.1 Draft 1] `Meta` and `Links` have been made conditional in the VRP OpenAPI file.
 - [v40_KI5] VRP `OBCashAccountDebtorWithName` max length is increased from 70 to 350 characters and is no longer `mandatory`.
-- [CDRW-4770] Updated `ReferredDocumentInformation/LineDetails` string length to 2048 max characters.
+- [v4.0.1 Draft 1] Updated `ReferredDocumentInformation/LineDetails` string length to 2048 max characters.
 - [v40_KI7] The `Refund` field in the Payment Initiation and VRP OpenAPI files has been updated to point to the newly added `OBDomesticRefundAccount1` class.
 
 ### Removed
