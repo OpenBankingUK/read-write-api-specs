@@ -32,6 +32,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
   - Fixed whitespace artifacts in descriptions (removed escaped underscores) (Events)
   - Improved grammar: "AWAU and RJCT only can returned" to "Only AWAU and RJCT can be returned" (VRP)
   - Clarified wording: "can not" to "cannot" (VRP), "this include" to "this includes" (VRP)
+- [CDRW-5053] - Updated rate limit + client ID header information to be specific to TPPs and updated description on endpoint to describe use.
 
 ### Changed
 
