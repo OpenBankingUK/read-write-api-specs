@@ -40,6 +40,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 - [CDRW-4136] Updated `ErrorCode` $ref name in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
 - [CDRW-4960] Updated endpoint summaries and tags to align to usage.  This has resulted in `Payment Details` endpoints now being categorised and listed with their payment type.
 - [CDRW-4909] Improved description formatting for `RateLimit-Policy`, `RateLimit`, and `x-client-id`, to match spec pages formatting.
+- [v40_KI42] Updated location of `ExternalDocumentFormat1Code` to `ISO_External_Codeset` in description.
 
 ## v4.0.1 Release Candidate 2 - 2026-02-04
 
