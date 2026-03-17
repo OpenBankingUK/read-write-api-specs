@@ -53,8 +53,8 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 ### Changed
 
 - [CDRW-5014] Updated example value in Error responses from `AC17` to `U001` in AIS and Events
-- [CDRW-4948] Description for `OBReadStatement2/Data/Statement/StatementFee/RateType` changed to "This code indicates the specific type of fee rate (e.g., AER, EAR)"
-- [CDRW-4948] Description for `OBReadStatement2/Data/Statement/StatementInterest/RateType` changed to "This code specifies the type of interest (e.g., BOE Base Rate, Fixed Rate, Gross)"
+- [v40_KI48] Description for `OBReadStatement2/Data/Statement/StatementFee/RateType` changed to "This code indicates the specific type of fee rate (e.g., AER, EAR)"
+- [v40_KI48] Description for `OBReadStatement2/Data/Statement/StatementInterest/RateType` changed to "This code specifies the type of interest (e.g., BOE Base Rate, Fixed Rate, Gross)"
 - [CDRW-4949] Updated descriptions for `fromBookingDateTime`, `toBookingDateTime`, `fromStatementDateTime` and `toStatementDateTime` to clarify that the timezone component **must not** be present, as per the Spec pages.
 
 ## v4.0.1 Release Candidate 1 - 2026-01-05
