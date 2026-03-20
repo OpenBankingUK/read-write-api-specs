@@ -19,6 +19,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 ## Added
 
 - [CDRW-5045] Updated all ASPSP endpoints with descriptions describing their use.
+- [CDRW-5005] Added `CRYP` to `OBExternalPurpose1Code` in AIS to align with PIS, where `CRYP` (CryptoAssets) was already present as part of the CR4a change.
 
 ### Fixed
 
