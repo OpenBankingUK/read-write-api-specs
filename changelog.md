@@ -16,7 +16,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ## v4.0.1 - Unreleased
 
-## Added
+### Added
 
 - [CDRW-5045] Updated all ASPSP endpoints with descriptions describing their use.
 - [v40_KI45] Added `LWMH`, `LXMH`, & `TWYR` to `OBFrequency6Code` in AIS and PIS
