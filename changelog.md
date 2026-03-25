@@ -16,61 +16,13 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ## v4.0.1 - Unreleased
 
-## Added
-
-- [CDRW-5045] Updated all ASPSP endpoints with descriptions describing their use.
-
-### Fixed
-
-- [CDRW-4136] Updated description of `OBExternalStatusReason1Code` to point to correct codeset name in AIS, PIS, CBPII, Events and VRP.
-- [CDRW-5043] Corrected typos and improved description clarity across all OpenAPI specification files:
-  - Fixed double word "as as" to "as" in top-level description (AIS, CBPII, Events, PIS, VRP)
-  - Corrected "dentification" to "Identification" in multiple field descriptions (AIS)
-  - Fixed article usage: "an rate" to "a rate" (AIS), "an servicing" to "a servicing" (AIS, PIS, VRP), and "an Callback" to "a Callback" (Events)
-  - Fixed spelling errors: "crebit" to "credit" (AIS), "memebership" to "membership" (AIS), "statments" to "statements" (AIS), "reefer" to "refer" (PIS), "lust" to "list" (VRP)
-  - Corrected GitHub URL typo: "External_Interal_CodeSets" to "External_Internal_CodeSets" (Events)
-  - Fixed whitespace artifacts in descriptions (removed escaped underscores) (Events)
-  - Improved grammar: "AWAU and RJCT only can returned" to "Only AWAU and RJCT can be returned" (VRP)
-  - Clarified wording: "can not" to "cannot" (VRP), "this include" to "this includes" (VRP)
-- [CDRW-5053] - Updated rate limit + client ID header information in event-notifications-openapi (TPP endpoint for Event Notification API Specification) to be specific to TPPs and updated description on endpoint to describe use.
-
-### Changed
-
-- [CDRW-5046] Added missing enum values to `ExternalDocumentType1Code` in AIS: `AROI`, `BOLD`, `CMCN`, `SOAC`, `TSUT`, `USAR`, `VCHR`
-- [CDRW-4136] Updated `ErrorCode` $ref name in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
-- [CDRW-4960] Updated endpoint summaries and tags to align to usage.  This has resulted in `Payment Details` endpoints now being categorised and listed with their payment type.
-- [CDRW-4909] Improved description formatting for `RateLimit-Policy`, `RateLimit`, and `x-client-id`, to match spec pages formatting.
-- [v40_KI42] Updated location of `ExternalDocumentFormat1Code` to `ISO_External_Codeset` in description.
-
-## v4.0.1 Release Candidate 2 - 2026-02-04
-
 ### Added
 
+- [CDRW-5045] Updated all ASPSP endpoints with descriptions describing their use.
 - [v40_KI45] Added `LWMH`, `LXMH`, & `TWYR` to `OBFrequency6Code` in AIS and PIS
 - [v40_KI45] Added `SLCT` to `OBFrequency2` in AIS
 - [CDRW-4937] Added example values to `fromBookingDateTime`, `toBookingDateTime`, `fromStatementDateTime` and `toStatementDateTime`.
-
-### Changed
-
-- [CDRW-5014] Updated example value in Error responses from `AC17` to `U001` in AIS and Events
-- [v40_KI48] Description for `OBReadStatement2/Data/Statement/StatementFee/RateType` changed to "This code indicates the specific type of fee rate (e.g., AER, EAR)"
-- [v40_KI48] Description for `OBReadStatement2/Data/Statement/StatementInterest/RateType` changed to "This code specifies the type of interest (e.g., BOE Base Rate, Fixed Rate, Gross)"
-- [CDRW-4949] Updated descriptions for `fromBookingDateTime`, `toBookingDateTime`, `fromStatementDateTime` and `toStatementDateTime` to clarify that the timezone component **must not** be present, as per the Spec pages.
-
-## v4.0.1 Release Candidate 1 - 2026-01-05
-
-### Added
-
 - [v40_KI46] Added `NONE` to `OBFrequency2` in AIS
-
-### Removed
-
-- [CDRW-5012] Removed duplicate `WEEK` from `OBFrequency6Code` in PIS
-
-## v4.0.1 Draft 1 - 2025-11-20
-
-### Added
-
 - [CDRW-4760] Added clarity to file endpoint descriptions regarding ASPSPs specifying available content types. Affects
   `200AccountsAccountIdStatementsStatementIdFileRead`, `200FilePaymentConsentsConsentIdFileRead`, and
   `200FilePaymentsFilePaymentIdReportFileRead` (#195)
@@ -95,6 +47,15 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ### Changed
 
+- [CDRW-5046] Added missing enum values to `ExternalDocumentType1Code` in AIS: `AROI`, `BOLD`, `CMCN`, `SOAC`, `TSUT`, `USAR`, `VCHR`
+- [CDRW-4136] Updated `ErrorCode` $ref name in PIS to use `OBExternalStatusReason1Code`, matching rest of OpenAPI files (previously used `OBInternalErrorResponseError1Code`)
+- [CDRW-4960] Updated endpoint summaries and tags to align to usage.  This has resulted in `Payment Details` endpoints now being categorised and listed with their payment type.
+- [CDRW-4909] Improved description formatting for `RateLimit-Policy`, `RateLimit`, and `x-client-id`, to match spec pages formatting.
+- [v40_KI42] Updated location of `ExternalDocumentFormat1Code` to `ISO_External_Codeset` in description.
+- [CDRW-5014] Updated example value in Error responses from `AC17` to `U001` in AIS and Events
+- [v40_KI48] Description for `OBReadStatement2/Data/Statement/StatementFee/RateType` changed to "This code indicates the specific type of fee rate (e.g., AER, EAR)"
+- [v40_KI48] Description for `OBReadStatement2/Data/Statement/StatementInterest/RateType` changed to "This code specifies the type of interest (e.g., BOE Base Rate, Fixed Rate, Gross)"
+- [CDRW-4949] Updated descriptions for `fromBookingDateTime`, `toBookingDateTime`, `fromStatementDateTime` and `toStatementDateTime` to clarify that the timezone component **must not** be present, as per the Spec pages.
 - [v40_KI30] Standardized all regex patterns in YAML files to be surrounded by single quotes and on a single line, for robustness, reliability and consistency (#192)
 - [v4.0.1 Draft 1] Updated usages of `OBInternalConsentStatus1Code` in to use re-usable domain-specific consent status codes (#204).
   Changed codes:
@@ -115,12 +76,24 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ### Removed
 
+- [CDRW-5012] Removed duplicate `WEEK` from `OBFrequency6Code` in PIS
 - [CDRW-4765] Remove legacy v3 artefact `OBAddressTypeCode` from Account Information (#202)
 - [CDRW-4878] Removed `x-fapi-financial-id` from the Event Notifications OpenAPI file.
 - [v40_KI41] `CANC` removed from VRP payment status enum list
 
 ### Fixed
 
+- [CDRW-4136] Updated description of `OBExternalStatusReason1Code` to point to correct codeset name in AIS, PIS, CBPII, Events and VRP.
+- [CDRW-5043] Corrected typos and improved description clarity across all OpenAPI specification files:
+  - Fixed double word "as as" to "as" in top-level description (AIS, CBPII, Events, PIS, VRP)
+  - Corrected "dentification" to "Identification" in multiple field descriptions (AIS)
+  - Fixed article usage: "an rate" to "a rate" (AIS), "an servicing" to "a servicing" (AIS, PIS, VRP), and "an Callback" to "a Callback" (Events)
+  - Fixed spelling errors: "crebit" to "credit" (AIS), "memebership" to "membership" (AIS), "statments" to "statements" (AIS), "reefer" to "refer" (PIS), "lust" to "list" (VRP)
+  - Corrected GitHub URL typo: "External_Interal_CodeSets" to "External_Internal_CodeSets" (Events)
+  - Fixed whitespace artifacts in descriptions (removed escaped underscores) (Events)
+  - Improved grammar: "AWAU and RJCT only can returned" to "Only AWAU and RJCT can be returned" (VRP)
+  - Clarified wording: "can not" to "cannot" (VRP), "this include" to "this includes" (VRP)
+- [CDRW-5053] - Updated rate limit + client ID header information in event-notifications-openapi (TPP endpoint for Event Notification API Specification) to be specific to TPPs and updated description on endpoint to describe use.
 - [CDRW-4729] Fixed typo in `PointInTime` description from `CountPerSide` to `CountPerPeriod` in PIS (#194)
 - [CDRW-4802] Corrected description wording for `OBMandateRelatedInformation1/MandateIdentification` in PIS (#203)
 - [v40_KI30] Fixed regex patterns to match the spec pages (#192):
