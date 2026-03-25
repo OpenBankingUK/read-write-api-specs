@@ -18,6 +18,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ### Added
 
+- [CDRW-5005] Added `CRYP` to `OBExternalPurpose1Code` in AIS to align with PIS, where `CRYP` (CryptoAssets) was already present as part of the CR4a change.
 - [CDRW-5045] Updated all ASPSP endpoints with descriptions describing their use.
 - [v40_KI45] Added `LWMH`, `LXMH`, & `TWYR` to `OBFrequency6Code` in AIS and PIS
 - [v40_KI45] Added `SLCT` to `OBFrequency2` in AIS
