@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Confirmation of Funds API Specification",
-    "description": "Swagger for Confirmation of Funds API Specification",
+    "description": "Swagger for Confirmation of Funds API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,15 +12,16 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "4.0.0"
+    "version": "4.0.1"
   },
   "paths": {
     "/funds-confirmation-consents": {
       "post": {
         "tags": [
-          "Funds Confirmations"
+          "Funds Confirmation Consents"
         ],
-        "summary": "Create Funds Confirmation Consent",
+        "summary": "Create a Funds Confirmation Consent",
+        "description": "Enables a CBPII to ask an ASPSP to create a new funds-confirmation-consent resource, by sending a copy of the consent to the ASPSP.",
         "operationId": "CreateFundsConfirmationConsents",
         "parameters": [
           {
@@ -37,6 +38,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -91,9 +95,10 @@
     "/funds-confirmation-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "Funds Confirmations"
+          "Funds Confirmation Consents"
         ],
-        "summary": "Get Funds Confirmation Consent",
+        "summary": "Get a Funds Confirmation Consent",
+        "description": "Enables a CBPII to retrieve the status of a Funds Confirmation Consent resource.",
         "operationId": "GetFundsConfirmationConsentsConsentId",
         "parameters": [
           {
@@ -113,6 +118,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -151,9 +159,10 @@
       },
       "delete": {
         "tags": [
-          "Funds Confirmations"
+          "Funds Confirmation Consents"
         ],
-        "summary": "Delete Funds Confirmation Consent",
+        "summary": "Delete a Funds Confirmation Consent",
+        "description": "Enables a CBPII to inform the PSU’s ASPSP that the PSU has revoked their consent to provide funds confirmations.",
         "operationId": "DeleteFundsConfirmationConsentsConsentId",
         "parameters": [
           {
@@ -173,6 +182,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -215,7 +227,8 @@
         "tags": [
           "Funds Confirmations"
         ],
-        "summary": "Create Funds Confirmation",
+        "summary": "Create a Funds Confirmation Request",
+        "description": "Enables a CBPII to check whether a PSU has sufficient available funds for a CBPII transaction.",
         "operationId": "CreateFundsConfirmations",
         "parameters": [
           {
@@ -232,6 +245,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -365,6 +381,31 @@
         "schema": {
           "type": "string"
         }
+      },
+      "x-client-id": {
+        "in": "header",
+        "name": "x-client-id",
+        "required": false,
+        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers. \n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "headers": {
+      "RateLimit-Policy": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RateLimit": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
+        "schema": {
+          "type": "string"
+        }
       }
     },
     "responses": {
@@ -377,6 +418,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -406,6 +453,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -435,6 +488,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         }
       },
@@ -447,6 +506,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -981,15 +1046,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "CANC",
-                  "EXPD"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -1060,6 +1117,17 @@
           }
         },
         "additionalProperties": false
+      },
+      "OBInternalConsentStatus1Code": {
+        "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "CANC",
+          "EXPD"
+        ]
       },
       "OBFundsConfirmationResponse1": {
         "type": "object",
@@ -1137,7 +1205,7 @@
         "additionalProperties": false
       },
       "OBExternalStatusReason1Code": {
-        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Low level textual error code, for all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,

@@ -7,8 +7,8 @@
   ],
   "info": {
     "title": "OBL VRP Profile",
-    "description": "VRP OpenAPI Specification",
-    "version": "4.0.0",
+    "description": "VRP OpenAPI Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
+    "version": "4.0.1",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -35,7 +35,7 @@
           "Domestic VRP Consents"
         ],
         "summary": "Create a domestic VRP consent",
-        "description": "Create a domestic VRP consent",
+        "description": "Enables a PISP to ask an ASPSP to create a new domestic-vrp-consent resource, by sending a copy of the consent to the ASPSP.",
         "parameters": [
           {
             "$ref": "#/components/parameters/x-fapi-auth-date"
@@ -57,6 +57,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -83,6 +86,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -127,8 +133,8 @@
         "tags": [
           "Domestic VRP Consents"
         ],
-        "summary": "Retrieve a domestic VRP consent",
-        "description": "Retrieve a domestic VRP consent",
+        "summary": "Get a Domestic VRP Consent",
+        "description": "Enables a PISP to retrieve the status of a Domestic VRP Consent.",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -147,6 +153,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -191,8 +200,8 @@
         "tags": [
           "Domestic VRP Consents"
         ],
-        "summary": "Delete a domestic VRP",
-        "description": "Delete a domestic VRP",
+        "summary": "Delete a Domestic VRP Consent",
+        "description": "Enables a PISP to ask an ASPSP to delete a previously consented Domestic VRP Consent resource.",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -211,11 +220,14 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
           "204": {
-            "description": "delete successful"
+            "$ref": "#/components/responses/204VRPConsentsConsentIdDeleted"
           },
           "400": {
             "$ref": "#/components/responses/400Error"
@@ -255,8 +267,8 @@
         "tags": [
           "Domestic VRP Consents"
         ],
-        "summary": "Update a domestic VRP consent - only to be used for version migrations",
-        "description": "Update a domestic VRP consent by submitting a full consent resource body - only to be used for version migrations",
+        "summary": "Replace an existing domestic VRP consent",
+        "description": "Enables a PISP to replace an existing Domestic VRP Consent resource.  \n\nThis endpoint **must** only be used for the migration of Domestic VRP Consent resource data across API Standard versions where the ASPSP supports this PUT function.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -281,6 +293,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -307,6 +322,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -349,8 +367,8 @@
         "tags": [
           "Domestic VRP Consents"
         ],
-        "summary": "Update a domestic VRP consent - only to be used for version migrations",
-        "description": "Update a domestic VRP consent by submitting a JSON Patch payload - only to be used for version migrations",
+        "summary": "Update an existing domestic VRP consent",
+        "description": "Enables a PISP to update an existing Domestic VRP Consent resource by submitting a JSON Patch payload.\n\nThis endpoint **must** only be used for the migration of Domestic VRP Consent resource data across API Standard versions where the ASPSP supports this PATCH function.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -375,6 +393,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -401,6 +422,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -468,8 +492,8 @@
         "tags": [
           "Domestic VRP Consents"
         ],
-        "summary": "Confirm availability of funds for a VRP",
-        "description": "Confirm availability of funds for a VRP",
+        "summary": "Confirm Funds Availability for a Domestic VRP",
+        "description": "Enables a PISP to check whether a PSU has sufficient available funds for a Domestic VRP Payment.",
         "parameters": [
           {
             "$ref": "#/components/parameters/ConsentId"
@@ -491,6 +515,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -558,8 +585,8 @@
         "tags": [
           "Domestic VRPs"
         ],
-        "summary": "Create a domestic VRP",
-        "description": "Create a domestic VRP",
+        "summary": "Initiate a Domestic VRP",
+        "description": "Enables a PISP to initiate a Domestic VRP transaction under an already PSU-approved Domestic VRP Consent.",
         "parameters": [
           {
             "$ref": "#/components/parameters/x-fapi-auth-date"
@@ -584,6 +611,9 @@
           },
           {
             "$ref": "#/components/parameters/payload-version"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -610,6 +640,9 @@
           },
           "415": {
             "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
           },
           "429": {
             "$ref": "#/components/responses/429Error"
@@ -654,8 +687,8 @@
         "tags": [
           "Domestic VRPs"
         ],
-        "summary": "Retrieve a domestic VRP",
-        "description": "Retrieve a domestic VRP",
+        "summary": "Get a Domestic VRP",
+        "description": "Enables a PISP to retrieve the status of a Domestic VRP transaction.",
         "parameters": [
           {
             "$ref": "#/components/parameters/DomesticVRPId"
@@ -674,6 +707,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -720,8 +756,8 @@
         "tags": [
           "Domestic VRPs"
         ],
-        "summary": "Retrieve a domestic VRP",
-        "description": "Retrieve a domestic VRP",
+        "summary": "Get details of a Domestic VRP Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of a Domestic VRP transaction.",
         "parameters": [
           {
             "$ref": "#/components/parameters/DomesticVRPId"
@@ -740,6 +776,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -783,6 +822,24 @@
   },
   "components": {
     "responses": {
+      "204VRPConsentsConsentIdDeleted": {
+        "description": "VRP Consent Deleted",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
+          }
+        }
+      },
       "400Error": {
         "description": "Bad request",
         "headers": {
@@ -951,6 +1008,42 @@
           }
         }
       },
+      "422Error": {
+        "description": "Duplicate Idempotency key",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
       "429Error": {
         "description": "Too Many Requests",
         "headers": {
@@ -1028,6 +1121,12 @@
               "type": "string",
               "example": "3.1.11"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -1064,6 +1163,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -1100,6 +1205,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -1136,6 +1247,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -1250,9 +1367,77 @@
           "type": "string",
           "example": "3.1.11"
         }
+      },
+      "x-client-id": {
+        "in": "header",
+        "name": "x-client-id",
+        "required": false,
+        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers. \n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "headers": {
+      "RateLimit-Policy": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RateLimit": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
+        "schema": {
+          "type": "string"
+        }
       }
     },
     "schemas": {
+      "OBDomesticRefundAccount1": {
+        "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Account"
+        ],
+        "properties": {
+          "Account": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "SchemeName",
+              "Identification",
+              "Name"
+            ],
+            "description": "Provides the details to identify an account.",
+            "properties": {
+              "SchemeName": {
+                "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+              },
+              "Identification": {
+                "$ref": "#/components/schemas/Identification_0"
+              },
+              "Name": {
+                "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 350
+              },
+              "SecondaryIdentification": {
+                "$ref": "#/components/schemas/SecondaryIdentification"
+              }
+            }
+          }
+        }
+      },
+      "SecondaryIdentification": {
+        "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 34
+      },
       "OBUltimateCreditor1": {
         "description": "Ultimate party to which an amount of money is due.",
         "type": "object",
@@ -1473,7 +1658,7 @@
         ]
       },
       "OBExternalStatusReason1Code": {
-        "description": "Low level textual error code, for all enum values see `ExternalReturnReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Low level textual error code, for all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
@@ -1483,9 +1668,7 @@
         "type": "object",
         "required": [
           "Data",
-          "Risk",
-          "Links",
-          "Meta"
+          "Risk"
         ],
         "properties": {
           "Data": {
@@ -1519,15 +1702,7 @@
                 "description": "Date and time at which the resource was created.\n"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. AWAU and RJCT only can returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "CANC",
-                  "EXPD"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -1568,6 +1743,17 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
+      },
+      "OBInternalConsentStatus1Code": {
+        "description": "Specifies the status of consent resource in code form. Only AWAU and RJCT can be returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "CANC",
+          "EXPD"
+        ]
       },
       "OBDomesticVRPConsentRequest": {
         "type": "object",
@@ -1656,7 +1842,7 @@
                     "Consent",
                     "Calendar"
                   ],
-                  "description": "Specifies whether the period starts on the date of consent creation or lines up with a calendar. As the ISO calendar does not support or provide any guidance on when a fortnight should start, a `PeriodType` of `Fortnight` the `PeriodAlignment` must be `Consent`."
+                  "description": "Specifies whether the period starts on the date of consent creation or lines up with a calendar. As the ISO calendar does not support or provide any guidance on when a fortnight should start, when specifying a `PeriodType` of `Fortnight` the `PeriodAlignment` must be `Consent`."
                 },
                 "Amount": {
                   "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
@@ -1673,7 +1859,7 @@
               "$ref": "#/components/schemas/OBVRPConsentType"
             },
             "minItems": 1,
-            "description": "^ The types of payments that can be made under this VRP consent. This can be used to indicate whether this include sweeping payment or other ecommerce payments."
+            "description": "^ The types of payments that can be made under this VRP consent. This can be used to indicate whether this includes sweeping payments or other ecommerce payments."
           },
           "PSUAuthenticationMethods": {
             "type": "array",
@@ -1692,7 +1878,7 @@
           },
           "SupplementaryData": {
             "type": "object",
-            "description": "^ Additional information that can not be captured in the structured fields and/or any other specific block"
+            "description": "^ Additional information that cannot be captured in the structured fields and/or any other specific block"
           }
         }
       },
@@ -1730,8 +1916,7 @@
         "type": "object",
         "required": [
           "SchemeName",
-          "Identification",
-          "Name"
+          "Identification"
         ],
         "properties": {
           "SchemeName": {
@@ -1746,7 +1931,7 @@
           "Name": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 70,
+            "maxLength": 350,
             "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
           },
           "SecondaryIdentification": {
@@ -1883,9 +2068,7 @@
         "type": "object",
         "required": [
           "Data",
-          "Risk",
-          "Links",
-          "Meta"
+          "Risk"
         ],
         "properties": {
           "Data": {
@@ -1919,23 +2102,7 @@
                 "description": "Date and time at which the resource was created.\n"
               },
               "Status": {
-                "type": "string",
-                "description": "Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "enum": [
-                  "RCVD",
-                  "RJCT",
-                  "CANC",
-                  "PDNG",
-                  "ACTC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus5Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -1959,7 +2126,7 @@
                 "description": "Expected settlement date and time for the payment resource.\n"
               },
               "Refund": {
-                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -2029,26 +2196,10 @@
                       "type": "string",
                       "minLength": 1,
                       "maxLength": 210,
-                      "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
+                      "description": "Unique identifier for the transaction within a servicing institution. This identifier is both unique and immutable."
                     },
                     "Status": {
-                      "type": "string",
-                      "description": "Status of a transfer, as assigned by the transaction administrator.",
-                      "enum": [
-                        "RCVD",
-                        "RJCT",
-                        "CANC",
-                        "PDNG",
-                        "ACTC",
-                        "ACCP",
-                        "ACFC",
-                        "ACSP",
-                        "ACWC",
-                        "ACSC",
-                        "ACWP",
-                        "ACCC",
-                        "BLCK"
-                      ]
+                      "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
                     },
                     "StatusUpdateDateTime": {
                       "type": "string",
@@ -2065,10 +2216,7 @@
                           "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
                         },
                         "Status": {
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 128,
-                          "description": "Status of a transfer, as assigned by the transaction administrator."
+                          "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
                         },
                         "StatusReason": {
                           "type": "string",
@@ -2317,7 +2465,7 @@
           },
           "SupplementaryData": {
             "type": "object",
-            "description": "Additional information that can not be captured in the structured fields and/or any other specific block.\n"
+            "description": "Additional information that cannot be captured in the structured fields and/or any other specific block.\n"
           }
         }
       },
@@ -2392,7 +2540,9 @@
             "description": "Set of elements used to provide the content of the referred document line.",
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
             }
           }
         }
@@ -2459,8 +2609,7 @@
             }
           },
           "ReferredDocumentAmount": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
           },
           "CreditorReferenceInformation": {
             "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
@@ -2513,7 +2662,7 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 4,
-        "description": "Specifies the amount type, as published in an external referred amount code set. For a full lust of values refer to `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Specifies the amount type, as published in an external referred amount code set. For a full list of values refer to `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
           "DISP",
           "FXDR",
@@ -2957,7 +3106,8 @@
           "CPEN",
           "DEPD",
           "RETL",
-          "DEBT"
+          "DEBT",
+          "CRYP"
         ]
       },
       "ISODateTime": {
@@ -3303,14 +3453,20 @@
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+            "description": "Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br>\nThe following values are deprecated and can only be used to make a payment on an existing v3 consent which used one of the deprecated values and has been migrated to v4. They <u>**must not**</u> be used in a new consent. They may optionally be returned for a historical payment/consent migrated to v4:<br>\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* PartyToParty - @deprecated\n* PispPayee - @deprecated\n* Other - @deprecated\n",
             "enum": [
               "BillingGoodsAndServicesInAdvance",
               "BillingGoodsAndServicesInArrears",
               "EcommerceMerchantInitiatedPayment",
               "FaceToFacePointOfSale",
               "TransferToSelf",
-              "TransferToThirdParty"
+              "TransferToThirdParty",
+              "BillPayment",
+              "EcommerceGoods",
+              "EcommerceServices",
+              "PartyToParty",
+              "PispPayee",
+              "Other"
             ]
           },
           "MerchantCategoryCode": {
@@ -3381,6 +3537,46 @@
         "title": "MetaData",
         "type": "object",
         "description": "Meta Data relevant to the payload. At present no fields are used for VRP."
+      },
+      "ExternalPaymentTransactionStatus1Code": {
+        "description": "The current status of the payment resource.\n\nFor a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "ACTC",
+          "PATC",
+          "PDNG",
+          "RJCT",
+          "INFA",
+          "INCO",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP"
+        ]
+      },
+      "ExternalPaymentTransactionStatus5Code": {
+        "type": "string",
+        "description": "Specifies the status of the payment information group. \n\nFor a full list of values refer to `ExternalPaymentTransactionStatus5Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets).\n",
+        "enum": [
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
       }
     },
     "securitySchemes": {

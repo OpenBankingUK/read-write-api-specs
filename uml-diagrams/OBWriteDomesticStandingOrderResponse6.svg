@@ -58,16 +58,28 @@ DomesticStandingOrderId [1..1]
 
 <text x="37.6em" y="8.2em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Description: The current status of the payment resource.
+
+For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* 
+[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+
 Values:
- - RCVD
  - CANC
+ - RCVD
  - ACTC
  - PATC
  - PDNG
+ - RJCT
  - INFA
  - INCO
- - RJCT
+ - ACCP
+ - ACFC
+ - ACSP
+ - ACWC
+ - ACSC
+ - BLCK
+ - ACCC
+ - ACWP
 </title>
 Status [1..1]
 </text>
@@ -526,7 +538,7 @@ FirstPaymentDateTime [0..1]
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 MandateIdentification [0..1]
 </text>
@@ -568,7 +580,7 @@ CountPerPeriod [0..1]
 <text x="122.8em" y="54.3em" fill="darkslateblue">
 <title>Type: string
 MaxLength: 2
-Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerSide`
+Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerPeriod`.
 </title>
 PointInTime [0..1]
 </text>
@@ -608,7 +620,7 @@ RegulatoryReporting
 
 <text x="92em" y="72.7em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values reefer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Description: Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values refer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - CRED
  - DEBT
@@ -750,9 +762,9 @@ Invoicer [0..1]
 </text>
 
 <text x="114.8em" y="92.4em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -849,6 +861,8 @@ Issuer [0..1]
 
 <text x="151.2em" y="99em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>

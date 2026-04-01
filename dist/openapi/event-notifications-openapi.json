@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Event Notification API Specification - TPP Endpoints",
-    "description": "Swagger for Event Notification API Specification - TPP Endpoints",
+    "description": "Swagger for Event Notification API Specification - TPP Endpoints.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,22 +12,23 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "4.0.0"
+    "version": "4.0.1"
   },
   "paths": {
     "/event-notifications": {
       "post": {
         "summary": "Send an event notification",
+        "description": "Allows the ASPSP to send an event-notification resource to a TPP.",
         "operationId": "CreateEventNotification",
         "tags": [
           "Event Notification"
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/x-fapi-financial-id-Param"
+            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
           },
           {
-            "$ref": "#/components/parameters/x-fapi-interaction-id-Param"
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -39,12 +40,20 @@
               }
             }
           },
-          "description": "Create an Callback URI",
+          "description": "Create a Callback URI",
           "required": true
         },
         "responses": {
           "202": {
-            "description": "Accepted"
+            "description": "Accepted",
+            "headers": {
+              "RateLimit-Policy": {
+                "$ref": "#/components/headers/RateLimit-Policy"
+              },
+              "RateLimit": {
+                "$ref": "#/components/headers/RateLimit"
+              }
+            }
           }
         }
       }
@@ -71,6 +80,31 @@
         "name": "x-fapi-interaction-id",
         "required": false,
         "description": "An RFC4122 UID used as a correlation id.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-client-id": {
+        "in": "header",
+        "name": "x-client-id",
+        "required": false,
+        "description": "Only used if a TPP requires the client ID in order to return rate limit headers. \n\nThis header __must not__ be used for client authentication\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "headers": {
+      "RateLimit-Policy": {
+        "required": false,
+        "description": "A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RateLimit": {
+        "required": false,
+        "description": "A server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
         "schema": {
           "type": "string"
         }

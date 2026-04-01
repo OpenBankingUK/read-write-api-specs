@@ -1,7 +1,10 @@
 openapi: 3.0.0
 info:
   title: Account and Transaction API Specification
-  description: Swagger for Account and Transaction API Specification
+  description: |
+    Swagger for Account and Transaction API Specification.
+    
+    **Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.
   termsOfService: https://www.openbanking.org.uk/terms
   contact:
     name: Service Desk
@@ -9,13 +12,14 @@ info:
   license:
     name: open-licence
     url: https://www.openbanking.org.uk/open-licence
-  version: 4.0.0
+  version: 4.0.1
 paths:
   /account-access-consents:
     post:
       tags:
-        - Account Access
-      summary: Create Account Access Consents
+        - Account Access Consents
+      summary: Create an Account Access Consent
+      description: Enables an AISP to ask an ASPSP to create a new account-access-consent resource, by sending a copy of the consent to the ASPSP.
       operationId: CreateAccountAccessConsents
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -23,6 +27,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
           application/json; charset=utf-8:
@@ -61,8 +66,9 @@ paths:
   /account-access-consents/{ConsentId}:
     get:
       tags:
-        - Account Access
-      summary: Get Account Access Consents
+        - Account Access Consents
+      summary: Get an Account Access Consent
+      description: Enables an AISP to retrieve the status of an AIS consent.
       operationId: GetAccountAccessConsentsConsentId
       parameters:
         - $ref: '#/components/parameters/ConsentId'
@@ -71,6 +77,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountAccessConsentsConsentIdRead'
@@ -93,8 +100,9 @@ paths:
             - accounts
     delete:
       tags:
-        - Account Access
-      summary: Delete Account Access Consents
+        - Account Access Consents
+      summary: Delete an Account Access Consent
+      description: Enables an AISP to inform the ASPSP that the PSU has revoked their consent.
       operationId: DeleteAccountAccessConsentsConsentId
       parameters:
         - $ref: '#/components/parameters/ConsentId'
@@ -103,6 +111,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '204':
           $ref: '#/components/responses/204AccountAccessConsentsConsentIdDeleted'
@@ -128,6 +137,7 @@ paths:
       tags:
         - Accounts
       summary: Get Accounts
+      description: Enables an AISP to retrieve a list of a PSU's accounts and information about those account(s) that the PSU has consented to.
       operationId: GetAccounts
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -135,6 +145,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsRead'
@@ -159,7 +170,8 @@ paths:
     get:
       tags:
         - Accounts
-      summary: Get Accounts
+      summary: Get an Account by AccountId
+      description: Enables an AISP to retrieve information about a specific PSU account.
       operationId: GetAccountsAccountId
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -168,6 +180,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdRead'
@@ -192,7 +205,8 @@ paths:
     get:
       tags:
         - Balances
-      summary: Get Balances
+      summary: Get Balances for an AccountId
+      description: Enables an AISP to retrieve account balance information for a specific PSU account.
       operationId: GetAccountsAccountIdBalances
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -201,6 +215,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdBalancesRead'
@@ -225,7 +240,8 @@ paths:
     get:
       tags:
         - Beneficiaries
-      summary: Get Beneficiaries
+      summary: Get Beneficiaries for an AccountId
+      description: Enables an AISP to retrieve Beneficiary information for a specific PSU account. 
       operationId: GetAccountsAccountIdBeneficiaries
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -234,6 +250,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdBeneficiariesRead'
@@ -260,7 +277,8 @@ paths:
     get:
       tags:
         - Direct Debits
-      summary: Get Direct Debits
+      summary: Get Direct Debits for an AccountId
+      description: Enables an AISP to retrieve Direct Debit information for a specific PSU account. 
       operationId: GetAccountsAccountIdDirectDebits
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -269,6 +287,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdDirectDebitsRead'
@@ -295,7 +314,8 @@ paths:
     get:
       tags:
         - Offers
-      summary: Get Offers
+      summary: Get Offers for an AccountId
+      description: Enables an AISP to retrieve any offer information for a specific PSU account. 
       operationId: GetAccountsAccountIdOffers
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -304,6 +324,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdOffersRead'
@@ -330,7 +351,8 @@ paths:
     get:
       tags:
         - Parties
-      summary: Get Parties
+      summary: Get Parties for an AccountId
+      description: Enables an AISP to retrieve details about the PSU account-holder(s)/operator(s).
       operationId: GetAccountsAccountIdParties
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -339,6 +361,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdPartiesRead'
@@ -365,7 +388,8 @@ paths:
     get:
       tags:
         - Parties
-      summary: Get Parties
+      summary: Get Party for an AccountId
+      description: Enables an AISP to retrieve details about the party that gave permission to the AISP to view a specific PSU account.
       operationId: GetAccountsAccountIdParty
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -374,6 +398,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdPartyRead'
@@ -400,7 +425,8 @@ paths:
     get:
       tags:
         - Products
-      summary: Get Products
+      summary: Get Product for an AccountId
+      description: Enables an AISP to retrieve the account product information for a specific PSU account. 
       operationId: GetAccountsAccountIdProduct
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -409,6 +435,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdProductRead'
@@ -435,7 +462,8 @@ paths:
     get:
       tags:
         - Scheduled Payments
-      summary: Get Scheduled Payments
+      summary: Get Scheduled Payments for an AccountId
+      description: Enables an AISP to retrieve Scheduled Payment information for a specific PSU account. 
       operationId: GetAccountsAccountIdScheduledPayments
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -444,6 +472,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdScheduledPaymentsRead'
@@ -470,7 +499,8 @@ paths:
     get:
       tags:
         - Standing Orders
-      summary: Get Standing Orders
+      summary: Get Standing Orders for an AccountId
+      description: Enables an AISP to retrieve Standing Order information for a specific PSU account. 
       operationId: GetAccountsAccountIdStandingOrders
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -479,6 +509,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdStandingOrdersRead'
@@ -505,7 +536,8 @@ paths:
     get:
       tags:
         - Statements
-      summary: Get Statements
+      summary: Get Statements for an AccountId
+      description: Enables an AISP to retrieve statement information for a specific PSU account.
       operationId: GetAccountsAccountIdStatements
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -516,6 +548,7 @@ paths:
         - $ref: '#/components/parameters/x-customer-user-agent'
         - $ref: '#/components/parameters/FromStatementDateTimeParam'
         - $ref: '#/components/parameters/ToStatementDateTimeParam'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdStatementsRead'
@@ -542,7 +575,8 @@ paths:
     get:
       tags:
         - Statements
-      summary: Get Statements
+      summary: Get Statement by StatementId for an AccountId
+      description: Enables an AISP to retrieve the statement information resource for a specific statement.
       operationId: GetAccountsAccountIdStatementsStatementId
       parameters:
         - $ref: '#/components/parameters/StatementId'
@@ -552,6 +586,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdStatementsStatementIdRead'
@@ -578,7 +613,8 @@ paths:
     get:
       tags:
         - Statements
-      summary: Get Statements
+      summary: Get Statement file by StatementId for an AccountId
+      description: Enables an AISP to retrieve a non-json representation of a specific statement.
       operationId: GetAccountsAccountIdStatementsStatementIdFile
       parameters:
         - $ref: '#/components/parameters/StatementId'
@@ -588,6 +624,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: >-
@@ -614,8 +651,9 @@ paths:
   /accounts/{AccountId}/statements/{StatementId}/transactions:
     get:
       tags:
-        - Transactions
-      summary: Get Transactions
+        - Statements
+      summary: Get Statement Transactions for an AccountId
+      description: Enables an AISP to retrieve transactions that appear on a selected statement for a specific PSU account.
       operationId: GetAccountsAccountIdStatementsStatementIdTransactions
       parameters:
         - $ref: '#/components/parameters/StatementId'
@@ -625,6 +663,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: >-
@@ -652,7 +691,8 @@ paths:
     get:
       tags:
         - Transactions
-      summary: Get Transactions
+      summary: Get Transactions for an AccountId
+      description: Enables an AISP to retrieve transaction information for a specific PSU account.
       operationId: GetAccountsAccountIdTransactions
       parameters:
         - $ref: '#/components/parameters/AccountId'
@@ -663,6 +703,7 @@ paths:
         - $ref: '#/components/parameters/x-customer-user-agent'
         - $ref: '#/components/parameters/FromBookingDateTimeParam'
         - $ref: '#/components/parameters/ToBookingDateTimeParam'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200AccountsAccountIdTransactionsRead'
@@ -688,6 +729,7 @@ paths:
       tags:
         - Balances
       summary: Get Balances
+      description: Enables an AISP to retrieve balance information for account(s) that the PSU has consented to. 
       operationId: GetBalances
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -695,6 +737,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200BalancesRead'
@@ -722,6 +765,7 @@ paths:
       tags:
         - Beneficiaries
       summary: Get Beneficiaries
+      description: Enables an AISP to retrieve Beneficiary information for account(s) that the PSU has consented to. 
       operationId: GetBeneficiaries
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -729,6 +773,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200BeneficiariesRead'
@@ -756,6 +801,7 @@ paths:
       tags:
         - Direct Debits
       summary: Get Direct Debits
+      description: Enables an AISP to retrieve Direct Debit information for account(s) that the PSU has consented to. 
       operationId: GetDirectDebits
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -763,6 +809,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200DirectDebitsRead'
@@ -790,6 +837,7 @@ paths:
       tags:
         - Offers
       summary: Get Offers
+      description: Enables an AISP to retrieve any offer information for account(s) that the PSU has consented to. 
       operationId: GetOffers
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -797,6 +845,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200OffersRead'
@@ -823,7 +872,8 @@ paths:
     get:
       tags:
         - Parties
-      summary: Get Parties
+      summary: Get Party
+      description: Retrieve details about the party that gave permission to the AISP to view an account(s).
       operationId: GetParty
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -831,6 +881,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200PartyRead'
@@ -858,6 +909,7 @@ paths:
       tags:
         - Products
       summary: Get Products
+      description: Enables an AISP to retrieve the account product information for account(s) that the PSU has consented to. 
       operationId: GetProducts
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -865,6 +917,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200ProductsRead'
@@ -892,6 +945,7 @@ paths:
       tags:
         - Scheduled Payments
       summary: Get Scheduled Payments
+      description: Enables an AISP to retrieve Scheduled Payment information for account(s) that the PSU has consented to. 
       operationId: GetScheduledPayments
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -899,6 +953,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200ScheduledPaymentsRead'
@@ -926,6 +981,7 @@ paths:
       tags:
         - Standing Orders
       summary: Get Standing Orders
+      description: Enables an AISP to retrieve Standing Order information for account(s) that the PSU has consented to. 
       operationId: GetStandingOrders
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -933,6 +989,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200StandingOrdersRead'
@@ -960,6 +1017,7 @@ paths:
       tags:
         - Statements
       summary: Get Statements
+      description: Enables an AISP to retrieve statement information for account(s) that the PSU has consented to. 
       operationId: GetStatements
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -969,6 +1027,7 @@ paths:
         - $ref: '#/components/parameters/FromStatementDateTimeParam'
         - $ref: '#/components/parameters/ToStatementDateTimeParam'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200StatementsRead'
@@ -996,6 +1055,7 @@ paths:
       tags:
         - Transactions
       summary: Get Transactions
+      description: Enables an AISP to retrieve transaction information for account(s) that the PSU has consented to. 
       operationId: GetTransactions
       parameters:
         - $ref: '#/components/parameters/x-fapi-auth-date'
@@ -1005,6 +1065,7 @@ paths:
         - $ref: '#/components/parameters/x-customer-user-agent'
         - $ref: '#/components/parameters/FromBookingDateTimeParam'
         - $ref: '#/components/parameters/ToBookingDateTimeParam'
+        - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
           $ref: '#/components/responses/200TransactionsRead'
@@ -1034,55 +1095,55 @@ components:
     FromBookingDateTimeParam:
       in: query
       name: fromBookingDateTime
-      description: >-
-        The UTC ISO 8601 Date Time to filter transactions FROM
+      description: |
+        The UTC ISO 8601 Date Time to filter transactions FROM.
 
-        NB Time component is optional - set to 00:00:00 for just Date.
+        Note: Time component is optional - set to 00:00:00 for just Date.
 
-        If the Date Time contains a timezone, the ASPSP must ignore the timezone
-        component.
+        The value **must not** include the timezone component.
       schema:
         type: string
         format: date-time
+        example: '2026-01-01T00:00:00'
     ToBookingDateTimeParam:
       in: query
       name: toBookingDateTime
-      description: >-
-        The UTC ISO 8601 Date Time to filter transactions TO
+      description: |
+        The UTC ISO 8601 Date Time to filter transactions TO.
 
-        NB Time component is optional - set to 00:00:00 for just Date.
+        Note: Time component is optional - set to 00:00:00 for just Date.
 
-        If the Date Time contains a timezone, the ASPSP must ignore the timezone
-        component.
+        The value **must not** include the timezone component.
       schema:
         type: string
         format: date-time
+        example: '2026-12-31T23:59:59'
     FromStatementDateTimeParam:
       in: query
       name: fromStatementDateTime
-      description: >-
-        The UTC ISO 8601 Date Time to filter statements FROM
+      description: |
+        The UTC ISO 8601 Date Time to filter statements FROM.
 
-        NB Time component is optional - set to 00:00:00 for just Date.
+        Note: Time component is optional - set to 00:00:00 for just Date.
 
-        If the Date Time contains a timezone, the ASPSP must ignore the timezone
-        component.
+        The value **must not** include the timezone component.
       schema:
         type: string
         format: date-time
+        example: '2026-01-01T00:00:00'
     ToStatementDateTimeParam:
       in: query
       name: toStatementDateTime
-      description: >-
-        The UTC ISO 8601 Date Time to filter statements TO
+      description: |
+        The UTC ISO 8601 Date Time to filter statements TO.
 
-        NB Time component is optional - set to 00:00:00 for just Date.
+        Note: Time component is optional - set to 00:00:00 for just Date.
 
-        If the Date Time contains a timezone, the ASPSP must ignore the timezone
-        component.
+        The value **must not** include the timezone component.
       schema:
         type: string
         format: date-time
+        example: '2026-12-31T23:59:59'
     ConsentId:
       name: ConsentId
       in: path
@@ -1138,10 +1199,7 @@ components:
         Sun, 10 Sep 2017 19:43:31 UTC
       schema:
         type: string
-        pattern: >-
-          ^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2}
-          (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4}
-          \d{2}:\d{2}:\d{2} (GMT|UTC)$
+        pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -1159,12 +1217,55 @@ components:
       schema:
         type: string
         maxLength: 40
-        pattern: ^(?!\s)(.*)(\S)$
+        pattern: '^(?!\s)(.*)(\S)$'
     x-jws-signature:
       in: header
       name: x-jws-signature
       required: true
       description: A detached JWS signature of the body of the payload.
+      schema:
+        type: string
+    x-client-id:
+      in: header
+      name: x-client-id
+      required: false
+      description: |
+        Only used if an ASPSP requires the client ID in order to return rate limit headers. 
+        
+        TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+
+        This header __must not__ be used for client authentication
+      schema:
+        type: string
+  headers:
+    RateLimit-Policy:
+      required: false
+      description: |
+        TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+        
+        A non-empty list of Quota Policy Items. The Item value __MUST__ be a String.
+        
+        Example:
+        `RateLimit-Policy: "default";q=100;w=10`
+        
+        The **REQUIRED** "q" parameter indicates the quota allocated by this policy measured in quota units.
+        
+        The **OPTIONAL** "w" parameter value conveys a time window.
+      schema:
+        type: string
+    RateLimit:
+      required: false
+      description: |
+        TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.
+        
+        A server uses the "RateLimit" response header field to communicate the current service limit for a quota policy for a particular partition key.
+        
+        Example:
+        `RateLimit: "default";r=50;t=30`
+        
+        The **REQUIRED** "r" parameter value conveys the remaining quota units for the identified policy.
+        
+        The **OPTIONAL** "t" parameter value conveys the time window reset time for the identified policy.
       schema:
         type: string
   responses:
@@ -1176,6 +1277,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1194,6 +1299,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1212,6 +1321,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
     200AccountsRead:
       description: Accounts Read
       headers:
@@ -1220,6 +1333,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1238,6 +1355,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1256,6 +1377,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1274,6 +1399,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1292,6 +1421,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1310,6 +1443,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1328,6 +1465,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1346,6 +1487,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1364,6 +1509,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1382,6 +1531,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1400,6 +1553,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1418,6 +1575,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1436,6 +1597,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1454,6 +1619,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1472,6 +1641,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1490,6 +1663,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1508,6 +1685,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1526,6 +1707,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1544,6 +1729,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1562,6 +1751,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1580,6 +1773,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1591,13 +1788,20 @@ components:
           schema:
             $ref: '#/components/schemas/OBReadStatement2'
     200AccountsAccountIdStatementsStatementIdFileRead:
-      description: Statements Read
+      description: |
+        Statements Read
+        
+        ASPSP will specify all available content types
       headers:
         x-fapi-interaction-id:
           description: An RFC4122 UID used as a correlation id.
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1616,6 +1820,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1634,6 +1842,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1652,6 +1864,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1670,6 +1886,10 @@ components:
           required: true
           schema:
             type: string
+        RateLimit-Policy:
+          $ref: '#/components/headers/RateLimit-Policy'
+        RateLimit:
+          $ref: '#/components/headers/RateLimit'
       content:
         application/json; charset=utf-8:
           schema:
@@ -1806,6 +2026,37 @@ components:
           scopes:
             accounts: Ability to read Accounts information
   schemas:
+    OBIntermediaryAgent:
+      description: "The intermediary agent associated with this transaction."
+      type: object
+      properties:
+        Name:
+          description: "Name by which an agent is known and which is usually used to identify that agent."
+          type: string
+          minLength: 1
+          maxLength: 140
+        SchemeName:
+          $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
+        Identification:
+          description: "Unique and unambiguous identification of a financial institution or a branch of a financial institution."
+          type: string
+          minLength: 1
+          maxLength: 35
+        LEI:
+          $ref: '#/components/schemas/LEI'
+        PostalAddress:
+          $ref: '#/components/schemas/OBPostalAddress7'
+        ProcessingStatus:
+          description: "Status of the payment at the Intermediary Agent. For a full list of enumeration values refer to `OBIntermediaryAgentStatus1Code` in `OB_Internal_CodeSet` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)"
+          type: string
+          enum:
+            - PDNG
+            - RCVD
+            - ACSP
+            - ACSC
+            - RJCT
+            - UNKN
+            - CANC
     ExternalCreditorReferenceType1Code:
       type: string
       minLength: 1
@@ -1827,7 +2078,10 @@ components:
         code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet*
         [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       enum:
+        - AROI
+        - BOLD
         - CINV
+        - CMCN
         - CNFA
         - CONT
         - CREN
@@ -1841,15 +2095,19 @@ components:
         - PUOR
         - QUOT
         - SBIN
+        - SOAC
         - SPRR
         - TISH
+        - TSUT
+        - USAR
+        - VCHR
     OBReferredDocumentInformation:
       type: object
       properties:
         Code:
           $ref: '#/components/schemas/ExternalDocumentType1Code'
         Issuer:
-          description: 'dentification of the issuer of the reference document type.'
+          description: 'Identification of the issuer of the reference document type.'
           type: string
           maxLength: 140
           minLength: 1
@@ -1867,6 +2125,8 @@ components:
           type: array
           items:
             type: string
+            minLength: 1
+            maxLength: 2048
     OBRemittanceInformation2:
       type: object
       description: >-
@@ -1897,9 +2157,7 @@ components:
           items:
             $ref: '#/components/schemas/OBReferredDocumentInformation'
         ReferredDocumentAmount:
-          description: 'Provides details on the amounts of the referred document.'
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         CreditorReferenceInformation:
           description: 'Reference information provided by the creditor to allow the identification of the underlying documents.'
           type: object
@@ -2030,6 +2288,9 @@ components:
         - FIMH
         - ALMH
         - NONE
+        - LWMH
+        - LXMH
+        - TWYR
     OBProxy1:
       description: >-
         Specifies an alternate assumed name for the identification of the
@@ -2102,7 +2363,7 @@ components:
         and the initiating party needs to identify which currency needs to be
         used for settlement on the account.
       type: string
-      pattern: ^[A-Z]{3,3}$
+      pattern: '^[A-Z]{3,3}$'
     ActiveOrHistoricCurrencyCode_1:
       description: >-
         A code allocated to a currency by a Maintenance Agency under an
@@ -2111,7 +2372,7 @@ components:
         currencies and funds".
       type: string
       example: GBP
-      pattern: ^[A-Z]{3,3}$
+      pattern: '^[A-Z]{3,3}$'
     AddressLine:
       description: >-
         Information that locates and identifies a specific address for a
@@ -2165,7 +2426,7 @@ components:
     CountryCode:
       description: Nation with its own government, occupying a particular territory.
       type: string
-      pattern: ^[A-Z]{2,2}$
+      pattern: '^[A-Z]{2,2}$'
     CountrySubDivision:
       description: Identifies a subdivision of a country eg, state, region, county.
       type: string
@@ -2377,8 +2638,7 @@ components:
 
         ^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
       type: string
-      pattern: >-
-        ^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$
+      pattern: '^(NotKnown)$|^(EvryDay)$|^(EvryWorkgDay)$|^(IntrvlDay:((0[2-9])|([1-2][0-9])|3[0-1]))$|^(IntrvlWkDay:0[1-9]:0[1-7])$|^(WkInMnthDay:0[1-5]:0[1-7])$|^(IntrvlMnthDay:(0[1-6]|12|24):(-0[1-5]|0[1-9]|[12][0-9]|3[01]))$|^(QtrDay:(ENGLISH|SCOTTISH|RECEIVED))$'
     FullLegalName:
       description: The full legal name of the party.
       type: string
@@ -2426,7 +2686,7 @@ components:
       maxLength: 256
     Identification_4:
       description: >-
-        dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
+        Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.
       type: string
       example: '80200112344562'
       minLength: 1
@@ -2453,7 +2713,7 @@ components:
       example: IZ9Q00LZEVUKWCQY6X15
       minLength: 1
       maxLength: 20
-      pattern: ^[A-Z0-9]{18,18}[0-9]{2,2}$
+      pattern: '^[A-Z0-9]{18,18}[0-9]{2,2}$'
     Links:
       type: object
       description: Links relevant to the payload
@@ -2752,7 +3012,7 @@ components:
         unit of currency is explicit and compliant with ISO 4217.
       type: string
       example: '1209.06'
-      pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
+      pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
     OBActiveOrHistoricCurrencyAndAmount_0:
       type: object
       required:
@@ -2893,18 +3153,6 @@ components:
           $ref: '#/components/schemas/OBActiveCurrencyAndAmount_SimpleType'
         Currency:
           $ref: '#/components/schemas/ActiveOrHistoricCurrencyCode_1'
-    OBAddressTypeCode:
-      description: Identifies the nature of the postal address.
-      type: string
-      enum:
-        - Business
-        - Correspondence
-        - DeliveryTo
-        - MailTo
-        - POBox
-        - Postal
-        - Residential
-        - Statement
     OBAddressType2Code:
       description: >-
         Identifies the nature of the postal address. <br />
@@ -3093,14 +3341,14 @@ components:
                             tier applies.
                           title: TierValueMinimum
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         TierValueMaximum:
                           description: >-
                             Maximum deposit value for which the credit interest
                             tier applies.
                           title: TierValueMaximum
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         CalculationFrequency:
                           description: >-
                             How often is credit interest calculated for the
@@ -3162,7 +3410,7 @@ components:
                             http://www.investopedia.com/terms/a/aer.asp#ixzz4gfR7IO1A
                           title: AER
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         BankInterestRateType:
                           description: >-
                             Interest rate types, other than AER, which financial
@@ -3177,7 +3425,7 @@ components:
                           description: Bank Interest for the BCA product
                           title: BankInterestRate
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         Notes:
                           description: >-
                             Optional additional notes to supplement the Tier
@@ -3202,7 +3450,7 @@ components:
                                 to identify a code
                               title: Code
                               type: string
-                              pattern: ^\w{0,4}$
+                              pattern: '^\w{0,4}$'
                               minLength: 0
                               maxLength: 4
                             Name:
@@ -3234,7 +3482,7 @@ components:
                                 to identify a code
                               title: Code
                               type: string
-                              pattern: ^\w{0,4}$
+                              pattern: '^\w{0,4}$'
                               minLength: 0
                               maxLength: 4
                             Name:
@@ -3266,7 +3514,7 @@ components:
                                 to identify a code
                               title: Code
                               type: string
-                              pattern: ^\w{0,4}$
+                              pattern: '^\w{0,4}$'
                               minLength: 0
                               maxLength: 4
                             Name:
@@ -3377,7 +3625,7 @@ components:
                       still apply.
                     title: BufferAmount
                     type: string
-                    pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                    pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                   Notes:
                     description: >-
                       Optional additional notes to supplement the overdraft Tier
@@ -3409,12 +3657,12 @@ components:
                           description: Minimum value of Overdraft Tier/Band
                           title: TierValueMin
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         TierValueMax:
                           description: Maximum value of Overdraft Tier/Band
                           title: TierValueMax
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         EAR:
                           description: >-
                             EAR means Effective Annual Rate and/or Equivalent
@@ -3424,7 +3672,7 @@ components:
                             interest rate of an Overdraft.
                           title: EAR
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         RepresentativeAPR:
                           description: >-
                             An annual percentage rate (APR) is the annual rate
@@ -3436,7 +3684,7 @@ components:
                             take compounding into account.
                           title: RepresentativeAPR
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         AgreementLengthMin:
                           description: >-
                             Specifies the minimum length of a band for a fixed
@@ -3570,7 +3818,7 @@ components:
                                       description: Cap amount charged for a fee/charge
                                       title: FeeCapAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     CappingPeriod:
                                       description: >-
                                         Period e.g. day, week, month etc. for
@@ -3613,7 +3861,7 @@ components:
                                               XML file to identify a code
                                             title: Code
                                             type: string
-                                            pattern: ^\w{0,4}$
+                                            pattern: '^\w{0,4}$'
                                             minLength: 0
                                             maxLength: 4
                                           Name:
@@ -3681,7 +3929,7 @@ components:
                                         applied
                                       title: IncrementalBorrowingAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     FeeAmount:
                                       description: >-
                                         Amount charged for an overdraft
@@ -3689,7 +3937,7 @@ components:
                                         of an amount rather than a rate)
                                       title: FeeAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     FeeRate:
                                       description: >-
                                         Rate charged for overdraft fee/charge
@@ -3697,7 +3945,7 @@ components:
                                         rather than an amount)
                                       title: FeeRate
                                       type: string
-                                      pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                     FeeRateType:
                                       description: >-
                                         Rate type for overdraft fee/charge
@@ -3834,7 +4082,7 @@ components:
                                             description: Cap amount charged for a fee/charge
                                             title: FeeCapAmount
                                             type: string
-                                            pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                            pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                           CappingPeriod:
                                             description: >-
                                               Period e.g. day, week, month etc. for
@@ -3877,7 +4125,7 @@ components:
                                                     XML file to identify a code
                                                   title: Code
                                                   type: string
-                                                  pattern: ^\w{0,4}$
+                                                  pattern: '^\w{0,4}$'
                                                   minLength: 0
                                                   maxLength: 4
                                                 Name:
@@ -3913,7 +4161,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -3947,7 +4195,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -3981,7 +4229,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -4015,7 +4263,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -4111,7 +4359,7 @@ components:
                                 description: Cap amount charged for a fee/charge
                                 title: FeeCapAmount
                                 type: string
-                                pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                               CappingPeriod:
                                 description: >-
                                   Period e.g. day, week, month etc. for which
@@ -4152,7 +4400,7 @@ components:
                                         XML file to identify a code
                                       title: Code
                                       type: string
-                                      pattern: ^\w{0,4}$
+                                      pattern: '^\w{0,4}$'
                                       minLength: 0
                                       maxLength: 4
                                     Name:
@@ -4218,7 +4466,7 @@ components:
                                   balance to which an overdraft fee is applied
                                 title: IncrementalBorrowingAmount
                                 type: string
-                                pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                               FeeAmount:
                                 description: >-
                                   Amount charged for an overdraft fee/charge
@@ -4226,7 +4474,7 @@ components:
                                   rather than a rate)
                                 title: FeeAmount
                                 type: string
-                                pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                               FeeRate:
                                 description: >-
                                   Rate charged for overdraft fee/charge (where
@@ -4234,7 +4482,7 @@ components:
                                   an amount)
                                 title: FeeRate
                                 type: string
-                                pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                               FeeRateType:
                                 description: >-
                                   Rate type for overdraft fee/charge (where it
@@ -4369,7 +4617,7 @@ components:
                                       description: Cap amount charged for a fee/charge
                                       title: FeeCapAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     CappingPeriod:
                                       description: >-
                                         Period e.g. day, week, month etc. for
@@ -4412,7 +4660,7 @@ components:
                                               XML file to identify a code
                                             title: Code
                                             type: string
-                                            pattern: ^\w{0,4}$
+                                            pattern: '^\w{0,4}$'
                                             minLength: 0
                                             maxLength: 4
                                           Name:
@@ -4448,7 +4696,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -4482,7 +4730,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -4516,7 +4764,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -4550,7 +4798,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -4621,7 +4869,7 @@ components:
                       identify a code
                     title: Code
                     type: string
-                    pattern: ^\w{0,4}$
+                    pattern: '^\w{0,4}$'
                     minLength: 0
                     maxLength: 4
                   Name:
@@ -4682,14 +4930,14 @@ components:
                         in terms of an amount rather than a rate)
                       title: FeeAmount
                       type: string
-                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                     FeeRate:
                       description: >-
                         Rate charged for Fee/Charge (where it is charged in
                         terms of a rate rather than an amount)
                       title: FeeRate
                       type: string
-                      pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                     FeeRateType:
                       description: >-
                         Rate type for Fee/Charge (where it is charged in terms
@@ -4810,7 +5058,7 @@ components:
                               charged in terms of an amount rather than a rate)
                             title: FeeCapAmount
                             type: string
-                            pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                            pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                           CappingPeriod:
                             description: >-
                               Period e.g. day, week, month etc. for which the
@@ -4853,7 +5101,7 @@ components:
                                     file to identify a code
                                   title: Code
                                   type: string
-                                  pattern: ^\w{0,4}$
+                                  pattern: '^\w{0,4}$'
                                   minLength: 0
                                   maxLength: 4
                                 Name:
@@ -4886,7 +5134,7 @@ components:
                             identify a code
                           title: Code
                           type: string
-                          pattern: ^\w{0,4}$
+                          pattern: '^\w{0,4}$'
                           minLength: 0
                           maxLength: 4
                         Name:
@@ -4918,7 +5166,7 @@ components:
                             identify a code
                           title: Code
                           type: string
-                          pattern: ^\w{0,4}$
+                          pattern: '^\w{0,4}$'
                           minLength: 0
                           maxLength: 4
                         FeeCategory:
@@ -4960,7 +5208,7 @@ components:
                             identify a code
                           title: Code
                           type: string
-                          pattern: ^\w{0,4}$
+                          pattern: '^\w{0,4}$'
                           minLength: 0
                           maxLength: 4
                         Name:
@@ -4992,7 +5240,7 @@ components:
                             identify a code
                           title: Code
                           type: string
-                          pattern: ^\w{0,4}$
+                          pattern: '^\w{0,4}$'
                           minLength: 0
                           maxLength: 4
                         Name:
@@ -5024,7 +5272,7 @@ components:
                             identify a code
                           title: Code
                           type: string
-                          pattern: ^\w{0,4}$
+                          pattern: '^\w{0,4}$'
                           minLength: 0
                           maxLength: 4
                         Name:
@@ -5056,28 +5304,28 @@ components:
                             (where it is expressed as an amount)
                           title: MinimumAmount
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         MaximumAmount:
                           description: >-
                             Maximum Amount on which fee is applicable (where it
                             is expressed as an amount)
                           title: MaximumAmount
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         MinimumRate:
                           description: >-
                             Minimum rate on which fee/charge is applicable(where
-                            it is expressed as an rate)
+                            it is expressed as a rate)
                           title: MinimumRate
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         MaximumRate:
                           description: >-
                             Maximum rate on which fee/charge is applicable(where
-                            it is expressed as an rate)
+                            it is expressed as a rate)
                           title: MaximumRate
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                       additionalProperties: false
                   required:
                     - FeeCategory
@@ -5133,7 +5381,7 @@ components:
                         in terms of an amount rather than a rate)
                       title: FeeCapAmount
                       type: string
-                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                     CappingPeriod:
                       description: >-
                         Period e.g. day, week, month etc. for which the
@@ -5174,7 +5422,7 @@ components:
                               to identify a code
                             title: Code
                             type: string
-                            pattern: ^\w{0,4}$
+                            pattern: '^\w{0,4}$'
                             minLength: 0
                             maxLength: 4
                           Name:
@@ -5434,7 +5682,7 @@ components:
       type: object
       description: >-
         Unambiguous identification of the account of the debtor, in the case of
-        a crebit transaction.
+        a credit transaction.
       properties:
         SchemeName:
           $ref: '#/components/schemas/OBInternalAccountIdentification4Code'
@@ -5556,19 +5804,19 @@ components:
             Currency from which an amount is to be converted in a currency
             conversion.
           type: string
-          pattern: ^[A-Z]{3,3}$
+          pattern: '^[A-Z]{3,3}$'
         TargetCurrency:
           description: >-
             Currency into which an amount is to be converted in a currency
             conversion.
           type: string
-          pattern: ^[A-Z]{3,3}$
+          pattern: '^[A-Z]{3,3}$'
         UnitCurrency:
           description: >-
             Currency in which the rate of exchange is expressed in a currency
             exchange. In the example 1GBP = xxxCUR, the unit currency is GBP.
           type: string
-          pattern: ^[A-Z]{3,3}$
+          pattern: '^[A-Z]{3,3}$'
         ExchangeRate:
           description: >-
             Factor used to convert an amount from one currency into another.
@@ -6147,6 +6395,7 @@ components:
         - DEPD
         - RETL
         - DEBT
+        - CRYP
     OBInternalScheduleType1Code:
       description: Specifies the scheduled payment date type requested. For a full list of enumeration values refer to `OBInternalScheduleType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
@@ -6228,7 +6477,7 @@ components:
         - UK.OBIE.StatementMonthly
         - UK.OBIE.Weekly
     OBInternalStatementFeeRateType1Code:
-      description: Description that may be available for the statement fee rate type. For a full list of values see `OBInternalStatementFeeRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+      description: This code indicates the specific type of fee rate (e.g., AER, EAR). For a full list of values see `OBInternalStatementFeeRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       example: UK.OBIE.AER
       x-namespaced-enum:
@@ -6254,6 +6503,8 @@ components:
         - UK.OBIE.PrizeEntry
         - UK.OBIE.StatementCopy
         - UK.OBIE.Total
+        - UK.OBIE.InstalmentPlan
+        - UK.OBIE.ReturnedPayment
     OBInternalStatementInterestFrequency1Code:
       description: Specifies the statement fee type requested. For a full list of values see `OBInternalStatementInterestFrequency1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
@@ -6266,8 +6517,8 @@ components:
         - UK.OBIE.Quarterly
         - UK.OBIE.Weekly
         - UK.OBIE.Yearly
-    OBExternalStatementInterestRateType1Code:
-      description: Description that may be available for the statement Interest rate type.
+    OBInternalStatementInterestRateType1Code:
+      description: This code specifies the type of interest (e.g., BOE Base Rate, Fixed Rate, Gross).
       type: string
       example: UK.OBIE.FixedRate
       x-namespaced-enum:
@@ -6286,6 +6537,8 @@ components:
         - UK.OBIE.EstimatedNext
         - UK.OBIE.Purchase
         - UK.OBIE.Total
+        - UK.OBIE.InstalmentPlan
+        - UK.OBIE.MoneyTransfer
     OBInternalStatementRateType1Code:
       description: Statement rate type, in a coded form. For a full list of values see `OBInternalStatementRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
@@ -6338,6 +6591,8 @@ components:
         - TEND
         - MOVE
         - WEEK
+        - NONE
+        - SLCT
     OBFrequencyPeriodType:
       description: |-
         Individual Definitions:
@@ -6360,7 +6615,7 @@ components:
         - WEEK
     OBFileFormat:
       description: >-
-        For a full list of enumeration values refer to `ExternalDocumentFormat1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
+        For a full list of enumeration values refer to `ExternalDocumentFormat1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)
       type: string
       enum:
         - DPDF
@@ -6372,12 +6627,12 @@ components:
     OBExternalStatusReason1Code:
       description: >-
         Low level textual error code, for all enum values see
-        `ExternalReason1Code`
+        `OBExternalStatusReason1Code` in *OB_Internal_CodeSet*
         [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
       type: string
       minLength: 4
       maxLength: 4
-      example: AC17
+      example: U001
     OBMandateRelatedInformation1:
       type: object
       description: >-
@@ -6433,7 +6688,7 @@ components:
         Reason:
           description: Reason for the setup of the credit transfer mandate.
           type: string
-          example: To pay monthly memebership
+          example: To pay monthly membership
           maxLength: 256
           minLength: 1
     OBMerchantDetails1:
@@ -6512,7 +6767,7 @@ components:
                 in Part 7 of the CMA order
               title: MonthlyMaximumCharge
               type: string
-              pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+              pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
             Notes:
               description: Optional additional notes to supplement the Core product details
               title: Notes
@@ -6619,14 +6874,14 @@ components:
                             tier applies.
                           title: TierValueMinimum
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         TierValueMaximum:
                           description: >-
                             Maximum deposit value for which the credit interest
                             tier applies.
                           title: TierValueMaximum
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         CalculationFrequency:
                           description: >-
                             How often is credit interest calculated for the
@@ -6689,7 +6944,7 @@ components:
                             http://www.investopedia.com/terms/a/aer.asp#ixzz4gfR7IO1A
                           title: AER
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         BankInterestRateType:
                           description: >-
                             Interest rate types, other than AER, which financial
@@ -6706,7 +6961,7 @@ components:
                           description: Bank Interest for the PCA product
                           title: BankInterestRate
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         Notes:
                           description: >-
                             Optional additional notes to supplement the Tier
@@ -6731,7 +6986,7 @@ components:
                                 to identify a code
                               title: Code
                               type: string
-                              pattern: ^\w{0,4}$
+                              pattern: '^\w{0,4}$'
                               minLength: 0
                               maxLength: 4
                             Name:
@@ -6763,7 +7018,7 @@ components:
                                 to identify a code
                               title: Code
                               type: string
-                              pattern: ^\w{0,4}$
+                              pattern: '^\w{0,4}$'
                               minLength: 0
                               maxLength: 4
                             Name:
@@ -6795,7 +7050,7 @@ components:
                                 to identify a code
                               title: Code
                               type: string
-                              pattern: ^\w{0,4}$
+                              pattern: '^\w{0,4}$'
                               minLength: 0
                               maxLength: 4
                             Name:
@@ -6906,7 +7161,7 @@ components:
                       still apply.
                     title: BufferAmount
                     type: string
-                    pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                    pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                   Notes:
                     description: >-
                       Optional additional notes to supplement the overdraft Tier
@@ -6938,12 +7193,12 @@ components:
                           description: Minimum value of Overdraft Tier/Band
                           title: TierValueMin
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         TierValueMax:
                           description: Maximum value of Overdraft Tier/Band
                           title: TierValueMax
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         OverdraftInterestChargingCoverage:
                           description: Interest charged on whole amount or tiered/banded
                           title: OverdraftInterestChargingCoverage
@@ -6966,7 +7221,7 @@ components:
                             interest rate of an Overdraft.
                           title: EAR
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         RepresentativeAPR:
                           description: >-
                             An annual percentage rate (APR) is the annual rate
@@ -6978,7 +7233,7 @@ components:
                             take compounding into account.
                           title: RepresentativeAPR
                           type: string
-                          pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                         Notes:
                           description: >-
                             Optional additional notes to supplement the
@@ -7059,7 +7314,7 @@ components:
                                       description: Cap amount charged for a fee/charge
                                       title: FeeCapAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     CappingPeriod:
                                       description: >-
                                         Period e.g. day, week, month etc. for
@@ -7103,7 +7358,7 @@ components:
                                               XML file to identify a code
                                             title: Code
                                             type: string
-                                            pattern: ^\w{0,4}$
+                                            pattern: '^\w{0,4}$'
                                             minLength: 0
                                             maxLength: 4
                                           Name:
@@ -7164,7 +7419,7 @@ components:
                                         applied
                                       title: IncrementalBorrowingAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     FeeAmount:
                                       description: >-
                                         Amount charged for an overdraft
@@ -7172,7 +7427,7 @@ components:
                                         of an amount rather than a rate)
                                       title: FeeAmount
                                       type: string
-                                      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                     FeeRate:
                                       description: >-
                                         Rate charged for overdraft fee/charge
@@ -7180,7 +7435,7 @@ components:
                                         rather than an amount)
                                       title: FeeRate
                                       type: string
-                                      pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                     FeeRateType:
                                       description: >-
                                         Rate type for overdraft fee/charge
@@ -7271,7 +7526,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -7305,7 +7560,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -7339,7 +7594,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -7373,7 +7628,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -7450,7 +7705,7 @@ components:
                                           description: Cap amount charged for a fee/charge
                                           title: FeeCapAmount
                                           type: string
-                                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                         CappingPeriod:
                                           description: >-
                                             Period e.g. day, week, month etc. for
@@ -7494,7 +7749,7 @@ components:
                                                   XML file to identify a code
                                                 title: Code
                                                 type: string
-                                                pattern: ^\w{0,4}$
+                                                pattern: '^\w{0,4}$'
                                                 minLength: 0
                                                 maxLength: 4
                                               Name:
@@ -7596,7 +7851,7 @@ components:
                                 description: Cap amount charged for a fee/charge
                                 title: FeeCapAmount
                                 type: string
-                                pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                               CappingPeriod:
                                 description: >-
                                   Period e.g. day, week, month etc. for which
@@ -7638,7 +7893,7 @@ components:
                                         XML file to identify a code
                                       title: Code
                                       type: string
-                                      pattern: ^\w{0,4}$
+                                      pattern: '^\w{0,4}$'
                                       minLength: 0
                                       maxLength: 4
                                     Name:
@@ -7698,7 +7953,7 @@ components:
                                   balance to which an overdraft fee is applied
                                 title: IncrementalBorrowingAmount
                                 type: string
-                                pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                               FeeAmount:
                                 description: >-
                                   Amount charged for an overdraft fee/charge
@@ -7706,7 +7961,7 @@ components:
                                   rather than a rate)
                                 title: FeeAmount
                                 type: string
-                                pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                               FeeRate:
                                 description: >-
                                   Rate charged for overdraft fee/charge (where
@@ -7714,7 +7969,7 @@ components:
                                   an amount)
                                 title: FeeRate
                                 type: string
-                                pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                               FeeRateType:
                                 description: >-
                                   Rate type for overdraft fee/charge (where it
@@ -7805,7 +8060,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -7839,7 +8094,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -7873,7 +8128,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -7907,7 +8162,7 @@ components:
                                       XML file to identify a code
                                     title: Code
                                     type: string
-                                    pattern: ^\w{0,4}$
+                                    pattern: '^\w{0,4}$'
                                     minLength: 0
                                     maxLength: 4
                                   Name:
@@ -7984,7 +8239,7 @@ components:
                                     description: Cap amount charged for a fee/charge
                                     title: FeeCapAmount
                                     type: string
-                                    pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                    pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                   CappingPeriod:
                                     description: >-
                                       Period e.g. day, week, month etc. for
@@ -8026,7 +8281,7 @@ components:
                                             XML file to identify a code
                                           title: Code
                                           type: string
-                                          pattern: ^\w{0,4}$
+                                          pattern: '^\w{0,4}$'
                                           minLength: 0
                                           maxLength: 4
                                         Name:
@@ -8102,14 +8357,14 @@ components:
                       in terms of an amount rather than a rate)
                     title: FeeAmount
                     type: string
-                    pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                    pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                   FeeRate:
                     description: >-
                       Rate charged for Fee/Charge (where it is charged in terms
                       of a rate rather than an amount)
                     title: FeeRate
                     type: string
-                    pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                    pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                   FeeRateType:
                     description: >-
                       Rate type for Fee/Charge (where it is charged in terms of
@@ -8192,7 +8447,7 @@ components:
                           identify a code
                         title: Code
                         type: string
-                        pattern: ^\w{0,4}$
+                        pattern: '^\w{0,4}$'
                         minLength: 0
                         maxLength: 4
                       Name:
@@ -8224,7 +8479,7 @@ components:
                           identify a code
                         title: Code
                         type: string
-                        pattern: ^\w{0,4}$
+                        pattern: '^\w{0,4}$'
                         minLength: 0
                         maxLength: 4
                       FeeCategory:
@@ -8266,7 +8521,7 @@ components:
                           identify a code
                         title: Code
                         type: string
-                        pattern: ^\w{0,4}$
+                        pattern: '^\w{0,4}$'
                         minLength: 0
                         maxLength: 4
                       Name:
@@ -8298,7 +8553,7 @@ components:
                           identify a code
                         title: Code
                         type: string
-                        pattern: ^\w{0,4}$
+                        pattern: '^\w{0,4}$'
                         minLength: 0
                         maxLength: 4
                       Name:
@@ -8330,7 +8585,7 @@ components:
                           identify a code
                         title: Code
                         type: string
-                        pattern: ^\w{0,4}$
+                        pattern: '^\w{0,4}$'
                         minLength: 0
                         maxLength: 4
                       Name:
@@ -8398,7 +8653,7 @@ components:
                             charged in terms of an amount rather than a rate)
                           title: FeeCapAmount
                           type: string
-                          pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                          pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                         CappingPeriod:
                           description: >-
                             Period e.g. day, week, month etc. for which the
@@ -8442,7 +8697,7 @@ components:
                                   file to identify a code
                                 title: Code
                                 type: string
-                                pattern: ^\w{0,4}$
+                                pattern: '^\w{0,4}$'
                                 minLength: 0
                                 maxLength: 4
                               Name:
@@ -8476,28 +8731,28 @@ components:
                           (where it is expressed as an amount)
                         title: MinimumAmount
                         type: string
-                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                       MaximumAmount:
                         description: >-
                           Maximum Amount on which fee is applicable (where it is
                           expressed as an amount)
                         title: MaximumAmount
                         type: string
-                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                       MinimumRate:
                         description: >-
                           Minimum rate on which fee/charge is applicable(where
-                          it is expressed as an rate)
+                          it is expressed as a rate)
                         title: MinimumRate
                         type: string
-                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                       MaximumRate:
                         description: >-
                           Maximum rate on which fee/charge is applicable(where
-                          it is expressed as an rate)
+                          it is expressed as a rate)
                         title: MaximumRate
                         type: string
-                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                     additionalProperties: false
                 required:
                   - FeeCategory
@@ -8551,7 +8806,7 @@ components:
                       in terms of an amount rather than a rate)
                     title: FeeCapAmount
                     type: string
-                    pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                    pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                   CappingPeriod:
                     description: >-
                       Period e.g. day, week, month etc. for which the fee/charge
@@ -8593,7 +8848,7 @@ components:
                             identify a code
                           title: Code
                           type: string
-                          pattern: ^\w{0,4}$
+                          pattern: '^\w{0,4}$'
                           minLength: 0
                           maxLength: 4
                         Name:
@@ -8733,7 +8988,7 @@ components:
         Country:
           description: Nation with its own government.
           type: string
-          pattern: ^[A-Z]{2,2}$
+          pattern: '^[A-Z]{2,2}$'
         AddressLine:
           type: array
           items:
@@ -9043,14 +9298,7 @@ components:
             CreationDateTime:
               $ref: '#/components/schemas/CreationDateTime'
             Status:
-              description: Specifies the status of consent resource in code form.
-              type: string
-              enum:
-                - AWAU
-                - RJCT
-                - AUTH
-                - EXPD
-                - CANC
+              $ref: '#/components/schemas/OBInternalConsentStatus1Code'
             StatusReason:
               type: array
               items:
@@ -9140,6 +9388,15 @@ components:
         Meta:
           $ref: '#/components/schemas/Meta'
       additionalProperties: false
+    OBInternalConsentStatus1Code:
+      description: Specifies the status of consent resource in code form.
+      type: string
+      enum:
+        - AWAU
+        - RJCT
+        - AUTH
+        - CANC
+        - EXPD
     OBReadDataStatement2:
       type: object
       properties:
@@ -9264,7 +9521,7 @@ components:
                     description: Rate associated with the offer type.
                     type: string
                     example: '100.00'
-                    pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                    pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                   Value:
                     description: Value associated with the offer type.
                     example: 10
@@ -9501,7 +9758,7 @@ components:
                               The maximum relevant charges that could accrue as
                               defined fully in Part 7 of the CMA order
                             type: string
-                            pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                            pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                           Notes:
                             type: array
                             items:
@@ -9609,13 +9866,13 @@ components:
                                           Minimum deposit value for which the
                                           credit interest tier applies.
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       TierValueMaximum:
                                         description: >-
                                           Maximum deposit value for which the
                                           credit interest tier applies.
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       CalculationFrequency:
                                         description: >-
                                           How often is credit interest calculated
@@ -9675,7 +9932,7 @@ components:
                                           Read more: Annual Equivalent Rate (AER)
                                           http://www.investopedia.com/terms/a/aer.asp#ixzz4gfR7IO1A
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                       BankInterestRateType:
                                         description: >-
                                           Interest rate types, other than AER,
@@ -9693,7 +9950,7 @@ components:
                                       BankInterestRate:
                                         description: Bank Interest for the product
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                       Notes:
                                         type: array
                                         items:
@@ -9803,7 +10060,7 @@ components:
                                     amount. Note: Authorised overdraft charges
                                     may still apply.
                                   type: string
-                                  pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                  pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                 Notes:
                                   type: array
                                   items:
@@ -9833,11 +10090,11 @@ components:
                                       TierValueMin:
                                         description: Minimum value of Overdraft Tier/Band
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       TierValueMax:
                                         description: Maximum value of Overdraft Tier/Band
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       EAR:
                                         description: >-
                                           EAR means Effective Annual Rate and/or
@@ -9846,7 +10103,7 @@ components:
                                           used interchangeably), being the actual
                                           annual interest rate of an Overdraft.
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                       AgreementLengthMin:
                                         description: >-
                                           Specifies the minimum length of a band
@@ -10408,13 +10665,13 @@ components:
                                           Minimum loan value for which the loan
                                           interest tier applies.
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       TierValueMaximum:
                                         description: >-
                                           Maximum loan value for which the loan
                                           interest tier applies.
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       TierValueMinTerm:
                                         description: >-
                                           Minimum loan term for which the loan
@@ -10471,7 +10728,7 @@ components:
                                           representative APR which includes any
                                           account fees.
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                       LoanProviderInterestRateType:
                                         description: >-
                                           Interest rate types, other than APR,
@@ -10491,7 +10748,7 @@ components:
                                           Loan provider Interest for the SME Loan
                                           product
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                       Notes:
                                         type: array
                                         items:
@@ -11184,28 +11441,28 @@ components:
                                           applicable (where it is expressed as an
                                           amount)
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       MaximumAmount:
                                         description: >-
                                           Maximum Amount on which fee is
                                           applicable (where it is expressed as an
                                           amount)
                                         type: string
-                                        pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
                                       MinimumRate:
                                         description: >-
                                           Minimum rate on which fee/charge is
-                                          applicable(where it is expressed as an
+                                          applicable(where it is expressed as a
                                           rate)
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                                       MaximumRate:
                                         description: >-
                                           Maximum rate on which fee/charge is
-                                          applicable(where it is expressed as an
+                                          applicable(where it is expressed as a
                                           rate)
                                         type: string
-                                        pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+                                        pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
                               minItems: 1
                             FeeChargeCap:
                               type: array
@@ -11618,7 +11875,7 @@ components:
               Rate:
                 $ref: '#/components/schemas/OBRate1_1'
               RateType:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
+                $ref: '#/components/schemas/OBInternalStatementInterestRateType1Code'
               Frequency:
                 $ref: '#/components/schemas/OBInternalStatementInterestFrequency1Code'
               Amount:
@@ -11834,7 +12091,7 @@ components:
               Rate:
                 $ref: '#/components/schemas/OBRate1_1'
               RateType:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
+                $ref: '#/components/schemas/OBInternalStatementInterestRateType1Code'
               Frequency:
                 $ref: '#/components/schemas/OBInternalStatementInterestFrequency1Code'
               Amount:
@@ -11991,7 +12248,7 @@ components:
               Rate:
                 $ref: '#/components/schemas/OBRate1_1'
               RateType:
-                $ref: '#/components/schemas/OBInternalStatementInterestType1Code'
+                $ref: '#/components/schemas/OBInternalStatementInterestRateType1Code'
               Frequency:
                 $ref: '#/components/schemas/OBInternalStatementInterestFrequency1Code'
               Amount:
@@ -12198,6 +12455,12 @@ components:
           $ref: '#/components/schemas/OBUltimateCreditor1'
         UltimateDebtor:
           $ref: '#/components/schemas/OBUltimateDebtor1'
+        IntermediaryAgent1:
+          $ref: '#/components/schemas/OBIntermediaryAgent'
+        IntermediaryAgent2:
+          $ref: '#/components/schemas/OBIntermediaryAgent'
+        IntermediaryAgent3:
+          $ref: '#/components/schemas/OBIntermediaryAgent'
       additionalProperties: false
     OBTransaction6Basic:
       type: object
@@ -12409,35 +12672,35 @@ components:
     OB_Amount1_0:
       description: Cap amount charged for a fee/charge
       type: string
-      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
     OB_Amount1_1:
       description: >-
         Every additional tranche of an overdraft balance to which an overdraft
         fee is applied
       type: string
-      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
     OB_Amount1_2:
       description: >-
         Amount charged for an overdraft fee/charge (where it is charged in terms
         of an amount rather than a rate)
       type: string
-      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
     OB_Amount1_3:
       description: >-
         Fee Amount charged for a fee/charge (where it is charged in terms of an
         amount rather than a rate)
       type: string
-      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
     OB_Amount1_4:
       description: >-
         Cap amount charged for a fee/charge (where it is charged in terms of an
         amount rather than a rate)
       type: string
-      pattern: ^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,14}){1}(\.\d{1,4}){0,1}$'
     OB_CodeMnemonic:
       description: The four letter Mnemonic used within an XML file to identify a code
       type: string
-      pattern: ^\w{0,4}$
+      pattern: '^\w{0,4}$'
     OB_FeeCategory1Code:
       description: Categorisation of fees and charges into standard categories.
       type: string
@@ -12804,13 +13067,13 @@ components:
         Rate charged for overdraft fee/charge (where it is charged in terms of a
         rate rather than an amount)
       type: string
-      pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
     OB_Rate1_1:
       description: >-
         Rate charged for Fee/Charge (where it is charged in terms of a rate
         rather than an amount)
       type: string
-      pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
     OpeningDate:
       description: >-
         Date on which the account and related basic services are effectively
@@ -12843,14 +13106,14 @@ components:
         telecom services.
       example: '+44-2079460000'
       type: string
-      pattern: \+[0-9]{1,3}-[0-9()+\-]{1,30}
+      pattern: '\+[0-9]{1,3}-[0-9()+\-]{1,30}'
     PhoneNumber_1:
       description: >-
         Collection of information that identifies a mobile phone number, as
         defined by telecom services.
       type: string
       example: '+44-7700900000'
-      pattern: \+[0-9]{1,3}-[0-9()+\-]{1,30}
+      pattern: '\+[0-9]{1,3}-[0-9()+\-]{1,30}'
     PostBox:
       description: >-
         Information that locates and identifies a box in a post office assigned
@@ -12905,7 +13168,7 @@ components:
       type: string
       example: '0.224'
       maxLength: 40
-      pattern: ^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$
+      pattern: '^(-?\d{1,3}){1}(\.\d{1,4}){0,1}$'
     Reference:
       description: >-
         Unique reference, as assigned by the creditor, to unambiguously refer to
@@ -13022,7 +13285,7 @@ components:
       type: array
       items:
         type: object
-        description: Frequency and format of statments for an account
+        description: Frequency and format of statements for an account
         properties:
           Frequency:
             $ref: '#/components/schemas/OBFrequency2'
@@ -13034,7 +13297,7 @@ components:
             $ref: '#/components/schemas/OBPostalAddress7'
     StatementId:
       description: >-
-        Unique identifier for the statement resource within an servicing
+        Unique identifier for the statement resource within a servicing
         institution. This identifier is both unique and immutable.
       type: string
       example: 8sfhke-sifhkeuf-97813
@@ -13096,7 +13359,7 @@ components:
       maxLength: 140
     TransactionId:
       description: >-
-        Unique identifier for the transaction within an servicing institution.
+        Unique identifier for the transaction within a servicing institution.
         This identifier is both unique and immutable.
       type: string
       minLength: 1

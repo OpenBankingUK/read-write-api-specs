@@ -78,7 +78,7 @@ ReadRefundAccount [0..1]
 
 <text x="47.2em" y="10.8em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the status of consent resource in code form.
+Description: Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - AWAU
  - RJCT
@@ -246,7 +246,7 @@ CurrencyOfTransfer [1..1]
 <text x="74.8em" y="30.6em" fill="darkslateblue">
 <title>Type: string
 Description: Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).
-Pattern: [A-Z]{2,2}
+Pattern: ^[A-Z]{2,2}$
 </title>
 DestinationCountryCode [0..1]
 </text>
@@ -1001,7 +1001,7 @@ FirstPaymentDateTime [0..1]
 <title>Type: string
 MinLength: 1
 MaxLength: 35
-Description: Unique and unambiguous identification of a financial institution or a branch of a financial institution.
+Description: Unique identification, as assigned by the creditor, to unambiguously identify the mandate.
 </title>
 MandateIdentification [0..1]
 </text>
@@ -1043,7 +1043,7 @@ CountPerPeriod [0..1]
 <text x="134.8em" y="109.1em" fill="darkslateblue">
 <title>Type: string
 MaxLength: 2
-Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerSide`
+Description: Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerPeriod`.
 </title>
 PointInTime [0..1]
 </text>
@@ -1061,7 +1061,7 @@ RegulatoryReporting
 
 <text x="104em" y="120.89999999999999em" fill="darkslateblue">
 <title>Type: string
-Description: Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values reefer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Description: Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values refer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - CRED
  - DEBT
@@ -1203,9 +1203,9 @@ Invoicer [0..1]
 </text>
 
 <text x="126.8em" y="140.60000000000002em" fill="darkslateblue">
-<title>Type: integer
-Format: int32
-Description: Provides details on the amounts of the referred document.
+<title>Type: string
+Description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
+Pattern: ^\d{1,13}$|^\d{1,13}\.\d{1,5}$
 </title>
 ReferredDocumentAmount [0..1]
 </text>
@@ -1302,6 +1302,8 @@ Issuer [0..1]
 
 <text x="163.2em" y="147.20000000000002em" fill="darkslateblue">
 <title>Type: string
+MinLength: 1
+MaxLength: 2048
 </title>
 LineDetails [0..*]
 </text>
@@ -1803,7 +1805,7 @@ ReferencePaymentOrderId [0..1]
 
 <text x="74.8em" y="216.5em" fill="darkslateblue">
 <title>Type: string
-Description: This field allows a PISP to request specific SCA Exemption for a Payment Initiation. For a full list of values reefer to `OBInternalSCAExemptionType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
+Description: This field allows a PISP to request specific SCA Exemption for a Payment Initiation. For a full list of values refer to `OBInternalSCAExemptionType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
 Values:
  - BillPayment
  - ContactlessTravel
@@ -2041,7 +2043,14 @@ MerchantCustomerIdentification [0..1]
 
 <text x="47.2em" y="255.90000000000003em" fill="darkslateblue">
 <title>Type: string
-Description: Specifies the payment context, `OBInternalPaymentContext1Code`
+Description: Specifies the payment context, `OBInternalPaymentContext1Code`&lt;br&gt;
+The following values are deprecated and &lt;u&gt;**must not**&lt;/u&gt; be used in a new consent or payment. They may optionally be returned for a historical payment/consent migrated to v4:&lt;br&gt;
+* BillPayment - @deprecated
+* EcommerceGoods - @deprecated
+* EcommerceServices - @deprecated
+* PartyToParty - @deprecated
+* PispPayee - @deprecated
+* Other - @deprecated
 
 Values:
  - BillingGoodsAndServicesInAdvance
@@ -2050,6 +2059,12 @@ Values:
  - FaceToFacePointOfSale
  - TransferToSelf
  - TransferToThirdParty
+ - BillPayment
+ - EcommerceGoods
+ - EcommerceServices
+ - PartyToParty
+ - PispPayee
+ - Other
 </title>
 PaymentContextCode [0..1]
 </text>
@@ -2388,6 +2403,7 @@ Values:
  - DEPD
  - RETL
  - DEBT
+ - CRYP
 </title>
 PaymentPurposeCode [0..1]
 </text>

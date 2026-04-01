@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Account and Transaction API Specification",
-    "description": "Swagger for Account and Transaction API Specification",
+    "description": "Swagger for Account and Transaction API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,15 +12,16 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "4.0.0"
+    "version": "4.0.1"
   },
   "paths": {
     "/account-access-consents": {
       "post": {
         "tags": [
-          "Account Access"
+          "Account Access Consents"
         ],
-        "summary": "Create Account Access Consents",
+        "summary": "Create an Account Access Consent",
+        "description": "Enables an AISP to ask an ASPSP to create a new account-access-consent resource, by sending a copy of the consent to the ASPSP.",
         "operationId": "CreateAccountAccessConsents",
         "parameters": [
           {
@@ -37,6 +38,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -101,9 +105,10 @@
     "/account-access-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "Account Access"
+          "Account Access Consents"
         ],
-        "summary": "Get Account Access Consents",
+        "summary": "Get an Account Access Consent",
+        "description": "Enables an AISP to retrieve the status of an AIS consent.",
         "operationId": "GetAccountAccessConsentsConsentId",
         "parameters": [
           {
@@ -123,6 +128,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -161,9 +169,10 @@
       },
       "delete": {
         "tags": [
-          "Account Access"
+          "Account Access Consents"
         ],
-        "summary": "Delete Account Access Consents",
+        "summary": "Delete an Account Access Consent",
+        "description": "Enables an AISP to inform the ASPSP that the PSU has revoked their consent.",
         "operationId": "DeleteAccountAccessConsentsConsentId",
         "parameters": [
           {
@@ -183,6 +192,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -226,6 +238,7 @@
           "Accounts"
         ],
         "summary": "Get Accounts",
+        "description": "Enables an AISP to retrieve a list of a PSU's accounts and information about those account(s) that the PSU has consented to.",
         "operationId": "GetAccounts",
         "parameters": [
           {
@@ -242,6 +255,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -284,7 +300,8 @@
         "tags": [
           "Accounts"
         ],
-        "summary": "Get Accounts",
+        "summary": "Get an Account by AccountId",
+        "description": "Enables an AISP to retrieve information about a specific PSU account.",
         "operationId": "GetAccountsAccountId",
         "parameters": [
           {
@@ -304,6 +321,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -346,7 +366,8 @@
         "tags": [
           "Balances"
         ],
-        "summary": "Get Balances",
+        "summary": "Get Balances for an AccountId",
+        "description": "Enables an AISP to retrieve account balance information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdBalances",
         "parameters": [
           {
@@ -366,6 +387,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -408,7 +432,8 @@
         "tags": [
           "Beneficiaries"
         ],
-        "summary": "Get Beneficiaries",
+        "summary": "Get Beneficiaries for an AccountId",
+        "description": "Enables an AISP to retrieve Beneficiary information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdBeneficiaries",
         "parameters": [
           {
@@ -428,6 +453,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -473,7 +501,8 @@
         "tags": [
           "Direct Debits"
         ],
-        "summary": "Get Direct Debits",
+        "summary": "Get Direct Debits for an AccountId",
+        "description": "Enables an AISP to retrieve Direct Debit information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdDirectDebits",
         "parameters": [
           {
@@ -493,6 +522,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -538,7 +570,8 @@
         "tags": [
           "Offers"
         ],
-        "summary": "Get Offers",
+        "summary": "Get Offers for an AccountId",
+        "description": "Enables an AISP to retrieve any offer information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdOffers",
         "parameters": [
           {
@@ -558,6 +591,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -603,7 +639,8 @@
         "tags": [
           "Parties"
         ],
-        "summary": "Get Parties",
+        "summary": "Get Parties for an AccountId",
+        "description": "Enables an AISP to retrieve details about the PSU account-holder(s)/operator(s).",
         "operationId": "GetAccountsAccountIdParties",
         "parameters": [
           {
@@ -623,6 +660,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -668,7 +708,8 @@
         "tags": [
           "Parties"
         ],
-        "summary": "Get Parties",
+        "summary": "Get Party for an AccountId",
+        "description": "Enables an AISP to retrieve details about the party that gave permission to the AISP to view a specific PSU account.",
         "operationId": "GetAccountsAccountIdParty",
         "parameters": [
           {
@@ -688,6 +729,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -733,7 +777,8 @@
         "tags": [
           "Products"
         ],
-        "summary": "Get Products",
+        "summary": "Get Product for an AccountId",
+        "description": "Enables an AISP to retrieve the account product information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdProduct",
         "parameters": [
           {
@@ -753,6 +798,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -798,7 +846,8 @@
         "tags": [
           "Scheduled Payments"
         ],
-        "summary": "Get Scheduled Payments",
+        "summary": "Get Scheduled Payments for an AccountId",
+        "description": "Enables an AISP to retrieve Scheduled Payment information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdScheduledPayments",
         "parameters": [
           {
@@ -818,6 +867,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -863,7 +915,8 @@
         "tags": [
           "Standing Orders"
         ],
-        "summary": "Get Standing Orders",
+        "summary": "Get Standing Orders for an AccountId",
+        "description": "Enables an AISP to retrieve Standing Order information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdStandingOrders",
         "parameters": [
           {
@@ -883,6 +936,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -928,7 +984,8 @@
         "tags": [
           "Statements"
         ],
-        "summary": "Get Statements",
+        "summary": "Get Statements for an AccountId",
+        "description": "Enables an AISP to retrieve statement information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdStatements",
         "parameters": [
           {
@@ -954,6 +1011,9 @@
           },
           {
             "$ref": "#/components/parameters/ToStatementDateTimeParam"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -999,7 +1059,8 @@
         "tags": [
           "Statements"
         ],
-        "summary": "Get Statements",
+        "summary": "Get Statement by StatementId for an AccountId",
+        "description": "Enables an AISP to retrieve the statement information resource for a specific statement.",
         "operationId": "GetAccountsAccountIdStatementsStatementId",
         "parameters": [
           {
@@ -1022,6 +1083,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1067,7 +1131,8 @@
         "tags": [
           "Statements"
         ],
-        "summary": "Get Statements",
+        "summary": "Get Statement file by StatementId for an AccountId",
+        "description": "Enables an AISP to retrieve a non-json representation of a specific statement.",
         "operationId": "GetAccountsAccountIdStatementsStatementIdFile",
         "parameters": [
           {
@@ -1090,6 +1155,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1133,9 +1201,10 @@
     "/accounts/{AccountId}/statements/{StatementId}/transactions": {
       "get": {
         "tags": [
-          "Transactions"
+          "Statements"
         ],
-        "summary": "Get Transactions",
+        "summary": "Get Statement Transactions for an AccountId",
+        "description": "Enables an AISP to retrieve transactions that appear on a selected statement for a specific PSU account.",
         "operationId": "GetAccountsAccountIdStatementsStatementIdTransactions",
         "parameters": [
           {
@@ -1158,6 +1227,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1203,7 +1275,8 @@
         "tags": [
           "Transactions"
         ],
-        "summary": "Get Transactions",
+        "summary": "Get Transactions for an AccountId",
+        "description": "Enables an AISP to retrieve transaction information for a specific PSU account.",
         "operationId": "GetAccountsAccountIdTransactions",
         "parameters": [
           {
@@ -1229,6 +1302,9 @@
           },
           {
             "$ref": "#/components/parameters/ToBookingDateTimeParam"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1272,6 +1348,7 @@
           "Balances"
         ],
         "summary": "Get Balances",
+        "description": "Enables an AISP to retrieve balance information for account(s) that the PSU has consented to.",
         "operationId": "GetBalances",
         "parameters": [
           {
@@ -1288,6 +1365,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1334,6 +1414,7 @@
           "Beneficiaries"
         ],
         "summary": "Get Beneficiaries",
+        "description": "Enables an AISP to retrieve Beneficiary information for account(s) that the PSU has consented to.",
         "operationId": "GetBeneficiaries",
         "parameters": [
           {
@@ -1350,6 +1431,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1396,6 +1480,7 @@
           "Direct Debits"
         ],
         "summary": "Get Direct Debits",
+        "description": "Enables an AISP to retrieve Direct Debit information for account(s) that the PSU has consented to.",
         "operationId": "GetDirectDebits",
         "parameters": [
           {
@@ -1412,6 +1497,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1458,6 +1546,7 @@
           "Offers"
         ],
         "summary": "Get Offers",
+        "description": "Enables an AISP to retrieve any offer information for account(s) that the PSU has consented to.",
         "operationId": "GetOffers",
         "parameters": [
           {
@@ -1474,6 +1563,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1519,7 +1611,8 @@
         "tags": [
           "Parties"
         ],
-        "summary": "Get Parties",
+        "summary": "Get Party",
+        "description": "Retrieve details about the party that gave permission to the AISP to view an account(s).",
         "operationId": "GetParty",
         "parameters": [
           {
@@ -1536,6 +1629,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1582,6 +1678,7 @@
           "Products"
         ],
         "summary": "Get Products",
+        "description": "Enables an AISP to retrieve the account product information for account(s) that the PSU has consented to.",
         "operationId": "GetProducts",
         "parameters": [
           {
@@ -1598,6 +1695,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1644,6 +1744,7 @@
           "Scheduled Payments"
         ],
         "summary": "Get Scheduled Payments",
+        "description": "Enables an AISP to retrieve Scheduled Payment information for account(s) that the PSU has consented to.",
         "operationId": "GetScheduledPayments",
         "parameters": [
           {
@@ -1660,6 +1761,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1706,6 +1810,7 @@
           "Standing Orders"
         ],
         "summary": "Get Standing Orders",
+        "description": "Enables an AISP to retrieve Standing Order information for account(s) that the PSU has consented to.",
         "operationId": "GetStandingOrders",
         "parameters": [
           {
@@ -1722,6 +1827,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1768,6 +1876,7 @@
           "Statements"
         ],
         "summary": "Get Statements",
+        "description": "Enables an AISP to retrieve statement information for account(s) that the PSU has consented to.",
         "operationId": "GetStatements",
         "parameters": [
           {
@@ -1790,6 +1899,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1836,6 +1948,7 @@
           "Transactions"
         ],
         "summary": "Get Transactions",
+        "description": "Enables an AISP to retrieve transaction information for account(s) that the PSU has consented to.",
         "operationId": "GetTransactions",
         "parameters": [
           {
@@ -1858,6 +1971,9 @@
           },
           {
             "$ref": "#/components/parameters/ToBookingDateTimeParam"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1909,37 +2025,41 @@
       "FromBookingDateTimeParam": {
         "in": "query",
         "name": "fromBookingDateTime",
-        "description": "The UTC ISO 8601 Date Time to filter transactions FROM\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component.",
+        "description": "The UTC ISO 8601 Date Time to filter transactions FROM.\n\nNote: Time component is optional - set to 00:00:00 for just Date.\n\nThe value **must not** include the timezone component.\n",
         "schema": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example": "2026-01-01T00:00:00"
         }
       },
       "ToBookingDateTimeParam": {
         "in": "query",
         "name": "toBookingDateTime",
-        "description": "The UTC ISO 8601 Date Time to filter transactions TO\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component.",
+        "description": "The UTC ISO 8601 Date Time to filter transactions TO.\n\nNote: Time component is optional - set to 00:00:00 for just Date.\n\nThe value **must not** include the timezone component.\n",
         "schema": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example": "2026-12-31T23:59:59"
         }
       },
       "FromStatementDateTimeParam": {
         "in": "query",
         "name": "fromStatementDateTime",
-        "description": "The UTC ISO 8601 Date Time to filter statements FROM\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component.",
+        "description": "The UTC ISO 8601 Date Time to filter statements FROM.\n\nNote: Time component is optional - set to 00:00:00 for just Date.\n\nThe value **must not** include the timezone component.\n",
         "schema": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example": "2026-01-01T00:00:00"
         }
       },
       "ToStatementDateTimeParam": {
         "in": "query",
         "name": "toStatementDateTime",
-        "description": "The UTC ISO 8601 Date Time to filter statements TO\nNB Time component is optional - set to 00:00:00 for just Date.\nIf the Date Time contains a timezone, the ASPSP must ignore the timezone component.",
+        "description": "The UTC ISO 8601 Date Time to filter statements TO.\n\nNote: Time component is optional - set to 00:00:00 for just Date.\n\nThe value **must not** include the timezone component.\n",
         "schema": {
           "type": "string",
-          "format": "date-time"
+          "format": "date-time",
+          "example": "2026-12-31T23:59:59"
         }
       },
       "ConsentId": {
@@ -2034,6 +2154,31 @@
         "schema": {
           "type": "string"
         }
+      },
+      "x-client-id": {
+        "in": "header",
+        "name": "x-client-id",
+        "required": false,
+        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers. \n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "headers": {
+      "RateLimit-Policy": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RateLimit": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
+        "schema": {
+          "type": "string"
+        }
       }
     },
     "responses": {
@@ -2046,6 +2191,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2075,6 +2226,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2104,6 +2261,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         }
       },
@@ -2116,6 +2279,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2145,6 +2314,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2174,6 +2349,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2203,6 +2384,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2232,6 +2419,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2261,6 +2454,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2290,6 +2489,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2319,6 +2524,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2348,6 +2559,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2377,6 +2594,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2406,6 +2629,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2435,6 +2664,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2464,6 +2699,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2493,6 +2734,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2522,6 +2769,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2551,6 +2804,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2580,6 +2839,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2609,6 +2874,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2638,6 +2909,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2667,6 +2944,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2696,6 +2979,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2717,7 +3006,7 @@
         }
       },
       "200AccountsAccountIdStatementsStatementIdFileRead": {
-        "description": "Statements Read",
+        "description": "Statements Read\n\nASPSP will specify all available content types\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -2725,6 +3014,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2754,6 +3049,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2783,6 +3084,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2812,6 +3119,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -2841,6 +3154,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3054,6 +3373,46 @@
       }
     },
     "schemas": {
+      "OBIntermediaryAgent": {
+        "description": "The intermediary agent associated with this transaction.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name by which an agent is known and which is usually used to identify that agent.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          },
+          "ProcessingStatus": {
+            "description": "Status of the payment at the Intermediary Agent. For a full list of enumeration values refer to `OBIntermediaryAgentStatus1Code` in `OB_Internal_CodeSet` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "type": "string",
+            "enum": [
+              "PDNG",
+              "RCVD",
+              "ACSP",
+              "ACSC",
+              "RJCT",
+              "UNKN",
+              "CANC"
+            ]
+          }
+        }
+      },
       "ExternalCreditorReferenceType1Code": {
         "type": "string",
         "minLength": 1,
@@ -3074,7 +3433,10 @@
         "maxLength": 4,
         "description": "Specifies the document type as published in an external document type code list. For more information see `ExternalDocumentType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "enum": [
+          "AROI",
+          "BOLD",
           "CINV",
+          "CMCN",
           "CNFA",
           "CONT",
           "CREN",
@@ -3088,8 +3450,12 @@
           "PUOR",
           "QUOT",
           "SBIN",
+          "SOAC",
           "SPRR",
-          "TISH"
+          "TISH",
+          "TSUT",
+          "USAR",
+          "VCHR"
         ]
       },
       "OBReferredDocumentInformation": {
@@ -3099,7 +3465,7 @@
             "$ref": "#/components/schemas/ExternalDocumentType1Code"
           },
           "Issuer": {
-            "description": "dentification of the issuer of the reference document type.",
+            "description": "Identification of the issuer of the reference document type.",
             "type": "string",
             "maxLength": 140,
             "minLength": 1
@@ -3119,7 +3485,9 @@
             "description": "Set of elements used to provide the content of the referred document line.",
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
             }
           }
         }
@@ -3155,9 +3523,7 @@
             }
           },
           "ReferredDocumentAmount": {
-            "description": "Provides details on the amounts of the referred document.",
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
           },
           "CreditorReferenceInformation": {
             "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
@@ -3312,7 +3678,10 @@
           "FOMH",
           "FIMH",
           "ALMH",
-          "NONE"
+          "NONE",
+          "LWMH",
+          "LXMH",
+          "TWYR"
         ]
       },
       "OBProxy1": {
@@ -3578,7 +3947,7 @@
         "maxLength": 256
       },
       "Identification_4": {
-        "description": "dentification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.",
+        "description": "Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.",
         "type": "string",
         "example": "80200112344562",
         "minLength": 1,
@@ -4126,20 +4495,6 @@
             "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode_1"
           }
         }
-      },
-      "OBAddressTypeCode": {
-        "description": "Identifies the nature of the postal address.",
-        "type": "string",
-        "enum": [
-          "Business",
-          "Correspondence",
-          "DeliveryTo",
-          "MailTo",
-          "POBox",
-          "Postal",
-          "Residential",
-          "Statement"
-        ]
       },
       "OBAddressType2Code": {
         "description": "Identifies the nature of the postal address. <br /> For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
@@ -6240,13 +6595,13 @@
                             "pattern": "^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$"
                           },
                           "MinimumRate": {
-                            "description": "Minimum rate on which fee/charge is applicable(where it is expressed as an rate)",
+                            "description": "Minimum rate on which fee/charge is applicable(where it is expressed as a rate)",
                             "title": "MinimumRate",
                             "type": "string",
                             "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
                           },
                           "MaximumRate": {
-                            "description": "Maximum rate on which fee/charge is applicable(where it is expressed as an rate)",
+                            "description": "Maximum rate on which fee/charge is applicable(where it is expressed as a rate)",
                             "title": "MaximumRate",
                             "type": "string",
                             "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
@@ -6685,7 +7040,7 @@
       },
       "OBCashAccount6_1": {
         "type": "object",
-        "description": "Unambiguous identification of the account of the debtor, in the case of a crebit transaction.",
+        "description": "Unambiguous identification of the account of the debtor, in the case of a credit transaction.",
         "properties": {
           "SchemeName": {
             "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
@@ -7399,7 +7754,8 @@
           "CPEN",
           "DEPD",
           "RETL",
-          "DEBT"
+          "DEBT",
+          "CRYP"
         ]
       },
       "OBInternalScheduleType1Code": {
@@ -7493,7 +7849,7 @@
         ]
       },
       "OBInternalStatementFeeRateType1Code": {
-        "description": "Description that may be available for the statement fee rate type. For a full list of values see `OBInternalStatementFeeRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "This code indicates the specific type of fee rate (e.g., AER, EAR). For a full list of values see `OBInternalStatementFeeRateType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "example": "UK.OBIE.AER",
         "x-namespaced-enum": [
@@ -7520,7 +7876,9 @@
           "UK.OBIE.PostalOrder",
           "UK.OBIE.PrizeEntry",
           "UK.OBIE.StatementCopy",
-          "UK.OBIE.Total"
+          "UK.OBIE.Total",
+          "UK.OBIE.InstalmentPlan",
+          "UK.OBIE.ReturnedPayment"
         ]
       },
       "OBInternalStatementInterestFrequency1Code": {
@@ -7537,8 +7895,8 @@
           "UK.OBIE.Yearly"
         ]
       },
-      "OBExternalStatementInterestRateType1Code": {
-        "description": "Description that may be available for the statement Interest rate type.",
+      "OBInternalStatementInterestRateType1Code": {
+        "description": "This code specifies the type of interest (e.g., BOE Base Rate, Fixed Rate, Gross).",
         "type": "string",
         "example": "UK.OBIE.FixedRate",
         "x-namespaced-enum": [
@@ -7558,7 +7916,9 @@
           "UK.OBIE.Cash",
           "UK.OBIE.EstimatedNext",
           "UK.OBIE.Purchase",
-          "UK.OBIE.Total"
+          "UK.OBIE.Total",
+          "UK.OBIE.InstalmentPlan",
+          "UK.OBIE.MoneyTransfer"
         ]
       },
       "OBInternalStatementRateType1Code": {
@@ -7617,7 +7977,9 @@
           "MIAN",
           "TEND",
           "MOVE",
-          "WEEK"
+          "WEEK",
+          "NONE",
+          "SLCT"
         ]
       },
       "OBFrequencyPeriodType": {
@@ -7635,7 +7997,7 @@
         ]
       },
       "OBFileFormat": {
-        "description": "For a full list of enumeration values refer to `ExternalDocumentFormat1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)",
+        "description": "For a full list of enumeration values refer to `ExternalDocumentFormat1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_internal_CodeSets)",
         "type": "string",
         "enum": [
           "DPDF",
@@ -7647,11 +8009,11 @@
         ]
       },
       "OBExternalStatusReason1Code": {
-        "description": "Low level textual error code, for all enum values see `ExternalReason1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Low level textual error code, for all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
-        "example": "AC17"
+        "example": "U001"
       },
       "OBMandateRelatedInformation1": {
         "type": "object",
@@ -7697,7 +8059,7 @@
           "Reason": {
             "description": "Reason for the setup of the credit transfer mandate.",
             "type": "string",
-            "example": "To pay monthly memebership",
+            "example": "To pay monthly membership",
             "maxLength": 256,
             "minLength": 1
           }
@@ -9722,13 +10084,13 @@
                           "pattern": "^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$"
                         },
                         "MinimumRate": {
-                          "description": "Minimum rate on which fee/charge is applicable(where it is expressed as an rate)",
+                          "description": "Minimum rate on which fee/charge is applicable(where it is expressed as a rate)",
                           "title": "MinimumRate",
                           "type": "string",
                           "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
                         },
                         "MaximumRate": {
-                          "description": "Maximum rate on which fee/charge is applicable(where it is expressed as an rate)",
+                          "description": "Maximum rate on which fee/charge is applicable(where it is expressed as a rate)",
                           "title": "MaximumRate",
                           "type": "string",
                           "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
@@ -10350,15 +10712,7 @@
                 "$ref": "#/components/schemas/CreationDateTime"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "EXPD",
-                  "CANC"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -10429,6 +10783,17 @@
           }
         },
         "additionalProperties": false
+      },
+      "OBInternalConsentStatus1Code": {
+        "description": "Specifies the status of consent resource in code form.",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "CANC",
+          "EXPD"
+        ]
       },
       "OBReadDataStatement2": {
         "type": "object",
@@ -12614,12 +12979,12 @@
                                           "pattern": "^(-?\\d{1,14}){1}(\\.\\d{1,4}){0,1}$"
                                         },
                                         "MinimumRate": {
-                                          "description": "Minimum rate on which fee/charge is applicable(where it is expressed as an rate)",
+                                          "description": "Minimum rate on which fee/charge is applicable(where it is expressed as a rate)",
                                           "type": "string",
                                           "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
                                         },
                                         "MaximumRate": {
-                                          "description": "Maximum rate on which fee/charge is applicable(where it is expressed as an rate)",
+                                          "description": "Maximum rate on which fee/charge is applicable(where it is expressed as a rate)",
                                           "type": "string",
                                           "pattern": "^(-?\\d{1,3}){1}(\\.\\d{1,4}){0,1}$"
                                         }
@@ -13209,7 +13574,7 @@
                   "$ref": "#/components/schemas/OBRate1_1"
                 },
                 "RateType": {
-                  "$ref": "#/components/schemas/OBInternalStatementInterestType1Code"
+                  "$ref": "#/components/schemas/OBInternalStatementInterestRateType1Code"
                 },
                 "Frequency": {
                   "$ref": "#/components/schemas/OBInternalStatementInterestFrequency1Code"
@@ -13485,7 +13850,7 @@
                   "$ref": "#/components/schemas/OBRate1_1"
                 },
                 "RateType": {
-                  "$ref": "#/components/schemas/OBInternalStatementInterestType1Code"
+                  "$ref": "#/components/schemas/OBInternalStatementInterestRateType1Code"
                 },
                 "Frequency": {
                   "$ref": "#/components/schemas/OBInternalStatementInterestFrequency1Code"
@@ -13691,7 +14056,7 @@
                   "$ref": "#/components/schemas/OBRate1_1"
                 },
                 "RateType": {
-                  "$ref": "#/components/schemas/OBInternalStatementInterestType1Code"
+                  "$ref": "#/components/schemas/OBInternalStatementInterestRateType1Code"
                 },
                 "Frequency": {
                   "$ref": "#/components/schemas/OBInternalStatementInterestFrequency1Code"
@@ -13961,6 +14326,15 @@
           },
           "UltimateDebtor": {
             "$ref": "#/components/schemas/OBUltimateDebtor1"
+          },
+          "IntermediaryAgent1": {
+            "$ref": "#/components/schemas/OBIntermediaryAgent"
+          },
+          "IntermediaryAgent2": {
+            "$ref": "#/components/schemas/OBIntermediaryAgent"
+          },
+          "IntermediaryAgent3": {
+            "$ref": "#/components/schemas/OBIntermediaryAgent"
           }
         },
         "additionalProperties": false
@@ -14883,7 +15257,7 @@
         "type": "array",
         "items": {
           "type": "object",
-          "description": "Frequency and format of statments for an account",
+          "description": "Frequency and format of statements for an account",
           "properties": {
             "Frequency": {
               "$ref": "#/components/schemas/OBFrequency2"
@@ -14901,7 +15275,7 @@
         }
       },
       "StatementId": {
-        "description": "Unique identifier for the statement resource within an servicing institution. This identifier is both unique and immutable.",
+        "description": "Unique identifier for the statement resource within a servicing institution. This identifier is both unique and immutable.",
         "type": "string",
         "example": "8sfhke-sifhkeuf-97813",
         "minLength": 1,
@@ -14939,7 +15313,7 @@
         "maxLength": 140
       },
       "TransactionId": {
-        "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable.",
+        "description": "Unique identifier for the transaction within a servicing institution. This identifier is both unique and immutable.",
         "type": "string",
         "minLength": 1,
         "maxLength": 210

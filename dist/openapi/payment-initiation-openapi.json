@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Payment Initiation API",
-    "description": "Swagger for Payment Initiation API Specification",
+    "description": "Swagger for Payment Initiation API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -12,15 +12,16 @@
       "name": "open-licence",
       "url": "https://www.openbanking.org.uk/open-licence"
     },
-    "version": "4.0.0"
+    "version": "4.0.1"
   },
   "paths": {
     "/domestic-payment-consents": {
       "post": {
         "tags": [
-          "Domestic Payments"
+          "Domestic Payment Consents"
         ],
-        "summary": "Create Domestic Payment Consents",
+        "summary": "Create a Domestic Payment Consent",
+        "description": "Enables a PISP to register an intent to initiate a Domestic Payment.",
         "operationId": "CreateDomesticPaymentConsents",
         "parameters": [
           {
@@ -43,6 +44,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -88,6 +92,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -107,9 +114,10 @@
     "/domestic-payment-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "Domestic Payments"
+          "Domestic Payment Consents"
         ],
-        "summary": "Get Domestic Payment Consents",
+        "summary": "Get a Domestic Payment Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate a Domestic Payment.",
         "operationId": "GetDomesticPaymentConsentsConsentId",
         "parameters": [
           {
@@ -129,6 +137,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -169,9 +180,10 @@
     "/domestic-payment-consents/{ConsentId}/funds-confirmation": {
       "get": {
         "tags": [
-          "Domestic Payments"
+          "Domestic Payment Consents"
         ],
-        "summary": "Get Domestic Payment Consents Funds Confirmation",
+        "summary": "Confirm availability of funds for a Domestic Payment",
+        "description": "Enables a PISP to check whether a PSU has sufficient available funds for a Domestic Payment.",
         "operationId": "GetDomesticPaymentConsentsConsentIdFundsConfirmation",
         "parameters": [
           {
@@ -191,6 +203,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -233,7 +248,8 @@
         "tags": [
           "Domestic Payments"
         ],
-        "summary": "Create Domestic Payments",
+        "summary": "Initiate a Domestic Payment",
+        "description": "Enables a PISP to initiate an already PSU-approved Domestic Payment.",
         "operationId": "CreateDomesticPayments",
         "parameters": [
           {
@@ -256,6 +272,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -304,6 +323,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -325,7 +347,8 @@
         "tags": [
           "Domestic Payments"
         ],
-        "summary": "Get Domestic Payments",
+        "summary": "Get a Domestic Payment",
+        "description": "Enables a PISP to retrieve the status of a Domestic Payment.",
         "operationId": "GetDomesticPaymentsDomesticPaymentId",
         "parameters": [
           {
@@ -345,6 +368,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -385,9 +411,10 @@
     "/domestic-payments/{DomesticPaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "Domestic Payments"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get details of a Domestic Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of a Domestic Payment.",
         "operationId": "GetDomesticPaymentsDomesticPaymentIdPaymentDetails",
         "parameters": [
           {
@@ -407,6 +434,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -450,9 +480,10 @@
     "/domestic-scheduled-payment-consents": {
       "post": {
         "tags": [
-          "Domestic Scheduled Payments"
+          "Domestic Scheduled Payment Consents"
         ],
-        "summary": "Create Domestic Scheduled Payment Consents",
+        "summary": "Create a Domestic Scheduled Payment Consent",
+        "description": "Enables a PISP to register an intent to initiate a Domestic Scheduled Payment.",
         "operationId": "CreateDomesticScheduledPaymentConsents",
         "parameters": [
           {
@@ -475,6 +506,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -526,6 +560,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -545,9 +582,10 @@
     "/domestic-scheduled-payment-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "Domestic Scheduled Payments"
+          "Domestic Scheduled Payment Consents"
         ],
-        "summary": "Get Domestic Scheduled Payment Consents",
+        "summary": "Get a Domestic Scheduled Payment Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate a Domestic Scheduled Payment.",
         "operationId": "GetDomesticScheduledPaymentConsentsConsentId",
         "parameters": [
           {
@@ -567,6 +605,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -612,7 +653,8 @@
         "tags": [
           "Domestic Scheduled Payments"
         ],
-        "summary": "Create Domestic Scheduled Payments",
+        "summary": "Initiate a Domestic Scheduled Payment",
+        "description": "Enables a PISP to initiate an already PSU-approved Domestic Scheduled Payment.",
         "operationId": "CreateDomesticScheduledPayments",
         "parameters": [
           {
@@ -635,6 +677,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -686,6 +731,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -707,7 +755,8 @@
         "tags": [
           "Domestic Scheduled Payments"
         ],
-        "summary": "Get Domestic Scheduled Payments",
+        "summary": "Get a Domestic Scheduled Payment",
+        "description": "Enables a PISP to retrieve the status of a Domestic Scheduled Payment.",
         "operationId": "GetDomesticScheduledPaymentsDomesticScheduledPaymentId",
         "parameters": [
           {
@@ -727,6 +776,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -770,9 +822,10 @@
     "/domestic-scheduled-payments/{DomesticScheduledPaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "Domestic Scheduled Payments"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get details of a Domestic Scheduled Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of a Domestic Scheduled Payment.",
         "operationId": "GetDomesticScheduledPaymentsDomesticScheduledPaymentIdPaymentDetails",
         "parameters": [
           {
@@ -792,6 +845,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -835,9 +891,10 @@
     "/domestic-standing-order-consents": {
       "post": {
         "tags": [
-          "Domestic Standing Orders"
+          "Domestic Standing Order Consents"
         ],
-        "summary": "Create Domestic Standing Order Consents",
+        "summary": "Create a Domestic Standing Order Consent",
+        "description": "Enables a PISP to register an intent to initiate a Domestic Standing Order arrangement.",
         "operationId": "CreateDomesticStandingOrderConsents",
         "parameters": [
           {
@@ -860,6 +917,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -911,6 +971,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -930,9 +993,10 @@
     "/domestic-standing-order-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "Domestic Standing Orders"
+          "Domestic Standing Order Consents"
         ],
-        "summary": "Get Domestic Standing Order Consents",
+        "summary": "Get a Domestic Standing Order Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate a Domestic Standing Order arrangement.",
         "operationId": "GetDomesticStandingOrderConsentsConsentId",
         "parameters": [
           {
@@ -952,6 +1016,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -997,7 +1064,8 @@
         "tags": [
           "Domestic Standing Orders"
         ],
-        "summary": "Create Domestic Standing Orders",
+        "summary": "Submit a Domestic Standing Order",
+        "description": "Enables a PISP to submit a Domestic Standing Order payment under an already PSU-approved Domestic Standing Order arrangement.",
         "operationId": "CreateDomesticStandingOrders",
         "parameters": [
           {
@@ -1020,6 +1088,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -1071,6 +1142,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1092,7 +1166,8 @@
         "tags": [
           "Domestic Standing Orders"
         ],
-        "summary": "Get Domestic Standing Orders",
+        "summary": "Get a Domestic Standing Order",
+        "description": "Enables a PISP to retrieve the status of a Domestic Standing Order payment.",
         "operationId": "GetDomesticStandingOrdersDomesticStandingOrderId",
         "parameters": [
           {
@@ -1112,6 +1187,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1155,9 +1233,10 @@
     "/domestic-standing-orders/{DomesticStandingOrderId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "Domestic Standing Orders"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get details of a Domestic Standing Order Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of a Domestic Standing Order payment.",
         "operationId": "GetDomesticStandingOrdersDomesticStandingOrderIdPaymentDetails",
         "parameters": [
           {
@@ -1177,6 +1256,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1220,9 +1302,10 @@
     "/file-payment-consents": {
       "post": {
         "tags": [
-          "File Payments"
+          "File Payment Consents"
         ],
-        "summary": "Create File Payment Consents",
+        "summary": "Create a File Payment Consent",
+        "description": "Enables a PISP to register an intent to initiate a File Payment.",
         "operationId": "CreateFilePaymentConsents",
         "parameters": [
           {
@@ -1245,6 +1328,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -1296,6 +1382,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1315,9 +1404,10 @@
     "/file-payment-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "File Payments"
+          "File Payment Consents"
         ],
-        "summary": "Get File Payment Consents",
+        "summary": "Get a File Payment Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate a File Payment.",
         "operationId": "GetFilePaymentConsentsConsentId",
         "parameters": [
           {
@@ -1337,6 +1427,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1380,9 +1473,10 @@
     "/file-payment-consents/{ConsentId}/file": {
       "post": {
         "tags": [
-          "File Payments"
+          "File Payment Consents"
         ],
-        "summary": "Create File Payment Consents",
+        "summary": "Upload a File for a ConsentId",
+        "description": "Enables a PISP to upload a file of payments to the ASPSP for PSU to authenticate.",
         "operationId": "CreateFilePaymentConsentsConsentIdFile",
         "parameters": [
           {
@@ -1408,6 +1502,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -1459,6 +1556,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1476,9 +1576,10 @@
       },
       "get": {
         "tags": [
-          "File Payments"
+          "File Payment Consents"
         ],
-        "summary": "Get File Payment Consents",
+        "summary": "Get a File Payment Consent's Uploaded File",
+        "description": "Enables a PISP to download a file that has been previously uploaded.",
         "operationId": "GetFilePaymentConsentsConsentIdFile",
         "parameters": [
           {
@@ -1498,6 +1599,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1543,7 +1647,8 @@
         "tags": [
           "File Payments"
         ],
-        "summary": "Create File Payments",
+        "summary": "Submit a File Payment",
+        "description": "Enables a PISP to instruct the ASPSP to start processing the payments within the file.",
         "operationId": "CreateFilePayments",
         "parameters": [
           {
@@ -1566,6 +1671,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -1617,6 +1725,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1638,7 +1749,8 @@
         "tags": [
           "File Payments"
         ],
-        "summary": "Get File Payments",
+        "summary": "Get a File Payment by FilePaymentId",
+        "description": "Enables a PISP to retrieve the status of a file payment.",
         "operationId": "GetFilePaymentsFilePaymentId",
         "parameters": [
           {
@@ -1658,6 +1770,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1701,9 +1816,10 @@
     "/file-payments/{FilePaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "File Payments"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get payment details for a File Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of payments within a File.",
         "operationId": "GetFilePaymentsFilePaymentIdPaymentDetails",
         "parameters": [
           {
@@ -1723,6 +1839,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1768,7 +1887,8 @@
         "tags": [
           "File Payments"
         ],
-        "summary": "Get File Payments",
+        "summary": "Get a File Payment's Report File",
+        "description": "Enables a PISP to download a payment report file from an ASPSP.",
         "operationId": "GetFilePaymentsFilePaymentIdReportFile",
         "parameters": [
           {
@@ -1788,6 +1908,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1831,9 +1954,10 @@
     "/international-payment-consents": {
       "post": {
         "tags": [
-          "International Payments"
+          "International Payment Consents"
         ],
-        "summary": "Create International Payment Consents",
+        "summary": "Create an International Payment Consent",
+        "description": "Enables a PISP to register an intent to initiate an International Payment.",
         "operationId": "CreateInternationalPaymentConsents",
         "parameters": [
           {
@@ -1856,6 +1980,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -1907,6 +2034,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -1926,9 +2056,10 @@
     "/international-payment-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "International Payments"
+          "International Payment Consents"
         ],
-        "summary": "Get International Payment Consents",
+        "summary": "Get an International Payment Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate an International Payment.",
         "operationId": "GetInternationalPaymentConsentsConsentId",
         "parameters": [
           {
@@ -1948,6 +2079,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -1991,9 +2125,10 @@
     "/international-payment-consents/{ConsentId}/funds-confirmation": {
       "get": {
         "tags": [
-          "International Payments"
+          "International Payment Consents"
         ],
-        "summary": "Get International Payment Consents Funds Confirmation",
+        "summary": "Confirm Funds Availability for an International Payment",
+        "description": "Enables a PISP to check whether a PSU has sufficient available funds for an International Payment.",
         "operationId": "GetInternationalPaymentConsentsConsentIdFundsConfirmation",
         "parameters": [
           {
@@ -2013,6 +2148,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2058,7 +2196,8 @@
         "tags": [
           "International Payments"
         ],
-        "summary": "Create International Payments",
+        "summary": "Initiate an International Payment",
+        "description": "Enables a PISP to initiate an already PSU-approved International Payment.",
         "operationId": "CreateInternationalPayments",
         "parameters": [
           {
@@ -2081,6 +2220,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -2129,6 +2271,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2150,7 +2295,8 @@
         "tags": [
           "International Payments"
         ],
-        "summary": "Get International Payments",
+        "summary": "Get an International Payment",
+        "description": "Enables a PISP to retrieve the status of an International Payment.",
         "operationId": "GetInternationalPaymentsInternationalPaymentId",
         "parameters": [
           {
@@ -2170,6 +2316,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2213,9 +2362,10 @@
     "/international-payments/{InternationalPaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "International Payments"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get details of an International Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of an International Payment.",
         "operationId": "GetInternationalPaymentsInternationalPaymentIdPaymentDetails",
         "parameters": [
           {
@@ -2235,6 +2385,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2278,9 +2431,10 @@
     "/international-scheduled-payment-consents": {
       "post": {
         "tags": [
-          "International Scheduled Payments"
+          "International Scheduled Payments Consents"
         ],
-        "summary": "Create International Scheduled Payment Consents",
+        "summary": "Create an International Scheduled Payment Consent",
+        "description": "Enables a PISP to register an intent to initiate an International Scheduled Payment.",
         "operationId": "CreateInternationalScheduledPaymentConsents",
         "parameters": [
           {
@@ -2303,6 +2457,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -2354,6 +2511,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2373,9 +2533,10 @@
     "/international-scheduled-payment-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "International Scheduled Payments"
+          "International Scheduled Payments Consents"
         ],
-        "summary": "Get International Scheduled Payment Consents",
+        "summary": "Get an International Scheduled Payment Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate an International Scheduled Payment.",
         "operationId": "GetInternationalScheduledPaymentConsentsConsentId",
         "parameters": [
           {
@@ -2395,6 +2556,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2438,9 +2602,10 @@
     "/international-scheduled-payment-consents/{ConsentId}/funds-confirmation": {
       "get": {
         "tags": [
-          "International Scheduled Payments"
+          "International Scheduled Payments Consents"
         ],
-        "summary": "Get International Scheduled Payment Consents Funds Confirmation",
+        "summary": "Confirm Funds Availability for an International Scheduled Payment",
+        "description": "Enables a PISP to check whether a PSU has sufficient available funds for an International Scheduled Payment.",
         "operationId": "GetInternationalScheduledPaymentConsentsConsentIdFundsConfirmation",
         "parameters": [
           {
@@ -2460,6 +2625,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2505,7 +2673,8 @@
         "tags": [
           "International Scheduled Payments"
         ],
-        "summary": "Create International Scheduled Payments",
+        "summary": "Initiate an International Scheduled Payment",
+        "description": "Enables a PISP to initiate an already PSU-approved International Scheduled Payment.",
         "operationId": "CreateInternationalScheduledPayments",
         "parameters": [
           {
@@ -2528,6 +2697,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -2579,6 +2751,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2600,7 +2775,8 @@
         "tags": [
           "International Scheduled Payments"
         ],
-        "summary": "Get International Scheduled Payments",
+        "summary": "Get an International Scheduled Payment",
+        "description": "Enables a PISP to retrieve the status of an International Scheduled Payment.",
         "operationId": "GetInternationalScheduledPaymentsInternationalScheduledPaymentId",
         "parameters": [
           {
@@ -2620,6 +2796,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2663,9 +2842,10 @@
     "/international-scheduled-payments/{InternationalScheduledPaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "International Scheduled Payments"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get details of an International Scheduled Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of an International Scheduled Payment.",
         "operationId": "GetInternationalScheduledPaymentsInternationalScheduledPaymentIdPaymentDetails",
         "parameters": [
           {
@@ -2685,6 +2865,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2728,9 +2911,10 @@
     "/international-standing-order-consents": {
       "post": {
         "tags": [
-          "International Standing Orders"
+          "International Standing Orders Consents"
         ],
-        "summary": "Create International Standing Order Consents",
+        "summary": "Create an International Standing Order Consent",
+        "description": "Enables a PISP to register an intent to initiate an International Standing Order arrangement.",
         "operationId": "CreateInternationalStandingOrderConsents",
         "parameters": [
           {
@@ -2753,6 +2937,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -2804,6 +2991,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2823,9 +3013,10 @@
     "/international-standing-order-consents/{ConsentId}": {
       "get": {
         "tags": [
-          "International Standing Orders"
+          "International Standing Orders Consents"
         ],
-        "summary": "Get International Standing Order Consents",
+        "summary": "Get an International Standing Order Consent",
+        "description": "Enables a PISP to retrieve the status of an intent to initiate an International Standing Order arrangement.",
         "operationId": "GetInternationalStandingOrderConsentsConsentId",
         "parameters": [
           {
@@ -2845,6 +3036,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -2890,7 +3084,8 @@
         "tags": [
           "International Standing Orders"
         ],
-        "summary": "Create International Standing Orders",
+        "summary": "Submit an International Standing Order",
+        "description": "Enables a PISP to submit an International Standing Order payment under an already PSU-approved International Standing Order arrangement.",
         "operationId": "CreateInternationalStandingOrders",
         "parameters": [
           {
@@ -2913,6 +3108,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "requestBody": {
@@ -2964,6 +3162,9 @@
           "415": {
             "$ref": "#/components/responses/415Error"
           },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
           "429": {
             "$ref": "#/components/responses/429Error"
           },
@@ -2985,7 +3186,8 @@
         "tags": [
           "International Standing Orders"
         ],
-        "summary": "Get International Standing Orders",
+        "summary": "Get an International Standing Order",
+        "description": "Enables a PISP to retrieve the status of an International Standing Order payment.",
         "operationId": "GetInternationalStandingOrdersInternationalStandingOrderPaymentId",
         "parameters": [
           {
@@ -3005,6 +3207,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -3048,9 +3253,10 @@
     "/international-standing-orders/{InternationalStandingOrderPaymentId}/payment-details": {
       "get": {
         "tags": [
-          "Payment Details"
+          "International Standing Orders"
         ],
-        "summary": "Get Payment Details",
+        "summary": "Get details of an International Standing Order Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of an International Standing Order payment.",
         "operationId": "GetInternationalStandingOrdersInternationalStandingOrderPaymentIdPaymentDetails",
         "parameters": [
           {
@@ -3070,6 +3276,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
           }
         ],
         "responses": {
@@ -3255,6 +3464,31 @@
         "schema": {
           "type": "string"
         }
+      },
+      "x-client-id": {
+        "in": "header",
+        "name": "x-client-id",
+        "required": false,
+        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers. \n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "headers": {
+      "RateLimit-Policy": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RateLimit": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
+        "schema": {
+          "type": "string"
+        }
       }
     },
     "responses": {
@@ -3274,6 +3508,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3310,6 +3550,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3346,6 +3592,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3382,6 +3634,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3418,6 +3676,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3454,6 +3718,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3490,6 +3760,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3526,6 +3802,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3562,6 +3844,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3598,6 +3886,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3634,6 +3928,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3670,6 +3970,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3706,6 +4012,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3742,6 +4054,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3778,6 +4096,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3814,6 +4138,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3850,6 +4180,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3898,6 +4234,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3919,7 +4261,7 @@
         }
       },
       "200FilePaymentConsentsConsentIdFileRead": {
-        "description": "File Payment Consents Read",
+        "description": "File Payment Consents Read\n\nASPSP will specify all available content types.\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -3934,6 +4276,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -3970,6 +4318,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4006,6 +4360,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4027,7 +4387,7 @@
         }
       },
       "200FilePaymentsFilePaymentIdReportFileRead": {
-        "description": "File Payments Read",
+        "description": "File Payments Read\n\nASPSP will specify all available content types\n",
         "headers": {
           "x-fapi-interaction-id": {
             "description": "An RFC4122 UID used as a correlation id.",
@@ -4042,6 +4402,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4078,6 +4444,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4114,6 +4486,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4150,6 +4528,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4186,6 +4570,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4222,6 +4612,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4258,6 +4654,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4294,6 +4696,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4330,6 +4738,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4366,6 +4780,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4402,6 +4822,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4438,6 +4864,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4474,6 +4906,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4510,6 +4948,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4546,6 +4990,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4582,6 +5032,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4618,6 +5074,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4654,6 +5116,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4690,6 +5158,12 @@
             "schema": {
               "type": "string"
             }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
           }
         },
         "content": {
@@ -4878,6 +5352,42 @@
           }
         }
       },
+      "422Error": {
+        "description": "Duplicate Idempotency key",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
       "429Error": {
         "description": "Too Many Requests",
         "headers": {
@@ -4961,6 +5471,43 @@
       }
     },
     "schemas": {
+      "OBDomesticRefundAccount1": {
+        "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Account"
+        ],
+        "properties": {
+          "Account": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "SchemeName",
+              "Identification",
+              "Name"
+            ],
+            "description": "Provides the details to identify an account.",
+            "properties": {
+              "SchemeName": {
+                "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+              },
+              "Identification": {
+                "$ref": "#/components/schemas/Identification_0"
+              },
+              "Name": {
+                "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 350
+              },
+              "SecondaryIdentification": {
+                "$ref": "#/components/schemas/SecondaryIdentification"
+              }
+            }
+          }
+        }
+      },
       "NumberOfPayments": {
         "description": "Number of the payments that will be made in completing this frequency sequence including any executed since the sequence start date.",
         "type": "string",
@@ -5055,7 +5602,7 @@
         }
       },
       "PointInTime": {
-        "description": "Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerSide`",
+        "description": "Exact2NumericText - Further information on the exact point in time the event should take place. Specifies a frequency in terms of an exact point in time or moment within a specified frequency type. Note: should not be used alongside `CountPerPeriod`.",
         "type": "string",
         "example": "00",
         "maxLength": 2
@@ -5184,7 +5731,7 @@
         "maxLength": 256
       },
       "Identification_1": {
-        "description": "Unique and unambiguous identification of a financial institution or a branch of a financial institution.",
+        "description": "Unique identification, as assigned by the creditor, to unambiguously identify the mandate.",
         "type": "string",
         "minLength": 1,
         "maxLength": 35
@@ -5416,7 +5963,7 @@
         "type": "object",
         "properties": {
           "ErrorCode": {
-            "$ref": "#/components/schemas/OBInternalErrorResponseError1Code"
+            "$ref": "#/components/schemas/OBExternalStatusReason1Code"
           },
           "Message": {
             "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBL doesn't standardise this field",
@@ -5914,18 +6461,19 @@
           "CPEN",
           "DEPD",
           "RETL",
-          "DEBT"
+          "DEBT",
+          "CRYP"
         ]
       },
-      "OBInternalErrorResponseError1Code": {
-        "description": "Low level textual error code, for all enum values see `OBInternalErrorResponseError1Code` [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+      "OBExternalStatusReason1Code": {
+        "description": "Low level textual error code, for all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
         "example": "U001"
       },
       "OBFrequency6Code": {
-        "description": "`OBFrequency6Code` on External Codset Repo",
+        "description": "For a full list of values see `OBFrequency6Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "enum": [
           "ADHO",
@@ -5937,14 +6485,16 @@
           "QURT",
           "MIAN",
           "WEEK",
-          "WEEK",
           "WODL",
           "FOWK",
           "TWMH",
           "FOMH",
           "FIMH",
           "ALMH",
-          "NONE"
+          "NONE",
+          "LWMH",
+          "LXMH",
+          "TWYR"
         ]
       },
       "OBMandateRelatedInformation1": {
@@ -6158,7 +6708,9 @@
             "description": "Set of elements used to provide the content of the referred document line.",
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
             }
           }
         }
@@ -6194,9 +6746,7 @@
             }
           },
           "ReferredDocumentAmount": {
-            "description": "Provides details on the amounts of the referred document.",
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
           },
           "CreditorReferenceInformation": {
             "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
@@ -6264,7 +6814,7 @@
         "properties": {
           "DebitCreditReportingIndicator": {
             "type": "string",
-            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values reefer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction.  For a full list of values refer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "enum": [
               "CRED",
               "DEBT",
@@ -6288,14 +6838,20 @@
         "properties": {
           "PaymentContextCode": {
             "type": "string",
-            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`\n",
+            "description": "Specifies the payment context, `OBInternalPaymentContext1Code`<br>\nThe following values are deprecated and <u>**must not**</u> be used in a new consent or payment. They may optionally be returned for a historical payment/consent migrated to v4:<br>\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* PartyToParty - @deprecated\n* PispPayee - @deprecated\n* Other - @deprecated\n",
             "enum": [
               "BillingGoodsAndServicesInAdvance",
               "BillingGoodsAndServicesInArrears",
               "EcommerceMerchantInitiatedPayment",
               "FaceToFacePointOfSale",
               "TransferToSelf",
-              "TransferToThirdParty"
+              "TransferToThirdParty",
+              "BillPayment",
+              "EcommerceGoods",
+              "EcommerceServices",
+              "PartyToParty",
+              "PispPayee",
+              "Other"
             ]
           },
           "MerchantCategoryCode": {
@@ -6338,7 +6894,7 @@
         "properties": {
           "RequestedSCAExemptionType": {
             "type": "string",
-            "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation. For a full list of values reefer to `OBInternalSCAExemptionType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "description": "This field allows a PISP to request specific SCA Exemption for a Payment Initiation. For a full list of values refer to `OBInternalSCAExemptionType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "enum": [
               "BillPayment",
               "ContactlessTravel",
@@ -6840,14 +7396,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -7098,6 +7647,16 @@
           }
         }
       },
+      "OBInternalConsentStatus2Code": {
+        "type": "string",
+        "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "COND"
+        ]
+      },
       "OBWriteDomesticResponse5": {
         "type": "object",
         "additionalProperties": false,
@@ -7135,23 +7694,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment information group. For a full list of values refer to `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus3Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -7175,41 +7718,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
-                "properties": {
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -7821,14 +8330,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values see `OBInternalConsentStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AUTH",
-                  "AWAU",
-                  "COND",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the consent resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -8106,24 +8608,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -8147,41 +8632,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
-                "properties": {
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -8808,14 +9259,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form. For a full list of values see `OBInternalConsentStatus1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "AUTH",
-                  "AWAU",
-                  "COND",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -9098,18 +9542,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "ACTC",
-                  "PATC",
-                  "PDNG",
-                  "INFA",
-                  "INCO",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -9123,41 +9556,7 @@
                 }
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
-                "properties": {
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -9695,15 +10094,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "AWUP",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus3Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -9892,6 +10283,17 @@
           }
         }
       },
+      "OBInternalConsentStatus3Code": {
+        "description": "Specifies the status of consent resource in code form.",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "AWUP",
+          "RJCT",
+          "AUTH",
+          "COND"
+        ]
+      },
       "OBWriteFileResponse3": {
         "type": "object",
         "additionalProperties": false,
@@ -9929,13 +10331,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource. See `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets) for more information.",
-                "type": "string",
-                "enum": [
-                  "INFA",
-                  "INCO",
-                  "PDNG"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus4Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -10248,7 +10644,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -10340,7 +10736,7 @@
                         "description": "Name by which a party is known and which is usually used to identify that party.",
                         "type": "string",
                         "minLength": 1,
-                        "maxLength": 140
+                        "maxLength": 350
                       },
                       "LEI": {
                         "$ref": "#/components/schemas/LEI"
@@ -10505,7 +10901,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -10744,14 +11140,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -10904,7 +11293,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11158,23 +11547,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment information group.",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus3Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -11198,81 +11571,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "properties": {
-                  "Creditor": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to identify a person or an organisation.",
-                    "properties": {
-                      "Name": {
-                        "description": "Name by which a party is known and which is usually used to identify that party.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "LEI": {
-                        "$ref": "#/components/schemas/LEI"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Agent": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_1"
-                      },
-                      "Name": {
-                        "$ref": "#/components/schemas/Name"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      },
-                      "Proxy": {
-                        "$ref": "#/components/schemas/OBProxy1"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -11391,7 +11690,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11695,7 +11994,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -11965,7 +12264,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12205,14 +12504,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -12377,7 +12669,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -12631,24 +12923,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of the payment order resource.",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus2Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -12672,78 +12947,7 @@
                 "format": "date-time"
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "properties": {
-                  "Creditor": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to identify a person or an organisation.",
-                    "properties": {
-                      "Name": {
-                        "description": "Name by which a party is known and which is usually used to identify that party.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 140
-                      },
-                      "LEI": {
-                        "$ref": "#/components/schemas/LEI"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Agent": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_1"
-                      },
-                      "Name": {
-                        "$ref": "#/components/schemas/Name"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -12867,7 +13071,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13148,7 +13352,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13363,7 +13567,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13571,14 +13775,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of consent resource in code form.",
-                "type": "string",
-                "enum": [
-                  "AWAU",
-                  "RJCT",
-                  "AUTH",
-                  "COND"
-                ]
+                "$ref": "#/components/schemas/OBInternalConsentStatus2Code"
               },
               "StatusReason": {
                 "type": "array",
@@ -13669,7 +13866,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -13891,18 +14088,7 @@
                 "format": "date-time"
               },
               "Status": {
-                "description": "Specifies the status of resource in code form. For a list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "enum": [
-                  "RCVD",
-                  "CANC",
-                  "ACTC",
-                  "PATC",
-                  "PDNG",
-                  "INFA",
-                  "INCO",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
               },
               "StatusUpdateDateTime": {
                 "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
@@ -13916,78 +14102,7 @@
                 }
               },
               "Refund": {
-                "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "Account"
-                ],
-                "properties": {
-                  "Creditor": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to identify a person or an organisation.",
-                    "properties": {
-                      "Name": {
-                        "description": "Name by which a party is known and which is usually used to identify that party.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "LEI": {
-                        "$ref": "#/components/schemas/LEI"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Agent": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "description": "Set of elements used to uniquely and unambiguously identify a financial institution or a branch of a financial institution.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_1"
-                      },
-                      "Name": {
-                        "$ref": "#/components/schemas/Name"
-                      },
-                      "PostalAddress": {
-                        "$ref": "#/components/schemas/OBPostalAddress7"
-                      }
-                    }
-                  },
-                  "Account": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                      "SchemeName",
-                      "Identification",
-                      "Name"
-                    ],
-                    "description": "Provides the details to identify an account.",
-                    "properties": {
-                      "SchemeName": {
-                        "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
-                      },
-                      "Identification": {
-                        "$ref": "#/components/schemas/Identification_0"
-                      },
-                      "Name": {
-                        "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 350
-                      },
-                      "SecondaryIdentification": {
-                        "$ref": "#/components/schemas/SecondaryIdentification"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
               },
               "Charges": {
                 "type": "array",
@@ -14047,7 +14162,7 @@
                   "DestinationCountryCode": {
                     "description": "Country in which Credit Account is domiciled. Code to identify a country, a dependency, or another area of particular geopolitical interest, on the basis of country names obtained from the United Nations (ISO 3166, Alpha-2 code).",
                     "type": "string",
-                    "pattern": "[A-Z]{2,2}"
+                    "pattern": "^[A-Z]{2,2}$"
                   },
                   "InstructedAmount": {
                     "type": "object",
@@ -14278,26 +14393,10 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 210,
-            "description": "Unique identifier for the transaction within an servicing institution. This identifier is both unique and immutable."
+            "description": "Unique identifier for the transaction within a servicing institution. This identifier is both unique and immutable."
           },
           "Status": {
-            "type": "string",
-            "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-            "enum": [
-              "RCVD",
-              "PDNG",
-              "ACTC",
-              "PATC",
-              "ACCP",
-              "ACFC",
-              "ACSP",
-              "ACWC",
-              "ACSC",
-              "ACWP",
-              "ACCC",
-              "BLCK",
-              "RJCT"
-            ]
+            "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
           },
           "StatusUpdateDateTime": {
             "type": "string",
@@ -14315,24 +14414,7 @@
                 "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
               },
               "Status": {
-                "description": "Status of a transfer, as assigned by the transaction administrator. For a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 4,
-                "enum": [
-                  "PDNG",
-                  "ACTC",
-                  "PATC",
-                  "ACCP",
-                  "ACFC",
-                  "ACSP",
-                  "ACWC",
-                  "ACSC",
-                  "ACWP",
-                  "ACCC",
-                  "BLCK",
-                  "RJCT"
-                ]
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
               },
               "StatusReason": {
                 "description": "Reason Code provided for the status of a transfer. For a full list of values see code values for `OBExternalStatusReason1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
@@ -14402,6 +14484,76 @@
         "type": "string",
         "minLength": 1,
         "maxLength": 16
+      },
+      "ExternalPaymentTransactionStatus1Code": {
+        "description": "The current status of the payment resource.\n\nFor a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "ACTC",
+          "PATC",
+          "PDNG",
+          "RJCT",
+          "INFA",
+          "INCO",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP"
+        ]
+      },
+      "ExternalPaymentTransactionStatus2Code": {
+        "description": "Specifies the status of the payment order resource. \n\nFor a full list of values see `ExternalPaymentTransactionStatus2Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "PATC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
+      },
+      "ExternalPaymentTransactionStatus3Code": {
+        "description": "Specifies the status of the payment information group.\n\nFor a full list of values refer to `ExternalPaymentTransactionStatus3Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "PATC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
+      },
+      "ExternalPaymentTransactionStatus4Code": {
+        "description": "Specifies the status of the payment order resource.\n\nSee `ExternalPaymentTransactionStatus4Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets) for more information.\n",
+        "type": "string",
+        "enum": [
+          "PDNG",
+          "INFA",
+          "INCO"
+        ]
       }
     }
   }
