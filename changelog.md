@@ -31,8 +31,8 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ### Removed
 
-- Removed **unused** CBPII components `404Error` and `Identification_0`.
-- Removed **unused** CBPII component `x-idempotency-key` (CBPII has no idempotent endpoints).
+- Removed **unused** CBPII response/schema components `404Error` and `Identification_0`.
+- Removed **unused** CBPII header parameter `x-idempotency-key` (CBPII has no idempotent endpoints).
 
 ## v4.0.1 - 2026-04-01
 
