@@ -37,6 +37,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
@@ -86,6 +87,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-client-id'
       responses:
         '200':
@@ -125,6 +127,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-client-id'
       responses:
         '204':
@@ -166,6 +169,7 @@ paths:
         - $ref: '#/components/parameters/x-fapi-interaction-id'
         - $ref: '#/components/parameters/Authorization'
         - $ref: '#/components/parameters/x-customer-user-agent'
+        - $ref: '#/components/parameters/x-jws-signature'
         - $ref: '#/components/parameters/x-client-id'
       requestBody:
         content:
@@ -262,7 +266,7 @@ components:
     x-jws-signature:
       in: header
       name: x-jws-signature
-      required: true
+      required: false
       description: A detached JWS signature of the body of the payload.
       schema:
         type: string
@@ -309,6 +313,11 @@ components:
         The **OPTIONAL** "t" parameter value conveys the time window reset time for the identified policy.
       schema:
         type: string
+    x-jws-signature:
+      required: false
+      description: A detached JWS signature of the body of the payload.
+      schema:
+        type: string
   responses:
     201FundsConfirmationConsentsCreated:
       description: Funds Confirmation Consent Created
@@ -322,6 +331,8 @@ components:
           $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
           $ref: '#/components/headers/RateLimit'
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
       content:
         application/json; charset=utf-8:
           schema:
@@ -344,6 +355,8 @@ components:
           $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
           $ref: '#/components/headers/RateLimit'
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
       content:
         application/json; charset=utf-8:
           schema:
@@ -366,6 +379,8 @@ components:
           $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
           $ref: '#/components/headers/RateLimit'
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
     201FundsConfirmationsCreated:
       description: Funds Confirmation Created
       headers:
@@ -378,6 +393,8 @@ components:
           $ref: '#/components/headers/RateLimit-Policy'
         RateLimit:
           $ref: '#/components/headers/RateLimit'
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
       content:
         application/json; charset=utf-8:
           schema:
@@ -396,6 +413,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
       content:
         application/json; charset=utf-8:
           schema:
@@ -414,6 +433,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
     403Error:
       description: Forbidden
       headers:
@@ -422,6 +443,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
       content:
         application/json; charset=utf-8:
           schema:
@@ -440,6 +463,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
     406Error:
       description: Not Acceptable
       headers:
@@ -448,6 +473,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
     415Error:
       description: Unsupported Media Type
       headers:
@@ -456,6 +483,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
     429Error:
       description: Too Many Requests
       headers:
@@ -467,6 +496,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
     500Error:
       description: Internal Server Error
       headers:
@@ -475,6 +506,8 @@ components:
           description: An RFC4122 UID used as a correlation id.
           schema:
             type: string
+        x-jws-signature:
+          $ref: '#/components/headers/x-jws-signature'
       content:
         application/json; charset=utf-8:
           schema:
