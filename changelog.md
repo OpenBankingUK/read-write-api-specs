@@ -14,6 +14,25 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 - [v4.0.1 Release Candidate 1](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4203282434/Feedback+-+v4.0.1+Release+Candidate+1)
 - [v4.0.1 Release Candidate 2](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4309942273/Feedback+-+v4.0.1+Release+Candidate+2)
 
+## v4.0.1-Update1 - TBD
+
+### Added
+
+- Added CBPII OpenAPI tags for `Funds Confirmation Consents` and `Funds Confirmations` to improve Swagger UI grouping and navigation.
+- Added optional `x-jws-signature` request header support across all CBPII operations to align with the Open Banking spec pages/standard.
+- Added optional `x-jws-signature` response header support across CBPII success and error responses to align with the Open Banking spec pages/standard.
+
+### Changed
+
+- Updated CBPII endpoint descriptions for consent creation, consent retrieval, consent deletion and funds confirmation creation to provide clearer behaviour and outcome detail.
+- Standardised CBPII OpenAPI description formatting for consistency (single-line where suitable, `>-`/`|-` block scalar usage where appropriate, paragraph spacing, inline code formatting, and emphasised notes).
+- Updated CBPII security scheme descriptions to align with Open Banking/FAPI context and clarify `Authorization` header usage.
+- Updated `x-jws-signature` to be optional in CBPII request/response modelling to align with the Open Banking spec pages/standard.
+
+### Removed
+
+- Removed **unused** CBPII components `404Error` and `Identification_0`.
+
 ## v4.0.1 - 2026-04-01
 
 ### Added
