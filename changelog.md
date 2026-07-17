@@ -29,6 +29,17 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 - Standardised CBPII OpenAPI description formatting for consistency (single-line where suitable, `>-`/`|-` block scalar usage where appropriate, paragraph spacing, inline code formatting, and emphasised notes).
 - Updated CBPII security scheme descriptions to align with Open Banking/FAPI context and clarify `Authorization` header usage.
 - Updated `x-jws-signature` to be optional in CBPII request/response modelling to align with the Open Banking spec pages/standard.
+- Updated CBPII enum descriptions to link directly to the relevant codeset CSV files.
+- Refactored CBPII `OBInternalAccountIdentification4Code` into a reusable schema reference.
+- Refactored CBPII Confirmation of Funds OpenAPI data dictionary schemas to use reusable component references aligned to the spec pages:
+  - `OBFundsConfirmationConsent1/Data` now references `OBFundsConfirmationConsentData1`
+  - `OBFundsConfirmationConsentResponse1/Data` now references `OBFundsConfirmationConsentDataResponse1`
+  - `OBFundsConfirmation1/Data` now references `OBFundsConfirmationData1`
+  - `OBFundsConfirmationResponse1/Data` now references `OBFundsConfirmationDataResponse1`
+  - `OBFundsConfirmationConsent1/Data/DebtorAccount` and `OBFundsConfirmationConsentResponse1/Data/DebtorAccount` now reference `OBCashAccountDebtorWithName`
+  - `OBFundsConfirmation1/Data/InstructedAmount` and `OBFundsConfirmationResponse1/Data/InstructedAmount` now reference `OBActiveOrHistoricCurrencyAndAmount`
+  - `OBFundsConfirmation1/Data/InstructedAmount/Amount` and `OBFundsConfirmationResponse1/Data/InstructedAmount/Amount` now reference `OBActiveCurrencyAndAmount_SimpleType`
+  - `OBFundsConfirmation1/Data/InstructedAmount/Currency` and `OBFundsConfirmationResponse1/Data/InstructedAmount/Currency` now reference `ActiveOrHistoricCurrencyCode`
 
 ### Removed
 
