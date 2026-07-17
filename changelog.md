@@ -21,6 +21,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 - Added CBPII OpenAPI tags for `Funds Confirmation Consents` and `Funds Confirmations` to improve Swagger UI grouping and navigation.
 - Added optional `x-jws-signature` request header support across all CBPII operations to align with the Open Banking spec pages/standard.
 - Added optional `x-jws-signature` response header support across CBPII success and error responses to align with the Open Banking spec pages/standard.
+- Added reusable CBPII OpenAPI examples for successful request/response payloads, key parameters, and error payloads.
 
 ### Changed
 
