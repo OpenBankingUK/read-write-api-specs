@@ -44,9 +44,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OBFundsConfirmationConsent1'
-            examples:
-              FundsConfirmationConsentCreateRequest:
-                $ref: '#/components/examples/FundsConfirmationConsentCreateRequest'
         description: Default
         required: true
       responses:
@@ -179,11 +176,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OBFundsConfirmation1'
-            examples:
-              FundsConfirmationCreateRequest:
-                $ref: '#/components/examples/FundsConfirmationCreateRequest'
-              FundsConfirmationUsdRequest:
-                $ref: '#/components/examples/FundsConfirmationUsdRequest'
         description: Default
         required: true
       responses:
@@ -326,165 +318,6 @@ components:
       schema:
         type: string
         example: eyJ...header.eyJ...payload.signature
-  examples:
-    FundsConfirmationConsentCreateRequest:
-      summary: Create a funds-confirmation consent
-      value:
-        Data:
-          ExpirationDateTime: '2026-10-01T10:15:30+00:00'
-          DebtorAccount:
-            SchemeName: UK.OBIE.SortCodeAccountNumber
-            Identification: '30949301273801'
-            Name: Jane Smith
-            SecondaryIdentification: Roll 56988
-            Proxy:
-              Identification: '+441632960540'
-              Code: TELE
-              Type: Telephone
-    FundsConfirmationConsentCreateResponse:
-      summary: Funds-confirmation consent awaiting authorisation
-      value:
-        Data:
-          ConsentId: FCC-20260401-0001
-          CreationDateTime: '2026-04-01T10:15:30+00:00'
-          Status: AWAU
-          StatusUpdateDateTime: '2026-04-01T10:15:30+00:00'
-          ExpirationDateTime: '2026-10-01T10:15:30+00:00'
-          DebtorAccount:
-            SchemeName: UK.OBIE.SortCodeAccountNumber
-            Identification: '30949301273801'
-            Name: Jane Smith
-            SecondaryIdentification: Roll 56988
-            Proxy:
-              Identification: '+441632960540'
-              Code: TELE
-              Type: Telephone
-        Links:
-          Self: https://api.alphabank.com/open-banking/v4.0/cbpii/funds-confirmation-consents/FCC-20260401-0001
-        Meta: {}
-    FundsConfirmationConsentReadAuthorisedResponse:
-      summary: Authorised funds-confirmation consent
-      value:
-        Data:
-          ConsentId: FCC-20260401-0001
-          CreationDateTime: '2026-04-01T10:15:30+00:00'
-          Status: AUTH
-          StatusUpdateDateTime: '2026-04-01T10:20:30+00:00'
-          ExpirationDateTime: '2026-10-01T10:15:30+00:00'
-          DebtorAccount:
-            SchemeName: UK.OBIE.SortCodeAccountNumber
-            Identification: '30949301273801'
-            Name: Jane Smith
-            SecondaryIdentification: Roll 56988
-            Proxy:
-              Identification: '+441632960540'
-              Code: TELE
-              Type: Telephone
-        Links:
-          Self: https://api.alphabank.com/open-banking/v4.0/cbpii/funds-confirmation-consents/FCC-20260401-0001
-        Meta: {}
-    FundsConfirmationConsentReadMaskedPanResponse:
-      summary: Authorised funds-confirmation consent with masked PAN
-      description: ASPSPs may partially mask the account identification when returning PAN account details on GET.
-      value:
-        Data:
-          ConsentId: FCC-20260401-0002
-          CreationDateTime: '2026-04-01T10:15:30+00:00'
-          Status: AUTH
-          StatusUpdateDateTime: '2026-04-01T10:20:30+00:00'
-          ExpirationDateTime: '2026-10-01T10:15:30+00:00'
-          DebtorAccount:
-            SchemeName: UK.OBIE.PAN
-            Identification: '4444********1111'
-            Name: Jane Smith
-            SecondaryIdentification: '008419'
-            Proxy:
-              Identification: '+441632960540'
-              Code: TELE
-              Type: Telephone
-        Links:
-          Self: https://api.alphabank.com/open-banking/v4.0/cbpii/funds-confirmation-consents/FCC-20260401-0002
-        Meta: {}
-    FundsConfirmationCreateRequest:
-      summary: Create a funds-confirmation request
-      value:
-        Data:
-          ConsentId: FCC-20260401-0001
-          Reference: CARD-PURCHASE-001
-          InstructedAmount:
-            Amount: '20.00'
-            Currency: GBP
-    FundsConfirmationCreateResponse:
-      summary: Funds are available for the card purchase
-      value:
-        Data:
-          FundsConfirmationId: FC-20260401-0001
-          ConsentId: FCC-20260401-0001
-          CreationDateTime: '2026-04-01T10:25:30+00:00'
-          FundsAvailable: true
-          Reference: CARD-PURCHASE-001
-          InstructedAmount:
-            Amount: '20.00'
-            Currency: GBP
-        Links:
-          Self: https://api.alphabank.com/open-banking/v4.0/cbpii/funds-confirmations/FC-20260401-0001
-        Meta: {}
-    FundsConfirmationUsdRequest:
-      summary: Create a funds-confirmation request for a USD account
-      description: Funds can be confirmed in USD only where the underlying payment account currency is USD.
-      value:
-        Data:
-          ConsentId: FCC-20260401-USD1
-          Reference: CARD-PURCHASE-USD
-          InstructedAmount:
-            Amount: '20.00'
-            Currency: USD
-    FundsConfirmationUsdResponse:
-      summary: Funds are available for the USD card purchase
-      description: Funds can be confirmed in USD only where the underlying payment account currency is USD.
-      value:
-        Data:
-          FundsConfirmationId: FC-20260401-USD1
-          ConsentId: FCC-20260401-USD1
-          CreationDateTime: '2026-04-01T10:25:30+00:00'
-          FundsAvailable: true
-          Reference: CARD-PURCHASE-USD
-          InstructedAmount:
-            Amount: '20.00'
-            Currency: USD
-        Links:
-          Self: https://api.alphabank.com/open-banking/v4.0/cbpii/funds-confirmations/FC-20260401-USD1
-        Meta: {}
-    Error400InvalidField:
-      summary: Invalid field value
-      value:
-        Code: UK.OBIE.Field.Invalid
-        Message: One or more request fields are invalid.
-        Errors:
-          - ErrorCode: U002
-            Message: InstructedAmount.Currency must match the currency of the underlying payment account.
-            Path: Data.InstructedAmount.Currency
-            Url: https://docs.alphabank.com/open-banking/errors/U002
-    Error403InvalidConsentStatus:
-      summary: Consent is not authorised for funds confirmation
-      value:
-        Code: UK.OBIE.Resource.InvalidConsentStatus
-        Message: The consent is not in a status that allows funds confirmation.
-        Errors:
-          - ErrorCode: U009
-            Message: The funds-confirmation consent is not authorised for this request.
-            Path: Data.ConsentId
-            Url: https://docs.alphabank.com/open-banking/errors/U009
-    Error500Unexpected:
-      summary: Unexpected processing error
-      value:
-        Id: ERR-20260401-0001
-        Code: UK.OBIE.UnexpectedError
-        Message: An unexpected error occurred while processing the request.
-        Errors:
-          - ErrorCode: U000
-            Message: The ASPSP could not complete the request due to an unexpected processing error.
-            Url: https://docs.alphabank.com/open-banking/errors/U000
   responses:
     201FundsConfirmationConsentsCreated:
       description: Funds Confirmation Consent Created
@@ -504,15 +337,9 @@ components:
         application/json; charset=utf-8:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsentResponse1'
-          examples:
-            FundsConfirmationConsentCreateResponse:
-              $ref: '#/components/examples/FundsConfirmationConsentCreateResponse'
         application/json:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsentResponse1'
-          examples:
-            FundsConfirmationConsentCreateResponse:
-              $ref: '#/components/examples/FundsConfirmationConsentCreateResponse'
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsentResponse1'
@@ -534,19 +361,9 @@ components:
         application/json; charset=utf-8:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsentResponse1'
-          examples:
-            FundsConfirmationConsentReadAuthorisedResponse:
-              $ref: '#/components/examples/FundsConfirmationConsentReadAuthorisedResponse'
-            FundsConfirmationConsentReadMaskedPanResponse:
-              $ref: '#/components/examples/FundsConfirmationConsentReadMaskedPanResponse'
         application/json:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsentResponse1'
-          examples:
-            FundsConfirmationConsentReadAuthorisedResponse:
-              $ref: '#/components/examples/FundsConfirmationConsentReadAuthorisedResponse'
-            FundsConfirmationConsentReadMaskedPanResponse:
-              $ref: '#/components/examples/FundsConfirmationConsentReadMaskedPanResponse'
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationConsentResponse1'
@@ -582,19 +399,9 @@ components:
         application/json; charset=utf-8:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationResponse1'
-          examples:
-            FundsConfirmationCreateResponse:
-              $ref: '#/components/examples/FundsConfirmationCreateResponse'
-            FundsConfirmationUsdResponse:
-              $ref: '#/components/examples/FundsConfirmationUsdResponse'
         application/json:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationResponse1'
-          examples:
-            FundsConfirmationCreateResponse:
-              $ref: '#/components/examples/FundsConfirmationCreateResponse'
-            FundsConfirmationUsdResponse:
-              $ref: '#/components/examples/FundsConfirmationUsdResponse'
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBFundsConfirmationResponse1'
@@ -612,15 +419,9 @@ components:
         application/json; charset=utf-8:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-          examples:
-            Error400InvalidField:
-              $ref: '#/components/examples/Error400InvalidField'
         application/json:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-          examples:
-            Error400InvalidField:
-              $ref: '#/components/examples/Error400InvalidField'
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
@@ -648,15 +449,9 @@ components:
         application/json; charset=utf-8:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-          examples:
-            Error403InvalidConsentStatus:
-              $ref: '#/components/examples/Error403InvalidConsentStatus'
         application/json:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-          examples:
-            Error403InvalidConsentStatus:
-              $ref: '#/components/examples/Error403InvalidConsentStatus'
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
@@ -717,15 +512,9 @@ components:
         application/json; charset=utf-8:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-          examples:
-            Error500Unexpected:
-              $ref: '#/components/examples/Error500Unexpected'
         application/json:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
-          examples:
-            Error500Unexpected:
-              $ref: '#/components/examples/Error500Unexpected'
         application/jose+jwe:
           schema:
             $ref: '#/components/schemas/OBErrorResponse1'
