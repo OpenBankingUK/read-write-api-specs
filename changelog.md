@@ -25,7 +25,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 
 ### Changed
 
-- Updated CBPII endpoint descriptions for consent creation, consent retrieval, consent deletion and funds confirmation creation to provide clearer behaviour and outcome detail.
+- Updated CBPII endpoint descriptions for consent creation, consent retrieval, consent deletion and funds confirmation creation to provide clearer behaviour and outcome detail, to optimse for AI Agents.
 - Standardised CBPII OpenAPI description formatting for consistency (single-line where suitable, `>-`/`|-` block scalar usage where appropriate, paragraph spacing, inline code formatting, and emphasised notes).
 - Updated CBPII security scheme descriptions to align with Open Banking/FAPI context and clarify `Authorization` header usage.
 - Updated `x-jws-signature` to be optional in CBPII request/response modelling to align with the Open Banking spec pages/standard.
