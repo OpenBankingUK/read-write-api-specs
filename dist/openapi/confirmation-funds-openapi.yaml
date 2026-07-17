@@ -211,6 +211,7 @@ components:
       required: true
       schema:
         type: string
+        example: FCC-20260401-0001
     Authorization:
       in: header
       name: Authorization
@@ -218,6 +219,7 @@ components:
       description: An Authorisation Token as per <https://tools.ietf.org/html/rfc6750>
       schema:
         type: string
+        example: Bearer <access-token>
     x-customer-user-agent:
       in: header
       name: x-customer-user-agent
@@ -225,6 +227,7 @@ components:
       required: false
       schema:
         type: string
+        example: Mozilla/5.0 (Example PSU Device)
     x-fapi-customer-ip-address:
       in: header
       name: x-fapi-customer-ip-address
@@ -232,6 +235,7 @@ components:
       description: The PSU's IP address if the PSU is currently logged in with the TPP.
       schema:
         type: string
+        example: 203.0.113.42
     x-fapi-auth-date:
       in: header
       name: x-fapi-auth-date
@@ -245,6 +249,7 @@ components:
       schema:
         type: string
         pattern: '^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \d{4} \d{2}:\d{2}:\d{2} (GMT|UTC)$'
+        example: Wed, 01 Apr 2026 10:15:30 GMT
     x-fapi-interaction-id:
       in: header
       name: x-fapi-interaction-id
@@ -252,6 +257,7 @@ components:
       description: An RFC4122 UID used as a correlation id.
       schema:
         type: string
+        example: 93bac548-d2de-4546-b106-880a5018460d
     x-jws-signature:
       in: header
       name: x-jws-signature
@@ -259,6 +265,7 @@ components:
       description: A detached JWS signature of the body of the payload.
       schema:
         type: string
+        example: eyJ...header.eyJ...payload.signature
     x-client-id:
       in: header
       name: x-client-id
@@ -271,6 +278,7 @@ components:
         This header __must not__ be used for client authentication
       schema:
         type: string
+        example: cbpii-client-12345
   headers:
     RateLimit-Policy:
       required: false
@@ -287,6 +295,7 @@ components:
         The **OPTIONAL** "w" parameter value conveys a time window.
       schema:
         type: string
+        example: '"default";q=100;w=10'
     RateLimit:
       required: false
       description: |-
@@ -302,11 +311,13 @@ components:
         The **OPTIONAL** "t" parameter value conveys the time window reset time for the identified policy.
       schema:
         type: string
+        example: '"default";r=50;t=30'
     x-jws-signature:
       required: false
       description: A detached JWS signature of the body of the payload.
       schema:
         type: string
+        example: eyJ...header.eyJ...payload.signature
   responses:
     201FundsConfirmationConsentsCreated:
       description: Funds Confirmation Consent Created
@@ -548,6 +559,7 @@ components:
           type: string
           minLength: 1
           maxLength: 2048
+          example: '+441632960540'
         Code:
           $ref: '#/components/schemas/ExternalProxyAccountType1Code'
         Type:
@@ -555,6 +567,7 @@ components:
           description: Type of the proxy identification.
           minLength: 1
           maxLength: 35
+          example: Telephone
     OBCashAccountDebtorWithName:
       type: object
       required:
@@ -569,6 +582,7 @@ components:
           type: string
           minLength: 1
           maxLength: 256
+          example: '30949301273801'
         Name:
           description: |-
             Name of the account, as assigned by the account servicing institution.
@@ -577,6 +591,7 @@ components:
           type: string
           minLength: 1
           maxLength: 350
+          example: Jane Smith
         SecondaryIdentification:
           description: |-
             This is secondary identification of the account, as assigned by the account servicing institution.
@@ -585,6 +600,7 @@ components:
           type: string
           minLength: 1
           maxLength: 34
+          example: Roll 56988
         Proxy:
           $ref: '#/components/schemas/OBProxy1'
     OBInternalAccountIdentification4Code:
@@ -600,6 +616,7 @@ components:
         - UK.OBIE.Paym
         - UK.OBIE.SortCodeAccountNumber
         - UK.OBIE.Wallet
+      example: UK.OBIE.SortCodeAccountNumber
     ExternalProxyAccountType1Code:
       description: |-
         Specifies the external proxy account type code, as published in the proxy account type external code set.
@@ -628,6 +645,7 @@ components:
         - UBIL
         - VIPN
         - BIID
+      example: TELE
     ISODateTime:
       description: |-
         All dates in the JSON payloads are represented in ISO 8601 date-time format.
@@ -652,10 +670,12 @@ components:
       description: A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.
       type: string
       pattern: '^\d{1,13}$|^\d{1,13}\.\d{1,5}$'
+      example: '20.00'
     ActiveOrHistoricCurrencyCode:
       description: A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 "Codes for the representation of currencies and funds".
       type: string
       pattern: '^[A-Z]{3,3}$'
+      example: GBP
     Links:
       type: object
       description: Links relevant to the payload
@@ -704,14 +724,17 @@ components:
           type: string
           minLength: 1
           maxLength: 500
+          example: InstructedAmount.Currency must match the currency of the underlying payment account.
         Path:
-          description: Recommended but optional reference to the JSON Path of the field with error, e.g., `Data.Initiation.InstructedAmount.Currency`
+          description: Recommended but optional reference to the JSON Path of the field with error, e.g., `Data.InstructedAmount.Currency`
           type: string
           minLength: 1
           maxLength: 500
+          example: Data.InstructedAmount.Currency
         Url:
           description: URL to help remediate the problem, or provide more information, or to API Reference, or help etc
           type: string
+          example: https://docs.alphabank.com/open-banking/errors/U002
       required:
         - ErrorCode
       additionalProperties: false
@@ -732,7 +755,7 @@ components:
             High level textual error code, to help categorise the errors.
           type: string
           minLength: 1
-          example: 400 BadRequest
+          example: UK.OBIE.Field.Invalid
           maxLength: 40
         Message:
           description: |-
@@ -741,7 +764,7 @@ components:
             Brief Error message
           type: string
           minLength: 1
-          example: There is something wrong with the request parameters provided
+          example: One or more request fields are invalid.
           maxLength: 500
         Errors:
           items:
@@ -771,11 +794,13 @@ components:
           type: string
           minLength: 1
           maxLength: 128
+          example: FCC-20260401-0001
         Reference:
           description: Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction.
           type: string
           minLength: 1
           maxLength: 35
+          example: CARD-PURCHASE-001
         InstructedAmount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
     OBFundsConfirmationConsent1:
@@ -802,6 +827,7 @@ components:
             `2017-04-05T10:43:07+00:00`
           type: string
           format: date-time
+          example: '2026-10-01T10:15:30+00:00'
         DebtorAccount:
           $ref: '#/components/schemas/OBCashAccountDebtorWithName'
     OBFundsConfirmationConsentResponse1:
@@ -830,6 +856,7 @@ components:
           type: string
           minLength: 1
           maxLength: 128
+          example: FCC-20260401-0001
         CreationDateTime:
           description: |-
             Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format.
@@ -839,6 +866,7 @@ components:
             `2017-04-05T10:43:07+00:00`
           type: string
           format: date-time
+          example: '2026-04-01T10:15:30+00:00'
         Status:
           $ref: '#/components/schemas/OBInternalConsentStatus1Code'
         StatusReason:
@@ -854,6 +882,7 @@ components:
             `2017-04-05T10:43:07+00:00`
           type: string
           format: date-time
+          example: '2026-04-01T10:20:30+00:00'
         ExpirationDateTime:
           description: |-
             Specified date and time the funds confirmation authorisation will expire.
@@ -865,6 +894,7 @@ components:
             `2017-04-05T10:43:07+00:00`
           type: string
           format: date-time
+          example: '2026-10-01T10:15:30+00:00'
         DebtorAccount:
           $ref: '#/components/schemas/OBCashAccountDebtorWithName'
     OBInternalConsentStatus1Code:
@@ -879,6 +909,7 @@ components:
         - AUTH
         - CANC
         - EXPD
+      example: AUTH
     OBFundsConfirmationResponse1:
       type: object
       required:
@@ -906,11 +937,13 @@ components:
           type: string
           minLength: 1
           maxLength: 40
+          example: FC-20260401-0001
         ConsentId:
           description: Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.
           type: string
           minLength: 1
           maxLength: 128
+          example: FCC-20260401-0001
         CreationDateTime:
           description: |-
             Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format.
@@ -920,14 +953,17 @@ components:
             `2017-04-05T10:43:07+00:00`
           type: string
           format: date-time
+          example: '2026-04-01T10:25:30+00:00'
         FundsAvailable:
           description: Flag to indicate the result of a confirmation of funds check.
           type: boolean
+          example: true
         Reference:
           description: Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction.
           type: string
           minLength: 1
           maxLength: 35
+          example: CARD-PURCHASE-001
         InstructedAmount:
           $ref: '#/components/schemas/OBActiveOrHistoricCurrencyAndAmount'
     OBExternalStatusReason1Code:
@@ -938,7 +974,7 @@ components:
       type: string
       minLength: 4
       maxLength: 4
-      example: U001
+      example: U002
     OBStatusReason:
       type: object
       properties:
@@ -950,14 +986,16 @@ components:
             For a full list of values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)
           minLength: 1
           maxLength: 4
-          example: ERIN
+          example: U009
         StatusReasonDescription:
           description: Description supporting the `StatusReasonCode`.
           type: string
           minLength: 1
           maxLength: 500
+          example: The consent is not in a status that allows funds confirmation.
         Path:
           type: string
           description: Optional reference to the JSON Path of the field when status reason refers to an object/field, e.g., `Data.DebtorAccount.SchemeName`
           minLength: 1
           maxLength: 500
+          example: Data.ConsentId
