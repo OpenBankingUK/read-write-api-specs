@@ -14,6 +14,45 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 - [v4.0.1 Release Candidate 1](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4203282434/Feedback+-+v4.0.1+Release+Candidate+1)
 - [v4.0.1 Release Candidate 2](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4309942273/Feedback+-+v4.0.1+Release+Candidate+2)
 
+## v4.0.1 Swagger Update 1 - TBD
+
+This update covers Swagger/OpenAPI refinements for the Confirmation of Funds (CBPII) API in v4.0.1.
+
+### Added
+
+- Added CBPII OpenAPI tags for `Funds Confirmation Consents` and `Funds Confirmations` to improve Swagger UI grouping and navigation.
+- Added optional `x-jws-signature` request header support across all CBPII operations to align with the Open Banking spec pages/standard.
+- Added optional `x-jws-signature` response header support across CBPII success and error responses to align with the Open Banking spec pages/standard.
+- Added CBPII OpenAPI examples for key parameters, headers, error payloads and schema fields.
+
+### Changed
+
+- Updated CBPII endpoint descriptions for consent creation, consent retrieval, consent deletion and funds confirmation creation to provide clearer behaviour and outcome detail for Swagger UI and AI agent consumers.
+- Updated the duplicate CBPII OpenAPI JSON output generated from the YAML source so the YAML and JSON Swagger artefacts stay aligned.
+- Standardised CBPII OpenAPI description formatting for consistency (single-line where suitable, `>-`/`|-` block scalar usage where appropriate, paragraph spacing, inline code formatting, and emphasised notes).
+- Updated CBPII security scheme, error model and account proxy descriptions to align with Open Banking/FAPI context and improve clarity.
+- Updated `x-jws-signature` to be optional in CBPII request/response modelling to align with the Open Banking spec pages/standard.
+- Updated CBPII enum descriptions to link directly to the relevant codeset CSV files.
+- Refactored CBPII `OBInternalAccountIdentification4Code` into a reusable schema reference.
+- Refactored CBPII Confirmation of Funds OpenAPI data dictionary schemas to use reusable component references aligned to the spec pages:
+  - `OBFundsConfirmationConsent1/Data` now references `OBFundsConfirmationConsentData1`
+  - `OBFundsConfirmationConsentResponse1/Data` now references `OBFundsConfirmationConsentDataResponse1`
+  - `OBFundsConfirmation1/Data` now references `OBFundsConfirmationData1`
+  - `OBFundsConfirmationResponse1/Data` now references `OBFundsConfirmationDataResponse1`
+  - `OBFundsConfirmationConsent1/Data/DebtorAccount` and `OBFundsConfirmationConsentResponse1/Data/DebtorAccount` now reference `OBCashAccountDebtorWithName`
+  - `OBFundsConfirmation1/Data/InstructedAmount` and `OBFundsConfirmationResponse1/Data/InstructedAmount` now reference `OBActiveOrHistoricCurrencyAndAmount`
+  - `OBFundsConfirmation1/Data/InstructedAmount/Amount` and `OBFundsConfirmationResponse1/Data/InstructedAmount/Amount` now reference `OBActiveCurrencyAndAmount_SimpleType`
+  - `OBFundsConfirmation1/Data/InstructedAmount/Currency` and `OBFundsConfirmationResponse1/Data/InstructedAmount/Currency` now reference `ActiveOrHistoricCurrencyCode`
+
+### Removed
+
+- Removed **unused** CBPII response/schema components `404Error` and `Identification_0`.
+- Removed **unused** CBPII header parameter `x-idempotency-key` (CBPII has no idempotent endpoints).
+
+### Fixed
+
+- [v401_KI_2] Corrected AIS `OBCashAccount6_1` in Update 1 by making `SchemeName` and `Identification` required for `OBReadTransaction6/Data/Transaction/DebtorAccount`; this completes the `OBCashAccountDebtorWithName` alignment that was intended for the v4.0.1 baseline.
+
 ## v4.0.1 - 2026-04-01
 
 ### Added

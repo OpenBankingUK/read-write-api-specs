@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Confirmation of Funds API Specification",
-    "description": "Swagger for Confirmation of Funds API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
+    "description": "Swagger for Confirmation of Funds API Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.",
     "termsOfService": "https://www.openbanking.org.uk/terms",
     "contact": {
       "name": "Service Desk",
@@ -14,6 +14,16 @@
     },
     "version": "4.0.1"
   },
+  "tags": [
+    {
+      "name": "Funds Confirmation Consents",
+      "description": "Operations related to funds confirmation consents"
+    },
+    {
+      "name": "Funds Confirmations",
+      "description": "Operations related to funds confirmations"
+    }
+  ],
   "paths": {
     "/funds-confirmation-consents": {
       "post": {
@@ -21,7 +31,7 @@
           "Funds Confirmation Consents"
         ],
         "summary": "Create a Funds Confirmation Consent",
-        "description": "Enables a CBPII to ask an ASPSP to create a new funds-confirmation-consent resource, by sending a copy of the consent to the ASPSP.",
+        "description": "Enables a CBPII to ask an ASPSP to create a new funds-confirmation-consent resource, by sending a copy of the consent to the ASPSP.\n\nOn success (HTTP 201), the response contains a `ConsentId`, `CreationDateTime`, the current `Status` of the consent, `StatusUpdateDateTime`, and the `DebtorAccount` associated with the consent. The consent may initially be returned with status `AWAU` (`AwaitingAuthorisation`).\n\n**Note:** Creating this consent does not immediately authorise funds confirmations. The PSU will need to authenticate and authorise the consent with their ASPSP before the consent can be used for funds confirmation requests.",
         "operationId": "CreateFundsConfirmationConsents",
         "parameters": [
           {
@@ -38,6 +48,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
           },
           {
             "$ref": "#/components/parameters/x-client-id"
@@ -98,7 +111,7 @@
           "Funds Confirmation Consents"
         ],
         "summary": "Get a Funds Confirmation Consent",
-        "description": "Enables a CBPII to retrieve the status of a Funds Confirmation Consent resource.",
+        "description": "Enables a CBPII to retrieve the status of a Funds Confirmation Consent resource.\n\nOn success (HTTP 200), the response contains the consent `ConsentId`, `CreationDateTime`, current `Status`, `StatusUpdateDateTime`, optional `StatusReason`, optional `ExpirationDateTime`, and the `DebtorAccount` associated with the consent.\n\n**Note:** This operation is read-only. It does not change the consent status, authorise the consent, revoke the consent, or perform a funds availability check.",
         "operationId": "GetFundsConfirmationConsentsConsentId",
         "parameters": [
           {
@@ -118,6 +131,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
           },
           {
             "$ref": "#/components/parameters/x-client-id"
@@ -162,7 +178,7 @@
           "Funds Confirmation Consents"
         ],
         "summary": "Delete a Funds Confirmation Consent",
-        "description": "Enables a CBPII to inform the PSU’s ASPSP that the PSU has revoked their consent to provide funds confirmations.",
+        "description": "Enables a CBPII to inform the PSU's ASPSP that the PSU has revoked their consent to provide funds confirmations.\n\nOn success (HTTP 204), the response has no body. The ASPSP confirms that the funds-confirmation-consent resource identified by `ConsentId` has been deleted or revoked for future funds confirmation use.\n\n**Note:** After this operation succeeds, the consent can no longer be used to create funds confirmation requests.",
         "operationId": "DeleteFundsConfirmationConsentsConsentId",
         "parameters": [
           {
@@ -182,6 +198,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
           },
           {
             "$ref": "#/components/parameters/x-client-id"
@@ -228,7 +247,7 @@
           "Funds Confirmations"
         ],
         "summary": "Create a Funds Confirmation Request",
-        "description": "Enables a CBPII to check whether a PSU has sufficient available funds for a CBPII transaction.",
+        "description": "Enables a CBPII to check whether a PSU has sufficient available funds for a CBPII transaction.\n\nThe request identifies the authorised funds-confirmation consent using `ConsentId`, provides a CBPII-assigned `Reference`, and specifies the `InstructedAmount` to check.\n\nOn success (HTTP 201), the response contains a `FundsConfirmationId`, the related `ConsentId`, `CreationDateTime`, the boolean `FundsAvailable` result, the `Reference`, and the `InstructedAmount` checked.\n\n**Note:** This operation checks availability only; it does not reserve funds, move funds, or initiate a payment.",
         "operationId": "CreateFundsConfirmations",
         "parameters": [
           {
@@ -245,6 +264,9 @@
           },
           {
             "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
           },
           {
             "$ref": "#/components/parameters/x-client-id"
@@ -310,19 +332,21 @@
       "ConsentId": {
         "name": "ConsentId",
         "in": "path",
-        "description": "ConsentId",
+        "description": "`ConsentId`",
         "required": true,
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "FCC-20260401-0001"
         }
       },
       "Authorization": {
         "in": "header",
         "name": "Authorization",
         "required": true,
-        "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+        "description": "An Authorisation Token as per <https://tools.ietf.org/html/rfc6750>",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "Bearer <access-token>"
         }
       },
       "x-customer-user-agent": {
@@ -331,7 +355,8 @@
         "description": "Indicates the user-agent that the PSU is using.",
         "required": false,
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "Mozilla/5.0 (Example PSU Device)"
         }
       },
       "x-fapi-customer-ip-address": {
@@ -340,17 +365,19 @@
         "required": false,
         "description": "The PSU's IP address if the PSU is currently logged in with the TPP.",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "203.0.113.42"
         }
       },
       "x-fapi-auth-date": {
         "in": "header",
         "name": "x-fapi-auth-date",
         "required": false,
-        "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+        "description": "The time when the PSU last logged in with the TPP.\n\nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below:\n\n`Sun, 10 Sep 2017 19:43:31 UTC`",
         "schema": {
           "type": "string",
-          "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+          "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$",
+          "example": "Wed, 01 Apr 2026 10:15:30 GMT"
         }
       },
       "x-fapi-interaction-id": {
@@ -359,52 +386,54 @@
         "required": false,
         "description": "An RFC4122 UID used as a correlation id.",
         "schema": {
-          "type": "string"
-        }
-      },
-      "x-idempotency-key": {
-        "name": "x-idempotency-key",
-        "in": "header",
-        "description": "Every request will be processed only once per x-idempotency-key.  The\nIdempotency Key will be valid for 24 hours.\n",
-        "required": true,
-        "schema": {
           "type": "string",
-          "maxLength": 40,
-          "pattern": "^(?!\\s)(.*)(\\S)$"
+          "example": "93bac548-d2de-4546-b106-880a5018460d"
         }
       },
       "x-jws-signature": {
         "in": "header",
         "name": "x-jws-signature",
-        "required": true,
+        "required": false,
         "description": "A detached JWS signature of the body of the payload.",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "eyJ...header.eyJ...payload.signature"
         }
       },
       "x-client-id": {
         "in": "header",
         "name": "x-client-id",
         "required": false,
-        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers. \n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication\n",
+        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers.\n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "cbpii-client-12345"
         }
       }
     },
     "headers": {
       "RateLimit-Policy": {
         "required": false,
-        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "\"default\";q=100;w=10"
         }
       },
       "RateLimit": {
         "required": false,
-        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "example": "\"default\";r=50;t=30"
+        }
+      },
+      "x-jws-signature": {
+        "required": false,
+        "description": "A detached JWS signature of the body of the payload.",
+        "schema": {
+          "type": "string",
+          "example": "eyJ...header.eyJ...payload.signature"
         }
       }
     },
@@ -424,6 +453,9 @@
           },
           "RateLimit": {
             "$ref": "#/components/headers/RateLimit"
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         },
         "content": {
@@ -459,6 +491,9 @@
           },
           "RateLimit": {
             "$ref": "#/components/headers/RateLimit"
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         },
         "content": {
@@ -494,6 +529,9 @@
           },
           "RateLimit": {
             "$ref": "#/components/headers/RateLimit"
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         }
       },
@@ -512,6 +550,9 @@
           },
           "RateLimit": {
             "$ref": "#/components/headers/RateLimit"
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         },
         "content": {
@@ -541,6 +582,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         },
         "content": {
@@ -570,6 +614,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         }
       },
@@ -582,6 +629,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         },
         "content": {
@@ -602,18 +652,6 @@
           }
         }
       },
-      "404Error": {
-        "description": "Not found",
-        "headers": {
-          "x-fapi-interaction-id": {
-            "required": true,
-            "description": "An RFC4122 UID used as a correlation id.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      },
       "405Error": {
         "description": "Method Not Allowed",
         "headers": {
@@ -623,6 +661,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         }
       },
@@ -635,6 +676,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         }
       },
@@ -647,6 +691,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         }
       },
@@ -664,6 +711,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         }
       },
@@ -676,6 +726,9 @@
             "schema": {
               "type": "string"
             }
+          },
+          "x-jws-signature": {
+            "$ref": "#/components/headers/x-jws-signature"
           }
         },
         "content": {
@@ -700,7 +753,7 @@
     "securitySchemes": {
       "TPPOAuth2Security": {
         "type": "oauth2",
-        "description": "TPP client credential authorisation flow with the ASPSP",
+        "description": "TPP client credentials authorisation flow with the ASPSP.\n\nFAPI 1 Advanced / OAuth 2.0 client credentials authorisation flow with the ASPSP. Access tokens are sent on resource requests using the standard HTTP Authorization header with the Bearer authentication scheme: `Authorization: Bearer <access-token>`.\n\nThis OpenAPI security scheme represents the OAuth2 access-token requirement. Additional Open Banking/FAPI requirements such as transport security, client authentication method, PAR/JAR, or certificate binding are profiled by the Open Banking security profile and may not be fully expressible in OpenAPI 3.0 securitySchemes.",
         "flows": {
           "clientCredentials": {
             "tokenUrl": "https://authserver.example/token",
@@ -712,7 +765,7 @@
       },
       "PSUOAuth2Security": {
         "type": "oauth2",
-        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
+        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU.\n\nFAPI 1 Advanced / OAuth 2.0 authorisation code flow with the ASPSP. Access tokens are sent on resource requests using the standard HTTP Authorization header with the Bearer scheme: `Authorization: Bearer <access-token>`.\n\nThis OpenAPI security scheme represents the OAuth2 access-token requirement. Additional Open Banking/FAPI requirements such as transport security, client authentication method, PAR/JAR, or certificate binding are profiled by the Open Banking security profile and may not be fully expressible in OpenAPI 3.0 securitySchemes.",
         "flows": {
           "authorizationCode": {
             "authorizationUrl": "https://authserver.example/authorization",
@@ -725,12 +778,6 @@
       }
     },
     "schemas": {
-      "Identification_0": {
-        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-        "type": "string",
-        "minLength": 1,
-        "maxLength": 256
-      },
       "OBProxy1": {
         "description": "Specifies an alternate assumed name for the identification of the account.",
         "type": "object",
@@ -743,7 +790,8 @@
             "description": "Identification used to indicate the account identification under another specified name.",
             "type": "string",
             "minLength": 1,
-            "maxLength": 2048
+            "maxLength": 2048,
+            "example": "+441632960540"
           },
           "Code": {
             "$ref": "#/components/schemas/ExternalProxyAccountType1Code"
@@ -752,12 +800,63 @@
             "type": "string",
             "description": "Type of the proxy identification.",
             "minLength": 1,
-            "maxLength": 35
+            "maxLength": 35,
+            "example": "Telephone"
           }
         }
       },
+      "OBCashAccountDebtorWithName": {
+        "type": "object",
+        "required": [
+          "SchemeName",
+          "Identification"
+        ],
+        "description": "Unambiguous identification of the account of the debtor to which a confirmation of funds consent will be applied.",
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "example": "30949301273801"
+          },
+          "Name": {
+            "description": "Name of the account, as assigned by the account servicing institution.\n\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350,
+            "example": "Jane Smith"
+          },
+          "SecondaryIdentification": {
+            "description": "This is secondary identification of the account, as assigned by the account servicing institution.\n\nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 34,
+            "example": "Roll 56988"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxy1"
+          }
+        }
+      },
+      "OBInternalAccountIdentification4Code": {
+        "description": "Name of the identification scheme, in a coded form as published in an external list.\n\nFor a full list of values see `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets/blob/main/OB_Internal_Codeset.csv)",
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.BBAN",
+          "UK.OBIE.IBAN",
+          "UK.OBIE.PAN",
+          "UK.OBIE.Paym",
+          "UK.OBIE.SortCodeAccountNumber",
+          "UK.OBIE.Wallet"
+        ],
+        "example": "UK.OBIE.SortCodeAccountNumber"
+      },
       "ExternalProxyAccountType1Code": {
-        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br > For a full list of values refer to `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.\n\nFor a full list of values refer to `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets/blob/main/ISO_External_Codeset.csv)",
         "type": "string",
         "enum": [
           "TELE",
@@ -781,12 +880,41 @@
           "UBIL",
           "VIPN",
           "BIID"
-        ]
+        ],
+        "example": "TELE"
       },
       "ISODateTime": {
-        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format.\n\nAll date-time fields in responses must include the timezone. An example is below:\n\n`2017-04-05T10:43:07+00:00`",
         "type": "string",
         "format": "date-time"
+      },
+      "OBActiveOrHistoricCurrencyAndAmount": {
+        "type": "object",
+        "required": [
+          "Amount",
+          "Currency"
+        ],
+        "description": "Amount of money to be confirmed as available funds in the debtor account. Contains an `Amount` and a `Currency`.",
+        "properties": {
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode"
+          }
+        }
+      },
+      "OBActiveCurrencyAndAmount_SimpleType": {
+        "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
+        "type": "string",
+        "pattern": "^\\d{1,13}$|^\\d{1,13}\\.\\d{1,5}$",
+        "example": "20.00"
+      },
+      "ActiveOrHistoricCurrencyCode": {
+        "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
+        "type": "string",
+        "pattern": "^[A-Z]{3,3}$",
+        "example": "GBP"
       },
       "Links": {
         "type": "object",
@@ -843,20 +971,23 @@
             "$ref": "#/components/schemas/OBExternalStatusReason1Code"
           },
           "Message": {
-            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBL doesn't standardise this field",
+            "description": "A description of the error that occurred. e.g., `'A mandatory field isn't supplied'` or `'RequestedExecutionDateTime must be in future'`\n\nOBL doesn't standardise this field.",
             "type": "string",
             "minLength": 1,
-            "maxLength": 500
+            "maxLength": 500,
+            "example": "InstructedAmount.Currency must match the currency of the underlying payment account."
           },
           "Path": {
-            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., `Data.InstructedAmount.Currency`",
             "type": "string",
             "minLength": 1,
-            "maxLength": 500
+            "maxLength": 500,
+            "example": "Data.InstructedAmount.Currency"
           },
           "Url": {
             "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
-            "type": "string"
+            "type": "string",
+            "example": "https://docs.alphabank.com/open-banking/errors/U002"
           }
         },
         "required": [
@@ -876,17 +1007,17 @@
             "maxLength": 40
           },
           "Code": {
-            "description": "Deprecated <br>High level textual error code, to help categorise the errors.",
+            "description": "**Deprecated**\n\nHigh level textual error code, to help categorise the errors.",
             "type": "string",
             "minLength": 1,
-            "example": "400 BadRequest",
+            "example": "UK.OBIE.Field.Invalid",
             "maxLength": 40
           },
           "Message": {
-            "description": "Deprecated <br>Brief Error message",
+            "description": "**Deprecated**\n\nBrief Error message",
             "type": "string",
             "minLength": 1,
-            "example": "There is something wrong with the request parameters provided",
+            "example": "One or more request fields are invalid.",
             "maxLength": 500
           },
           "Errors": {
@@ -909,49 +1040,37 @@
         ],
         "properties": {
           "Data": {
-            "type": "object",
-            "required": [
-              "ConsentId",
-              "Reference",
-              "InstructedAmount"
-            ],
-            "properties": {
-              "ConsentId": {
-                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128
-              },
-              "Reference": {
-                "description": "Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 35
-              },
-              "InstructedAmount": {
-                "type": "object",
-                "required": [
-                  "Amount",
-                  "Currency"
-                ],
-                "description": "Amount of money to be confirmed as available funds in the debtor account. Contains an Amount and a Currency.",
-                "properties": {
-                  "Amount": {
-                    "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
-                    "type": "string",
-                    "pattern": "^\\d{1,13}$|^\\d{1,13}\\.\\d{1,5}$"
-                  },
-                  "Currency": {
-                    "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
-                    "type": "string",
-                    "pattern": "^[A-Z]{3,3}$"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OBFundsConfirmationData1"
           }
         },
         "additionalProperties": false
+      },
+      "OBFundsConfirmationData1": {
+        "type": "object",
+        "required": [
+          "ConsentId",
+          "Reference",
+          "InstructedAmount"
+        ],
+        "properties": {
+          "ConsentId": {
+            "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "example": "FCC-20260401-0001"
+          },
+          "Reference": {
+            "description": "Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35,
+            "example": "CARD-PURCHASE-001"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          }
+        }
       },
       "OBFundsConfirmationConsent1": {
         "type": "object",
@@ -960,63 +1079,27 @@
         ],
         "properties": {
           "Data": {
-            "type": "object",
-            "required": [
-              "DebtorAccount"
-            ],
-            "properties": {
-              "ExpirationDateTime": {
-                "description": "Specified date and time the funds confirmation authorisation will expire.\n If this is not populated, the authorisation will be open ended. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              },
-              "DebtorAccount": {
-                "type": "object",
-                "required": [
-                  "SchemeName",
-                  "Identification"
-                ],
-                "description": "Unambiguous identification of the account of the debtor to which a confirmation of funds consent will be applied.",
-                "properties": {
-                  "SchemeName": {
-                    "description": "Name of the identification scheme, in a coded form as published in an external list. For a full list of values see `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                    "type": "string",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BBAN",
-                      "UK.OBIE.IBAN",
-                      "UK.OBIE.PAN",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SortCodeAccountNumber",
-                      "UK.OBIE.Wallet"
-                    ]
-                  },
-                  "Identification": {
-                    "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 256
-                  },
-                  "Name": {
-                    "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 350
-                  },
-                  "SecondaryIdentification": {
-                    "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 34
-                  },
-                  "Proxy": {
-                    "$ref": "#/components/schemas/OBProxy1"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OBFundsConfirmationConsentData1"
           }
         },
         "additionalProperties": false
+      },
+      "OBFundsConfirmationConsentData1": {
+        "type": "object",
+        "required": [
+          "DebtorAccount"
+        ],
+        "properties": {
+          "ExpirationDateTime": {
+            "description": "Specified date and time the funds confirmation authorisation will expire.\n\nIf this is not populated, the authorisation will be open ended. All dates in the JSON payloads are represented in ISO 8601 date-time format.\n\nAll date-time fields in responses must include the timezone. An example is below:\n\n`2017-04-05T10:43:07+00:00`",
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-10-01T10:15:30+00:00"
+          },
+          "DebtorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+          }
+        }
       },
       "OBFundsConfirmationConsentResponse1": {
         "type": "object",
@@ -1025,89 +1108,7 @@
         ],
         "properties": {
           "Data": {
-            "type": "object",
-            "required": [
-              "ConsentId",
-              "CreationDateTime",
-              "Status",
-              "StatusUpdateDateTime",
-              "DebtorAccount"
-            ],
-            "properties": {
-              "ConsentId": {
-                "description": "Unique identification as assigned to identify the funds confirmation consent resource.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128
-              },
-              "CreationDateTime": {
-                "description": "Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              },
-              "Status": {
-                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
-              },
-              "StatusReason": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/OBStatusReason"
-                }
-              },
-              "StatusUpdateDateTime": {
-                "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              },
-              "ExpirationDateTime": {
-                "description": "Specified date and time the funds confirmation authorisation will expire.\nIf this is not populated, the authorisation will be open ended. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              },
-              "DebtorAccount": {
-                "type": "object",
-                "required": [
-                  "SchemeName",
-                  "Identification"
-                ],
-                "description": "Unambiguous identification of the account of the debtor to which a confirmation of funds consent will be applied.",
-                "properties": {
-                  "SchemeName": {
-                    "description": "Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
-                    "type": "string",
-                    "x-namespaced-enum": [
-                      "UK.OBIE.BBAN",
-                      "UK.OBIE.IBAN",
-                      "UK.OBIE.PAN",
-                      "UK.OBIE.Paym",
-                      "UK.OBIE.SortCodeAccountNumber",
-                      "UK.OBIE.Wallet"
-                    ]
-                  },
-                  "Identification": {
-                    "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 256
-                  },
-                  "Name": {
-                    "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 350
-                  },
-                  "SecondaryIdentification": {
-                    "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 34
-                  },
-                  "Proxy": {
-                    "$ref": "#/components/schemas/OBProxy1"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OBFundsConfirmationConsentDataResponse1"
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -1118,8 +1119,57 @@
         },
         "additionalProperties": false
       },
+      "OBFundsConfirmationConsentDataResponse1": {
+        "type": "object",
+        "required": [
+          "ConsentId",
+          "CreationDateTime",
+          "Status",
+          "StatusUpdateDateTime",
+          "DebtorAccount"
+        ],
+        "properties": {
+          "ConsentId": {
+            "description": "Unique identification as assigned to identify the funds confirmation consent resource.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "example": "FCC-20260401-0001"
+          },
+          "CreationDateTime": {
+            "description": "Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format.\n\nAll date-time fields in responses must include the timezone. An example is below:\n\n`2017-04-05T10:43:07+00:00`",
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-04-01T10:15:30+00:00"
+          },
+          "Status": {
+            "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
+          },
+          "StatusReason": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBStatusReason"
+            }
+          },
+          "StatusUpdateDateTime": {
+            "description": "Date and time at which the resource status was updated. All dates in the JSON payloads are represented in ISO 8601 date-time format.\n\nAll date-time fields in responses must include the timezone. An example is below:\n\n`2017-04-05T10:43:07+00:00`",
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-04-01T10:20:30+00:00"
+          },
+          "ExpirationDateTime": {
+            "description": "Specified date and time the funds confirmation authorisation will expire.\n\nIf this is not populated, the authorisation will be open ended. All dates in the JSON payloads are represented in ISO 8601 date-time format.\n\nAll date-time fields in responses must include the timezone. An example is below:\n\n`2017-04-05T10:43:07+00:00`",
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-10-01T10:15:30+00:00"
+          },
+          "DebtorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+          }
+        }
+      },
       "OBInternalConsentStatus1Code": {
-        "description": "Specifies the status of consent resource in code form. For a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Specifies the status of consent resource in code form.\n\nFor a full list of values refer to `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets/blob/main/OB_Internal_Codeset.csv)",
         "type": "string",
         "enum": [
           "AWAU",
@@ -1127,7 +1177,8 @@
           "AUTH",
           "CANC",
           "EXPD"
-        ]
+        ],
+        "example": "AUTH"
       },
       "OBFundsConfirmationResponse1": {
         "type": "object",
@@ -1136,64 +1187,7 @@
         ],
         "properties": {
           "Data": {
-            "type": "object",
-            "required": [
-              "FundsConfirmationId",
-              "ConsentId",
-              "CreationDateTime",
-              "FundsAvailable",
-              "Reference",
-              "InstructedAmount"
-            ],
-            "properties": {
-              "FundsConfirmationId": {
-                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation resource.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 40
-              },
-              "ConsentId": {
-                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128
-              },
-              "CreationDateTime": {
-                "description": "Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
-                "type": "string",
-                "format": "date-time"
-              },
-              "FundsAvailable": {
-                "description": "Flag to indicate the result of a confirmation of funds check.",
-                "type": "boolean"
-              },
-              "Reference": {
-                "description": "Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 35
-              },
-              "InstructedAmount": {
-                "type": "object",
-                "required": [
-                  "Amount",
-                  "Currency"
-                ],
-                "description": "Amount of money to be confirmed as available funds in the debtor account. Contains an Amount and a Currency.",
-                "properties": {
-                  "Amount": {
-                    "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217.",
-                    "type": "string",
-                    "pattern": "^\\d{1,13}$|^\\d{1,13}\\.\\d{1,5}$"
-                  },
-                  "Currency": {
-                    "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\".",
-                    "type": "string",
-                    "pattern": "^[A-Z]{3,3}$"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/OBFundsConfirmationDataResponse1"
           },
           "Links": {
             "$ref": "#/components/schemas/Links"
@@ -1204,34 +1198,84 @@
         },
         "additionalProperties": false
       },
+      "OBFundsConfirmationDataResponse1": {
+        "type": "object",
+        "required": [
+          "FundsConfirmationId",
+          "ConsentId",
+          "CreationDateTime",
+          "FundsAvailable",
+          "Reference",
+          "InstructedAmount"
+        ],
+        "properties": {
+          "FundsConfirmationId": {
+            "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation resource.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40,
+            "example": "FC-20260401-0001"
+          },
+          "ConsentId": {
+            "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "example": "FCC-20260401-0001"
+          },
+          "CreationDateTime": {
+            "description": "Date and time at which the resource was created. All dates in the JSON payloads are represented in ISO 8601 date-time format.\n\nAll date-time fields in responses must include the timezone. An example is below:\n\n`2017-04-05T10:43:07+00:00`",
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-04-01T10:25:30+00:00"
+          },
+          "FundsAvailable": {
+            "description": "Flag to indicate the result of a confirmation of funds check.",
+            "type": "boolean",
+            "example": true
+          },
+          "Reference": {
+            "description": "Unique reference, as assigned by the CBPII, to unambiguously refer to the request related to the payment transaction.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35,
+            "example": "CARD-PURCHASE-001"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          }
+        }
+      },
       "OBExternalStatusReason1Code": {
-        "description": "Low level textual error code, for all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "description": "Low level textual error code.\n\nFor all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
         "type": "string",
         "minLength": 4,
         "maxLength": 4,
-        "example": "U001"
+        "example": "U002"
       },
       "OBStatusReason": {
         "type": "object",
         "properties": {
           "StatusReasonCode": {
             "type": "string",
-            "description": "Specifies the status reason in a code form. \n For a full list of values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "description": "Specifies the status reason in a code form.\n\nFor a full list of values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
             "minLength": 1,
             "maxLength": 4,
-            "example": "ERIN"
+            "example": "U009"
           },
           "StatusReasonDescription": {
-            "description": "Description supporting the StatusReasonCode.",
+            "description": "Description supporting the `StatusReasonCode`.",
             "type": "string",
             "minLength": 1,
-            "maxLength": 500
+            "maxLength": 500,
+            "example": "The consent is not in a status that allows funds confirmation."
           },
           "Path": {
             "type": "string",
-            "description": "Optional reference to the JSON Path of the field when status reason refers to an object/field, e.g., Data.DebtorAccount.SchemeName",
+            "description": "Optional reference to the JSON Path of the field when status reason refers to an object/field, e.g., `Data.DebtorAccount.SchemeName`",
             "minLength": 1,
-            "maxLength": 500
+            "maxLength": 500,
+            "example": "Data.ConsentId"
           }
         }
       }
