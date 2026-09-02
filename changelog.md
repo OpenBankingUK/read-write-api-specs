@@ -119,6 +119,7 @@ This update covers Swagger/OpenAPI refinements for the Confirmation of Funds (CB
 
 ### Fixed
 
+- [CDRW-5054] Made `SchemeName` and `Identification` required on AIS `OBCashAccount6_1` to align `OBReadTransaction6/Data/Transaction/DebtorAccount` with `OBCashAccountDebtorWithName`.
 - [CDRW-4136] Updated description of `OBExternalStatusReason1Code` to point to correct codeset name in AIS, PIS, CBPII, Events and VRP.
 - [CDRW-5043] Corrected typos and improved description clarity across all OpenAPI specification files:
   - Fixed double word "as as" to "as" in top-level description (AIS, CBPII, Events, PIS, VRP)
