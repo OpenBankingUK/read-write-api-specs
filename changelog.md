@@ -51,7 +51,7 @@ This update covers Swagger/OpenAPI refinements for the Confirmation of Funds (CB
 
 ### Fixed
 
-- [CDRW-5054] Corrected AIS `OBCashAccount6_1` in Update 1 by making `SchemeName` and `Identification` required for `OBReadTransaction6/Data/Transaction/DebtorAccount`; this completes the `OBCashAccountDebtorWithName` alignment that was intended for the v4.0.1 baseline.
+- [v401_KI_2] Corrected AIS `OBCashAccount6_1` in Update 1 by making `SchemeName` and `Identification` required for `OBReadTransaction6/Data/Transaction/DebtorAccount`; this completes the `OBCashAccountDebtorWithName` alignment that was intended for the v4.0.1 baseline.
 
 ## v4.0.1 - 2026-04-01
 
