@@ -1,0 +1,43 @@
+openapi: 3.1.2
+info:
+  title: Hello World ref-sibling compatibility test
+  version: 1.0.0
+  description: >-
+    Minimal API for testing contextual schema descriptions using an OpenAPI
+    3.1.2 $ref sibling.
+  license:
+    name: Open Licence
+    url: https://www.openbanking.org.uk/open-licence/
+servers:
+  - url: /
+security: []
+paths:
+  /hello:
+    get:
+      operationId: getHello
+      summary: Return a hello-world message
+      responses:
+        '200':
+          description: A successful hello-world response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloMessage'
+                description: The greeting returned specifically by GET /hello.
+                examples:
+                  - message: Hello, world!
+        '400':
+          description: The request could not be processed.
+components:
+  schemas:
+    HelloMessage:
+      type: object
+      description: A reusable message object.
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The message text.
+          examples:
+            - Hello, world!

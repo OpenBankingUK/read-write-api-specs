@@ -1,0 +1,3630 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "/open-banking/v4.0/pisp"
+    }
+  ],
+  "info": {
+    "title": "OBL VRP Profile",
+    "description": "VRP OpenAPI Specification.\n\n**Please Note**: There are no optional fields, if a field is not marked as “Required” it is a Conditional field.\n",
+    "version": "4.0.1",
+    "termsOfService": "https://www.openbanking.org.uk/terms",
+    "contact": {
+      "name": "Service Desk",
+      "email": "ServiceDesk@openbanking.org.uk"
+    },
+    "license": {
+      "name": "open-licence",
+      "url": "https://www.openbanking.org.uk/open-licence"
+    }
+  },
+  "tags": [
+    {
+      "name": "Domestic VRP Consents"
+    },
+    {
+      "name": "Domestic VRPs"
+    }
+  ],
+  "paths": {
+    "/domestic-vrp-consents": {
+      "post": {
+        "operationId": "domesticVrpConsentsPost",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Create a domestic VRP consent",
+        "description": "Enables a PISP to ask an ASPSP to create a new domestic-vrp-consent resource, by sending a copy of the consent to the ASPSP.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            }
+          },
+          "description": "Default",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-vrp-consents/{ConsentId}": {
+      "get": {
+        "operationId": "domesticVrpConsentsGet",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Get a Domestic VRP Consent",
+        "description": "Enables a PISP to retrieve the status of a Domestic VRP Consent.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "domesticVrpConsentsDelete",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Delete a Domestic VRP Consent",
+        "description": "Enables a PISP to ask an ASPSP to delete a previously consented Domestic VRP Consent resource.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204VRPConsentsConsentIdDeleted"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "operationId": "domesticVrpConsentsPut",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Replace an existing domestic VRP consent",
+        "description": "Enables a PISP to replace an existing Domestic VRP Consent resource.  \n\nThis endpoint **must** only be used for the migration of Domestic VRP Consent resource data across API Standard versions where the ASPSP supports this PUT function.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPConsentRequest"
+              }
+            }
+          },
+          "description": "Default",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "domesticVrpConsentsPatch",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Update an existing domestic VRP consent",
+        "description": "Enables a PISP to update an existing Domestic VRP Consent resource by submitting a JSON Patch payload.\n\nThis endpoint **must** only be used for the migration of Domestic VRP Consent resource data across API Standard versions where the ASPSP supports this PATCH function.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/20xOBDomesticVRPConsentResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "op",
+                    "path"
+                  ],
+                  "properties": {
+                    "op": {
+                      "type": "string",
+                      "description": "The operation to perform",
+                      "enum": [
+                        "add",
+                        "remove",
+                        "replace",
+                        "move",
+                        "copy",
+                        "test"
+                      ]
+                    },
+                    "path": {
+                      "type": "string",
+                      "description": "The path to the element to operate on as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)"
+                    },
+                    "from": {
+                      "type": "string",
+                      "description": "The path to move or copy from as per [RFC 6901](https://datatracker.ietf.org/doc/html/rfc6901)"
+                    },
+                    "value": {
+                      "description": "The value to add, replace, or test against. This may be a single string or an array of strings"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "description": "Array of Patch Operations as defined in [RFC 6902](https://datatracker.ietf.org/doc/html/rfc6902)",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-vrp-consents/{ConsentId}/funds-confirmation": {
+      "post": {
+        "operationId": "domesticVrpConsentsFundsConfirmation",
+        "tags": [
+          "Domestic VRP Consents"
+        ],
+        "summary": "Confirm Funds Availability for a Domestic VRP",
+        "description": "Enables a PISP to check whether a PSU has sufficient available funds for a Domestic VRP Payment.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ConsentId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/201OBDomesticVRPFundsConfirmationResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/OBVRPFundsConfirmationRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OBVRPFundsConfirmationRequest"
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/OBVRPFundsConfirmationRequest"
+              }
+            }
+          },
+          "description": "Default",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-vrps": {
+      "post": {
+        "operationId": "domesticVrpPost",
+        "tags": [
+          "Domestic VRPs"
+        ],
+        "summary": "Initiate a Domestic VRP",
+        "description": "Enables a PISP to initiate a Domestic VRP transaction under an already PSU-approved Domestic VRP Consent.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-jws-signature"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-idempotency-key"
+          },
+          {
+            "$ref": "#/components/parameters/payload-version"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/20xOBDomesticVRPResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/422Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPRequest"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPRequest"
+              }
+            },
+            "application/jose+jwe": {
+              "schema": {
+                "$ref": "#/components/schemas/OBDomesticVRPRequest"
+              }
+            }
+          },
+          "description": "Default",
+          "required": true
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-vrps/{DomesticVRPId}": {
+      "get": {
+        "operationId": "domesticVrpGet",
+        "tags": [
+          "Domestic VRPs"
+        ],
+        "summary": "Get a Domestic VRP",
+        "description": "Enables a PISP to retrieve the status of a Domestic VRP transaction.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DomesticVRPId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/20xOBDomesticVRPResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    },
+    "/domestic-vrps/{DomesticVRPId}/payment-details": {
+      "get": {
+        "operationId": "domesticVrpPaymentDetailsGet",
+        "tags": [
+          "Domestic VRPs"
+        ],
+        "summary": "Get details of a Domestic VRP Payment",
+        "description": "Enables a PISP to retrieve detailed information on the status of a Domestic VRP transaction.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DomesticVRPId"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-auth-date"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-customer-ip-address"
+          },
+          {
+            "$ref": "#/components/parameters/x-fapi-interaction-id"
+          },
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "$ref": "#/components/parameters/x-customer-user-agent"
+          },
+          {
+            "$ref": "#/components/parameters/x-client-id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/20xOBDomesticVRPRequestDetailResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Error"
+          },
+          "405": {
+            "$ref": "#/components/responses/405Error"
+          },
+          "406": {
+            "$ref": "#/components/responses/406Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/415Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/429Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalError"
+          }
+        },
+        "security": [
+          {
+            "TPPOAuth2Security": [
+              "payments"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "204VRPConsentsConsentIdDeleted": {
+        "description": "VRP Consent Deleted",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
+          }
+        }
+      },
+      "400Error": {
+        "description": "Bad request",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
+      "401Error": {
+        "description": "Unauthorized",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "403Error": {
+        "description": "Forbidden",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
+      "404Error": {
+        "description": "Not found",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "405Error": {
+        "description": "Method Not Allowed",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "406Error": {
+        "description": "Not Acceptable",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "409Error": {
+        "description": "Conflict",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
+      "415Error": {
+        "description": "Unsupported Media Type",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "422Error": {
+        "description": "Duplicate Idempotency key",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
+      "429Error": {
+        "description": "Too Many Requests",
+        "headers": {
+          "Retry-After": {
+            "description": "Number in seconds to wait",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "InternalError": {
+        "description": "Internal Server Error",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBErrorResponse1"
+            }
+          }
+        }
+      },
+      "20xOBDomesticVRPConsentResponse": {
+        "description": "Default response",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "payload-version": {
+            "description": "Optional header to aid migration across API versions.  Indicates the version of JSON schema being sent/received",
+            "schema": {
+              "type": "string",
+              "example": "3.1.11"
+            }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPConsentResponse"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPConsentResponse"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPConsentResponse"
+            }
+          }
+        }
+      },
+      "201OBDomesticVRPFundsConfirmationResponse": {
+        "description": "Default response",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBVRPFundsConfirmationResponse"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBVRPFundsConfirmationResponse"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBVRPFundsConfirmationResponse"
+            }
+          }
+        }
+      },
+      "20xOBDomesticVRPResponse": {
+        "description": "Default response",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPResponse"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPResponse"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPResponse"
+            }
+          }
+        }
+      },
+      "20xOBDomesticVRPRequestDetailResponse": {
+        "description": "Default response",
+        "headers": {
+          "x-fapi-interaction-id": {
+            "description": "An RFC4122 UID used as a correlation id.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "x-jws-signature": {
+            "description": "Header containing a detached JWS signature of the body of the payload.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          "RateLimit-Policy": {
+            "$ref": "#/components/headers/RateLimit-Policy"
+          },
+          "RateLimit": {
+            "$ref": "#/components/headers/RateLimit"
+          }
+        },
+        "content": {
+          "application/json; charset=utf-8": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPDetails"
+            }
+          },
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPDetails"
+            }
+          },
+          "application/jose+jwe": {
+            "schema": {
+              "$ref": "#/components/schemas/OBDomesticVRPDetails"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "ConsentId": {
+        "name": "ConsentId",
+        "in": "path",
+        "description": "ConsentId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "DomesticVRPId": {
+        "name": "DomesticVRPId",
+        "in": "path",
+        "description": "DomesticVRPId",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Authorization": {
+        "in": "header",
+        "name": "Authorization",
+        "required": true,
+        "description": "An Authorisation Token as per https://tools.ietf.org/html/rfc6750",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-customer-user-agent": {
+        "in": "header",
+        "name": "x-customer-user-agent",
+        "description": "Indicates the user-agent that the PSU is using.",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-fapi-customer-ip-address": {
+        "in": "header",
+        "name": "x-fapi-customer-ip-address",
+        "required": false,
+        "description": "The PSU's IP address if the PSU is currently logged in with the TPP.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-fapi-auth-date": {
+        "in": "header",
+        "name": "x-fapi-auth-date",
+        "required": false,
+        "description": "The time when the PSU last logged in with the TPP. \nAll dates in the HTTP headers are represented as RFC 7231 Full Dates. An example is below: \nSun, 10 Sep 2017 19:43:31 UTC",
+        "schema": {
+          "type": "string",
+          "pattern": "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), \\d{2} (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) \\d{4} \\d{2}:\\d{2}:\\d{2} (GMT|UTC)$"
+        }
+      },
+      "x-fapi-interaction-id": {
+        "in": "header",
+        "name": "x-fapi-interaction-id",
+        "required": false,
+        "description": "An RFC4122 UID used as a correlation id.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "x-idempotency-key": {
+        "name": "x-idempotency-key",
+        "in": "header",
+        "description": "Every request will be processed only once per x-idempotency-key.  The\nIdempotency Key will be valid for 24 hours.\n",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "maxLength": 40,
+          "pattern": "^(?!\\s)(.*)(\\S)$"
+        }
+      },
+      "x-jws-signature": {
+        "in": "header",
+        "name": "x-jws-signature",
+        "required": true,
+        "description": "A detached JWS signature of the body of the payload.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "payload-version": {
+        "in": "header",
+        "name": "payload-version",
+        "description": "Optional header to aid migration across API versions.  Indicates the version of JSON schema being sent/received",
+        "schema": {
+          "type": "string",
+          "example": "3.1.11"
+        }
+      },
+      "x-client-id": {
+        "in": "header",
+        "name": "x-client-id",
+        "required": false,
+        "description": "Only used if an ASPSP requires the client ID in order to return rate limit headers. \n\nTPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nThis header __must not__ be used for client authentication\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "headers": {
+      "RateLimit-Policy": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA non-empty list of Quota Policy Items. The Item value __MUST__ be a String.\n\nExample:\n`RateLimit-Policy: \"default\";q=100;w=10`\n\nThe **REQUIRED** \"q\" parameter indicates the quota allocated by this policy measured in quota units.\n\nThe **OPTIONAL** \"w\" parameter value conveys a time window.\n",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "RateLimit": {
+        "required": false,
+        "description": "TPPs __must__ refer to ASPSP developer portals for further information on any rate limit policies, if the headers are supported and any additional requirements.\n\nA server uses the \"RateLimit\" response header field to communicate the current service limit for a quota policy for a particular partition key.\n\nExample:\n`RateLimit: \"default\";r=50;t=30`\n\nThe **REQUIRED** \"r\" parameter value conveys the remaining quota units for the identified policy.\n\nThe **OPTIONAL** \"t\" parameter value conveys the time window reset time for the identified policy.\n",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "OBDomesticRefundAccount1": {
+        "description": "Unambiguous identification of the refund account to which a refund will be made as a result of the transaction.",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "Account"
+        ],
+        "properties": {
+          "Account": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "SchemeName",
+              "Identification",
+              "Name"
+            ],
+            "description": "Provides the details to identify an account.",
+            "properties": {
+              "SchemeName": {
+                "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+              },
+              "Identification": {
+                "$ref": "#/components/schemas/Identification_0"
+              },
+              "Name": {
+                "description": "Name of the account, as assigned by the account servicing institution.\nUsage: The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account.\nOB: ASPSPs may carry out name validation for Confirmation of Payee, but it is not mandatory.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 350
+              },
+              "SecondaryIdentification": {
+                "$ref": "#/components/schemas/SecondaryIdentification"
+              }
+            }
+          }
+        }
+      },
+      "SecondaryIdentification": {
+        "description": "This is secondary identification of the account, as assigned by the account servicing institution. \nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination).",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 34
+      },
+      "OBUltimateCreditor1": {
+        "description": "Ultimate party to which an amount of money is due.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name by which a party is known and which is usually used to identify that party.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "Identification": {
+            "description": "Identification assigned by an institution.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          }
+        }
+      },
+      "OBUltimateDebtor1": {
+        "description": "Ultimate party that owes an amount of money to the (ultimate) creditor.",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name by which a party is known and which is usually used to identify that party.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "Identification": {
+            "description": "Identification assigned by an institution.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          }
+        }
+      },
+      "OBBranchAndFinancialInstitutionIdentification6_0": {
+        "type": "object",
+        "description": "Party that manages the account on behalf of the account owner, that is manages the registration and booking of entries on the account, calculates balances on the account and provides information about the account. This is the servicer of the beneficiary account.",
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
+          },
+          "Identification": {
+            "$ref": "#/components/schemas/Identification_1"
+          },
+          "Name": {
+            "$ref": "#/components/schemas/Name_1"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          }
+        }
+      },
+      "LEI": {
+        "description": "Legal entity identification as an alternate identification for a party. Legal Entity Identifier is a code allocated to a party as described in ISO 17442 \"Financial Services - Legal Entity Identifier (LEI)\".",
+        "type": "string",
+        "example": "IZ9Q00LZEVUKWCQY6X15",
+        "minLength": 1,
+        "maxLength": 20,
+        "pattern": "^[A-Z0-9]{18,18}[0-9]{2,2}$"
+      },
+      "Name_1": {
+        "description": "Name by which an agent is known and which is usually used to identify that agent.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
+      },
+      "Identification_0": {
+        "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "Identification_1": {
+        "description": "Unique and unambiguous identification of the servicing institution.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35
+      },
+      "OBProxy1": {
+        "description": "Specifies an alternate assumed name for the identification of the account.",
+        "type": "object",
+        "required": [
+          "Identification",
+          "Code"
+        ],
+        "properties": {
+          "Identification": {
+            "description": "Identification used to indicate the account identification under another specified name.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "Code": {
+            "$ref": "#/components/schemas/ExternalProxyAccountType1Code"
+          },
+          "Type": {
+            "type": "string",
+            "description": "Type of the proxy identification.",
+            "minLength": 1,
+            "maxLength": 35
+          }
+        }
+      },
+      "ExternalProxyAccountType1Code": {
+        "description": "Specifies the external proxy account type code, as published in the proxy account type external code set.<br /> For a full list of values see `ExternalProxyAccountType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "TELE",
+          "EMAL",
+          "DNAM",
+          "CINC",
+          "COTX",
+          "COID",
+          "CUST",
+          "DRLC",
+          "EIDN",
+          "EWAL",
+          "PVTX",
+          "LEIC",
+          "MBNO",
+          "NIDN",
+          "CCPT",
+          "SHID",
+          "SOSE",
+          "TOKN",
+          "UBIL",
+          "VIPN",
+          "BIID"
+        ]
+      },
+      "OBError1": {
+        "type": "object",
+        "properties": {
+          "ErrorCode": {
+            "$ref": "#/components/schemas/OBExternalStatusReason1Code"
+          },
+          "Message": {
+            "description": "A description of the error that occurred. e.g., 'A mandatory field isn't supplied' or 'RequestedExecutionDateTime must be in future'\nOBL doesn't standardise this field",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "Path": {
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "Url": {
+            "description": "URL to help remediate the problem, or provide more information, or to API Reference, or help etc",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ErrorCode"
+        ],
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+      "OBErrorResponse1": {
+        "description": "An array of detail error codes, and messages, and URLs to documentation to help remediation.",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Id": {
+            "description": "A unique reference for the error instance, for audit purposes, in case of unknown/unclassified errors.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "Code": {
+            "description": "Deprecated <br>High level textual error code, to help categorise the errors.",
+            "type": "string",
+            "minLength": 1,
+            "example": "400 BadRequest",
+            "maxLength": 40
+          },
+          "Message": {
+            "description": "Deprecated <br>Brief Error message",
+            "type": "string",
+            "minLength": 1,
+            "example": "There is something wrong with the request parameters provided",
+            "maxLength": 500
+          },
+          "Errors": {
+            "items": {
+              "$ref": "#/components/schemas/OBError1"
+            },
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "Errors"
+        ]
+      },
+      "OBExternalStatusReason1Code": {
+        "description": "Low level textual error code, for all enum values see `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 4,
+        "example": "U001"
+      },
+      "OBDomesticVRPConsentResponse": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "CreationDateTime",
+              "Status",
+              "StatusUpdateDateTime",
+              "ControlParameters",
+              "Initiation"
+            ],
+            "properties": {
+              "ReadRefundAccount": {
+                "type": "string",
+                "enum": [
+                  "Yes",
+                  "No"
+                ],
+                "description": "Indicates whether information about RefundAccount should be included in the payment response.\n"
+              },
+              "ConsentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the consent resource.\n"
+              },
+              "CreationDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource was created.\n"
+              },
+              "Status": {
+                "$ref": "#/components/schemas/OBInternalConsentStatus1Code"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                }
+              },
+              "StatusUpdateDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource status was updated.\n"
+              },
+              "ControlParameters": {
+                "$ref": "#/components/schemas/OBDomesticVRPControlParameters"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              },
+              "DebtorAccount": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+                  },
+                  {
+                    "description": "The DebtorAccount details as specified by the PSU when account selection happens at the ASPSP. *Note:* The details must be provided in the consent response (OBDomesticVRPConsentResponse) by the ASPSP to enable the PISP to associate it with future VRP payments that are made using the VRP Consent."
+                  }
+                ]
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBInternalConsentStatus1Code": {
+        "description": "Specifies the status of consent resource in code form. Only AWAU and RJCT can be returned on initial submission. For a full list of values see `OBInternalConsentStatus1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "AWAU",
+          "RJCT",
+          "AUTH",
+          "CANC",
+          "EXPD"
+        ]
+      },
+      "OBDomesticVRPConsentRequest": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ControlParameters",
+              "Initiation"
+            ],
+            "properties": {
+              "ReadRefundAccount": {
+                "type": "string",
+                "enum": [
+                  "Yes",
+                  "No"
+                ],
+                "description": "Indicates whether the `RefundAccount` object should be included in the response\n"
+              },
+              "ControlParameters": {
+                "$ref": "#/components/schemas/OBDomesticVRPControlParameters"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          }
+        }
+      },
+      "OBDomesticVRPControlParameters": {
+        "type": "object",
+        "required": [
+          "VRPType",
+          "PSUAuthenticationMethods",
+          "MaximumIndividualAmount",
+          "PeriodicLimits"
+        ],
+        "properties": {
+          "ValidFromDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "^ Start date time for which the consent remains valid."
+          },
+          "ValidToDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "^ End date time for which the consent remains valid."
+          },
+          "MaximumIndividualAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          },
+          "PeriodicLimits": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "PeriodType",
+                "PeriodAlignment",
+                "Amount",
+                "Currency"
+              ],
+              "properties": {
+                "PeriodType": {
+                  "type": "string",
+                  "enum": [
+                    "Day",
+                    "Week",
+                    "Fortnight",
+                    "Month",
+                    "Half-year",
+                    "Year"
+                  ],
+                  "description": "^ Period type for this period limit"
+                },
+                "PeriodAlignment": {
+                  "type": "string",
+                  "enum": [
+                    "Consent",
+                    "Calendar"
+                  ],
+                  "description": "Specifies whether the period starts on the date of consent creation or lines up with a calendar. As the ISO calendar does not support or provide any guidance on when a fortnight should start, when specifying a `PeriodType` of `Fortnight` the `PeriodAlignment` must be `Consent`."
+                },
+                "Amount": {
+                  "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+                },
+                "Currency": {
+                  "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode"
+                }
+              }
+            }
+          },
+          "VRPType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBVRPConsentType"
+            },
+            "minItems": 1,
+            "description": "^ The types of payments that can be made under this VRP consent. This can be used to indicate whether this includes sweeping payments or other ecommerce payments."
+          },
+          "PSUAuthenticationMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBVRPAuthenticationMethods"
+            },
+            "minItems": 1,
+            "description": "^ Indicates that the PSU authentication methods supported."
+          },
+          "PSUInteractionTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBVRPInteractionTypes"
+            },
+            "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `OffSession` (the customer is not present) when the individual VRP payment is made."
+          },
+          "SupplementaryData": {
+            "type": "object",
+            "description": "^ Additional information that cannot be captured in the structured fields and/or any other specific block"
+          }
+        }
+      },
+      "OBDomesticVRPInitiation": {
+        "type": "object",
+        "properties": {
+          "DebtorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountCreditor3"
+          },
+          "CreditorPostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          },
+          "UltimateCreditor": {
+            "$ref": "#/components/schemas/OBUltimateCreditor1"
+          },
+          "UltimateDebtor": {
+            "$ref": "#/components/schemas/OBUltimateDebtor1"
+          },
+          "RemittanceInformation": {
+            "$ref": "#/components/schemas/OBRemittanceInformation2"
+          },
+          "RegulatoryReporting": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBRegulatoryReporting1"
+            },
+            "maxItems": 10
+          }
+        }
+      },
+      "OBCashAccountDebtorWithName": {
+        "type": "object",
+        "required": [
+          "SchemeName",
+          "Identification"
+        ],
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "^ Identification assigned by an institution to identify an account. This identification is known by the account owner."
+          },
+          "Name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 350,
+            "description": "^ Name of the account, as assigned by the account servicing institution.  Usage The account name is the name or names of the account owner(s) represented at an account level. The account name is not the product name or the nickname of the account."
+          },
+          "SecondaryIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 34,
+            "description": "^ This is secondary identification of the account, as assigned by the account servicing institution.  This can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxy1"
+          }
+        }
+      },
+      "OBCashAccountCreditor3": {
+        "type": "object",
+        "required": [
+          "SchemeName",
+          "Identification",
+          "Name"
+        ],
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalAccountIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "Identification assigned by an institution to identify an account. This identification is known by the account owner."
+          },
+          "Name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70,
+            "description": "Name of the account, as assigned by the account servicing institution.\nUsage: the account name is the name or names of the account owner(s) represented at an account level.\nThe account name is not the product name or the nickname of the account."
+          },
+          "SecondaryIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 34,
+            "description": "This is secondary identification of the account, as assigned by the account servicing institution.\nThis can be used by building societies to additionally identify accounts with a roll number (in addition to a sort code and account number combination)"
+          },
+          "Proxy": {
+            "$ref": "#/components/schemas/OBProxy1"
+          }
+        }
+      },
+      "OBBranchAndFinancialInstitutionIdentification6": {
+        "type": "object",
+        "properties": {
+          "SchemeName": {
+            "$ref": "#/components/schemas/OBInternalFinancialInstitutionIdentification4Code"
+          },
+          "Identification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35,
+            "description": "^ Unique and unambiguous identification of a financial institution or a branch of a financial institution."
+          },
+          "Name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140,
+            "description": "^ Name by which an agent is known and which is usually used to identify that agent."
+          },
+          "LEI": {
+            "$ref": "#/components/schemas/LEI"
+          },
+          "PostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          }
+        }
+      },
+      "OBDomesticVRPRequest": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "PSUAuthenticationMethod",
+              "VRPType",
+              "Initiation",
+              "Instruction"
+            ],
+            "properties": {
+              "ConsentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Identifier for the Domestic VRP Consent that this payment is made under."
+              },
+              "PSUAuthenticationMethod": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBVRPAuthenticationMethods"
+                  },
+                  {
+                    "description": "The authentication method that was used to authenticate the PSU."
+                  }
+                ]
+              },
+              "PSUInteractionType": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/OBVRPInteractionTypes"
+                  },
+                  {
+                    "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `OffSession` (customer is not present) when the individual VRP payment is made."
+                  }
+                ]
+              },
+              "VRPType": {
+                "$ref": "#/components/schemas/OBVRPConsentType"
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              },
+              "Instruction": {
+                "$ref": "#/components/schemas/OBDomesticVRPInstruction"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          }
+        }
+      },
+      "OBDomesticVRPResponse": {
+        "type": "object",
+        "required": [
+          "Data",
+          "Risk"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "DomesticVRPId",
+              "ConsentId",
+              "CreationDateTime",
+              "Status",
+              "StatusUpdateDateTime",
+              "Initiation",
+              "Instruction"
+            ],
+            "description": "`Data.Refund` only included in the response if `Data.ReadRefundAccount` is set to `Yes` in the consent.\n",
+            "properties": {
+              "DomesticVRPId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the domestic payment resource.\n"
+              },
+              "ConsentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Identifier for the Domestic VRP Consent that this payment is made under.\n"
+              },
+              "CreationDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource was created.\n"
+              },
+              "Status": {
+                "$ref": "#/components/schemas/ExternalPaymentTransactionStatus5Code"
+              },
+              "StatusReason": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/OBStatusReason"
+                }
+              },
+              "StatusUpdateDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource status was updated.\n"
+              },
+              "ExpectedExecutionDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Expected execution date and time for the payment resource.\n"
+              },
+              "ExpectedSettlementDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Expected settlement date and time for the payment resource.\n"
+              },
+              "Refund": {
+                "$ref": "#/components/schemas/OBDomesticRefundAccount1"
+              },
+              "Charges": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "Amount",
+                    "ChargeBearer",
+                    "Type"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "ChargeBearer": {
+                      "$ref": "#/components/schemas/OBInternalChargeBearerType1Code"
+                    },
+                    "Type": {
+                      "$ref": "#/components/schemas/OBInternalPaymentChargeType1Code"
+                    },
+                    "Amount": {
+                      "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+                    }
+                  },
+                  "description": "Set of elements used to provide details of a charge for the payment initiation."
+                }
+              },
+              "Initiation": {
+                "$ref": "#/components/schemas/OBDomesticVRPInitiation"
+              },
+              "Instruction": {
+                "$ref": "#/components/schemas/OBDomesticVRPInstruction"
+              },
+              "DebtorAccount": {
+                "$ref": "#/components/schemas/OBCashAccountDebtorWithName"
+              }
+            }
+          },
+          "Risk": {
+            "$ref": "#/components/schemas/OBRisk1"
+          },
+          "Links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "Meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "OBDomesticVRPDetails": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "properties": {
+          "Data": {
+            "type": "object",
+            "properties": {
+              "PaymentStatus": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "PaymentTransactionId",
+                    "Status",
+                    "StatusUpdateDateTime"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "PaymentTransactionId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 210,
+                      "description": "Unique identifier for the transaction within a servicing institution. This identifier is both unique and immutable."
+                    },
+                    "Status": {
+                      "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
+                    },
+                    "StatusUpdateDateTime": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time at which the status was assigned to the transfer.\n"
+                    },
+                    "StatusDetail": {
+                      "type": "object",
+                      "required": [
+                        "Status"
+                      ],
+                      "properties": {
+                        "LocalInstrument": {
+                          "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
+                        },
+                        "Status": {
+                          "$ref": "#/components/schemas/ExternalPaymentTransactionStatus1Code"
+                        },
+                        "StatusReason": {
+                          "type": "string",
+                          "description": "Reason Code provided for the status of a transfer."
+                        },
+                        "StatusReasonDescription": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256,
+                          "description": "Reason provided for the status of a transfer."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "OBVRPFundsConfirmationRequest": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "description": "The OBVRPFundsConfirmationRequest object must be used to request funds availability for a specific amount in the Debtor Account included in the VRP consents.",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "ConsentId",
+              "InstructedAmount"
+            ],
+            "properties": {
+              "ConsentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource."
+              },
+              "Reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35,
+                "description": "Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction. This must be the same value as the `Reference` field in the consent."
+              },
+              "InstructedAmount": {
+                "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+              }
+            }
+          }
+        }
+      },
+      "OBVRPFundsConfirmationResponse": {
+        "type": "object",
+        "required": [
+          "Data"
+        ],
+        "description": "The confirmation of funds response contains the result of a funds availability check.",
+        "properties": {
+          "Data": {
+            "type": "object",
+            "required": [
+              "FundsConfirmationId",
+              "ConsentId",
+              "CreationDateTime",
+              "FundsAvailableResult",
+              "InstructedAmount"
+            ],
+            "properties": {
+              "FundsConfirmationId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation resource."
+              },
+              "ConsentId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Unique identification as assigned by the ASPSP to uniquely identify the funds confirmation consent resource."
+              },
+              "CreationDateTime": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Date and time at which the resource was created."
+              },
+              "Reference": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35,
+                "description": "Unique reference, as assigned by the PISP, to unambiguously refer to the request related to the payment transaction."
+              },
+              "FundsAvailableResult": {
+                "$ref": "#/components/schemas/OBPAFundsAvailableResult1"
+              },
+              "InstructedAmount": {
+                "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+              }
+            }
+          }
+        }
+      },
+      "OBPAFundsAvailableResult1": {
+        "type": "object",
+        "description": "Availability result, clearly indicating the availability of funds given the Amount in the request.",
+        "required": [
+          "FundsAvailableDateTime",
+          "FundsAvailable"
+        ],
+        "properties": {
+          "FundsAvailableDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time at which the funds availability check was generated."
+          },
+          "FundsAvailable": {
+            "type": "string",
+            "description": "Availability result, clearly indicating the availability of funds given the Amount in the request.",
+            "enum": [
+              "Available",
+              "NotAvailable"
+            ]
+          }
+        }
+      },
+      "ExternalCategoryPurpose1Code": {
+        "description": "Enumeration of codes that outlines the type of purpose behind a transaction, payment or risk. For a full list of values refer to `ExternalCategoryPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "BONU",
+          "CASH",
+          "CBLK",
+          "CCRD",
+          "CGWV",
+          "CIPC",
+          "CONC",
+          "CORT",
+          "DCRD",
+          "DIVI",
+          "DVPM",
+          "EPAY",
+          "FCDT",
+          "FCIN",
+          "FCOL",
+          "GOVT",
+          "GP2P",
+          "HEDG",
+          "ICCP",
+          "IDCP",
+          "INTC",
+          "INTE",
+          "LBOX",
+          "LOAN",
+          "MP2B",
+          "MP2P",
+          "OTHR",
+          "PENS",
+          "RPRE",
+          "RRCT",
+          "RVPM",
+          "SALA",
+          "SECU",
+          "SSBE",
+          "SUPP",
+          "SWEP",
+          "TAXS",
+          "TOPG",
+          "TRAD",
+          "TREA",
+          "VATX",
+          "VOST",
+          "WHLD",
+          "ZABA"
+        ]
+      },
+      "OBCharge2": {
+        "type": "object",
+        "required": [
+          "ChargeBearer",
+          "Type",
+          "Amount"
+        ],
+        "properties": {
+          "ChargeBearer": {
+            "$ref": "#/components/schemas/OBInternalChargeBearerType1Code"
+          }
+        }
+      },
+      "OBExternalStatus2Code": {
+        "type": "string",
+        "enum": [
+          "AUTH",
+          "AWAU",
+          "RJCT"
+        ]
+      },
+      "OBInternalChargeBearerType1Code": {
+        "type": "string",
+        "description": "Specifies which party/parties will bear the charges associated with the processing of the payment transaction.",
+        "enum": [
+          "BorneByCreditor",
+          "BorneByDebtor",
+          "FollowingServiceLevel",
+          "Shared"
+        ]
+      },
+      "OBDomesticVRPInstruction": {
+        "type": "object",
+        "required": [
+          "InstructionIdentification",
+          "EndToEndIdentification",
+          "InstructedAmount",
+          "CreditorAccount"
+        ],
+        "properties": {
+          "InstructionIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35,
+            "description": "Unique identification as assigned by an instructing party for an instructed party to unambiguously identify the instruction.\nUsage: the instruction identification is a point to point reference that can be used between the instructing party and the instructed party to refer to the individual instruction.\nIt can be included in several messages related to the instruction."
+          },
+          "EndToEndIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 35,
+            "description": "Unique identification assigned by the initiating party to unambiguously identify the transaction.\nThis identification is passed on, unchanged, throughout the entire end-to-end chain.\nUsage: The end-to-end identification can be used for reconciliation or to link tasks relating to the transaction.\nIt can be included in several messages related to the transaction.\nOB: The Faster Payments Scheme can only access 31 characters for the EndToEndIdentification field"
+          },
+          "RemittanceInformation": {
+            "$ref": "#/components/schemas/OBRemittanceInformation2"
+          },
+          "LocalInstrument": {
+            "$ref": "#/components/schemas/OBInternalLocalInstrument1Code"
+          },
+          "InstructedAmount": {
+            "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+          },
+          "CreditorPostalAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          },
+          "CreditorAccount": {
+            "$ref": "#/components/schemas/OBCashAccountCreditor3"
+          },
+          "UltimateCreditor": {
+            "$ref": "#/components/schemas/OBUltimateCreditor1"
+          },
+          "SupplementaryData": {
+            "type": "object",
+            "description": "Additional information that cannot be captured in the structured fields and/or any other specific block.\n"
+          }
+        }
+      },
+      "OBExternalCreditorReferenceType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the type of creditor reference as published in an external creditor reference type code set.\r\nExternal code sets can be downloaded from www.iso20022.org.\n*`DISP`-Document is a dispatch advice.\n*`FXDR`-Document is a pre-agreed or pre-arranged foreign exchange transaction to which the payment transaction refers.\n*`PUOR`-Document is a purchase order.\n*`RPIN`-Document is a linked payment instruction to which the current payment instruction is related, for example, in a cover scenario.\n*`RADM`-Document is a remittance advice sent separately from the current transaction.\n*`SCOR`-Document is a structured communication reference provided by the creditor to identify the referred transaction.",
+        "enum": [
+          "DISP",
+          "FXDR",
+          "PUOR",
+          "RPIN",
+          "RADM",
+          "SCOR"
+        ]
+      },
+      "ExternalDocumentType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the document type as published in an external document type code list. For a full list of values refer to `ExternalDocumentType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "enum": [
+          "CINV",
+          "CNFA",
+          "CONT",
+          "CREN",
+          "DEBN",
+          "DISP",
+          "DNFA",
+          "HIRI",
+          "INVS",
+          "MSIN",
+          "PROF",
+          "PUOR",
+          "QUOT",
+          "SBIN",
+          "SPRR",
+          "TISH",
+          "USAR",
+          "AROI",
+          "BOLD",
+          "CMCN",
+          "SOAC",
+          "TSUT",
+          "VCHR"
+        ]
+      },
+      "OBReferredDocumentInformation": {
+        "type": "object",
+        "properties": {
+          "Code": {
+            "$ref": "#/components/schemas/ExternalDocumentType1Code"
+          },
+          "Issuer": {
+            "description": "Identification of the issuer of the reference document type.",
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1
+          },
+          "Number": {
+            "description": "Identification of the type specified for the referred document line.",
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1
+          },
+          "RelatedDate": {
+            "description": "Date associated with the referred document line.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISODateTime"
+              }
+            ]
+          },
+          "LineDetails": {
+            "description": "Set of elements used to provide the content of the referred document line.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            }
+          }
+        }
+      },
+      "OBVRPRemittanceInformation": {
+        "type": "object",
+        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system.",
+        "properties": {
+          "Code": {
+            "$ref": "#/components/schemas/ExternalDocumentType1Code"
+          },
+          "Issuer": {
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1
+          },
+          "Number": {
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1
+          },
+          "RelatedDate": {
+            "$ref": "#/components/schemas/ISODateTime"
+          },
+          "LineDetails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256,
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "OBRemittanceInformation2": {
+        "type": "object",
+        "description": "Information supplied to enable the matching of an entry with the items that the transfer is intended to settle, such as commercial invoices in an accounts' receivable system",
+        "properties": {
+          "Structured": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBRemittanceInformationStructured"
+            }
+          },
+          "Unstructured": {
+            "type": "array",
+            "description": "Information supplied to enable the matching/reconciliation of an entry with the items that the payment is intended to settle, such as commercial invoices in an accounts' receivable system, in an unstructured form.",
+            "items": {
+              "type": "string",
+              "maxLength": 140,
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "OBRemittanceInformationStructured": {
+        "type": "object",
+        "properties": {
+          "ReferredDocumentInformation": {
+            "description": "Provides the identification and the content of the referred document.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBReferredDocumentInformation"
+            }
+          },
+          "ReferredDocumentAmount": {
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+          },
+          "CreditorReferenceInformation": {
+            "description": "Reference information provided by the creditor to allow the identification of the underlying documents.",
+            "type": "object",
+            "properties": {
+              "Code": {
+                "$ref": "#/components/schemas/ExternalCreditorReferenceType1Code"
+              },
+              "Issuer": {
+                "description": "Entity that assigns the identification.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35
+              },
+              "Reference": {
+                "description": "Unique reference, as assigned by the creditor, to unambiguously refer to the payment transaction.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35
+              }
+            }
+          },
+          "Invoicer": {
+            "description": "Identification of the organisation issuing the invoice, when it is different from the creditor or ultimate creditor",
+            "type": "string",
+            "maxLength": 256
+          },
+          "Invoicee": {
+            "description": "Identification of the party to whom an invoice is issued, when it is different from the debtor or ultimate debtor.",
+            "type": "string",
+            "maxLength": 256
+          },
+          "TaxRemittance": {
+            "type": "string",
+            "maxLength": 140,
+            "minLength": 1
+          },
+          "AdditionalRemittanceInformation": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 140,
+              "minLength": 1
+            },
+            "maxItems": 3
+          }
+        }
+      },
+      "ExternalCreditorReferenceType1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "Specifies the amount type, as published in an external referred amount code set. For a full list of values refer to `ExternalCreditorReferenceType1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "enum": [
+          "DISP",
+          "FXDR",
+          "PUOR",
+          "RPIN",
+          "RADM",
+          "SCOR"
+        ]
+      },
+      "OBInternalAccountIdentification4Code": {
+        "type": "string",
+        "description": "Name of the identification scheme, in a coded form as published in an external list. For a full list of values refer to `OBInternalAccountIdentification4Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "x-namespaced-enum": [
+          "UK.OBIE.BBAN",
+          "UK.OBIE.IBAN",
+          "UK.OBIE.PAN",
+          "UK.OBIE.Paym",
+          "UK.OBIE.SortCodeAccountNumber",
+          "UK.OBIE.Wallet"
+        ]
+      },
+      "OBInternalFinancialInstitutionIdentification4Code": {
+        "description": "Name of the identification scheme, in a coded form as published in an external list.",
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.BICFI"
+        ]
+      },
+      "OBExternalAccountType1Code": {
+        "description": "Specifies the type of account (personal or business).",
+        "type": "string",
+        "enum": [
+          "Business",
+          "Personal"
+        ]
+      },
+      "OBInternalExtendedAccountType1Code": {
+        "description": "Specifies the extended type of account if known. For a full set of values refer to `OBInternalExtendedAccountType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "type": "string",
+        "enum": [
+          "Business",
+          "BusinessSavingsAccount",
+          "Charity",
+          "Collection",
+          "Corporate",
+          "Ewallet",
+          "Government",
+          "Investment",
+          "ISA",
+          "JointPersonal",
+          "Pension",
+          "Personal",
+          "PersonalSavingsAccount",
+          "Premier",
+          "Wealth"
+        ]
+      },
+      "OBInternalLocalInstrument1Code": {
+        "type": "string",
+        "description": "User community specific instrument.\nUsage: This element is used to specify a local instrument, local clearing option and/or further qualify the service or service level.\nFor a full list of values refer to `OBInternalLocalInstrument1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "x-namespaced-enum": [
+          "UK.OBIE.BACS",
+          "UK.OBIE.BalanceTransfer",
+          "UK.OBIE.CHAPS",
+          "UK.OBIE.Euro1",
+          "UK.OBIE.FPS",
+          "UK.OBIE.Link",
+          "UK.OBIE.MoneyTransfer",
+          "UK.OBIE.Paym",
+          "UK.OBIE.SEPACreditTransfer",
+          "UK.OBIE.SEPAInstantCreditTransfer",
+          "UK.OBIE.SWIFT",
+          "UK.OBIE.Target2"
+        ]
+      },
+      "OBActiveOrHistoricCurrencyAndAmount": {
+        "required": [
+          "Amount",
+          "Currency"
+        ],
+        "type": "object",
+        "properties": {
+          "Amount": {
+            "$ref": "#/components/schemas/OBActiveCurrencyAndAmount_SimpleType"
+          },
+          "Currency": {
+            "$ref": "#/components/schemas/ActiveOrHistoricCurrencyCode"
+          }
+        }
+      },
+      "ActiveOrHistoricCurrencyCode": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 3,
+        "pattern": "^[A-Z]{3,3}$",
+        "description": "A code allocated to a currency by a Maintenance Agency under an international identification scheme, as described in the latest edition of the international standard ISO 4217 \"Codes for the representation of currencies and funds\"."
+      },
+      "OBActiveCurrencyAndAmount_SimpleType": {
+        "pattern": "^\\d{1,13}$|^\\d{1,13}\\.\\d{1,5}$",
+        "type": "string",
+        "description": "A number of monetary units specified in an active currency where the unit of currency is explicit and compliant with ISO 4217."
+      },
+      "OBInternalPaymentChargeType1Code": {
+        "type": "string",
+        "enum": [
+          "UK.OBIE.CHAPSOut",
+          "UK.OBIE.BalanceTransferOut",
+          "UK.OBIE.MoneyTransferOut"
+        ]
+      },
+      "OBExternalPurpose1Code": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4,
+        "description": "For a full set of values refer to `ExternalPurpose1Code` in *ISO_External_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+        "enum": [
+          "BKDF",
+          "BKFE",
+          "BKFM",
+          "BKIP",
+          "BKPP",
+          "CBLK",
+          "CDCB",
+          "CDCD",
+          "CDCS",
+          "CDDP",
+          "CDOC",
+          "CDQC",
+          "ETUP",
+          "FCOL",
+          "MTUP",
+          "ACCT",
+          "CASH",
+          "COLL",
+          "CSDB",
+          "DEPT",
+          "INTC",
+          "INTP",
+          "LIMA",
+          "NETT",
+          "BFWD",
+          "CCIR",
+          "CCPC",
+          "CCPM",
+          "CCSM",
+          "CRDS",
+          "CRPR",
+          "CRSP",
+          "CRTL",
+          "EQPT",
+          "EQUS",
+          "EXPT",
+          "EXTD",
+          "FIXI",
+          "FWBC",
+          "FWCC",
+          "FWSB",
+          "FWSC",
+          "MARG",
+          "MBSB",
+          "MBSC",
+          "MGCC",
+          "MGSC",
+          "OCCC",
+          "OPBC",
+          "OPCC",
+          "OPSB",
+          "OPSC",
+          "OPTN",
+          "OTCD",
+          "REPO",
+          "RPBC",
+          "RPCC",
+          "RPSB",
+          "RPSC",
+          "RVPO",
+          "SBSC",
+          "SCIE",
+          "SCIR",
+          "SCRP",
+          "SHBC",
+          "SHCC",
+          "SHSL",
+          "SLEB",
+          "SLOA",
+          "SWBC",
+          "SWCC",
+          "SWPT",
+          "SWSB",
+          "SWSC",
+          "TBAS",
+          "TBBC",
+          "TBCC",
+          "TRCP",
+          "AGRT",
+          "AREN",
+          "BEXP",
+          "BOCE",
+          "COMC",
+          "CPYR",
+          "GDDS",
+          "GDSV",
+          "GSCB",
+          "LICF",
+          "MP2B",
+          "POPE",
+          "ROYA",
+          "SCVE",
+          "SERV",
+          "SUBS",
+          "SUPP",
+          "TRAD",
+          "CHAR",
+          "COMT",
+          "MP2P",
+          "ECPG",
+          "ECPR",
+          "ECPU",
+          "EPAY",
+          "CLPR",
+          "COMP",
+          "DBTC",
+          "GOVI",
+          "HLRP",
+          "HLST",
+          "INPC",
+          "INPR",
+          "INSC",
+          "INSU",
+          "INTE",
+          "LBRI",
+          "LIFI",
+          "LOAN",
+          "LOAR",
+          "PENO",
+          "PPTI",
+          "RELG",
+          "RINP",
+          "TRFD",
+          "FORW",
+          "FXNT",
+          "ADMG",
+          "ADVA",
+          "BCDM",
+          "BCFG",
+          "BLDM",
+          "BNET",
+          "CBFF",
+          "CBFR",
+          "CCRD",
+          "CDBL",
+          "CFEE",
+          "CGDD",
+          "CORT",
+          "COST",
+          "CPKC",
+          "DCRD",
+          "DSMT",
+          "DVPM",
+          "EDUC",
+          "FACT",
+          "FAND",
+          "FCPM",
+          "FEES",
+          "GIFT",
+          "GOVT",
+          "ICCP",
+          "IDCP",
+          "IHRP",
+          "INSM",
+          "IVPT",
+          "MCDM",
+          "MCFG",
+          "MSVC",
+          "NOWS",
+          "OCDM",
+          "OCFG",
+          "OFEE",
+          "OTHR",
+          "PADD",
+          "PTSP",
+          "RCKE",
+          "RCPT",
+          "REBT",
+          "REFU",
+          "RENT",
+          "REOD",
+          "RIMB",
+          "RPNT",
+          "RRBN",
+          "RRCT",
+          "RRTP",
+          "RVPM",
+          "SLPI",
+          "SPLT",
+          "STDY",
+          "TBAN",
+          "TBIL",
+          "TCSC",
+          "TELI",
+          "TMPG",
+          "TPRI",
+          "TPRP",
+          "TRNC",
+          "TRVC",
+          "WEBI",
+          "IPAY",
+          "IPCA",
+          "IPDO",
+          "IPEA",
+          "IPEC",
+          "IPEW",
+          "IPPS",
+          "IPRT",
+          "IPU2",
+          "IPUW",
+          "ANNI",
+          "CAFI",
+          "CFDI",
+          "CMDT",
+          "DERI",
+          "DIVD",
+          "FREX",
+          "HEDG",
+          "INVS",
+          "PRME",
+          "SAVG",
+          "SECU",
+          "SEPI",
+          "TREA",
+          "UNIT",
+          "FNET",
+          "FUTR",
+          "ANTS",
+          "CVCF",
+          "DMEQ",
+          "DNTS",
+          "HLTC",
+          "HLTI",
+          "HSPC",
+          "ICRF",
+          "LTCF",
+          "MAFC",
+          "MARF",
+          "MDCS",
+          "VIEW",
+          "CDEP",
+          "SWFP",
+          "SWPP",
+          "SWRS",
+          "SWUF",
+          "ADCS",
+          "AEMP",
+          "ALLW",
+          "ALMY",
+          "BBSC",
+          "BECH",
+          "BENE",
+          "BONU",
+          "CCHD",
+          "COMM",
+          "CSLP",
+          "GFRP",
+          "GVEA",
+          "GVEB",
+          "GVEC",
+          "GVED",
+          "GWLT",
+          "HREC",
+          "PAYR",
+          "PEFC",
+          "PENS",
+          "PRCP",
+          "RHBS",
+          "SALA",
+          "SPSP",
+          "SSBE",
+          "LBIN",
+          "LCOL",
+          "LFEE",
+          "LMEQ",
+          "LMFI",
+          "LMRK",
+          "LREB",
+          "LREV",
+          "LSFL",
+          "ESTX",
+          "FWLV",
+          "GSTX",
+          "HSTX",
+          "INTX",
+          "NITX",
+          "PTXP",
+          "RDTX",
+          "TAXS",
+          "VATX",
+          "WHLD",
+          "TAXR",
+          "B112",
+          "BR12",
+          "TLRF",
+          "TLRR",
+          "AIRB",
+          "BUSB",
+          "FERB",
+          "RLWY",
+          "TRPT",
+          "CBTV",
+          "ELEC",
+          "ENRG",
+          "GASB",
+          "NWCH",
+          "NWCM",
+          "OTLC",
+          "PHON",
+          "UBIL",
+          "WTER",
+          "BOND",
+          "CABD",
+          "CAEQ",
+          "CBCR",
+          "DBCR",
+          "DICL",
+          "EQTS",
+          "FLCR",
+          "EFTC",
+          "EFTD",
+          "MOMA",
+          "RAPI",
+          "GAMB",
+          "LOTT",
+          "AMEX",
+          "SASW",
+          "AUCO",
+          "PCOM",
+          "PDEP",
+          "PLDS",
+          "PLRF",
+          "GAFA",
+          "GAHO",
+          "CPEN",
+          "DEPD",
+          "RETL",
+          "DEBT",
+          "CRYP"
+        ]
+      },
+      "ISODateTime": {
+        "description": "All dates in the JSON payloads are represented in ISO 8601 date-time format. \nAll date-time fields in responses must include the timezone. An example is below:\n2017-04-05T10:43:07+00:00",
+        "type": "string",
+        "format": "date-time"
+      },
+      "OBPaymentStatusReason": {
+        "type": "object",
+        "properties": {
+          "StatusReasonCode": {
+            "type": "string",
+            "description": "Specifies the status reason in a code form \n For more information and enum values see `OBExternalStatusReason1Code [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription": {
+            "type": "string",
+            "description": "Description supporting the StatusReasonCode.",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
+      "OBPostalAddress7": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Information that locates and identifies a specific address, as defined by postal services.",
+        "properties": {
+          "AddressType": {
+            "$ref": "#/components/schemas/OBAddressType2Code"
+          },
+          "Department": {
+            "$ref": "#/components/schemas/Department"
+          },
+          "SubDepartment": {
+            "$ref": "#/components/schemas/SubDepartment"
+          },
+          "StreetName": {
+            "$ref": "#/components/schemas/StreetName"
+          },
+          "BuildingNumber": {
+            "$ref": "#/components/schemas/BuildingNumber"
+          },
+          "BuildingName": {
+            "$ref": "#/components/schemas/BuildingName"
+          },
+          "Floor": {
+            "$ref": "#/components/schemas/Floor"
+          },
+          "UnitNumber": {
+            "$ref": "#/components/schemas/UnitNumber"
+          },
+          "Room": {
+            "$ref": "#/components/schemas/Room"
+          },
+          "PostBox": {
+            "$ref": "#/components/schemas/PostBox"
+          },
+          "TownLocationName": {
+            "$ref": "#/components/schemas/TownName"
+          },
+          "DistrictName": {
+            "$ref": "#/components/schemas/DistrictName"
+          },
+          "CareOf": {
+            "$ref": "#/components/schemas/CareOf"
+          },
+          "PostCode": {
+            "$ref": "#/components/schemas/PostCode"
+          },
+          "TownName": {
+            "$ref": "#/components/schemas/TownName"
+          },
+          "CountrySubDivision": {
+            "$ref": "#/components/schemas/CountrySubDivision"
+          },
+          "Country": {
+            "$ref": "#/components/schemas/CountryCode"
+          },
+          "AddressLine": {
+            "type": "array",
+            "items": {
+              "description": "Information that locates and identifies a specific address, as defined by postal services, presented in free format text.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 70
+            },
+            "minItems": 0,
+            "maxItems": 7
+          }
+        }
+      },
+      "OBAddressTypeCode": {
+        "description": "Identifies the nature of the postal address.",
+        "type": "string",
+        "enum": [
+          "Business",
+          "Correspondence",
+          "DeliveryTo",
+          "MailTo",
+          "POBox",
+          "Postal",
+          "Residential",
+          "Statement"
+        ]
+      },
+      "OBAddressType2Code": {
+        "description": "Identifies the nature of the postal address. For a full set of codes see `OBAddressType2Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets).",
+        "type": "string",
+        "enum": [
+          "BIZZ",
+          "DLVY",
+          "MLTO",
+          "PBOX",
+          "ADDR",
+          "HOME",
+          "CORR",
+          "STAT"
+        ]
+      },
+      "OBRegulatoryAuthority2": {
+        "type": "object",
+        "description": "Entity requiring the regulatory reporting information. ",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "Name of the entity requiring the regulatory reporting information.",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "CountryCode": {
+            "description": "Country of the entity that requires the regulatory reporting information.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CountryCode"
+              }
+            ]
+          }
+        }
+      },
+      "OBRegulatoryReporting1": {
+        "type": "object",
+        "description": "Information needed due to regulatory and statutory requirements",
+        "properties": {
+          "DebitCreditReportingIndicator": {
+            "type": "string",
+            "description": "Identifies whether the regulatory reporting information applies to the debit side, to the credit side or to both debit and credit sides of the transaction. For a full list of values refer to `OBExternalRegulatoryReportingType1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "enum": [
+              "CRED",
+              "DEBT",
+              "BOTH"
+            ]
+          },
+          "Authority": {
+            "$ref": "#/components/schemas/OBRegulatoryAuthority2"
+          },
+          "Details": {
+            "description": "Set of elements used to provide details on the regulatory reporting information.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBStructuredRegulatoryReporting3"
+            }
+          }
+        }
+      },
+      "OBStatusReason": {
+        "type": "object",
+        "properties": {
+          "StatusReasonCode": {
+            "type": "string",
+            "description": "Specifies the status reason in a code form. \nFor a full list of values refer to `OBExternalStatusReason1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)",
+            "minLength": 1,
+            "maxLength": 4,
+            "example": "ERIN"
+          },
+          "StatusReasonDescription": {
+            "description": "Description supporting the StatusReasonCode.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "Path": {
+            "type": "string",
+            "description": "Recommended but optional reference to the JSON Path of the field with error, e.g., Data.Initiation.InstructedAmount.Currency",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
+      "OBStructuredRegulatoryReporting3": {
+        "type": "object",
+        "description": "Set of elements used to provide details on the regulatory reporting information.",
+        "properties": {
+          "Type": {
+            "type": "string",
+            "description": "Specifies the type of the information supplied in the regulatory reporting details",
+            "minLength": 1,
+            "maxLength": 35
+          },
+          "Date": {
+            "description": "Date related to the specified type of regulatory reporting details.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ISODateTime"
+              }
+            ]
+          },
+          "Country": {
+            "description": "Country related to the specified type of regulatory reporting details.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CountryCode"
+              }
+            ]
+          },
+          "Amount": {
+            "description": "Amount of money to be reported for regulatory and statutory requirements.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OBActiveOrHistoricCurrencyAndAmount"
+              }
+            ]
+          },
+          "Information": {
+            "description": "Additional details that cater for specific domestic regulatory requirements. ",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 35
+            }
+          }
+        }
+      },
+      "Department": {
+        "description": "Identification of a division of a large organisation or building.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 70
+      },
+      "SubDepartment": {
+        "description": "Identification of a sub-division of a large organisation or building.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 70
+      },
+      "StreetName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140,
+        "description": "Name of a street or thoroughfare."
+      },
+      "BuildingName": {
+        "description": "Name of a referenced building.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
+      },
+      "BuildingNumber": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 16,
+        "description": "Number that identifies the position of a building on a street."
+      },
+      "CareOf": {
+        "description": "The 'care of' address is used whenever sending mail to a person or organisation who does not actually live or work at the address. They will receive the mail for the individual.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
+      },
+      "DistrictName": {
+        "description": "Number that of the regional area, known as a district, which forms part of an address",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140
+      },
+      "Floor": {
+        "description": "Number that identifies the level within a building",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 70
+      },
+      "PostBox": {
+        "description": "Information that locates and identifies a box in a post office assigned to a person or organization, where letters for them are kept until called for.",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 16
+      },
+      "PostCode": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 16,
+        "description": "Identifier consisting of a group of letters and/or numbers that is added to a postal address to assist the sorting of mail."
+      },
+      "Room": {
+        "description": "Information that locates and identifies a room to form part of an address",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 70
+      },
+      "UnitNumber": {
+        "description": "Number that identifies the unit of a specific address .",
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 16
+      },
+      "TownName": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 140,
+        "description": "Name of a built-up area, with defined boundaries, and a local government."
+      },
+      "CountrySubDivision": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 35,
+        "description": "Identifies a subdivision of a country such as state, region, county."
+      },
+      "CountryCode": {
+        "type": "string",
+        "pattern": "^[A-Z]{2,2}$",
+        "description": "Nation with its own government."
+      },
+      "OBVRPStatusReasonCode": {
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.ExemptionNotApplied",
+          "UK.OBIE.OtherReason"
+        ],
+        "description": "Reason Code provided for the status of a VRP. To be documented in the Developer Portal.\n"
+      },
+      "OBVRPConsentType": {
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.VRPType.Sweeping",
+          "UK.OBIE.VRPType.Other"
+        ]
+      },
+      "OBVRPAuthenticationMethods": {
+        "type": "string",
+        "x-namespaced-enum": [
+          "UK.OBIE.SCA",
+          "UK.OBIE.SCANotRequired"
+        ]
+      },
+      "OBVRPInteractionTypes": {
+        "type": "string",
+        "enum": [
+          "InSession",
+          "OffSession"
+        ],
+        "description": "Indicates interaction type, currently if customer is present or not present. If not provided the default is `OffSession` (customer is not present) when the individual VRP payment is made. "
+      },
+      "OBRisk1": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "PaymentContextCode": {
+            "type": "string",
+            "description": "Specifies the payment context, for a full list of values refer to `OBInternalPaymentContext1Code` in *OB_Internal_CodeSet* [here](https://github.com/OpenBankingUK/External_Internal_CodeSets)<br>\nThe following values are deprecated and can only be used to make a payment on an existing v3 consent which used one of the deprecated values and has been migrated to v4. They <u>**must not**</u> be used in a new consent. They may optionally be returned for a historical payment/consent migrated to v4:<br>\n* BillPayment - @deprecated\n* EcommerceGoods - @deprecated\n* EcommerceServices - @deprecated\n* PartyToParty - @deprecated\n* PispPayee - @deprecated\n* Other - @deprecated\n",
+            "enum": [
+              "BillingGoodsAndServicesInAdvance",
+              "BillingGoodsAndServicesInArrears",
+              "EcommerceMerchantInitiatedPayment",
+              "FaceToFacePointOfSale",
+              "TransferToSelf",
+              "TransferToThirdParty",
+              "BillPayment",
+              "EcommerceGoods",
+              "EcommerceServices",
+              "PartyToParty",
+              "PispPayee",
+              "Other"
+            ]
+          },
+          "MerchantCategoryCode": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 4,
+            "description": "Category code conform to ISO 18245, related to the type of services or goods the merchant provides for the transaction."
+          },
+          "MerchantCustomerIdentification": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 70,
+            "description": "The unique customer identifier of the PSU with the merchant."
+          },
+          "ContractPresentIndicator": {
+            "type": "boolean",
+            "description": "Indicates if Payee has a contractual relationship with the PISP."
+          },
+          "BeneficiaryPrepopulatedIndicator": {
+            "type": "boolean",
+            "description": "Indicates if PISP has immutably prepopulated payment details in for the PSU."
+          },
+          "PaymentPurposeCode": {
+            "$ref": "#/components/schemas/OBExternalPurpose1Code"
+          },
+          "CategoryPurposeCode": {
+            "$ref": "#/components/schemas/ExternalCategoryPurpose1Code"
+          },
+          "BeneficiaryAccountType": {
+            "$ref": "#/components/schemas/OBInternalExtendedAccountType1Code"
+          },
+          "DeliveryAddress": {
+            "$ref": "#/components/schemas/OBPostalAddress7"
+          }
+        },
+        "description": "The Risk section is sent by the initiating party to the ASPSP.\nIt is used to specify additional details for risk scoring for Payments."
+      },
+      "Links": {
+        "required": [
+          "Self"
+        ],
+        "type": "object",
+        "properties": {
+          "Self": {
+            "type": "string",
+            "format": "uri"
+          },
+          "First": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Prev": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "Last": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "description": "Links relevant to the payload"
+      },
+      "Meta": {
+        "title": "MetaData",
+        "type": "object",
+        "description": "Meta Data relevant to the payload. At present no fields are used for VRP."
+      },
+      "ExternalPaymentTransactionStatus1Code": {
+        "description": "The current status of the payment resource.\n\nFor a full list of values see `ExternalPaymentTransactionStatus1Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets)\n",
+        "type": "string",
+        "enum": [
+          "CANC",
+          "RCVD",
+          "ACTC",
+          "PATC",
+          "PDNG",
+          "RJCT",
+          "INFA",
+          "INCO",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP"
+        ]
+      },
+      "ExternalPaymentTransactionStatus5Code": {
+        "type": "string",
+        "description": "Specifies the status of the payment information group. \n\nFor a full list of values refer to `ExternalPaymentTransactionStatus5Code` in *OB_Internal_CodeSet* \n[here](https://github.com/OpenBankingUK/External_Internal_CodeSets).\n",
+        "enum": [
+          "RCVD",
+          "PDNG",
+          "ACTC",
+          "ACCP",
+          "ACFC",
+          "ACSP",
+          "ACWC",
+          "ACSC",
+          "BLCK",
+          "ACCC",
+          "ACWP",
+          "RJCT"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "TPPOAuth2Security": {
+        "type": "oauth2",
+        "description": "TPP client credential authorisation flow with the ASPSP",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://authserver.example/token",
+            "scopes": {
+              "payments": "Generic payment scope"
+            }
+          }
+        }
+      },
+      "PSUOAuth2Security": {
+        "type": "oauth2",
+        "description": "OAuth flow, it is required when the PSU needs to perform SCA with the ASPSP when a TPP wants to access an ASPSP resource owned by the PSU",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://authserver.example/authorization",
+            "tokenUrl": "https://authserver.example/token",
+            "scopes": {
+              "payments": "Generic payment scope"
+            }
+          }
+        }
+      }
+    }
+  }
+}

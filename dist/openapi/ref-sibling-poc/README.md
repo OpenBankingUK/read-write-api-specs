@@ -1,0 +1,149 @@
+# ASPSP OpenAPI `$ref` Compatibility Test
+
+## What we need you to test
+
+Open Banking specifications reuse schema components with `$ref`, but sometimes
+need a different contextual `description` at each usage site. This test compares
+two standards-compliant ways of expressing that requirement:
+
+- **OpenAPI 3.0.0:** a contextual `description` with a one-item `allOf`
+  containing the `$ref`;
+- **OpenAPI 3.1.2:** a contextual `description` directly beside the schema
+  `$ref`.
+
+We want to understand whether each approach works throughout ASPSP toolchains,
+including parsing, validation, documentation rendering, and code or model
+generation. This is a focused interoperability test, not a test of complete
+OpenAPI 3.0.0 or 3.1.2 conformance, and does not itself propose a production
+specification change.
+
+## Test artifacts
+
+| Test | OpenAPI | Scope | Reference pattern | YAML | JSON |
+|---|---|---|---|---|---|
+| 1 | 3.0.0 | Complete OBL VRP specification | `description` with one-item `allOf` | [`vrp-openapi-3.0.0-allof.yaml`](./vrp-openapi-3.0.0-allof.yaml) | [`vrp-openapi-3.0.0-allof.json`](./vrp-openapi-3.0.0-allof.json) |
+| 2 | 3.0.0 | Minimal `GET /hello` API | `description` with one-item `allOf` | [`hello-world-openapi-3.0.0-allof.yaml`](./hello-world-openapi-3.0.0-allof.yaml) | [`hello-world-openapi-3.0.0-allof.json`](./hello-world-openapi-3.0.0-allof.json) |
+| 3 | 3.1.2 | Complete OBL VRP specification | Direct `$ref` and `description` siblings | [`vrp-openapi-3.1.2-ref-siblings.yaml`](./vrp-openapi-3.1.2-ref-siblings.yaml) | [`vrp-openapi-3.1.2-ref-siblings.json`](./vrp-openapi-3.1.2-ref-siblings.json) |
+| 4 | 3.1.2 | Minimal `GET /hello` API | Direct `$ref` and `description` siblings | [`hello-world-openapi-3.1.2-ref-siblings.yaml`](./hello-world-openapi-3.1.2-ref-siblings.yaml) | [`hello-world-openapi-3.1.2-ref-siblings.json`](./hello-world-openapi-3.1.2-ref-siblings.json) |
+
+The VRP artifacts are complete specifications intended to exercise normal
+ASPSP processing. The Hello World artifacts isolate the reference pattern if a
+failure in the larger VRP document is difficult to diagnose. The Hello World
+files describe an API contract only; no live endpoint is provided.
+
+Use the YAML or JSON format normally consumed by your tooling. Test both only
+if they pass through different processing paths in your environment.
+
+## Minimum test request
+
+Please test at least one OpenAPI 3.0.0 artifact (**test 1 or 2**) and one
+OpenAPI 3.1.2 artifact (**test 3 or 4**). Where possible, test all four:
+
+1. Start with the two minimal Hello World files to isolate support for each
+   reference pattern.
+2. Test the two complete VRP files through the same tooling to confirm that the
+   result holds for a realistic Open Banking specification.
+
+## Where to inspect the patterns
+
+The locations below apply to both YAML and JSON.
+
+### Tests 1 and 3: complete VRP specification
+
+The same five schema properties use the 3.0.0 `allOf` pattern in test 1 and
+the 3.1.2 `$ref` sibling pattern in test 3:
+
+- `/components/schemas/OBReferredDocumentInformation/properties/RelatedDate`
+- `/components/schemas/OBRegulatoryAuthority2/properties/CountryCode`
+- `/components/schemas/OBStructuredRegulatoryReporting3/properties/Date`
+- `/components/schemas/OBStructuredRegulatoryReporting3/properties/Country`
+- `/components/schemas/OBStructuredRegulatoryReporting3/properties/Amount`
+
+Test 1 expresses each usage like this:
+
+```yaml
+RelatedDate:
+  description: Date associated with the referred document line.
+  allOf:
+    - $ref: '#/components/schemas/ISODateTime'
+```
+
+Test 3 expresses the equivalent usage like this:
+
+```yaml
+RelatedDate:
+  description: Date associated with the referred document line.
+  $ref: '#/components/schemas/ISODateTime'
+```
+
+### Tests 2 and 4: minimal Hello World API
+
+Inspect the response schema at:
+
+`/paths/~1hello/get/responses/200/content/application~1json/schema`
+
+Test 2 uses:
+
+```yaml
+schema:
+  description: The greeting returned specifically by GET /hello.
+  allOf:
+    - $ref: '#/components/schemas/HelloMessage'
+```
+
+Test 4 uses:
+
+```yaml
+schema:
+  $ref: '#/components/schemas/HelloMessage'
+  description: The greeting returned specifically by GET /hello.
+```
+
+Both files define `HelloMessage` as an object with a required string property
+named `message` and include this example:
+
+```json
+{
+  "message": "Hello, world!"
+}
+```
+
+## What to check
+
+Run each selected file through the same tools and processes used for an Open
+Banking API specification. Record each stage separately:
+
+- **Import or parsing:** Is the document accepted without errors?
+- **Validation:** Does the validator consider the document valid?
+- **Rendering:** Is the contextual description visible at the usage site?
+- **Generation:** Can the system generate its normal models, clients, server
+  stubs, or other outputs?
+- **Schema preservation:** Does the usage retain the referenced schema's type,
+  properties, required fields, formats, and other constraints?
+
+For Hello World, confirm that `message` remains a required string and that the
+usage-site description is `The greeting returned specifically by GET /hello.`
+For VRP, inspect one or more of the five properties listed above.
+
+## Report your results
+
+Add one row per artifact and tool. Include the exact error or warning text when
+a stage fails, and attach generated output or screenshots where useful.
+
+| ASPSP / system | Tool and version | Test | Format | Parse | Validate | Render description | Generate | Preserve referenced schema | Notes / errors |
+|---|---|---:|---|---|---|---|---|---|---|
+|  |  |  | YAML / JSON | Pass / Fail | Pass / Fail / N/A | Yes / No / N/A | Pass / Fail / N/A | Yes / No / N/A |  |
+
+## How to interpret the result
+
+- Success with test 1 or 2 demonstrates support for this specific OpenAPI
+  3.0.0 `allOf` usage.
+- Success with test 3 or 4 demonstrates support for OpenAPI 3.1.2 schema
+  `$ref` siblings in this use case.
+- Success importing a document does not prove that descriptions or referenced
+  constraints survive later rendering or generation stages.
+- If a minimal test succeeds but its VRP equivalent fails, report the failing
+  stage and exact error because the cause may be unrelated to the reference
+  pattern.
+- A result from these files should not be interpreted as evidence of complete
+  support for every feature in OpenAPI 3.0.0 or 3.1.2.
