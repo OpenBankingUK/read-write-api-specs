@@ -135,37 +135,3 @@ We need three results for each test:
 For Hello World, `message` should remain a required string and the usage-site
 description should be `The greeting returned specifically by GET /hello.` For
 VRP, inspect one or more of the five properties listed above.
-
-## Report your results
-
-You do not need to edit this repository. A separate response form will be sent
-for returning results. Please provide one set of results for each test artifact
-you use.
-
-The form will ask for:
-
-- **Organisation / ASPSP**
-- **Tool and version**
-- **Test artifact**, selected from:
-  - Test 1 — `vrp-openapi-3.0.0-allof`
-  - Test 2 — `hello-world-openapi-3.0.0-allof`
-  - Test 3 — `vrp-openapi-3.1.2-ref-siblings`
-  - Test 4 — `hello-world-openapi-3.1.2-ref-siblings`
-- **Activities performed**, selecting all that apply:
-  - Import or parsing
-  - Validation
-  - Documentation rendering
-  - Code or model generation
-  - Other
-- **Overall result**, using one of:
-  - **Works:** the artifact completed your normal process without an issue
-  - **Partly works:** the artifact was accepted, but a later step failed, the
-    contextual description was lost, or the referenced schema was not
-    preserved
-  - **Does not work:** the artifact could not be imported or parsed
-- **Contextual description retained:** Yes / No / Not checked
-- **Referenced schema retained:** Yes / No / Not checked
-- **Details**, including any failing step, exact error or warning, special
-  configuration, or workaround
-
-A screenshot or small generated-output example is welcome but not required.
