@@ -32,19 +32,52 @@ The complete VRP cases exercise five contextual descriptions:
 
 ## Where to find the test patterns
 
-The expected `$ref` and `description` siblings can be found at these locations
-in the OpenAPI 3.1.2 artifacts:
+The paths below apply to both the YAML and JSON form of each test.
 
-| Artifact | Schema location |
-|---|---|
-| VRP | `components.schemas.OBReferredDocumentInformation.properties.RelatedDate` |
-| VRP | `components.schemas.OBRegulatoryAuthority2.properties.CountryCode` |
-| VRP | `components.schemas.OBStructuredRegulatoryReporting3.properties.Date` |
-| VRP | `components.schemas.OBStructuredRegulatoryReporting3.properties.Country` |
-| VRP | `components.schemas.OBStructuredRegulatoryReporting3.properties.Amount` |
-| Hello World | `paths./hello.get.responses.200.content.application/json.schema` |
+### Test 1: OpenAPI 3.0.0 VRP using `allOf`
 
-For example, the VRP artifact contains:
+File: `vrp-openapi-3.0.0-allof.yaml` or
+`vrp-openapi-3.0.0-allof.json`
+
+- `components.schemas.OBReferredDocumentInformation.properties.RelatedDate`
+- `components.schemas.OBRegulatoryAuthority2.properties.CountryCode`
+- `components.schemas.OBStructuredRegulatoryReporting3.properties.Amount`
+
+The properties have a contextual `description` and a one-item `allOf`:
+
+```yaml
+RelatedDate:
+  description: Date associated with the referred document line.
+  allOf:
+    - $ref: '#/components/schemas/ISODateTime'
+```
+
+### Test 2: OpenAPI 3.0.0 Hello World using `allOf`
+
+File: `hello-world-openapi-3.0.0-allof.yaml` or
+`hello-world-openapi-3.0.0-allof.json`
+
+- `paths./hello.get.responses.200.content.application/json.schema`
+
+The response schema has the contextual `description` and one-item `allOf`:
+
+```yaml
+schema:
+  description: The greeting returned specifically by GET /hello.
+  allOf:
+    - $ref: '#/components/schemas/HelloMessage'
+```
+
+### Test 3: OpenAPI 3.1.2 VRP using `$ref` siblings
+
+File: `vrp-openapi-3.1.2-ref-siblings.yaml` or
+`vrp-openapi-3.1.2-ref-siblings.json`
+
+- `components.schemas.OBReferredDocumentInformation.properties.RelatedDate`
+- `components.schemas.OBRegulatoryAuthority2.properties.CountryCode`
+- `components.schemas.OBStructuredRegulatoryReporting3.properties.Amount`
+
+The contextual `description` is directly beside `$ref`:
 
 ```yaml
 RelatedDate:
@@ -52,14 +85,19 @@ RelatedDate:
   $ref: '#/components/schemas/ISODateTime'
 ```
 
-The OpenAPI 3.0.0 artifacts use the equivalent `description` and one-item
-`allOf` pattern at the same locations:
+### Test 4: OpenAPI 3.1.2 Hello World using `$ref` siblings
+
+File: `hello-world-openapi-3.1.2-ref-siblings.yaml` or
+`hello-world-openapi-3.1.2-ref-siblings.json`
+
+- `paths./hello.get.responses.200.content.application/json.schema`
+
+The response schema has `$ref` and contextual `description` as siblings:
 
 ```yaml
-RelatedDate:
-  description: Date associated with the referred document line.
-  allOf:
-    - $ref: '#/components/schemas/ISODateTime'
+schema:
+  $ref: '#/components/schemas/HelloMessage'
+  description: The greeting returned specifically by GET /hello.
 ```
 
 ## Requested testing
