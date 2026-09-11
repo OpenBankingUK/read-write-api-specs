@@ -31,8 +31,8 @@ ASPSP processing. The Hello World artifacts isolate the reference pattern if a
 failure in the larger VRP document is difficult to diagnose. The Hello World
 files describe an API contract only; no live endpoint is provided.
 
-Use the YAML or JSON format normally consumed by your tooling. Test both only
-if they pass through different processing paths in your environment.
+Use either YAML or JSON, whichever your tooling normally consumes. They express
+the same test and the serialization format is not part of this investigation.
 
 ## Minimum test request
 
@@ -115,7 +115,7 @@ Banking API specification. This might be import, validation, documentation
 rendering, code generation, or another process. You do not need to test
 activities that are not part of your normal workflow.
 
-We need three results for each file:
+We need three results for each test:
 
 1. **Overall result:** Did the file work for your normal use?
 2. **Contextual description:** Was the usage-specific description retained or
@@ -136,14 +136,14 @@ Please provide:
 - **Normal activity tested:** for example import, validation, documentation
   rendering, or code generation.
 
-Then complete one row for each file tested:
+Then complete one row for each test performed:
 
-| Test | Format | Overall result | Contextual description retained? | Referenced schema retained? | Short reason or error |
-|---|---|---|---|---|---|
-| 1 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
-| 2 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
-| 3 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
-| 4 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| Test | Overall result | Contextual description retained? | Referenced schema retained? | Short reason or error |
+|---|---|---|---|---|
+| 1 |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| 2 |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| 3 |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| 4 |  | Yes / No / Not checked | Yes / No / Not checked |  |
 
 Use one of these overall results:
 
