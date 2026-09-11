@@ -17,13 +17,17 @@ generation. This is a focused interoperability test, not a test of complete
 OpenAPI 3.0.0 or 3.1.2 conformance, and does not itself propose a production
 specification change.
 
+The results will help determine whether future Open Banking specifications
+should continue using the OpenAPI 3.0.0 `allOf` pattern or move to OpenAPI
+3.1.2 `$ref` siblings for contextual descriptions.
+
 ## Test artifacts
 
 | Test | OpenAPI | Scope | Reference pattern | YAML | JSON |
 |---|---|---|---|---|---|
-| 1 | 3.0.0 | Complete OBL VRP specification | `description` with one-item `allOf` | [`vrp-openapi-3.0.0-allof.yaml`](./vrp-openapi-3.0.0-allof.yaml) | [`vrp-openapi-3.0.0-allof.json`](./vrp-openapi-3.0.0-allof.json) |
+| 1 | 3.0.0 | Complete Open Banking VRP specification | `description` with one-item `allOf` | [`vrp-openapi-3.0.0-allof.yaml`](./vrp-openapi-3.0.0-allof.yaml) | [`vrp-openapi-3.0.0-allof.json`](./vrp-openapi-3.0.0-allof.json) |
 | 2 | 3.0.0 | Minimal `GET /hello` API | `description` with one-item `allOf` | [`hello-world-openapi-3.0.0-allof.yaml`](./hello-world-openapi-3.0.0-allof.yaml) | [`hello-world-openapi-3.0.0-allof.json`](./hello-world-openapi-3.0.0-allof.json) |
-| 3 | 3.1.2 | Complete OBL VRP specification | Direct `$ref` and `description` siblings | [`vrp-openapi-3.1.2-ref-siblings.yaml`](./vrp-openapi-3.1.2-ref-siblings.yaml) | [`vrp-openapi-3.1.2-ref-siblings.json`](./vrp-openapi-3.1.2-ref-siblings.json) |
+| 3 | 3.1.2 | Complete Open Banking VRP specification | Direct `$ref` and `description` siblings | [`vrp-openapi-3.1.2-ref-siblings.yaml`](./vrp-openapi-3.1.2-ref-siblings.yaml) | [`vrp-openapi-3.1.2-ref-siblings.json`](./vrp-openapi-3.1.2-ref-siblings.json) |
 | 4 | 3.1.2 | Minimal `GET /hello` API | Direct `$ref` and `description` siblings | [`hello-world-openapi-3.1.2-ref-siblings.yaml`](./hello-world-openapi-3.1.2-ref-siblings.yaml) | [`hello-world-openapi-3.1.2-ref-siblings.json`](./hello-world-openapi-3.1.2-ref-siblings.json) |
 
 The VRP artifacts are complete specifications intended to exercise normal
@@ -36,8 +40,13 @@ the same test and the serialization format is not part of this investigation.
 
 ## Minimum test request
 
-Please test at least one OpenAPI 3.0.0 artifact (**test 1 or 2**) and one
-OpenAPI 3.1.2 artifact (**test 3 or 4**). Where possible, test all four:
+Please test at least one matched pair so that the OpenAPI 3.0.0 and 3.1.2
+results cover the same API scope:
+
+- **Complete VRP pair:** tests 1 and 3; or
+- **Minimal Hello World pair:** tests 2 and 4.
+
+Where possible, test all four:
 
 1. Start with the two minimal Hello World files to isolate support for each
    reference pattern.
@@ -135,23 +144,28 @@ you use.
 
 The form will ask for:
 
-- **ASPSP / system**
+- **Organisation / ASPSP**
 - **Tool and version**
 - **Test artifact**, selected from:
   - Test 1 — `vrp-openapi-3.0.0-allof`
   - Test 2 — `hello-world-openapi-3.0.0-allof`
   - Test 3 — `vrp-openapi-3.1.2-ref-siblings`
   - Test 4 — `hello-world-openapi-3.1.2-ref-siblings`
-- **Activity performed**, for example import, validation, documentation
-  rendering, or code generation
+- **Activities performed**, selecting all that apply:
+  - Import or parsing
+  - Validation
+  - Documentation rendering
+  - Code or model generation
+  - Other
 - **Overall result**, using one of:
   - **Works:** the artifact completed your normal process without an issue
-  - **Partly works:** the artifact was accepted, but a later step in your
-    normal process failed
+  - **Partly works:** the artifact was accepted, but a later step failed, the
+    contextual description was lost, or the referenced schema was not
+    preserved
   - **Does not work:** the artifact could not be imported or parsed
 - **Contextual description retained:** Yes / No / Not checked
 - **Referenced schema retained:** Yes / No / Not checked
-- **Details**, including the failing step and exact error or warning where
-  applicable
+- **Details**, including any failing step, exact error or warning, special
+  configuration, or workaround
 
 A screenshot or small generated-output example is welcome but not required.
