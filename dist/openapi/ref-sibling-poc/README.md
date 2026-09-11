@@ -108,42 +108,50 @@ named `message` and include this example:
 }
 ```
 
-## What to check
+## How to test
 
-Run each selected file through the same tools and processes used for an Open
-Banking API specification. Record each stage separately:
+Run each selected file through the way your organisation normally uses an Open
+Banking API specification. This might be import, validation, documentation
+rendering, code generation, or another process. You do not need to test
+activities that are not part of your normal workflow.
 
-- **Import or parsing:** Is the document accepted without errors?
-- **Validation:** Does the validator consider the document valid?
-- **Rendering:** Is the contextual description visible at the usage site?
-- **Generation:** Can the system generate its normal models, clients, server
-  stubs, or other outputs?
-- **Schema preservation:** Does the usage retain the referenced schema's type,
-  properties, required fields, formats, and other constraints?
+We need three results for each file:
 
-For Hello World, confirm that `message` remains a required string and that the
-usage-site description is `The greeting returned specifically by GET /hello.`
-For VRP, inspect one or more of the five properties listed above.
+1. **Overall result:** Did the file work for your normal use?
+2. **Contextual description:** Was the usage-specific description retained or
+   displayed?
+3. **Referenced schema:** Were the referenced type, properties, required
+   fields, formats, and other constraints retained?
+
+For Hello World, `message` should remain a required string and the usage-site
+description should be `The greeting returned specifically by GET /hello.` For
+VRP, inspect one or more of the five properties listed above.
 
 ## Report your results
 
-Add one row per artifact and tool. Include the exact error or warning text when
-a stage fails, and attach generated output or screenshots where useful.
+Please provide:
 
-| ASPSP / system | Tool and version | Test | Format | Parse | Validate | Render description | Generate | Preserve referenced schema | Notes / errors |
-|---|---|---:|---|---|---|---|---|---|---|
-|  |  |  | YAML / JSON | Pass / Fail | Pass / Fail / N/A | Yes / No / N/A | Pass / Fail / N/A | Yes / No / N/A |  |
+- **ASPSP / system:**
+- **Tool and version:**
+- **Normal activity tested:** for example import, validation, documentation
+  rendering, or code generation.
 
-## How to interpret the result
+Then complete one row for each file tested:
 
-- Success with test 1 or 2 demonstrates support for this specific OpenAPI
-  3.0.0 `allOf` usage.
-- Success with test 3 or 4 demonstrates support for OpenAPI 3.1.2 schema
-  `$ref` siblings in this use case.
-- Success importing a document does not prove that descriptions or referenced
-  constraints survive later rendering or generation stages.
-- If a minimal test succeeds but its VRP equivalent fails, report the failing
-  stage and exact error because the cause may be unrelated to the reference
-  pattern.
-- A result from these files should not be interpreted as evidence of complete
-  support for every feature in OpenAPI 3.0.0 or 3.1.2.
+| Test | Format | Overall result | Contextual description retained? | Referenced schema retained? | Short reason or error |
+|---|---|---|---|---|---|
+| 1 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| 2 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| 3 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
+| 4 | YAML / JSON |  | Yes / No / Not checked | Yes / No / Not checked |  |
+
+Use one of these overall results:
+
+- **Works:** the file completed your normal process without an issue.
+- **Partly works:** the file was accepted, but a later step in your normal
+  process failed.
+- **Does not work:** the file could not be imported or parsed.
+
+If a file partly works or does not work, please include the failing step and
+exact error where possible. A screenshot or small generated-output example is
+welcome but not required.
