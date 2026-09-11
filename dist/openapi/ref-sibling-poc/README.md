@@ -30,6 +30,38 @@ The complete VRP cases exercise five contextual descriptions:
 - `OBStructuredRegulatoryReporting3.Country`
 - `OBStructuredRegulatoryReporting3.Amount`
 
+## Where to find the test patterns
+
+The expected `$ref` and `description` siblings can be found at these locations
+in the OpenAPI 3.1.2 artifacts:
+
+| Artifact | Schema location |
+|---|---|
+| VRP | `components.schemas.OBReferredDocumentInformation.properties.RelatedDate` |
+| VRP | `components.schemas.OBRegulatoryAuthority2.properties.CountryCode` |
+| VRP | `components.schemas.OBStructuredRegulatoryReporting3.properties.Date` |
+| VRP | `components.schemas.OBStructuredRegulatoryReporting3.properties.Country` |
+| VRP | `components.schemas.OBStructuredRegulatoryReporting3.properties.Amount` |
+| Hello World | `paths./hello.get.responses.200.content.application/json.schema` |
+
+For example, the VRP artifact contains:
+
+```yaml
+RelatedDate:
+  description: Date associated with the referred document line.
+  $ref: '#/components/schemas/ISODateTime'
+```
+
+The OpenAPI 3.0.0 artifacts use the equivalent `description` and one-item
+`allOf` pattern at the same locations:
+
+```yaml
+RelatedDate:
+  description: Date associated with the referred document line.
+  allOf:
+    - $ref: '#/components/schemas/ISODateTime'
+```
+
 ## Requested testing
 
 Please test at least:
