@@ -1,17 +1,21 @@
-# OpenAPI `$ref` Sibling Compatibility POC
+# ASPSP OpenAPI `$ref` Compatibility Test
 
-## Purpose
+## What we need you to test
 
-This proof of concept tests two standards-compliant ways to add a contextual
-description where a reusable schema is referenced:
+Open Banking specifications reuse schema components with `$ref`, but sometimes
+need a different contextual `description` at each usage site. This test compares
+two standards-compliant ways of expressing that requirement:
 
-- OpenAPI 3.0.0 uses a Schema Object with a contextual `description` and a
-  one-item `allOf` containing the `$ref`.
-- OpenAPI 3.1.2 uses a contextual `description` directly beside the schema
-  `$ref`, using JSON Schema Draft 2020-12 semantics.
+- **OpenAPI 3.0.0:** a contextual `description` with a one-item `allOf`
+  containing the `$ref`;
+- **OpenAPI 3.1.2:** a contextual `description` directly beside the schema
+  `$ref`.
 
-The tests are intended to show which approach participating ASPSP toolchains
-can parse and use. They do not propose a production specification change.
+We want to understand whether each approach works throughout ASPSP toolchains,
+including parsing, validation, documentation rendering, and code or model
+generation. This is a focused interoperability test, not a test of complete
+OpenAPI 3.0.0 or 3.1.2 conformance, and does not itself propose a production
+specification change.
 
 ## Test artifacts
 
@@ -22,28 +26,40 @@ can parse and use. They do not propose a production specification change.
 | 3 | 3.1.2 | Complete OBL VRP specification | Direct `$ref` and `description` siblings | [`vrp-openapi-3.1.2-ref-siblings.yaml`](./vrp-openapi-3.1.2-ref-siblings.yaml) | [`vrp-openapi-3.1.2-ref-siblings.json`](./vrp-openapi-3.1.2-ref-siblings.json) |
 | 4 | 3.1.2 | Minimal `GET /hello` API | Direct `$ref` and `description` siblings | [`hello-world-openapi-3.1.2-ref-siblings.yaml`](./hello-world-openapi-3.1.2-ref-siblings.yaml) | [`hello-world-openapi-3.1.2-ref-siblings.json`](./hello-world-openapi-3.1.2-ref-siblings.json) |
 
-The complete VRP cases exercise five contextual descriptions:
+The VRP artifacts are complete specifications intended to exercise normal
+ASPSP processing. The Hello World artifacts isolate the reference pattern if a
+failure in the larger VRP document is difficult to diagnose. The Hello World
+files describe an API contract only; no live endpoint is provided.
 
-- `OBReferredDocumentInformation.RelatedDate`
-- `OBRegulatoryAuthority2.CountryCode`
-- `OBStructuredRegulatoryReporting3.Date`
-- `OBStructuredRegulatoryReporting3.Country`
-- `OBStructuredRegulatoryReporting3.Amount`
+Use the YAML or JSON format normally consumed by your tooling. Test both only
+if they pass through different processing paths in your environment.
 
-## Where to find the test patterns
+## Minimum test request
 
-The paths below apply to both the YAML and JSON form of each test.
+Please test at least one OpenAPI 3.0.0 artifact (**test 1 or 2**) and one
+OpenAPI 3.1.2 artifact (**test 3 or 4**). Where possible, test all four:
 
-### Test 1: OpenAPI 3.0.0 VRP using `allOf`
+1. Start with the two minimal Hello World files to isolate support for each
+   reference pattern.
+2. Test the two complete VRP files through the same tooling to confirm that the
+   result holds for a realistic Open Banking specification.
 
-File: `vrp-openapi-3.0.0-allof.yaml` or
-`vrp-openapi-3.0.0-allof.json`
+## Where to inspect the patterns
 
-- `components.schemas.OBReferredDocumentInformation.properties.RelatedDate`
-- `components.schemas.OBRegulatoryAuthority2.properties.CountryCode`
-- `components.schemas.OBStructuredRegulatoryReporting3.properties.Amount`
+The locations below apply to both YAML and JSON.
 
-The properties have a contextual `description` and a one-item `allOf`:
+### Tests 1 and 3: complete VRP specification
+
+The same five schema properties use the 3.0.0 `allOf` pattern in test 1 and
+the 3.1.2 `$ref` sibling pattern in test 3:
+
+- `/components/schemas/OBReferredDocumentInformation/properties/RelatedDate`
+- `/components/schemas/OBRegulatoryAuthority2/properties/CountryCode`
+- `/components/schemas/OBStructuredRegulatoryReporting3/properties/Date`
+- `/components/schemas/OBStructuredRegulatoryReporting3/properties/Country`
+- `/components/schemas/OBStructuredRegulatoryReporting3/properties/Amount`
+
+Test 1 expresses each usage like this:
 
 ```yaml
 RelatedDate:
@@ -52,14 +68,21 @@ RelatedDate:
     - $ref: '#/components/schemas/ISODateTime'
 ```
 
-### Test 2: OpenAPI 3.0.0 Hello World using `allOf`
+Test 3 expresses the equivalent usage like this:
 
-File: `hello-world-openapi-3.0.0-allof.yaml` or
-`hello-world-openapi-3.0.0-allof.json`
+```yaml
+RelatedDate:
+  description: Date associated with the referred document line.
+  $ref: '#/components/schemas/ISODateTime'
+```
 
-- `paths./hello.get.responses.200.content.application/json.schema`
+### Tests 2 and 4: minimal Hello World API
 
-The response schema has the contextual `description` and one-item `allOf`:
+Inspect the response schema at:
+
+`/paths/~1hello/get/responses/200/content/application~1json/schema`
+
+Test 2 uses:
 
 ```yaml
 schema:
@@ -68,31 +91,7 @@ schema:
     - $ref: '#/components/schemas/HelloMessage'
 ```
 
-### Test 3: OpenAPI 3.1.2 VRP using `$ref` siblings
-
-File: `vrp-openapi-3.1.2-ref-siblings.yaml` or
-`vrp-openapi-3.1.2-ref-siblings.json`
-
-- `components.schemas.OBReferredDocumentInformation.properties.RelatedDate`
-- `components.schemas.OBRegulatoryAuthority2.properties.CountryCode`
-- `components.schemas.OBStructuredRegulatoryReporting3.properties.Amount`
-
-The contextual `description` is directly beside `$ref`:
-
-```yaml
-RelatedDate:
-  description: Date associated with the referred document line.
-  $ref: '#/components/schemas/ISODateTime'
-```
-
-### Test 4: OpenAPI 3.1.2 Hello World using `$ref` siblings
-
-File: `hello-world-openapi-3.1.2-ref-siblings.yaml` or
-`hello-world-openapi-3.1.2-ref-siblings.json`
-
-- `paths./hello.get.responses.200.content.application/json.schema`
-
-The response schema has `$ref` and contextual `description` as siblings:
+Test 4 uses:
 
 ```yaml
 schema:
@@ -100,26 +99,8 @@ schema:
   description: The greeting returned specifically by GET /hello.
 ```
 
-## Requested testing
-
-Please test at least:
-
-1. One OpenAPI 3.0.0 artifact: test 1 or test 2.
-2. One OpenAPI 3.1.2 artifact: test 3 or test 4.
-
-Use whichever serialization your system normally consumes. Testing both YAML
-and JSON is useful if your toolchain handles them through different code paths.
-
-For each selected artifact, record whether your system can:
-
-- import or parse the document without an error;
-- validate the document;
-- generate models, client code, server stubs, or other normal outputs;
-- render the contextual description at the reference usage site;
-- preserve the referenced schema's constraints and properties; and
-- process the `GET /hello` response where the dummy API is used.
-
-For the dummy APIs, the expected response body is:
+Both files define `HelloMessage` as an object with a required string property
+named `message` and include this example:
 
 ```json
 {
@@ -127,29 +108,42 @@ For the dummy APIs, the expected response body is:
 }
 ```
 
-The contextual description at the response schema usage site is:
-`The greeting returned specifically by GET /hello.`
+## What to check
 
-## Results
+Run each selected file through the same tools and processes used for an Open
+Banking API specification. Record each stage separately:
 
-Copy one row per tested artifact and include exact error messages in the notes
-where possible.
+- **Import or parsing:** Is the document accepted without errors?
+- **Validation:** Does the validator consider the document valid?
+- **Rendering:** Is the contextual description visible at the usage site?
+- **Generation:** Can the system generate its normal models, clients, server
+  stubs, or other outputs?
+- **Schema preservation:** Does the usage retain the referenced schema's type,
+  properties, required fields, formats, and other constraints?
 
-| Participant / system | Tool and version | Test | Format | Import / parse | Validation | Generation or rendering | Contextual description retained | Referenced constraints retained | Notes / errors |
+For Hello World, confirm that `message` remains a required string and that the
+usage-site description is `The greeting returned specifically by GET /hello.`
+For VRP, inspect one or more of the five properties listed above.
+
+## Report your results
+
+Add one row per artifact and tool. Include the exact error or warning text when
+a stage fails, and attach generated output or screenshots where useful.
+
+| ASPSP / system | Tool and version | Test | Format | Parse | Validate | Render description | Generate | Preserve referenced schema | Notes / errors |
 |---|---|---:|---|---|---|---|---|---|---|
-|  |  |  | YAML / JSON | Pass / Fail | Pass / Fail / N/A | Pass / Fail / N/A | Yes / No / N/A | Yes / No / N/A |  |
+|  |  |  | YAML / JSON | Pass / Fail | Pass / Fail / N/A | Yes / No / N/A | Pass / Fail / N/A | Yes / No / N/A |  |
 
-## Interpretation
+## How to interpret the result
 
-- If test 1 or 2 succeeds, the system supports the OAS 3.0.0 `allOf` pattern
-  used to attach a contextual description to a referenced schema.
-- If test 3 or 4 succeeds, the system supports OAS 3.1.2 schema `$ref`
-  siblings for this use case.
-- A parser accepting a file does not by itself prove full support. Rendering,
-  generation, and preservation of the referenced schema should be reported
-  separately.
-
-The description is an annotation. This POC tests whether tooling retains and
-exposes the contextual annotation; it does not assume that every tool will
-display it in the same place or treat it as replacing the reusable component's
-description.
+- Success with test 1 or 2 demonstrates support for this specific OpenAPI
+  3.0.0 `allOf` usage.
+- Success with test 3 or 4 demonstrates support for OpenAPI 3.1.2 schema
+  `$ref` siblings in this use case.
+- Success importing a document does not prove that descriptions or referenced
+  constraints survive later rendering or generation stages.
+- If a minimal test succeeds but its VRP equivalent fails, report the failing
+  stage and exact error because the cause may be unrelated to the reference
+  pattern.
+- A result from these files should not be interpreted as evidence of complete
+  support for every feature in OpenAPI 3.0.0 or 3.1.2.
