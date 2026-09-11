@@ -15,15 +15,6 @@ can parse and use. They do not propose a production specification change.
 
 ## Test artifacts
 
-YAML is the authoritative source. Each JSON file is generated from its
-corresponding YAML file and contains the same data model.
-
-Regenerate all JSON mirrors from this directory with:
-
-```sh
-ruby generate-json.rb
-```
-
 | Test | OpenAPI | Scope | Reference pattern | YAML | JSON |
 |---|---|---|---|---|---|
 | 1 | 3.0.0 | Complete OBL VRP specification | `description` with one-item `allOf` | [`vrp-openapi-3.0.0-allof.yaml`](./vrp-openapi-3.0.0-allof.yaml) | [`vrp-openapi-3.0.0-allof.json`](./vrp-openapi-3.0.0-allof.json) |
