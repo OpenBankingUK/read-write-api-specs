@@ -129,29 +129,29 @@ VRP, inspect one or more of the five properties listed above.
 
 ## Report your results
 
-Please provide:
+You do not need to edit this repository. A separate response form will be sent
+for returning results. Please provide one set of results for each test artifact
+you use.
 
-- **ASPSP / system:**
-- **Tool and version:**
-- **Normal activity tested:** for example import, validation, documentation
-  rendering, or code generation.
+The form will ask for:
 
-Then complete one row for each test performed:
+- **ASPSP / system**
+- **Tool and version**
+- **Test artifact**, selected from:
+  - Test 1 — `vrp-openapi-3.0.0-allof`
+  - Test 2 — `hello-world-openapi-3.0.0-allof`
+  - Test 3 — `vrp-openapi-3.1.2-ref-siblings`
+  - Test 4 — `hello-world-openapi-3.1.2-ref-siblings`
+- **Activity performed**, for example import, validation, documentation
+  rendering, or code generation
+- **Overall result**, using one of:
+  - **Works:** the artifact completed your normal process without an issue
+  - **Partly works:** the artifact was accepted, but a later step in your
+    normal process failed
+  - **Does not work:** the artifact could not be imported or parsed
+- **Contextual description retained:** Yes / No / Not checked
+- **Referenced schema retained:** Yes / No / Not checked
+- **Details**, including the failing step and exact error or warning where
+  applicable
 
-| Test | Overall result | Contextual description retained? | Referenced schema retained? | Short reason or error |
-|---|---|---|---|---|
-| 1 |  | Yes / No / Not checked | Yes / No / Not checked |  |
-| 2 |  | Yes / No / Not checked | Yes / No / Not checked |  |
-| 3 |  | Yes / No / Not checked | Yes / No / Not checked |  |
-| 4 |  | Yes / No / Not checked | Yes / No / Not checked |  |
-
-Use one of these overall results:
-
-- **Works:** the file completed your normal process without an issue.
-- **Partly works:** the file was accepted, but a later step in your normal
-  process failed.
-- **Does not work:** the file could not be imported or parsed.
-
-If a file partly works or does not work, please include the failing step and
-exact error where possible. A screenshot or small generated-output example is
-welcome but not required.
+A screenshot or small generated-output example is welcome but not required.
