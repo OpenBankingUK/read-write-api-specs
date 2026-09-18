@@ -14,7 +14,7 @@ For v4.0.1 the following approach has been adopted for identifying changes:
 - [v4.0.1 Release Candidate 1](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4203282434/Feedback+-+v4.0.1+Release+Candidate+1)
 - [v4.0.1 Release Candidate 2](https://openbanking.atlassian.net/wiki/spaces/WOR/pages/4309942273/Feedback+-+v4.0.1+Release+Candidate+2)
 
-## v4.0.1 Swagger Update 1 - TBD
+## v4.0.1 Swagger Update 1 - 2026-09-18
 
 This update covers Swagger/OpenAPI refinements for the Confirmation of Funds (CBPII) API in v4.0.1.
 
