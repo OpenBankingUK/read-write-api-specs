@@ -31,7 +31,7 @@ This update covers Swagger/OpenAPI refinements for the Confirmation of Funds (CB
 - Updated the duplicate CBPII OpenAPI JSON output generated from the YAML source so the YAML and JSON Swagger artefacts stay aligned.
 - Standardised CBPII OpenAPI description formatting for consistency (single-line where suitable, `>-`/`|-` block scalar usage where appropriate, paragraph spacing, inline code formatting, and emphasised notes).
 - Updated CBPII security scheme, error model and account proxy descriptions to align with Open Banking/FAPI context and improve clarity.
-- Updated `x-jws-signature` to be optional in CBPII request/response modelling to align with the Open Banking spec pages/standard.
+- Updated `x-jws-signature` to be optional in CBPII request/response modelling to align with the Open Banking spec pages/standard. Additionally a fully formed example value has been provided in the OpenAPI specification.
 - Updated CBPII enum descriptions to link directly to the relevant codeset CSV files.
 - Refactored CBPII `OBInternalAccountIdentification4Code` into a reusable schema reference.
 - Refactored CBPII Confirmation of Funds OpenAPI data dictionary schemas to use reusable component references aligned to the spec pages:
@@ -43,6 +43,7 @@ This update covers Swagger/OpenAPI refinements for the Confirmation of Funds (CB
   - `OBFundsConfirmation1/Data/InstructedAmount` and `OBFundsConfirmationResponse1/Data/InstructedAmount` now reference `OBActiveOrHistoricCurrencyAndAmount`
   - `OBFundsConfirmation1/Data/InstructedAmount/Amount` and `OBFundsConfirmationResponse1/Data/InstructedAmount/Amount` now reference `OBActiveCurrencyAndAmount_SimpleType`
   - `OBFundsConfirmation1/Data/InstructedAmount/Currency` and `OBFundsConfirmationResponse1/Data/InstructedAmount/Currency` now reference `ActiveOrHistoricCurrencyCode`
+  - Updated link to RFC 6750 in the `Authorization` header description.
 
 ### Removed
 
