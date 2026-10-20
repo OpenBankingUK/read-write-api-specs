@@ -5,7 +5,8 @@ Every node in a master carrying ``x-codeset-ref: <List>/<CodeSet>`` has its
 ``enum`` / ``x-namespaced-enum`` values replaced with the ``Code Value`` column
 of the pinned codeset CSV (in CSV order), after applying any approved
 exceptions from ``source/codeset-config.yaml``. Everything else in the master
-is copied to dist byte-for-byte. JSON files are regenerated from the YAML.
+is copied to dist byte-for-byte, except that the ``x-codeset-ref`` keys are
+stripped. JSON files are regenerated from the YAML.
 
 Usage:
   generate.py                 regenerate dist files
@@ -330,6 +331,8 @@ def process_file(name, cfg, codesets, sources, report: Report) -> dict:
 
     for start, end, new_block in sorted(replacements, reverse=True):
         lines[start:end] = new_block
+    # x-codeset-ref lives only in the masters; strip it from the dist output.
+    lines = [line for line in lines if not TAG_RE.match(line)]
     out_text = "\n".join(lines)
     out_doc = yaml.safe_load(out_text)
 
@@ -342,7 +345,9 @@ def process_file(name, cfg, codesets, sources, report: Report) -> dict:
             raise GenerationError(f"{name}#{node.pointer}: generated enum does not round-trip")
         if _yaml12.load("\n".join(f"- {render_scalar(v)}" for v in node.new_values)) != node.new_values:
             raise GenerationError(f"{name}#{node.pointer}: generated enum is ambiguous under YAML 1.2")
-        resolve(expected, node.pointer)[node.enum_key] = node.new_values
+        target = resolve(expected, node.pointer)
+        target[node.enum_key] = node.new_values
+        del target["x-codeset-ref"]
     if out_doc != expected:
         raise GenerationError(f"{name}: generated document differs from master outside codeset enums")
     try:
