@@ -18,6 +18,32 @@ codesetSource:
 # Approved deviations from the authoritative codeset, keyed by master file and
 # JSON pointer to the node carrying x-codeset-ref. Only add entries after review.
 exceptions:
+  - file: account-info-openapi.yaml
+    pointer: /components/schemas/OBInternalFinancialInstitutionIdentification4Code
+    codeset: OB_Internal_CodeSet/OBInternalFinancialInstitutionIdentification4Code
+    expandValues: &nccCountryExpansion
+      - value: UK.OBIE.NCC.[ISO3166-aplha2-CountryCode]
+        prefix: UK.OBIE.NCC.
+        valuesFrom: ISO3166-1-alpha2-officially-assigned
+    reason: &nccCountryExpansionReason >-
+      Interim project exception pending BA agreement on the standards solution.
+      Replace the exact CSV placeholder (including its spelling error) with
+      concrete NCC values for all officially assigned ISO 3166-1 alpha-2
+      country codes, including territories. Retain other literal codeset values.
+      This expansion does not assert that every country has a supported clearing
+      scheme. Generator implementation is pending; it must use a pinned,
+      versioned country list, sort and deduplicate the expansion, reject missing
+      placeholders or unknown expansion sources, and report the applied exception.
+  - file: payment-initiation-openapi.yaml
+    pointer: /components/schemas/OBInternalFinancialInstitutionIdentification4Code
+    codeset: OB_Internal_CodeSet/OBInternalFinancialInstitutionIdentification4Code
+    expandValues: *nccCountryExpansion
+    reason: *nccCountryExpansionReason
+  - file: vrp-openapi.yaml
+    pointer: /components/schemas/OBInternalFinancialInstitutionIdentification4Code
+    codeset: OB_Internal_CodeSet/OBInternalFinancialInstitutionIdentification4Code
+    expandValues: *nccCountryExpansion
+    reason: *nccCountryExpansionReason
   - file: payment-initiation-openapi.yaml
     pointer: /components/schemas/OBRisk1/properties/PaymentContextCode
     codeset: OB_Internal_CodeSet/OBInternalPaymentContext1Code
