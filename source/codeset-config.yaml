@@ -1,0 +1,114 @@
+# Configuration for codeset enum alignment.
+#
+# Master OpenAPI files in source/openapi/ mark codeset-backed enums with
+#   x-codeset-ref: <List>/<CodeSet>
+# where <List> is OB_Internal_CodeSet (OB_Internal_Codeset.csv) or
+# ISO_External_CodeSet (ISO_External_Codeset.csv).
+
+# Authoritative codeset source. Generation always reads from the pinned commit;
+# update `commit` deliberately when adopting newer codesets.
+codesetSource:
+  repository: OpenBankingUK/External_Internal_CodeSets
+  branch: main
+  commit: fd33a35d71403e1d62ed9a3827ecbce9c46a207f
+  lists:
+    OB_Internal_CodeSet: OB_Internal_Codeset.csv
+    ISO_External_CodeSet: ISO_External_Codeset.csv
+
+# Pinned value sources available to `expandValues` exceptions.
+valueSources:
+  ISO3166-1-alpha2-officially-assigned: scripts/codesets/data/iso3166-1-alpha2.json
+
+# Approved deviations from the authoritative codeset, keyed by master file and
+# JSON pointer to the node carrying x-codeset-ref. Only add entries after review.
+exceptions:
+  - file: account-info-openapi.yaml
+    pointer: /components/schemas/OBInternalFinancialInstitutionIdentification4Code
+    codeset: OB_Internal_CodeSet/OBInternalFinancialInstitutionIdentification4Code
+    expandValues: &nccCountryExpansion
+      - value: UK.OBIE.NCC.[ISO3166-aplha2-CountryCode]
+        prefix: UK.OBIE.NCC.
+        valuesFrom: ISO3166-1-alpha2-officially-assigned
+    reason: &nccCountryExpansionReason >-
+      Interim project exception pending BA agreement on the standards solution.
+      Replace the exact CSV placeholder (including its spelling error) with
+      concrete NCC values for all officially assigned ISO 3166-1 alpha-2
+      country codes, including territories. Retain other literal codeset values.
+      This expansion does not assert that every country has a supported clearing
+      scheme. The country list is vendored and pinned in
+      scripts/codesets/data/iso3166-1-alpha2.json.
+  - file: payment-initiation-openapi.yaml
+    pointer: /components/schemas/OBInternalFinancialInstitutionIdentification4Code
+    codeset: OB_Internal_CodeSet/OBInternalFinancialInstitutionIdentification4Code
+    expandValues: *nccCountryExpansion
+    reason: *nccCountryExpansionReason
+  - file: vrp-openapi.yaml
+    pointer: /components/schemas/OBInternalFinancialInstitutionIdentification4Code
+    codeset: OB_Internal_CodeSet/OBInternalFinancialInstitutionIdentification4Code
+    expandValues: *nccCountryExpansion
+    reason: *nccCountryExpansionReason
+  - file: payment-initiation-openapi.yaml
+    pointer: /components/schemas/OBRisk1/properties/PaymentContextCode
+    codeset: OB_Internal_CodeSet/OBInternalPaymentContext1Code
+    additionalValues: &deprecatedPaymentContextCodes
+      - BillPayment
+      - EcommerceGoods
+      - EcommerceServices
+      - PartyToParty
+      - PispPayee
+      - Other
+    reason: >-
+      Deprecated v3 PaymentContextCode values. They must not be used in a new
+      consent or payment, but may be returned for historical payments/consents
+      migrated to v4, so they are retained in the specification.
+  - file: vrp-openapi.yaml
+    pointer: /components/schemas/OBRisk1/properties/PaymentContextCode
+    codeset: OB_Internal_CodeSet/OBInternalPaymentContext1Code
+    additionalValues: *deprecatedPaymentContextCodes
+    reason: >-
+      Deprecated v3 PaymentContextCode values. They must not be used in a new
+      consent or payment, but may be returned for historical payments/consents
+      migrated to v4, so they are retained in the specification.
+
+# Enums deliberately left without x-codeset-ref. The generator leaves them
+# unchanged and lists them in its report. `pointers` are JSON pointers to the
+# node holding `enum`/`x-namespaced-enum`; `*` matches any characters
+# (including `/`). Any untagged enum not matched here is reported as
+# unclassified so it can be reviewed.
+ignoredEnums:
+  - category: product-area
+    file: account-info-openapi.yaml
+    pointers:
+      - /components/schemas/OBBCAData1/*
+      - /components/schemas/OBPCAData1/*
+      - /components/schemas/OBReadProduct2/*
+      - /components/schemas/OB_*
+    reason: >-
+      PCA/BCA/product enums are a known flawed area of the specification; many
+      values are not present in either codeset list. Out of scope for now.
+      (ProductType is tagged and therefore still generated.)
+  - category: orphan-schema
+    file: account-info-openapi.yaml
+    pointers:
+      - /components/schemas/OBFrequencyPeriodType
+    reason: &orphanReason Unreferenced (orphan) schema; ignored by review decision.
+  - category: orphan-schema
+    file: payment-initiation-openapi.yaml
+    pointers:
+      - /components/schemas/OBAddressTypeCode
+    reason: *orphanReason
+  - category: orphan-schema
+    file: vrp-openapi.yaml
+    pointers:
+      - /components/schemas/OBAddressTypeCode
+      - /components/schemas/OBExternalStatus2Code
+      - /components/schemas/OBVRPStatusReasonCode
+    reason: *orphanReason
+  - category: non-codeset
+    file: vrp-openapi.yaml
+    pointers:
+      - /paths/~1domestic-vrp-consents~1{ConsentId}/patch/requestBody/content/application~1json-patch+json/schema/items/properties/op
+      - /components/schemas/OBDomesticVRPControlParameters/properties/PeriodicLimits/items/properties/PeriodType
+      - /components/schemas/OBDomesticVRPControlParameters/properties/PeriodicLimits/items/properties/PeriodAlignment
+      - /components/schemas/OBPAFundsAvailableResult1/properties/FundsAvailable
+    reason: Enum is not backed by any codeset CSV (protocol or specification-defined values).
