@@ -17,6 +17,10 @@ This tag will form a Release. To retrieve the files for a given release be sure 
 This space contains Read/Write Data API Specifications in 
 [OpenAPI](https://github.com/OAI/OpenAPI-Specification#the-openapi-specification) format.
 
+### Source (master) files
+
+The files in [`source/openapi/`](./source/openapi/) are the master OpenAPI files for the Account Information, Payment Initiation, Confirmation of Funds and VRP profiles. Enums backed by an Open Banking codeset carry an `x-codeset-ref` (e.g. `OB_Internal_CodeSet/OBInternalAuthorisation1Code` or `ISO_External_CodeSet/ExternalPurpose1Code`) referencing the [External_Internal_CodeSets](https://github.com/OpenBankingUK/External_Internal_CodeSets) CSVs. The pinned codeset version and approved exceptions are in [`source/codeset-config.yaml`](./source/codeset-config.yaml).
+
 ### Account Information 
 
 - [OpenAPI 3.0 - YAML](./dist/openapi/account-info-openapi.yaml) 
